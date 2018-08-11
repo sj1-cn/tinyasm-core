@@ -149,7 +149,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 		@Override
 		public C put(String varName, Field field) {
-			LocalsVariable var = locals.access(varName, labelCurrent);
+			LocalsVariable var = locals.accessLoad(varName, labelCurrent);
 			mv.visitVarInsn(var.type.getOpcode(ILOAD), var.locals);
 			putfield_op(field.name, stackTopType);
 			return code();
@@ -256,13 +256,23 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	}
 
 	@Override
-	public int codeLocals(String name) {
-		return locals.access(name, labelCurrent).locals;
+	public int codeLocalLoadAccess(String name) {
+		return locals.accessLoad(name, labelCurrent).locals;
 	}
 
 	@Override
-	public Type codeLocalsType(String name) {
-		return locals.access(name, labelCurrent).type;
+	public Type codeLocalLoadAccessType(String name) {
+		return locals.accessLoad(name, labelCurrent).type;
+	}
+
+	@Override
+	public int codeLocalStoreAccess(String name) {
+		return locals.accessStore(name, labelCurrent).locals;
+	}
+
+	@Override
+	public Type codeLocalStoreAccessType(String name) {
+		return locals.accessStore(name, labelCurrent).type;
 	}
 
 	@Override
@@ -404,15 +414,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		return code();
 	}
 
-	@Override
-	public void load(String... names) {
-		for (String name : names) {
-			LocalsVariable var = locals.access(name, labelCurrent);
-			mv.visitVarInsn(var.type.getOpcode(ILOAD), var.locals);
-		}
-
-	}
-
 //	@Override
 //	@Deprecated
 //	public Instance<M, C> loadObject(int index) {
@@ -424,7 +425,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 	@Override
 	public Instance<M, C> loadObject(String name) {
-		LocalsVariable var = locals.access(name, labelCurrent);
+		LocalsVariable var = locals.accessLoad(name, labelCurrent);
 		mv.visitVarInsn(var.type.getOpcode(ILOAD), var.locals);
 		return type(var.type);
 	}
@@ -621,7 +622,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	}
 
 	public C storeStackTopTo(String varName) {
-		LocalsVariable var = locals.access(varName, labelCurrent);
+		LocalsVariable var = locals.accessStore(varName, labelCurrent);
 		mv.visitVarInsn(var.type.getOpcode(ISTORE), var.locals);
 		return code();
 	}

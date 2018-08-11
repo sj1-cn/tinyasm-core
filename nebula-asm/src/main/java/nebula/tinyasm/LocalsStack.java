@@ -7,9 +7,14 @@ public class LocalsStack extends ArrayListMap<LocalsVariable> {
 
 	int top = 0;
 
-	public LocalsVariable access(String name, Label label) {
+	public LocalsVariable accessLoad(String name, Label label) {
 		LocalsVariable var = get(name);
 		if (var.startFrom == null) var.startFrom = label;
+		return var;
+	}
+	public LocalsVariable accessStore(String name, Label label) {
+		LocalsVariable var = get(name);
+//		if (var.startFrom == null) var.startFrom = label;
 		return var;
 	}
 

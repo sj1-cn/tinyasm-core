@@ -245,9 +245,13 @@ public interface SmartOpcode {
 
 	abstract void codeInst(int opcode, int index);
 
-	abstract int codeLocals(String name);
+	abstract int codeLocalLoadAccess(String name);
 
-	abstract Type codeLocalsType(String name);
+	abstract Type codeLocalLoadAccessType(String name);
+
+	abstract int codeLocalStoreAccess(String name);
+
+	abstract Type codeLocalStoreAccessType(String name);
 
 	abstract Type codePopStack();
 
@@ -542,7 +546,7 @@ public interface SmartOpcode {
 	}
 
 	default void load(String name) {
-		Type valueType = codeLocalsType(name);
+		Type valueType = codeLocalLoadAccessType(name);
 		switch (valueType.getSort()) {
 		case Type.OBJECT:
 			aLoadObject_op(valueType, name);
@@ -559,7 +563,7 @@ public interface SmartOpcode {
 
 	default void load_op(Type value, String name) {
 		codePush(value);
-		codeInst(value.getOpcode(ILOAD), codeLocals(name));
+		codeInst(value.getOpcode(ILOAD), codeLocalLoadAccess(name));
 		// DLOAD (→ value) : load a double value from a local variable #index
 		// FLOAD (→ value) : load a float value from a local variable #index
 		// ILOAD (→ value) : load an int value from a local variable #index
@@ -583,13 +587,13 @@ public interface SmartOpcode {
 	}
 
 	default void aLoadObject(String name) {
-		Type valueType = codeLocalsType(name);
+		Type valueType = codeLocalLoadAccessType(name);
 		aLoadObject_op(valueType, name);
 	}
 
 	default void aLoadObject_op(Type value, String name) {
 		codePush(value);
-		codeInst(ALOAD, codeLocals(name));
+		codeInst(ALOAD, codeLocalLoadAccess(name));
 		// ALOAD (→ objectref) : load a reference onto the stack from a local
 		// variable #index
 		// ALOAD_0 (→ objectref) : load a reference onto the stack from local variable 0
@@ -605,14 +609,14 @@ public interface SmartOpcode {
 
 			break;
 		case Type.OBJECT:
-			codeInst(ALOAD, codeLocals(name));
+			codeInst(ASTORE, codeLocalStoreAccess(name));
 			break;
 		case Type.VOID:
 
 			break;
 
 		default:
-			codeInst(value.getOpcode(ISTORE), codeLocals(name));
+			codeInst(value.getOpcode(ISTORE), codeLocalStoreAccess(name));
 			break;
 		}
 		// DSTORE (value →) : store a double value into a local variable #index
@@ -640,7 +644,7 @@ public interface SmartOpcode {
 	@SuppressWarnings("unused")
 	default void storeObject_op(String name) {
 		Type objectref = codePopStack();
-		codeInst(ASTORE, codeLocals(name));
+		codeInst(ASTORE, codeLocalStoreAccess(name));
 		// ASTORE (objectref →) : store a reference into a local variable #index
 		// ASTORE_0 (objectref →) : store a reference into local variable 0
 		// ASTORE_1 (objectref →) : store a reference into local variable 1

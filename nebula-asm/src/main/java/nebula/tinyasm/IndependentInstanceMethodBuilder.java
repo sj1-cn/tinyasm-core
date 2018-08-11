@@ -71,4 +71,5 @@ class IndependentInstanceMethodBuilder extends
 		return new IndependentMethodCallerImpl(thisMethod.type);
 	}
 
+
 }
