@@ -61,7 +61,161 @@ public class ClassBuilderFieldTest {
 			mc.line(15).load("x");
 			mc.returnTopValue();
 		});
+
+		cw.publicMethod(Type.INT_TYPE,"getFieldAll").code(mc->{
+			mc.def("x", int.class);
+			mc.line(19).load("this");
+			mc.getfield_op("b", Type.BYTE_TYPE);
+			mc.load("this");
+			mc.getfield_op("c", Type.CHAR_TYPE);
+			mc.add_op();
+			mc.load("this");
+			mc.getfield_op("s", Type.SHORT_TYPE);
+			mc.add_op();
+			mc.load("this");
+			mc.getfield_op("i", Type.INT_TYPE);
+			mc.add_op();
+			mc.convert_op(Type.LONG_TYPE);
+			mc.load("this");
+			mc.getfield_op("l", Type.LONG_TYPE);
+			mc.add_op();
+			mc.convert_op(Type.FLOAT_TYPE);
+			mc.load("this");
+			mc.getfield_op("f", Type.FLOAT_TYPE);
+			mc.add_op();
+			mc.convert_op(Type.DOUBLE_TYPE);
+			mc.load("this");
+			mc.getfield_op("d", Type.DOUBLE_TYPE);
+			mc.add_op();
+			mc.convert_op(Type.INT_TYPE);
+			mc.storeTo("x");
+			mc.line(20).load("x");
+			mc.returnTopValue();
+		});
+
+		cw.publicMethod(int.class,"getFieldConst").code(mc->{
+			mc.line(24).load("this");
+			mc.ldcByte(100);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+			mc.line(25).load("this");
+			mc.ldcShort(1000);
+			mc.putfield_op("c", Type.CHAR_TYPE);
+			mc.line(26).load("this");
+			mc.ldcShort(10000);
+			mc.putfield_op("s", Type.SHORT_TYPE);
+
+			mc.line(27).load("this");
+			mc.loadConst(100000);
+			mc.putfield_op("i", Type.INT_TYPE);
+
+			mc.line(28).load("this");
+			mc.loadConst(1000000L);
+			mc.putfield_op("l", Type.LONG_TYPE);
+			
+			mc.line(29).load("this");
+			mc.loadConst(1.0E7F);
+			mc.putfield_op("f", Type.FLOAT_TYPE);
+
+
+			mc.line(30).load("this");
+			mc.loadConst(1.0E8D);
+			mc.putfield_op("d", Type.DOUBLE_TYPE);
+			
+			mc.line(31).load("this");
+			mc.loadConst("1000000000s");
+			mc.putfield_op("str", Type.getType(String.class));
+			
+			mc.line(32).load("this");
+			mc.getfield_op("b", Type.BYTE_TYPE);
+			mc.load("this");
+			mc.getfield_op("c", Type.CHAR_TYPE);
+			mc.add_op();
+			mc.load("this");
+			mc.getfield_op("s", Type.SHORT_TYPE);
+			mc.add_op();
+			mc.load("this");
+			mc.getfield_op("i", Type.INT_TYPE);
+			mc.add_op();
+			mc.convert_op(Type.LONG_TYPE);
+			mc.load("this");
+			mc.getfield_op("l", Type.LONG_TYPE);
+			mc.add_op();
+			mc.convert_op(Type.FLOAT_TYPE);
+			mc.load("this");
+			mc.getfield_op("f", Type.FLOAT_TYPE);
+			mc.add_op();
+			mc.convert_op(Type.DOUBLE_TYPE);
+			mc.load("this");
+			mc.getfield_op("d", Type.DOUBLE_TYPE);
+			mc.add_op();
+
+			mc.convert_op(Type.INT_TYPE);
+			mc.returnTopValue();
+
+		});
 		
+		cw.publicMethod(Type.INT_TYPE,"getFieldIConst").code(mc->{
+
+			int i = 36;
+			mc.line(i++).load("this");
+			mc.ldcByte(0);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+
+			mc.line(i++).load("this");
+			mc.ldcByte(1);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+
+			mc.line(i++).load("this");
+			mc.ldcByte(2);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+
+			mc.line(i++).load("this");
+			mc.ldcByte(3);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+
+			mc.line(i++).load("this");
+			mc.ldcByte(4);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+
+			mc.line(i++).load("this");
+			mc.ldcByte(5);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+
+			mc.line(i++).load("this");
+			mc.ldcByte(6);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+
+			mc.line(i++).load("this");
+			mc.ldcByte(7);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+
+			mc.line(i++).load("this");
+			mc.ldcByte(8);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+			
+			
+			mc.line(i++).load("this");
+			mc.ldcByte(-4);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+
+			mc.line(i++).load("this");
+			mc.ldcByte(-3);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+			
+			mc.line(i++).load("this");
+			mc.ldcByte(-2);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+
+
+			mc.line(i++).load("this");
+			mc.ldcByte(-1);
+			mc.putfield_op("b", Type.BYTE_TYPE);
+			
+			mc.line(i++).load("this");
+			mc.getfield_op("b", Type.BYTE_TYPE);
+			mc.returnTopValue();
+
+		});
 		// @formatter:on
 
 		byte[] code = cw.end().toByteArray();

@@ -251,7 +251,12 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	}
 
 	@Override
-	public void visitFieldInsn(int opcode, Type ownerType, String fieldName, Type fieldType) {
+	public void codeLdcInsn(Object cst) {
+		mv.visitLdcInsn(cst);
+	}
+
+	@Override
+	public void codeFieldInsn(int opcode, Type ownerType, String fieldName, Type fieldType) {
 		mv.visitFieldInsn(opcode, ownerType.getInternalName(), fieldName, fieldType.getDescriptor());
 	}
 
@@ -375,11 +380,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 	@Override
 	public C intInsn(int opcode, int operand) {
-		if (opcode == BIPUSH && 0 <= operand && operand <= 5) {
-			mv.visitInsn(ICONST_0 + operand);
-		} else {
-			mv.visitIntInsn(opcode, operand);
-		}
+		codeIntInsn(opcode, operand);
 		return code();
 	}
 
@@ -519,6 +520,15 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		mv.visitMaxs(0, 0);
 		mv.visitEnd();
 		thisMethod.hasEnded = true;
+	}
+
+	@Override
+	public void codeIntInsn(int opcode, int operand) {
+		if (opcode == BIPUSH && -1 <= operand && operand <= 5) {
+			mv.visitInsn(ICONST_0 + operand);
+		} else {
+			mv.visitIntInsn(opcode, operand);
+		}
 	}
 
 	@Override

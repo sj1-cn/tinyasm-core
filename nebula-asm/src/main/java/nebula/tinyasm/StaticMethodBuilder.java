@@ -49,7 +49,7 @@ class StaticMethodBuilder
 	}
 
 	@Override
-	public void visitFieldInsn(int opcode, Type ownerType, String name, Type fieldType) {
+	public void codeFieldInsn(int opcode, Type ownerType, String name, Type fieldType) {
 		// TODO Auto-generated method stub
 		
 	}

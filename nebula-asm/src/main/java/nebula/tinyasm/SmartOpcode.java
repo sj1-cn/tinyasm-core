@@ -35,6 +35,7 @@ import static org.objectweb.asm.Opcodes.POP2;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.RETURN;
 
+import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
@@ -43,7 +44,6 @@ public interface SmartOpcode {
 		load(value1);
 		load(value2);
 		add_op();
-
 	}
 
 	@SuppressWarnings("unused")
@@ -315,7 +315,7 @@ public interface SmartOpcode {
 	default void getfield_op(String fieldname, Type fieldType) {
 		Type objectref = codePopStack();
 		codePush(fieldType);
-		visitFieldInsn(GETFIELD, objectref, fieldname, fieldType);
+		codeFieldInsn(GETFIELD, objectref, fieldname, fieldType);
 
 		// GETFIELD (objectref → value) : get a field value of an object objectref,
 		// where the field is identified by field reference in the constant
@@ -333,7 +333,7 @@ public interface SmartOpcode {
 		Type value = codePopStack();
 		Type objectref = codePopStack();
 
-		visitFieldInsn(PUTFIELD, objectref, fieldname, fieldType);
+		codeFieldInsn(PUTFIELD, objectref, fieldname, fieldType);
 
 		// PUTFIELD (objectref, value →) : set field to value in an object objectref,
 		// where the field is identified by a field reference index in constant pool
@@ -346,7 +346,7 @@ public interface SmartOpcode {
 
 	default void getstatic_op(Type objectType, String fieldName, Type fieldType) {
 		codePush(fieldType);
-		visitFieldInsn(GETSTATIC, objectType, fieldName, fieldType);
+		codeFieldInsn(GETSTATIC, objectType, fieldName, fieldType);
 		// GETSTATIC (→ value) : get a static field value of a class, where the field is
 		// identified by field reference in the constant pool index (index1 << 8 +
 		// index2)
@@ -360,7 +360,7 @@ public interface SmartOpcode {
 	@SuppressWarnings("unused")
 	default void putstatic_op(Type objectType, String fieldName, Type fieldType) {
 		Type value = codePopStack();
-		visitFieldInsn(PUTFIELD, objectType, fieldName, fieldType);
+		codeFieldInsn(PUTFIELD, objectType, fieldName, fieldType);
 
 		// PUTSTATIC (value →) : set static field to value in a class, where the field
 		// is identified by a field reference index in constant pool (indexbyte1 << 8 +
@@ -508,18 +508,6 @@ public interface SmartOpcode {
 	}
 
 	void visitInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
-
-	@Deprecated
-	default void ldc() {
-		ldc_op();
-	}
-
-	@Deprecated
-	default void ldc_op() {
-//		push(value);
-		// LDC (→ value) : push a constant #index from a constant pool (String, int or
-		// float) onto the stack
-	}
 
 	@Deprecated
 	default void loadConst() {
@@ -771,7 +759,10 @@ public interface SmartOpcode {
 			default:
 				throw new UnsupportedOperationException();
 			}
+			break;
+		default:
 			throw new UnsupportedOperationException();
+
 		}
 
 //		Type result = value;
@@ -808,7 +799,111 @@ public interface SmartOpcode {
 		newarray_op();
 	}
 
-	public void visitFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
+	public void codeFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
+
+	default void ldcByte(int value) {
+		codeIntInsn(BIPUSH, value);
+		codePush(Type.BYTE_TYPE);
+	}
+
+	default void ldcShort(int value) {
+		codeIntInsn(SIPUSH, value);
+		codePush(Type.SHORT_TYPE);
+	}
+
+	/**
+	 * Visits an instruction with a single int operand.
+	 * 
+	 * @param opcode  the opcode of the instruction to be visited. This opcode is
+	 *                either BIPUSH, SIPUSH or NEWARRAY.
+	 * @param operand the operand of the instruction to be visited.<br>
+	 *                When opcode is BIPUSH, operand value should be between
+	 *                Byte.MIN_VALUE and Byte.MAX_VALUE.<br>
+	 *                When opcode is SIPUSH, operand value should be between
+	 *                Short.MIN_VALUE and Short.MAX_VALUE.<br>
+	 *                When opcode is NEWARRAY, operand value should be one of
+	 *                {@link Opcodes#T_BOOLEAN}, {@link Opcodes#T_CHAR},
+	 *                {@link Opcodes#T_FLOAT}, {@link Opcodes#T_DOUBLE},
+	 *                {@link Opcodes#T_BYTE}, {@link Opcodes#T_SHORT},
+	 *                {@link Opcodes#T_INT} or {@link Opcodes#T_LONG}.
+	 */
+	void codeIntInsn(int opcode, int operand);
+
+	default void loadConst(Object cst) {
+		codeLdcInsn(cst);
+
+		if (cst instanceof Integer) {
+			codePush(Type.getType(Integer.class));
+		} else if (cst instanceof Float) {
+			codePush(Type.getType(Float.class));
+		} else if (cst instanceof Long) {
+			codePush(Type.getType(Long.class));
+		} else if (cst instanceof Double) {
+			codePush(Type.getType(Double.class));
+		} else if (cst instanceof String) {
+			codePush(Type.getType(String.class));
+		} else if (cst instanceof Type) {
+			int sort = ((Type) cst).getSort();
+			if (sort == Type.OBJECT) {
+				throw new UnsupportedOperationException();
+			} else if (sort == Type.ARRAY) {
+				throw new UnsupportedOperationException();
+			} else if (sort == Type.METHOD) {
+				throw new UnsupportedOperationException();
+			} else {
+				throw new UnsupportedOperationException();
+			}
+		} else if (cst instanceof Handle) {
+			throw new UnsupportedOperationException();
+		} else {
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	/**
+	 * Visits a LDC instruction. Note that new constant types may be added in future
+	 * versions of the Java Virtual Machine. To easily detect new constant types,
+	 * implementations of this method should check for unexpected constant types,
+	 * like this:
+	 * 
+	 * <pre>
+	 * if (cst instanceof Integer) {
+	 * 	// ...
+	 * } else if (cst instanceof Float) {
+	 * 	// ...
+	 * } else if (cst instanceof Long) {
+	 * 	// ...
+	 * } else if (cst instanceof Double) {
+	 * 	// ...
+	 * } else if (cst instanceof String) {
+	 * 	// ...
+	 * } else if (cst instanceof Type) {
+	 * 	int sort = ((Type) cst).getSort();
+	 * 	if (sort == Type.OBJECT) {
+	 * 		// ...
+	 * 	} else if (sort == Type.ARRAY) {
+	 * 		// ...
+	 * 	} else if (sort == Type.METHOD) {
+	 * 		// ...
+	 * 	} else {
+	 * 		// throw an exception
+	 * 	}
+	 * } else if (cst instanceof Handle) {
+	 * 	// ...
+	 * } else {
+	 * 	// throw an exception
+	 * }
+	 * </pre>
+	 * 
+	 * @param cst the constant to be loaded on the stack. This parameter must be a
+	 *            non null {@link Integer}, a {@link Float}, a {@link Long}, a
+	 *            {@link Double}, a {@link String}, a {@link Type} of OBJECT or
+	 *            ARRAY sort for <tt>.class</tt> constants, for classes whose
+	 *            version is 49.0, a {@link Type} of METHOD sort or a {@link Handle}
+	 *            for MethodType and MethodHandle constants, for classes whose
+	 *            version is 51.0.
+	 */
+	void codeLdcInsn(Object cst);
 
 	@Deprecated
 	default void newarray_op() {
