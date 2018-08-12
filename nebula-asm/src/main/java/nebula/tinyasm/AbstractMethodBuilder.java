@@ -36,7 +36,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		implements MethodCode<M, C>, MethodHeader<C> {
 
 	@Override
-	public void visitInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
+	public void mvInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		mv.visitMethodInsn(opcode, objectType.getInternalName(), methodName,
 				Type.getMethodDescriptor(returnType, paramTypes), opcode == INVOKEINTERFACE);
 
@@ -52,7 +52,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 		@Override
 		public M addParam(String name) {
-			load(name);
+			LOAD(name);
 			return caller();
 		}
 
@@ -66,11 +66,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		@Override
 		public Type getStackTopType() {
 			return objectType;
-		}
-
-		@Override
-		public void returnValue() {
-			returnTop(objectType);
 		}
 
 		@Override
@@ -241,22 +236,22 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	}
 
 	@Override
-	public void codeInst(int opcode) {
+	public void mvInst(int opcode) {
 		mv.visitInsn(opcode);
 	}
 
 	@Override
-	public void codeInst(int opcode, int var) {
+	public void mvInst(int opcode, int var) {
 		mv.visitVarInsn(opcode, var);
 	}
 
 	@Override
-	public void codeLdcInsn(Object cst) {
+	public void mvLdcInsn(Object cst) {
 		mv.visitLdcInsn(cst);
 	}
 
 	@Override
-	public void codeFieldInsn(int opcode, Type ownerType, String fieldName, Type fieldType) {
+	public void mvFieldInsn(int opcode, Type ownerType, String fieldName, Type fieldType) {
 		mv.visitFieldInsn(opcode, ownerType.getInternalName(), fieldName, fieldType.getDescriptor());
 	}
 
@@ -380,7 +375,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 	@Override
 	public C intInsn(int opcode, int operand) {
-		codeIntInsn(opcode, operand);
+		mvIntInsn(opcode, operand);
 		return code();
 	}
 
@@ -540,7 +535,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	}
 
 	@Override
-	public void codeIntInsn(int opcode, int operand) {
+	public void mvIntInsn(int opcode, int operand) {
 		if (opcode == BIPUSH && -1 <= operand && operand <= 5) {
 			mv.visitInsn(ICONST_0 + operand);
 		} else {
@@ -550,7 +545,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 	@Override
 	public Instance<M, C> newInstace(Type type) {
-		newobject(type);
+		NEW(type);
 		return type(type);
 	}
 
@@ -633,20 +628,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 //		}
 //	}
 
-	@Override
-	public void returnObject() {
-		returnTopObject();
-	}
-
-	@Override
-	public void returnTop(Type type) {
-		returnTopObject();
-	}
-
-	@Override
-	public void returnVoid() {
-		returnvoid();
-	}
 
 	public C storeStackTopTo(String varName) {
 		LocalsVariable var = locals.accessStore(varName, labelCurrent);
@@ -661,7 +642,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 	// TODO
 	@Override
-	public void codeTypeInsn(int opcode, Type type) {
+	public void mvTypeInsn(int opcode, Type type) {
 		mv.visitTypeInsn(opcode, type.getInternalName());
 	}
 
@@ -678,7 +659,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	// TODO
 	public M depetatedUse(String... varNames) {
 		for (String name : varNames) {
-			load(name);
+			LOAD(name);
 		}
 		LocalsVariable top = locals.get(varNames[0]);
 		return useStackTop(top.type);

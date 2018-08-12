@@ -108,20 +108,6 @@ public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 	C putTopTo(Field field);
 
 	@Deprecated
-	void returnObject();
-
-	@Deprecated
-	default void returnTop(Class<?> returnClass) {
-		returnTop(typeOf(returnClass));
-	}
-
-	@Deprecated
-	void returnTop(Type type);
-
-	@Deprecated
-	void returnVoid();
-
-	@Deprecated
 	C storeStackTopTo(String varName);
 
 	@Deprecated

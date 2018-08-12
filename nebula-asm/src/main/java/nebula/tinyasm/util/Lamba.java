@@ -21,38 +21,29 @@ public class Lamba {
 		ClassBody cw = ClassBuilder.make(ACC_SUPER, objectType, Object.class, Consumer.class,
 				new Type[] { consumeType });
 		cw.visitor()
-				.visitInnerClass(objectType.getInternalName(), parentType.getInternalName(), objectType.getClassName()
-						.substring(parentType.getSize()), 0);
+			.visitInnerClass(objectType.getInternalName(), parentType.getInternalName(),
+					objectType.getClassName().substring(parentType.getSize()), 0);
 
 		cw.field(fieldName, fieldType);
 
 		cw.field(ACC_FINAL + ACC_SYNTHETIC, "this$0", parentType);
 
-		cw.publicMethod("<init>")
-				.parameter("handle", parentType)
-				.parameter(fieldName, fieldType)
-				.code(mc -> {
-					mc.deperatedLoadThis()
-							.put("this$0", "this$0");
-					mc.line(15)
-							.init();
-					mc.deperatedLoadThis()
-							.put(fieldName, fieldName);
-					mc.returnVoid();
-				});
-		cw.publicMethod("accept")
-				.parameter("domain", consumeType)
-				.code(invocation);
+		cw.publicMethod("<init>").parameter("handle", parentType).parameter(fieldName, fieldType).code(mc -> {
+			mc.deperatedLoadThis().put("this$0", "this$0");
+			mc.line(15).init();
+			mc.deperatedLoadThis().put(fieldName, fieldName);
+			mc.ret();
+		});
+		cw.publicMethod("accept").parameter("domain", consumeType).code(invocation);
 		cw.method(ACC_PUBLIC + ACC_BRIDGE + ACC_SYNTHETIC, Type.VOID_TYPE, "accept")
-				.parameter("consumer", Object.class)
-				.code(mc -> {
-					mc.load("this");
-					mc.load("consumer");
-					mc.checkCast(consumeType);
-					mc.useTopThis()
-							.invokeVirtual("accept", consumeType);
-					mc.returnVoid();
-				});
+			.parameter("consumer", Object.class)
+			.code(mc -> {
+				mc.LOAD("this");
+				mc.LOAD("consumer");
+				mc.checkCast(consumeType);
+				mc.useTopThis().invokeVirtual("accept", consumeType);
+				mc.ret();
+			});
 
 		return cw;
 	}
@@ -62,34 +53,25 @@ public class Lamba {
 		ClassBody cb = ClassBuilder.make(ACC_SUPER, objectType, Object.class, Callable.class,
 				new Type[] { consumeType });
 		cb.visitor()
-				.visitInnerClass(objectType.getInternalName(), parentType.getInternalName(), objectType.getClassName()
-						.substring(parentType.getSize()), 0);
+			.visitInnerClass(objectType.getInternalName(), parentType.getInternalName(),
+					objectType.getClassName().substring(parentType.getSize()), 0);
 
 		cb.field(fieldName, fieldType);
 
 		cb.field(ACC_FINAL + ACC_SYNTHETIC, "this$0", parentType);
 
-		cb.publicMethod("<init>")
-				.parameter("handle", parentType)
-				.parameter(fieldName, fieldType)
-				.code(mc -> {
-					mc.deperatedLoadThis()
-							.put("this$0", "this$0");
-					mc.line(15)
-							.init();
-					mc.deperatedLoadThis()
-							.put(fieldName, fieldName);
-					mc.returnVoid();
-				});
+		cb.publicMethod("<init>").parameter("handle", parentType).parameter(fieldName, fieldType).code(mc -> {
+			mc.deperatedLoadThis().put("this$0", "this$0");
+			mc.line(15).init();
+			mc.deperatedLoadThis().put(fieldName, fieldName);
+			mc.ret();
+		});
 
-		cb.publicMethod(consumeType, "call", Exception.class)
-				.code(invocation);
-		cb.method(ACC_PUBLIC + ACC_BRIDGE + ACC_SYNTHETIC, Object.class, "call", Exception.class)
-				.code(mc -> {
-					mc.useThis()
-							.invokeVirtual(consumeType, "call");
-					mc.returnObject();
-				});
+		cb.publicMethod(consumeType, "call", Exception.class).code(invocation);
+		cb.method(ACC_PUBLIC + ACC_BRIDGE + ACC_SYNTHETIC, Object.class, "call", Exception.class).code(mc -> {
+			mc.useThis().invokeVirtual(consumeType, "call");
+			mc.retTop();
+		});
 
 		return cb;
 	}

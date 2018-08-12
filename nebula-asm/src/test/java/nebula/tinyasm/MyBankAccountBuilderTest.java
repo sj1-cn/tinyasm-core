@@ -85,23 +85,23 @@ public class MyBankAccountBuilderTest {
 		});
 
 		cw.privateMethod("onMoneySubtracted").parameter("amount", long.class).code(mc -> {
-			mc.line(113).load("this");
+			mc.line(113).LOAD("this");
 			mc.DUP();
 			mc.GETFIELD("balance", Type.getType(long.class));
-			mc.load("amount");
+			mc.LOAD("amount");
 			mc.SUB();
 			mc.line(114).returnvoid();
 		});
 
 		cw.privateMethod("onMoneyAdded").parameter("amount", long.class).code(mc -> {
 			mc.def("newbalance", long.class);
-			mc.line(107).load("this");
+			mc.line(107).LOAD("this");
 			mc.GETFIELD("balance", Type.getType(long.class));
-			mc.load("amount");
+			mc.LOAD("amount");
 			mc.ADD();
 			mc.STORE("newbalance");
-			mc.line(108).load("this");
-			mc.load("newbalance");
+			mc.line(108).LOAD("this");
+			mc.LOAD("newbalance");
 			mc.PUTFIELD("balance", Type.getType(long.class));
 			mc.line(109).returnvoid();
 		});
@@ -133,9 +133,9 @@ public class MyBankAccountBuilderTest {
 		cw.privateMethod("onMoneyAdded").parameter("amount", long.class).code(mc -> {
 //			mc.def("newbalance", long.class);
 
-			mc.line(107).load("this");
+			mc.line(107).LOAD("this");
 			mc.GETFIELD("balance", Type.getType(long.class));
-			mc.load("amount");
+			mc.LOAD("amount");
 			mc.ADD();
 //			mc.store_op("newbalance");
 

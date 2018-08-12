@@ -60,31 +60,10 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public interface SmartOpcode {
-	default void add(String value1, String value2) {
-		load(value1);
-		load(value2);
+	default void ADD(String left, String right) {
+		LOAD(left);
+		LOAD(right);
 		ADD();
-	}
-
-	default boolean in(Type type, Type... types) {
-		for (Type type2 : types) {
-			if (type2 == type) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	default Type checkMathTypes(Type right, Type left) {
-		assert in(right, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE,
-				Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "right value type";
-		assert in(left, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE, Type.FLOAT_TYPE,
-				Type.DOUBLE_TYPE) : "left value type";
-		right = mathInnerUserType(right);
-		left = mathInnerUserType(left);
-		assert left == right : "left type should equal right type";
-		Type innerType = mathInnerUserType(left);
-		return innerType;
 	}
 
 	default void ADD() {
@@ -94,16 +73,16 @@ public interface SmartOpcode {
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
 		codePush(type);
 
-		codeInst(type.getOpcode(IADD));
-		// DADD (value1, value2 → result) : add two doubles
-		// FADD (value1, value2 → result) : add two floats
-		// IADD (value1, value2 → result) : add two ints
-		// LADD (value1, value2 → result) : add two longs
+		mvInst(type.getOpcode(IADD));
+		// DADD (left, right → result) : add two doubles
+		// FADD (left, right → result) : add two floats
+		// IADD (left, right → result) : add two ints
+		// LADD (left, right → result) : add two longs
 	}
 
-	default void sub(String value1, String value2) {
-		load(value1);
-		load(value2);
+	default void SUB(String left, String right) {
+		LOAD(left);
+		LOAD(right);
 		SUB();
 	}
 
@@ -113,16 +92,16 @@ public interface SmartOpcode {
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
 		codePush(type);
-		codeInst(type.getOpcode(ISUB));
-		// DSUB (value1, value2 → result) : subtract a double from another
-		// FSUB (value1, value2 → result) : subtract two floats
-		// ISUB (value1, value2 → result) : int subtract
-		// LSUB (value1, value2 → result) : subtract two longs
+		mvInst(type.getOpcode(ISUB));
+		// DSUB (left, right → result) : subtract a double from another
+		// FSUB (left, right → result) : subtract two floats
+		// ISUB (left, right → result) : int subtract
+		// LSUB (left, right → result) : subtract two longs
 	}
 
-	default void mul(String value1, String value2) {
-		load(value1);
-		load(value2);
+	default void MUL(String left, String right) {
+		LOAD(left);
+		LOAD(right);
 		MUL();
 	}
 
@@ -132,16 +111,16 @@ public interface SmartOpcode {
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
 		codePush(type);
-		codeInst(type.getOpcode(IMUL));
-		// DMUL (value1, value2 → result) : multiply two doubles
-		// FMUL (value1, value2 → result) : multiply two floats
-		// IMUL (value1, value2 → result) : multiply two integers
-		// LMUL (value1, value2 → result) : multiply two longs
+		mvInst(type.getOpcode(IMUL));
+		// DMUL (left, right → result) : multiply two doubles
+		// FMUL (left, right → result) : multiply two floats
+		// IMUL (left, right → result) : multiply two integers
+		// LMUL (left, right → result) : multiply two longs
 	}
 
-	default void div(String value1, String value2) {
-		load(value1);
-		load(value2);
+	default void DIV(String left, String right) {
+		LOAD(left);
+		LOAD(right);
 		DIV();
 	}
 
@@ -151,16 +130,16 @@ public interface SmartOpcode {
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
 		codePush(type);
-		codeInst(type.getOpcode(IDIV));
-		// DDIV (value1, value2 → result) : divide two doubles
-		// FDIV (value1, value2 → result) : divide two floats
-		// IDIV (value1, value2 → result) : divide two integers
-		// LDIV (value1, value2 → result) : divide two longs
+		mvInst(type.getOpcode(IDIV));
+		// DDIV (left, right → result) : divide two doubles
+		// FDIV (left, right → result) : divide two floats
+		// IDIV (left, right → result) : divide two integers
+		// LDIV (left, right → result) : divide two longs
 	}
 
-	default void rem(String value1, String value2) {
-		load(value1);
-		load(value2);
+	default void REM(String left, String right) {
+		LOAD(left);
+		LOAD(right);
 		REM();
 	}
 
@@ -170,25 +149,25 @@ public interface SmartOpcode {
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
 		codePush(type);
-		codeInst(type.getOpcode(IREM));
-		// DREM (value1, value2 → result) : get the remainder from a division between
+		mvInst(type.getOpcode(IREM));
+		// DREM (left, right → result) : get the remainder from a division between
 		// two doubles
-		// FREM (value1, value2 → result) : get the remainder from a division between
+		// FREM (left, right → result) : get the remainder from a division between
 		// two floats
-		// IREM (value1, value2 → result) : logical int remainder
-		// LREM (value1, value2 → result) : remainder of division of two longs
+		// IREM (left, right → result) : logical int remainder
+		// LREM (left, right → result) : remainder of division of two longs
 	}
 
 	String _THIS = "this";
 
-	default void initObject(Type type) {
-		ALOAD(type, _THIS);
+	default void initObject() {
+		LOADThis();
 		INVOKESPECIAL(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
 	}
 
-	default void and(String value1, String value2) {
-		load(value1);
-		load(value2);
+	default void AND(String left, String right) {
+		LOAD(left);
+		LOAD(right);
 		AND();
 	}
 
@@ -198,14 +177,14 @@ public interface SmartOpcode {
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
 		codePush(type);
-		codeInst(type.getOpcode(IAND));
-		// IAND (value1, value2 → result) : perform a bitwise and on two integers
-		// LAND (value1, value2 → result) : bitwise and of two longs
+		mvInst(type.getOpcode(IAND));
+		// IAND (left, right → result) : perform a bitwise and on two integers
+		// LAND (left, right → result) : bitwise and of two longs
 	}
 
-	default void or(String value1, String value2) {
-		load(value1);
-		load(value2);
+	default void OR(String left, String right) {
+		LOAD(left);
+		LOAD(right);
 		OR();
 	}
 
@@ -215,14 +194,14 @@ public interface SmartOpcode {
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
 		codePush(type);
-		codeInst(type.getOpcode(IOR));
-		// IOR (value1, value2 → result) : bitwise int or
-		// LOR (value1, value2 → result) : bitwise or of two longs
+		mvInst(type.getOpcode(IOR));
+		// IOR (left, right → result) : bitwise int or
+		// LOR (left, right → result) : bitwise or of two longs
 	}
 
-	default void xor(String value1, String value2) {
-		load(value1);
-		load(value2);
+	default void XOR(String left, String right) {
+		LOAD(left);
+		LOAD(right);
 		XOR();
 	}
 
@@ -232,10 +211,15 @@ public interface SmartOpcode {
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
 		codePush(type);
-		codeInst(type.getOpcode(IXOR));
+		mvInst(type.getOpcode(IXOR));
 
-		// IXOR (value1, value2 → result) : int xor
-		// LXOR (value1, value2 → result) : bitwise exclusive or of two longs
+		// IXOR (left, right → result) : int xor
+		// LXOR (left, right → result) : bitwise exclusive or of two longs
+	}
+
+	default void NEWARRAY(String count, Type type) {
+		LOAD(count);
+		NEWARRAY(type);
 	}
 
 	default void NEWARRAY(Type type) {
@@ -246,9 +230,9 @@ public interface SmartOpcode {
 		Type arrayType = arrayOf(type);
 		codePush(arrayType);
 
-		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) codeTypeInsn(NEWARRAY, type);
-		else if (type.getSort() == Type.ARRAY) codeTypeInsn(ANEWARRAY, type);
-		else if (type.getSort() == Type.OBJECT) codeTypeInsn(ANEWARRAY, type);
+		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) mvTypeInsn(NEWARRAY, type);
+		else if (type.getSort() == Type.ARRAY) mvTypeInsn(ANEWARRAY, type);
+		else if (type.getSort() == Type.OBJECT) mvTypeInsn(ANEWARRAY, type);
 		else if (type.getSort() == Type.VOID) RETURN();
 		else
 			throw new UnsupportedOperationException();
@@ -257,8 +241,8 @@ public interface SmartOpcode {
 		// primitive type identified by atype ANEWARRAY, CHECKCAST or INSTANCEOF
 	}
 
-	default void arraylength(String array) {
-		load(array);
+	default void ARRAYLENGTH(String array) {
+		LOAD(array);
 		ARRAYLENGTH();
 	}
 
@@ -266,22 +250,22 @@ public interface SmartOpcode {
 	default void ARRAYLENGTH() {
 		Type arrayref = codePopStack();
 		Type length = Type.INT_TYPE;
-		codeInst(ARRAYLENGTH);
+		mvInst(ARRAYLENGTH);
 		codePush(length);
 		// ARRAYLENGTH (arrayref → length) : get the length of an array
 	}
 
-	default void arrayload(String arrayref, String index, Type valueType) {
-		load(arrayref);
-		load(index);
-		opArrayload(valueType);
+	default void ARRAYLOAD(String arrayref, String index, Type valueType) {
+		LOAD(arrayref);
+		LOAD(index);
+		ARRAYLOAD(valueType);
 	}
 
 	@SuppressWarnings("unused")
-	default void opArrayload(Type value) {
+	default void ARRAYLOAD(Type value) {
 		Type index = codePopStack();
 		Type arrayref = codePopStack();
-		codeInst(value.getOpcode(IALOAD));
+		mvInst(value.getOpcode(IALOAD));
 		codePush(value);
 		// AALOAD (arrayref, index → value) : load onto the stack a reference from an
 		// array
@@ -294,15 +278,15 @@ public interface SmartOpcode {
 		// SALOAD (arrayref, index → value) : load short from array
 	}
 
-	default void arraystore(String arrayref, String index, String value) {
-		load(arrayref);
-		load(index);
-		load(value);
-		AASTORE();
+	default void ARRAYSTORE(String varArray, String index, String value) {
+		LOAD(varArray);
+		LOAD(index);
+		LOAD(value);
+		ARRAYSTORE();
 	}
 
 	@SuppressWarnings("unused")
-	default void AASTORE() {
+	default void ARRAYSTORE() {
 		Type value = codePopStack();
 		Type index = codePopStack();
 		Type arrayref = codePopStack();
@@ -310,36 +294,36 @@ public interface SmartOpcode {
 
 		// AASTORE (arrayref, index, value →) : store into a reference in an array
 		case Type.OBJECT:
-			codeInst(AASTORE);
+			mvInst(AASTORE);
 			break;
 		// BASTORE (arrayref, index, value →) : store a byte or Boolean value into an
 		// array
 		case Type.BYTE:
-			codeInst(value.getOpcode(BASTORE));
+			mvInst(value.getOpcode(BASTORE));
 			break;
 		// CASTORE (arrayref, index, value →) : store a char into an array
 		case Type.CHAR:
-			codeInst(value.getOpcode(CASTORE));
+			mvInst(value.getOpcode(CASTORE));
 			break;
 		// DASTORE (arrayref, index, value →) : store a double into an array
 		case Type.DOUBLE:
-			codeInst(value.getOpcode(DASTORE));
+			mvInst(value.getOpcode(DASTORE));
 			break;
 		// FASTORE (arrayref, index, value →) : store a float in an array
 		case Type.FLOAT:
-			codeInst(value.getOpcode(FASTORE));
+			mvInst(value.getOpcode(FASTORE));
 			break;
 		// IASTORE (arrayref, index, value →) : store an int into an array
 		case Type.INT:
-			codeInst(value.getOpcode(IASTORE));
+			mvInst(value.getOpcode(IASTORE));
 			break;
 		// LASTORE (arrayref, index, value →) : store a long to an array
 		case Type.LONG:
-			codeInst(value.getOpcode(LASTORE));
+			mvInst(value.getOpcode(LASTORE));
 			break;
 		// SASTORE (arrayref, index, value →) : store short to array
 		case Type.SHORT:
-			codeInst(value.getOpcode(SASTORE));
+			mvInst(value.getOpcode(SASTORE));
 			break;
 		default:
 			throw new UnsupportedOperationException();
@@ -359,17 +343,25 @@ public interface SmartOpcode {
 	default void CHECKCAST(Type type) {
 		Type objectref = codePopStack();
 		codePush(objectref);
-		codeTypeInsn(CHECKCAST, type);
+		mvTypeInsn(CHECKCAST, type);
 		// CHECKCAST (objectref → objectref) : checks whether an objectref is of a
 		// certain type, the class reference of which is in the constant pool
 		// at index (indexbyte1 << 8 + indexbyte2)
 	}
 
-	abstract Type codeGetStack(int i);
+	void mvInst(int opcode);
 
-	abstract void codeInst(int opcode);
+	void mvInst(int opcode, int index);
 
-	abstract void codeInst(int opcode, int index);
+	void mvIntInsn(int opcode, int operand);
+
+	void mvFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
+
+	void mvInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
+
+	void mvLdcInsn(Object cst);
+
+	void mvTypeInsn(int opcode, Type type);
 
 	abstract int codeLocalLoadAccess(String name);
 
@@ -379,87 +371,84 @@ public interface SmartOpcode {
 
 	abstract Type codeLocalStoreAccessType(String name);
 
+	abstract Type codeGetStack(int i);
+
 	abstract Type codePopStack();
 
 	abstract void codePush(Type type);
 
 	@Deprecated
-	default void compare(String value1, String value2) {
-		load(value1);
-		load(value2);
+	default void compare(String left, String right) {
+		LOAD(left);
+		LOAD(right);
 		CMP();
-
 	}
 
 	@Deprecated
 	@SuppressWarnings("unused")
 	default void CMP() {
-		Type value2 = codePopStack();
-		Type value1 = codePopStack();
-		Type result = value1;
+		Type right = codePopStack();
+		Type left = codePopStack();
+		Type result = left;
 		codePush(result);
-		// LCMP (value1, value2 → result) : compare two longs values
-		// DCMPG (value1, value2 → result) : compare two doubles
-		// FCMPG (value1, value2 → result) : compare two floats
-		// DCMPL (value1, value2 → result) : compare two doubles
-		// FCMPL (value1, value2 → result) : compare two floats
+		// LCMP (left, right → result) : compare two longs values
+		// DCMPG (left, right → result) : compare two doubles
+		// FCMPG (left, right → result) : compare two floats
+		// DCMPL (left, right → result) : compare two doubles
+		// FCMPL (left, right → result) : compare two floats
 	}
 
 	default void DUP() {
-		Type value1 = codeGetStack(0);
-		codePush(value1);
-		codeInst(DUP);
+		Type left = codeGetStack(0);
+		codePush(left);
+		mvInst(DUP);
 		// DUP (value → value, value) : duplicate the value on top of the stack
 	}
 
-	default void dup2() {
-		DUP2();
-	}
-
 	default void DUP2() {
-		Type value2 = codeGetStack(-1);
-		Type value1 = codeGetStack(0);
-		codePush(value2);
-		codePush(value1);
-		codePush(value2);
-		codePush(value1);
-		codeInst(DUP2);
-		// DUP2 ({value2, value1} → {value2, value1}, {value2, value1}) : duplicate top
-		// two stack words (two values, if value1 is not double nor long; a single
-		// value, if value1 is double or long)
+		Type right = codeGetStack(-1);
+		Type left = codeGetStack(0);
+		codePush(right);
+		codePush(left);
+		codePush(right);
+		codePush(left);
+		mvInst(DUP2);
+		// DUP2 ({right, left} → {right, left}, {right, left}) : duplicate top
+		// two stack words (two values, if left is not double nor long; a single
+		// value, if left is double or long)
 	}
 
-	default void getfield(String objectname, String fieldname, Type fieldType) {
-		load(objectname);
+	default void GETFIELD(String objectname, String fieldname, Type fieldType) {
+		LOAD(objectname);
 		GETFIELD(fieldname, fieldType);
 	}
 
 	default void GETFIELD(String fieldname, Type fieldType) {
 		Type objectref = codePopStack();
 		codePush(fieldType);
-		codeFieldInsn(GETFIELD, objectref, fieldname, fieldType);
+		mvFieldInsn(GETFIELD, objectref, fieldname, fieldType);
 
 		// GETFIELD (objectref → value) : get a field value of an object objectref,
 		// where the field is identified by field reference in the constant
 		// pool index (index1 << 8 + index2)
 	}
 
-	default void putfield(String objectref, String varname, String fieldname, Type fieldType) {
-		load(objectref);
-		load(varname);
-		PUTFIELD(fieldname, fieldType);
-	}
-
 	default void putVarToThisField(String varname, String fieldname, Type fieldType) {
-		loadThis();
-		load(varname);
+		LOADThis();
+		LOAD(varname);
 		PUTFIELD(fieldname, fieldType);
 	}
 
 	default void getThisFieldTo(String fieldname, Type fieldType, String varname) {
-		loadThis();
+		LOADThis();
 		GETFIELD(fieldname, fieldType);
 		STORE(varname);
+	}
+
+	default void PUTFIELD(String objectref, String varname, String fieldname, Type fieldType) {
+		LOAD(objectref);
+		LOAD(varname);
+		PUTFIELD(fieldname, fieldType);
 	}
 
 	@SuppressWarnings("unused")
@@ -467,34 +456,30 @@ public interface SmartOpcode {
 		Type value = codePopStack();
 		Type objectref = codePopStack();
 
-		codeFieldInsn(PUTFIELD, objectref, fieldname, fieldType);
+		mvFieldInsn(PUTFIELD, objectref, fieldname, fieldType);
 
 		// PUTFIELD (objectref, value →) : set field to value in an object objectref,
 		// where the field is identified by a field reference index in constant pool
 		// (indexbyte1 << 8 + indexbyte2)
 	}
 
-	default void getstatic(Type objectType, String fieldName, Type fieldType) {
-		GETSTATIC(objectType, fieldName, fieldType);
-	}
-
 	default void GETSTATIC(Type objectType, String fieldName, Type fieldType) {
 		codePush(fieldType);
-		codeFieldInsn(GETSTATIC, objectType, fieldName, fieldType);
+		mvFieldInsn(GETSTATIC, objectType, fieldName, fieldType);
 		// GETSTATIC (→ value) : get a static field value of a class, where the field is
 		// identified by field reference in the constant pool index (index1 << 8 +
 		// index2)
 	}
 
-	default void putstatic(Type objectType, String varname, String fieldname, Type fieldType) {
-		load(varname);
+	default void PUTSTATIC(Type objectType, String varname, String fieldname, Type fieldType) {
+		LOAD(varname);
 		PUTSTATIC(objectType, fieldname, fieldType);
 	}
 
 	@SuppressWarnings("unused")
 	default void PUTSTATIC(Type objectType, String fieldName, Type fieldType) {
 		Type value = codePopStack();
-		codeFieldInsn(PUTSTATIC, objectType, fieldName, fieldType);
+		mvFieldInsn(PUTSTATIC, objectType, fieldName, fieldType);
 
 		// PUTSTATIC (value →) : set static field to value in a class, where the field
 		// is identified by a field reference index in constant pool (indexbyte1 << 8 +
@@ -503,7 +488,7 @@ public interface SmartOpcode {
 
 	@Deprecated
 	default void iF(String value) {
-		load(value);
+		LOAD(value);
 		IF();
 
 	}
@@ -535,44 +520,38 @@ public interface SmartOpcode {
 		// IFNULL (value →) : if value is null, branch to instruction
 		// at branchoffset (signed short constructed from unsigned bytesbranchbyte1 << 8
 		// + branchbyte2)
-		// IF_ACMPEQ (value1, value2 →) : if references are equal, branch to instruction
+		// IF_ACMPEQ (left, right →) : if references are equal, branch to instruction
 		// at branchoffset (signed short constructed from unsigned bytes branchbyte1 <<
 		// 8 + branchbyte2)
-		// IF_ACMPNE (value1, value2 →) : if references are not equal, branch to
+		// IF_ACMPNE (left, right →) : if references are not equal, branch to
 		// instruction at branchoffset (signed short constructed from unsigned
 		// bytes branchbyte1 << 8 + branchbyte2)
-		// IF_ICMPEQ (value1, value2 →) : if ints are equal, branch to instruction
+		// IF_ICMPEQ (left, right →) : if ints are equal, branch to instruction
 		// at branchoffset (signed short constructed from unsigned bytesbranchbyte1 << 8
 		// + branchbyte2)
-		// IF_ICMPGE (value1, value2 →) : if value1 is greater than or equal to value2,
+		// IF_ICMPGE (left, right →) : if left is greater than or equal to right,
 		// branch to instruction at branchoffset (signed short constructed from unsigned
 		// bytes branchbyte1 << 8 + branchbyte2)
-		// IF_ICMPGT (value1, value2 →) : if value1 is greater than value2, branch to
+		// IF_ICMPGT (left, right →) : if left is greater than right, branch to
 		// instruction at branchoffset (signed short constructed from unsigned
 		// bytes branchbyte1 << 8 + branchbyte2)
-		// IF_ICMPLE (value1, value2 →) : if value1 is less than or equal to value2,
+		// IF_ICMPLE (left, right →) : if left is less than or equal to right,
 		// branch to instruction at branchoffset (signed short constructed from unsigned
 		// bytes branchbyte1 << 8 + branchbyte2)
-		// IF_ICMPLT (value1, value2 →) : if value1 is less than value2, branch to
+		// IF_ICMPLT (left, right →) : if left is less than right, branch to
 		// instruction at branchoffset (signed short constructed from unsigned
 		// bytes branchbyte1 << 8 + branchbyte2)
-		// IF_ICMPNE (value1, value2 →) : if ints are not equal, branch to instruction
+		// IF_ICMPNE (left, right →) : if ints are not equal, branch to instruction
 		// at branchoffset (signed short constructed from unsigned bytes branchbyte1 <<
 		// 8 + branchbyte2)
-	}
-
-	@Deprecated
-	default void instanceOf(String objectref) {
-		load(objectref);
-		INSTANCEOF();
 	}
 
 	@SuppressWarnings("unused")
-	default void INSTANCEOF() {
+	default void INSTANCEOF(Type type) {
 		Type objectref = codePopStack();
 		Type result = Type.getType(Integer.class);
 		codePush(result);
-		codeInst(INSTANCEOF);
+		mvTypeInsn(INSTANCEOF, type);
 		// INSTANCEOF (objectref → result) : determines if an object objectref is of a
 		// given type, identified by class reference index in constant pool (indexbyte1
 		// << 8 + indexbyte2)
@@ -591,7 +570,7 @@ public interface SmartOpcode {
 		for (Type type : paramTypes) {
 			codePopStack();
 		}
-		visitInvoke(INVOKESTATIC, objectType, returnType, methodName, paramTypes);
+		mvInvoke(INVOKESTATIC, objectType, returnType, methodName, paramTypes);
 		if (returnType != Type.VOID_TYPE) codePush(returnType);
 		// INVOKESTATIC ([arg1, arg2, ...] →) : invoke a static method, where the method
 		// is identified by method reference index in constant pool (indexbyte1 << 8 +
@@ -605,7 +584,7 @@ public interface SmartOpcode {
 			codePopStack();
 		}
 		codePopStack(); // objectType
-		visitInvoke(INVOKEINTERFACE, objectType, returnType, methodName, paramTypes);
+		mvInvoke(INVOKEINTERFACE, objectType, returnType, methodName, paramTypes);
 		if (returnType != Type.VOID_TYPE) codePush(returnType);
 		// INVOKEINTERFACE (objectref, [arg1, arg2, ...] →) : invokes an interface
 		// method on object objectref, where the interface method is identified by
@@ -628,7 +607,7 @@ public interface SmartOpcode {
 			codePopStack();
 		}
 		codePopStack(); // objectType
-		visitInvoke(INVOKESPECIAL, objectType, returnType, methodName, paramTypes);
+		mvInvoke(INVOKESPECIAL, objectType, returnType, methodName, paramTypes);
 		if (returnType != Type.VOID_TYPE) codePush(returnType);
 		// INVOKESPECIAL (objectref, [arg1, arg2, ...] →) : invoke instance method on
 		// object objectref, where the method is identified by method reference indexin
@@ -641,7 +620,7 @@ public interface SmartOpcode {
 			codePopStack();
 		}
 		codePopStack(); // objectType
-		visitInvoke(INVOKEVIRTUAL, objectType, returnType, methodName, paramTypes);
+		mvInvoke(INVOKEVIRTUAL, objectType, returnType, methodName, paramTypes);
 		if (returnType != Type.VOID_TYPE) codePush(returnType);
 
 	}
@@ -653,163 +632,118 @@ public interface SmartOpcode {
 			codePopStack();
 		}
 		if (opcode != INVOKESTATIC) codePopStack(); // objectType
-		visitInvoke(opcode, objectType, returnType, methodName, paramTypes);
+		mvInvoke(opcode, objectType, returnType, methodName, paramTypes);
 		if (returnType != Type.VOID_TYPE) codePush(returnType);
 
 	}
 
-	void visitInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
-
-	default void loadThis() {
-		load(_THIS);
+	default void LOADThis() {
+		LOAD(_THIS);
 	}
 
-	default void loadThisField(String fieldname, Type feildtype) {
-		loadThis();
+	default void LOADThisField(String fieldname, Type feildtype) {
+		LOADThis();
 		GETFIELD(fieldname, feildtype);
 	}
 
-	default void load(String name) {
+	default void LOAD(String name) {
 		Type valueType = codeLocalLoadAccessType(name);
 		switch (valueType.getSort()) {
 		case Type.OBJECT:
-			ALOAD(valueType, name);
-			break;
 		case Type.ARRAY:
-			ALOAD(valueType, name);
+			codePush(valueType);
+			mvInst(ALOAD, codeLocalLoadAccess(name));
+			// ALOAD (→ objectref) : load a reference onto the stack from a local
+			// variable #index
+			// ALOAD_0 (→ objectref) : load a reference onto the stack from local variable 0
+			// ALOAD_1 (→ objectref) : load a reference onto the stack from local variable 1
+			// ALOAD_2 (→ objectref) : load a reference onto the stack from local variable 2
+			// ALOAD_3 (→ objectref) : load a reference onto the stack from local variable 3
 			break;
 		case Type.VOID:
 			throw new UnsupportedOperationException("load VOID");
 		default:
-			LOAD(valueType, name);
+			codePush(valueType);
+			mvInst(valueType.getOpcode(ILOAD), codeLocalLoadAccess(name));
+			// DLOAD (→ value) : load a double value from a local variable #index
+			// FLOAD (→ value) : load a float value from a local variable #index
+			// ILOAD (→ value) : load an int value from a local variable #index
+			// LLOAD (→ value) : load a long value from a local variable #index
+			// DLOAD_0 (→ value) : load a double from local variable 0
+			// FLOAD_0 (→ value) : load a float value from local variable 0
+			// ILOAD_0 (→ value) : load an int value from local variable 0
+			// LLOAD_0 (→ value) : load a long value from a local variable 0
+			// DLOAD_1 (→ value) : load a double from local variable 1
+			// FLOAD_1 (→ value) : load a float value from local variable 1
+			// ILOAD_1 (→ value) : load an int value from local variable 1
+			// LLOAD_1 (→ value) : load a long value from a local variable 1
+			// DLOAD_2 (→ value) : load a double from local variable 2
+			// FLOAD_2 (→ value) : load a float value from local variable 2
+			// ILOAD_2 (→ value) : load an int value from local variable 2
+			// LLOAD_2 (→ value) : load a long value from a local variable 2
+			// DLOAD_3 (→ value) : load a double from local variable 3
+			// FLOAD_3 (→ value) : load a float value from local variable 3
+			// ILOAD_3 (→ value) : load an int value from local variable 3
 			break;
 		}
-	}
-
-	default void LOAD(Type value, String name) {
-		codePush(value);
-		codeInst(value.getOpcode(ILOAD), codeLocalLoadAccess(name));
-		// DLOAD (→ value) : load a double value from a local variable #index
-		// FLOAD (→ value) : load a float value from a local variable #index
-		// ILOAD (→ value) : load an int value from a local variable #index
-		// LLOAD (→ value) : load a long value from a local variable #index
-		// DLOAD_0 (→ value) : load a double from local variable 0
-		// FLOAD_0 (→ value) : load a float value from local variable 0
-		// ILOAD_0 (→ value) : load an int value from local variable 0
-		// LLOAD_0 (→ value) : load a long value from a local variable 0
-		// DLOAD_1 (→ value) : load a double from local variable 1
-		// FLOAD_1 (→ value) : load a float value from local variable 1
-		// ILOAD_1 (→ value) : load an int value from local variable 1
-		// LLOAD_1 (→ value) : load a long value from a local variable 1
-		// DLOAD_2 (→ value) : load a double from local variable 2
-		// FLOAD_2 (→ value) : load a float value from local variable 2
-		// ILOAD_2 (→ value) : load an int value from local variable 2
-		// LLOAD_2 (→ value) : load a long value from a local variable 2
-		// DLOAD_3 (→ value) : load a double from local variable 3
-		// FLOAD_3 (→ value) : load a float value from local variable 3
-		// ILOAD_3 (→ value) : load an int value from local variable 3
-		// LLOAD_3 (→ value) : load a long value from a local variable 3
-	}
-
-	default void aLoadObject(String name) {
-		Type valueType = codeLocalLoadAccessType(name);
-		ALOAD(valueType, name);
-	}
-
-	default void ALOAD(Type value, String name) {
-		codePush(value);
-		codeInst(ALOAD, codeLocalLoadAccess(name));
-		// ALOAD (→ objectref) : load a reference onto the stack from a local
-		// variable #index
-		// ALOAD_0 (→ objectref) : load a reference onto the stack from local variable 0
-		// ALOAD_1 (→ objectref) : load a reference onto the stack from local variable 1
-		// ALOAD_2 (→ objectref) : load a reference onto the stack from local variable 2
-		// ALOAD_3 (→ objectref) : load a reference onto the stack from local variable 3
 	}
 
 	default void STORE(String varname) {
 		Type value = codeGetStack(0);
 		switch (value.getSort()) {
 		case Type.ARRAY:
-			_ASTORE(varname);
+			codePopStack();
+			mvInst(ASTORE, codeLocalStoreAccess(varname));
+			// ASTORE (objectref →) : store a reference into a local variable #index
+			// ASTORE_0 (objectref →) : store a reference into local variable 0
+			// ASTORE_1 (objectref →) : store a reference into local variable 1
+			// ASTORE_2 (objectref →) : store a reference into local variable 2
+			// ASTORE_3 (objectref →) : store a reference into local variable 3
 			break;
 		case Type.OBJECT:
-			_ASTORE(varname);
+			codePopStack();
+			mvInst(ASTORE, codeLocalStoreAccess(varname));
+			// ASTORE (objectref →) : store a reference into a local variable #index
+			// ASTORE_0 (objectref →) : store a reference into local variable 0
+			// ASTORE_1 (objectref →) : store a reference into local variable 1
+			// ASTORE_2 (objectref →) : store a reference into local variable 2
+			// ASTORE_3 (objectref →) : store a reference into local variable 3
 			break;
 		case Type.VOID:
 			throw new UnsupportedOperationException();
 		default:
-			_ISTORE(varname);
+			Type type = codePopStack();
+			mvInst(type.getOpcode(ISTORE), codeLocalStoreAccess(varname));
+
+			// DSTORE (value →) : store a double value into a local variable #index
+			// FSTORE (value →) : store a float value into a local variable #index
+			// ISTORE (value →) : store int value into variable #index
+			// LSTORE (value →) : store a long value in a local variable #index
+			// DSTORE_0 (value →) : store a double into local variable 0
+			// FSTORE_0 (value →) : store a float value into local variable 0
+			// ISTORE_0 (value →) : store int value into variable 0
+			// LSTORE_0 (value →) : store a long value in a local variable 0
+			// DSTORE_1 (value →) : store a double into local variable 1
+			// FSTORE_1 (value →) : store a float value into local variable 1
+			// ISTORE_1 (value →) : store int value into variable 1
+			// LSTORE_1 (value →) : store a long value in a local variable 1
+			// DSTORE_2 (value →) : store a double into local variable 2
+			// FSTORE_2 (value →) : store a float value into local variable 2
+			// ISTORE_2 (value →) : store int value into variable 2
+			// LSTORE_2 (value →) : store a long value in a local variable 2
+			// DSTORE_3 (value →) : store a double into local variable 3
+			// FSTORE_3 (value →) : store a float value into local variable 3
+			// ISTORE_3 (value →) : store int value into variable 3
+			// LSTORE_3 (value →) : store a long value in a local variable 3
 			break;
 		}
-	}
-
-	@Deprecated
-	default void _ISTORE(String varname) {
-		Type type = codePopStack();
-		codeInst(type.getOpcode(ISTORE), codeLocalStoreAccess(varname));
-
-		// DSTORE (value →) : store a double value into a local variable #index
-		// FSTORE (value →) : store a float value into a local variable #index
-		// ISTORE (value →) : store int value into variable #index
-		// LSTORE (value →) : store a long value in a local variable #index
-		// DSTORE_0 (value →) : store a double into local variable 0
-		// FSTORE_0 (value →) : store a float value into local variable 0
-		// ISTORE_0 (value →) : store int value into variable 0
-		// LSTORE_0 (value →) : store a long value in a local variable 0
-		// DSTORE_1 (value →) : store a double into local variable 1
-		// FSTORE_1 (value →) : store a float value into local variable 1
-		// ISTORE_1 (value →) : store int value into variable 1
-		// LSTORE_1 (value →) : store a long value in a local variable 1
-		// DSTORE_2 (value →) : store a double into local variable 2
-		// FSTORE_2 (value →) : store a float value into local variable 2
-		// ISTORE_2 (value →) : store int value into variable 2
-		// LSTORE_2 (value →) : store a long value in a local variable 2
-		// DSTORE_3 (value →) : store a double into local variable 3
-		// FSTORE_3 (value →) : store a float value into local variable 3
-		// ISTORE_3 (value →) : store int value into variable 3
-		// LSTORE_3 (value →) : store a long value in a local variable 3
-	}
-
-	@Deprecated
-	default void _ASTORE(String varname) {
-		codePopStack();
-		codeInst(ASTORE, codeLocalStoreAccess(varname));
-		// ASTORE (objectref →) : store a reference into a local variable #index
-		// ASTORE_0 (objectref →) : store a reference into local variable 0
-		// ASTORE_1 (objectref →) : store a reference into local variable 1
-		// ASTORE_2 (objectref →) : store a reference into local variable 2
-		// ASTORE_3 (objectref →) : store a reference into local variable 3
-	}
-
-	default void store(String varname) {
-		STORE(varname);
-	}
-
-	default Type mathInnerUserType(Type type) {
-		switch (type.getSort()) {
-		case Type.BYTE:
-		case Type.CHAR:
-		case Type.SHORT:
-			return Type.INT_TYPE;
-		default:
-			break;
-		}
-		return type;
-	}
-
-	@Deprecated
-	default void neg(String value) {
-		load(value);
-		NEG();
-
 	}
 
 	default void NEG() {
 		Type value = codePopStack();
 		Type result = value;
 		codePush(result);
-		codeInst(value.getOpcode(INEG));
+		mvInst(value.getOpcode(INEG));
 
 		// DNEG (value → result) : negate a double
 		// FNEG (value → result) : negate a float
@@ -831,13 +765,13 @@ public interface SmartOpcode {
 		case Type.LONG:
 			switch (typeTo.getSort()) {
 			case Type.INT:
-				codeInst(L2I);
+				mvInst(L2I);
 				break;
 			case Type.FLOAT:
-				codeInst(L2F);
+				mvInst(L2F);
 				break;
 			case Type.DOUBLE:
-				codeInst(L2D);
+				mvInst(L2D);
 				break;
 
 			default:
@@ -847,22 +781,22 @@ public interface SmartOpcode {
 		case Type.INT:
 			switch (typeTo.getSort()) {
 			case Type.SHORT:
-				codeInst(I2S);
+				mvInst(I2S);
 				break;
 			case Type.LONG:
-				codeInst(I2L);
+				mvInst(I2L);
 				break;
 			case Type.FLOAT:
-				codeInst(I2F);
+				mvInst(I2F);
 				break;
 			case Type.DOUBLE:
-				codeInst(I2D);
+				mvInst(I2D);
 				break;
 			case Type.CHAR:
-				codeInst(I2C);
+				mvInst(I2C);
 				break;
 			case Type.BYTE:
-				codeInst(I2B);
+				mvInst(I2B);
 				break;
 
 			default:
@@ -873,13 +807,13 @@ public interface SmartOpcode {
 
 			switch (typeTo.getSort()) {
 			case Type.LONG:
-				codeInst(F2L);
+				mvInst(F2L);
 				break;
 			case Type.INT:
-				codeInst(F2I);
+				mvInst(F2I);
 				break;
 			case Type.DOUBLE:
-				codeInst(F2D);
+				mvInst(F2D);
 				break;
 
 			default:
@@ -889,13 +823,13 @@ public interface SmartOpcode {
 		case Type.DOUBLE:
 			switch (typeTo.getSort()) {
 			case Type.LONG:
-				codeInst(D2L);
+				mvInst(D2L);
 				break;
 			case Type.INT:
-				codeInst(D2I);
+				mvInst(D2I);
 				break;
 			case Type.FLOAT:
-				codeInst(D2F);
+				mvInst(D2F);
 				break;
 
 			default:
@@ -933,22 +867,13 @@ public interface SmartOpcode {
 //	i2l	convert an int into a long
 //	i2s	convert an int into a short
 
-	void codeTypeInsn(int opcode, Type type);
-
-	default void newarray(String count, Type type) {
-		load(count);
-		NEWARRAY(type);
-	}
-
-	public void codeFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
-
-	default void loadConstByte(int value) {
-		codeIntInsn(BIPUSH, value);
+	default void LOADConstByte(int value) {
+		mvIntInsn(BIPUSH, value);
 		codePush(Type.BYTE_TYPE);
 	}
 
-	default void ldcShort(int value) {
-		codeIntInsn(SIPUSH, value);
+	default void LOADConstShort(int value) {
+		mvIntInsn(SIPUSH, value);
 		codePush(Type.SHORT_TYPE);
 	}
 
@@ -968,36 +893,35 @@ public interface SmartOpcode {
 	 *                {@link Opcodes#T_BYTE}, {@link Opcodes#T_SHORT},
 	 *                {@link Opcodes#T_INT} or {@link Opcodes#T_LONG}.
 	 */
-	void codeIntInsn(int opcode, int operand);
 
-	default void loadConst(Object cst) {
+	default void LOADConst(Object cst) {
 
 		if (cst instanceof Integer) {
-			codeLdcInsn(cst);
+			mvLdcInsn(cst);
 			codePush(Type.getType(Integer.class));
 		} else if (cst instanceof Float) {
-			codeLdcInsn(cst);
+			mvLdcInsn(cst);
 			codePush(Type.getType(Float.class));
 		} else if (cst instanceof Long) {
 			int v = ((Long) cst).intValue();
 			if (0L == v || 1L == v) {
-				codeInst(LCONST_0 + v);
+				mvInst(LCONST_0 + v);
 				codePush(Type.getType(Long.class));
 			} else {
 
-				codeLdcInsn(cst);
+				mvLdcInsn(cst);
 				codePush(Type.getType(Long.class));
 			}
 		} else if (cst instanceof Double) {
-			codeLdcInsn(cst);
+			mvLdcInsn(cst);
 			codePush(Type.getType(Double.class));
 		} else if (cst instanceof String) {
-			codeLdcInsn(cst);
+			mvLdcInsn(cst);
 			codePush(Type.getType(String.class));
 		} else if (cst instanceof Type) {
 			int sort = ((Type) cst).getSort();
 			if (sort == Type.OBJECT) {
-				codeLdcInsn(cst);
+				mvLdcInsn(cst);
 				codePush(Type.getType(String.class));
 			} else if (sort == Type.ARRAY) {
 				throw new UnsupportedOperationException();
@@ -1056,61 +980,32 @@ public interface SmartOpcode {
 	 *            for MethodType and MethodHandle constants, for classes whose
 	 *            version is 51.0.
 	 */
-	void codeLdcInsn(Object cst);
-
-	default void newobject(Type objectref) {
-		NEW(objectref);
-	}
-
 	default void NEW(Type objectref) {
 		codePush(objectref);
-		codeTypeInsn(NEW, objectref);
+		mvTypeInsn(NEW, objectref);
 		// NEW (→ objectref) : create new object of type identified by class reference
 		// in constant pool index (indexbyte1 << 8 + indexbyte2)
 	}
 
-	default void nop() {
-		NOP();
-	}
-
 	default void NOP() {
-		codeInst(Opcodes.NOP);
+		mvInst(Opcodes.NOP);
 		// NOP ([No change]) : perform no operation
-	}
-
-	default void pop() {
-		POP();
-
 	}
 
 	@SuppressWarnings("unused")
 	default void POP() {
-		Type value1 = codePopStack();
-		codeInst(POP);
+		Type left = codePopStack();
+		mvInst(POP);
 		// POP (value →) : discard the top value on the stack
-	}
-
-	default void pop2() {
-		POP2();
-
 	}
 
 	@SuppressWarnings("unused")
 	default void POP2() {
-		Type value2 = codePopStack();
-		Type value1 = codePopStack();
-		codeInst(POP2);
-		// POP2 ({value2, value1} →) : discard the top two values on the stack (or one
+		Type right = codePopStack();
+		Type left = codePopStack();
+		mvInst(POP2);
+		// POP2 ({right, left} →) : discard the top two values on the stack (or one
 		// value, if it is a double or long)
-	}
-
-	default void returnObject(String objectref) {
-		load(objectref);
-		ARETURN();
-	}
-
-	default void returnTopObject() {
-		ARETURN();
 	}
 
 	default void ret() {
@@ -1118,7 +1013,7 @@ public interface SmartOpcode {
 	}
 
 	default void ret(String varname) {
-		load(varname);
+		LOAD(varname);
 		Type type = codeGetStack(0);
 		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) IRETURN();
 		else if (type.getSort() == Type.ARRAY) ARETURN();
@@ -1140,17 +1035,13 @@ public interface SmartOpcode {
 	@SuppressWarnings("unused")
 	default void ARETURN() {
 		Type objectref = codePopStack();
-		codeInst(ARETURN);
+		mvInst(ARETURN);
 		// ARETURN (objectref → [empty]) : return a reference from a method
 	}
-
-	default void returnTopValue() {
-		IRETURN();
-	}
-
+	
 	default void IRETURN() {
 		Type type = codePopStack();
-		codeInst(type.getOpcode(IRETURN));
+		mvInst(type.getOpcode(IRETURN));
 		// DRETURN (value → [empty]) : return a double from a method
 		// FRETURN (value → [empty]) : return a float
 		// IRETURN (value → [empty]) : return an integer from a method
@@ -1158,7 +1049,7 @@ public interface SmartOpcode {
 	}
 
 	default void returnValue(String varname) {
-		load(varname);
+		LOAD(varname);
 		IRETURN();
 	}
 
@@ -1168,38 +1059,38 @@ public interface SmartOpcode {
 
 	// RETURN (→ [empty]) : return void from method
 	default void RETURN() {
-		codeInst(RETURN);
+		mvInst(RETURN);
 	}
 
 	@Deprecated
-	default void shl(String value1, String value2) {
-		load(value1);
-		load(value2);
+	default void shl(String left, String right) {
+		LOAD(left);
+		LOAD(right);
 		SHL();
 
 	}
 
 	@SuppressWarnings("unused")
 	default void SHL() {
-		Type value2 = codePopStack();
-		Type value1 = codePopStack();
-		Type result = value1;
+		Type right = codePopStack();
+		Type left = codePopStack();
+		Type result = left;
 		codePush(result);
-		codeInst(value1.getOpcode(ISHR));
-		// ISHL (value1, value2 → result) : int shift left
-		// LSHL (value1, value2 → result) : bitwise shift left of a
-		// long value1 by value2 positions
+		mvInst(left.getOpcode(ISHR));
+		// ISHL (left, right → result) : int shift left
+		// LSHL (left, right → result) : bitwise shift left of a
+		// long left by right positions
 	}
 
 	@SuppressWarnings("unused")
 	default void SHR() {
-		Type value2 = codePopStack();
-		Type value1 = codePopStack();
-		Type result = value1;
+		Type right = codePopStack();
+		Type left = codePopStack();
+		Type result = left;
 		codePush(result);
-		codeInst(value1.getOpcode(ISHR));
-		// ISHR (value1, value2 → result) : int arithmetic shift right
-		// LSHR (value1, value2 → result) : bitwise shift right of a
-		// long value1 by value2 positions
+		mvInst(left.getOpcode(ISHR));
+		// ISHR (left, right → result) : int arithmetic shift right
+		// LSHR (left, right → result) : bitwise shift right of a
+		// long left by right positions
 	}
 }

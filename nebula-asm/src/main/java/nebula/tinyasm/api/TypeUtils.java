@@ -14,6 +14,39 @@ public class TypeUtils {
 	 */
 	static public final int[] SIZE = buildOpcodeSize();
 
+	static public boolean in(Type type, Type... types) {
+		for (Type type2 : types) {
+			if (type2 == type) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	static public Type checkMathTypes(Type right, Type left) {
+		assert in(right, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE,
+				Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "right value type";
+		assert in(left, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE, Type.FLOAT_TYPE,
+				Type.DOUBLE_TYPE) : "left value type";
+		right = mathInnerUserType(right);
+		left = mathInnerUserType(left);
+		assert left == right : "left type should equal right type";
+		Type innerType = mathInnerUserType(left);
+		return innerType;
+	}
+
+	static public Type mathInnerUserType(Type type) {
+		switch (type.getSort()) {
+		case Type.BYTE:
+		case Type.CHAR:
+		case Type.SHORT:
+			return Type.INT_TYPE;
+		default:
+			break;
+		}
+		return type;
+	}
+
 	static public Type arrayOf(Class<?> clz) {
 		return arrayOf(typeOf(clz), true);
 	};
@@ -262,7 +295,6 @@ public class TypeUtils {
 		// System.err.println();
 	}
 
-
 	static public String concat(String... strs) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(strs[0]);
@@ -295,7 +327,6 @@ public class TypeUtils {
 	static public <T> T firstOf(T[] values) {
 		return values[0];
 	}
-
 
 	static public String[] namesOf(Class<?>... classes) {
 		String[] types = new String[classes.length];
@@ -367,8 +398,7 @@ public class TypeUtils {
 
 	static public String toSimpleName(String name) {
 		int index = name.lastIndexOf('.');
-		if (index < 0)
-			index = name.lastIndexOf('/');
+		if (index < 0) index = name.lastIndexOf('/');
 
 		return name.substring(index + 1);
 	}

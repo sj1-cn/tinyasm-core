@@ -64,14 +64,14 @@ class InstanceMethodBuilder extends
 	@Override
 	@Deprecated
 	public InstanceMethodCode init() {
-		aLoadObject(THIS);
+		LOADThis();
 		INVOKESPECIAL(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
 		return code();
 	}
 
 	@Override
 	public ClassThisInstance deperatedLoadThis() {
-		loadObject(THIS);
+		LOADThis();
 		return thisInstance;
 	}
 

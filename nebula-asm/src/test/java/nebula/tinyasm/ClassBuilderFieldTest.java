@@ -52,184 +52,184 @@ public class ClassBuilderFieldTest {
 		
 		cw.publicMethod(Type.INT_TYPE,"getField").code(mc->{
 			mc.def("x", int.class);
-			mc.line(14).load("this");
+			mc.line(14).LOAD("this");
 			mc.GETFIELD("b", Type.BYTE_TYPE);
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("i", Type.INT_TYPE);
 			mc.ADD();
-			mc.store("x");
-			mc.line(15).load("x");
-			mc.returnTopValue();
+			mc.STORE("x");
+			mc.line(15).LOAD("x");
+			mc.retTop();
 		});
 
 		cw.publicMethod(Type.INT_TYPE,"getFieldAll").code(mc->{
 			mc.def("x", int.class);
-			mc.line(19).load("this");
+			mc.line(19).LOAD("this");
 			mc.GETFIELD("b", Type.BYTE_TYPE);
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("c", Type.CHAR_TYPE);
 			mc.ADD();
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("s", Type.SHORT_TYPE);
 			mc.ADD();
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("i", Type.INT_TYPE);
 			mc.ADD();
 			mc.CONVERTTO(Type.LONG_TYPE);
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("l", Type.LONG_TYPE);
 			mc.ADD();
 			mc.CONVERTTO(Type.FLOAT_TYPE);
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("f", Type.FLOAT_TYPE);
 			mc.ADD();
 			mc.CONVERTTO(Type.DOUBLE_TYPE);
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("d", Type.DOUBLE_TYPE);
 			mc.ADD();
 			mc.CONVERTTO(Type.INT_TYPE);
-			mc.store("x");
-			mc.line(20).load("x");
-			mc.returnTopValue();
+			mc.STORE("x");
+			mc.line(20).LOAD("x");
+			mc.retTop();
 		});
 
 		cw.publicMethod(int.class,"getFieldConst").code(mc->{
-			mc.line(24).load("this");
-			mc.loadConstByte(100);
+			mc.line(24).LOAD("this");
+			mc.LOADConstByte(100);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
-			mc.line(25).load("this");
-			mc.ldcShort(1000);
+			mc.line(25).LOAD("this");
+			mc.LOADConstShort(1000);
 			mc.PUTFIELD("c", Type.CHAR_TYPE);
-			mc.line(26).load("this");
-			mc.ldcShort(10000);
+			mc.line(26).LOAD("this");
+			mc.LOADConstShort(10000);
 			mc.PUTFIELD("s", Type.SHORT_TYPE);
 
-			mc.line(27).load("this");
-			mc.loadConst(100000);
+			mc.line(27).LOAD("this");
+			mc.LOADConst(100000);
 			mc.PUTFIELD("i", Type.INT_TYPE);
 
-			mc.line(28).load("this");
-			mc.loadConst(1000000L);
+			mc.line(28).LOAD("this");
+			mc.LOADConst(1000000L);
 			mc.PUTFIELD("l", Type.LONG_TYPE);
 			
-			mc.line(29).load("this");
-			mc.loadConst(1.0E7F);
+			mc.line(29).LOAD("this");
+			mc.LOADConst(1.0E7F);
 			mc.PUTFIELD("f", Type.FLOAT_TYPE);
 
 
-			mc.line(30).load("this");
-			mc.loadConst(1.0E8D);
+			mc.line(30).LOAD("this");
+			mc.LOADConst(1.0E8D);
 			mc.PUTFIELD("d", Type.DOUBLE_TYPE);
 			
-			mc.line(31).load("this");
-			mc.loadConst("1000000000s");
+			mc.line(31).LOAD("this");
+			mc.LOADConst("1000000000s");
 			mc.PUTFIELD("str", Type.getType(String.class));
 			
-			mc.line(32).load("this");
+			mc.line(32).LOAD("this");
 			mc.GETFIELD("b", Type.BYTE_TYPE);
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("c", Type.CHAR_TYPE);
 			mc.ADD();
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("s", Type.SHORT_TYPE);
 			mc.ADD();
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("i", Type.INT_TYPE);
 			mc.ADD();
 			mc.CONVERTTO(Type.LONG_TYPE);
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("l", Type.LONG_TYPE);
 			mc.ADD();
 			mc.CONVERTTO(Type.FLOAT_TYPE);
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("f", Type.FLOAT_TYPE);
 			mc.ADD();
 			mc.CONVERTTO(Type.DOUBLE_TYPE);
-			mc.load("this");
+			mc.LOAD("this");
 			mc.GETFIELD("d", Type.DOUBLE_TYPE);
 			mc.ADD();
 
 			mc.CONVERTTO(Type.INT_TYPE);
-			mc.returnTopValue();
+			mc.retTop();
 
 		});
 		
 		cw.publicMethod(Type.INT_TYPE,"getFieldIConst").code(mc->{
 
 			int i = 36;
-			mc.line(i++).load("this");
-			mc.loadConstByte(0);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(0);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 
-			mc.line(i++).load("this");
-			mc.loadConstByte(1);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(1);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 
-			mc.line(i++).load("this");
-			mc.loadConstByte(2);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(2);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 
-			mc.line(i++).load("this");
-			mc.loadConstByte(3);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(3);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 
-			mc.line(i++).load("this");
-			mc.loadConstByte(4);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(4);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 
-			mc.line(i++).load("this");
-			mc.loadConstByte(5);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(5);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 
-			mc.line(i++).load("this");
-			mc.loadConstByte(6);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(6);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 
-			mc.line(i++).load("this");
-			mc.loadConstByte(7);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(7);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 
-			mc.line(i++).load("this");
-			mc.loadConstByte(8);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(8);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 			
 			
-			mc.line(i++).load("this");
-			mc.loadConstByte(-4);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(-4);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 
-			mc.line(i++).load("this");
-			mc.loadConstByte(-3);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(-3);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 			
-			mc.line(i++).load("this");
-			mc.loadConstByte(-2);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(-2);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 
 
-			mc.line(i++).load("this");
-			mc.loadConstByte(-1);
+			mc.line(i++).LOAD("this");
+			mc.LOADConstByte(-1);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
 			
-			mc.line(i++).load("this");
+			mc.line(i++).LOAD("this");
 			mc.GETFIELD("b", Type.BYTE_TYPE);
-			mc.returnTopValue();
+			mc.retTop();
 
 		});
 
 		cw.publicMethod(Type.getType(String.class),"getFieldStr").code(mc->{
 			mc.def("xstr", Type.getType(String.class), false);
-			mc.line(53).loadConst("hello ");
-			mc.store("xstr");
+			mc.line(53).LOADConst("hello ");
+			mc.STORE("xstr");
 			mc.line(54).NEW(Type.getType(StringBuilder.class));
 			mc.DUP();
-			mc.load("xstr");
+			mc.LOAD("xstr");
 			mc.INVOKESTATIC(Type.getType(String.class),Type.getType(String.class), "valueOf",Type.getType(Object.class));
 			mc.INVOKESPECIAL(Type.getType(StringBuilder.class),Type.VOID_TYPE, "<init>",Type.getType(String.class));
-			mc.loadThis();
+			mc.LOADThis();
 			mc.GETFIELD("str", Type.getType(String.class));
 			mc.invokeVirtual_op(Type.getType(StringBuilder.class),Type.getType(StringBuilder.class), "append",Type.getType(String.class));
-			mc.loadConst("!");
+			mc.LOADConst("!");
 			mc.invokeVirtual_op(Type.getType(StringBuilder.class),Type.getType(StringBuilder.class), "append",Type.getType(String.class));
 			mc.invokeVirtual_op(Type.getType(StringBuilder.class),Type.getType(String.class), "toString");
 			mc.STORE("xstr");
@@ -239,26 +239,26 @@ public class ClassBuilderFieldTest {
 		cw.publicMethod(Type.BYTE_TYPE,"retByte").code(mc->{
 			mc.def("x",Type.BYTE_TYPE, false);
 			mc.def("y",Type.BYTE_TYPE, false);
-			mc.line(59).loadConstByte(1);
-			mc.store("x");
-			mc.line().load("x");
-			mc.loadConstByte(1);
+			mc.line(59).LOADConstByte(1);
+			mc.STORE("x");
+			mc.line().LOAD("x");
+			mc.LOADConstByte(1);
 			mc.ADD();
 			mc.CONVERTTO(Type.BYTE_TYPE);
-			mc.store("x");
+			mc.STORE("x");
 			
-			mc.line().loadThis();
-			mc.loadConstByte(10);
+			mc.line().LOADThis();
+			mc.LOADConstByte(10);
 			mc.PUTFIELD("b", Type.BYTE_TYPE);
-			mc.line().loadThis();
+			mc.line().LOADThis();
 			mc.GETFIELD("b", Type.BYTE_TYPE);
-			mc.store("x");
-			mc.line().loadThis();
+			mc.STORE("x");
+			mc.line().LOADThis();
 			mc.GETFIELD("b", Type.BYTE_TYPE);
-			mc.load("x");
+			mc.LOAD("x");
 			mc.ADD();
 			mc.CONVERTTO(Type.BYTE_TYPE);
-			mc.store("y");
+			mc.STORE("y");
 			mc.line().ret("y");			
 		});
 		

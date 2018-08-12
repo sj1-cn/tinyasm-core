@@ -32,20 +32,20 @@ public class EnumBuilder implements Opcodes {
 				for (int i = 0; i < names.length; i++) {
 					mc.NEW(objectType);
 					mc.DUP();
-					mc.loadConst(names[i]);
-					mc.loadConstByte(i);
+					mc.LOADConst(names[i]);
+					mc.LOADConstByte(i);
 					mc.INVOKESPECIAL(objectType, Type.VOID_TYPE, "<init>", Type.getType(String.class), Type.INT_TYPE);
 					mc.PUTSTATIC(objectType, names[i], objectType);
 				}
 
-				mc.line(3).loadConstByte(names.length);
+				mc.line(3).LOADConstByte(names.length);
 				mc.NEWARRAY(objectType);
 
 				for (int i = 0; i < names.length; i++) {
 					mc.DUP();
-					mc.loadConstByte(i);
+					mc.LOADConstByte(i);
 					mc.GETSTATIC(objectType, names[i], objectType);
-					mc.AASTORE();
+					mc.ARRAYSTORE();
 				}
 				mc.PUTSTATIC(objectType, "ENUM$VALUES", arrayOf(objectType));
 				mc.ret();
@@ -53,9 +53,9 @@ public class EnumBuilder implements Opcodes {
 		});
 
 		cb.privateMethod("<init>").parameter("name", String.class).parameter("value", int.class).code(mc -> {
-			mc.line(3).loadThis();
-			mc.load("name");
-			mc.load("value");
+			mc.line(3).LOADThis();
+			mc.LOAD("name");
+			mc.LOAD("value");
 			mc.INVOKESPECIAL(Enum.class, "<init>", String.class, int.class);
 			mc.ret();
 		});
@@ -69,18 +69,17 @@ public class EnumBuilder implements Opcodes {
 			mc.DUP();
 			mc.STORE("vs");
 
-			mc.loadConstByte(0);
-			mc.load("vs");
+			mc.LOADConstByte(0);
+			mc.LOAD("vs");
 			mc.ARRAYLENGTH();
 			mc.DUP();
-			mc.store("length");
+			mc.STORE("length");
 			mc.NEWARRAY(objectType);
 			mc.DUP();
-			;
-			mc.store("newvs");
+			mc.STORE("newvs");
 
-			mc.loadConstByte(0);
-			mc.load("length");
+			mc.LOADConstByte(0);
+			mc.LOAD("length");
 
 			mc.INVOKESTATIC(System.class, "arraycopy", Object.class, int.class, Object.class, int.class, int.class);
 			mc.ret("newvs");
@@ -88,8 +87,8 @@ public class EnumBuilder implements Opcodes {
 
 		cb.publicStaticMethod(objectType, "valueOf").parameter("name", String.class).code(mc -> {
 			mc.line(1);
-			mc.loadConst(objectType);
-			mc.load("name");
+			mc.LOADConst(objectType);
+			mc.LOAD("name");
 			mc.INVOKESTATIC(Enum.class, Enum.class, "valueOf", Class.class, String.class);
 			mc.CHECKCAST(objectType);
 			mc.retTop();

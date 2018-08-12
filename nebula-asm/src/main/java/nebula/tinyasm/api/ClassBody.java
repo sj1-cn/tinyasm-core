@@ -53,7 +53,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 		publicMethod(fieldType, toPropertyGetName(fieldName, fieldType)).code(mc -> {
 			mc.deperatedLoadThis()
 					.get(fieldName, fieldType);
-			mc.returnTop(fieldType);
+			mc.retTop();
 		});
 		return this;
 	}
@@ -71,7 +71,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 				.code(mc -> {
 					mc.deperatedLoadThis()
 							.put(fieldName, fieldName);
-					mc.returnVoid();
+					mc.ret();
 				});
 		return this;
 	}
@@ -82,7 +82,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 				.code(mc -> {
 					mc.deperatedLoadThis()
 							.put(fieldName, fieldName);
-					mc.returnVoid();
+					mc.ret();
 				});
 		return this;
 	}
@@ -94,7 +94,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 				.code(mc -> {
 					mc.deperatedLoadThis()
 							.put(fieldName, fieldName);
-					mc.returnVoid();
+					mc.ret();
 				});
 		return this;
 	}
@@ -142,7 +142,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 	default ClassBody publicInitNone() {
 		publicMethod("<init>").code(mc -> {
 			mc.init();
-			mc.returnVoid();
+			mc.ret();
 		});
 		return this;
 	}
@@ -156,7 +156,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 						mc.deperatedLoadThis()
 								.put(param.name, param.name);
 					}
-					mc.returnVoid();
+					mc.ret();
 				});
 		return this;
 	}
@@ -169,7 +169,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 					.code(mc -> {
 						mc.deperatedLoadThis();
 						for (Field param : superFields) {
-							mc.load(param.name);
+							mc.LOAD(param.name);
 						}
 						mc.type(getSuperType())
 								.invokeSpecial("<init>", typeOf(superFields));
@@ -178,7 +178,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 							mc.deperatedLoadThis()
 									.put(param.name, param.name);
 						}
-						mc.returnVoid();
+						mc.ret();
 					});
 			return this;
 		} else {
@@ -186,12 +186,12 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 					.code(mc -> {
 						mc.deperatedLoadThis();
 						for (Field param : superFields) {
-							mc.load(param.name);
+							mc.LOAD(param.name);
 						}
 						mc.type(getSuperType())
 								.invokeSpecial("<init>", typeOf(superFields));
 
-						mc.returnVoid();
+						mc.ret();
 					});
 			return this;
 		}
@@ -205,7 +205,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 					.code(mc -> {
 						mc.deperatedLoadThis();
 						for (Field param : superFields) {
-							mc.load(param.name);
+							mc.LOAD(param.name);
 						}
 						mc.type(getSuperType())
 								.invokeSpecial("<init>", typeOf(superFields));
@@ -214,7 +214,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 							mc.deperatedLoadThis()
 									.put(param.name, param.name);
 						}
-						mc.returnVoid();
+						mc.ret();
 					});
 			return this;
 		} else {
@@ -222,12 +222,12 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 					.code(mc -> {
 						mc.deperatedLoadThis();
 						for (Field param : superFields) {
-							mc.load(param.name);
+							mc.LOAD(param.name);
 						}
 						mc.type(getSuperType())
 								.invokeSpecial("<init>", typeOf(superFields));
 
-						mc.returnVoid();
+						mc.ret();
 					});
 			return this;
 		}
@@ -267,7 +267,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 							.invokeVirtual(StringBuilder.class, "append", String.class);
 					mc.type(StringBuilder.class)
 							.invokeVirtual(String.class, "toString");
-					mc.returnObject();
+					mc.retTop();
 				});
 		return this;
 	}
@@ -310,7 +310,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 							.invokeVirtual(StringBuilder.class, "append", String.class);
 					mc.type(StringBuilder.class)
 							.invokeVirtual(String.class, "toString");
-					mc.returnObject();
+					mc.retTop();
 				});
 		return this;
 	}

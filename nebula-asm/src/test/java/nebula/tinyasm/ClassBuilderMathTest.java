@@ -42,32 +42,32 @@ public class ClassBuilderMathTest {
 		// @formatter:off
 
 		cw.publicMethod(Type.INT_TYPE, "add").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
-			mc.line(5).load("x");
-			mc.load("y");
+			mc.line(5).LOAD("x");
+			mc.LOAD("y");
 			mc.ADD();
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.INT_TYPE, "mul").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
-			mc.line(9).load("x");
-			mc.load("y");
+			mc.line(9).LOAD("x");
+			mc.LOAD("y");
 			mc.MUL();
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.INT_TYPE, "sub").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
-			mc.line(13).load("x");
-			mc.load("y");
+			mc.line(13).LOAD("x");
+			mc.LOAD("y");
 			mc.SUB();
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.INT_TYPE, "div").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
-			mc.line(17).load("x");
-			mc.load("y");
+			mc.line(17).LOAD("x");
+			mc.LOAD("y");
 			mc.DIV();
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.INT_TYPE, "rem").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
-			mc.line(21).load("x");
-			mc.load("y");
+			mc.line(21).LOAD("x");
+			mc.LOAD("y");
 			mc.REM();
 			mc.IRETURN();
 		});
@@ -75,36 +75,36 @@ public class ClassBuilderMathTest {
 
 
 		cw.publicMethod(Type.BYTE_TYPE, "add").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
-			mc.line(25).load("x");
-			mc.load("y");
+			mc.line(25).LOAD("x");
+			mc.LOAD("y");
 			mc.ADD();
 			mc.CONVERTTO(Type.BYTE_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.BYTE_TYPE, "mul").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
-			mc.line(29).load("x");
-			mc.load("y");
+			mc.line(29).LOAD("x");
+			mc.LOAD("y");
 			mc.MUL();
 			mc.CONVERTTO(Type.BYTE_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.BYTE_TYPE, "sub").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
-			mc.line(33).load("x");
-			mc.load("y");
+			mc.line(33).LOAD("x");
+			mc.LOAD("y");
 			mc.SUB();
 			mc.CONVERTTO(Type.BYTE_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.BYTE_TYPE, "div").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
-			mc.line(37).load("x");
-			mc.load("y");
+			mc.line(37).LOAD("x");
+			mc.LOAD("y");
 			mc.DIV();
 			mc.CONVERTTO(Type.BYTE_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.BYTE_TYPE, "rem").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
-			mc.line(41).load("x");
-			mc.load("y");
+			mc.line(41).LOAD("x");
+			mc.LOAD("y");
 			mc.REM();
 			mc.CONVERTTO(Type.BYTE_TYPE);
 			mc.IRETURN();
@@ -113,36 +113,36 @@ public class ClassBuilderMathTest {
 		
 
 		cw.publicMethod(Type.SHORT_TYPE, "add").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
-			mc.line(45).load("x");
-			mc.load("y");
+			mc.line(45).LOAD("x");
+			mc.LOAD("y");
 			mc.ADD();
 			mc.CONVERTTO(Type.SHORT_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.SHORT_TYPE, "mul").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
-			mc.line(49).load("x");
-			mc.load("y");
+			mc.line(49).LOAD("x");
+			mc.LOAD("y");
 			mc.MUL();
 			mc.CONVERTTO(Type.SHORT_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.SHORT_TYPE, "sub").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
-			mc.line(53).load("x");
-			mc.load("y");
+			mc.line(53).LOAD("x");
+			mc.LOAD("y");
 			mc.SUB();
 			mc.CONVERTTO(Type.SHORT_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.SHORT_TYPE, "div").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
-			mc.line(57).load("x");
-			mc.load("y");
+			mc.line(57).LOAD("x");
+			mc.LOAD("y");
 			mc.DIV();
 			mc.CONVERTTO(Type.SHORT_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.SHORT_TYPE, "rem").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
-			mc.line(61).load("x");
-			mc.load("y");
+			mc.line(61).LOAD("x");
+			mc.LOAD("y");
 			mc.REM();
 			mc.CONVERTTO(Type.SHORT_TYPE);
 			mc.IRETURN();
@@ -152,68 +152,68 @@ public class ClassBuilderMathTest {
 		
 
 		cw.publicMethod(Type.LONG_TYPE, "add").parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
-			mc.line(65).load("x");
-			mc.load("y");
+			mc.line(65).LOAD("x");
+			mc.LOAD("y");
 			mc.ADD();
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.LONG_TYPE, "mul").parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
-			mc.line(69).load("x");
-			mc.load("y");
+			mc.line(69).LOAD("x");
+			mc.LOAD("y");
 			mc.MUL();
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.LONG_TYPE, "sub").parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
-			mc.line(73).load("x");
-			mc.load("y");
+			mc.line(73).LOAD("x");
+			mc.LOAD("y");
 			mc.SUB();
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.LONG_TYPE, "div").parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
-			mc.line(77).load("x");
-			mc.load("y");
+			mc.line(77).LOAD("x");
+			mc.LOAD("y");
 			mc.DIV();
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.LONG_TYPE, "rem").parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
-			mc.line(81).load("x");
-			mc.load("y");
+			mc.line(81).LOAD("x");
+			mc.LOAD("y");
 			mc.REM();
 			mc.IRETURN();
 		});
 		
 
 		cw.publicMethod(Type.CHAR_TYPE, "add").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
-			mc.line(85).load("x");
-			mc.load("y");
+			mc.line(85).LOAD("x");
+			mc.LOAD("y");
 			mc.ADD();
 			mc.CONVERTTO(Type.CHAR_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.CHAR_TYPE, "mul").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
-			mc.line(89).load("x");
-			mc.load("y");
+			mc.line(89).LOAD("x");
+			mc.LOAD("y");
 			mc.MUL();
 			mc.CONVERTTO(Type.CHAR_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.CHAR_TYPE, "sub").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
-			mc.line(93).load("x");
-			mc.load("y");
+			mc.line(93).LOAD("x");
+			mc.LOAD("y");
 			mc.SUB();
 			mc.CONVERTTO(Type.CHAR_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.CHAR_TYPE, "div").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
-			mc.line(97).load("x");
-			mc.load("y");
+			mc.line(97).LOAD("x");
+			mc.LOAD("y");
 			mc.DIV();
 			mc.CONVERTTO(Type.CHAR_TYPE);
 			mc.IRETURN();
 		});
 		cw.publicMethod(Type.CHAR_TYPE, "rem").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
-			mc.line(101).load("x");
-			mc.load("y");
+			mc.line(101).LOAD("x");
+			mc.LOAD("y");
 			mc.REM();
 			mc.CONVERTTO(Type.CHAR_TYPE);
 			mc.IRETURN();

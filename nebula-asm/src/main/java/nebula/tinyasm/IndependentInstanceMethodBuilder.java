@@ -57,7 +57,7 @@ class IndependentInstanceMethodBuilder extends
 
 	@Override
 	public IndependentMethodCaller useThis() {
-		load(THIS);
+		LOAD(THIS);
 		return new IndependentMethodCallerImpl(thisMethod.type);
 	}
 
