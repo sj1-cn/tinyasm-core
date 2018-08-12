@@ -688,6 +688,7 @@ public interface SmartOpcode {
 	default void NEW(Class<?> objectref) {
 		NEW(typeOf(objectref));
 	}
+
 	default void NEW(Type objectref) {
 		codePush(objectref);
 		mvTypeInsn(NEW, objectref);
@@ -1194,8 +1195,12 @@ public interface SmartOpcode {
 		// constant pool (indexbyte1 << 8 + indexbyte2)
 	}
 
+	default void INVOKEVIRTUAL(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
+		INVOKEVIRTUAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	}
+
 	@SuppressWarnings("unused")
-	default void invokeVirtual_op(Type objectType, Type returnType, String methodName, Type... paramTypes) {
+	default void INVOKEVIRTUAL(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
 			codePopStack();
 		}

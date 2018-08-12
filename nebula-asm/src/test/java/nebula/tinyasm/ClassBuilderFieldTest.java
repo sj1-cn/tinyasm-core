@@ -228,10 +228,10 @@ public class ClassBuilderFieldTest {
 			mc.INVOKESPECIAL(Type.getType(StringBuilder.class),Type.VOID_TYPE, "<init>",Type.getType(String.class));
 			mc.LOADThis();
 			mc.GETFIELD("str", Type.getType(String.class));
-			mc.invokeVirtual_op(Type.getType(StringBuilder.class),Type.getType(StringBuilder.class), "append",Type.getType(String.class));
+			mc.INVOKEVIRTUAL(Type.getType(StringBuilder.class),Type.getType(StringBuilder.class), "append",Type.getType(String.class));
 			mc.LOADConst("!");
-			mc.invokeVirtual_op(Type.getType(StringBuilder.class),Type.getType(StringBuilder.class), "append",Type.getType(String.class));
-			mc.invokeVirtual_op(Type.getType(StringBuilder.class),Type.getType(String.class), "toString");
+			mc.INVOKEVIRTUAL(Type.getType(StringBuilder.class),Type.getType(StringBuilder.class), "append",Type.getType(String.class));
+			mc.INVOKEVIRTUAL(Type.getType(StringBuilder.class),Type.getType(String.class), "toString");
 			mc.STORE("xstr");
 			mc.line(55).RETURN("xstr");	
 		});

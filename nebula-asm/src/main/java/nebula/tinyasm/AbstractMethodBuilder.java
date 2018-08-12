@@ -71,35 +71,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 			invocation.accept(code());
 			return caller();
 		}
-
-		@Override
-		public Instance<M, C> get(String fieldName, Type fieldType) {
-			GETFIELD(fieldName, fieldType);
-			return code().type(fieldType);
-		}
-
-		@Override
-		public Instance<M, C> getStatic(String fieldName, Type fieldType) {
-			GETSTATIC(getStackTopType(), fieldName, fieldType);
-			return code().type(fieldType);
-		}
-
-		@Override
-		public C putStaticTo(String fieldName, Type fieldType) {
-			PUTSTATIC(getStackTopType(), fieldName, fieldType);
-			return code();
-		}
-
-		@Override
-		public C putTo(String fieldName, Type fieldType) {
-			PUTFIELD(fieldName, fieldType);
-			return code();
-		}
-
-		@Override
-		public void invoke(Type objectType, int invoketype, Type returnType, String methodName, Type... params) {
-			invoke_op(invoketype, objectType, returnType, methodName, params);
-		}
 	}
 
 	class Annotation {
@@ -143,35 +114,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		@Override
 		public M use() {
 			return AbstractMethodBuilder.this.useStackTop(thisMethod.returnType);
-		}
-
-		@Override
-		public Instance<M, C> get(String fieldName, Type fieldType) {
-			GETFIELD(fieldName, fieldType);
-			return code().type(fieldType);
-		}
-
-		@Override
-		public Instance<M, C> getStatic(String fieldName, Type fieldType) {
-			GETSTATIC(getStackTopType(), fieldName, fieldType);
-			return code().type(fieldType);
-		}
-
-		@Override
-		public C putStaticTo(String fieldName, Type fieldType) {
-			PUTSTATIC(getStackTopType(), fieldName, fieldType);
-			return code();
-		}
-
-		@Override
-		public C putTo(String fieldName, Type fieldType) {
-			PUTFIELD(fieldName, fieldType);
-			return code();
-		}
-
-		@Override
-		public void invoke(Type objectType, int invoketype, Type returnType, String methodName, Type... params) {
-			invoke_op(invoketype, objectType, returnType, methodName, params);
 		}
 	}
 

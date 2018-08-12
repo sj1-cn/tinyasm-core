@@ -51,7 +51,8 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 
 	default ClassBody definePropertyGet(final String fieldName, final Type fieldType) {
 		publicMethod(fieldType, toPropertyGetName(fieldName, fieldType)).code(mc -> {
-			mc.LOADThis();mc.GETFIELD(fieldName, fieldType);
+			mc.LOADThis();
+			mc.GETFIELD(fieldName, fieldType);
 			mc.RETURNTop();
 		});
 		return this;
@@ -133,7 +134,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 
 	default ClassBody publicInitNone() {
 		publicMethod("<init>").code(mc -> {
-			mc.init();
+			mc.INITObject();
 			mc.RETURN();
 		});
 		return this;
@@ -142,9 +143,9 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 	default ClassBody publicInitAllFields() {
 		final List<Field> fields = getFields();
 		publicMethod("<init>").parameter(fields).code(mc -> {
-			mc.init();
+			mc.INITObject();
 			for (Field param : fields) {
-				mc.PUTFIELD("this", param.name, param.name,param.type);;
+				mc.PUTFIELD("this", param.name, param.name, param.type);
 			}
 			mc.RETURN();
 		});
@@ -158,10 +159,11 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
-				mc.type(getSuperType()).invokeSpecial("<init>", typeOf(superFields));
+				mc.INVOKESPECIAL(getSuperType(), Type.VOID_TYPE, "<init>", typeOf(superFields));
 
 				for (Field param : this.getFields()) {
-					mc.PUTFIELD("this", param.name, param.name,param.type);;
+					mc.PUTFIELD("this", param.name, param.name, param.type);
+					;
 				}
 				mc.RETURN();
 			});
@@ -172,7 +174,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
-				mc.type(getSuperType()).invokeSpecial("<init>", typeOf(superFields));
+				mc.INVOKESPECIAL(getSuperType(), Type.VOID_TYPE, "<init>", typeOf(superFields));
 
 				mc.RETURN();
 			});
@@ -187,10 +189,10 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
-				mc.type(getSuperType()).invokeSpecial("<init>", typeOf(superFields));
+				mc.INVOKESPECIAL(getSuperType(), Type.VOID_TYPE, "<init>", typeOf(superFields));
 
 				for (Field param : this.getFields()) {
-					mc.PUTFIELD("this", param.name, param.name,param.type);
+					mc.PUTFIELD("this", param.name, param.name, param.type);
 				}
 				mc.RETURN();
 			});
@@ -201,7 +203,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
-				mc.type(getSuperType()).invokeSpecial("<init>", typeOf(superFields));
+				mc.INVOKESPECIAL(getSuperType(), Type.VOID_TYPE, "<init>", typeOf(superFields));
 
 				mc.RETURN();
 			});
@@ -216,26 +218,28 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 
 			mc.DUP();
 			mc.LOADConst(toSimpleName(getStackTopType().getClassName()) + "(");
-			mc.type(StringBuilder.class).invokeSpecial("<init>", String.class);
+
+			mc.INVOKESPECIAL(StringBuilder.class, "<init>", String.class);
 
 			for (int i = 0; i < fields.size(); i++) {
 				Field field = fields.get(i);
 				if (i != 0) {
 					mc.LOADConst(",");
-					mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
+					mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
 				}
 
 				mc.LOADConst(field.name + "=");
-				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
+				mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
 
-				mc.LOADThis();mc.GETFIELD(field.name, field.type);
-				
-				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", field.type);
+				mc.LOADThis();
+				mc.GETFIELD(field.name, field.type);
+
+				mc.INVOKEVIRTUAL(typeOf(StringBuilder.class), typeOf(StringBuilder.class), "append", field.type);
 			}
 
 			mc.LOADConst(")");
-			mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
-			mc.type(StringBuilder.class).invokeVirtual(String.class, "toString");
+			mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
+			mc.INVOKEVIRTUAL(StringBuilder.class, String.class, "toString");
 			mc.RETURNTop();
 		});
 		return this;
@@ -252,24 +256,25 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 
 			mc.DUP();
 			mc.LOADConst(toSimpleName(getStackTopType().getClassName()) + "(");
-			mc.type(StringBuilder.class).invokeSpecial("<init>", String.class);
+			mc.INVOKESPECIAL(StringBuilder.class, "<init>", String.class);
 
 			for (int i = 0; i < fields.size(); i++) {
 				Field field = fields.get(i);
 				if (i != 0) {
 					mc.LOADConst(",");
-					mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
+					mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
 				}
 
 				mc.LOADConst(field.name + "=");
-				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
-				mc.LOADThis();mc.GETFIELD(field.name, field.type);
-				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", field.type);
+				mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
+				mc.LOADThis();
+				mc.GETFIELD(field.name, field.type);
+				mc.INVOKEVIRTUAL(typeOf(StringBuilder.class), typeOf(StringBuilder.class), "append", field.type);
 			}
 
 			mc.LOADConst(")");
-			mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
-			mc.type(StringBuilder.class).invokeVirtual(String.class, "toString");
+			mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
+			mc.INVOKEVIRTUAL(StringBuilder.class, String.class, "toString");
 			mc.RETURNTop();
 		});
 		return this;

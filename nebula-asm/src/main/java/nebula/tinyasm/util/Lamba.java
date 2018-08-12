@@ -41,7 +41,8 @@ public class Lamba {
 				mc.LOAD("this");
 				mc.LOAD("consumer");
 				mc.CHECKCAST(consumeType);
-				mc.useTopThis().invokeVirtual("accept", consumeType);
+				mc.LOADThis();
+				mc.INVOKEVIRTUAL(objectType, consumeType, "call");
 				mc.RETURN();
 			});
 
@@ -69,7 +70,7 @@ public class Lamba {
 
 		cb.publicMethod(consumeType, "call", Exception.class).code(invocation);
 		cb.method(ACC_PUBLIC + ACC_BRIDGE + ACC_SYNTHETIC, Object.class, "call", Exception.class).code(mc -> {
-			mc.useThis().invokeVirtual(consumeType, "call");
+			mc.INVOKEVIRTUAL(objectType, consumeType, "call");
 			mc.RETURNTop();
 		});
 
