@@ -49,10 +49,18 @@ public class ClassBuilderField {
 		return b;
 	}
 
-//	
-//	public String getFieldStr() {
-//		String xstr = "wee";
-//		xstr = xstr + str;
-//		return xstr;
-//	}
+	public String getFieldStr() {
+		String xstr = "hello ";
+		xstr = xstr + str + "!";
+		return xstr;
+	}
+
+	public byte retByte() {
+		byte x = 1;
+		x = (byte) (x + 1);
+		b = 10;
+		x = b;
+		byte y = (byte) (b + x);
+		return y;
+	}
 }

@@ -83,6 +83,7 @@ public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 	void ldcInsn(Object cst);
 
 	C line(int line);
+	C line();
 
 	@Deprecated
 	Instance<M, C> loadObject(String variableName);

@@ -86,23 +86,23 @@ public class MyBankAccountBuilderTest {
 
 		cw.privateMethod("onMoneySubtracted").parameter("amount", long.class).code(mc -> {
 			mc.line(113).load("this");
-			mc.dup();
-			mc.getfield_op("balance", Type.getType(long.class));
+			mc.DUP();
+			mc.GETFIELD("balance", Type.getType(long.class));
 			mc.load("amount");
-			mc.sub_op();
+			mc.SUB();
 			mc.line(114).returnvoid();
 		});
 
 		cw.privateMethod("onMoneyAdded").parameter("amount", long.class).code(mc -> {
 			mc.def("newbalance", long.class);
 			mc.line(107).load("this");
-			mc.getfield_op("balance", Type.getType(long.class));
+			mc.GETFIELD("balance", Type.getType(long.class));
 			mc.load("amount");
-			mc.add_op();
-			mc.store_op("newbalance");
+			mc.ADD();
+			mc.STORE("newbalance");
 			mc.line(108).load("this");
 			mc.load("newbalance");
-			mc.putfield_op("balance", Type.getType(long.class));
+			mc.PUTFIELD("balance", Type.getType(long.class));
 			mc.line(109).returnvoid();
 		});
 		cw.end();
@@ -134,9 +134,9 @@ public class MyBankAccountBuilderTest {
 //			mc.def("newbalance", long.class);
 
 			mc.line(107).load("this");
-			mc.getfield_op("balance", Type.getType(long.class));
+			mc.GETFIELD("balance", Type.getType(long.class));
 			mc.load("amount");
-			mc.add_op();
+			mc.ADD();
 //			mc.store_op("newbalance");
 
 //			mc.line(108).load("this");
@@ -168,7 +168,7 @@ public class MyBankAccountBuilderTest {
 		Type type = Type.getObjectType("com/nebula/dropwizard/core/Status");
 
 		byte[] code = EnumBuilder.dump(type, "STARTED", "FAILED", "COMPLETED");
-		byte[] codeExpected = StatusDump.dump();
+		byte[] codeExpected = EnumBuilderSampleDump.dump();
 
 		String strCode = toString(code);
 		String strCodeExpected = toString(codeExpected);

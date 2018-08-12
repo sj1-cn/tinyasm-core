@@ -65,7 +65,7 @@ class InstanceMethodBuilder extends
 	@Deprecated
 	public InstanceMethodCode init() {
 		aLoadObject(THIS);
-		invokeSpecial_op(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
+		INVOKESPECIAL(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
 		return code();
 	}
 

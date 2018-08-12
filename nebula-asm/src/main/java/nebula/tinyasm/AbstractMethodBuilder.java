@@ -81,25 +81,25 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 		@Override
 		public Instance<M, C> get(String fieldName, Type fieldType) {
-			getfield_op(fieldName, fieldType);
+			GETFIELD(fieldName, fieldType);
 			return code().type(fieldType);
 		}
 
 		@Override
 		public Instance<M, C> getStatic(String fieldName, Type fieldType) {
-			getstatic_op(getStackTopType(), fieldName, fieldType);
+			GETSTATIC(getStackTopType(), fieldName, fieldType);
 			return code().type(fieldType);
 		}
 
 		@Override
 		public C putStaticTo(String fieldName, Type fieldType) {
-			putstatic_op(getStackTopType(), fieldName, fieldType);
+			PUTSTATIC(getStackTopType(), fieldName, fieldType);
 			return code();
 		}
 
 		@Override
 		public C putTo(String fieldName, Type fieldType) {
-			putfield_op(fieldName, fieldType);
+			PUTFIELD(fieldName, fieldType);
 			return code();
 		}
 
@@ -151,7 +151,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		public C put(String varName, Field field) {
 			LocalsVariable var = locals.accessLoad(varName, labelCurrent);
 			mv.visitVarInsn(var.type.getOpcode(ILOAD), var.locals);
-			putfield_op(field.name, stackTopType);
+			PUTFIELD(field.name, stackTopType);
 			return code();
 		}
 
@@ -162,25 +162,25 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 		@Override
 		public Instance<M, C> get(String fieldName, Type fieldType) {
-			getfield_op(fieldName, fieldType);
+			GETFIELD(fieldName, fieldType);
 			return code().type(fieldType);
 		}
 
 		@Override
 		public Instance<M, C> getStatic(String fieldName, Type fieldType) {
-			getstatic_op(getStackTopType(), fieldName, fieldType);
+			GETSTATIC(getStackTopType(), fieldName, fieldType);
 			return code().type(fieldType);
 		}
 
 		@Override
 		public C putStaticTo(String fieldName, Type fieldType) {
-			putstatic_op(getStackTopType(), fieldName, fieldType);
+			PUTSTATIC(getStackTopType(), fieldName, fieldType);
 			return code();
 		}
 
 		@Override
 		public C putTo(String fieldName, Type fieldType) {
-			putfield_op(fieldName, fieldType);
+			PUTFIELD(fieldName, fieldType);
 			return code();
 		}
 
@@ -411,7 +411,24 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		} else {
 			label = labelCurrent;
 		}
+		lastLineNumber = line;
 		mv.visitLineNumber(line, label);
+		return code();
+	}
+
+	int lastLineNumber = 0;
+
+	public C line() {
+		Label label;
+		if (!labelHasDefineBegin) {
+			label = new Label();
+			labelCurrent = label;
+			mv.visitLabel(label);
+		} else {
+			label = labelCurrent;
+		}
+		lastLineNumber = lastLineNumber+1;
+		mv.visitLineNumber(lastLineNumber, label);
 		return code();
 	}
 
@@ -605,7 +622,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	@Override
 	public C putTopTo(Field field) {
 
-		putfield_op(field.name, field.type);
+		PUTFIELD(field.name, field.type);
 		return code();
 	}
 
@@ -644,7 +661,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 	// TODO
 	@Override
-	public void visitTypeInsn(int opcode, Type type) {
+	public void codeTypeInsn(int opcode, Type type) {
 		mv.visitTypeInsn(opcode, type.getInternalName());
 	}
 

@@ -48,9 +48,4 @@ class StaticMethodBuilder
 		return new MethodCallerInStaticMethodImpl(mv, type);
 	}
 
-	@Override
-	public void codeFieldInsn(int opcode, Type ownerType, String name, Type fieldType) {
-		// TODO Auto-generated method stub
-		
-	}
 }

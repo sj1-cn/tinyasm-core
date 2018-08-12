@@ -5,11 +5,24 @@ import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Opcodes.ARRAYLENGTH;
 import static org.objectweb.asm.Opcodes.ASTORE;
+import static org.objectweb.asm.Opcodes.BIPUSH;
 import static org.objectweb.asm.Opcodes.CHECKCAST;
+import static org.objectweb.asm.Opcodes.D2F;
+import static org.objectweb.asm.Opcodes.D2I;
+import static org.objectweb.asm.Opcodes.D2L;
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.DUP2;
+import static org.objectweb.asm.Opcodes.F2D;
+import static org.objectweb.asm.Opcodes.F2I;
+import static org.objectweb.asm.Opcodes.F2L;
 import static org.objectweb.asm.Opcodes.GETFIELD;
 import static org.objectweb.asm.Opcodes.GETSTATIC;
+import static org.objectweb.asm.Opcodes.I2B;
+import static org.objectweb.asm.Opcodes.I2C;
+import static org.objectweb.asm.Opcodes.I2D;
+import static org.objectweb.asm.Opcodes.I2F;
+import static org.objectweb.asm.Opcodes.I2L;
+import static org.objectweb.asm.Opcodes.I2S;
 import static org.objectweb.asm.Opcodes.IADD;
 import static org.objectweb.asm.Opcodes.IALOAD;
 import static org.objectweb.asm.Opcodes.IAND;
@@ -29,14 +42,18 @@ import static org.objectweb.asm.Opcodes.ISHR;
 import static org.objectweb.asm.Opcodes.ISTORE;
 import static org.objectweb.asm.Opcodes.ISUB;
 import static org.objectweb.asm.Opcodes.IXOR;
+import static org.objectweb.asm.Opcodes.L2D;
+import static org.objectweb.asm.Opcodes.L2F;
+import static org.objectweb.asm.Opcodes.L2I;
 import static org.objectweb.asm.Opcodes.LASTORE;
+import static org.objectweb.asm.Opcodes.LCONST_0;
 import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.POP;
 import static org.objectweb.asm.Opcodes.POP2;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
+import static org.objectweb.asm.Opcodes.PUTSTATIC;
 import static org.objectweb.asm.Opcodes.RETURN;
-
-import java.util.function.Consumer;
+import static org.objectweb.asm.Opcodes.SIPUSH;
 
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
@@ -46,73 +63,95 @@ public interface SmartOpcode {
 	default void add(String value1, String value2) {
 		load(value1);
 		load(value2);
-		add_op();
+		ADD();
 	}
 
-	@SuppressWarnings("unused")
-	default void add_op() {
-		Type value2 = codePopStack();
-		Type value1 = codePopStack();
-		Type result = realUseType(value1);
-		codePush(result);
-		codeInst(value1.getOpcode(IADD));
+	default boolean in(Type type, Type... types) {
+		for (Type type2 : types) {
+			if (type2 == type) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	default Type checkMathTypes(Type right, Type left) {
+		assert in(right, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE,
+				Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "right value type";
+		assert in(left, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE, Type.FLOAT_TYPE,
+				Type.DOUBLE_TYPE) : "left value type";
+		right = mathInnerUserType(right);
+		left = mathInnerUserType(left);
+		assert left == right : "left type should equal right type";
+		Type innerType = mathInnerUserType(left);
+		return innerType;
+	}
+
+	default void ADD() {
+		Type typeRightValue = codePopStack();
+		Type typeLeftValue = codePopStack();
+
+		Type type = checkMathTypes(typeRightValue, typeLeftValue);
+		codePush(type);
+
+		codeInst(type.getOpcode(IADD));
 		// DADD (value1, value2 → result) : add two doubles
 		// FADD (value1, value2 → result) : add two floats
 		// IADD (value1, value2 → result) : add two ints
 		// LADD (value1, value2 → result) : add two longs
 	}
 
-	default void mul(String value1, String value2) {
-		load(value1);
-		load(value2);
-		mul_op();
-	}
-
-	@SuppressWarnings("unused")
-	default void mul_op() {
-		Type value2 = codePopStack();
-		Type value1 = codePopStack();
-		Type result = realUseType(value1);
-		codePush(result);
-		codeInst(value1.getOpcode(IMUL));
-		// DMUL (value1, value2 → result) : multiply two doubles
-		// FMUL (value1, value2 → result) : multiply two floats
-		// IMUL (value1, value2 → result) : multiply two integers
-		// LMUL (value1, value2 → result) : multiply two longs
-	}
-
 	default void sub(String value1, String value2) {
 		load(value1);
 		load(value2);
-		sub_op();
+		SUB();
 	}
 
-	@SuppressWarnings("unused")
-	default void sub_op() {
-		Type value2 = codePopStack();
-		Type value1 = codePopStack();
-		Type result = realUseType(value1);
-		codePush(result);
-		codeInst(value1.getOpcode(ISUB));
+	default void SUB() {
+		Type typeRightValue = codePopStack();
+		Type typeLeftValue = codePopStack();
+
+		Type type = checkMathTypes(typeRightValue, typeLeftValue);
+		codePush(type);
+		codeInst(type.getOpcode(ISUB));
 		// DSUB (value1, value2 → result) : subtract a double from another
 		// FSUB (value1, value2 → result) : subtract two floats
 		// ISUB (value1, value2 → result) : int subtract
 		// LSUB (value1, value2 → result) : subtract two longs
 	}
 
+	default void mul(String value1, String value2) {
+		load(value1);
+		load(value2);
+		MUL();
+	}
+
+	default void MUL() {
+		Type typeRightValue = codePopStack();
+		Type typeLeftValue = codePopStack();
+
+		Type type = checkMathTypes(typeRightValue, typeLeftValue);
+		codePush(type);
+		codeInst(type.getOpcode(IMUL));
+		// DMUL (value1, value2 → result) : multiply two doubles
+		// FMUL (value1, value2 → result) : multiply two floats
+		// IMUL (value1, value2 → result) : multiply two integers
+		// LMUL (value1, value2 → result) : multiply two longs
+	}
+
 	default void div(String value1, String value2) {
 		load(value1);
 		load(value2);
-		div_op();
+		DIV();
 	}
 
-	@SuppressWarnings("unused")
-	default void div_op() {
-		Type value2 = codePopStack();
-		Type value1 = codePopStack();
-		Type result = realUseType(value1);
-		codePush(result);
-		codeInst(value1.getOpcode(IDIV));
+	default void DIV() {
+		Type typeRightValue = codePopStack();
+		Type typeLeftValue = codePopStack();
+
+		Type type = checkMathTypes(typeRightValue, typeLeftValue);
+		codePush(type);
+		codeInst(type.getOpcode(IDIV));
 		// DDIV (value1, value2 → result) : divide two doubles
 		// FDIV (value1, value2 → result) : divide two floats
 		// IDIV (value1, value2 → result) : divide two integers
@@ -122,16 +161,16 @@ public interface SmartOpcode {
 	default void rem(String value1, String value2) {
 		load(value1);
 		load(value2);
-		rem_op();
+		REM();
 	}
 
-	@SuppressWarnings("unused")
-	default void rem_op() {
-		Type value2 = codePopStack();
-		Type value1 = codePopStack();
-		Type result = realUseType(value1);
-		codePush(result);
-		codeInst(value1.getOpcode(IREM));
+	default void REM() {
+		Type typeRightValue = codePopStack();
+		Type typeLeftValue = codePopStack();
+
+		Type type = checkMathTypes(typeRightValue, typeLeftValue);
+		codePush(type);
+		codeInst(type.getOpcode(IREM));
 		// DREM (value1, value2 → result) : get the remainder from a division between
 		// two doubles
 		// FREM (value1, value2 → result) : get the remainder from a division between
@@ -140,39 +179,93 @@ public interface SmartOpcode {
 		// LREM (value1, value2 → result) : remainder of division of two longs
 	}
 
-	default void and(String value1, String value2) {
-		load(value1);
-		load(value2);
-		and_op();
-	}
-
 	String _THIS = "this";
 
 	default void initObject(Type type) {
-		aLoadObject_op(type, _THIS);
-		invokeSpecial_op(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
+		ALOAD(type, _THIS);
+		INVOKESPECIAL(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
 	}
 
-	@SuppressWarnings("unused")
-	default void and_op() {
-		Type value2 = codePopStack();
-		Type value1 = codePopStack();
-		Type result = value1;
-		codeInst(value1.getOpcode(IAND));
-		codePush(result);
+	default void and(String value1, String value2) {
+		load(value1);
+		load(value2);
+		AND();
+	}
+
+	default void AND() {
+		Type typeRightValue = codePopStack();
+		Type typeLeftValue = codePopStack();
+
+		Type type = checkMathTypes(typeRightValue, typeLeftValue);
+		codePush(type);
+		codeInst(type.getOpcode(IAND));
 		// IAND (value1, value2 → result) : perform a bitwise and on two integers
 		// LAND (value1, value2 → result) : bitwise and of two longs
 	}
 
+	default void or(String value1, String value2) {
+		load(value1);
+		load(value2);
+		OR();
+	}
+
+	default void OR() {
+		Type typeRightValue = codePopStack();
+		Type typeLeftValue = codePopStack();
+
+		Type type = checkMathTypes(typeRightValue, typeLeftValue);
+		codePush(type);
+		codeInst(type.getOpcode(IOR));
+		// IOR (value1, value2 → result) : bitwise int or
+		// LOR (value1, value2 → result) : bitwise or of two longs
+	}
+
+	default void xor(String value1, String value2) {
+		load(value1);
+		load(value2);
+		XOR();
+	}
+
+	default void XOR() {
+		Type typeRightValue = codePopStack();
+		Type typeLeftValue = codePopStack();
+
+		Type type = checkMathTypes(typeRightValue, typeLeftValue);
+		codePush(type);
+		codeInst(type.getOpcode(IXOR));
+
+		// IXOR (value1, value2 → result) : int xor
+		// LXOR (value1, value2 → result) : bitwise exclusive or of two longs
+	}
+
+	default void NEWARRAY(Type type) {
+		Type count = codePopStack();
+		assert in(count, Type.INT_TYPE, Type.BYTE_TYPE, Type.SHORT_TYPE) : "array count type " + type;
+//		Type arrayref = Type.getType(Object.class); /* TODO */
+
+		Type arrayType = arrayOf(type);
+		codePush(arrayType);
+
+		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) codeTypeInsn(NEWARRAY, type);
+		else if (type.getSort() == Type.ARRAY) codeTypeInsn(ANEWARRAY, type);
+		else if (type.getSort() == Type.OBJECT) codeTypeInsn(ANEWARRAY, type);
+		else if (type.getSort() == Type.VOID) RETURN();
+		else
+			throw new UnsupportedOperationException();
+
+		// NEWARRAY (count → arrayref) : create new array with count elements of
+		// primitive type identified by atype ANEWARRAY, CHECKCAST or INSTANCEOF
+	}
+
 	default void arraylength(String array) {
 		load(array);
-		arraylength_op();
+		ARRAYLENGTH();
 	}
 
 	@SuppressWarnings("unused")
-	default void arraylength_op() {
+	default void ARRAYLENGTH() {
 		Type arrayref = codePopStack();
-		Type length = Type.getType(Integer.class);
+		Type length = Type.INT_TYPE;
 		codeInst(ARRAYLENGTH);
 		codePush(length);
 		// ARRAYLENGTH (arrayref → length) : get the length of an array
@@ -181,11 +274,11 @@ public interface SmartOpcode {
 	default void arrayload(String arrayref, String index, Type valueType) {
 		load(arrayref);
 		load(index);
-		arrayload_op(valueType);
+		opArrayload(valueType);
 	}
 
 	@SuppressWarnings("unused")
-	default void arrayload_op(Type value) {
+	default void opArrayload(Type value) {
 		Type index = codePopStack();
 		Type arrayref = codePopStack();
 		codeInst(value.getOpcode(IALOAD));
@@ -205,15 +298,52 @@ public interface SmartOpcode {
 		load(arrayref);
 		load(index);
 		load(value);
-		arraystore_op();
+		AASTORE();
 	}
 
 	@SuppressWarnings("unused")
-	default void arraystore_op() {
+	default void AASTORE() {
 		Type value = codePopStack();
 		Type index = codePopStack();
 		Type arrayref = codePopStack();
-		codeInst(value.getOpcode(LASTORE));
+		switch (value.getSort()) {
+
+		// AASTORE (arrayref, index, value →) : store into a reference in an array
+		case Type.OBJECT:
+			codeInst(AASTORE);
+			break;
+		// BASTORE (arrayref, index, value →) : store a byte or Boolean value into an
+		// array
+		case Type.BYTE:
+			codeInst(value.getOpcode(BASTORE));
+			break;
+		// CASTORE (arrayref, index, value →) : store a char into an array
+		case Type.CHAR:
+			codeInst(value.getOpcode(CASTORE));
+			break;
+		// DASTORE (arrayref, index, value →) : store a double into an array
+		case Type.DOUBLE:
+			codeInst(value.getOpcode(DASTORE));
+			break;
+		// FASTORE (arrayref, index, value →) : store a float in an array
+		case Type.FLOAT:
+			codeInst(value.getOpcode(FASTORE));
+			break;
+		// IASTORE (arrayref, index, value →) : store an int into an array
+		case Type.INT:
+			codeInst(value.getOpcode(IASTORE));
+			break;
+		// LASTORE (arrayref, index, value →) : store a long to an array
+		case Type.LONG:
+			codeInst(value.getOpcode(LASTORE));
+			break;
+		// SASTORE (arrayref, index, value →) : store short to array
+		case Type.SHORT:
+			codeInst(value.getOpcode(SASTORE));
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
 
 		// AASTORE (arrayref, index, value →) : store into a reference in an array
 		// BASTORE (arrayref, index, value →) : store a byte or Boolean value into an
@@ -226,17 +356,10 @@ public interface SmartOpcode {
 		// SASTORE (arrayref, index, value →) : store short to array
 	}
 
-	@Deprecated
-	default void checkcast(String objectref) {
-		load(objectref);
-		checkcast_op();
-	}
-
-	@Deprecated
-	default void checkcast_op() {
+	default void CHECKCAST(Type type) {
 		Type objectref = codePopStack();
-		codeInst(CHECKCAST);
 		codePush(objectref);
+		codeTypeInsn(CHECKCAST, type);
 		// CHECKCAST (objectref → objectref) : checks whether an objectref is of a
 		// certain type, the class reference of which is in the constant pool
 		// at index (indexbyte1 << 8 + indexbyte2)
@@ -264,13 +387,13 @@ public interface SmartOpcode {
 	default void compare(String value1, String value2) {
 		load(value1);
 		load(value2);
-		compare_op();
+		CMP();
 
 	}
 
 	@Deprecated
 	@SuppressWarnings("unused")
-	default void compare_op() {
+	default void CMP() {
 		Type value2 = codePopStack();
 		Type value1 = codePopStack();
 		Type result = value1;
@@ -282,11 +405,7 @@ public interface SmartOpcode {
 		// FCMPL (value1, value2 → result) : compare two floats
 	}
 
-	default void dup() {
-		dup_op();
-	}
-
-	default void dup_op() {
+	default void DUP() {
 		Type value1 = codeGetStack(0);
 		codePush(value1);
 		codeInst(DUP);
@@ -294,10 +413,10 @@ public interface SmartOpcode {
 	}
 
 	default void dup2() {
-		dup2_op();
+		DUP2();
 	}
 
-	default void dup2_op() {
+	default void DUP2() {
 		Type value2 = codeGetStack(-1);
 		Type value1 = codeGetStack(0);
 		codePush(value2);
@@ -312,10 +431,10 @@ public interface SmartOpcode {
 
 	default void getfield(String objectname, String fieldname, Type fieldType) {
 		load(objectname);
-		getfield_op(fieldname, fieldType);
+		GETFIELD(fieldname, fieldType);
 	}
 
-	default void getfield_op(String fieldname, Type fieldType) {
+	default void GETFIELD(String fieldname, Type fieldType) {
 		Type objectref = codePopStack();
 		codePush(fieldType);
 		codeFieldInsn(GETFIELD, objectref, fieldname, fieldType);
@@ -328,23 +447,23 @@ public interface SmartOpcode {
 	default void putfield(String objectref, String varname, String fieldname, Type fieldType) {
 		load(objectref);
 		load(varname);
-		putfield_op(fieldname, fieldType);
+		PUTFIELD(fieldname, fieldType);
 	}
 
 	default void putVarToThisField(String varname, String fieldname, Type fieldType) {
 		loadThis();
 		load(varname);
-		putfield_op(fieldname, fieldType);
+		PUTFIELD(fieldname, fieldType);
 	}
 
 	default void getThisFieldTo(String fieldname, Type fieldType, String varname) {
 		loadThis();
-		getfield_op(fieldname, fieldType);
-		storeObject_op(varname);
+		GETFIELD(fieldname, fieldType);
+		STORE(varname);
 	}
 
 	@SuppressWarnings("unused")
-	default void putfield_op(String fieldname, Type fieldType) {
+	default void PUTFIELD(String fieldname, Type fieldType) {
 		Type value = codePopStack();
 		Type objectref = codePopStack();
 
@@ -356,10 +475,10 @@ public interface SmartOpcode {
 	}
 
 	default void getstatic(Type objectType, String fieldName, Type fieldType) {
-		getstatic_op(objectType, fieldName, fieldType);
+		GETSTATIC(objectType, fieldName, fieldType);
 	}
 
-	default void getstatic_op(Type objectType, String fieldName, Type fieldType) {
+	default void GETSTATIC(Type objectType, String fieldName, Type fieldType) {
 		codePush(fieldType);
 		codeFieldInsn(GETSTATIC, objectType, fieldName, fieldType);
 		// GETSTATIC (→ value) : get a static field value of a class, where the field is
@@ -369,13 +488,13 @@ public interface SmartOpcode {
 
 	default void putstatic(Type objectType, String varname, String fieldname, Type fieldType) {
 		load(varname);
-		putstatic_op(objectType, fieldname, fieldType);
+		PUTSTATIC(objectType, fieldname, fieldType);
 	}
 
 	@SuppressWarnings("unused")
-	default void putstatic_op(Type objectType, String fieldName, Type fieldType) {
+	default void PUTSTATIC(Type objectType, String fieldName, Type fieldType) {
 		Type value = codePopStack();
-		codeFieldInsn(PUTFIELD, objectType, fieldName, fieldType);
+		codeFieldInsn(PUTSTATIC, objectType, fieldName, fieldType);
 
 		// PUTSTATIC (value →) : set static field to value in a class, where the field
 		// is identified by a field reference index in constant pool (indexbyte1 << 8 +
@@ -385,13 +504,13 @@ public interface SmartOpcode {
 	@Deprecated
 	default void iF(String value) {
 		load(value);
-		iF_op();
+		IF();
 
 	}
 
 	@Deprecated
 	@SuppressWarnings("unused")
-	default void iF_op() {
+	default void IF() {
 		Type value = codePopStack();
 		// IFEQ (value →) : if value is 0, branch to instruction at branchoffset (signed
 		// short constructed from unsigned bytesbranchbyte1 << 8 + branchbyte2)
@@ -445,11 +564,11 @@ public interface SmartOpcode {
 	@Deprecated
 	default void instanceOf(String objectref) {
 		load(objectref);
-		instanceOf_op();
+		INSTANCEOF();
 	}
 
 	@SuppressWarnings("unused")
-	default void instanceOf_op() {
+	default void INSTANCEOF() {
 		Type objectref = codePopStack();
 		Type result = Type.getType(Integer.class);
 		codePush(result);
@@ -459,8 +578,16 @@ public interface SmartOpcode {
 		// << 8 + indexbyte2)
 	}
 
+	default void INVOKESTATIC(Class<?> objectType, String methodName, Class<?>... paramTypes) {
+		INVOKESTATIC(typeOf(objectType), Type.VOID_TYPE, methodName, typeOf(paramTypes));
+	}
+
+	default void INVOKESTATIC(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
+		INVOKESTATIC(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	}
+
 	@SuppressWarnings("unused")
-	default void invokeStataic_op(Type objectType, Type returnType, String methodName, Type... paramTypes) {
+	default void INVOKESTATIC(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
 			codePopStack();
 		}
@@ -473,7 +600,7 @@ public interface SmartOpcode {
 	}
 
 	@SuppressWarnings("unused")
-	default void invokeInterface_op(Type objectType, Type returnType, String methodName, Type... paramTypes) {
+	default void INVOKEINTERFACE(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
 			codePopStack();
 		}
@@ -486,16 +613,16 @@ public interface SmartOpcode {
 
 	}
 
-	default void invokeSpecial_op(Class<?> objectType, String methodName, Class<?>... paramTypes) {
-		invokeSpecial_op(typeOf(objectType), null, methodName, typeOf(paramTypes));
+	default void INVOKESPECIAL(Class<?> objectType, String methodName, Class<?>... paramTypes) {
+		INVOKESPECIAL(typeOf(objectType), null, methodName, typeOf(paramTypes));
 	}
 
-	default void invokeSpecial_op(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
-		invokeSpecial_op(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	default void INVOKESPECIAL(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
+		INVOKESPECIAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
 	}
 
 	@SuppressWarnings("unused")
-	default void invokeSpecial_op(Type objectType, Type returnType, String methodName, Type... paramTypes) {
+	default void INVOKESPECIAL(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		if (returnType == null) returnType = Type.VOID_TYPE;
 		for (Type type : paramTypes) {
 			codePopStack();
@@ -508,7 +635,6 @@ public interface SmartOpcode {
 		// constant pool (indexbyte1 << 8 + indexbyte2)
 	}
 
-	@Deprecated
 	@SuppressWarnings("unused")
 	default void invokeVirtual_op(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
@@ -520,6 +646,7 @@ public interface SmartOpcode {
 
 	}
 
+	@Deprecated
 	@SuppressWarnings("unused")
 	default void invoke_op(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
@@ -533,56 +660,33 @@ public interface SmartOpcode {
 
 	void visitInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
 
-	@Deprecated
-	default void loadConst() {
-		loadConst_op();
-
-	}
-
-	@Deprecated
-	default void loadConst_op() {
-		// ICONST_0 (→ 0) : load the int value 0 onto the stack
-		// DCONST_0 (→ 0.0) : push the constant 0.0 onto the stack
-		// FCONST_0 (→ 0.0f) : push 0.0f on the stack
-		// LCONST_0 (→ 0L) : push the long 0 onto the stack
-		// ICONST_1 (→ 1) : load the int value 1 onto the stack
-		// ICONST_M1 (→ -1) : load the int value -1 onto the stack
-		// DCONST_1 (→ 1.0) : push the constant 1.0 onto the stack
-		// FCONST_1 (→ 1.0f) : push 1.0f on the stack
-		// LCONST_1 (→ 1L) : push the long 1 onto the stack
-		// ICONST_2 (→ 2) : load the int value 2 onto the stack
-		// FCONST_2 (→ 2.0f) : push 2.0f on the stack
-		// ICONST_3 (→ 3) : load the int value 3 onto the stack
-		// ICONST_4 (→ 4) : load the int value 4 onto the stack
-		// ICONST_5 (→ 5) : load the int value 5 onto the stack
-	}
-
 	default void loadThis() {
 		load(_THIS);
 	}
 
 	default void loadThisField(String fieldname, Type feildtype) {
 		loadThis();
-		getfield_op(fieldname, feildtype);
+		GETFIELD(fieldname, feildtype);
 	}
 
 	default void load(String name) {
 		Type valueType = codeLocalLoadAccessType(name);
 		switch (valueType.getSort()) {
 		case Type.OBJECT:
-			aLoadObject_op(valueType, name);
+			ALOAD(valueType, name);
 			break;
 		case Type.ARRAY:
-			throw new UnsupportedOperationException("load ARRAY");
+			ALOAD(valueType, name);
+			break;
 		case Type.VOID:
 			throw new UnsupportedOperationException("load VOID");
 		default:
-			load_op(valueType, name);
+			LOAD(valueType, name);
 			break;
 		}
 	}
 
-	default void load_op(Type value, String name) {
+	default void LOAD(Type value, String name) {
 		codePush(value);
 		codeInst(value.getOpcode(ILOAD), codeLocalLoadAccess(name));
 		// DLOAD (→ value) : load a double value from a local variable #index
@@ -609,10 +713,10 @@ public interface SmartOpcode {
 
 	default void aLoadObject(String name) {
 		Type valueType = codeLocalLoadAccessType(name);
-		aLoadObject_op(valueType, name);
+		ALOAD(valueType, name);
 	}
 
-	default void aLoadObject_op(Type value, String name) {
+	default void ALOAD(Type value, String name) {
 		codePush(value);
 		codeInst(ALOAD, codeLocalLoadAccess(name));
 		// ALOAD (→ objectref) : load a reference onto the stack from a local
@@ -623,23 +727,28 @@ public interface SmartOpcode {
 		// ALOAD_3 (→ objectref) : load a reference onto the stack from local variable 3
 	}
 
-	default void store_op(String name) {
-		Type value = codePopStack();
+	default void STORE(String varname) {
+		Type value = codeGetStack(0);
 		switch (value.getSort()) {
 		case Type.ARRAY:
-
+			_ASTORE(varname);
 			break;
 		case Type.OBJECT:
-			codeInst(ASTORE, codeLocalStoreAccess(name));
+			_ASTORE(varname);
 			break;
 		case Type.VOID:
-
-			break;
-
+			throw new UnsupportedOperationException();
 		default:
-			codeInst(value.getOpcode(ISTORE), codeLocalStoreAccess(name));
+			_ISTORE(varname);
 			break;
 		}
+	}
+
+	@Deprecated
+	default void _ISTORE(String varname) {
+		Type type = codePopStack();
+		codeInst(type.getOpcode(ISTORE), codeLocalStoreAccess(varname));
+
 		// DSTORE (value →) : store a double value into a local variable #index
 		// FSTORE (value →) : store a float value into a local variable #index
 		// ISTORE (value →) : store int value into variable #index
@@ -662,10 +771,10 @@ public interface SmartOpcode {
 		// LSTORE_3 (value →) : store a long value in a local variable 3
 	}
 
-	@SuppressWarnings("unused")
-	default void storeObject_op(String name) {
-		Type objectref = codePopStack();
-		codeInst(ASTORE, codeLocalStoreAccess(name));
+	@Deprecated
+	default void _ASTORE(String varname) {
+		codePopStack();
+		codeInst(ASTORE, codeLocalStoreAccess(varname));
 		// ASTORE (objectref →) : store a reference into a local variable #index
 		// ASTORE_0 (objectref →) : store a reference into local variable 0
 		// ASTORE_1 (objectref →) : store a reference into local variable 1
@@ -673,11 +782,11 @@ public interface SmartOpcode {
 		// ASTORE_3 (objectref →) : store a reference into local variable 3
 	}
 
-	default void storeTo(String value) {
-		store_op(value);
+	default void store(String varname) {
+		STORE(varname);
 	}
 
-	default Type realUseType(Type type) {
+	default Type mathInnerUserType(Type type) {
 		switch (type.getSort()) {
 		case Type.BYTE:
 		case Type.CHAR:
@@ -692,11 +801,11 @@ public interface SmartOpcode {
 	@Deprecated
 	default void neg(String value) {
 		load(value);
-		neg_op();
+		NEG();
 
 	}
 
-	default void neg_op() {
+	default void NEG() {
 		Type value = codePopStack();
 		Type result = value;
 		codePush(result);
@@ -714,7 +823,7 @@ public interface SmartOpcode {
 	 * {@link #LONG LONG}, {@link #DOUBLE DOUBLE}, {@link #ARRAY ARRAY}, {@link
 	 * #OBJECT OBJECT} or {@link #METHOD METHOD}.
 	 */
-	default void convert_op(Type typeTo) {
+	default void CONVERTTO(Type typeTo) {
 		Type typeFrom = codePopStack();
 		codePush(typeTo);
 
@@ -824,17 +933,16 @@ public interface SmartOpcode {
 //	i2l	convert an int into a long
 //	i2s	convert an int into a short
 
-	public void visitTypeInsn(int opcode, Type type);
+	void codeTypeInsn(int opcode, Type type);
 
-	@Deprecated
-	default void newarray(String count) {
+	default void newarray(String count, Type type) {
 		load(count);
-		newarray_op();
+		NEWARRAY(type);
 	}
 
 	public void codeFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
 
-	default void ldcByte(int value) {
+	default void loadConstByte(int value) {
 		codeIntInsn(BIPUSH, value);
 		codePush(Type.BYTE_TYPE);
 	}
@@ -889,7 +997,8 @@ public interface SmartOpcode {
 		} else if (cst instanceof Type) {
 			int sort = ((Type) cst).getSort();
 			if (sort == Type.OBJECT) {
-				throw new UnsupportedOperationException();
+				codeLdcInsn(cst);
+				codePush(Type.getType(String.class));
 			} else if (sort == Type.ARRAY) {
 				throw new UnsupportedOperationException();
 			} else if (sort == Type.METHOD) {
@@ -949,73 +1058,45 @@ public interface SmartOpcode {
 	 */
 	void codeLdcInsn(Object cst);
 
-	@Deprecated
-	default void newarray_op() {
-//		Type count = codePopStack();
-//		Type arrayref = Type.getType(Object.class); /* TODO */
-//		codePush(arrayref);
-//		visitTypeInsn(NEWARRAY, type);
-		// NEWARRAY (count → arrayref) : create new array with count elements of
-		// primitive type identified by atype ANEWARRAY, CHECKCAST or INSTANCEOF
-	}
-
 	default void newobject(Type objectref) {
-		newobject_op(objectref);
+		NEW(objectref);
 	}
 
-	default void newobject_op(Type objectref) {
+	default void NEW(Type objectref) {
 		codePush(objectref);
-		codeInst(NEW);
-		visitTypeInsn(NEW, objectref);
+		codeTypeInsn(NEW, objectref);
 		// NEW (→ objectref) : create new object of type identified by class reference
 		// in constant pool index (indexbyte1 << 8 + indexbyte2)
 	}
 
 	default void nop() {
-		nop_op();
+		NOP();
 	}
 
-	default void nop_op() {
+	default void NOP() {
 		codeInst(Opcodes.NOP);
 		// NOP ([No change]) : perform no operation
 	}
 
-	default void or(String value1, String value2) {
-		load(value1);
-		load(value2);
-		or_op();
-	}
-
-	@SuppressWarnings("unused")
-	default void or_op() {
-		Type value2 = codePopStack();
-		Type value1 = codePopStack();
-		Type result = value1;
-		codePush(result);
-		codeInst(value1.getOpcode(IOR));
-		// IOR (value1, value2 → result) : bitwise int or
-		// LOR (value1, value2 → result) : bitwise or of two longs
-	}
-
 	default void pop() {
-		pop_op();
+		POP();
 
 	}
 
 	@SuppressWarnings("unused")
-	default void pop_op() {
+	default void POP() {
 		Type value1 = codePopStack();
 		codeInst(POP);
 		// POP (value →) : discard the top value on the stack
 	}
 
 	default void pop2() {
-		pop2_op();
+		POP2();
 
 	}
 
 	@SuppressWarnings("unused")
-	default void pop2_op() {
+	default void POP2() {
 		Type value2 = codePopStack();
 		Type value1 = codePopStack();
 		codeInst(POP2);
@@ -1025,25 +1106,49 @@ public interface SmartOpcode {
 
 	default void returnObject(String objectref) {
 		load(objectref);
-		returnTopObject_op();
+		ARETURN();
 	}
 
 	default void returnTopObject() {
-		returnTopObject_op();
+		ARETURN();
+	}
+
+	default void ret() {
+		RETURN();
+	}
+
+	default void ret(String varname) {
+		load(varname);
+		Type type = codeGetStack(0);
+		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) IRETURN();
+		else if (type.getSort() == Type.ARRAY) ARETURN();
+		else if (type.getSort() == Type.OBJECT) ARETURN();
+		else if (type.getSort() == Type.VOID) RETURN();
+		else
+			throw new UnsupportedOperationException();
+	}
+
+	default void retTop() {
+		Type type = codeGetStack(0);
+		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) IRETURN();
+		else if (type.getSort() == Type.OBJECT) ARETURN();
+		else if (type.getSort() == Type.VOID) RETURN();
+		else
+			throw new UnsupportedOperationException();
 	}
 
 	@SuppressWarnings("unused")
-	default void returnTopObject_op() {
+	default void ARETURN() {
 		Type objectref = codePopStack();
 		codeInst(ARETURN);
 		// ARETURN (objectref → [empty]) : return a reference from a method
 	}
 
 	default void returnTopValue() {
-		returnTopValue_op();
+		IRETURN();
 	}
 
-	default void returnTopValue_op() {
+	default void IRETURN() {
 		Type type = codePopStack();
 		codeInst(type.getOpcode(IRETURN));
 		// DRETURN (value → [empty]) : return a double from a method
@@ -1054,28 +1159,28 @@ public interface SmartOpcode {
 
 	default void returnValue(String varname) {
 		load(varname);
-		returnTopValue_op();
+		IRETURN();
 	}
 
 	default void returnvoid() {
-		returnvoid_op();
+		RETURN();
 	}
 
-	default void returnvoid_op() {
+	// RETURN (→ [empty]) : return void from method
+	default void RETURN() {
 		codeInst(RETURN);
-		// RETURN (→ [empty]) : return void from method
 	}
 
 	@Deprecated
 	default void shl(String value1, String value2) {
 		load(value1);
 		load(value2);
-		shl_op();
+		SHL();
 
 	}
 
 	@SuppressWarnings("unused")
-	default void shl_op() {
+	default void SHL() {
 		Type value2 = codePopStack();
 		Type value1 = codePopStack();
 		Type result = value1;
@@ -1084,26 +1189,17 @@ public interface SmartOpcode {
 		// ISHL (value1, value2 → result) : int shift left
 		// LSHL (value1, value2 → result) : bitwise shift left of a
 		// long value1 by value2 positions
-		// ISHR (value1, value2 → result) : int arithmetic shift right
-		// LSHR (value1, value2 → result) : bitwise shift right of a
-		// long value1 by value2 positions
-	}
-
-	default void xor(String value1, String value2) {
-		load(value1);
-		load(value2);
-		xor_op();
 	}
 
 	@SuppressWarnings("unused")
-	default void xor_op() {
+	default void SHR() {
 		Type value2 = codePopStack();
 		Type value1 = codePopStack();
 		Type result = value1;
 		codePush(result);
-		codeInst(value1.getOpcode(IXOR));
-
-		// IXOR (value1, value2 → result) : int xor
-		// LXOR (value1, value2 → result) : bitwise exclusive or of two longs
+		codeInst(value1.getOpcode(ISHR));
+		// ISHR (value1, value2 → result) : int arithmetic shift right
+		// LSHR (value1, value2 → result) : bitwise shift right of a
+		// long value1 by value2 positions
 	}
 }
