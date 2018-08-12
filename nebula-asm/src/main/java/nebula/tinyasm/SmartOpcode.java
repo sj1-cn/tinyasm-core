@@ -1,5 +1,6 @@
 package nebula.tinyasm;
 
+import static nebula.tinyasm.api.TypeUtils.*;
 import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Opcodes.ARRAYLENGTH;
@@ -34,6 +35,8 @@ import static org.objectweb.asm.Opcodes.POP;
 import static org.objectweb.asm.Opcodes.POP2;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.RETURN;
+
+import java.util.function.Consumer;
 
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
@@ -328,6 +331,18 @@ public interface SmartOpcode {
 		putfield_op(fieldname, fieldType);
 	}
 
+	default void putVarToThisField(String varname, String fieldname, Type fieldType) {
+		loadThis();
+		load(varname);
+		putfield_op(fieldname, fieldType);
+	}
+
+	default void getThisFieldTo(String fieldname, Type fieldType, String varname) {
+		loadThis();
+		getfield_op(fieldname, fieldType);
+		storeObject_op(varname);
+	}
+
 	@SuppressWarnings("unused")
 	default void putfield_op(String fieldname, Type fieldType) {
 		Type value = codePopStack();
@@ -471,8 +486,17 @@ public interface SmartOpcode {
 
 	}
 
+	default void invokeSpecial_op(Class<?> objectType, String methodName, Class<?>... paramTypes) {
+		invokeSpecial_op(typeOf(objectType), null, methodName, typeOf(paramTypes));
+	}
+
+	default void invokeSpecial_op(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
+		invokeSpecial_op(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	}
+
 	@SuppressWarnings("unused")
 	default void invokeSpecial_op(Type objectType, Type returnType, String methodName, Type... paramTypes) {
+		if (returnType == null) returnType = Type.VOID_TYPE;
 		for (Type type : paramTypes) {
 			codePopStack();
 		}
@@ -531,6 +555,15 @@ public interface SmartOpcode {
 		// ICONST_3 (→ 3) : load the int value 3 onto the stack
 		// ICONST_4 (→ 4) : load the int value 4 onto the stack
 		// ICONST_5 (→ 5) : load the int value 5 onto the stack
+	}
+
+	default void loadThis() {
+		load(_THIS);
+	}
+
+	default void loadThisField(String fieldname, Type feildtype) {
+		loadThis();
+		getfield_op(fieldname, feildtype);
 	}
 
 	default void load(String name) {
@@ -830,17 +863,28 @@ public interface SmartOpcode {
 	void codeIntInsn(int opcode, int operand);
 
 	default void loadConst(Object cst) {
-		codeLdcInsn(cst);
 
 		if (cst instanceof Integer) {
+			codeLdcInsn(cst);
 			codePush(Type.getType(Integer.class));
 		} else if (cst instanceof Float) {
+			codeLdcInsn(cst);
 			codePush(Type.getType(Float.class));
 		} else if (cst instanceof Long) {
-			codePush(Type.getType(Long.class));
+			int v = ((Long) cst).intValue();
+			if (0L == v || 1L == v) {
+				codeInst(LCONST_0 + v);
+				codePush(Type.getType(Long.class));
+			} else {
+
+				codeLdcInsn(cst);
+				codePush(Type.getType(Long.class));
+			}
 		} else if (cst instanceof Double) {
+			codeLdcInsn(cst);
 			codePush(Type.getType(Double.class));
 		} else if (cst instanceof String) {
+			codeLdcInsn(cst);
 			codePush(Type.getType(String.class));
 		} else if (cst instanceof Type) {
 			int sort = ((Type) cst).getSort();

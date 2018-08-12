@@ -206,7 +206,7 @@ public class MyBankAccountDump implements Opcodes {
 			mv.visitLabel(l3);
 			mv.visitLocalVariable("this", "Lcom/nebula/cqrs/core/asm/MyBankAccount;", null, l0, l3, 0);
 			mv.visitLocalVariable("amount", "J", null, l0, l3, 1);
-			mv.visitLocalVariable("newbalance", "J", null, l0, l3, 3);
+			mv.visitLocalVariable("newbalance", "J", null, l1, l3, 3);
 			mv.visitMaxs(4, 5);
 			mv.visitEnd();
 		}
