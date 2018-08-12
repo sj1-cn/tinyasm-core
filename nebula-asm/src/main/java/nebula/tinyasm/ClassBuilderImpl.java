@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.api.TypeUtils.signatureOf;
+import static nebula.tinyasm.util.TypeUtils.signatureOf;
 
 import java.util.List;
 
@@ -13,14 +13,15 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.api.ClassBody;
-import nebula.tinyasm.api.ClassField;
 import nebula.tinyasm.api.Field;
 import nebula.tinyasm.api.InstanceMethodCode;
 import nebula.tinyasm.api.MethodHeader;
 import nebula.tinyasm.api.StaticMethodCode;
-import nebula.tinyasm.util.ClassUtils;
 
 class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
+	public static String toSimpleName(String className) {
+		return className.substring(className.lastIndexOf('.') + 1);
+	}
 
 	ArrayListMap<Field> fields = new ArrayListMap<>();
 
@@ -42,7 +43,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		super(Opcodes.ASM5, cv);
 		initType(thisType, superType);
 		cv.visit(52, access, thisType.getInternalName(), null, superType.getInternalName(), null);
-		cv.visitSource(ClassUtils.toSimpleName(this.thisType.getClassName()) + ".java", null);
+		cv.visitSource(toSimpleName(this.thisType.getClassName()) + ".java", null);
 	}
 
 	ClassBuilderImpl(final int access, ClassVisitor cv, Type thisType, Type superType, Type interfaceType,
@@ -53,7 +54,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		cv.visit(52, access, thisType.getInternalName(),
 				superType.getDescriptor() + signatureOf(interfaceType, interfaceSignatures),
 				superType.getInternalName(), new String[] { interfaceType.getInternalName() });
-		cv.visitSource(ClassUtils.toSimpleName(this.thisType.getClassName()) + ".java", null);
+		cv.visitSource(toSimpleName(this.thisType.getClassName()) + ".java", null);
 	}
 
 	ClassBuilderImpl(final int access, ClassVisitor cv, Type thisType, Type superType, Type[] superTypeSignatures) {
@@ -62,7 +63,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 		cv.visit(52, access, thisType.getInternalName(), signatureOf(superType, superTypeSignatures),
 				superType.getInternalName(), null);
-		cv.visitSource(ClassUtils.toSimpleName(this.thisType.getClassName()) + ".java", null);
+		cv.visitSource(toSimpleName(this.thisType.getClassName()) + ".java", null);
 	}
 
 	@Override

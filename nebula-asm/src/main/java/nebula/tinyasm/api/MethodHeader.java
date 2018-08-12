@@ -1,6 +1,6 @@
 package nebula.tinyasm.api;
 
-import static nebula.tinyasm.api.TypeUtils.typeOf;
+import static nebula.tinyasm.util.TypeUtils.typeOf;
 
 import java.util.function.Consumer;
 

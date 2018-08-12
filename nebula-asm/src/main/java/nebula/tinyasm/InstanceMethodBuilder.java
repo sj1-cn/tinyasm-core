@@ -3,7 +3,6 @@ package nebula.tinyasm;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.api.ClassField;
 import nebula.tinyasm.api.InstanceMethodCode;
 import nebula.tinyasm.api.MethodCallerInInstanceMethod;
 import nebula.tinyasm.api.MethodHeader;

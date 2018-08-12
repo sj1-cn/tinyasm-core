@@ -1,14 +1,16 @@
 package nebula.tinyasm.api;
 
-import static nebula.tinyasm.api.TypeUtils.arrayOf;
-import static nebula.tinyasm.api.TypeUtils.signatureOf;
-import static nebula.tinyasm.api.TypeUtils.typeOf;
+import static nebula.tinyasm.util.TypeUtils.arrayOf;
+import static nebula.tinyasm.util.TypeUtils.signatureOf;
+import static nebula.tinyasm.util.TypeUtils.typeOf;
 
 import java.util.List;
 
 import org.objectweb.asm.Type;
 
-public interface MethodDefineParameter<CR> {
+import nebula.tinyasm.ClassField;
+
+interface MethodDefineParameter<CR> {
 	CR parameter(ClassField field);
 
 	default CR parameter(Field parameter) {

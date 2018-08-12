@@ -1,7 +1,7 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.api.TypeUtils.*;
 import static org.objectweb.asm.Opcodes.ALOAD;
+import static nebula.tinyasm.util.TypeUtils.*;
 import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Opcodes.ARRAYLENGTH;
 import static org.objectweb.asm.Opcodes.ASTORE;

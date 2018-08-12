@@ -1,5 +1,7 @@
 package nebula.tinyasm.api;
 
+import static nebula.tinyasm.util.TypeUtils.*;
+
 import java.util.List;
 
 import org.objectweb.asm.ClassVisitor;
@@ -7,8 +9,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.ClassBuilder;
-
-import static nebula.tinyasm.api.TypeUtils.*;
 
 public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 		ClassDefineStaticMethod<StaticMethodCode>, ClassDefineInstanceMethod<InstanceMethodCode> {

@@ -1,11 +1,17 @@
-package nebula.tinyasm.api;
+package nebula.tinyasm.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.api.Field;
+
 public class TypeUtils {
+
+	static public boolean is(int access, int modified) {
+		return (access & modified) > 0;
+	}
 
 	/**
 	 * The stack size variation corresponding to each JVM instruction. This stack

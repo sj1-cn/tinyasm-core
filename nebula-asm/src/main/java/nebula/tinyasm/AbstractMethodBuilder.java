@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.ASMUtils.is;
+import static nebula.tinyasm.util.TypeUtils.is;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 import static org.objectweb.asm.Opcodes.ASM5;
 import static org.objectweb.asm.Opcodes.BIPUSH;
@@ -18,8 +18,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.api.ClassField;
-import nebula.tinyasm.api.Instance;
 import nebula.tinyasm.api.MethodCaller;
 import nebula.tinyasm.api.MethodCode;
 import nebula.tinyasm.api.MethodHeader;
@@ -60,55 +58,15 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		}
 	}
 
-	class Annotation {
-		int parameter;
-
-		final public Type type;
-
-		final public String name;
-
-		final public Object value;
-
-		public Annotation(Type type, String name, Object value) {
-			super();
-			this.value = value;
-			this.type = type;
-			this.name = name;
-		}
-
-		public Annotation(Type type, String name, Object value, int parameter) {
-			this(type, name, value);
-			this.parameter = parameter;
-		}
-	}
-
-	@Deprecated
-	class ThisInstance extends AbstractInvokeMethod<M, C> implements Instance<M, C> {
-
-		ThisInstance() {
-		}
-
-		@Override
-		public C code() {
-			return AbstractMethodBuilder.this.code();
-		}
-
-		@Override
-		public Type getStackTopType() {
-			return AbstractMethodBuilder.this.getStackTopType();
-		}
-
-	}
-
 	class ThisMethod {
 		int access;
-		List<Annotation> annotations = new ArrayList<>();
+		List<ClassAnnotation> annotations = new ArrayList<>();
 		// final Type thisType;
 		String[] excptions;
 
 		String name;
 
-		List<Annotation> parameterAnnotations = new ArrayList<>(10);
+		List<ClassAnnotation> parameterAnnotations = new ArrayList<>(10);
 
 		List<ClassField> params = new ArrayList<>();
 
@@ -157,13 +115,13 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 	@Override
 	public MethodHeader<C> annotation(Type type, Object value) {
-		thisMethod.annotations.add(new Annotation(type, null, value));
+		thisMethod.annotations.add(new ClassAnnotation(type, null, value));
 		return this;
 	}
 
 	@Override
 	public MethodHeader<C> annotation(Type type, String name, Object value) {
-		thisMethod.annotations.add(new Annotation(type, name, value));
+		thisMethod.annotations.add(new ClassAnnotation(type, name, value));
 		return this;
 	}
 
@@ -337,10 +295,10 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 				null);
 
 		assert this.mv != null;
-		for (Annotation annotation : thisMethod.annotations) {
+		for (ClassAnnotation annotation : thisMethod.annotations) {
 			mvAnnotation(this.mv, annotation.type, annotation.name, annotation.value);
 		}
-		for (Annotation annotation : thisMethod.parameterAnnotations) {
+		for (ClassAnnotation annotation : thisMethod.parameterAnnotations) {
 			if (annotation != null) {
 				visitParameterAnnotation(this.mv, annotation.parameter, annotation.type, annotation.value);
 			}
@@ -438,7 +396,8 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 	@Override
 	public MethodHeader<C> parameterAnnotation(Type annotationType, Object value) {
-		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1, new Annotation(annotationType, null, value));
+		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
+				new ClassAnnotation(annotationType, null, value));
 		return this;
 	}
 
@@ -453,7 +412,8 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	public MethodHeader<C> parameterGenericWithAnnotation(Type annotationType, Object value, String fieldName,
 			Type fieldType, String signature) {
 		thisMethod.params.add(new LocalsVariable(fieldName, fieldType, signature));
-		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1, new Annotation(annotationType, null, value));
+		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
+				new ClassAnnotation(annotationType, null, value));
 		return this;
 	}
 
@@ -461,7 +421,8 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	public MethodHeader<C> parameterWithAnnotation(Type annotationType, Object value, String fieldName,
 			Type fieldType) {
 		thisMethod.params.add(new LocalsVariable(fieldName, fieldType));
-		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1, new Annotation(annotationType, null, value));
+		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
+				new ClassAnnotation(annotationType, null, value));
 		return this;
 	}
 

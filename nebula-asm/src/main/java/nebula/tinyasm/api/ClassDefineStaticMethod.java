@@ -1,8 +1,8 @@
 package nebula.tinyasm.api;
 
-import static nebula.tinyasm.api.TypeUtils.arrayOf;
-import static nebula.tinyasm.api.TypeUtils.namesOf;
-import static nebula.tinyasm.api.TypeUtils.typeOf;
+import static nebula.tinyasm.util.TypeUtils.arrayOf;
+import static nebula.tinyasm.util.TypeUtils.namesOf;
+import static nebula.tinyasm.util.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;

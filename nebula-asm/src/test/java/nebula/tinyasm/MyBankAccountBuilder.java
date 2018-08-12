@@ -1,7 +1,6 @@
 package nebula.tinyasm;
 
-//import org.objectweb.asm.Type;
-import static nebula.tinyasm.api.TypeUtils.typeOf;
+import static nebula.tinyasm.util.TypeUtils.typeOf;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;

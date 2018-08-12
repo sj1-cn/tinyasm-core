@@ -1,9 +1,9 @@
 package nebula.tinyasm;
 
+import static nebula.tinyasm.util.TypeUtils.*;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import static nebula.tinyasm.api.TypeUtils.*;
 
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.api.ClassBody;

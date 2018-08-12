@@ -1,10 +1,9 @@
 package nebula.tinyasm.api;
 
+import static nebula.tinyasm.util.TypeUtils.*;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 
 import org.objectweb.asm.Type;
-
-import static nebula.tinyasm.api.TypeUtils.*;
 
 public interface ClassDefineField<CR>{
 

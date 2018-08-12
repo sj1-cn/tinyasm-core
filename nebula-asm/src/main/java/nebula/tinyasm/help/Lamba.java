@@ -1,4 +1,4 @@
-package nebula.tinyasm.util;
+package nebula.tinyasm.help;
 
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
