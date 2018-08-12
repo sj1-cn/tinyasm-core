@@ -48,14 +48,4 @@ class InstanceMethodBuilder extends
 		return this;
 	}
 
-	@Override
-	public MethodCallerInInstanceMethod useThis() {
-		return new MethodCallerInInstanceMethodImpl(thisMethod.type);
-	}
-
-	@Override
-	public MethodCallerInInstanceMethod useTopThis() {
-		return new MethodCallerInInstanceMethodImpl(thisMethod.type);
-	}
-
 }

@@ -50,15 +50,4 @@ class IndependentInstanceMethodBuilder extends
 		return this;
 	}
 
-	@Override
-	public IndependentMethodCaller useThis() {
-		LOAD(THIS);
-		return new IndependentMethodCallerImpl(thisMethod.type);
-	}
-
-	@Override
-	public IndependentMethodCaller useTopThis() {
-		return new IndependentMethodCallerImpl(thisMethod.type);
-	}
-
 }
