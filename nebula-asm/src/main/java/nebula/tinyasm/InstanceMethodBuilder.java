@@ -3,6 +3,7 @@ package nebula.tinyasm;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.api.ClassField;
 import nebula.tinyasm.api.ClassThisInstance;
 import nebula.tinyasm.api.Field;
 import nebula.tinyasm.api.InstanceMethodCode;
@@ -10,7 +11,7 @@ import nebula.tinyasm.api.MethodCallerInInstanceMethod;
 import nebula.tinyasm.api.MethodHeader;
 
 class InstanceMethodBuilder extends
-		AbstractInstanceMethodVisitor<MethodHeader<InstanceMethodCode>, MethodCallerInInstanceMethod, InstanceMethodCode>
+		AbstractMethodBuilder<MethodHeader<InstanceMethodCode>, MethodCallerInInstanceMethod, InstanceMethodCode>
 		implements MethodHeader<InstanceMethodCode>, InstanceMethodCode, Opcodes {
 	class MethodCallerInInstanceMethodImpl extends AbstractMethodCaller implements MethodCallerInInstanceMethod {
 
@@ -46,6 +47,20 @@ class InstanceMethodBuilder extends
 	@Override
 	public InstanceMethodCode code() {
 		return this;
+	}
+
+	@Override
+	protected InstanceMethodCode makeMethodBegin() {
+		mv.visitCode();
+
+		labelCurrent = labelWithoutLineNumber();
+		// TODO add class sign
+		locals.push(_THIS, thisMethod.type, labelCurrent);
+		for (ClassField field : thisMethod.params) {
+			locals.push(new LocalsVariable(field, labelCurrent));
+		}
+
+		return code();
 	}
 
 }

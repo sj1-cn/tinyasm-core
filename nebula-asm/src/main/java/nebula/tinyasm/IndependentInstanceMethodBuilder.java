@@ -4,6 +4,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.api.ClassField;
 import nebula.tinyasm.api.MethodCaller;
 import nebula.tinyasm.api.MethodHeader;
 import nebula.tinyasm.api.MethodInstanceMethodCode;
@@ -17,7 +18,7 @@ interface IndependentMethodCode extends MethodInstanceMethodCode<IndependentMeth
 }
 
 class IndependentInstanceMethodBuilder extends
-		AbstractInstanceMethodVisitor<MethodHeader<IndependentMethodCode>, IndependentMethodCaller, IndependentMethodCode>
+		AbstractMethodBuilder<MethodHeader<IndependentMethodCode>, IndependentMethodCaller, IndependentMethodCode>
 		implements IndependentMethodCode, MethodHeader<IndependentMethodCode>, Opcodes {
 
 	class IndependentMethodCallerImpl extends AbstractMethodCaller implements IndependentMethodCaller {
@@ -48,6 +49,20 @@ class IndependentInstanceMethodBuilder extends
 	@Override
 	public IndependentMethodCode code() {
 		return this;
+	}
+
+	@Override
+	protected IndependentMethodCode makeMethodBegin() {
+		mv.visitCode();
+
+		labelCurrent = labelWithoutLineNumber();
+		// TODO add class sign
+		locals.push(_THIS, thisMethod.type, labelCurrent);
+		for (ClassField field : thisMethod.params) {
+			locals.push(new LocalsVariable(field, labelCurrent));
+		}
+
+		return code();
 	}
 
 }
