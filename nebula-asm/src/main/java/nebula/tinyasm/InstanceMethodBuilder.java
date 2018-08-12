@@ -57,11 +57,6 @@ class InstanceMethodBuilder extends
 	}
 
 	@Override
-	public Field fieldOfThis(String fieldName) {
-		return cv.fieldOfThis(fieldName);
-	}
-
-	@Override
 	@Deprecated
 	public InstanceMethodCode init() {
 		LOADThis();
@@ -70,14 +65,7 @@ class InstanceMethodBuilder extends
 	}
 
 	@Override
-	public ClassThisInstance deperatedLoadThis() {
-		LOADThis();
-		return thisInstance;
-	}
-
-	@Override
 	public MethodCallerInInstanceMethod useThis() {
-		deperatedLoadThis();
 		return new MethodCallerInInstanceMethodImpl(thisMethod.type);
 	}
 

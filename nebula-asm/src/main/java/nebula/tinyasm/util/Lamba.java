@@ -29,9 +29,9 @@ public class Lamba {
 		cw.field(ACC_FINAL + ACC_SYNTHETIC, "this$0", parentType);
 
 		cw.publicMethod("<init>").parameter("handle", parentType).parameter(fieldName, fieldType).code(mc -> {
-			mc.deperatedLoadThis().put("this$0", "this$0");
+			mc.PUTFIELD("this", "this$0", "this$0", objectType);
 			mc.line(15).init();
-			mc.deperatedLoadThis().put(fieldName, fieldName);
+			mc.PUTFIELD("this", "fieldName", "fieldName", fieldType);
 			mc.RETURN();
 		});
 		cw.publicMethod("accept").parameter("domain", consumeType).code(invocation);
@@ -61,9 +61,9 @@ public class Lamba {
 		cb.field(ACC_FINAL + ACC_SYNTHETIC, "this$0", parentType);
 
 		cb.publicMethod("<init>").parameter("handle", parentType).parameter(fieldName, fieldType).code(mc -> {
-			mc.deperatedLoadThis().put("this$0", "this$0");
+			mc.PUTFIELD("this", "this$0", "this$0", objectType);
 			mc.line(15).init();
-			mc.deperatedLoadThis().put(fieldName, fieldName);
+			mc.PUTFIELD("this", "fieldName", "fieldName", fieldType);
 			mc.RETURN();
 		});
 

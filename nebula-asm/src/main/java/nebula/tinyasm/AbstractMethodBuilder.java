@@ -141,14 +141,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		}
 
 		@Override
-		public C put(String varName, Field field) {
-			LocalsVariable var = locals.accessLoad(varName, labelCurrent);
-			mv.visitVarInsn(var.type.getOpcode(ILOAD), var.locals);
-			PUTFIELD(field.name, stackTopType);
-			return code();
-		}
-
-		@Override
 		public M use() {
 			return AbstractMethodBuilder.this.useStackTop(thisMethod.returnType);
 		}
@@ -557,13 +549,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		thisMethod.params.add(new LocalsVariable(fieldName, fieldType));
 		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1, new Annotation(annotationType, null, value));
 		return this;
-	}
-
-	@Override
-	public C putTopTo(Field field) {
-
-		PUTFIELD(field.name, field.type);
-		return code();
 	}
 
 //	void recomputerLocals() {

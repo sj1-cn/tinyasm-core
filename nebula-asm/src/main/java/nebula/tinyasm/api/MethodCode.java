@@ -73,11 +73,6 @@ public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 
 	Label newLabel();
 
-	@Deprecated
-	C putTopTo(Field field);
-
-	@Deprecated
-	C storeStackTopTo(String varName);
 
 	@Deprecated
 	Type thisType();

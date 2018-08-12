@@ -51,7 +51,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 
 	default ClassBody definePropertyGet(final String fieldName, final Type fieldType) {
 		publicMethod(fieldType, toPropertyGetName(fieldName, fieldType)).code(mc -> {
-			mc.deperatedLoadThis().get(fieldName, fieldType);
+			mc.LOADThis();mc.GETFIELD(fieldName, fieldType);
 			mc.RETURNTop();
 		});
 		return this;
@@ -67,7 +67,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 
 	default ClassBody definePropertySet(final String fieldName, final Type fieldType) {
 		publicMethod(toPropertySetName(fieldName, fieldType)).parameter(fieldName, fieldType).code(mc -> {
-			mc.deperatedLoadThis().put(fieldName, fieldName);
+			mc.PUTFIELD("this", fieldName, fieldName, fieldType);
 			mc.RETURN();
 		});
 		return this;
@@ -77,7 +77,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 		publicMethod(toPropertySetName(fieldName, fieldType)).annotation(annotationType)
 			.parameter(fieldName, fieldType)
 			.code(mc -> {
-				mc.deperatedLoadThis().put(fieldName, fieldName);
+				mc.PUTFIELD("this", fieldName, fieldName, fieldType);
 				mc.RETURN();
 			});
 		return this;
@@ -88,7 +88,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 		publicMethod(toPropertySetName(fieldName, fieldType)).annotation(annotationType, name, value)
 			.parameter(fieldName, fieldType)
 			.code(mc -> {
-				mc.deperatedLoadThis().put(fieldName, fieldName);
+				mc.PUTFIELD("this", fieldName, fieldName, fieldType);
 				mc.RETURN();
 			});
 		return this;
@@ -144,7 +144,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 		publicMethod("<init>").parameter(fields).code(mc -> {
 			mc.init();
 			for (Field param : fields) {
-				mc.deperatedLoadThis().put(param.name, param.name);
+				mc.PUTFIELD("this", param.name, param.name,param.type);;
 			}
 			mc.RETURN();
 		});
@@ -154,21 +154,21 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 	default ClassBody publicInitWithSuper(Field[] superFields) {
 		if (this.getFields().size() > 0) {
 			publicMethod("<init>").parameter(this.getFields()).parameter(superFields).code(mc -> {
-				mc.deperatedLoadThis();
+				mc.LOADThis();
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
 				mc.type(getSuperType()).invokeSpecial("<init>", typeOf(superFields));
 
 				for (Field param : this.getFields()) {
-					mc.deperatedLoadThis().put(param.name, param.name);
+					mc.PUTFIELD("this", param.name, param.name,param.type);;
 				}
 				mc.RETURN();
 			});
 			return this;
 		} else {
 			publicMethod("<init>").parameter(superFields).code(mc -> {
-				mc.deperatedLoadThis();
+				mc.LOADThis();
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
@@ -183,21 +183,21 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 	default ClassBody publicInitWithSuper(List<Field> superFields) {
 		if (this.getFields().size() > 0) {
 			publicMethod("<init>").parameter(this.getFields()).parameter(superFields).code(mc -> {
-				mc.deperatedLoadThis();
+				mc.LOADThis();
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
 				mc.type(getSuperType()).invokeSpecial("<init>", typeOf(superFields));
 
 				for (Field param : this.getFields()) {
-					mc.deperatedLoadThis().put(param.name, param.name);
+					mc.PUTFIELD("this", param.name, param.name,param.type);
 				}
 				mc.RETURN();
 			});
 			return this;
 		} else {
 			publicMethod("<init>").parameter(superFields).code(mc -> {
-				mc.deperatedLoadThis();
+				mc.LOADThis();
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
@@ -228,7 +228,8 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 				mc.LOADConst(field.name + "=");
 				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
 
-				mc.deperatedLoadThis().get(field.name, field.type);
+				mc.LOADThis();mc.GETFIELD(field.name, field.type);
+				
 				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", field.type);
 			}
 
@@ -262,8 +263,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 
 				mc.LOADConst(field.name + "=");
 				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
-
-				mc.deperatedLoadThis().getProperty(field.name, field.type);
+				mc.LOADThis();mc.GETFIELD(field.name, field.type);
 				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", field.type);
 			}
 
