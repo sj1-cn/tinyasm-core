@@ -18,9 +18,6 @@ public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 
 	C block(Consumer<C> invocation);
 
-	@Deprecated
-	C checkCast(Type type);
-
 	C code();
 
 	default C def(Field field) {
@@ -66,43 +63,15 @@ public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 	}
 
 	@Deprecated
-	C deperatedInsn(int d);
-
-	@Deprecated
 	M depetatedUse(String... varNames);
 
 	void end();
 
-	@Deprecated
-	C intInsn(int bipush, int i);
-
-	@Deprecated
-	C jumpInsn(int ifgt, Label label);
-
-	@Deprecated
-	void ldcInsn(Object cst);
-
 	C line(int line);
+
 	C line();
 
-	@Deprecated
-	Instance<M, C> loadObject(String variableName);
-
-	@Deprecated
-	default Instance<M, C> newInstace(Class<?> clz) {
-		return newInstace(typeOf(clz));
-	}
-
-	@Deprecated
-	Instance<M, C> newInstace(Type type);
-
 	Label newLabel();
-
-	@Deprecated
-	void opcodeDup();
-
-	@Deprecated
-	void opcodePop();
 
 	@Deprecated
 	C putTopTo(Field field);
@@ -120,14 +89,6 @@ public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 
 	@Deprecated
 	Instance<M, C> type(Type objectType);
-
-	@Deprecated
-	default void typeInsn(int opcode, Class<?> clz) {
-		typeInsn(opcode, typeOf(clz));
-	}
-
-	@Deprecated
-	void typeInsn(int opcode, Type type);
 
 	@Deprecated
 	default Instance<M, C> typeThis() {

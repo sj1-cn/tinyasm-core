@@ -10,13 +10,13 @@ import nebula.tinyasm.ClassBuilder;
 
 import static nebula.tinyasm.api.TypeUtils.*;
 
-public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>, ClassDefineStaticMethod<StaticMethodCode>,
-		ClassDefineInstanceMethod<InstanceMethodCode> {
+public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
+		ClassDefineStaticMethod<StaticMethodCode>, ClassDefineInstanceMethod<InstanceMethodCode> {
 
 	default ClassBody annotation(Class<?> annotationClass) {
 		return annotation(typeOf(annotationClass));
 	}
-	
+
 	default ClassBody annotation(String annotationClass) {
 		return annotation(typeOf(annotationClass));
 	}
@@ -51,8 +51,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 
 	default ClassBody definePropertyGet(final String fieldName, final Type fieldType) {
 		publicMethod(fieldType, toPropertyGetName(fieldName, fieldType)).code(mc -> {
-			mc.deperatedLoadThis()
-					.get(fieldName, fieldType);
+			mc.deperatedLoadThis().get(fieldName, fieldType);
 			mc.RETURNTop();
 		});
 		return this;
@@ -67,35 +66,31 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 	}
 
 	default ClassBody definePropertySet(final String fieldName, final Type fieldType) {
-		publicMethod(toPropertySetName(fieldName, fieldType)).parameter(fieldName, fieldType)
-				.code(mc -> {
-					mc.deperatedLoadThis()
-							.put(fieldName, fieldName);
-					mc.RETURN();
-				});
+		publicMethod(toPropertySetName(fieldName, fieldType)).parameter(fieldName, fieldType).code(mc -> {
+			mc.deperatedLoadThis().put(fieldName, fieldName);
+			mc.RETURN();
+		});
 		return this;
 	}
 
 	default ClassBody definePropertySet(final Type annotationType, final String fieldName, final Type fieldType) {
 		publicMethod(toPropertySetName(fieldName, fieldType)).annotation(annotationType)
-				.parameter(fieldName, fieldType)
-				.code(mc -> {
-					mc.deperatedLoadThis()
-							.put(fieldName, fieldName);
-					mc.RETURN();
-				});
+			.parameter(fieldName, fieldType)
+			.code(mc -> {
+				mc.deperatedLoadThis().put(fieldName, fieldName);
+				mc.RETURN();
+			});
 		return this;
 	}
 
 	default ClassBody definePropertySet(final Type annotationType, String name, Object value, final String fieldName,
 			final Type fieldType) {
 		publicMethod(toPropertySetName(fieldName, fieldType)).annotation(annotationType, name, value)
-				.parameter(fieldName, fieldType)
-				.code(mc -> {
-					mc.deperatedLoadThis()
-							.put(fieldName, fieldName);
-					mc.RETURN();
-				});
+			.parameter(fieldName, fieldType)
+			.code(mc -> {
+				mc.deperatedLoadThis().put(fieldName, fieldName);
+				mc.RETURN();
+			});
 		return this;
 	}
 
@@ -129,14 +124,11 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 	Type getSuperType();
 
 	default ClassBody readonlyPojo() {
-		return publicInitAllFields().defineAllPropetyGet()
-				.publicToStringWithAllFields();
+		return publicInitAllFields().defineAllPropetyGet().publicToStringWithAllFields();
 	}
 
 	default ClassBody pojo() {
-		return publicInitAllFields().defineAllPropetyGet()
-				.defineAllPropetySet()
-				.publicToStringWithAllFields();
+		return publicInitAllFields().defineAllPropetyGet().defineAllPropetySet().publicToStringWithAllFields();
 	}
 
 	default ClassBody publicInitNone() {
@@ -149,126 +141,102 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 
 	default ClassBody publicInitAllFields() {
 		final List<Field> fields = getFields();
-		publicMethod("<init>").parameter(fields)
-				.code(mc -> {
-					mc.init();
-					for (Field param : fields) {
-						mc.deperatedLoadThis()
-								.put(param.name, param.name);
-					}
-					mc.RETURN();
-				});
+		publicMethod("<init>").parameter(fields).code(mc -> {
+			mc.init();
+			for (Field param : fields) {
+				mc.deperatedLoadThis().put(param.name, param.name);
+			}
+			mc.RETURN();
+		});
 		return this;
 	}
 
 	default ClassBody publicInitWithSuper(Field[] superFields) {
-		if (this.getFields()
-				.size() > 0) {
-			publicMethod("<init>").parameter(this.getFields())
-					.parameter(superFields)
-					.code(mc -> {
-						mc.deperatedLoadThis();
-						for (Field param : superFields) {
-							mc.LOAD(param.name);
-						}
-						mc.type(getSuperType())
-								.invokeSpecial("<init>", typeOf(superFields));
+		if (this.getFields().size() > 0) {
+			publicMethod("<init>").parameter(this.getFields()).parameter(superFields).code(mc -> {
+				mc.deperatedLoadThis();
+				for (Field param : superFields) {
+					mc.LOAD(param.name);
+				}
+				mc.type(getSuperType()).invokeSpecial("<init>", typeOf(superFields));
 
-						for (Field param : this.getFields()) {
-							mc.deperatedLoadThis()
-									.put(param.name, param.name);
-						}
-						mc.RETURN();
-					});
+				for (Field param : this.getFields()) {
+					mc.deperatedLoadThis().put(param.name, param.name);
+				}
+				mc.RETURN();
+			});
 			return this;
 		} else {
-			publicMethod("<init>").parameter(superFields)
-					.code(mc -> {
-						mc.deperatedLoadThis();
-						for (Field param : superFields) {
-							mc.LOAD(param.name);
-						}
-						mc.type(getSuperType())
-								.invokeSpecial("<init>", typeOf(superFields));
+			publicMethod("<init>").parameter(superFields).code(mc -> {
+				mc.deperatedLoadThis();
+				for (Field param : superFields) {
+					mc.LOAD(param.name);
+				}
+				mc.type(getSuperType()).invokeSpecial("<init>", typeOf(superFields));
 
-						mc.RETURN();
-					});
+				mc.RETURN();
+			});
 			return this;
 		}
 	}
 
 	default ClassBody publicInitWithSuper(List<Field> superFields) {
-		if (this.getFields()
-				.size() > 0) {
-			publicMethod("<init>").parameter(this.getFields())
-					.parameter(superFields)
-					.code(mc -> {
-						mc.deperatedLoadThis();
-						for (Field param : superFields) {
-							mc.LOAD(param.name);
-						}
-						mc.type(getSuperType())
-								.invokeSpecial("<init>", typeOf(superFields));
+		if (this.getFields().size() > 0) {
+			publicMethod("<init>").parameter(this.getFields()).parameter(superFields).code(mc -> {
+				mc.deperatedLoadThis();
+				for (Field param : superFields) {
+					mc.LOAD(param.name);
+				}
+				mc.type(getSuperType()).invokeSpecial("<init>", typeOf(superFields));
 
-						for (Field param : this.getFields()) {
-							mc.deperatedLoadThis()
-									.put(param.name, param.name);
-						}
-						mc.RETURN();
-					});
+				for (Field param : this.getFields()) {
+					mc.deperatedLoadThis().put(param.name, param.name);
+				}
+				mc.RETURN();
+			});
 			return this;
 		} else {
-			publicMethod("<init>").parameter(superFields)
-					.code(mc -> {
-						mc.deperatedLoadThis();
-						for (Field param : superFields) {
-							mc.LOAD(param.name);
-						}
-						mc.type(getSuperType())
-								.invokeSpecial("<init>", typeOf(superFields));
+			publicMethod("<init>").parameter(superFields).code(mc -> {
+				mc.deperatedLoadThis();
+				for (Field param : superFields) {
+					mc.LOAD(param.name);
+				}
+				mc.type(getSuperType()).invokeSpecial("<init>", typeOf(superFields));
 
-						mc.RETURN();
-					});
+				mc.RETURN();
+			});
 			return this;
 		}
 	}
 
 	default ClassBody publicToStringWithAllFields() {
 		final List<Field> fields = getFields();
-		publicMethod(String.class, "toString").parameter(fields)
-				.code(mc -> {
-					mc.newInstace(StringBuilder.class);
+		publicMethod(String.class, "toString").parameter(fields).code(mc -> {
+			mc.NEW(StringBuilder.class);
 
-					mc.opcodeDup();
-					mc.ldcInsn(toSimpleName(getStackTopType().getClassName()) + "(");
-					mc.type(StringBuilder.class)
-							.invokeSpecial("<init>", String.class);
+			mc.DUP();
+			mc.LOADConst(toSimpleName(getStackTopType().getClassName()) + "(");
+			mc.type(StringBuilder.class).invokeSpecial("<init>", String.class);
 
-					for (int i = 0; i < fields.size(); i++) {
-						Field field = fields.get(i);
-						if (i != 0) {
-							mc.ldcInsn(",");
-							mc.type(StringBuilder.class)
-									.invokeVirtual(StringBuilder.class, "append", String.class);
-						}
+			for (int i = 0; i < fields.size(); i++) {
+				Field field = fields.get(i);
+				if (i != 0) {
+					mc.LOADConst(",");
+					mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
+				}
 
-						mc.ldcInsn(field.name + "=");
-						mc.type(StringBuilder.class)
-								.invokeVirtual(StringBuilder.class, "append", String.class);
+				mc.LOADConst(field.name + "=");
+				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
 
-						mc.deperatedLoadThis()
-								.get(field.name, field.type);
-						mc.type(StringBuilder.class)
-								.invokeVirtual(StringBuilder.class, "append", field.type);
-					}
+				mc.deperatedLoadThis().get(field.name, field.type);
+				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", field.type);
+			}
 
-					mc.ldcInsn(")");
-					mc.type(StringBuilder.class)
-							.invokeVirtual(StringBuilder.class, "append", String.class);
-					mc.type(StringBuilder.class)
-							.invokeVirtual(String.class, "toString");
-					mc.RETURNTop();
-				});
+			mc.LOADConst(")");
+			mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
+			mc.type(StringBuilder.class).invokeVirtual(String.class, "toString");
+			mc.RETURNTop();
+		});
 		return this;
 	}
 
@@ -278,40 +246,32 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 
 	default ClassBody visitDefine_toString_withAllProperties() {
 		final List<Field> fields = getFields();
-		publicMethod(String.class, "toString").parameter(fields)
-				.code(mc -> {
-					mc.newInstace(StringBuilder.class);
+		publicMethod(String.class, "toString").parameter(fields).code(mc -> {
+			mc.NEW(StringBuilder.class);
 
-					mc.opcodeDup();
-					mc.ldcInsn(toSimpleName(getStackTopType().getClassName()) + "(");
-					mc.type(StringBuilder.class)
-							.invokeSpecial("<init>", String.class);
+			mc.DUP();
+			mc.LOADConst(toSimpleName(getStackTopType().getClassName()) + "(");
+			mc.type(StringBuilder.class).invokeSpecial("<init>", String.class);
 
-					for (int i = 0; i < fields.size(); i++) {
-						Field field = fields.get(i);
-						if (i != 0) {
-							mc.ldcInsn(",");
-							mc.type(StringBuilder.class)
-									.invokeVirtual(StringBuilder.class, "append", String.class);
-						}
+			for (int i = 0; i < fields.size(); i++) {
+				Field field = fields.get(i);
+				if (i != 0) {
+					mc.LOADConst(",");
+					mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
+				}
 
-						mc.ldcInsn(field.name + "=");
-						mc.type(StringBuilder.class)
-								.invokeVirtual(StringBuilder.class, "append", String.class);
+				mc.LOADConst(field.name + "=");
+				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
 
-						mc.deperatedLoadThis()
-								.getProperty(field.name, field.type);
-						mc.type(StringBuilder.class)
-								.invokeVirtual(StringBuilder.class, "append", field.type);
-					}
+				mc.deperatedLoadThis().getProperty(field.name, field.type);
+				mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", field.type);
+			}
 
-					mc.ldcInsn(")");
-					mc.type(StringBuilder.class)
-							.invokeVirtual(StringBuilder.class, "append", String.class);
-					mc.type(StringBuilder.class)
-							.invokeVirtual(String.class, "toString");
-					mc.RETURNTop();
-				});
+			mc.LOADConst(")");
+			mc.type(StringBuilder.class).invokeVirtual(StringBuilder.class, "append", String.class);
+			mc.type(StringBuilder.class).invokeVirtual(String.class, "toString");
+			mc.RETURNTop();
+		});
 		return this;
 	}
 

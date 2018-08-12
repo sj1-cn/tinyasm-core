@@ -685,6 +685,9 @@ public interface SmartOpcode {
 	 *            for MethodType and MethodHandle constants, for classes whose
 	 *            version is 51.0.
 	 */
+	default void NEW(Class<?> objectref) {
+		NEW(typeOf(objectref));
+	}
 	default void NEW(Type objectref) {
 		codePush(objectref);
 		mvTypeInsn(NEW, objectref);

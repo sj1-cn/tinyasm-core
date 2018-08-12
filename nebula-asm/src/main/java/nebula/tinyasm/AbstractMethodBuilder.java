@@ -331,12 +331,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	}
 
 	@Override
-	public C checkCast(Type type) {
-		mv.visitTypeInsn(CHECKCAST, type.getInternalName());
-		return code();
-	}
-
-	@Override
 	public void code(Consumer<C> invocation) {
 		invocation.accept(this.codeBegin());
 		this.end();
@@ -366,24 +360,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	}
 
 	@Override
-	public C deperatedInsn(int opcode) {
-		mv.visitInsn(opcode);
-		return code();
-	}
-
-	@Override
-	public C intInsn(int opcode, int operand) {
-		mvIntInsn(opcode, operand);
-		return code();
-	}
-
-	@Override
-	public C jumpInsn(int opcode, Label label) {
-		mv.visitJumpInsn(opcode, label);
-		return code();
-	}
-
-	@Override
 	public void mvJumpInsn(int opcode, Label label) {
 		mv.visitJumpInsn(opcode, label);
 	}
@@ -393,11 +369,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		labelCurrent = label;
 		mv.visitLabel(label);
 		return label;
-	}
-
-	@Override
-	public void ldcInsn(Object cst) {
-		mv.visitLdcInsn(cst);
 	}
 
 	public C line(int line) {
@@ -438,13 +409,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 //		mv.visitVarInsn(var.type.getOpcode(ILOAD), variablesLocals[index]);
 //		return type(var.type);
 //	}
-
-	@Override
-	public Instance<M, C> loadObject(String name) {
-		LocalsVariable var = locals.accessLoad(name, labelCurrent);
-		mv.visitVarInsn(var.type.getOpcode(ILOAD), var.locals);
-		return type(var.type);
-	}
 
 	protected C makeMethodBegin() {
 		currentInstance = new ThisInstance();
@@ -547,31 +511,9 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	}
 
 	@Override
-	public Instance<M, C> newInstace(Type type) {
-		NEW(type);
-		return type(type);
-	}
-
-	@Override
 	public Label newLabel() {
 		Label label = new Label();
 		return label;
-	}
-
-	// TODO
-	@Override
-	public void opcodeDup() {
-		mv.visitInsn(DUP);
-	}
-
-	@Override
-	public void typeInsn(int opcode, Type type) {
-		mv.visitTypeInsn(opcode, type.getInternalName());
-	}
-
-	@Override
-	public void opcodePop() {
-		mv.visitInsn(POP);
 	}
 
 	@Override

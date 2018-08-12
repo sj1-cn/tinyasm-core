@@ -40,7 +40,7 @@ public class Lamba {
 			.code(mc -> {
 				mc.LOAD("this");
 				mc.LOAD("consumer");
-				mc.checkCast(consumeType);
+				mc.CHECKCAST(consumeType);
 				mc.useTopThis().invokeVirtual("accept", consumeType);
 				mc.RETURN();
 			});
