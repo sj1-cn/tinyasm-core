@@ -30,7 +30,7 @@ public class Lamba {
 
 		cw.publicMethod("<init>").parameter("handle", parentType).parameter(fieldName, fieldType).code(mc -> {
 			mc.PUTFIELD("this", "this$0", "this$0", objectType);
-			mc.line(15).init();
+			mc.line(15).INITObject();
 			mc.PUTFIELD("this", "fieldName", "fieldName", fieldType);
 			mc.RETURN();
 		});
@@ -63,7 +63,7 @@ public class Lamba {
 
 		cb.publicMethod("<init>").parameter("handle", parentType).parameter(fieldName, fieldType).code(mc -> {
 			mc.PUTFIELD("this", "this$0", "this$0", objectType);
-			mc.line(15).init();
+			mc.line(15).INITObject();
 			mc.PUTFIELD("this", "fieldName", "fieldName", fieldType);
 			mc.RETURN();
 		});

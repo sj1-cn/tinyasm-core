@@ -4,13 +4,9 @@ import static nebula.tinyasm.ASMUtils.is;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 import static org.objectweb.asm.Opcodes.ASM5;
 import static org.objectweb.asm.Opcodes.BIPUSH;
-import static org.objectweb.asm.Opcodes.CHECKCAST;
-import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.ICONST_0;
-import static org.objectweb.asm.Opcodes.ILOAD;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.ISTORE;
-import static org.objectweb.asm.Opcodes.POP;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +20,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.api.ClassField;
-import nebula.tinyasm.api.Field;
 import nebula.tinyasm.api.Instance;
 import nebula.tinyasm.api.MethodCaller;
 import nebula.tinyasm.api.MethodCode;
