@@ -15,6 +15,8 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.util.ASMifier;
 import org.objectweb.asm.util.TraceClassVisitor;
 
+import nebula.tinyasm.help.EnumBuilder;
+
 public class EnumBuilderSampleTest {
 
 	@Before

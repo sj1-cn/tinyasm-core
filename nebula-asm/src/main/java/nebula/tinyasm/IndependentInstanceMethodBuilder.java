@@ -4,7 +4,6 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.api.MethodCaller;
 import nebula.tinyasm.api.MethodHeader;
 import nebula.tinyasm.api.MethodInstanceMethodCode;
 

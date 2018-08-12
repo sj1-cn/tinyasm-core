@@ -18,7 +18,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.api.MethodCaller;
 import nebula.tinyasm.api.MethodCode;
 import nebula.tinyasm.api.MethodHeader;
 

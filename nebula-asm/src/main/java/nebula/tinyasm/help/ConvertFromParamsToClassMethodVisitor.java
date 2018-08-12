@@ -1,6 +1,8 @@
 package nebula.tinyasm.help;
 
+import static nebula.tinyasm.util.AsmBuilder.toPropertyGetName;
 import static org.objectweb.asm.Opcodes.ALOAD;
+import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
@@ -8,7 +10,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.AsmBuilderHelper;
 import nebula.tinyasm.api.Field;
 
 public class ConvertFromParamsToClassMethodVisitor extends MethodVisitor {
@@ -31,7 +32,8 @@ public class ConvertFromParamsToClassMethodVisitor extends MethodVisitor {
 		if (0 < var && var <= params.length) {
 			super.visitVarInsn(ALOAD, 1);
 			Field field = params[var - 1];
-			AsmBuilderHelper.visitGetProperty(mv, eventType, field.name, field.type);
+			mv.visitMethodInsn(INVOKEVIRTUAL, eventType.getInternalName(), toPropertyGetName(field.name),
+					Type.getMethodDescriptor(field.type), false);
 		} else {
 			super.visitVarInsn(opcode, var);
 		}

@@ -33,7 +33,7 @@ public class AsmBuilder {
 		return Character.toUpperCase(name.charAt(0)) + name.substring(1);
 	}
 
-	protected static String toPropertyGetName(String fieldName) {
+	public static String toPropertyGetName(String fieldName) {
 		return "get" + toPropertyName(fieldName);
 	}
 
