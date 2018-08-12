@@ -12,6 +12,7 @@ import org.objectweb.asm.Type;
 import nebula.tinyasm.api.Field;
 import nebula.tinyasm.util.AsmBuilder;
 
+@Deprecated
 public class AsmBuilderHelper extends AsmBuilder implements Opcodes {
 
 	public static int[] computerLocals(List<Type> types) {

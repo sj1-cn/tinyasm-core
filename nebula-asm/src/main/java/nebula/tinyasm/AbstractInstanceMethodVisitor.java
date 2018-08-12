@@ -8,8 +8,8 @@ import nebula.tinyasm.api.MethodInstanceMethodCode;
 import nebula.tinyasm.api.MethodCode;
 import nebula.tinyasm.api.MethodHeader;
 
-abstract class AbstractInstanceMethodVisitor<H, M, C extends MethodCode<M, C>>
-		extends AbstractMethodBuilder<H, M, C> implements MethodInstanceMethodCode<M, C>, MethodHeader<C> {
+abstract class AbstractInstanceMethodVisitor<H, M, C extends MethodCode<M, C>> extends AbstractMethodBuilder<H, M, C>
+		implements MethodInstanceMethodCode<M, C>, MethodHeader<C> {
 
 	public AbstractInstanceMethodVisitor(ClassVisitor cv, Type thisType, int access, Type returnType, String methodName,
 			String[] exceptionClasses) {
@@ -23,7 +23,7 @@ abstract class AbstractInstanceMethodVisitor<H, M, C extends MethodCode<M, C>>
 
 		labelCurrent = labelWithoutLineNumber();
 		// TODO add class sign
-		locals.push(THIS, thisMethod.type, labelCurrent);
+		locals.push(_THIS, thisMethod.type, labelCurrent);
 		for (ClassField field : thisMethod.params) {
 			locals.push(new LocalsVariable(field, labelCurrent));
 		}

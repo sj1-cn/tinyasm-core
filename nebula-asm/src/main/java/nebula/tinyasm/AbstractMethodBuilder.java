@@ -12,7 +12,6 @@ import static org.objectweb.asm.Opcodes.ILOAD;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.ISTORE;
 import static org.objectweb.asm.Opcodes.POP;
-import static org.objectweb.asm.Opcodes.PUTFIELD;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -422,7 +421,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		} else {
 			label = labelCurrent;
 		}
-		lastLineNumber = lastLineNumber+1;
+		lastLineNumber = lastLineNumber + 1;
 		mv.visitLineNumber(lastLineNumber, label);
 		return code();
 	}
@@ -627,7 +626,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 //			variablesMap.put(variablesStack.get(i).name, i);
 //		}
 //	}
-
 
 	public C storeStackTopTo(String varName) {
 		LocalsVariable var = locals.accessStore(varName, labelCurrent);
