@@ -46,8 +46,8 @@ public class ClassBuilderFieldTest {
 		cw.field("str", Type.getType(String.class));
 		
 		cw.publicMethod("<init>").code(mc -> {
-			mc.line(3).init();
-			mc.returnvoid();
+			mc.line(3).INITObject();
+			mc.RETURN();
 		});
 		
 		cw.publicMethod(Type.INT_TYPE,"getField").code(mc->{
@@ -59,7 +59,7 @@ public class ClassBuilderFieldTest {
 			mc.ADD();
 			mc.STORE("x");
 			mc.line(15).LOAD("x");
-			mc.retTop();
+			mc.RETURNTop();
 		});
 
 		cw.publicMethod(Type.INT_TYPE,"getFieldAll").code(mc->{
@@ -90,7 +90,7 @@ public class ClassBuilderFieldTest {
 			mc.CONVERTTO(Type.INT_TYPE);
 			mc.STORE("x");
 			mc.line(20).LOAD("x");
-			mc.retTop();
+			mc.RETURNTop();
 		});
 
 		cw.publicMethod(int.class,"getFieldConst").code(mc->{
@@ -150,7 +150,7 @@ public class ClassBuilderFieldTest {
 			mc.ADD();
 
 			mc.CONVERTTO(Type.INT_TYPE);
-			mc.retTop();
+			mc.RETURNTop();
 
 		});
 		
@@ -213,7 +213,7 @@ public class ClassBuilderFieldTest {
 			
 			mc.line(i++).LOAD("this");
 			mc.GETFIELD("b", Type.BYTE_TYPE);
-			mc.retTop();
+			mc.RETURNTop();
 
 		});
 
@@ -233,7 +233,7 @@ public class ClassBuilderFieldTest {
 			mc.invokeVirtual_op(Type.getType(StringBuilder.class),Type.getType(StringBuilder.class), "append",Type.getType(String.class));
 			mc.invokeVirtual_op(Type.getType(StringBuilder.class),Type.getType(String.class), "toString");
 			mc.STORE("xstr");
-			mc.line(55).ret("xstr");	
+			mc.line(55).RETURN("xstr");	
 		});
 
 		cw.publicMethod(Type.BYTE_TYPE,"retByte").code(mc->{
@@ -259,7 +259,7 @@ public class ClassBuilderFieldTest {
 			mc.ADD();
 			mc.CONVERTTO(Type.BYTE_TYPE);
 			mc.STORE("y");
-			mc.line().ret("y");			
+			mc.line().RETURN("y");			
 		});
 		
 		// @formatter:on

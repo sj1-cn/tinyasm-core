@@ -48,7 +48,7 @@ public class EnumBuilder implements Opcodes {
 					mc.ARRAYSTORE();
 				}
 				mc.PUTSTATIC(objectType, "ENUM$VALUES", arrayOf(objectType));
-				mc.ret();
+				mc.RETURN();
 			}
 		});
 
@@ -57,7 +57,7 @@ public class EnumBuilder implements Opcodes {
 			mc.LOAD("name");
 			mc.LOAD("value");
 			mc.INVOKESPECIAL(Enum.class, "<init>", String.class, int.class);
-			mc.ret();
+			mc.RETURN();
 		});
 
 		cb.publicStaticMethod(objectType, true, "values").code(mc -> {
@@ -82,7 +82,7 @@ public class EnumBuilder implements Opcodes {
 			mc.LOAD("length");
 
 			mc.INVOKESTATIC(System.class, "arraycopy", Object.class, int.class, Object.class, int.class, int.class);
-			mc.ret("newvs");
+			mc.RETURN("newvs");
 		});
 
 		cb.publicStaticMethod(objectType, "valueOf").parameter("name", String.class).code(mc -> {
@@ -91,7 +91,7 @@ public class EnumBuilder implements Opcodes {
 			mc.LOAD("name");
 			mc.INVOKESTATIC(Enum.class, Enum.class, "valueOf", Class.class, String.class);
 			mc.CHECKCAST(objectType);
-			mc.retTop();
+			mc.RETURNTop();
 		});
 		return cb;
 	}

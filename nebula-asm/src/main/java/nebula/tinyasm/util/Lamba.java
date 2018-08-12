@@ -32,7 +32,7 @@ public class Lamba {
 			mc.deperatedLoadThis().put("this$0", "this$0");
 			mc.line(15).init();
 			mc.deperatedLoadThis().put(fieldName, fieldName);
-			mc.ret();
+			mc.RETURN();
 		});
 		cw.publicMethod("accept").parameter("domain", consumeType).code(invocation);
 		cw.method(ACC_PUBLIC + ACC_BRIDGE + ACC_SYNTHETIC, Type.VOID_TYPE, "accept")
@@ -42,7 +42,7 @@ public class Lamba {
 				mc.LOAD("consumer");
 				mc.checkCast(consumeType);
 				mc.useTopThis().invokeVirtual("accept", consumeType);
-				mc.ret();
+				mc.RETURN();
 			});
 
 		return cw;
@@ -64,13 +64,13 @@ public class Lamba {
 			mc.deperatedLoadThis().put("this$0", "this$0");
 			mc.line(15).init();
 			mc.deperatedLoadThis().put(fieldName, fieldName);
-			mc.ret();
+			mc.RETURN();
 		});
 
 		cb.publicMethod(consumeType, "call", Exception.class).code(invocation);
 		cb.method(ACC_PUBLIC + ACC_BRIDGE + ACC_SYNTHETIC, Object.class, "call", Exception.class).code(mc -> {
 			mc.useThis().invokeVirtual(consumeType, "call");
-			mc.retTop();
+			mc.RETURNTop();
 		});
 
 		return cb;

@@ -1,15 +1,9 @@
 package nebula.tinyasm;
 
 //import org.objectweb.asm.Type;
-import static nebula.tinyasm.api.TypeUtils.*;
-import static org.objectweb.asm.Opcodes.DUP;
-import static org.objectweb.asm.Opcodes.ICONST_0;
-import static org.objectweb.asm.Opcodes.ICONST_1;
+import static nebula.tinyasm.api.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.IFGT;
-import static org.objectweb.asm.Opcodes.LADD;
 import static org.objectweb.asm.Opcodes.LCMP;
-import static org.objectweb.asm.Opcodes.LCONST_0;
-import static org.objectweb.asm.Opcodes.LSUB;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
@@ -47,13 +41,13 @@ public class MyBankAccountBuilder {
 			.parameter("axonBankAccountId", String.class)
 			.parameter("overdraftLimit", long.class)
 			.code(mc -> {
-				mc.line(38).init();
+				mc.line(38).INITObject();
 				mc.line(39).LOADThis();
 				mc.LOAD("axonBankAccountId");
 				mc.LOAD("overdraftLimit");
 				mc.INVOKESPECIAL(typeOf("com.nebula.cqrs.core.asm.MyBankAccount"), null, "onCreated",
 						typeOf(String.class), typeOf(long.class));
-				mc.line(40).returnvoid();
+				mc.line(40).RETURN();
 			});
 	}
 
@@ -63,7 +57,7 @@ public class MyBankAccountBuilder {
 			mc.LOAD("amount");
 			mc.INVOKESPECIAL(typeOf("com.nebula.cqrs.core.asm.MyBankAccount"), null, "onMoneyAdded", Type.LONG_TYPE);
 			mc.line(45).LOADConstByte(1);
-			mc.retTop();
+			mc.RETURNTop();
 		});
 	}
 
@@ -85,11 +79,11 @@ public class MyBankAccountBuilder {
 				mc.INVOKESPECIAL(typeOf("com.nebula.cqrs.core.asm.MyBankAccount"), null, "onMoneySubtracted",
 						Type.LONG_TYPE);
 				mc.line(52).LOADConstByte(1);
-				mc.retTop();
+				mc.RETURNTop();
 
 				mc.accessLabel(ifEnd, 54);
 				mc.LOADConstByte(0);
-				mc.retTop();
+				mc.RETURNTop();
 			});
 		}
 	}
@@ -104,7 +98,7 @@ public class MyBankAccountBuilder {
 				mc.line(102).LOADThis();
 				mc.LOADConst(0L);
 				mc.PUTFIELD("balance", Type.LONG_TYPE);
-				mc.line(103).returnvoid();
+				mc.line(103).RETURN();
 			});
 	}
 
@@ -118,7 +112,7 @@ public class MyBankAccountBuilder {
 			mc.line(108).LOADThis();
 			mc.LOAD("newbalance");
 			mc.PUTFIELD("balance", Type.LONG_TYPE);
-			mc.line(109).returnvoid();
+			mc.line(109).RETURN();
 		});
 	}
 
@@ -130,14 +124,14 @@ public class MyBankAccountBuilder {
 			mc.LOAD("amount");
 			mc.SUB();
 			mc.PUTFIELD("balance", Type.LONG_TYPE);
-			mc.line(114).returnvoid();
+			mc.line(114).RETURN();
 		});
 	}
 
 	private static void visitDefine_init(ClassBody cw) {
 		cw.privateMethod("<init>").code(mc -> {
-			mc.line(34).init();
-			mc.line(35).returnvoid();
+			mc.line(34).INITObject();
+			mc.line(35).RETURN();
 		});
 	}
 }

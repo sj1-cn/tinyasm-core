@@ -60,6 +60,36 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public interface SmartOpcode {
+
+	void mvInst(int opcode);
+
+	void mvInst(int opcode, int index);
+
+	void mvIntInsn(int opcode, int operand);
+
+	void mvFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
+
+	void mvInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
+
+	void mvLdcInsn(Object cst);
+
+	void mvTypeInsn(int opcode, Type type);
+
+	abstract int codeLocalLoadAccess(String name);
+
+	abstract Type codeLocalLoadAccessType(String name);
+
+	abstract int codeLocalStoreAccess(String name);
+
+	abstract Type codeLocalStoreAccessType(String name);
+
+	abstract Type codeGetStack(int i);
+
+	abstract Type codePopStack();
+
+	abstract void codePush(Type type);
+
+	/** MATH **/
 	default void ADD(String left, String right) {
 		LOAD(left);
 		LOAD(right);
@@ -160,7 +190,7 @@ public interface SmartOpcode {
 
 	String _THIS = "this";
 
-	default void initObject() {
+	default void INITObject() {
 		LOADThis();
 		INVOKESPECIAL(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
 	}
@@ -217,6 +247,64 @@ public interface SmartOpcode {
 		// LXOR (left, right → result) : bitwise exclusive or of two longs
 	}
 
+	@Deprecated
+	default void CMP(String left, String right) {
+		LOAD(left);
+		LOAD(right);
+		CMP();
+	}
+
+	@Deprecated
+	@SuppressWarnings("unused")
+	default void CMP() {
+		Type right = codePopStack();
+		Type left = codePopStack();
+		Type result = left;
+		codePush(result);
+		// LCMP (left, right → result) : compare two longs values
+		// DCMPG (left, right → result) : compare two doubles
+		// FCMPG (left, right → result) : compare two floats
+		// DCMPL (left, right → result) : compare two doubles
+		// FCMPL (left, right → result) : compare two floats
+	}
+
+	@SuppressWarnings("unused")
+	default void SHL() {
+		Type right = codePopStack();
+		Type left = codePopStack();
+		Type result = left;
+		codePush(result);
+		mvInst(left.getOpcode(ISHR));
+		// ISHL (left, right → result) : int shift left
+		// LSHL (left, right → result) : bitwise shift left of a
+		// long left by right positions
+	}
+
+	@SuppressWarnings("unused")
+	default void SHR() {
+		Type right = codePopStack();
+		Type left = codePopStack();
+		Type result = left;
+		codePush(result);
+		mvInst(left.getOpcode(ISHR));
+		// ISHR (left, right → result) : int arithmetic shift right
+		// LSHR (left, right → result) : bitwise shift right of a
+		// long left by right positions
+	}
+
+	default void NEG() {
+		Type value = codePopStack();
+		Type result = value;
+		codePush(result);
+		mvInst(value.getOpcode(INEG));
+
+		// DNEG (value → result) : negate a double
+		// FNEG (value → result) : negate a float
+		// INEG (value → result) : negate int
+		// LNEG (value → result) : negate a long
+	}
+
+	/** ARRAY **/
 	default void NEWARRAY(String count, Type type) {
 		LOAD(count);
 		NEWARRAY(type);
@@ -340,6 +428,56 @@ public interface SmartOpcode {
 		// SASTORE (arrayref, index, value →) : store short to array
 	}
 
+	/**
+	 * Visits a LDC instruction. Note that new constant types may be added in future
+	 * versions of the Java Virtual Machine. To easily detect new constant types,
+	 * implementations of this method should check for unexpected constant types,
+	 * like this:
+	 * 
+	 * <pre>
+	 * if (cst instanceof Integer) {
+	 * 	// ...
+	 * } else if (cst instanceof Float) {
+	 * 	// ...
+	 * } else if (cst instanceof Long) {
+	 * 	// ...
+	 * } else if (cst instanceof Double) {
+	 * 	// ...
+	 * } else if (cst instanceof String) {
+	 * 	// ...
+	 * } else if (cst instanceof Type) {
+	 * 	int sort = ((Type) cst).getSort();
+	 * 	if (sort == Type.OBJECT) {
+	 * 		// ...
+	 * 	} else if (sort == Type.ARRAY) {
+	 * 		// ...
+	 * 	} else if (sort == Type.METHOD) {
+	 * 		// ...
+	 * 	} else {
+	 * 		// throw an exception
+	 * 	}
+	 * } else if (cst instanceof Handle) {
+	 * 	// ...
+	 * } else {
+	 * 	// throw an exception
+	 * }
+	 * </pre>
+	 * 
+	 * @param cst the constant to be loaded on the stack. This parameter must be a
+	 *            non null {@link Integer}, a {@link Float}, a {@link Long}, a
+	 *            {@link Double}, a {@link String}, a {@link Type} of OBJECT or
+	 *            ARRAY sort for <tt>.class</tt> constants, for classes whose
+	 *            version is 49.0, a {@link Type} of METHOD sort or a {@link Handle}
+	 *            for MethodType and MethodHandle constants, for classes whose
+	 *            version is 51.0.
+	 */
+	default void NEW(Type objectref) {
+		codePush(objectref);
+		mvTypeInsn(NEW, objectref);
+		// NEW (→ objectref) : create new object of type identified by class reference
+		// in constant pool index (indexbyte1 << 8 + indexbyte2)
+	}
+
 	default void CHECKCAST(Type type) {
 		Type objectref = codePopStack();
 		codePush(objectref);
@@ -349,75 +487,134 @@ public interface SmartOpcode {
 		// at index (indexbyte1 << 8 + indexbyte2)
 	}
 
-	void mvInst(int opcode);
-
-	void mvInst(int opcode, int index);
-
-	void mvIntInsn(int opcode, int operand);
-
-	void mvFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
-
-	void mvInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
-
-	void mvLdcInsn(Object cst);
-
-	void mvTypeInsn(int opcode, Type type);
-
-	abstract int codeLocalLoadAccess(String name);
-
-	abstract Type codeLocalLoadAccessType(String name);
-
-	abstract int codeLocalStoreAccess(String name);
-
-	abstract Type codeLocalStoreAccessType(String name);
-
-	abstract Type codeGetStack(int i);
-
-	abstract Type codePopStack();
-
-	abstract void codePush(Type type);
-
-	@Deprecated
-	default void compare(String left, String right) {
-		LOAD(left);
-		LOAD(right);
-		CMP();
-	}
-
-	@Deprecated
 	@SuppressWarnings("unused")
-	default void CMP() {
-		Type right = codePopStack();
-		Type left = codePopStack();
-		Type result = left;
+	default void INSTANCEOF(Type type) {
+		Type objectref = codePopStack();
+		Type result = Type.getType(Integer.class);
 		codePush(result);
-		// LCMP (left, right → result) : compare two longs values
-		// DCMPG (left, right → result) : compare two doubles
-		// FCMPG (left, right → result) : compare two floats
-		// DCMPL (left, right → result) : compare two doubles
-		// FCMPL (left, right → result) : compare two floats
+		mvTypeInsn(INSTANCEOF, type);
+		// INSTANCEOF (objectref → result) : determines if an object objectref is of a
+		// given type, identified by class reference index in constant pool (indexbyte1
+		// << 8 + indexbyte2)
 	}
 
-	default void DUP() {
-		Type left = codeGetStack(0);
-		codePush(left);
-		mvInst(DUP);
-		// DUP (value → value, value) : duplicate the value on top of the stack
+	/*
+	 * {@link #VOID VOID}, {@link #BOOLEAN BOOLEAN}, {@link #CHAR CHAR}, {@link
+	 * #BYTE BYTE}, {@link #SHORT SHORT}, {@link #INT INT}, {@link #FLOAT FLOAT},
+	 * {@link #LONG LONG}, {@link #DOUBLE DOUBLE}, {@link #ARRAY ARRAY}, {@link
+	 * #OBJECT OBJECT} or {@link #METHOD METHOD}.
+	 */
+	default void CONVERTTO(Type typeTo) {
+		Type typeFrom = codePopStack();
+		codePush(typeTo);
+
+		switch (typeFrom.getSort()) {
+		case Type.LONG:
+			switch (typeTo.getSort()) {
+			case Type.INT:
+				mvInst(L2I);
+				break;
+			case Type.FLOAT:
+				mvInst(L2F);
+				break;
+			case Type.DOUBLE:
+				mvInst(L2D);
+				break;
+
+			default:
+				break;
+			}
+			break;
+		case Type.INT:
+			switch (typeTo.getSort()) {
+			case Type.SHORT:
+				mvInst(I2S);
+				break;
+			case Type.LONG:
+				mvInst(I2L);
+				break;
+			case Type.FLOAT:
+				mvInst(I2F);
+				break;
+			case Type.DOUBLE:
+				mvInst(I2D);
+				break;
+			case Type.CHAR:
+				mvInst(I2C);
+				break;
+			case Type.BYTE:
+				mvInst(I2B);
+				break;
+
+			default:
+				throw new UnsupportedOperationException();
+			}
+			break;
+		case Type.FLOAT:
+
+			switch (typeTo.getSort()) {
+			case Type.LONG:
+				mvInst(F2L);
+				break;
+			case Type.INT:
+				mvInst(F2I);
+				break;
+			case Type.DOUBLE:
+				mvInst(F2D);
+				break;
+
+			default:
+				throw new UnsupportedOperationException();
+			}
+			break;
+		case Type.DOUBLE:
+			switch (typeTo.getSort()) {
+			case Type.LONG:
+				mvInst(D2L);
+				break;
+			case Type.INT:
+				mvInst(D2I);
+				break;
+			case Type.FLOAT:
+				mvInst(D2F);
+				break;
+
+			default:
+				throw new UnsupportedOperationException();
+			}
+			break;
+		default:
+			throw new UnsupportedOperationException();
+
+		}
+
+//		Type result = value;
+//		codePush(result);
+//		codeInst(value.getOpcode(INEG));
+
+		// DNEG (value → result) : negate a double
+		// FNEG (value → result) : negate a float
+		// INEG (value → result) : negate int
+		// LNEG (value → result) : negate a long
 	}
 
-	default void DUP2() {
-		Type right = codeGetStack(-1);
-		Type left = codeGetStack(0);
-		codePush(right);
-		codePush(left);
-		codePush(right);
-		codePush(left);
-		mvInst(DUP2);
-		// DUP2 ({right, left} → {right, left}, {right, left}) : duplicate top
-		// two stack words (two values, if left is not double nor long; a single
-		// value, if left is double or long)
-	}
+//	i2b	convert an int into a byte
+//	i2c	convert an int into a character
+//	f2d	convert a float to a double
+//	i2d	convert an int into a double
+//	l2d	convert a long to a double
+//	d2f	convert a double to a float
+//	i2f	convert an int into a float
+//	l2f	convert a long to a float
+//	d2i	convert a double to an int
+//	f2i	convert a float to an int
+//	l2i	convert a long to a int
+//	d2l	convert a double to a long
+//	f2l	convert a float to a long
+//	i2l	convert an int into a long
+//	i2s	convert an int into a short
 
+	/** ARRAY **/
 	default void GETFIELD(String objectname, String fieldname, Type fieldType) {
 		LOAD(objectname);
 		GETFIELD(fieldname, fieldType);
@@ -546,17 +743,7 @@ public interface SmartOpcode {
 		// 8 + branchbyte2)
 	}
 
-	@SuppressWarnings("unused")
-	default void INSTANCEOF(Type type) {
-		Type objectref = codePopStack();
-		Type result = Type.getType(Integer.class);
-		codePush(result);
-		mvTypeInsn(INSTANCEOF, type);
-		// INSTANCEOF (objectref → result) : determines if an object objectref is of a
-		// given type, identified by class reference index in constant pool (indexbyte1
-		// << 8 + indexbyte2)
-	}
-
+	/** INVOKE **/
 	default void INVOKESTATIC(Class<?> objectType, String methodName, Class<?>... paramTypes) {
 		INVOKESTATIC(typeOf(objectType), Type.VOID_TYPE, methodName, typeOf(paramTypes));
 	}
@@ -739,134 +926,6 @@ public interface SmartOpcode {
 		}
 	}
 
-	default void NEG() {
-		Type value = codePopStack();
-		Type result = value;
-		codePush(result);
-		mvInst(value.getOpcode(INEG));
-
-		// DNEG (value → result) : negate a double
-		// FNEG (value → result) : negate a float
-		// INEG (value → result) : negate int
-		// LNEG (value → result) : negate a long
-	}
-
-	/*
-	 * {@link #VOID VOID}, {@link #BOOLEAN BOOLEAN}, {@link #CHAR CHAR}, {@link
-	 * #BYTE BYTE}, {@link #SHORT SHORT}, {@link #INT INT}, {@link #FLOAT FLOAT},
-	 * {@link #LONG LONG}, {@link #DOUBLE DOUBLE}, {@link #ARRAY ARRAY}, {@link
-	 * #OBJECT OBJECT} or {@link #METHOD METHOD}.
-	 */
-	default void CONVERTTO(Type typeTo) {
-		Type typeFrom = codePopStack();
-		codePush(typeTo);
-
-		switch (typeFrom.getSort()) {
-		case Type.LONG:
-			switch (typeTo.getSort()) {
-			case Type.INT:
-				mvInst(L2I);
-				break;
-			case Type.FLOAT:
-				mvInst(L2F);
-				break;
-			case Type.DOUBLE:
-				mvInst(L2D);
-				break;
-
-			default:
-				break;
-			}
-			break;
-		case Type.INT:
-			switch (typeTo.getSort()) {
-			case Type.SHORT:
-				mvInst(I2S);
-				break;
-			case Type.LONG:
-				mvInst(I2L);
-				break;
-			case Type.FLOAT:
-				mvInst(I2F);
-				break;
-			case Type.DOUBLE:
-				mvInst(I2D);
-				break;
-			case Type.CHAR:
-				mvInst(I2C);
-				break;
-			case Type.BYTE:
-				mvInst(I2B);
-				break;
-
-			default:
-				throw new UnsupportedOperationException();
-			}
-			break;
-		case Type.FLOAT:
-
-			switch (typeTo.getSort()) {
-			case Type.LONG:
-				mvInst(F2L);
-				break;
-			case Type.INT:
-				mvInst(F2I);
-				break;
-			case Type.DOUBLE:
-				mvInst(F2D);
-				break;
-
-			default:
-				throw new UnsupportedOperationException();
-			}
-			break;
-		case Type.DOUBLE:
-			switch (typeTo.getSort()) {
-			case Type.LONG:
-				mvInst(D2L);
-				break;
-			case Type.INT:
-				mvInst(D2I);
-				break;
-			case Type.FLOAT:
-				mvInst(D2F);
-				break;
-
-			default:
-				throw new UnsupportedOperationException();
-			}
-			break;
-		default:
-			throw new UnsupportedOperationException();
-
-		}
-
-//		Type result = value;
-//		codePush(result);
-//		codeInst(value.getOpcode(INEG));
-
-		// DNEG (value → result) : negate a double
-		// FNEG (value → result) : negate a float
-		// INEG (value → result) : negate int
-		// LNEG (value → result) : negate a long
-	}
-
-//	i2b	convert an int into a byte
-//	i2c	convert an int into a character
-//	f2d	convert a float to a double
-//	i2d	convert an int into a double
-//	l2d	convert a long to a double
-//	d2f	convert a double to a float
-//	i2f	convert an int into a float
-//	l2f	convert a long to a float
-//	d2i	convert a double to an int
-//	f2i	convert a float to an int
-//	l2i	convert a long to a int
-//	d2l	convert a double to a long
-//	f2l	convert a float to a long
-//	i2l	convert an int into a long
-//	i2s	convert an int into a short
-
 	default void LOADConstByte(int value) {
 		mvIntInsn(BIPUSH, value);
 		codePush(Type.BYTE_TYPE);
@@ -937,56 +996,7 @@ public interface SmartOpcode {
 		}
 	}
 
-	/**
-	 * Visits a LDC instruction. Note that new constant types may be added in future
-	 * versions of the Java Virtual Machine. To easily detect new constant types,
-	 * implementations of this method should check for unexpected constant types,
-	 * like this:
-	 * 
-	 * <pre>
-	 * if (cst instanceof Integer) {
-	 * 	// ...
-	 * } else if (cst instanceof Float) {
-	 * 	// ...
-	 * } else if (cst instanceof Long) {
-	 * 	// ...
-	 * } else if (cst instanceof Double) {
-	 * 	// ...
-	 * } else if (cst instanceof String) {
-	 * 	// ...
-	 * } else if (cst instanceof Type) {
-	 * 	int sort = ((Type) cst).getSort();
-	 * 	if (sort == Type.OBJECT) {
-	 * 		// ...
-	 * 	} else if (sort == Type.ARRAY) {
-	 * 		// ...
-	 * 	} else if (sort == Type.METHOD) {
-	 * 		// ...
-	 * 	} else {
-	 * 		// throw an exception
-	 * 	}
-	 * } else if (cst instanceof Handle) {
-	 * 	// ...
-	 * } else {
-	 * 	// throw an exception
-	 * }
-	 * </pre>
-	 * 
-	 * @param cst the constant to be loaded on the stack. This parameter must be a
-	 *            non null {@link Integer}, a {@link Float}, a {@link Long}, a
-	 *            {@link Double}, a {@link String}, a {@link Type} of OBJECT or
-	 *            ARRAY sort for <tt>.class</tt> constants, for classes whose
-	 *            version is 49.0, a {@link Type} of METHOD sort or a {@link Handle}
-	 *            for MethodType and MethodHandle constants, for classes whose
-	 *            version is 51.0.
-	 */
-	default void NEW(Type objectref) {
-		codePush(objectref);
-		mvTypeInsn(NEW, objectref);
-		// NEW (→ objectref) : create new object of type identified by class reference
-		// in constant pool index (indexbyte1 << 8 + indexbyte2)
-	}
-
+	/** STACK **/
 	default void NOP() {
 		mvInst(Opcodes.NOP);
 		// NOP ([No change]) : perform no operation
@@ -999,6 +1009,26 @@ public interface SmartOpcode {
 		// POP (value →) : discard the top value on the stack
 	}
 
+	default void DUP() {
+		Type left = codeGetStack(0);
+		codePush(left);
+		mvInst(DUP);
+		// DUP (value → value, value) : duplicate the value on top of the stack
+	}
+
+	default void DUP2() {
+		Type right = codeGetStack(-1);
+		Type left = codeGetStack(0);
+		codePush(right);
+		codePush(left);
+		codePush(right);
+		codePush(left);
+		mvInst(DUP2);
+		// DUP2 ({right, left} → {right, left}, {right, left}) : duplicate top
+		// two stack words (two values, if left is not double nor long; a single
+		// value, if left is double or long)
+	}
+
 	@SuppressWarnings("unused")
 	default void POP2() {
 		Type right = codePopStack();
@@ -1008,89 +1038,35 @@ public interface SmartOpcode {
 		// value, if it is a double or long)
 	}
 
-	default void ret() {
-		RETURN();
-	}
-
-	default void ret(String varname) {
-		LOAD(varname);
-		Type type = codeGetStack(0);
-		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) IRETURN();
-		else if (type.getSort() == Type.ARRAY) ARETURN();
-		else if (type.getSort() == Type.OBJECT) ARETURN();
-		else if (type.getSort() == Type.VOID) RETURN();
-		else
-			throw new UnsupportedOperationException();
-	}
-
-	default void retTop() {
-		Type type = codeGetStack(0);
-		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) IRETURN();
-		else if (type.getSort() == Type.OBJECT) ARETURN();
-		else if (type.getSort() == Type.VOID) RETURN();
-		else
-			throw new UnsupportedOperationException();
-	}
-
-	@SuppressWarnings("unused")
-	default void ARETURN() {
-		Type objectref = codePopStack();
-		mvInst(ARETURN);
-		// ARETURN (objectref → [empty]) : return a reference from a method
-	}
-	
-	default void IRETURN() {
-		Type type = codePopStack();
-		mvInst(type.getOpcode(IRETURN));
-		// DRETURN (value → [empty]) : return a double from a method
-		// FRETURN (value → [empty]) : return a float
-		// IRETURN (value → [empty]) : return an integer from a method
-		// LRETURN (value → [empty]) : return a long value
-	}
-
-	default void returnValue(String varname) {
-		LOAD(varname);
-		IRETURN();
-	}
-
-	default void returnvoid() {
-		RETURN();
-	}
-
 	// RETURN (→ [empty]) : return void from method
 	default void RETURN() {
 		mvInst(RETURN);
 	}
 
-	@Deprecated
-	default void shl(String left, String right) {
-		LOAD(left);
-		LOAD(right);
-		SHL();
-
+	default void RETURN(String varname) {
+		LOAD(varname);
+		RETURNTop();
 	}
 
-	@SuppressWarnings("unused")
-	default void SHL() {
-		Type right = codePopStack();
-		Type left = codePopStack();
-		Type result = left;
-		codePush(result);
-		mvInst(left.getOpcode(ISHR));
-		// ISHL (left, right → result) : int shift left
-		// LSHL (left, right → result) : bitwise shift left of a
-		// long left by right positions
+	default void RETURNTop() {
+		Type type = codeGetStack(0);
+		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) {
+			Type objectref = codePopStack();
+			mvInst(objectref.getOpcode(IRETURN));
+			// DRETURN (value → [empty]) : return a double from a method
+			// FRETURN (value → [empty]) : return a float
+			// IRETURN (value → [empty]) : return an integer from a method
+			// LRETURN (value → [empty]) : return a long value
+		} else if (type.getSort() == Type.OBJECT) {
+			// ARETURN (objectref → [empty]) : return a reference from a method
+			codePopStack();
+			mvInst(ARETURN);
+		} else if (type.getSort() == Type.ARRAY) {
+			// ARETURN (objectref → [empty]) : return a reference from a method
+			codePopStack();
+			mvInst(ARETURN);
+		} else
+			throw new UnsupportedOperationException();
 	}
 
-	@SuppressWarnings("unused")
-	default void SHR() {
-		Type right = codePopStack();
-		Type left = codePopStack();
-		Type result = left;
-		codePush(result);
-		mvInst(left.getOpcode(ISHR));
-		// ISHR (left, right → result) : int arithmetic shift right
-		// LSHR (left, right → result) : bitwise shift right of a
-		// long left by right positions
-	}
 }

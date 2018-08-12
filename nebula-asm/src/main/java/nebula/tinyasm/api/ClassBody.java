@@ -53,7 +53,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 		publicMethod(fieldType, toPropertyGetName(fieldName, fieldType)).code(mc -> {
 			mc.deperatedLoadThis()
 					.get(fieldName, fieldType);
-			mc.retTop();
+			mc.RETURNTop();
 		});
 		return this;
 	}
@@ -71,7 +71,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 				.code(mc -> {
 					mc.deperatedLoadThis()
 							.put(fieldName, fieldName);
-					mc.ret();
+					mc.RETURN();
 				});
 		return this;
 	}
@@ -82,7 +82,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 				.code(mc -> {
 					mc.deperatedLoadThis()
 							.put(fieldName, fieldName);
-					mc.ret();
+					mc.RETURN();
 				});
 		return this;
 	}
@@ -94,7 +94,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 				.code(mc -> {
 					mc.deperatedLoadThis()
 							.put(fieldName, fieldName);
-					mc.ret();
+					mc.RETURN();
 				});
 		return this;
 	}
@@ -142,7 +142,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 	default ClassBody publicInitNone() {
 		publicMethod("<init>").code(mc -> {
 			mc.init();
-			mc.ret();
+			mc.RETURN();
 		});
 		return this;
 	}
@@ -156,7 +156,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 						mc.deperatedLoadThis()
 								.put(param.name, param.name);
 					}
-					mc.ret();
+					mc.RETURN();
 				});
 		return this;
 	}
@@ -178,7 +178,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 							mc.deperatedLoadThis()
 									.put(param.name, param.name);
 						}
-						mc.ret();
+						mc.RETURN();
 					});
 			return this;
 		} else {
@@ -191,7 +191,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 						mc.type(getSuperType())
 								.invokeSpecial("<init>", typeOf(superFields));
 
-						mc.ret();
+						mc.RETURN();
 					});
 			return this;
 		}
@@ -214,7 +214,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 							mc.deperatedLoadThis()
 									.put(param.name, param.name);
 						}
-						mc.ret();
+						mc.RETURN();
 					});
 			return this;
 		} else {
@@ -227,7 +227,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 						mc.type(getSuperType())
 								.invokeSpecial("<init>", typeOf(superFields));
 
-						mc.ret();
+						mc.RETURN();
 					});
 			return this;
 		}
@@ -267,7 +267,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 							.invokeVirtual(StringBuilder.class, "append", String.class);
 					mc.type(StringBuilder.class)
 							.invokeVirtual(String.class, "toString");
-					mc.retTop();
+					mc.RETURNTop();
 				});
 		return this;
 	}
@@ -310,7 +310,7 @@ public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 							.invokeVirtual(StringBuilder.class, "append", String.class);
 					mc.type(StringBuilder.class)
 							.invokeVirtual(String.class, "toString");
-					mc.retTop();
+					mc.RETURNTop();
 				});
 		return this;
 	}
