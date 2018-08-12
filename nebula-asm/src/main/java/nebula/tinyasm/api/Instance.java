@@ -5,6 +5,4 @@ public interface Instance<M, C extends MethodCode<M, C>> extends InvokeMethod<M,
 	@Deprecated
 	C code();
 
-	@Deprecated
-	M use();
 }

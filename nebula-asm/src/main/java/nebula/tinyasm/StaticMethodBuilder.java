@@ -34,11 +34,6 @@ class StaticMethodBuilder
 	}
 
 	@Override
-	public Type thisType() {
-		return thisMethod.type;
-	}
-
-	@Override
 	public StaticMethodCode code() {
 		return this;
 	}

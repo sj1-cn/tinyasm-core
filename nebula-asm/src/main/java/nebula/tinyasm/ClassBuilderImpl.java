@@ -181,19 +181,6 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		this.superType = superType;
 	}
 
-	// @Override
-	// public MethodHeader<ClassMethodCode> method(int access, String name,
-	// String desc, String signature, String[] exceptions) {
-	// Type returnType = Type.getReturnType(desc);
-	//
-	// MethodHeader<ClassMethodCode> mh = new ClassMethodVisitor(this, thisType,
-	// access, returnType, name, exceptions);
-	//
-	//
-	// return new ClassMethodVisitor(this, thisType, access, returnType,
-	// methodName, exceptions);
-	// }
-
 	@Override
 	public MethodHeader<InstanceMethodCode> method(int access, Type returnType, String methodName,
 			String[] exceptions) {

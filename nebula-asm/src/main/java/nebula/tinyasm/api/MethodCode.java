@@ -62,9 +62,6 @@ public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 		return def(fieldName, fieldType, signature);
 	}
 
-	@Deprecated
-	M depetatedUse(String... varNames);
-
 	void end();
 
 	C line(int line);
@@ -73,28 +70,6 @@ public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 
 	Label newLabel();
 
-
-	@Deprecated
-	Type thisType();
-
-	@Deprecated
-	default Instance<M, C> type(Class<?> objectClass) {
-		return type(typeOf(objectClass));
-	}
-
-	@Deprecated
-	Instance<M, C> type(Type objectType);
-
-	@Deprecated
-	default Instance<M, C> typeThis() {
-		return type(thisType());
-	};
-
-	@Deprecated
-	default M use(Function<C, ToType> func) {
-		ToType toType = func.apply(code());
-		return useStackTop(toType.getStackTopType());
-	}
 
 	@Deprecated
 	M useStackTop(Type type);

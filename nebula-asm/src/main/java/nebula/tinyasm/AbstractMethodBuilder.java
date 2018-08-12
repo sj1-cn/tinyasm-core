@@ -106,10 +106,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 			return AbstractMethodBuilder.this.getStackTopType();
 		}
 
-		@Override
-		public M use() {
-			return AbstractMethodBuilder.this.useStackTop(thisMethod.returnType);
-		}
 	}
 
 	class ThisMethod {
@@ -521,15 +517,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 //		return useTop(object.type);
 //	}
 
-	@Override
-	// TODO
-	public M depetatedUse(String... varNames) {
-		for (String name : varNames) {
-			LOAD(name);
-		}
-		LocalsVariable top = locals.get(varNames[0]);
-		return useStackTop(top.type);
-	}
 
 //	@Override
 //	public int varIndex(String variableName) {

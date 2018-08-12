@@ -32,10 +32,4 @@ abstract class AbstractInstanceMethodVisitor<H, M, C extends MethodCode<M, C>> e
 		return code();
 	}
 
-	@Override
-	@Deprecated
-	public Type thisType() {
-		return thisMethod.type;
-	}
-
 }
