@@ -7,7 +7,6 @@ import static org.objectweb.asm.Opcodes.BIPUSH;
 import static org.objectweb.asm.Opcodes.CHECKCAST;
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.ICONST_0;
-import static org.objectweb.asm.Opcodes.IFGT;
 import static org.objectweb.asm.Opcodes.ILOAD;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.ISTORE;
@@ -379,9 +378,14 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	}
 
 	@Override
-	public C jumpInsn(int ifgt, Label label) {
-		mv.visitJumpInsn(IFGT, label);
+	public C jumpInsn(int opcode, Label label) {
+		mv.visitJumpInsn(opcode, label);
 		return code();
+	}
+
+	@Override
+	public void mvJumpInsn(int opcode, Label label) {
+		mv.visitJumpInsn(opcode, label);
 	}
 
 	protected Label labelWithoutLineNumber() {

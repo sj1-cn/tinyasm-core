@@ -2,8 +2,6 @@ package nebula.tinyasm;
 
 //import org.objectweb.asm.Type;
 import static nebula.tinyasm.api.TypeUtils.typeOf;
-import static org.objectweb.asm.Opcodes.IFGT;
-import static org.objectweb.asm.Opcodes.LCMP;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
@@ -70,9 +68,9 @@ public class MyBankAccountBuilder {
 				mc.LOADThisField("overdraftLimit", Type.LONG_TYPE);
 				mc.ADD();
 
-				mc.deperatedInsn(LCMP);
+				mc.CMP();
 				Label ifEnd = mc.newLabel();
-				mc.jumpInsn(IFGT, ifEnd);
+				mc.IFGT(ifEnd);
 
 				mc.line(51).LOADThis();
 				mc.LOAD("amount");
