@@ -18,7 +18,7 @@ import org.objectweb.asm.util.TraceClassVisitor;
 
 import nebula.tinyasm.api.ClassBody;
 
-public class ClassBuilderTestSimpleMath {
+public class MyBankAccountBuilderTest {
 
 	@Before
 	public void setUp() throws Exception {
