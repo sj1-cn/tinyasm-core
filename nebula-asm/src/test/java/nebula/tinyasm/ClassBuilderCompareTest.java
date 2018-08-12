@@ -1,7 +1,6 @@
 package nebula.tinyasm;
 
 import static org.junit.Assert.assertEquals;
-import static org.objectweb.asm.Opcodes.IFGT;
 
 import java.io.IOException;
 import java.io.PrintWriter;
