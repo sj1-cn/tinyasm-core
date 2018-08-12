@@ -1,14 +1,14 @@
 package nebula.tinyasm.api;
 
+import static nebula.tinyasm.api.TypeUtils.arrayOf;
+import static nebula.tinyasm.api.TypeUtils.typeOf;
+
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.SmartOpcode;
-
-import static nebula.tinyasm.api.TypeUtils.*;
 
 public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 
@@ -69,8 +69,4 @@ public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 	C line();
 
 	Label newLabel();
-
-
-	@Deprecated
-	M useStackTop(Type type);
 }

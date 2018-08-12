@@ -18,7 +18,6 @@ abstract class AbstractInstanceMethodVisitor<H, M, C extends MethodCode<M, C>> e
 
 	@Override
 	protected C makeMethodBegin() {
-		currentInstance = new ThisInstance();
 		mv.visitCode();
 
 		labelCurrent = labelWithoutLineNumber();
@@ -27,7 +26,6 @@ abstract class AbstractInstanceMethodVisitor<H, M, C extends MethodCode<M, C>> e
 		for (ClassField field : thisMethod.params) {
 			locals.push(new LocalsVariable(field, labelCurrent));
 		}
-//		recomputerLocals();
 
 		return code();
 	}

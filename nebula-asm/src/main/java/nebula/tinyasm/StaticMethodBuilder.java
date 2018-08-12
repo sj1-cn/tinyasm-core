@@ -38,9 +38,4 @@ class StaticMethodBuilder
 		return this;
 	}
 
-	@Override
-	public MethodCallerInStaticMethod useStackTop(Type type) {
-		return new MethodCallerInStaticMethodImpl(mv, type);
-	}
-
 }

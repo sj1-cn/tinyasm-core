@@ -57,11 +57,6 @@ class IndependentInstanceMethodBuilder extends
 	}
 
 	@Override
-	public IndependentMethodCaller useStackTop(Type type) {
-		return new IndependentMethodCallerImpl(type);
-	}
-
-	@Override
 	public IndependentMethodCaller useTopThis() {
 		return new IndependentMethodCallerImpl(thisMethod.type);
 	}

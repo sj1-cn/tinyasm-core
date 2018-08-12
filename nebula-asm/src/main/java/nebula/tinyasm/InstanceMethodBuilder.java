@@ -37,8 +37,6 @@ class InstanceMethodBuilder extends
 
 	ClassBuilderImpl cv;
 
-	ThisInstanceImpl thisInstance;
-
 	public InstanceMethodBuilder(ClassBuilderImpl cv, Type thisType, int access, Type returnType, String methodName,
 			String[] exceptionClasses) {
 		super(cv, thisType, access, returnType, methodName, exceptionClasses);
@@ -51,19 +49,8 @@ class InstanceMethodBuilder extends
 	}
 
 	@Override
-	protected InstanceMethodCode makeMethodBegin() {
-		thisInstance = new ThisInstanceImpl();
-		return super.makeMethodBegin();
-	}
-
-	@Override
 	public MethodCallerInInstanceMethod useThis() {
 		return new MethodCallerInInstanceMethodImpl(thisMethod.type);
-	}
-
-	@Override
-	public MethodCallerInInstanceMethod useStackTop(Type type) {
-		return new MethodCallerInInstanceMethodImpl(type);
 	}
 
 	@Override
