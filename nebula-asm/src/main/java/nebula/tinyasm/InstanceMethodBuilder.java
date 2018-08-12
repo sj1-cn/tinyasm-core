@@ -4,8 +4,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.api.ClassField;
-import nebula.tinyasm.api.ClassThisInstance;
-import nebula.tinyasm.api.Field;
 import nebula.tinyasm.api.InstanceMethodCode;
 import nebula.tinyasm.api.MethodCallerInInstanceMethod;
 import nebula.tinyasm.api.MethodHeader;
@@ -22,17 +20,6 @@ class InstanceMethodBuilder extends
 		@Override
 		MethodCallerInInstanceMethod caller() {
 			return this;
-		}
-	}
-
-	@Deprecated
-	class ThisInstanceImpl extends ThisInstance implements ClassThisInstance {
-		ThisInstanceImpl() {
-		}
-
-		@Override
-		public Field fieldOf(String fieldName) {
-			return cv.fieldOfThis(fieldName);
 		}
 	}
 

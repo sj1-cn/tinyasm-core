@@ -6,7 +6,6 @@ import static org.objectweb.asm.Opcodes.ASM5;
 import static org.objectweb.asm.Opcodes.BIPUSH;
 import static org.objectweb.asm.Opcodes.ICONST_0;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
-import static org.objectweb.asm.Opcodes.ISTORE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +26,6 @@ import nebula.tinyasm.api.MethodHeader;
 
 abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends MethodVisitor
 		implements MethodCode<M, C>, MethodHeader<C> {
-
-	@Override
-	public void mvInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
-		mv.visitMethodInsn(opcode, objectType.getInternalName(), methodName,
-				Type.getMethodDescriptor(returnType, paramTypes), opcode == INVOKEINTERFACE);
-
-	}
 
 	abstract class AbstractMethodCaller extends AbstractInvokeMethod<M, C> implements MethodCaller<M, C> {
 
@@ -125,9 +117,17 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		boolean hasEnded = false;
 	}
 
-	ThisMethod thisMethod;
+	public static void visitParameterAnnotation(MethodVisitor mv, int parameter, Type annotationType, Object value) {
+		AnnotationVisitor av0 = mv.visitParameterAnnotation(parameter, annotationType.getDescriptor(), true);
+		if (value != null) {
+			AnnotationVisitor av1 = av0.visitArray("value");
+			av1.visit(null, value);
+			av1.visitEnd();
+		}
+		av0.visitEnd();
+	}
 
-	ThisInstance currentInstance;
+	ThisMethod thisMethod;
 
 	private final ClassVisitor classVisitor;
 
@@ -139,6 +139,10 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 	protected LocalsStack locals = new LocalsStack();
 
+	final Stack<Type> stack = new Stack<>();
+
+	int lastLineNumber = 0;
+
 	public AbstractMethodBuilder(ClassVisitor cv, Type thisType, int access, Type returnType, String methodName,
 			String[] exceptiones) {
 		super(ASM5);
@@ -149,92 +153,6 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		thisMethod.returnType = returnType;
 		thisMethod.excptions = exceptiones;
 		thisMethod.type = thisType;
-	}
-
-	final Stack<Type> stack = new Stack<>();
-
-	@Override
-	public Type codeGetStack(int i) {
-		return stack.get(stack.size() - i - 1);
-	}
-
-	@Override
-	public void mvInst(int opcode) {
-		mv.visitInsn(opcode);
-	}
-
-	@Override
-	public void mvInst(int opcode, int var) {
-		mv.visitVarInsn(opcode, var);
-	}
-
-	@Override
-	public void mvLdcInsn(Object cst) {
-		mv.visitLdcInsn(cst);
-	}
-
-	@Override
-	public void mvFieldInsn(int opcode, Type ownerType, String fieldName, Type fieldType) {
-		mv.visitFieldInsn(opcode, ownerType.getInternalName(), fieldName, fieldType.getDescriptor());
-	}
-
-	@Override
-	public int codeLocalLoadAccess(String name) {
-		return locals.accessLoad(name, labelCurrent).locals;
-	}
-
-	@Override
-	public Type codeLocalLoadAccessType(String name) {
-		return locals.accessLoad(name, labelCurrent).type;
-	}
-
-	@Override
-	public int codeLocalStoreAccess(String name) {
-		return locals.accessStore(name, labelCurrent).locals;
-	}
-
-	@Override
-	public Type codeLocalStoreAccessType(String name) {
-		return locals.accessStore(name, labelCurrent).type;
-	}
-
-	@Override
-	public Type codePopStack() {
-		Type type = stack.pop();
-		printStack(stack);
-		return type;
-	}
-
-	@Override
-	public void codePush(Type type) {
-		stack.push(type);
-		printStack(stack);
-	}
-
-	private void printStack(Stack<Type> stack) {
-		StringBuffer sb = new StringBuffer();
-		sb.append(thisMethod.name).append(" : ");
-		for (Type type : stack) {
-			sb.append(type);
-			sb.append(" > ");
-		}
-		sb.setCharAt(sb.length() - 2, '\n');
-		System.out.println(sb.toString());
-	}
-
-	@Override
-	public C accessLabel(Label label) {
-		labelCurrent = label;
-		mv.visitLabel(label);
-		return code();
-	}
-
-	@Override
-	public C accessLabel(Label label, int line) {
-		labelCurrent = label;
-		mv.visitLabel(label);
-		mv.visitLineNumber(line, label);
-		return code();
 	}
 
 	@Override
@@ -262,10 +180,69 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	}
 
 	@Override
+	public C codeAccessLabel(Label label) {
+		labelCurrent = label;
+		mv.visitLabel(label);
+		return code();
+	}
+
+	@Override
+	public C codeAccessLabel(Label label, int line) {
+		labelCurrent = label;
+		mv.visitLabel(label);
+		mv.visitLineNumber(line, label);
+		return code();
+	}
+
+	@Override
 	public C codeBegin() {
 		makeMethodDefine();
 		makeMethodBegin();
 		return code();
+	}
+
+	@Override
+	public Type codeGetStack(int i) {
+		return stack.get(stack.size() - i - 1);
+	}
+
+	@Override
+	public int codeLocalLoadAccess(String name) {
+		return locals.accessLoad(name, labelCurrent).locals;
+	}
+
+	@Override
+	public Type codeLocalLoadAccessType(String name) {
+		return locals.accessLoad(name, labelCurrent).type;
+	}
+
+	@Override
+	public int codeLocalStoreAccess(String name) {
+		return locals.accessStore(name, labelCurrent).locals;
+	}
+
+	@Override
+	public Type codeLocalStoreAccessType(String name) {
+		return locals.accessStore(name, labelCurrent).type;
+	}
+
+	@Override
+	public Label codeNewLabel() {
+		Label label = new Label();
+		return label;
+	}
+
+	@Override
+	public Type codePopStack() {
+		Type type = stack.pop();
+		printStack(stack);
+		return type;
+	}
+
+	@Override
+	public void codePush(Type type) {
+		stack.push(type);
+		printStack(stack);
 	}
 
 	@Override
@@ -284,16 +261,25 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		return stackTopType;
 	}
 
-	@Override
-	public void mvJumpInsn(int opcode, Label label) {
-		mv.visitJumpInsn(opcode, label);
-	}
-
 	protected Label labelWithoutLineNumber() {
 		Label label = new Label();
 		labelCurrent = label;
 		mv.visitLabel(label);
 		return label;
+	}
+
+	public C line() {
+		Label label;
+		if (!labelHasDefineBegin) {
+			label = new Label();
+			labelCurrent = label;
+			mv.visitLabel(label);
+		} else {
+			label = labelCurrent;
+		}
+		lastLineNumber = lastLineNumber + 1;
+		mv.visitLineNumber(lastLineNumber, label);
+		return code();
 	}
 
 	public C line(int line) {
@@ -310,33 +296,7 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		return code();
 	}
 
-	int lastLineNumber = 0;
-
-	public C line() {
-		Label label;
-		if (!labelHasDefineBegin) {
-			label = new Label();
-			labelCurrent = label;
-			mv.visitLabel(label);
-		} else {
-			label = labelCurrent;
-		}
-		lastLineNumber = lastLineNumber + 1;
-		mv.visitLineNumber(lastLineNumber, label);
-		return code();
-	}
-
-//	@Override
-//	@Deprecated
-//	public Instance<M, C> loadObject(int index) {
-//		stackAccessVariable(labelCurrent, index);
-//		Field var = variablesStack.get(index);
-//		mv.visitVarInsn(var.type.getOpcode(ILOAD), variablesLocals[index]);
-//		return type(var.type);
-//	}
-
 	protected C makeMethodBegin() {
-		currentInstance = new ThisInstance();
 		mv.visitCode();
 
 		labelCurrent = labelWithoutLineNumber();
@@ -378,35 +338,13 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 
 		assert this.mv != null;
 		for (Annotation annotation : thisMethod.annotations) {
-			visitAnnotation(this.mv, annotation.type, annotation.name, annotation.value);
+			mvAnnotation(this.mv, annotation.type, annotation.name, annotation.value);
 		}
 		for (Annotation annotation : thisMethod.parameterAnnotations) {
 			if (annotation != null) {
 				visitParameterAnnotation(this.mv, annotation.parameter, annotation.type, annotation.value);
 			}
 		}
-	}
-
-	public static void visitParameterAnnotation(MethodVisitor mv, int parameter, Type annotationType, Object value) {
-		AnnotationVisitor av0 = mv.visitParameterAnnotation(parameter, annotationType.getDescriptor(), true);
-		if (value != null) {
-			AnnotationVisitor av1 = av0.visitArray("value");
-			av1.visit(null, value);
-			av1.visitEnd();
-		}
-		av0.visitEnd();
-	}
-
-	public void visitAnnotation(MethodVisitor mv, Type annotationType, String name, Object value) {
-		AnnotationVisitor av0 = mv.visitAnnotation(annotationType.getDescriptor(), true);
-		if (value != null) {
-			if (name != null) {
-				av0.visit(name, value);
-			} else {
-				av0.visit("value", value);
-			}
-		}
-		av0.visitEnd();
 	}
 
 	public void makeMethodEnd() {
@@ -426,6 +364,33 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		thisMethod.hasEnded = true;
 	}
 
+	public void mvAnnotation(MethodVisitor mv, Type annotationType, String name, Object value) {
+		AnnotationVisitor av0 = mv.visitAnnotation(annotationType.getDescriptor(), true);
+		if (value != null) {
+			if (name != null) {
+				av0.visit(name, value);
+			} else {
+				av0.visit("value", value);
+			}
+		}
+		av0.visitEnd();
+	}
+
+	@Override
+	public void mvFieldInsn(int opcode, Type ownerType, String fieldName, Type fieldType) {
+		mv.visitFieldInsn(opcode, ownerType.getInternalName(), fieldName, fieldType.getDescriptor());
+	}
+
+	@Override
+	public void mvInst(int opcode) {
+		mv.visitInsn(opcode);
+	}
+
+	@Override
+	public void mvInst(int opcode, int var) {
+		mv.visitVarInsn(opcode, var);
+	}
+
 	@Override
 	public void mvIntInsn(int opcode, int operand) {
 		if (opcode == BIPUSH && -1 <= operand && operand <= 5) {
@@ -436,9 +401,25 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 	}
 
 	@Override
-	public Label newLabel() {
-		Label label = new Label();
-		return label;
+	public void mvInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
+		mv.visitMethodInsn(opcode, objectType.getInternalName(), methodName,
+				Type.getMethodDescriptor(returnType, paramTypes), opcode == INVOKEINTERFACE);
+
+	}
+
+	@Override
+	public void mvJumpInsn(int opcode, Label label) {
+		mv.visitJumpInsn(opcode, label);
+	}
+
+	@Override
+	public void mvLdcInsn(Object cst) {
+		mv.visitLdcInsn(cst);
+	}
+
+	@Override
+	public void mvTypeInsn(int opcode, Type type) {
+		mv.visitTypeInsn(opcode, type.getInternalName());
 	}
 
 	@Override
@@ -484,43 +465,15 @@ abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends M
 		return this;
 	}
 
-//	void recomputerLocals() {
-//		this.variablesLocals = variablesStack.computerVariableLocals();
-//		for (int i = 0; i < variablesStack.size(); i++) {
-//			variablesMap.put(variablesStack.get(i).name, i);
-//		}
-//	}
-
-	public C storeStackTopTo(String varName) {
-		LocalsVariable var = locals.accessStore(varName, labelCurrent);
-		mv.visitVarInsn(var.type.getOpcode(ISTORE), var.locals);
-		return code();
+	private void printStack(Stack<Type> stack) {
+		StringBuffer sb = new StringBuffer();
+		sb.append(thisMethod.name).append(" : ");
+		for (Type type : stack) {
+			sb.append(type);
+			sb.append(" > ");
+		}
+		sb.setCharAt(sb.length() - 2, '\n');
+		System.out.println(sb.toString());
 	}
-
-	public Instance<M, C> type(Type type) {
-		this.stackTopType = type;
-		return currentInstance;
-	}
-
-	// TODO
-	@Override
-	public void mvTypeInsn(int opcode, Type type) {
-		mv.visitTypeInsn(opcode, type.getInternalName());
-	}
-
-//	@Override
-//	@Deprecated
-//	public M use(int... varIndexes) {
-//		Field object = variablesStack.get(varIndexes[0]);
-//		load(varIndexes);
-//		stackAccessVariable(labelCurrent, varIndexes);
-//		return useTop(object.type);
-//	}
-
-
-//	@Override
-//	public int varIndex(String variableName) {
-//		return variablesMap.get(variableName);
-//	}
 
 }

@@ -44,20 +44,20 @@ public class ClassBuilderCompareTest {
 		cw.publicMethod(Type.BOOLEAN_TYPE, "eq").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(6);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "ne").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(10);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -65,20 +65,20 @@ public class ClassBuilderCompareTest {
 		cw.publicMethod(Type.BOOLEAN_TYPE, "ge").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(14);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "le").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(18);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -86,20 +86,20 @@ public class ClassBuilderCompareTest {
 		cw.publicMethod(Type.BOOLEAN_TYPE, "gt").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(22);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "lt").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(26);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -108,20 +108,20 @@ public class ClassBuilderCompareTest {
 		cw.publicMethod(Type.BOOLEAN_TYPE, "eq").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(30);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "ne").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(34);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -129,20 +129,20 @@ public class ClassBuilderCompareTest {
 		cw.publicMethod(Type.BOOLEAN_TYPE, "ge").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(38);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "le").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(42);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -150,20 +150,20 @@ public class ClassBuilderCompareTest {
 		cw.publicMethod(Type.BOOLEAN_TYPE, "gt").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(46);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "lt").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(50);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -175,20 +175,20 @@ public class ClassBuilderCompareTest {
 		cw.publicMethod(Type.BOOLEAN_TYPE, "eq").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(54);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "ne").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(58);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -196,20 +196,20 @@ public class ClassBuilderCompareTest {
 		cw.publicMethod(Type.BOOLEAN_TYPE, "ge").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(62);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "le").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(66);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -217,40 +217,40 @@ public class ClassBuilderCompareTest {
 		cw.publicMethod(Type.BOOLEAN_TYPE, "gt").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(70);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "lt").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(74);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
 		cw.publicMethod(Type.BOOLEAN_TYPE, "eq").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(78);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "ne").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(82);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -258,20 +258,20 @@ public class ClassBuilderCompareTest {
 		cw.publicMethod(Type.BOOLEAN_TYPE, "ge").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(86);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "le").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(90);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -279,20 +279,20 @@ public class ClassBuilderCompareTest {
 		cw.publicMethod(Type.BOOLEAN_TYPE, "gt").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(94);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.publicMethod(Type.BOOLEAN_TYPE, "lt").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(98);
 			mc.LOAD("x","y");
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -303,10 +303,10 @@ public class ClassBuilderCompareTest {
 			mc.line(102);
 			mc.LOAD("x","y");
 			mc.CMP();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFNE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -314,10 +314,10 @@ public class ClassBuilderCompareTest {
 			mc.line(106);
 			mc.LOAD("x","y");
 			mc.CMP();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFEQ(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -326,10 +326,10 @@ public class ClassBuilderCompareTest {
 			mc.line(110);
 			mc.LOAD("x","y");
 			mc.CMP();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFLT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -337,10 +337,10 @@ public class ClassBuilderCompareTest {
 			mc.line(114);
 			mc.LOAD("x","y");
 			mc.CMP();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFGT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -349,10 +349,10 @@ public class ClassBuilderCompareTest {
 			mc.line(118);
 			mc.LOAD("x","y");
 			mc.CMP();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFLE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -360,10 +360,10 @@ public class ClassBuilderCompareTest {
 			mc.line(122);
 			mc.LOAD("x","y");
 			mc.CMP();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFGE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -375,10 +375,10 @@ public class ClassBuilderCompareTest {
 			mc.line(126);
 			mc.LOAD("x","y");
 			mc.CMPL();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFNE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -386,10 +386,10 @@ public class ClassBuilderCompareTest {
 			mc.line(130);
 			mc.LOAD("x","y");
 			mc.CMPL();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFEQ(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -398,10 +398,10 @@ public class ClassBuilderCompareTest {
 			mc.line(134);
 			mc.LOAD("x","y");
 			mc.CMPL();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFLT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -409,10 +409,10 @@ public class ClassBuilderCompareTest {
 			mc.line(138);
 			mc.LOAD("x","y");
 			mc.CMPG();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFGT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -421,10 +421,10 @@ public class ClassBuilderCompareTest {
 			mc.line(142);
 			mc.LOAD("x","y");
 			mc.CMPL();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFLE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -432,10 +432,10 @@ public class ClassBuilderCompareTest {
 			mc.line(146);
 			mc.LOAD("x","y");
 			mc.CMPG();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFGE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -446,10 +446,10 @@ public class ClassBuilderCompareTest {
 			mc.line(150);
 			mc.LOAD("x","y");
 			mc.CMPL();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFNE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -457,10 +457,10 @@ public class ClassBuilderCompareTest {
 			mc.line(154);
 			mc.LOAD("x","y");
 			mc.CMPL();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFEQ(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -469,10 +469,10 @@ public class ClassBuilderCompareTest {
 			mc.line(158);
 			mc.LOAD("x","y");
 			mc.CMPL();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFLT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -480,10 +480,10 @@ public class ClassBuilderCompareTest {
 			mc.line(162);
 			mc.LOAD("x","y");
 			mc.CMPG();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFGT(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -492,10 +492,10 @@ public class ClassBuilderCompareTest {
 			mc.line(166);
 			mc.LOAD("x","y");
 			mc.CMPL();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFLE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -503,10 +503,10 @@ public class ClassBuilderCompareTest {
 			mc.line(170);
 			mc.LOAD("x","y");
 			mc.CMPG();
-			Label ifElse = mc.newLabel();
+			Label ifElse = mc.codeNewLabel();
 			mc.IFGE(ifElse);
 			mc.RETURN(1);
-			mc.accessLabel(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
 		

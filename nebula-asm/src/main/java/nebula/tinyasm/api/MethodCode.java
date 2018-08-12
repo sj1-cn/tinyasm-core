@@ -12,9 +12,9 @@ import nebula.tinyasm.SmartOpcode;
 
 public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 
-	C accessLabel(Label label);
+	C codeAccessLabel(Label label);
 
-	C accessLabel(Label label, int line);
+	C codeAccessLabel(Label label, int line);
 
 	C block(Consumer<C> invocation);
 
@@ -68,5 +68,5 @@ public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
 
 	C line();
 
-	Label newLabel();
+	Label codeNewLabel();
 }

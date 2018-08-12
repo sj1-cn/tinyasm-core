@@ -69,7 +69,7 @@ public class MyBankAccountBuilder {
 				mc.ADD();
 
 				mc.CMP();
-				Label ifEnd = mc.newLabel();
+				Label ifEnd = mc.codeNewLabel();
 				mc.IFGT(ifEnd);
 
 				mc.line(51).LOADThis();
@@ -79,7 +79,7 @@ public class MyBankAccountBuilder {
 				mc.line(52).LOADConstByte(1);
 				mc.RETURNTop();
 
-				mc.accessLabel(ifEnd, 54);
+				mc.codeAccessLabel(ifEnd, 54);
 				mc.LOADConstByte(0);
 				mc.RETURNTop();
 			});
