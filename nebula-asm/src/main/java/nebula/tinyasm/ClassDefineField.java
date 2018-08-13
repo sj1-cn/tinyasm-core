@@ -1,4 +1,4 @@
-package nebula.tinyasm.api;
+package nebula.tinyasm;
 
 import static nebula.tinyasm.util.TypeUtils.signatureOf;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
@@ -6,7 +6,7 @@ import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 
 import org.objectweb.asm.Type;
 
-public interface ClassDefineField<CB> {
+interface ClassDefineField<CB> {
 
 	default CB fField(int access, Class<?> annotationClazz, Object value, String fieldName, Class<?> fieldClazz) {
 		return mvField(access, typeOf(annotationClazz), value, fieldName, typeOf(fieldClazz));

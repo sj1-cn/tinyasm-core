@@ -7,8 +7,8 @@ import static nebula.tinyasm.util.TypeUtils.typeOf;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
-import nebula.tinyasm.api.ClassBody;
 
 public class EnumBuilder implements Opcodes {
 
@@ -37,8 +37,7 @@ public class EnumBuilder implements Opcodes {
 					mc.DUP();
 					mc.LOADConst(names[i]);
 					mc.LOADConstByte(i);
-					mc.INVOKESPECIAL(typeOf(objectType), Type.VOID_TYPE, "<init>", typeOf(String.class),
-							Type.INT_TYPE);
+					mc.INVOKESPECIAL(typeOf(objectType), Type.VOID_TYPE, "<init>", typeOf(String.class), Type.INT_TYPE);
 					mc.PUTSTATIC(typeOf(objectType), names[i], typeOf(objectType));
 				}
 
@@ -68,9 +67,9 @@ public class EnumBuilder implements Opcodes {
 		cb.mvStaticMethod(ACC_STATIC + ACC_PUBLIC, arrayOf(typeOf(objectType), true), "values",
 				namesOf(exceptionClasses))
 			.code(mc -> {
-				mc.def("vs", typeOf(objectType), true);
-				mc.def("length", int.class);
-				mc.def("newvs", typeOf(objectType), true);
+				mc.var("vs", objectType, true);
+				mc.var("length", int.class);
+				mc.var("newvs", objectType, true);
 				mc.line(1);
 				mc.GETSTATIC(typeOf(objectType), "ENUM$VALUES", arrayOf(typeOf(objectType)));
 				mc.DUP();

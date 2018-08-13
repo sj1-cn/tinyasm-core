@@ -18,15 +18,13 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.api.MethodCode;
-import nebula.tinyasm.api.MethodHeader;
 import nebula.tinyasm.data.ClassAnnotation;
 import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.LocalsStack;
 import nebula.tinyasm.data.LocalsVariable;
 
-abstract class MethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
-		implements MethodCode<C>, MethodHeader<C> {
+abstract class MethodBuilder<MC extends MethodCodeRealAdv<MC>> extends MethodVisitor
+		implements MethodCodeRealAdv<MC>, MethodHeaderAdv<MC> {
 
 //	abstract class AbstractMethodCaller extends AbstractInvokeMethod<M, C> implements MethodCaller<M, C> {
 //
@@ -117,38 +115,40 @@ abstract class MethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
 	}
 
 	@Override
-	public MethodHeader<C> annotation(Type type, Object value) {
+	public MethodHeaderAdv<MC> annotation(Type type, Object value) {
 		thisMethod.annotations.add(new ClassAnnotation(type, null, value));
 		return this;
 	}
 
 	@Override
-	public MethodHeader<C> annotation(Type type, String name, Object value) {
+	public MethodHeaderAdv<MC> annotation(Type type, String name, Object value) {
 		thisMethod.annotations.add(new ClassAnnotation(type, name, value));
 		return this;
 	}
 
 	@Override
-	public C block(Consumer<C> invocation) {
+	public MC block(Consumer<MC> invocation) {
 		invocation.accept(code());
 		return code();
 	}
 
+	abstract public MC code();
+
 	@Override
-	public void code(Consumer<C> invocation) {
+	public void code(Consumer<MC> invocation) {
 		invocation.accept(this.codeBegin());
 		this.end();
 	}
 
 	@Override
-	public C codeAccessLabel(Label label) {
+	public MC codeAccessLabel(Label label) {
 		labelCurrent = label;
 		mv.visitLabel(label);
 		return code();
 	}
 
 	@Override
-	public C codeAccessLabel(Label label, int line) {
+	public MC codeAccessLabel(Label label, int line) {
 		labelCurrent = label;
 		mv.visitLabel(label);
 		mv.visitLineNumber(line, label);
@@ -156,7 +156,7 @@ abstract class MethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
 	}
 
 	@Override
-	public C codeBegin() {
+	public MC codeBegin() {
 		makeMethodDefine();
 		makeMethodBegin();
 		return code();
@@ -207,7 +207,7 @@ abstract class MethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
 	}
 
 	@Override
-	public C def(String name, Type type, String signature) {
+	public MC vmVar(String name, Type type, String signature) {
 		locals.push(new LocalsVariable(name, type, signature));
 //		recomputerLocals();
 		return code();
@@ -229,7 +229,7 @@ abstract class MethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
 		return label;
 	}
 
-	public C line() {
+	public MC line() {
 		Label label;
 		if (!labelHasDefineBegin) {
 			label = new Label();
@@ -243,7 +243,7 @@ abstract class MethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
 		return code();
 	}
 
-	public C line(int line) {
+	public MC line(int line) {
 		Label label;
 		if (!labelHasDefineBegin) {
 			label = new Label();
@@ -257,7 +257,7 @@ abstract class MethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
 		return code();
 	}
 
-	protected C makeMethodBegin() {
+	protected MC makeMethodBegin() {
 		mv.visitCode();
 
 		labelCurrent = labelWithoutLineNumber();
@@ -384,35 +384,35 @@ abstract class MethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
 	}
 
 	@Override
-	public MethodHeader<C> parameter(ClassField field) {
+	public MethodHeaderAdv<MC> parameter(ClassField field) {
 		thisMethod.params.add(field);
 		thisMethod.parameterAnnotations.add(null);
 		return this;
 	}
 
 	@Override
-	public MethodHeader<C> parameter(String fieldName, Type fieldType) {
+	public MethodHeaderAdv<MC> parameter(String fieldName, Type fieldType) {
 		thisMethod.params.add(new LocalsVariable(fieldName, fieldType));
 		thisMethod.parameterAnnotations.add(null);
 		return this;
 	}
 
 	@Override
-	public MethodHeader<C> parameterAnnotation(Type annotationType, Object value) {
+	public MethodHeaderAdv<MC> parameterAnnotation(Type annotationType, Object value) {
 		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
 				new ClassAnnotation(annotationType, null, value));
 		return this;
 	}
 
 	@Override
-	public MethodHeader<C> parameterGeneric(String fieldName, Type fieldType, String signature) {
+	public MethodHeaderAdv<MC> parameterGeneric(String fieldName, Type fieldType, String signature) {
 		thisMethod.params.add(new LocalsVariable(fieldName, fieldType, signature));
 		thisMethod.parameterAnnotations.add(null);
 		return this;
 	}
 
 	@Override
-	public MethodHeader<C> parameterGenericWithAnnotation(Type annotationType, Object value, String fieldName,
+	public MethodHeaderAdv<MC> parameterGenericWithAnnotation(Type annotationType, Object value, String fieldName,
 			Type fieldType, String signature) {
 		thisMethod.params.add(new LocalsVariable(fieldName, fieldType, signature));
 		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
@@ -421,7 +421,7 @@ abstract class MethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
 	}
 
 	@Override
-	public MethodHeader<C> parameterWithAnnotation(Type annotationType, Object value, String fieldName,
+	public MethodHeaderAdv<MC> parameterWithAnnotation(Type annotationType, Object value, String fieldName,
 			Type fieldType) {
 		thisMethod.params.add(new LocalsVariable(fieldName, fieldType));
 		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,

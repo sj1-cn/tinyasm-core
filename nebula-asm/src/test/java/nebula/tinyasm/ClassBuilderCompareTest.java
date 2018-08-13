@@ -19,8 +19,6 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.util.ASMifier;
 import org.objectweb.asm.util.TraceClassVisitor;
 
-import nebula.tinyasm.api.ClassBody;
-
 public class ClassBuilderCompareTest {
 
 	@Before

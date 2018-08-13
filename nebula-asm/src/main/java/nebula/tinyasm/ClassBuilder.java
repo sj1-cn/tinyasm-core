@@ -7,8 +7,6 @@ import static org.objectweb.asm.Opcodes.ACC_SUPER;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
-import nebula.tinyasm.api.ClassHeader;
-
 public interface ClassBuilder {
 	static public ClassHeader make(Class<?> objectType) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);

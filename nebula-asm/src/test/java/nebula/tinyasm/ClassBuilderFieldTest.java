@@ -1,6 +1,7 @@
 package nebula.tinyasm;
 
 import static nebula.tinyasm.util.TypeUtils.namesOf;
+import static nebula.tinyasm.util.TypeUtils.signatureOf;
 import static org.junit.Assert.assertEquals;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
@@ -18,8 +19,6 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.util.ASMifier;
 import org.objectweb.asm.util.TraceClassVisitor;
-
-import nebula.tinyasm.api.ClassBody;
 
 public class ClassBuilderFieldTest {
 
@@ -55,7 +54,7 @@ public class ClassBuilderFieldTest {
 		Class<?>[] exceptionClasses = {};
 		
 		cw.mvMethod(ACC_PUBLIC, Type.INT_TYPE, "getField", namesOf(exceptionClasses)).code(mc->{
-			mc.def("x", int.class);
+			mc.var("x", int.class);
 			mc.line(14).LOAD("this");
 			mc.GETFIELD("b", Type.BYTE_TYPE);
 			mc.LOAD("this");
@@ -68,7 +67,7 @@ public class ClassBuilderFieldTest {
 		Class<?>[] exceptionClasses1 = {};
 
 		cw.mvMethod(ACC_PUBLIC, Type.INT_TYPE, "getFieldAll", namesOf(exceptionClasses1)).code(mc->{
-			mc.def("x", int.class);
+			mc.var("x", int.class);
 			mc.line(19).LOAD("this");
 			mc.GETFIELD("b", Type.BYTE_TYPE);
 			mc.LOAD("this");
@@ -225,7 +224,9 @@ public class ClassBuilderFieldTest {
 		Class<?>[] exceptionClasses3 = {};
 
 		cw.mvMethod(ACC_PUBLIC, Type.getType(String.class), "getFieldStr", namesOf(exceptionClasses3)).code(mc->{
-			mc.def("xstr", Type.getType(String.class));
+			Type fieldType = Type.getType(String.class);
+			Type[] signatureTypes = {};
+			mc.vmVar("xstr", fieldType, signatureOf(fieldType, signatureTypes));
 			mc.line(53).LOADConst("hello ");
 			mc.STORE("xstr");
 			mc.line(54).NEW(Type.getType(StringBuilder.class));
@@ -245,8 +246,12 @@ public class ClassBuilderFieldTest {
 		Class<?>[] exceptionClasses4 = {};
 
 		cw.mvMethod(ACC_PUBLIC, Type.BYTE_TYPE, "retByte", namesOf(exceptionClasses4)).code(mc->{
-			mc.def("x",Type.BYTE_TYPE);
-			mc.def("y",Type.BYTE_TYPE);
+			Type fieldType = Type.BYTE_TYPE;
+			Type[] signatureTypes = {};
+			mc.vmVar("x", fieldType, signatureOf(fieldType, signatureTypes));
+			Type fieldType1 = Type.BYTE_TYPE;
+			Type[] signatureTypes1 = {};
+			mc.vmVar("y", fieldType1, signatureOf(fieldType1, signatureTypes1));
 			mc.line(59).LOADConstByte(1);
 			mc.STORE("x");
 			mc.line().LOAD("x");

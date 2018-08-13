@@ -1,14 +1,12 @@
-package nebula.tinyasm.api;
+package nebula.tinyasm;
 
 import java.util.List;
 
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.data.Field;
 
-public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStaticMethod<StaticMethodCode>,
-		ClassDefineInstanceMethod<MethodCodeInstance> {
+public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStaticMethod, ClassDefineInstanceMethod {
 
 	ClassBuilder end();
 

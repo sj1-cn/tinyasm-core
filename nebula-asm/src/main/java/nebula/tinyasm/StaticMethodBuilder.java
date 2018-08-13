@@ -3,12 +3,8 @@ package nebula.tinyasm;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.api.MethodHeader;
-import nebula.tinyasm.api.StaticMethodCode;
-
-class StaticMethodBuilder
-		extends MethodBuilder<MethodHeader<StaticMethodCode>, StaticMethodCode>
-		implements StaticMethodCode, MethodHeader<StaticMethodCode> {
+class StaticMethodBuilder extends MethodBuilder<MethodStaticCode>
+		implements MethodStaticCode, MethodHeaderAdv<MethodStaticCode> {
 
 	public StaticMethodBuilder(ClassVisitor cv, Type thisType, int access, Type returnType, String methodName,
 			String[] exceptionClasses) {
@@ -16,7 +12,7 @@ class StaticMethodBuilder
 	}
 
 	@Override
-	public StaticMethodCode code() {
+	public MethodStaticCode code() {
 		return this;
 	}
 

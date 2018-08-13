@@ -1,12 +1,10 @@
-package nebula.tinyasm.api;
+package nebula.tinyasm;
 
 import static nebula.tinyasm.util.TypeUtils.typeOf;
 
 import java.util.function.Consumer;
 
 import org.objectweb.asm.Type;
-
-import nebula.tinyasm.ClassBuilder;
 
 public interface ClassHeader {
 

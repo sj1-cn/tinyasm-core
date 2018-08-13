@@ -13,11 +13,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.api.ClassBody;
-import nebula.tinyasm.api.ClassHeader;
-import nebula.tinyasm.api.MethodCodeInstance;
-import nebula.tinyasm.api.MethodHeader;
-import nebula.tinyasm.api.StaticMethodCode;
 import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.Field;
 import nebula.tinyasm.util.ArrayListMap;
@@ -182,7 +177,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public MethodHeader<MethodCodeInstance> mvMethod(int access, Type returnType, String methodName,
+	public MethodHeaderAdv<MethodInstanceCode> mvMethod(int access, Type returnType, String methodName,
 			String[] exceptions) {
 		return new MethodInstanceBuilder(this, thisType, access, returnType, methodName, exceptions);
 	}
@@ -197,7 +192,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public MethodHeader<StaticMethodCode> mvStaticMethod(int access, Type returnType, String methodName,
+	public MethodHeaderAdv<MethodStaticCode> mvStaticMethod(int access, Type returnType, String methodName,
 			String[] exceptionClasses) {
 		return new StaticMethodBuilder(this, thisType, access, returnType, methodName, exceptionClasses);
 	}

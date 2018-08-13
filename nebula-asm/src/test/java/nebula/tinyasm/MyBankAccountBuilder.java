@@ -5,8 +5,6 @@ import static nebula.tinyasm.util.TypeUtils.typeOf;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.api.ClassBody;
-
 public class MyBankAccountBuilder {
 
 	public static byte[] dump() throws Exception {
@@ -100,7 +98,7 @@ public class MyBankAccountBuilder {
 
 	private static void visitDefine_onMoneyAdded(ClassBody cw) {
 		cw.privateMethod("onMoneyAdded").parameter("amount", long.class).code(mc -> {
-			mc.def("newbalance", long.class);
+			mc.var("newbalance", long.class);
 			mc.line(107).LOADThisField("balance", Type.LONG_TYPE);
 			mc.LOAD("amount");
 			mc.ADD();

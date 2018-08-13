@@ -368,6 +368,18 @@ public class TypeUtils {
 		return newvalues;
 	}
 
+	static public String signatureOf(String type, String... signatureClasses) {
+		return signatureOf(typeOf(type), typeOf(signatureClasses));
+	}
+
+	static public String signatureOf(String type, Class<?>... signatureClasses) {
+		return signatureOf(typeOf(type), typeOf(signatureClasses));
+	}
+
+	static public String signatureOf(Class<?> type, Class<?>... signatureClasses) {
+		return signatureOf(typeOf(type), typeOf(signatureClasses));
+	}
+
 	static public String signatureOf(Type type, Class<?>... signatureClasses) {
 		String signature = null;
 		if (signatureClasses != null && signatureClasses.length > 0) {
