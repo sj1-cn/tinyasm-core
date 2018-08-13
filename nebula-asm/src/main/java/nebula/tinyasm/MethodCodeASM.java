@@ -347,6 +347,6 @@ interface MethodCodeASM {
 
 	void INVOKEVIRTUAL(String objectType, String returnType, String methodName, String... paramTypes);
 
-	void INVOKESPECIAL(String objectType, String returnType, String methodName, Class<?>[] paramTypes);
+	void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>[] paramTypes);
 
 }

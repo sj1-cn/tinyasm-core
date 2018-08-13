@@ -176,6 +176,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	default void LOADThisField(String fieldname) {
 		LOADThisField(fieldname, codeThisFieldType(fieldname));
 	}
+
 	@Override
 	default void LOADThisField(String fieldname, Class<?> feildtype) {
 		LOADThisField(fieldname, typeOf(fieldname));
@@ -1488,10 +1489,10 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
-	default void INVOKESPECIAL(String objectType, String returnType, String methodName, Class<?>... paramTypes) {
+	default void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
 		INVOKESPECIAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
 	}
-	
+
 	@Override
 	default void INVOKESPECIAL(String objectType, String returnType, String methodName, String... paramTypes) {
 		INVOKESPECIAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
