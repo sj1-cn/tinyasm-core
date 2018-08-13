@@ -7,15 +7,15 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.api.ClassBody;
+import nebula.tinyasm.api.ClassHeader;
 
 public interface ClassBuilder {
-	static public ClassBody make() {
+	static public ClassHeader make() {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		return new ClassBuilderImpl(classWriter);
 	}
 
-	static public ClassBody make(ClassVisitor cv, Type objectType) {
+	static public ClassHeader make(ClassVisitor cv, Type objectType) {
 		return make(ACC_PUBLIC + ACC_SUPER, cv, objectType, Type.getType(Object.class));
 	}
 
@@ -25,82 +25,82 @@ public interface ClassBuilder {
 		return type;
 	}
 
-	static public ClassBody make(String typename) {
+	static public ClassHeader make(String typename) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		return make(ACC_PUBLIC + ACC_SUPER, classWriter, fromName(typename), Type.getType(Object.class));
 	}
 
-	static public ClassBody make(ClassVisitor classWriter, String typename) {
+	static public ClassHeader make(ClassVisitor classWriter, String typename) {
 		return make(ACC_PUBLIC + ACC_SUPER, classWriter, fromName(typename), Type.getType(Object.class));
 	}
 
-	static public ClassBody make(ClassVisitor cv, Type objectType, Type superType) {
+	static public ClassHeader make(ClassVisitor cv, Type objectType, Type superType) {
 		return new ClassBuilderImpl(ACC_PUBLIC + ACC_SUPER, cv, objectType, superType);
 	}
 
-	static public ClassBody make(ClassVisitor cv, Type objectType, Type superType, Class<?> interfaceClass,
+	static public ClassHeader make(ClassVisitor cv, Type objectType, Type superType, Class<?> interfaceClass,
 			Type[] interfaceSignature) {
 		return make(cv, objectType, superType, Type.getType(interfaceClass), interfaceSignature);
 	}
 
-	static public ClassBody make(ClassVisitor cv, Type objectType, Type superType, Type interfaceType,
+	static public ClassHeader make(ClassVisitor cv, Type objectType, Type superType, Type interfaceType,
 			Type[] interfaceSignature) {
 		return new ClassBuilderImpl(ACC_PUBLIC + ACC_SUPER, cv, objectType, superType, interfaceType,
 				interfaceSignature);
 	}
 
-	static public ClassBody make(ClassVisitor cv, Type objectType, Type superType, Type[] superTypeSignature) {
+	static public ClassHeader make(ClassVisitor cv, Type objectType, Type superType, Type[] superTypeSignature) {
 		return new ClassBuilderImpl(ACC_PUBLIC + ACC_SUPER, cv, objectType, superType, superTypeSignature);
 	}
 
-	static public ClassBody make(final int access, ClassVisitor cv, Type objectType) {
+	static public ClassHeader make(final int access, ClassVisitor cv, Type objectType) {
 		return make(access, cv, objectType, Type.getType(Object.class));
 	}
 
-	static public ClassBody make(final int access, ClassVisitor cv, Type objectType, Type superType) {
+	static public ClassHeader make(final int access, ClassVisitor cv, Type objectType, Type superType) {
 		return new ClassBuilderImpl(access, cv, objectType, superType);
 	}
 
-	static public ClassBody make(final int access, ClassVisitor cv, Type objectType, Type superType, Type interfaceType,
+	static public ClassHeader make(final int access, ClassVisitor cv, Type objectType, Type superType, Type interfaceType,
 			Type[] interfaceSignature) {
 		return new ClassBuilderImpl(access, cv, objectType, superType, interfaceType, interfaceSignature);
 	}
 
-	static public ClassBody make(final int access, Type objectType) {
+	static public ClassHeader make(final int access, Type objectType) {
 		return make(access, objectType, Type.getType(Object.class));
 	}
 
-	static public ClassBody make(final int access, Type objectType, Class<?> superClass, Class<?> interfaceClass,
+	static public ClassHeader make(final int access, Type objectType, Class<?> superClass, Class<?> interfaceClass,
 			Type[] interfaceSignature) {
 		return make(access, objectType, Type.getType(superClass), Type.getType(interfaceClass), interfaceSignature);
 	}
 
-	static public ClassBody make(final int access, Type objectType, Class<?> superClass, Type interfaceType,
+	static public ClassHeader make(final int access, Type objectType, Class<?> superClass, Type interfaceType,
 			Type[] interfaceSignature) {
 		return make(access, objectType, Type.getType(superClass), interfaceType, interfaceSignature);
 	}
 
-	static public ClassBody make(final int access, Type objectType, Type superType) {
+	static public ClassHeader make(final int access, Type objectType, Type superType) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		return new ClassBuilderImpl(access, classWriter, objectType, superType);
 	}
 
-	static public ClassBody make(final int access, Type objectType, Type superType, Type interfaceType,
+	static public ClassHeader make(final int access, Type objectType, Type superType, Type interfaceType,
 			Type[] interfaceSignature) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		return new ClassBuilderImpl(access, classWriter, objectType, superType, interfaceType, interfaceSignature);
 	}
 
-	static public ClassBody make(final int access, Type objectType, Type superType, Type[] superTypeSignature) {
+	static public ClassHeader make(final int access, Type objectType, Type superType, Type[] superTypeSignature) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		return new ClassBuilderImpl(access, classWriter, objectType, superType, superTypeSignature);
 	}
 
-	static public ClassBody make(Type objectType) {
+	static public ClassHeader make(Type objectType) {
 		return make(ACC_PUBLIC + ACC_SUPER, objectType, Type.getType(Object.class));
 	}
 
-	static public ClassBody make(Type objectType, Type superType) {
+	static public ClassHeader make(Type objectType, Type superType) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		return new ClassBuilderImpl(ACC_PUBLIC + ACC_SUPER, classWriter, objectType, superType);
 	}

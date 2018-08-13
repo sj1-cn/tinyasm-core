@@ -6,39 +6,39 @@ import java.util.function.Consumer;
 
 import org.objectweb.asm.Type;
 
-public interface MethodHeader<C> extends MethodDefineParameter<MethodHeader<C>> {
+public interface MethodHeader<MC> extends MethodDefineParameter<MC> {
 
-	default MethodHeader<C> annotation(Class<?> annotationClass) {
+	default MethodHeader<MC> annotation(Class<?> annotationClass) {
 		return annotation(typeOf(annotationClass), null);
 	}
 
-	default MethodHeader<C> annotation(Class<?> annotationClass, Object value) {
+	default MethodHeader<MC> annotation(Class<?> annotationClass, Object value) {
 		return annotation(typeOf(annotationClass), value);
 	}
 
-	default MethodHeader<C> annotation(Class<?> annotationClass, String name, Object value) {
+	default MethodHeader<MC> annotation(Class<?> annotationClass, String name, Object value) {
 		return annotation(typeOf(annotationClass), name, value);
 	}
 
-	default MethodHeader<C> annotation(Type type) {
+	default MethodHeader<MC> annotation(Type type) {
 		return annotation(type, null);
 	}
 
-	MethodHeader<C> annotation(Type type, Object value);
+	MethodHeader<MC> annotation(Type type, Object value);
 
-	MethodHeader<C> annotation(Type type, String name, Object value);
+	MethodHeader<MC> annotation(Type type, String name, Object value);
 
-	C codeBegin();
+	MC codeBegin();
 
-	void code(Consumer<C> invocation);
+	void code(Consumer<MC> invocation);
 
-	default MethodHeader<C> parameterAnnotation(Class<?> annotationClass) {
+	default MethodHeader<MC> parameterAnnotation(Class<?> annotationClass) {
 		return parameterAnnotation(typeOf(annotationClass), null);
 	}
 
-	default MethodHeader<C> parameterAnnotation(Type type) {
+	default MethodHeader<MC> parameterAnnotation(Type type) {
 		return parameterAnnotation(type, null);
 	}
 
-	MethodHeader<C> parameterAnnotation(Type type, Object value);
+	MethodHeader<MC> parameterAnnotation(Type type, Object value);
 }

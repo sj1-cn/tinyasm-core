@@ -11,26 +11,25 @@ public class MyBankAccountBuilder {
 
 	public static byte[] dump() throws Exception {
 
-		ClassBody cw = ClassBuilder.make("com.nebula.cqrs.core.asm.MyBankAccount");
-		cw.annotation("com/nebula/cqrs/core/CqrsEntity");
-		cw.annotation("org/axonframework/spring/stereotype/Aggregate");
+		ClassBody cb = ClassBuilder.make("com.nebula.cqrs.core.asm.MyBankAccount")
+			.annotation("com/nebula/cqrs/core/CqrsEntity")
+			.annotation("org/axonframework/spring/stereotype/Aggregate")
+			.body();
 
-		cw.fieldWithAnnotation("org/axonframework/commandhandling/model/AggregateIdentifier", "axonBankAccountId",
+		cb.fieldWithAnnotation("org/axonframework/commandhandling/model/AggregateIdentifier", "axonBankAccountId",
 				String.class);
-		cw.field("overdraftLimit", long.class);
-		cw.field("balance", long.class);
+		cb.field("overdraftLimit", long.class);
+		cb.field("balance", long.class);
 
-		visitDefine_init(cw);
-		visitDefine_init_withfields(cw);
-		visitDefine_deposit(cw);
-		visitDefine_withdraw(cw);
-		visitDefine_onCreated(cw);
-		visitDefine_onMoneyAdded(cw);
-		visitDefine_onMoneySubtracted(cw);
+		visitDefine_init(cb);
+		visitDefine_init_withfields(cb);
+		visitDefine_deposit(cb);
+		visitDefine_withdraw(cb);
+		visitDefine_onCreated(cb);
+		visitDefine_onMoneyAdded(cb);
+		visitDefine_onMoneySubtracted(cb);
 
-		cw.end();
-
-		return cw.toByteArray();
+		return cb.end().toByteArray();
 	}
 
 	private static void visitDefine_init_withfields(ClassBody cw) {

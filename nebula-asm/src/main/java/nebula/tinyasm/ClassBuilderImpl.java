@@ -3,6 +3,7 @@ package nebula.tinyasm;
 import static nebula.tinyasm.util.TypeUtils.signatureOf;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
@@ -13,6 +14,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.api.ClassBody;
+import nebula.tinyasm.api.ClassHeader;
 import nebula.tinyasm.api.InstanceMethodCode;
 import nebula.tinyasm.api.MethodHeader;
 import nebula.tinyasm.api.StaticMethodCode;
@@ -20,7 +22,7 @@ import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.Field;
 import nebula.tinyasm.util.ArrayListMap;
 
-class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
+class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, ClassHeader {
 	public static String toSimpleName(String className) {
 		return className.substring(className.lastIndexOf('.') + 1);
 	}
@@ -69,12 +71,12 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public ClassBody annotation(Type annotationType, Object annotationValue) {
+	public ClassHeader annotation(Type annotationType, Object annotationValue) {
 		visitAnnotation(cv, annotationType, annotationValue);
 		return this;
 	}
 
-	public static void visitAnnotation(ClassVisitor cv, Type annotationType, Object annotationValue) {
+	void visitAnnotation(ClassVisitor cv, Type annotationType, Object annotationValue) {
 		AnnotationVisitor av0 = cv.visitAnnotation(annotationType.getDescriptor(), true);
 		if (annotationValue != null) {
 			AnnotationVisitor av1 = av0.visitArray("value");
@@ -174,11 +176,6 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		return superType;
 	}
 
-	@Override
-	public Type getStackTopType() {
-		return thisType;
-	}
-
 	private void initType(Type thisType, Type superType) {
 		this.thisType = thisType;
 		this.superType = superType;
@@ -241,7 +238,13 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public ClassVisitor visitor() {
-		return cv;
+	public ClassBody body() {
+		return this;
+	}
+
+	@Override
+	public ClassBuilder body(Consumer<ClassBody> mb) {
+		mb.accept(this);
+		return this;
 	}
 }

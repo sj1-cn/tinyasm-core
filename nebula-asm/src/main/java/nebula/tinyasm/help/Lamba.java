@@ -19,10 +19,12 @@ public class Lamba {
 	public static ClassBody invokeConsumer(Type objectType, Type parentType, Type consumeType, String fieldName,
 			Type fieldType, Consumer<InstanceMethodCode> invocation) {
 		ClassBody cw = ClassBuilder.make(ACC_SUPER, objectType, Object.class, Consumer.class,
-				new Type[] { consumeType });
-		cw.visitor()
-			.visitInnerClass(objectType.getInternalName(), parentType.getInternalName(),
-					objectType.getClassName().substring(parentType.getSize()), 0);
+				new Type[] { consumeType }).body();
+
+		//TODO
+		//		cw.visitor()
+//			.visitInnerClass(objectType.getInternalName(), parentType.getInternalName(),
+//					objectType.getClassName().substring(parentType.getSize()), 0);
 
 		cw.field(fieldName, fieldType);
 
@@ -52,10 +54,11 @@ public class Lamba {
 	public static ClassBody invokeCallable(Type objectType, Type parentType, Type consumeType, String fieldName,
 			Type fieldType, Consumer<InstanceMethodCode> invocation) {
 		ClassBody cb = ClassBuilder.make(ACC_SUPER, objectType, Object.class, Callable.class,
-				new Type[] { consumeType });
-		cb.visitor()
-			.visitInnerClass(objectType.getInternalName(), parentType.getInternalName(),
-					objectType.getClassName().substring(parentType.getSize()), 0);
+				new Type[] { consumeType }).body();
+		//TODO
+//		cb.visitor()
+//			.visitInnerClass(objectType.getInternalName(), parentType.getInternalName(),
+//					objectType.getClassName().substring(parentType.getSize()), 0);
 
 		cb.field(fieldName, fieldType);
 

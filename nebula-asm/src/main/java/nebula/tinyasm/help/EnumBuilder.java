@@ -11,14 +11,15 @@ import nebula.tinyasm.api.ClassBody;
 public class EnumBuilder implements Opcodes {
 
 	public static byte[] dump(Type objectType, String... names) {
-		return build(objectType, names).toByteArray();
+		return build(objectType, names).end().toByteArray();
 	}
 
 	public static ClassBody build(Type objectType, String... names) {
 		Type superType = Type.getObjectType("java/lang/Enum");
 
-		ClassBody cb = ClassBuilder.make(ACC_PUBLIC + ACC_FINAL + ACC_SUPER + ACC_ENUM, objectType, superType,
-				new Type[] { objectType });
+		ClassBody cb = ClassBuilder
+			.make(ACC_PUBLIC + ACC_FINAL + ACC_SUPER + ACC_ENUM, objectType, superType, new Type[] { objectType })
+			.body();
 
 		for (String name : names) {
 			cb.field(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, objectType);

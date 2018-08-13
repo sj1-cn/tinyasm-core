@@ -33,7 +33,7 @@ public class ClassBuilderMathTest {
 //		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), new PrintWriter(System.out));
 		ClassVisitor visitor = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 
-		ClassBody cw = ClassBuilder.make(visitor, this.getClass().getPackage().getName() + "/ClassBuilderMath");
+		ClassBody cw = ClassBuilder.make(visitor, this.getClass().getPackage().getName() + "/ClassBuilderMath").body();
 		cw.publicMethod("<init>").code(mc -> {
 			mc.line(3).INITObject();
 			mc.RETURN();

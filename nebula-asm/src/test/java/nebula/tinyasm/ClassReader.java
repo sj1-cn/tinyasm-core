@@ -13,7 +13,7 @@ import nebula.tinyasm.api.ClassBody;
 
 public class ClassReader extends ClassVisitor {
 
-	ClassBody cw;
+	ClassBody cb;
 	Type type;
 	ClassWriter classWriter;
 
@@ -28,7 +28,7 @@ public class ClassReader extends ClassVisitor {
 	@Override
 	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
 		type = Type.getObjectType(name);
-		cw = ClassBuilder.make(classWriter, type);
+		cb = ClassBuilder.make(classWriter, type).body();
 	}
 
 	@Override
