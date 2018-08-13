@@ -1,6 +1,7 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.is;
+import static nebula.tinyasm.util.TypeUtils.*;
+import static nebula.tinyasm.util.TypeUtils.internalOf;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
 import java.util.ArrayList;
@@ -225,14 +226,14 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 	protected void prapareMethodDefination() {
 		String signature = null;
 
-		boolean definedSignature = false;
+		boolean needSignature = false;
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append("(");
 			for (ClassField param : thisMethod.params) {
 				if (param.signature != null) {
 					sb.append(param.signature);
-					definedSignature = true;
+					needSignature = true;
 				} else {
 					sb.append(param.type.getDescriptor());
 				}
@@ -241,14 +242,14 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 			sb.append(thisMethod.returnType.getDescriptor());
 			String signatureFromParameter = sb.toString();
 
-			if (definedSignature) {
+			if (needSignature) {
 				signature = signatureFromParameter;
 			}
 		}
 
 		this.mv = classVisitor.visitMethod(thisMethod.access, thisMethod.name,
 				Type.getMethodDescriptor(thisMethod.returnType, ClassField.typesOf(thisMethod.params)), signature,
-				null);
+				internalOf(this.thisMethod.excptions));
 
 		assert this.mv != null;
 		for (ClassAnnotation annotation : thisMethod.annotations) {
