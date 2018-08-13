@@ -8,12 +8,12 @@ class MethodHeaderStaticBuilder extends MethodHeaderBuilder<MethodCodeStatic> {
 
 	public MethodHeaderStaticBuilder(ClassVisitor cv, Type thisType, int access, Type returnType, String methodName,
 			String[] exceptionClasses) {
-		super(null, thisType, access, returnType, methodName, exceptionClasses);
+		super(cv, thisType, access, returnType, methodName, exceptionClasses);
 	}
 
 	@Override
 	public MethodCodeStatic makeCode(MethodVisitor mv) {
-		return new MethodCodeStaticBuilder(mv, this,super.mhLocals);
+		return new MethodCodeStaticBuilder(mv, this, super.mhLocals);
 	}
 
 }

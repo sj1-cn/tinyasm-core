@@ -48,7 +48,7 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 	ThisMethod thisMethod;
 
-	private final ClassVisitor classVisitor;
+	final private ClassVisitor classVisitor;
 
 	protected Label labelCurrent;
 
