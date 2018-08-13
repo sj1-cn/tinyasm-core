@@ -432,6 +432,7 @@ public class TypeUtils {
 	}
 
 	static public Type typeOf(Class<?> clz) {
+		if (clz == null) return Type.VOID_TYPE;
 		return Type.getType(clz);
 	}
 

@@ -30,7 +30,7 @@ public class ClassBuilderCompareTest extends TestBase {
 
 		// @formatter:off
 		cw.method(boolean.class, "eq").parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
-			mc.line(6);
+			mc.line();
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
@@ -40,7 +40,7 @@ public class ClassBuilderCompareTest extends TestBase {
 		});
 
 		cw.method(boolean.class, "ne").parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
-			mc.line(10);
+			mc.line();
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
