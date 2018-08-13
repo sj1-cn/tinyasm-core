@@ -23,6 +23,10 @@ public class ArrayListMap<V> implements Iterable<V> {
 		return maps.get(name);
 	}
 
+	public boolean containsKey(String name) {
+		return maps.containsKey(name);
+	}
+
 	public int size() {
 		return stack.size();
 	}

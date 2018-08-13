@@ -1,19 +1,18 @@
 package nebula.tinyasm;
 
-import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 class MethodHeaderInstanceBuilder extends MethodHeaderBuilder<MethodCodeInstance> {
 
-	public MethodHeaderInstanceBuilder(ClassVisitor cv, Type thisType, int access, Type returnType, String methodName,
-			String[] exceptiones) {
+	public MethodHeaderInstanceBuilder(ClassBuilderImpl cv, Type thisType, int access, Type returnType,
+			String methodName, String[] exceptiones) {
 		super(cv, thisType, access, returnType, methodName, exceptiones);
 	}
 
 	@Override
 	public MethodCodeInstance makeCode(MethodVisitor mv) {
-		return new MethodCodeInstanceBuilder(mv, this,super.mhLocals);
+		return new MethodCodeInstanceBuilder(mv, this, super.mhLocals);
 	}
 
 	@Override

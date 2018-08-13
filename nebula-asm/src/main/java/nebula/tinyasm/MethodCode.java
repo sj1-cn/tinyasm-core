@@ -123,6 +123,8 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	abstract Type codeLocalLoadAccessType(String name);
 
+	abstract Type codeThisFieldType(String name);
+
 	abstract int codeLocalStoreAccess(String name);
 
 	abstract Type codeLocalStoreAccessType(String name);
@@ -1265,6 +1267,11 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
+	default void getThisField(String fieldname) {
+		getfield(_THIS, fieldname, codeThisFieldType(fieldname));
+	}
+
+	@Override
 	default void getfield(String objectname, String fieldname, String fieldType) {
 		getfield(objectname, fieldname, typeOf(fieldType));
 	}
@@ -1272,6 +1279,11 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	default void getfield(String objectname, String fieldname, Type fieldType) {
 		LOAD(objectname);
 		GETFIELD(fieldname, fieldType);
+	}
+
+	@Override
+	default void GET_THIS_FIELD(String fieldname) {
+		GETFIELD(fieldname, codeThisFieldType(fieldname));
 	}
 
 	@Override
@@ -1292,6 +1304,11 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		// GETFIELD (objectref → value) : get a field value of an object objectref,
 		// where the field is identified by field reference in the constant
 		// pool index (index1 << 8 + index2)
+	}
+
+	@Override
+	default void putVarThisField(String varname, String fieldname) {
+		putVarToThisField(varname, fieldname, codeThisFieldType(fieldname));
 	}
 
 	default void putVarToThisField(String varname, String fieldname, Type fieldType) {
@@ -1321,6 +1338,11 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		LOAD(objectref);
 		LOAD(varname);
 		PUTFIELD(fieldname, fieldType);
+	}
+
+	@Override
+	default void PUT_THIS_FIELD(String fieldname) {
+		PUTFIELD(fieldname, codeThisFieldType(fieldname));
 	}
 
 	@Override

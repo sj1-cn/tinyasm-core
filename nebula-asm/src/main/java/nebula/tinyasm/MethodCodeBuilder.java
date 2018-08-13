@@ -82,6 +82,11 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 	}
 
 	@Override
+	public Type codeThisFieldType(String name) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
 	public Label codeNewLabel() {
 		Label label = new Label();
 		return label;

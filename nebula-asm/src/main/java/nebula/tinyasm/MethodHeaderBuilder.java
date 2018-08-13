@@ -1,7 +1,7 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.*;
 import static nebula.tinyasm.util.TypeUtils.internalOf;
+import static nebula.tinyasm.util.TypeUtils.is;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
 import java.util.ArrayList;
@@ -16,8 +16,10 @@ import org.objectweb.asm.Type;
 
 import nebula.tinyasm.data.ClassAnnotation;
 import nebula.tinyasm.data.ClassField;
+import nebula.tinyasm.data.Field;
 import nebula.tinyasm.data.LocalsStack;
 import nebula.tinyasm.data.LocalsVariable;
+import nebula.tinyasm.util.ArrayListMap;
 
 abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodHeader<MC> {
 	class ThisMethod {
@@ -30,7 +32,8 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 		List<ClassAnnotation> parameterAnnotations = new ArrayList<>(10);
 
-		List<ClassField> params = new ArrayList<>();
+		ArrayListMap<ClassField> params = new ArrayListMap<>();
+		ArrayListMap<Field> fields;
 
 		Type returnType;
 		Type type;
@@ -61,7 +64,7 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 	MethodVisitor mv;
 
-	public MethodHeaderBuilder(ClassVisitor cv, Type thisType, int access, Type returnType, String methodName,
+	public MethodHeaderBuilder(ClassBuilderImpl cv, Type thisType, int access, Type returnType, String methodName,
 			String[] exceptiones) {
 		this.classVisitor = cv;
 		thisMethod = new ThisMethod();
@@ -70,6 +73,7 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 		thisMethod.returnType = returnType;
 		thisMethod.excptions = exceptiones;
 		thisMethod.type = thisType;
+		thisMethod.fields = cv.fields ;
 	}
 
 	@Override
@@ -178,15 +182,16 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 	}
 
 	@Override
-	public MethodHeader<MC> parameter(ClassField field) {
-		thisMethod.params.add(field);
+	public MethodHeader<MC> parameter(ClassField param) {
+		thisMethod.params.push(param.name, param);
 		thisMethod.parameterAnnotations.add(null);
 		return this;
 	}
 
 	@Override
-	public MethodHeader<MC> parameter(String fieldName, Type fieldType) {
-		thisMethod.params.add(new LocalsVariable(fieldName, fieldType));
+	public MethodHeader<MC> parameter(String paramname, Type paramType) {
+		LocalsVariable param = new LocalsVariable(paramname, paramType);
+		thisMethod.params.push(param.name, param);
 		thisMethod.parameterAnnotations.add(null);
 		return this;
 	}
@@ -200,7 +205,8 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 	@Override
 	public MethodHeader<MC> parameterGeneric(String fieldName, Type fieldType, String signature) {
-		thisMethod.params.add(new LocalsVariable(fieldName, fieldType, signature));
+		LocalsVariable param = new LocalsVariable(fieldName, fieldType, signature);
+		thisMethod.params.push(param.name, param);
 		thisMethod.parameterAnnotations.add(null);
 		return this;
 	}
@@ -208,7 +214,8 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 	@Override
 	public MethodHeader<MC> parameterGenericWithAnnotation(Type annotationType, Object value, String fieldName,
 			Type fieldType, String signature) {
-		thisMethod.params.add(new LocalsVariable(fieldName, fieldType, signature));
+		LocalsVariable param = new LocalsVariable(fieldName, fieldType, signature);
+		thisMethod.params.push(param.name, param);
 		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
 				new ClassAnnotation(annotationType, null, value));
 		return this;
@@ -217,7 +224,8 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 	@Override
 	public MethodHeader<MC> parameterWithAnnotation(Type annotationType, Object value, String fieldName,
 			Type fieldType) {
-		thisMethod.params.add(new LocalsVariable(fieldName, fieldType));
+		LocalsVariable param = new LocalsVariable(fieldName, fieldType);
+		thisMethod.params.push(param.name, param);
 		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
 				new ClassAnnotation(annotationType, null, value));
 		return this;
@@ -248,8 +256,8 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 		}
 
 		this.mv = classVisitor.visitMethod(thisMethod.access, thisMethod.name,
-				Type.getMethodDescriptor(thisMethod.returnType, ClassField.typesOf(thisMethod.params)), signature,
-				internalOf(this.thisMethod.excptions));
+				Type.getMethodDescriptor(thisMethod.returnType, ClassField.typesOf(thisMethod.params.values())),
+				signature, internalOf(this.thisMethod.excptions));
 
 		assert this.mv != null;
 		for (ClassAnnotation annotation : thisMethod.annotations) {

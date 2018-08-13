@@ -14,6 +14,7 @@ interface MethodCodeASM {
 	void LOADThis();
 
 	void LOADThisField(String fieldname, Class<?> feildtype);
+
 	void LOADThisField(String fieldname, String feildtype);
 
 	void LOAD(String... names);
@@ -123,6 +124,7 @@ interface MethodCodeASM {
 	 * long, or float
 	 */
 	void CONVERTTO(Class<?> typeTo);
+
 	void CONVERTTO(String typeTo);
 
 	/*
@@ -170,18 +172,21 @@ interface MethodCodeASM {
 	 *            non null {@link Integer}, a {@link Float}, a {@link Long}, a
 	 *            {@link Double}, a {@link String}, a {@link Class<?>} of OBJECT or
 	 *            ARRAY sort for <tt>.class</tt> constants, for classes whose
-	 *            version is 49.0, a {@link Class<?>} of METHOD sort or a {@link Handle}
-	 *            for MethodType and MethodHandle constants, for classes whose
-	 *            version is 51.0.
+	 *            version is 49.0, a {@link Class<?>} of METHOD sort or a
+	 *            {@link Handle} for MethodType and MethodHandle constants, for
+	 *            classes whose version is 51.0.
 	 */
 	void NEW(Class<?> objectref);
+
 	void NEW(String objectref);
 
 	/* Create a new array: newarray, anewarray, multianewarray. */
 	void newarray(String count, Class<?> type);
+
 	void newarray(String count, String type);
 
 	void NEWARRAY(Class<?> type);
+
 	void NEWARRAY(String type);
 
 	void ARRAYLENGTH(String array);
@@ -189,9 +194,11 @@ interface MethodCodeASM {
 	void ARRAYLENGTH();
 
 	void arrayload(String arrayref, String index, Class<?> valueType);
+
 	void arrayload(String arrayref, String index, String valueType);
 
 	void ARRAYLOAD(Class<?> value);
+
 	void ARRAYLOAD(String value);
 
 	void arraystore(String varArray, String index, String value);
@@ -200,9 +207,11 @@ interface MethodCodeASM {
 
 	/* Check properties of class instances or arrays: instanceof, checkcast. */
 	void INSTANCEOF(Class<?> type);
+
 	void INSTANCEOF(String type);
 
 	void CHECKCAST(Class<?> type);
+
 	void CHECKCAST(String type);
 
 	/*
@@ -280,40 +289,59 @@ interface MethodCodeASM {
 
 	/** ARRAY **/
 	void getfield(String objectname, String fieldname, Class<?> fieldType);
+
 	void getfield(String objectname, String fieldname, String fieldType);
 
+	void getThisField(String fieldname);
+
+	void GET_THIS_FIELD(String fieldname);
+	
 	void GETFIELD(String fieldname, Class<?> fieldType);
+
 	void GETFIELD(String fieldname, String fieldType);
 
 	void putfield(String objectref, String varname, String fieldname, Class<?> fieldType);
+
 	void putfield(String objectref, String varname, String fieldname, String fieldType);
 
+	void putVarThisField(String varname, String fieldname);
+
 	void PUTFIELD(String fieldname, Class<?> fieldType);
+
+	void PUT_THIS_FIELD(String fieldname);
+
 	void PUTFIELD(String fieldname, String fieldType);
 
 	void GETSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
+
 	void GETSTATIC(String objectType, String fieldName, String fieldType);
 
 	void putstatic(Class<?> objectType, String varname, String fieldname, Class<?> fieldType);
+
 	void putstatic(String objectType, String varname, String fieldname, String fieldType);
 
 	void PUTSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
+
 	void PUTSTATIC(String objectType, String fieldName, String fieldType);
 
 	/** INVOKE **/
 	void INVOKESTATIC(Class<?> objectType, String methodName, Class<?>... paramTypes);
 
 	void INVOKESTATIC(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
+
 	void INVOKESTATIC(String objectType, String returnType, String methodName, String... paramTypes);
 
 	void INVOKEINTERFACE(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
+
 	void INVOKEINTERFACE(String objectType, String returnType, String methodName, String... paramTypes);
 
 	void INVOKESPECIAL(Class<?> objectType, String methodName, Class<?>... paramTypes);
 
 	void INVOKESPECIAL(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
+
 	void INVOKESPECIAL(String objectType, String returnType, String methodName, String... paramTypes);
 
 	void INVOKEVIRTUAL(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
+
 	void INVOKEVIRTUAL(String objectType, String returnType, String methodName, String... paramTypes);
 }
