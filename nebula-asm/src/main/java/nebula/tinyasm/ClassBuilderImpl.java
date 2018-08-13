@@ -177,9 +177,9 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public MethodHeaderAdv<MethodInstanceCode> mvMethod(int access, Type returnType, String methodName,
+	public MethodHeader<MethodCodeInstance> mvMethod(int access, Type returnType, String methodName,
 			String[] exceptions) {
-		return new MethodInstanceBuilder(this, thisType, access, returnType, methodName, exceptions);
+		return new MethodHeaderInstanceBuilder(this, thisType, access, returnType, methodName, exceptions);
 	}
 
 	@Override
@@ -192,9 +192,9 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public MethodHeaderAdv<MethodStaticCode> mvStaticMethod(int access, Type returnType, String methodName,
+	public MethodHeader<MethodCodeStatic> mvStaticMethod(int access, Type returnType, String methodName,
 			String[] exceptionClasses) {
-		return new StaticMethodBuilder(this, thisType, access, returnType, methodName, exceptionClasses);
+		return new MethodHeaderStaticBuilder(this, thisType, access, returnType, methodName, exceptionClasses);
 	}
 
 	@Override

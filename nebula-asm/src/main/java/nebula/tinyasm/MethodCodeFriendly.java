@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-public interface MethodCodeFriendly<C extends MethodCodeFriendly<C>> {
+public interface MethodCodeFriendly<C> {
 
 	C var(String fieldName, Class<?> clz);
 

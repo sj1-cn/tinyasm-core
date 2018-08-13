@@ -97,7 +97,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public interface MethodCode<C extends MethodCode<C>> extends MethodCodeASM, MethodCodeFriendly<C> {
+public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	void codeAccessLabel(Label label);
 
