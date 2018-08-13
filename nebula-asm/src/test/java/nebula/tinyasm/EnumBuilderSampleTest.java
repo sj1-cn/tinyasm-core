@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Type;
 import org.objectweb.asm.util.ASMifier;
 import org.objectweb.asm.util.TraceClassVisitor;
 
@@ -29,9 +28,8 @@ public class EnumBuilderSampleTest {
 
 	@Test
 	public void testStatusBuilder() throws Exception {
-		Type type = Type.getObjectType("com/nebula/dropwizard/core/Status");
 
-		byte[] code = EnumBuilder.dump(type, "STARTED", "FAILED", "COMPLETED");
+		byte[] code = EnumBuilder.dump("com.nebula.dropwizard.core.Status", "STARTED", "FAILED", "COMPLETED");
 		byte[] codeExpected = EnumBuilderSampleDump.dump();
 
 		String strCode = toString(code);

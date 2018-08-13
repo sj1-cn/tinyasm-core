@@ -46,6 +46,10 @@ interface MethodDefineParameter<MC> {
 		return cr;
 	}
 
+	default MethodHeader<MC> parameter(String fieldName, String fieldClass) {
+		return parameter(fieldName, typeOf(fieldClass));
+	}
+
 	default MethodHeader<MC> parameter(String fieldName, Class<?> fieldClass) {
 		return parameter(fieldName, typeOf(fieldClass));
 	}

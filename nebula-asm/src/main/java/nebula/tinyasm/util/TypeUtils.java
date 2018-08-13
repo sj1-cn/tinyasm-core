@@ -57,7 +57,15 @@ public class TypeUtils {
 
 	static public Type arrayOf(Class<?> clz) {
 		return arrayOf(typeOf(clz), true);
-	};
+	}
+
+	static public Type arrayOf(String clz) {
+		return arrayOf(typeOf(clz), true);
+	}
+
+	static public Type arrayOf(String clz, boolean array) {
+		return arrayOf(typeOf(clz), array);
+	}
 
 	static public Type arrayOf(Class<?> clz, boolean array) {
 		return arrayOf(typeOf(clz), array);
@@ -415,6 +423,14 @@ public class TypeUtils {
 		return Type.getType(clz);
 	}
 
+	static public Type typeOf(Class<?> clz, boolean isarray) {
+		return arrayOf(Type.getType(clz), isarray);
+	}
+
+	static public Type typeOf(String name, boolean isarray) {
+		return arrayOf(Type.getObjectType(name.replace('.', '/')), isarray);
+	};
+
 	static public Type typeOf(String name) {
 		return Type.getObjectType(name.replace('.', '/'));
 	};
@@ -422,7 +438,7 @@ public class TypeUtils {
 	static public Type[] typeOf(Class<?>... classes) {
 		Type[] types = new Type[classes.length];
 		for (int i = 0; i < classes.length; i++) {
-			types[i] = Type.getType(classes[i]);
+			types[i] = typeOf(classes[i]);
 		}
 		return types;
 	};
@@ -430,7 +446,7 @@ public class TypeUtils {
 	static public Type[] typeOf(String... classes) {
 		Type[] types = new Type[classes.length];
 		for (int i = 0; i < classes.length; i++) {
-			types[i] = Type.getType(classes[i]);
+			types[i] = typeOf(classes[i]);
 		}
 		return types;
 	};

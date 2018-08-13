@@ -39,14 +39,14 @@ public class ClassBuilderFieldTest {
 		ClassBody cw = ClassBuilder.make(visitor, this.getClass().getPackage().getName() + "/ClassBuilderField").body();
 
 		// @formatter:off
-		cw.mvField(ACC_PRIVATE, "b", Type.BYTE_TYPE);
-		cw.mvField(ACC_PRIVATE, "c", Type.CHAR_TYPE);
-		cw.mvField(ACC_PRIVATE, "s", Type.SHORT_TYPE);
-		cw.mvField(ACC_PRIVATE, "i", Type.INT_TYPE);
-		cw.mvField(ACC_PRIVATE, "l", Type.LONG_TYPE);
-		cw.mvField(ACC_PRIVATE, "f", Type.FLOAT_TYPE);
-		cw.mvField(ACC_PRIVATE, "d", Type.DOUBLE_TYPE);
-		cw.mvField(ACC_PRIVATE, "str", Type.getType(String.class));
+		cw.field(ACC_PRIVATE, "b",  byte.class);
+		cw.field(ACC_PRIVATE, "c", char.class);
+		cw.field(ACC_PRIVATE, "s",short.class);
+		cw.field(ACC_PRIVATE, "i",int.class);
+		cw.field(ACC_PRIVATE, "l",long.class);
+		cw.field(ACC_PRIVATE, "f",float.class);
+		cw.field(ACC_PRIVATE, "d",double.class);
+		cw.field(ACC_PRIVATE, "str",String.class);
 		
 		cw.publicMethod("<init>").code(mc -> {
 			mc.line(3).INITObject();
@@ -225,7 +225,7 @@ public class ClassBuilderFieldTest {
 		Class<?>[] exceptionClasses3 = {};
 
 		cw.mvMethod(ACC_PUBLIC, Type.getType(String.class), "getFieldStr", namesOf(exceptionClasses3)).code(mc->{
-			mc.def("xstr", Type.getType(String.class), false);
+			mc.def("xstr", Type.getType(String.class));
 			mc.line(53).LOADConst("hello ");
 			mc.STORE("xstr");
 			mc.line(54).NEW(Type.getType(StringBuilder.class));
@@ -245,8 +245,8 @@ public class ClassBuilderFieldTest {
 		Class<?>[] exceptionClasses4 = {};
 
 		cw.mvMethod(ACC_PUBLIC, Type.BYTE_TYPE, "retByte", namesOf(exceptionClasses4)).code(mc->{
-			mc.def("x",Type.BYTE_TYPE, false);
-			mc.def("y",Type.BYTE_TYPE, false);
+			mc.def("x",Type.BYTE_TYPE);
+			mc.def("y",Type.BYTE_TYPE);
 			mc.line(59).LOADConstByte(1);
 			mc.STORE("x");
 			mc.line().LOAD("x");

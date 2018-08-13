@@ -1,5 +1,9 @@
 package nebula.tinyasm;
 
+import static nebula.tinyasm.util.TypeUtils.typeOf;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.ACC_SUPER;
+
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassVisitor;
@@ -28,7 +32,7 @@ public class ClassReader extends ClassVisitor {
 	@Override
 	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
 		type = Type.getObjectType(name);
-		cb = ClassBuilder.make(classWriter, type).body();
+		cb = new ClassBuilderImpl(ACC_PUBLIC + ACC_SUPER, classWriter, type, typeOf(Object.class)).body();
 	}
 
 	@Override
