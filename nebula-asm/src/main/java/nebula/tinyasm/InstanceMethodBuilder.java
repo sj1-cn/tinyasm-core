@@ -4,23 +4,11 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.api.InstanceMethodCode;
-import nebula.tinyasm.api.MethodCallerInInstanceMethod;
 import nebula.tinyasm.api.MethodHeader;
 
 class InstanceMethodBuilder extends
-		AbstractMethodBuilder<MethodHeader<InstanceMethodCode>, MethodCallerInInstanceMethod, InstanceMethodCode>
+		AbstractMethodBuilder<MethodHeader<InstanceMethodCode>, InstanceMethodCode>
 		implements MethodHeader<InstanceMethodCode>, InstanceMethodCode, Opcodes {
-	class MethodCallerInInstanceMethodImpl extends AbstractMethodCaller implements MethodCallerInInstanceMethod {
-
-		public MethodCallerInInstanceMethodImpl(Type objectType) {
-			super(objectType);
-		}
-
-		@Override
-		MethodCallerInInstanceMethod caller() {
-			return this;
-		}
-	}
 
 	ClassBuilderImpl cv;
 

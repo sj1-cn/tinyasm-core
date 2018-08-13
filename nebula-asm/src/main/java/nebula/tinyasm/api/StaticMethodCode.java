@@ -1,5 +1,5 @@
 package nebula.tinyasm.api;
 
-public interface StaticMethodCode extends MethodCode<MethodCallerInStaticMethod, StaticMethodCode> {
+public interface StaticMethodCode extends MethodCode<StaticMethodCode> {
 
 }

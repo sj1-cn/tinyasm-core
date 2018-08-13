@@ -10,7 +10,7 @@ import org.objectweb.asm.Type;
 
 import nebula.tinyasm.SmartOpcode;
 
-public interface MethodCode<M, C extends MethodCode<M, C>> extends SmartOpcode {
+public interface MethodCode<C extends MethodCode<C>> extends SmartOpcode {
 
 	C codeAccessLabel(Label label);
 

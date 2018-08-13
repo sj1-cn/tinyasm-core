@@ -7,33 +7,29 @@ import org.objectweb.asm.Type;
 import nebula.tinyasm.api.MethodHeader;
 import nebula.tinyasm.api.MethodInstanceMethodCode;
 
-interface IndependentMethodCaller extends MethodCaller<IndependentMethodCaller, IndependentMethodCode> {
-
-}
-
-interface IndependentMethodCode extends MethodInstanceMethodCode<IndependentMethodCaller, IndependentMethodCode> {
+interface IndependentMethodCode extends MethodInstanceMethodCode<IndependentMethodCode> {
 
 }
 
 class IndependentInstanceMethodBuilder extends
-		AbstractMethodBuilder<MethodHeader<IndependentMethodCode>, IndependentMethodCaller, IndependentMethodCode>
+		AbstractMethodBuilder<MethodHeader<IndependentMethodCode>,  IndependentMethodCode>
 		implements IndependentMethodCode, MethodHeader<IndependentMethodCode>, Opcodes {
 
-	class IndependentMethodCallerImpl extends AbstractMethodCaller implements IndependentMethodCaller {
-		public IndependentMethodCallerImpl(Type objectType) {
-			super(objectType);
-		}
-
-		@Override
-		IndependentMethodCaller caller() {
-			return this;
-		}
-
-		@Override
-		public IndependentMethodCode code() {
-			return IndependentInstanceMethodBuilder.this;
-		}
-	}
+//	class IndependentMethodCallerImpl extends AbstractMethodCaller implements IndependentMethodCaller {
+//		public IndependentMethodCallerImpl(Type objectType) {
+//			super(objectType);
+//		}
+//
+//		@Override
+//		IndependentMethodCaller caller() {
+//			return this;
+//		}
+//
+//		@Override
+//		public IndependentMethodCode code() {
+//			return IndependentInstanceMethodBuilder.this;
+//		}
+//	}
 
 	public IndependentInstanceMethodBuilder(ClassVisitor cv, Type thisType, int access, String methodName) {
 		this(cv, thisType, access, Type.VOID_TYPE, methodName);

@@ -21,41 +21,41 @@ import org.objectweb.asm.Type;
 import nebula.tinyasm.api.MethodCode;
 import nebula.tinyasm.api.MethodHeader;
 
-abstract class AbstractMethodBuilder<H, M, C extends MethodCode<M, C>> extends MethodVisitor
-		implements MethodCode<M, C>, MethodHeader<C> {
+abstract class AbstractMethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
+		implements MethodCode<C>, MethodHeader<C> {
 
-	abstract class AbstractMethodCaller extends AbstractInvokeMethod<M, C> implements MethodCaller<M, C> {
-
-		Type objectType;
-
-		public AbstractMethodCaller(Type objectType) {
-			this.objectType = objectType;
-		}
-
-		@Override
-		public M addParam(String name) {
-			LOAD(name);
-			return caller();
-		}
-
-		abstract M caller();
-
-		@Override
-		public C code() {
-			return AbstractMethodBuilder.this.code();
-		}
-
-		@Override
-		public Type getStackTopType() {
-			return objectType;
-		}
-
-		@Override
-		public M with(Consumer<C> invocation) {
-			invocation.accept(code());
-			return caller();
-		}
-	}
+//	abstract class AbstractMethodCaller extends AbstractInvokeMethod<M, C> implements MethodCaller<M, C> {
+//
+//		Type objectType;
+//
+//		public AbstractMethodCaller(Type objectType) {
+//			this.objectType = objectType;
+//		}
+//
+//		@Override
+//		public M addParam(String name) {
+//			LOAD(name);
+//			return caller();
+//		}
+//
+//		abstract M caller();
+//
+//		@Override
+//		public C code() {
+//			return AbstractMethodBuilder.this.code();
+//		}
+//
+//		@Override
+//		public Type getStackTopType() {
+//			return objectType;
+//		}
+//
+//		@Override
+//		public M with(Consumer<C> invocation) {
+//			invocation.accept(code());
+//			return caller();
+//		}
+//	}
 
 	class ThisMethod {
 		int access;

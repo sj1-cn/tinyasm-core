@@ -1,5 +1,5 @@
 package nebula.tinyasm.api;
 
-public interface InvokeMethod<M, C extends MethodCode<M, C>> extends ToType {
+public interface InvokeMethod<C extends MethodCode<C>> extends ToType {
 	C code();
 }
