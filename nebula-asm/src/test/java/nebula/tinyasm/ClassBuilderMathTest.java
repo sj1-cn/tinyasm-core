@@ -3,20 +3,12 @@ package nebula.tinyasm;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.util.ASMifier;
-import org.objectweb.asm.util.TraceClassVisitor;
 
-public class ClassBuilderMathTest {
+public class ClassBuilderMathTest extends TestBase {
 
 	@Before
 	public void setUp() throws Exception {
@@ -29,9 +21,9 @@ public class ClassBuilderMathTest {
 	@Test
 	public void testMath() throws Exception {
 //		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), new PrintWriter(System.out));
-		ClassVisitor visitor = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
+//		ClassVisitor visitor = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 
-		ClassBody cw = ClassBuilder.make(visitor, this.getClass().getPackage().getName() + "/ClassBuilderMath").body();
+		ClassBody cw = ClassBuilder.make(this.getClass().getPackage().getName() + "/ClassBuilderMath").body();
 		cw.publicMethod("<init>").code(mc -> {
 			mc.line(3).INITObject();
 			mc.RETURN();
@@ -39,37 +31,36 @@ public class ClassBuilderMathTest {
 
 		// @formatter:off
 
-		cw.method(int.class, "add").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
+		cw.method(int.class, "add").parameter("x", int.class).parameter("y", int.class).code(mc -> {
 			mc.line(5).LOAD("x");
 			mc.LOAD("y");
 			mc.ADD();
 			mc.RETURNTop();
 		});
-		cw.method(int.class, "mul").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
+		cw.method(int.class, "mul").parameter("x", int.class).parameter("y", int.class).code(mc -> {
 			mc.line(9).LOAD("x");
 			mc.LOAD("y");
 			mc.MUL();
 			mc.RETURNTop();
 		});
-		cw.method(int.class, "sub").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
+		cw.method(int.class, "sub").parameter("x", int.class).parameter("y", int.class).code(mc -> {
 			mc.line(13).LOAD("x");
 			mc.LOAD("y");
 			mc.SUB();
 			mc.RETURNTop();
 		});
-		cw.method(int.class, "div").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
+		cw.method(int.class, "div").parameter("x", int.class).parameter("y", int.class).code(mc -> {
 			mc.line(17).LOAD("x");
 			mc.LOAD("y");
 			mc.DIV();
 			mc.RETURNTop();
 		});
-		cw.method(int.class, "rem").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
+		cw.method(int.class, "rem").parameter("x", int.class).parameter("y", int.class).code(mc -> {
 			mc.line(21).LOAD("x");
 			mc.LOAD("y");
 			mc.REM();
 			mc.RETURNTop();
-		});
-		
+		});		
 
 		cw.method(byte.class, "add").parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
 			mc.line(25).LOAD("x");
@@ -224,26 +215,9 @@ public class ClassBuilderMathTest {
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 
-	public static String toString(byte[] code) throws IOException {
-		ClassReader cr = new ClassReader(code);
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
-		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return sw.toString();
-	}
-
 	@Test
 	public void printClass() throws IOException {
 		System.out.println(toString(ClassBuilderMath.class.getName()));
 	}
 
-	public static String toString(String className) throws IOException {
-		ClassReader cr = new ClassReader(className);
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
-		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return sw.toString();
-	}
 }

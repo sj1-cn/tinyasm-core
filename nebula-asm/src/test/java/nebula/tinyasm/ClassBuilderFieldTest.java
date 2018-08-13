@@ -1,23 +1,14 @@
 package nebula.tinyasm;
 
 import static org.junit.Assert.assertEquals;
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-//import org.objectweb.asm.Type;
-import org.objectweb.asm.util.ASMifier;
-import org.objectweb.asm.util.TraceClassVisitor;
 
-public class ClassBuilderFieldTest {
+public class ClassBuilderFieldTest extends TestBase {
 
 	@Before
 	public void setUp() throws Exception {
@@ -30,19 +21,19 @@ public class ClassBuilderFieldTest {
 	@Test
 	public void testMath() throws Exception {
 //		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), new PrintWriter(System.out));
-		ClassVisitor visitor = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
+//		ClassVisitor visitor = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 
-		ClassBody cw = ClassBuilder.make(visitor, this.getClass().getPackage().getName() + "/ClassBuilderField").body();
+		ClassBody cw = ClassBuilder.make(this.getClass().getPackage().getName() + "/ClassBuilderField").body();
 
 		// @formatter:off
-		cw.field(ACC_PRIVATE, "b",  byte.class);
-		cw.field(ACC_PRIVATE, "c", char.class);
-		cw.field(ACC_PRIVATE, "s",short.class);
-		cw.field(ACC_PRIVATE, "i",int.class);
-		cw.field(ACC_PRIVATE, "l",long.class);
-		cw.field(ACC_PRIVATE, "f",float.class);
-		cw.field(ACC_PRIVATE, "d",double.class);
-		cw.field(ACC_PRIVATE, "str",String.class);
+		cw.field("b",  byte.class);
+		cw.field("c", char.class);
+		cw.field("s",short.class);
+		cw.field("i",int.class);
+		cw.field("l",long.class);
+		cw.field("f",float.class);
+		cw.field("d",double.class);
+		cw.field("str",String.class);
 		
 		cw.publicMethod("<init>").code(mc -> {
 			mc.line(3).INITObject();
@@ -269,26 +260,8 @@ public class ClassBuilderFieldTest {
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 
-	public static String toString(byte[] code) throws IOException {
-		ClassReader cr = new ClassReader(code);
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
-		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return sw.toString();
-	}
-
 	@Test
 	public void printClass() throws IOException {
 		System.out.println(toString(ClassBuilderField.class.getName()));
-	}
-
-	public static String toString(String className) throws IOException {
-		ClassReader cr = new ClassReader(className);
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
-		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return sw.toString();
 	}
 }

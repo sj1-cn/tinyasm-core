@@ -1,9 +1,6 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.typeOf;
-
 import org.objectweb.asm.Label;
-import org.objectweb.asm.Type;
 
 public class MyBankAccountBuilder {
 
@@ -39,8 +36,7 @@ public class MyBankAccountBuilder {
 				mc.line(39).LOADThis();
 				mc.LOAD("axonBankAccountId");
 				mc.LOAD("overdraftLimit");
-				mc.INVOKESPECIAL(typeOf("com.nebula.cqrs.core.asm.MyBankAccount"), null, "onCreated",
-						typeOf(String.class), typeOf(long.class));
+				mc.INVOKESPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", null, "onCreated", String.class, long.class);
 				mc.line(40).RETURN();
 			});
 	}
@@ -49,7 +45,7 @@ public class MyBankAccountBuilder {
 		cw.publicMethod(boolean.class, "deposit").parameter("amount", long.class).code(mc -> {
 			mc.line(44).LOADThis();
 			mc.LOAD("amount");
-			mc.INVOKESPECIAL(typeOf("com.nebula.cqrs.core.asm.MyBankAccount"), null, "onMoneyAdded", Type.LONG_TYPE);
+			mc.INVOKESPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", null, "onMoneyAdded", long.class);
 			mc.line(45).LOADConstByte(1);
 			mc.RETURNTop();
 		});
@@ -60,8 +56,8 @@ public class MyBankAccountBuilder {
 			cw.publicMethod(boolean.class, "withdraw").parameter("amount", long.class).code(mc -> {
 				mc.line(50).LOAD("amount");
 
-				mc.LOADThisField("balance", Type.LONG_TYPE);
-				mc.LOADThisField("overdraftLimit", Type.LONG_TYPE);
+				mc.LOADThisField("balance");
+				mc.LOADThisField("overdraftLimit");
 				mc.ADD();
 
 				mc.CMP();
@@ -70,8 +66,7 @@ public class MyBankAccountBuilder {
 
 				mc.line(51).LOADThis();
 				mc.LOAD("amount");
-				mc.INVOKESPECIAL(typeOf("com.nebula.cqrs.core.asm.MyBankAccount"), null, "onMoneySubtracted",
-						Type.LONG_TYPE);
+				mc.INVOKESPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", null, "onMoneySubtracted", long.class);
 				mc.line(52).LOADConstByte(1);
 				mc.RETURNTop();
 
@@ -87,11 +82,11 @@ public class MyBankAccountBuilder {
 			.parameter("axonBankAccountId", String.class)
 			.parameter("overdraftLimit", long.class)
 			.code(mc -> {
-				mc.line(100).putVarToThisField("axonBankAccountId", "axonBankAccountId", Type.getType(String.class));
-				mc.line(101).putVarToThisField("overdraftLimit", "overdraftLimit", Type.LONG_TYPE);
+				mc.line(100).putVarToThisField("axonBankAccountId", "axonBankAccountId");
+				mc.line(101).putVarToThisField("overdraftLimit", "overdraftLimit");
 				mc.line(102).LOADThis();
 				mc.LOADConst(0L);
-				mc.PUTFIELD("balance", Type.LONG_TYPE);
+				mc.PUT_THIS_FIELD("balance");
 				mc.line(103).RETURN();
 			});
 	}
@@ -99,13 +94,13 @@ public class MyBankAccountBuilder {
 	private static void visitDefine_onMoneyAdded(ClassBody cw) {
 		cw.privateMethod("onMoneyAdded").parameter("amount", long.class).code(mc -> {
 			mc.var("newbalance", long.class);
-			mc.line(107).LOADThisField("balance", Type.LONG_TYPE);
+			mc.line(107).LOADThisField("balance");
 			mc.LOAD("amount");
 			mc.ADD();
 			mc.STORE("newbalance");
 			mc.line(108).LOADThis();
 			mc.LOAD("newbalance");
-			mc.PUTFIELD("balance", Type.LONG_TYPE);
+			mc.PUT_THIS_FIELD("balance");
 			mc.line(109).RETURN();
 		});
 	}
@@ -114,10 +109,10 @@ public class MyBankAccountBuilder {
 		cw.privateMethod("onMoneySubtracted").parameter("amount", long.class).code(mc -> {
 			mc.line(113).LOADThis();
 			mc.DUP();
-			mc.GETFIELD("balance", Type.LONG_TYPE);
+			mc.GET_THIS_FIELD("balance");
 			mc.LOAD("amount");
 			mc.SUB();
-			mc.PUTFIELD("balance", Type.LONG_TYPE);
+			mc.PUT_THIS_FIELD("balance");
 			mc.line(114).RETURN();
 		});
 	}

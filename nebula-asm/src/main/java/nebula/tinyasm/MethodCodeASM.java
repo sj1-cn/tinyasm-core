@@ -295,6 +295,8 @@ interface MethodCodeASM {
 	void getThisField(String fieldname);
 
 	void GET_THIS_FIELD(String fieldname);
+
+	void LOADThisField(String fieldname);
 	
 	void GETFIELD(String fieldname, Class<?> fieldType);
 
@@ -304,7 +306,7 @@ interface MethodCodeASM {
 
 	void putfield(String objectref, String varname, String fieldname, String fieldType);
 
-	void putVarThisField(String varname, String fieldname);
+	void putVarToThisField(String varname, String fieldname);
 
 	void PUTFIELD(String fieldname, Class<?> fieldType);
 
@@ -344,4 +346,7 @@ interface MethodCodeASM {
 	void INVOKEVIRTUAL(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
 
 	void INVOKEVIRTUAL(String objectType, String returnType, String methodName, String... paramTypes);
+
+	void INVOKESPECIAL(String objectType, String returnType, String methodName, Class<?>[] paramTypes);
+
 }

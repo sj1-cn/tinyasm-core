@@ -444,6 +444,7 @@ public class TypeUtils {
 	};
 
 	static public Type typeOf(String name) {
+		if (name == null) return Type.VOID_TYPE;
 		return Type.getObjectType(name.replace('.', '/'));
 	};
 
