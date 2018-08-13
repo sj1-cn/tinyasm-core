@@ -8,10 +8,10 @@ import java.util.function.Consumer;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.SmartOpcode;
-import nebula.tinyasm.util.Field;
+import nebula.tinyasm.MethodCodeSmartOpcode;
+import nebula.tinyasm.data.Field;
 
-public interface MethodCode<C extends MethodCode<C>> extends SmartOpcode {
+public interface MethodCode<C extends MethodCode<C>> extends MethodCodeSmartOpcode {
 
 	C codeAccessLabel(Label label);
 

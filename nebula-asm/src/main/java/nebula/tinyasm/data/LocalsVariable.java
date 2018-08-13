@@ -1,10 +1,10 @@
-package nebula.tinyasm;
+package nebula.tinyasm.data;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 
-class LocalsVariable extends ClassField {
-	Label startFrom;
+public class LocalsVariable extends ClassField {
+	public Label startFrom;
 
 	public Object value;
 
@@ -20,7 +20,7 @@ class LocalsVariable extends ClassField {
 	public LocalsVariable(String name, Type type, Label startFrom) {
 		super(0, name, type, null, startFrom);
 	}
-	
+
 	public LocalsVariable(String name, Type type, String signature) {
 		super(0, name, type, signature, null);
 	}
@@ -29,6 +29,6 @@ class LocalsVariable extends ClassField {
 		super(0, name, type, signature, null);
 		this.startFrom = startFrom;
 	}
-	
-	int locals=0;
+
+	public int locals = 0;
 }

@@ -1,9 +1,9 @@
-package nebula.tinyasm;
+package nebula.tinyasm.data;
 
 import org.objectweb.asm.Type;
 
-class ClassAnnotation {
-	int parameter;
+public class ClassAnnotation {
+	public int parameter;
 
 	final public Type type;
 

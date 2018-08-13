@@ -16,8 +16,9 @@ import nebula.tinyasm.api.ClassBody;
 import nebula.tinyasm.api.InstanceMethodCode;
 import nebula.tinyasm.api.MethodHeader;
 import nebula.tinyasm.api.StaticMethodCode;
+import nebula.tinyasm.data.ClassField;
+import nebula.tinyasm.data.Field;
 import nebula.tinyasm.util.ArrayListMap;
-import nebula.tinyasm.util.Field;
 
 class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	public static String toSimpleName(String className) {
@@ -186,7 +187,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	@Override
 	public MethodHeader<InstanceMethodCode> method(int access, Type returnType, String methodName,
 			String[] exceptions) {
-		return new InstanceMethodBuilder(this, thisType, access, returnType, methodName, exceptions);
+		return new MethodInstanceBuilder(this, thisType, access, returnType, methodName, exceptions);
 	}
 
 	@Override

@@ -13,7 +13,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.util.Field;
+import nebula.tinyasm.data.Field;
 
 
 class AnalyzeMethodParamsClassVisitor extends ClassVisitor {

@@ -20,8 +20,12 @@ import org.objectweb.asm.Type;
 
 import nebula.tinyasm.api.MethodCode;
 import nebula.tinyasm.api.MethodHeader;
+import nebula.tinyasm.data.ClassAnnotation;
+import nebula.tinyasm.data.ClassField;
+import nebula.tinyasm.data.LocalsStack;
+import nebula.tinyasm.data.LocalsVariable;
 
-abstract class AbstractMethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
+abstract class MethodBuilder<H, C extends MethodCode< C>> extends MethodVisitor
 		implements MethodCode<C>, MethodHeader<C> {
 
 //	abstract class AbstractMethodCaller extends AbstractInvokeMethod<M, C> implements MethodCaller<M, C> {
@@ -100,7 +104,7 @@ abstract class AbstractMethodBuilder<H, C extends MethodCode< C>> extends Method
 
 	int lastLineNumber = 0;
 
-	public AbstractMethodBuilder(ClassVisitor cv, Type thisType, int access, Type returnType, String methodName,
+	public MethodBuilder(ClassVisitor cv, Type thisType, int access, Type returnType, String methodName,
 			String[] exceptiones) {
 		super(ASM5);
 		this.classVisitor = cv;

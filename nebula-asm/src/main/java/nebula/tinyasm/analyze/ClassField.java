@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.util.Field;
+import nebula.tinyasm.data.Field;
 
 class ClassField extends Field {
 	public ClassField(int access, String name, Type type, String signature, Object defaultValue) {

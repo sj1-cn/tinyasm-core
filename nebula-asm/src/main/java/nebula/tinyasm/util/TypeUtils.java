@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.data.Field;
+
 //import nebula.tinyasm.api.Field;
 
 public class TypeUtils {

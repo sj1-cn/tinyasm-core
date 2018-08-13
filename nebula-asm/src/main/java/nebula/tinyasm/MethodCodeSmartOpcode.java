@@ -60,7 +60,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public interface SmartOpcode {
+public interface MethodCodeSmartOpcode {
 
 	void mvInst(int opcode);
 

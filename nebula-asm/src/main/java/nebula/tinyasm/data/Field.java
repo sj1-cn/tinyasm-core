@@ -1,4 +1,4 @@
-package nebula.tinyasm.util;
+package nebula.tinyasm.data;
 
 import org.objectweb.asm.Type;
 
