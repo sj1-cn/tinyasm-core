@@ -617,6 +617,9 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		}
 	}
 
+	default void CONVERTTO(Class<?> typeTo) {
+		CONVERTTO(typeOf(typeTo));
+	}
 	/*
 	 * 2.11.4. Type Conversion Instructions
 	 * 

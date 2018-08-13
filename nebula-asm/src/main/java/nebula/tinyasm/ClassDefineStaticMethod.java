@@ -11,85 +11,87 @@ import org.objectweb.asm.Type;
 
 public interface ClassDefineStaticMethod {
 
-	MethodHeader<MethodCodeStatic> mvStaticMethod(int access, Type returnType, String methodName, String[] exceptionClasses);
+	MethodHeader<MethodCodeStatic> mvStaticMethod(int access, Type returnType, String name, String[] exceptionClasses);
 
-	default MethodHeader<MethodCodeStatic> privateStaticMethod(Class<?> returnClass, String methodName) {
+	default MethodHeader<MethodCodeStatic> privateStaticMethod(Class<?> returnClass, String name) {
 		Class<?>[] exceptionClasses = {};
-		return mvStaticMethod(ACC_STATIC + ACC_PRIVATE, typeOf(returnClass), methodName, namesOf(exceptionClasses));
+		return mvStaticMethod(ACC_STATIC + ACC_PRIVATE, typeOf(returnClass), name, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MethodCodeStatic> privateStaticMethod(Class<?> returnClass, String methodName,
+	default MethodHeader<MethodCodeStatic> privateStaticMethod(Class<?> returnClass, String name,
 			Class<?>... exceptionClasses) {
-		return mvStaticMethod(ACC_STATIC + ACC_PRIVATE, typeOf(returnClass), methodName, namesOf(exceptionClasses));
+		return mvStaticMethod(ACC_STATIC + ACC_PRIVATE, typeOf(returnClass), name, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MethodCodeStatic> privateStaticMethod(String methodName) {
+	default MethodHeader<MethodCodeStatic> privateStaticMethod(String name) {
 		Class<?>[] exceptionClasses = {};
-		return mvStaticMethod(ACC_STATIC + ACC_PRIVATE, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
+		return mvStaticMethod(ACC_STATIC + ACC_PRIVATE, Type.VOID_TYPE, name, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MethodCodeStatic> privateStaticMethod(String methodName, Class<?>... exceptionClasses) {
-		return mvStaticMethod(ACC_STATIC + ACC_PRIVATE, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
+	default MethodHeader<MethodCodeStatic> privateStaticMethod(String name, Class<?>... exceptionClasses) {
+		return mvStaticMethod(ACC_STATIC + ACC_PRIVATE, Type.VOID_TYPE, name, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MethodCodeStatic> protectdStaticMethod(Class<?> returnClass, String methodName) {
+	default MethodHeader<MethodCodeStatic> protectdStaticMethod(Class<?> returnClass, String name) {
 		Class<?>[] exceptionClasses = {};
-		return mvStaticMethod(ACC_STATIC + ACC_PROTECTED, typeOf(returnClass), methodName, namesOf(exceptionClasses));
+		return mvStaticMethod(ACC_STATIC + ACC_PROTECTED, typeOf(returnClass), name, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MethodCodeStatic> protectdStaticMethod(Class<?> returnClass, String methodName,
+	default MethodHeader<MethodCodeStatic> protectdStaticMethod(Class<?> returnClass, String name,
 			Class<?>... exceptionClasses) {
-		return mvStaticMethod(ACC_STATIC + ACC_PROTECTED, typeOf(returnClass), methodName, namesOf(exceptionClasses));
+		return mvStaticMethod(ACC_STATIC + ACC_PROTECTED, typeOf(returnClass), name, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MethodCodeStatic> protectdStaticMethod(String methodName) {
+	default MethodHeader<MethodCodeStatic> protectdStaticMethod(String name) {
 		Class<?>[] exceptionClasses = {};
-		return mvStaticMethod(ACC_STATIC + ACC_PROTECTED, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
+		return mvStaticMethod(ACC_STATIC + ACC_PROTECTED, Type.VOID_TYPE, name, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MethodCodeStatic> protectdStaticMethod(String methodName, Class<?>... exceptionClasses) {
-		return mvStaticMethod(ACC_STATIC + ACC_PROTECTED, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
+	default MethodHeader<MethodCodeStatic> protectdStaticMethod(String name, Class<?>... exceptionClasses) {
+		return mvStaticMethod(ACC_STATIC + ACC_PROTECTED, Type.VOID_TYPE, name, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MethodCodeStatic> publicStaticMethod(Class<?> returnClass, String methodName) {
+	default MethodHeader<MethodCodeStatic> publicStaticMethod(Class<?> returnClass, String name) {
 		Class<?>[] exceptionClasses = {};
-		return mvStaticMethod(ACC_STATIC + ACC_PUBLIC, typeOf(returnClass), methodName, namesOf(exceptionClasses));
+		return mvStaticMethod(ACC_STATIC + ACC_PUBLIC, typeOf(returnClass), name, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MethodCodeStatic> publicStaticMethod(Class<?> returnClass, String methodName, Class<?>... exceptionClasses) {
-		return mvStaticMethod(ACC_STATIC + ACC_PUBLIC, typeOf(returnClass), methodName, namesOf(exceptionClasses));
-	}
-
-	default MethodHeader<MethodCodeStatic> publicStaticMethod(String methodName) {
-		Class<?>[] exceptionClasses = {};
-		return mvStaticMethod(ACC_STATIC + ACC_PUBLIC, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
-	}
-
-	default MethodHeader<MethodCodeStatic> publicStaticMethod(String methodName, Class<?>... exceptionClasses) {
-		return mvStaticMethod(ACC_STATIC + ACC_PUBLIC, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
-	}
-
-	default MethodHeader<MethodCodeStatic> staticMethod(Class<?> returnClass, String methodName) {
-		Class<?>[] exceptionClasses = {};
-		return mvStaticMethod(ACC_STATIC, typeOf(returnClass), methodName, namesOf(exceptionClasses));
-	}
-
-	default MethodHeader<MethodCodeStatic> staticMethod(Class<?> returnClass, String methodName, Class<?>... exceptionClasses) {
-		return mvStaticMethod(ACC_STATIC, typeOf(returnClass), methodName, namesOf(exceptionClasses));
-	}
-
-	default MethodHeader<MethodCodeStatic> staticMethod(int access, Class<?> returnClass, String methodName,
+	default MethodHeader<MethodCodeStatic> publicStaticMethod(Class<?> returnClass, String name,
 			Class<?>... exceptionClasses) {
-		return mvStaticMethod(ACC_STATIC + access, Type.getType(returnClass), methodName, namesOf(exceptionClasses));
+		return mvStaticMethod(ACC_STATIC + ACC_PUBLIC, typeOf(returnClass), name, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MethodCodeStatic> staticMethod(String methodName) {
+	default MethodHeader<MethodCodeStatic> publicStaticMethod(String name) {
 		Class<?>[] exceptionClasses = {};
-		return mvStaticMethod(ACC_STATIC, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
+		return mvStaticMethod(ACC_STATIC + ACC_PUBLIC, Type.VOID_TYPE, name, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MethodCodeStatic> staticMethod(String methodName, Class<?>... exceptionClasses) {
-		return mvStaticMethod(ACC_STATIC, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
+	default MethodHeader<MethodCodeStatic> publicStaticMethod(String name, Class<?>... exceptionClasses) {
+		return mvStaticMethod(ACC_STATIC + ACC_PUBLIC, Type.VOID_TYPE, name, namesOf(exceptionClasses));
+	}
+
+	default MethodHeader<MethodCodeStatic> staticMethod(Class<?> returnClass, String name) {
+		Class<?>[] exceptionClasses = {};
+		return mvStaticMethod(ACC_STATIC, typeOf(returnClass), name, namesOf(exceptionClasses));
+	}
+
+	default MethodHeader<MethodCodeStatic> staticMethod(Class<?> returnClass, String name,
+			Class<?>... exceptionClasses) {
+		return mvStaticMethod(ACC_STATIC, typeOf(returnClass), name, namesOf(exceptionClasses));
+	}
+
+	default MethodHeader<MethodCodeStatic> staticMethod(int access, Class<?> returnClass, String name,
+			Class<?>... exceptionClasses) {
+		return mvStaticMethod(ACC_STATIC + access, Type.getType(returnClass), name, namesOf(exceptionClasses));
+	}
+
+	default MethodHeader<MethodCodeStatic> staticMethod(String name) {
+		Class<?>[] exceptionClasses = {};
+		return mvStaticMethod(ACC_STATIC, Type.VOID_TYPE, name, namesOf(exceptionClasses));
+	}
+
+	default MethodHeader<MethodCodeStatic> staticMethod(String name, Class<?>... exceptionClasses) {
+		return mvStaticMethod(ACC_STATIC, Type.VOID_TYPE, name, namesOf(exceptionClasses));
 	}
 
 }

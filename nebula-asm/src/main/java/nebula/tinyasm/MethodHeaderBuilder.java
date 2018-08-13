@@ -87,11 +87,11 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 	public MC begin() {
 		prapareMethodDefination();
 		mv.visitCode();
+		labelCurrent = labelWithoutLineNumber();
 		preapareMethodWithClazz();
 		preapareMethodWithThis();
 		preapareMethodWithParams();
 
-		labelCurrent = labelWithoutLineNumber();
 		return makeCode(mv);
 	}
 
