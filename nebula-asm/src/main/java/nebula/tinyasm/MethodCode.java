@@ -171,6 +171,14 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
+	default void LOADThisField(String fieldname, Class<?> feildtype) {
+		LOADThisField(fieldname, typeOf(fieldname));
+	}
+
+	default void LOADThisField(String fieldname, String feildtype) {
+		LOADThisField(fieldname, typeOf(fieldname));
+	}
+
 	default void LOADThisField(String fieldname, Type feildtype) {
 		LOADThis();
 		GETFIELD(fieldname, feildtype);
@@ -617,16 +625,22 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		}
 	}
 
+	@Override
 	default void CONVERTTO(Class<?> typeTo) {
 		CONVERTTO(typeOf(typeTo));
 	}
+
+	@Override
+	default void CONVERTTO(String typeTo) {
+		CONVERTTO(typeOf(typeTo));
+	}
+
 	/*
 	 * 2.11.4. Type Conversion Instructions
 	 * 
 	 * int to byte, short, or char long to int float to int or long double to int,
 	 * long, or float
 	 */
-	@Override
 	default void CONVERTTO(Type typeTo) {
 		Type typeFrom = codePopStack();
 		codePush(typeTo);
@@ -762,26 +776,50 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	 *            version is 51.0.
 	 */
 	@Override
-	default void NEW(Class<?> objectref) {
-		NEW(typeOf(objectref));
+	default void NEW(Class<?> objectclazz) {
+		NEW(typeOf(objectclazz));
 	}
 
 	@Override
-	default void NEW(Type objectref) {
-		codePush(objectref);
-		mvTypeInsn(NEW, objectref);
+	default void NEW(String objectclazz) {
+		NEW(typeOf(objectclazz));
+	}
+
+	default void NEW(Type objectclazz) {
+		codePush(objectclazz);
+		mvTypeInsn(NEW, objectclazz);
 		// NEW (→ objectref) : create new object of type identified by class reference
 		// in constant pool index (indexbyte1 << 8 + indexbyte2)
 	}
 
 	/* Create a new array: newarray, anewarray, multianewarray. */
+
 	@Override
+	default void newarray(String count, Class<?> type) {
+		newarray(count, typeOf(type));
+	}
+
+	@Override
+	default void newarray(String count, String type) {
+		newarray(count, typeOf(type));
+
+	}
+
 	default void newarray(String count, Type type) {
 		LOAD(count);
 		NEWARRAY(type);
 	}
 
 	@Override
+	default void NEWARRAY(Class<?> type) {
+		NEWARRAY(typeOf(type));
+	}
+
+	@Override
+	default void NEWARRAY(String type) {
+		NEWARRAY(typeOf(type));
+	}
+
 	default void NEWARRAY(Type type) {
 		Type count = codePopStack();
 		assert in(count, Type.INT_TYPE, Type.BYTE_TYPE, Type.SHORT_TYPE) : "array count type " + type;
@@ -825,6 +863,15 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
+	default void arrayload(String arrayref, String index, Class<?> valueType) {
+		arrayload(arrayref, index, typeOf(valueType));
+	}
+
+	@Override
+	default void arrayload(String arrayref, String index, String valueType) {
+		arrayload(arrayref, index, typeOf(valueType));
+	}
+
 	default void arrayload(String arrayref, String index, Type valueType) {
 		LOAD(arrayref);
 		LOAD(index);
@@ -833,6 +880,16 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	@SuppressWarnings("unused")
 	@Override
+	default void ARRAYLOAD(Class<?> value) {
+		ARRAYLOAD(typeOf(value));
+	}
+
+	@Override
+	default void ARRAYLOAD(String value) {
+		ARRAYLOAD(typeOf(value));
+	}
+
+	@SuppressWarnings("unused")
 	default void ARRAYLOAD(Type value) {
 		Type index = codePopStack();
 		Type arrayref = codePopStack();
@@ -894,9 +951,18 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		}
 	}
 
+	@Override
+	default void INSTANCEOF(Class<?> type) {
+		INSTANCEOF(typeOf(type));
+	}
+
+	@Override
+	default void INSTANCEOF(String type) {
+		INSTANCEOF(typeOf(type));
+	}
+
 	/* Check properties of class instances or arrays: instanceof, checkcast. */
 	@SuppressWarnings("unused")
-	@Override
 	default void INSTANCEOF(Type type) {
 		Type objectref = codePopStack();
 		Type result = Type.getType(int.class);
@@ -908,6 +974,15 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
+	default void CHECKCAST(Class<?> type) {
+		CHECKCAST(typeOf(type));
+	}
+
+	@Override
+	default void CHECKCAST(String type) {
+		CHECKCAST(typeOf(type));
+	}
+
 	default void CHECKCAST(Type type) {
 		Type objectref = codePopStack();
 		codePush(objectref);
@@ -1185,12 +1260,30 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	/** ARRAY **/
 	@Override
+	default void getfield(String objectname, String fieldname, Class<?> fieldType) {
+		getfield(objectname, fieldname, typeOf(fieldType));
+	}
+
+	@Override
+	default void getfield(String objectname, String fieldname, String fieldType) {
+		getfield(objectname, fieldname, typeOf(fieldType));
+	}
+
 	default void getfield(String objectname, String fieldname, Type fieldType) {
 		LOAD(objectname);
 		GETFIELD(fieldname, fieldType);
 	}
 
 	@Override
+	default void GETFIELD(String fieldname, Class<?> fieldType) {
+		GETFIELD(fieldname, typeOf(fieldType));
+	}
+
+	@Override
+	default void GETFIELD(String fieldname, String fieldType) {
+		GETFIELD(fieldname, typeOf(fieldType));
+	}
+
 	default void GETFIELD(String fieldname, Type fieldType) {
 		Type objectref = codePopStack();
 		codePush(fieldType);
@@ -1214,14 +1307,33 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
+	default void putfield(String objectref, String varname, String fieldname, Class<?> fieldType) {
+		putfield(objectref, varname, fieldname, typeOf(fieldType));
+	}
+
+	@Override
+	default void putfield(String objectref, String varname, String fieldname, String fieldType) {
+		putfield(objectref, varname, fieldname, typeOf(fieldType));
+
+	}
+
 	default void putfield(String objectref, String varname, String fieldname, Type fieldType) {
 		LOAD(objectref);
 		LOAD(varname);
 		PUTFIELD(fieldname, fieldType);
 	}
 
-	@SuppressWarnings("unused")
 	@Override
+	default void PUTFIELD(String fieldname, Class<?> fieldType) {
+		PUTFIELD(fieldname, typeOf(fieldType));
+	}
+
+	@Override
+	default void PUTFIELD(String fieldname, String fieldType) {
+		PUTFIELD(fieldname, typeOf(fieldType));
+	}
+
+	@SuppressWarnings("unused")
 	default void PUTFIELD(String fieldname, Type fieldType) {
 		Type value = codePopStack();
 		Type objectref = codePopStack();
@@ -1234,6 +1346,15 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
+	default void GETSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType) {
+		GETSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+
+	@Override
+	default void GETSTATIC(String objectType, String fieldName, String fieldType) {
+		GETSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+
 	default void GETSTATIC(Type objectType, String fieldName, Type fieldType) {
 		codePush(fieldType);
 		mvFieldInsn(GETSTATIC, objectType, fieldName, fieldType);
@@ -1243,13 +1364,31 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
+	default void putstatic(Class<?> objectType, String varname, String fieldname, Class<?> fieldType) {
+		putstatic(typeOf(objectType), varname, fieldname, typeOf(fieldType));
+	}
+
+	@Override
+	default void putstatic(String objectType, String varname, String fieldname, String fieldType) {
+		putstatic(typeOf(objectType), varname, fieldname, typeOf(fieldType));
+	}
+
 	default void putstatic(Type objectType, String varname, String fieldname, Type fieldType) {
 		LOAD(varname);
 		PUTSTATIC(objectType, fieldname, fieldType);
 	}
 
-	@SuppressWarnings("unused")
 	@Override
+	default void PUTSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType) {
+		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+
+	@Override
+	default void PUTSTATIC(String objectType, String fieldName, String fieldType) {
+		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+
+	@SuppressWarnings("unused")
 	default void PUTSTATIC(Type objectType, String fieldName, Type fieldType) {
 		Type value = codePopStack();
 		mvFieldInsn(PUTSTATIC, objectType, fieldName, fieldType);
@@ -1270,8 +1409,12 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		INVOKESTATIC(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
 	}
 
-	@SuppressWarnings("unused")
 	@Override
+	default void INVOKESTATIC(String objectType, String returnType, String methodName, String... paramTypes) {
+		INVOKESTATIC(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	}
+
+	@SuppressWarnings("unused")
 	default void INVOKESTATIC(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
 			codePopStack();
@@ -1284,8 +1427,17 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	}
 
-	@SuppressWarnings("unused")
 	@Override
+	default void INVOKEINTERFACE(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
+		INVOKEINTERFACE(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	}
+
+	@Override
+	default void INVOKEINTERFACE(String objectType, String returnType, String methodName, String... paramTypes) {
+		INVOKEINTERFACE(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	}
+
+	@SuppressWarnings("unused")
 	default void INVOKEINTERFACE(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
 			codePopStack();
@@ -1309,8 +1461,12 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		INVOKESPECIAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
 	}
 
-	@SuppressWarnings("unused")
 	@Override
+	default void INVOKESPECIAL(String objectType, String returnType, String methodName, String... paramTypes) {
+		INVOKESPECIAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	}
+
+	@SuppressWarnings("unused")
 	default void INVOKESPECIAL(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		if (returnType == null) returnType = Type.VOID_TYPE;
 		for (Type type : paramTypes) {
@@ -1329,8 +1485,12 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		INVOKEVIRTUAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
 	}
 
-	@SuppressWarnings("unused")
 	@Override
+	default void INVOKEVIRTUAL(String objectType, String returnType, String methodName, String... paramTypes) {
+		INVOKEVIRTUAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	}
+
+	@SuppressWarnings("unused")
 	default void INVOKEVIRTUAL(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
 			codePopStack();
