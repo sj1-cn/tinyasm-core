@@ -3,6 +3,8 @@ package nebula.tinyasm;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.util.ArrayListMap;
+
 public class LocalsStack extends ArrayListMap<LocalsVariable> {
 
 	int top = 0;
@@ -12,6 +14,7 @@ public class LocalsStack extends ArrayListMap<LocalsVariable> {
 		if (var.startFrom == null) var.startFrom = label;
 		return var;
 	}
+
 	public LocalsVariable accessStore(String name, Label label) {
 		LocalsVariable var = get(name);
 //		if (var.startFrom == null) var.startFrom = label;
@@ -33,17 +36,5 @@ public class LocalsStack extends ArrayListMap<LocalsVariable> {
 
 	public void push(String name, Type type, Label label) {
 		push(new LocalsVariable(name, type, null, label));
-	}
-
-	public int size() {
-		return stack.size();
-	}
-
-	public int[] computerVariableLocals() {
-		int[] locals = new int[stack.size()];
-		for (int i = 0; i < stack.size(); i++) {
-			locals[i] = stack.get(i).locals;
-		}
-		return locals;
 	}
 }

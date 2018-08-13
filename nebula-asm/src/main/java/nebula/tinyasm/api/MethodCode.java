@@ -9,6 +9,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.SmartOpcode;
+import nebula.tinyasm.util.Field;
 
 public interface MethodCode<C extends MethodCode<C>> extends SmartOpcode {
 

@@ -9,6 +9,7 @@ import java.util.List;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.ClassField;
+import nebula.tinyasm.util.Field;
 
 interface MethodDefineParameter<CR> {
 	CR parameter(ClassField field);

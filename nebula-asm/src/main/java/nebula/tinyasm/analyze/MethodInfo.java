@@ -3,7 +3,7 @@ package nebula.tinyasm.analyze;
 import java.util.Arrays;
 import java.util.List;
 
-import nebula.tinyasm.api.Field;
+import nebula.tinyasm.util.Field;
 
 class MethodInfo {
 	public String name;

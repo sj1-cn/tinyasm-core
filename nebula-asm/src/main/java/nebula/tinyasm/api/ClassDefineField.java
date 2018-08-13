@@ -5,6 +5,8 @@ import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.util.Field;
+
 public interface ClassDefineField<CR>{
 
 	default CR field(Field field) {

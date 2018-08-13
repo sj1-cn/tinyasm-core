@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.api.Field;
+//import nebula.tinyasm.api.Field;
 
 public class TypeUtils {
 
@@ -310,21 +310,21 @@ public class TypeUtils {
 		return sb.toString();
 	}
 
-	static public Field[] fieldsOf(Field field, Field[] fields) {
-		Field[] newfields = new Field[fields.length + 1];
-		newfields[0] = field;
-		System.arraycopy(fields, 0, newfields, 1, fields.length);
-		return newfields;
-	}
-
-	static public Field[] fieldsOf(Field field, List<Field> fields) {
-		Field[] newfields = new Field[fields.size() + 1];
-		newfields[0] = field;
-		for (int i = 0; i < fields.size(); i++) {
-			newfields[i + 1] = fields.get(i);
-		}
-		return newfields;
-	}
+//	static public Field[] fieldsOf(Field field, Field[] fields) {
+//		Field[] newfields = new Field[fields.length + 1];
+//		newfields[0] = field;
+//		System.arraycopy(fields, 0, newfields, 1, fields.length);
+//		return newfields;
+//	}
+//
+//	static public Field[] fieldsOf(Field field, List<Field> fields) {
+//		Field[] newfields = new Field[fields.size() + 1];
+//		newfields[0] = field;
+//		for (int i = 0; i < fields.size(); i++) {
+//			newfields[i + 1] = fields.get(i);
+//		}
+//		return newfields;
+//	}
 
 	static public <T> T firstOf(List<T> values) {
 		return values.get(0);

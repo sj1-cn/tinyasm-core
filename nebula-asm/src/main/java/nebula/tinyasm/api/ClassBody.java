@@ -9,6 +9,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.ClassBuilder;
+import nebula.tinyasm.util.Field;
 
 public interface ClassBody extends ToType, Opcodes, ClassDefineField<ClassBody>,
 		ClassDefineStaticMethod<StaticMethodCode>, ClassDefineInstanceMethod<InstanceMethodCode> {

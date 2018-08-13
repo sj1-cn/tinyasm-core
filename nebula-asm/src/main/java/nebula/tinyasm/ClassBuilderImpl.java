@@ -13,10 +13,11 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.api.ClassBody;
-import nebula.tinyasm.api.Field;
 import nebula.tinyasm.api.InstanceMethodCode;
 import nebula.tinyasm.api.MethodHeader;
 import nebula.tinyasm.api.StaticMethodCode;
+import nebula.tinyasm.util.ArrayListMap;
+import nebula.tinyasm.util.Field;
 
 class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	public static String toSimpleName(String className) {
