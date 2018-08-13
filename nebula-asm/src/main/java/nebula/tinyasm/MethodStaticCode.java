@@ -1,5 +1,5 @@
 package nebula.tinyasm;
 
-public interface MethodStaticCode extends MethodCodeRealAdv<MethodStaticCode> {
+public interface MethodStaticCode extends MethodCode<MethodStaticCode> {
 
 }

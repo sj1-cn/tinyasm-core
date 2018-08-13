@@ -23,8 +23,8 @@ import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.LocalsStack;
 import nebula.tinyasm.data.LocalsVariable;
 
-abstract class MethodBuilder<MC extends MethodCodeRealAdv<MC>> extends MethodVisitor
-		implements MethodCodeRealAdv<MC>, MethodHeaderAdv<MC> {
+abstract class MethodBuilder<MC extends MethodCode<MC>> extends MethodVisitor
+		implements MethodCode<MC>, MethodHeaderAdv<MC> {
 
 //	abstract class AbstractMethodCaller extends AbstractInvokeMethod<M, C> implements MethodCaller<M, C> {
 //
@@ -141,18 +141,16 @@ abstract class MethodBuilder<MC extends MethodCodeRealAdv<MC>> extends MethodVis
 	}
 
 	@Override
-	public MC codeAccessLabel(Label label) {
+	public void codeAccessLabel(Label label) {
 		labelCurrent = label;
 		mv.visitLabel(label);
-		return code();
 	}
 
 	@Override
-	public MC codeAccessLabel(Label label, int line) {
+	public void codeAccessLabel(Label label, int line) {
 		labelCurrent = label;
 		mv.visitLabel(label);
 		mv.visitLineNumber(line, label);
-		return code();
 	}
 
 	@Override
