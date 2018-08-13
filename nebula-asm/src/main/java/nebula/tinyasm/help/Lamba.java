@@ -2,6 +2,7 @@ package nebula.tinyasm.help;
 
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
+import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_SUPER;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
@@ -26,7 +27,7 @@ public class Lamba {
 //			.visitInnerClass(objectType.getInternalName(), parentType.getInternalName(),
 //					objectType.getClassName().substring(parentType.getSize()), 0);
 
-		cw.field(fieldName, fieldType);
+		cw.field(ACC_PRIVATE, fieldName, fieldType);
 
 		cw.field(ACC_FINAL + ACC_SYNTHETIC, "this$0", parentType);
 
@@ -60,7 +61,7 @@ public class Lamba {
 //			.visitInnerClass(objectType.getInternalName(), parentType.getInternalName(),
 //					objectType.getClassName().substring(parentType.getSize()), 0);
 
-		cb.field(fieldName, fieldType);
+		cb.field(ACC_PRIVATE, fieldName, fieldType);
 
 		cb.field(ACC_FINAL + ACC_SYNTHETIC, "this$0", parentType);
 

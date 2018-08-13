@@ -24,7 +24,7 @@ public class EnumBuilder implements Opcodes {
 		for (String name : names) {
 			cb.field(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, objectType);
 		}
-		cb.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", objectType, true);
+		cb.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", arrayOf(objectType, true));
 
 		cb.staticMethod("<clinit>").code(mc -> {
 			{

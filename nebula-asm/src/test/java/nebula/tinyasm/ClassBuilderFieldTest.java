@@ -1,6 +1,7 @@
 package nebula.tinyasm;
 
 import static org.junit.Assert.assertEquals;
+import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,14 +37,14 @@ public class ClassBuilderFieldTest {
 		ClassBody cw = ClassBuilder.make(visitor, this.getClass().getPackage().getName() + "/ClassBuilderField").body();
 
 		// @formatter:off
-		cw.field("b", Type.BYTE_TYPE);
-		cw.field("c", Type.CHAR_TYPE);
-		cw.field("s", Type.SHORT_TYPE);
-		cw.field("i", Type.INT_TYPE);
-		cw.field("l", Type.LONG_TYPE);
-		cw.field("f", Type.FLOAT_TYPE);
-		cw.field("d", Type.DOUBLE_TYPE);
-		cw.field("str", Type.getType(String.class));
+		cw.field(ACC_PRIVATE, "b", Type.BYTE_TYPE);
+		cw.field(ACC_PRIVATE, "c", Type.CHAR_TYPE);
+		cw.field(ACC_PRIVATE, "s", Type.SHORT_TYPE);
+		cw.field(ACC_PRIVATE, "i", Type.INT_TYPE);
+		cw.field(ACC_PRIVATE, "l", Type.LONG_TYPE);
+		cw.field(ACC_PRIVATE, "f", Type.FLOAT_TYPE);
+		cw.field(ACC_PRIVATE, "d", Type.DOUBLE_TYPE);
+		cw.field(ACC_PRIVATE, "str", Type.getType(String.class));
 		
 		cw.publicMethod("<init>").code(mc -> {
 			mc.line(3).INITObject();
