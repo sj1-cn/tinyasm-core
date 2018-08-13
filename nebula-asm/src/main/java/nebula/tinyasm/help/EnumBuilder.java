@@ -1,6 +1,8 @@
 package nebula.tinyasm.help;
 
 import static nebula.tinyasm.util.TypeUtils.*;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.ACC_STATIC;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -22,9 +24,9 @@ public class EnumBuilder implements Opcodes {
 			.body();
 
 		for (String name : names) {
-			cb.field(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, objectType);
+			cb.mvField(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, objectType);
 		}
-		cb.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", arrayOf(objectType, true));
+		cb.mvField(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", arrayOf(objectType, true));
 
 		cb.staticMethod("<clinit>").code(mc -> {
 			{
@@ -60,8 +62,9 @@ public class EnumBuilder implements Opcodes {
 			mc.INVOKESPECIAL(Enum.class, "<init>", String.class, int.class);
 			mc.RETURN();
 		});
+		Class<?>[] exceptionClasses = {};
 
-		cb.publicStaticMethod(objectType, true, "values").code(mc -> {
+		cb.mvStaticMethod(ACC_STATIC + ACC_PUBLIC, arrayOf(objectType, true), "values", namesOf(exceptionClasses)).code(mc -> {
 			mc.def("vs", objectType, true);
 			mc.def("length", int.class);
 			mc.def("newvs", objectType, true);
@@ -85,8 +88,9 @@ public class EnumBuilder implements Opcodes {
 			mc.INVOKESTATIC(System.class, "arraycopy", Object.class, int.class, Object.class, int.class, int.class);
 			mc.RETURN("newvs");
 		});
+		Class<?>[] exceptionClasses1 = {};
 
-		cb.publicStaticMethod(objectType, "valueOf").parameter("name", String.class).code(mc -> {
+		cb.mvStaticMethod(ACC_STATIC + ACC_PUBLIC, objectType, "valueOf", namesOf(exceptionClasses1)).parameter("name", String.class).code(mc -> {
 			mc.line(1);
 			mc.LOADConst(objectType);
 			mc.LOAD("name");

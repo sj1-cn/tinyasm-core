@@ -3,14 +3,14 @@ package nebula.tinyasm;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.api.InstanceMethodCode;
+import nebula.tinyasm.api.MethodCodeInstance;
 import nebula.tinyasm.api.MethodHeader;
 import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.LocalsVariable;
 
 class MethodInstanceBuilder extends
-		MethodBuilder<MethodHeader<InstanceMethodCode>, InstanceMethodCode>
-		implements MethodHeader<InstanceMethodCode>, InstanceMethodCode, Opcodes {
+		MethodBuilder<MethodHeader<MethodCodeInstance>, MethodCodeInstance>
+		implements MethodHeader<MethodCodeInstance>, MethodCodeInstance, Opcodes {
 
 	ClassBuilderImpl cv;
 
@@ -21,12 +21,12 @@ class MethodInstanceBuilder extends
 	}
 
 	@Override
-	public InstanceMethodCode code() {
+	public MethodCodeInstance code() {
 		return this;
 	}
 
 	@Override
-	protected InstanceMethodCode makeMethodBegin() {
+	protected MethodCodeInstance makeMethodBegin() {
 		mv.visitCode();
 
 		labelCurrent = labelWithoutLineNumber();

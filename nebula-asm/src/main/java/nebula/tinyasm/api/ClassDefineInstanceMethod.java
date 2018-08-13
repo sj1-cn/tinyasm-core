@@ -10,112 +10,84 @@ import org.objectweb.asm.Type;
 
 public interface ClassDefineInstanceMethod<MC>  {
 
-	default MethodHeader<MC> method(int access, Class<?> returnClass, String methodName, Class<?>... exceptionClasses) {
-		return method(access, Type.getType(returnClass), methodName, exceptionClasses);
-	}
-
-	MethodHeader<MC> method(int access, Type returnType, String methodName, String[] exceptionClasses);
-
-//	MethodHeader<C> method(int access, String name, String desc, String signature, String[] exceptions);
-
-	default MethodHeader<MC> method(int access, Type returnType, String methodName, Class<?>... exceptionClasses) {
-		return method(access, returnType, methodName, namesOf(exceptionClasses));
-	}
-
 	default MethodHeader<MC> method(Class<?> returnClass, String methodName) {
-		return method(0, typeOf(returnClass), methodName);
+		Class<?>[] exceptionClasses = {};
+		return mvMethod(0, typeOf(returnClass), methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> method(Class<?> returnClass, String methodName, Class<?>... exceptionClasses) {
-		return method(0, typeOf(returnClass), methodName, exceptionClasses);
+		return mvMethod(0, typeOf(returnClass), methodName, namesOf(exceptionClasses));
+	}
+
+//	MethodHeader<C> method(int access, String name, String desc, String signature, String[] exceptions);
+
+	default MethodHeader<MC> method(int access, Class<?> returnClass, String methodName, Class<?>... exceptionClasses) {
+		return mvMethod(access, Type.getType(returnClass), methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> method(String methodName) {
-		return method(0, Type.VOID_TYPE, methodName);
+		Class<?>[] exceptionClasses = {};
+		return mvMethod(0, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> method(String methodName, Class<?>... exceptionClasses) {
-		return method(0, Type.VOID_TYPE, methodName, exceptionClasses);
+		return mvMethod(0, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
 	}
 
-	default MethodHeader<MC> method(Type returnType, String methodName) {
-		return method(0, returnType, methodName);
-	}
-
-	default MethodHeader<MC> method(Type returnType, String methodName, Class<?>... exceptionClasses) {
-		return method(0, returnType, methodName, exceptionClasses);
-	}
+	MethodHeader<MC> mvMethod(int access, Type returnType, String methodName, String[] exceptionClasses);
 
 	default MethodHeader<MC> privateMethod(Class<?> returnClass, String methodName) {
-		return method(ACC_PRIVATE, typeOf(returnClass), methodName);
+		Class<?>[] exceptionClasses = {};
+		return mvMethod(ACC_PRIVATE, typeOf(returnClass), methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> privateMethod(Class<?> returnClass, String methodName, Class<?>... exceptionClasses) {
-		return method(ACC_PRIVATE, typeOf(returnClass), methodName, exceptionClasses);
+		return mvMethod(ACC_PRIVATE, typeOf(returnClass), methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> privateMethod(String methodName) {
-		return method(ACC_PRIVATE, Type.VOID_TYPE, methodName);
+		Class<?>[] exceptionClasses = {};
+		return mvMethod(ACC_PRIVATE, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> privateMethod(String methodName, Class<?>... exceptionClasses) {
-		return method(ACC_PRIVATE, Type.VOID_TYPE, methodName, exceptionClasses);
-	}
-
-	default MethodHeader<MC> privateMethod(Type returnType, String methodName) {
-		return method(ACC_PRIVATE, returnType, methodName);
-	}
-
-	default MethodHeader<MC> privateMethod(Type returnType, String methodName, Class<?>... exceptionClasses) {
-		return method(ACC_PRIVATE, returnType, methodName, exceptionClasses);
+		return mvMethod(ACC_PRIVATE, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> protectdMethod(Class<?> returnClass, String methodName) {
-		return method(ACC_PROTECTED, typeOf(returnClass), methodName);
+		Class<?>[] exceptionClasses = {};
+		return mvMethod(ACC_PROTECTED, typeOf(returnClass), methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> protectdMethod(Class<?> returnClass, String methodName, Class<?>... exceptionClasses) {
-		return method(ACC_PROTECTED, typeOf(returnClass), methodName, exceptionClasses);
+		return mvMethod(ACC_PROTECTED, typeOf(returnClass), methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> protectdMethod(String methodName) {
-		return method(ACC_PROTECTED, Type.VOID_TYPE, methodName);
+		Class<?>[] exceptionClasses = {};
+		return mvMethod(ACC_PROTECTED, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> protectdMethod(String methodName, Class<?>... exceptionClasses) {
-		return method(ACC_PROTECTED, Type.VOID_TYPE, methodName, exceptionClasses);
-	}
-
-	default MethodHeader<MC> protectdMethod(Type returnType, String methodName) {
-		return method(ACC_PROTECTED, returnType, methodName);
-	}
-
-	default MethodHeader<MC> protectdMethod(Type returnType, String methodName, Class<?>... exceptionClasses) {
-		return method(ACC_PROTECTED, returnType, methodName, exceptionClasses);
+		return mvMethod(ACC_PROTECTED, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> publicMethod(Class<?> returnClass, String methodName) {
-		return method(ACC_PUBLIC, typeOf(returnClass), methodName);
+		Class<?>[] exceptionClasses = {};
+		return mvMethod(ACC_PUBLIC, typeOf(returnClass), methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> publicMethod(Class<?> returnClass, String methodName, Class<?>... exceptionClasses) {
-		return method(ACC_PUBLIC, typeOf(returnClass), methodName, exceptionClasses);
+		return mvMethod(ACC_PUBLIC, typeOf(returnClass), methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> publicMethod(String methodName) {
-		return method(ACC_PUBLIC, Type.VOID_TYPE, methodName);
+		Class<?>[] exceptionClasses = {};
+		return mvMethod(ACC_PUBLIC, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MC> publicMethod(String methodName, Class<?>... exceptionClasses) {
-		return method(ACC_PUBLIC, Type.VOID_TYPE, methodName, exceptionClasses);
-	}
-
-	default MethodHeader<MC> publicMethod(Type returnType, String methodName) {
-		return method(ACC_PUBLIC, returnType, methodName);
-	}
-
-	default MethodHeader<MC> publicMethod(Type returnType, String methodName, Class<?>... exceptionClasses) {
-		return method(ACC_PUBLIC, returnType, methodName, exceptionClasses);
+		return mvMethod(ACC_PUBLIC, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
 	}
 
 }

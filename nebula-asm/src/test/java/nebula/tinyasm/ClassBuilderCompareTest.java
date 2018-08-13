@@ -1,6 +1,8 @@
 package nebula.tinyasm;
 
+import static nebula.tinyasm.util.TypeUtils.namesOf;
 import static org.junit.Assert.assertEquals;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,9 +42,10 @@ public class ClassBuilderCompareTest {
 			mc.line(3).INITObject();
 			mc.RETURN();
 		});
+		Class<?>[] exceptionClasses = {};
 
 		// @formatter:off
-		cw.publicMethod(Type.BOOLEAN_TYPE, "eq").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "eq", namesOf(exceptionClasses)).parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(6);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -51,8 +54,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses1 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ne").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ne", namesOf(exceptionClasses1)).parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(10);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -61,9 +65,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses2 = {};
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ge").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ge", namesOf(exceptionClasses2)).parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(14);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -72,8 +77,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses3 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "le").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "le", namesOf(exceptionClasses3)).parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(18);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -82,9 +88,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses4 = {};
 
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "gt").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "gt", namesOf(exceptionClasses4)).parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(22);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -93,8 +100,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses5 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "lt").parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "lt", namesOf(exceptionClasses5)).parameter("x", Type.BYTE_TYPE).parameter("y", Type.BYTE_TYPE).code(mc -> {
 			mc.line(26);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -103,10 +111,11 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses6 = {};
 		
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "eq").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "eq", namesOf(exceptionClasses6)).parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(30);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -115,8 +124,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses7 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ne").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ne", namesOf(exceptionClasses7)).parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(34);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -125,9 +135,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses8 = {};
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ge").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ge", namesOf(exceptionClasses8)).parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(38);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -136,8 +147,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses9 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "le").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "le", namesOf(exceptionClasses9)).parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(42);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -146,9 +158,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses10 = {};
 
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "gt").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "gt", namesOf(exceptionClasses10)).parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(46);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -157,8 +170,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses11 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "lt").parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "lt", namesOf(exceptionClasses11)).parameter("x", Type.CHAR_TYPE).parameter("y", Type.CHAR_TYPE).code(mc -> {
 			mc.line(50);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -167,13 +181,14 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses12 = {};
 		
 
 
 		
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "eq").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "eq", namesOf(exceptionClasses12)).parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(54);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -182,8 +197,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses13 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ne").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ne", namesOf(exceptionClasses13)).parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(58);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -192,9 +208,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses14 = {};
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ge").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ge", namesOf(exceptionClasses14)).parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(62);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -203,8 +220,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses15 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "le").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "le", namesOf(exceptionClasses15)).parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(66);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -213,9 +231,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses16 = {};
 
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "gt").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "gt", namesOf(exceptionClasses16)).parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(70);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -224,8 +243,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses17 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "lt").parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "lt", namesOf(exceptionClasses17)).parameter("x", Type.SHORT_TYPE).parameter("y", Type.SHORT_TYPE).code(mc -> {
 			mc.line(74);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -234,8 +254,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses18 = {};
 		
-		cw.publicMethod(Type.BOOLEAN_TYPE, "eq").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "eq", namesOf(exceptionClasses18)).parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(78);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -244,8 +265,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses19 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ne").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ne", namesOf(exceptionClasses19)).parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(82);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -254,9 +276,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses20 = {};
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ge").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ge", namesOf(exceptionClasses20)).parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(86);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -265,8 +288,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses21 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "le").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "le", namesOf(exceptionClasses21)).parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(90);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -275,9 +299,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses22 = {};
 
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "gt").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "gt", namesOf(exceptionClasses22)).parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(94);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -286,8 +311,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses23 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "lt").parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "lt", namesOf(exceptionClasses23)).parameter("x", Type.INT_TYPE).parameter("y", Type.INT_TYPE).code(mc -> {
 			mc.line(98);
 			mc.LOAD("x","y");
 			Label ifElse = mc.codeNewLabel();
@@ -296,11 +322,12 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses24 = {};
 		
 				
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "eq").parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "eq", namesOf(exceptionClasses24)).parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
 			mc.line(102);
 			mc.LOAD("x","y");
 			mc.CMP();
@@ -310,8 +337,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses25 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ne").parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ne", namesOf(exceptionClasses25)).parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
 			mc.line(106);
 			mc.LOAD("x","y");
 			mc.CMP();
@@ -321,9 +349,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses26 = {};
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ge").parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ge", namesOf(exceptionClasses26)).parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
 			mc.line(110);
 			mc.LOAD("x","y");
 			mc.CMP();
@@ -333,8 +362,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses27 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "le").parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "le", namesOf(exceptionClasses27)).parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
 			mc.line(114);
 			mc.LOAD("x","y");
 			mc.CMP();
@@ -344,9 +374,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses28 = {};
 
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "gt").parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "gt", namesOf(exceptionClasses28)).parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
 			mc.line(118);
 			mc.LOAD("x","y");
 			mc.CMP();
@@ -356,8 +387,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses29 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "lt").parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "lt", namesOf(exceptionClasses29)).parameter("x", Type.LONG_TYPE).parameter("y", Type.LONG_TYPE).code(mc -> {
 			mc.line(122);
 			mc.LOAD("x","y");
 			mc.CMP();
@@ -367,12 +399,13 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses30 = {};
 		
 		
 		
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "eq").parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "eq", namesOf(exceptionClasses30)).parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
 			mc.line(126);
 			mc.LOAD("x","y");
 			mc.CMPL();
@@ -382,8 +415,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses31 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ne").parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ne", namesOf(exceptionClasses31)).parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
 			mc.line(130);
 			mc.LOAD("x","y");
 			mc.CMPL();
@@ -393,9 +427,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses32 = {};
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ge").parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ge", namesOf(exceptionClasses32)).parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
 			mc.line(134);
 			mc.LOAD("x","y");
 			mc.CMPL();
@@ -405,8 +440,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses33 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "le").parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "le", namesOf(exceptionClasses33)).parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
 			mc.line(138);
 			mc.LOAD("x","y");
 			mc.CMPG();
@@ -416,9 +452,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses34 = {};
 
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "gt").parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "gt", namesOf(exceptionClasses34)).parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
 			mc.line(142);
 			mc.LOAD("x","y");
 			mc.CMPL();
@@ -428,8 +465,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses35 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "lt").parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "lt", namesOf(exceptionClasses35)).parameter("x", Type.FLOAT_TYPE).parameter("y", Type.FLOAT_TYPE).code(mc -> {
 			mc.line(146);
 			mc.LOAD("x","y");
 			mc.CMPG();
@@ -439,11 +477,12 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses36 = {};
 		
 		
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "eq").parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "eq", namesOf(exceptionClasses36)).parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
 			mc.line(150);
 			mc.LOAD("x","y");
 			mc.CMPL();
@@ -453,8 +492,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses37 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ne").parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ne", namesOf(exceptionClasses37)).parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
 			mc.line(154);
 			mc.LOAD("x","y");
 			mc.CMPL();
@@ -464,9 +504,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses38 = {};
 		
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "ge").parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "ge", namesOf(exceptionClasses38)).parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
 			mc.line(158);
 			mc.LOAD("x","y");
 			mc.CMPL();
@@ -476,8 +517,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses39 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "le").parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "le", namesOf(exceptionClasses39)).parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
 			mc.line(162);
 			mc.LOAD("x","y");
 			mc.CMPG();
@@ -487,9 +529,10 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses40 = {};
 
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "gt").parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "gt", namesOf(exceptionClasses40)).parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
 			mc.line(166);
 			mc.LOAD("x","y");
 			mc.CMPL();
@@ -499,8 +542,9 @@ public class ClassBuilderCompareTest {
 			mc.codeAccessLabel(ifElse);
 			mc.RETURN(0);
 		});
+		Class<?>[] exceptionClasses41 = {};
 
-		cw.publicMethod(Type.BOOLEAN_TYPE, "lt").parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
+		cw.mvMethod(ACC_PUBLIC, Type.BOOLEAN_TYPE, "lt", namesOf(exceptionClasses41)).parameter("x", Type.DOUBLE_TYPE).parameter("y", Type.DOUBLE_TYPE).code(mc -> {
 			mc.line(170);
 			mc.LOAD("x","y");
 			mc.CMPG();

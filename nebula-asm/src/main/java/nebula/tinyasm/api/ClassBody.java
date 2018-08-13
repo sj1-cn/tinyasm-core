@@ -8,7 +8,7 @@ import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.data.Field;
 
 public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStaticMethod<StaticMethodCode>,
-		ClassDefineInstanceMethod<InstanceMethodCode> {
+		ClassDefineInstanceMethod<MethodCodeInstance> {
 
 	ClassBuilder end();
 

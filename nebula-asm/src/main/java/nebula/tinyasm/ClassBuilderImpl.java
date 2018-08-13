@@ -15,7 +15,7 @@ import org.objectweb.asm.Type;
 
 import nebula.tinyasm.api.ClassBody;
 import nebula.tinyasm.api.ClassHeader;
-import nebula.tinyasm.api.InstanceMethodCode;
+import nebula.tinyasm.api.MethodCodeInstance;
 import nebula.tinyasm.api.MethodHeader;
 import nebula.tinyasm.api.StaticMethodCode;
 import nebula.tinyasm.data.ClassField;
@@ -71,7 +71,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public ClassHeader annotation(Type annotationType, Object annotationValue) {
+	public ClassHeader vmAnnotation(Type annotationType, Object annotationValue) {
 		visitAnnotation(cv, annotationType, annotationValue);
 		return this;
 	}
@@ -99,7 +99,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public ClassBody field(int access, String fieldName, Type fieldType) {
+	public ClassBody mvField(int access, String fieldName, Type fieldType) {
 		Field field1 = new Field(fieldName, fieldType);
 		fields.push(field1.name, field1);
 		visitDefineField(cv, access, fieldName, fieldType);
@@ -114,7 +114,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public ClassBody field(int access, String fieldName, Type fieldType, String signature) {
+	public ClassBody mvField(int access, String fieldName, Type fieldType, String signature) {
 		Field field1 = new ClassField(access, fieldName, fieldType, signature, null);
 		fields.push(field1.name, field1);
 		visitDefineField(cv, access, fieldName, fieldType, signature);
@@ -146,7 +146,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public ClassBody field(int access, Type annotationType, Object annotationValue, String fieldName, Type fieldType) {
+	public ClassBody mvField(int access, Type annotationType, Object annotationValue, String fieldName, Type fieldType) {
 		Field field1 = new ClassField(access, fieldName, fieldType, null, null);
 		fields.push(field1.name, field1);
 		visitDefineField(cv, access, fieldName, fieldType, annotationType, annotationValue);
@@ -154,7 +154,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public ClassBody field(int access, Type annotationType, Object annotationValue, String fieldName, Type fieldType,
+	public ClassBody mvField(int access, Type annotationType, Object annotationValue, String fieldName, Type fieldType,
 			String signature) {
 		Field field1 = new ClassField(access, fieldName, fieldType, signature, null);
 		fields.push(field1.name, field1);
@@ -182,7 +182,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public MethodHeader<InstanceMethodCode> method(int access, Type returnType, String methodName,
+	public MethodHeader<MethodCodeInstance> mvMethod(int access, Type returnType, String methodName,
 			String[] exceptions) {
 		return new MethodInstanceBuilder(this, thisType, access, returnType, methodName, exceptions);
 	}
@@ -197,7 +197,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public MethodHeader<StaticMethodCode> staticMethod(int access, Type returnType, String methodName,
+	public MethodHeader<StaticMethodCode> mvStaticMethod(int access, Type returnType, String methodName,
 			String[] exceptionClasses) {
 		return new StaticMethodBuilder(this, thisType, access, returnType, methodName, exceptionClasses);
 	}

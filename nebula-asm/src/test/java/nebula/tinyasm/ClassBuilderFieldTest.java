@@ -1,7 +1,9 @@
 package nebula.tinyasm;
 
+import static nebula.tinyasm.util.TypeUtils.namesOf;
 import static org.junit.Assert.assertEquals;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,21 +39,22 @@ public class ClassBuilderFieldTest {
 		ClassBody cw = ClassBuilder.make(visitor, this.getClass().getPackage().getName() + "/ClassBuilderField").body();
 
 		// @formatter:off
-		cw.field(ACC_PRIVATE, "b", Type.BYTE_TYPE);
-		cw.field(ACC_PRIVATE, "c", Type.CHAR_TYPE);
-		cw.field(ACC_PRIVATE, "s", Type.SHORT_TYPE);
-		cw.field(ACC_PRIVATE, "i", Type.INT_TYPE);
-		cw.field(ACC_PRIVATE, "l", Type.LONG_TYPE);
-		cw.field(ACC_PRIVATE, "f", Type.FLOAT_TYPE);
-		cw.field(ACC_PRIVATE, "d", Type.DOUBLE_TYPE);
-		cw.field(ACC_PRIVATE, "str", Type.getType(String.class));
+		cw.mvField(ACC_PRIVATE, "b", Type.BYTE_TYPE);
+		cw.mvField(ACC_PRIVATE, "c", Type.CHAR_TYPE);
+		cw.mvField(ACC_PRIVATE, "s", Type.SHORT_TYPE);
+		cw.mvField(ACC_PRIVATE, "i", Type.INT_TYPE);
+		cw.mvField(ACC_PRIVATE, "l", Type.LONG_TYPE);
+		cw.mvField(ACC_PRIVATE, "f", Type.FLOAT_TYPE);
+		cw.mvField(ACC_PRIVATE, "d", Type.DOUBLE_TYPE);
+		cw.mvField(ACC_PRIVATE, "str", Type.getType(String.class));
 		
 		cw.publicMethod("<init>").code(mc -> {
 			mc.line(3).INITObject();
 			mc.RETURN();
 		});
+		Class<?>[] exceptionClasses = {};
 		
-		cw.publicMethod(Type.INT_TYPE,"getField").code(mc->{
+		cw.mvMethod(ACC_PUBLIC, Type.INT_TYPE, "getField", namesOf(exceptionClasses)).code(mc->{
 			mc.def("x", int.class);
 			mc.line(14).LOAD("this");
 			mc.GETFIELD("b", Type.BYTE_TYPE);
@@ -62,8 +65,9 @@ public class ClassBuilderFieldTest {
 			mc.line(15).LOAD("x");
 			mc.RETURNTop();
 		});
+		Class<?>[] exceptionClasses1 = {};
 
-		cw.publicMethod(Type.INT_TYPE,"getFieldAll").code(mc->{
+		cw.mvMethod(ACC_PUBLIC, Type.INT_TYPE, "getFieldAll", namesOf(exceptionClasses1)).code(mc->{
 			mc.def("x", int.class);
 			mc.line(19).LOAD("this");
 			mc.GETFIELD("b", Type.BYTE_TYPE);
@@ -154,8 +158,9 @@ public class ClassBuilderFieldTest {
 			mc.RETURNTop();
 
 		});
+		Class<?>[] exceptionClasses2 = {};
 		
-		cw.publicMethod(Type.INT_TYPE,"getFieldIConst").code(mc->{
+		cw.mvMethod(ACC_PUBLIC, Type.INT_TYPE, "getFieldIConst", namesOf(exceptionClasses2)).code(mc->{
 
 			int i = 36;
 			mc.line(i++).LOAD("this");
@@ -217,8 +222,9 @@ public class ClassBuilderFieldTest {
 			mc.RETURNTop();
 
 		});
+		Class<?>[] exceptionClasses3 = {};
 
-		cw.publicMethod(Type.getType(String.class),"getFieldStr").code(mc->{
+		cw.mvMethod(ACC_PUBLIC, Type.getType(String.class), "getFieldStr", namesOf(exceptionClasses3)).code(mc->{
 			mc.def("xstr", Type.getType(String.class), false);
 			mc.line(53).LOADConst("hello ");
 			mc.STORE("xstr");
@@ -236,8 +242,9 @@ public class ClassBuilderFieldTest {
 			mc.STORE("xstr");
 			mc.line(55).RETURN("xstr");	
 		});
+		Class<?>[] exceptionClasses4 = {};
 
-		cw.publicMethod(Type.BYTE_TYPE,"retByte").code(mc->{
+		cw.mvMethod(ACC_PUBLIC, Type.BYTE_TYPE, "retByte", namesOf(exceptionClasses4)).code(mc->{
 			mc.def("x",Type.BYTE_TYPE, false);
 			mc.def("y",Type.BYTE_TYPE, false);
 			mc.line(59).LOADConstByte(1);
