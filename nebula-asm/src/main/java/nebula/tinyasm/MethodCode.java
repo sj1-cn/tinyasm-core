@@ -369,7 +369,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	 */
 	/** MATH **/
 	@Override
-	default void ADD(String left, String right) {
+	default void add(String left, String right) {
 		LOAD(left);
 		LOAD(right);
 		ADD();
@@ -393,7 +393,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	/* Subtract: isub, lsub, fsub, dsub. */
 
 	@Override
-	default void SUB(String left, String right) {
+	default void sub(String left, String right) {
 		LOAD(left);
 		LOAD(right);
 		SUB();
@@ -411,7 +411,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	/* Multiply: imul, lmul, fmul, dmul. */
 	@Override
-	default void MUL(String left, String right) {
+	default void mul(String left, String right) {
 		LOAD(left);
 		LOAD(right);
 		MUL();
@@ -429,7 +429,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	/* Divide: idiv, ldiv, fdiv, ddiv. */
 	@Override
-	default void DIV(String left, String right) {
+	default void div(String left, String right) {
 		LOAD(left);
 		LOAD(right);
 		DIV();
@@ -451,7 +451,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	/* Remainder: irem, lrem, frem, drem. */
 	@Override
-	default void REM(String left, String right) {
+	default void rem(String left, String right) {
 		LOAD(left);
 		LOAD(right);
 		REM();
@@ -776,7 +776,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	/* Create a new array: newarray, anewarray, multianewarray. */
 	@Override
-	default void NEWARRAY(String count, Type type) {
+	default void newarray(String count, Type type) {
 		LOAD(count);
 		NEWARRAY(type);
 	}
@@ -825,7 +825,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
-	default void ARRAYLOAD(String arrayref, String index, Type valueType) {
+	default void arrayload(String arrayref, String index, Type valueType) {
 		LOAD(arrayref);
 		LOAD(index);
 		ARRAYLOAD(valueType);
@@ -841,7 +841,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
-	default void ARRAYSTORE(String varArray, String index, String value) {
+	default void arraystore(String varArray, String index, String value) {
 		LOAD(varArray);
 		LOAD(index);
 		LOAD(value);
@@ -1185,7 +1185,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	/** ARRAY **/
 	@Override
-	default void GETFIELD(String objectname, String fieldname, Type fieldType) {
+	default void getfield(String objectname, String fieldname, Type fieldType) {
 		LOAD(objectname);
 		GETFIELD(fieldname, fieldType);
 	}
@@ -1214,7 +1214,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
-	default void PUTFIELD(String objectref, String varname, String fieldname, Type fieldType) {
+	default void putfield(String objectref, String varname, String fieldname, Type fieldType) {
 		LOAD(objectref);
 		LOAD(varname);
 		PUTFIELD(fieldname, fieldType);
@@ -1243,7 +1243,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
-	default void PUTSTATIC(Type objectType, String varname, String fieldname, Type fieldType) {
+	default void putstatic(Type objectType, String varname, String fieldname, Type fieldType) {
 		LOAD(varname);
 		PUTSTATIC(objectType, fieldname, fieldType);
 	}

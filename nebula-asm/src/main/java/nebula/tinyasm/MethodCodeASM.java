@@ -61,26 +61,26 @@ interface MethodCodeASM {
 	 * 
 	 */
 	/** MATH **/
-	void ADD(String left, String right);
+	void add(String left, String right);
 
 	void ADD();
 
-	void SUB(String left, String right);
+	void sub(String left, String right);
 
 	void SUB();
 
 	/* Multiply: imul, lmul, fmul, dmul. */
-	void MUL(String left, String right);
+	void mul(String left, String right);
 
 	void MUL();
 
 	/* Divide: idiv, ldiv, fdiv, ddiv. */
-	void DIV(String left, String right);
+	void div(String left, String right);
 
 	void DIV();
 
 	/* Remainder: irem, lrem, frem, drem. */
-	void REM(String left, String right);
+	void rem(String left, String right);
 
 	void REM();
 
@@ -177,7 +177,7 @@ interface MethodCodeASM {
 	void NEW(Type objectref);
 
 	/* Create a new array: newarray, anewarray, multianewarray. */
-	void NEWARRAY(String count, Type type);
+	void newarray(String count, Type type);
 
 	void NEWARRAY(Type type);
 
@@ -185,11 +185,11 @@ interface MethodCodeASM {
 
 	void ARRAYLENGTH();
 
-	void ARRAYLOAD(String arrayref, String index, Type valueType);
+	void arrayload(String arrayref, String index, Type valueType);
 
 	void ARRAYLOAD(Type value);
 
-	void ARRAYSTORE(String varArray, String index, String value);
+	void arraystore(String varArray, String index, String value);
 
 	void ARRAYSTORE();
 
@@ -272,17 +272,17 @@ interface MethodCodeASM {
 	void INITObject();
 
 	/** ARRAY **/
-	void GETFIELD(String objectname, String fieldname, Type fieldType);
+	void getfield(String objectname, String fieldname, Type fieldType);
 
 	void GETFIELD(String fieldname, Type fieldType);
 
-	void PUTFIELD(String objectref, String varname, String fieldname, Type fieldType);
+	void putfield(String objectref, String varname, String fieldname, Type fieldType);
 
 	void PUTFIELD(String fieldname, Type fieldType);
 
 	void GETSTATIC(Type objectType, String fieldName, Type fieldType);
 
-	void PUTSTATIC(Type objectType, String varname, String fieldname, Type fieldType);
+	void putstatic(Type objectType, String varname, String fieldname, Type fieldType);
 
 	void PUTSTATIC(Type objectType, String fieldName, Type fieldType);
 
