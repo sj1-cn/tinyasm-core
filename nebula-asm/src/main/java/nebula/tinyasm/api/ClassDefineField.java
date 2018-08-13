@@ -1,13 +1,12 @@
 package nebula.tinyasm.api;
 
-import static nebula.tinyasm.util.TypeUtils.*;
+import static nebula.tinyasm.util.TypeUtils.signatureOf;
+import static nebula.tinyasm.util.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.Field;
-
-public interface ClassDefineField<CB>{
+public interface ClassDefineField<CB> {
 
 	default CB field(int access, Class<?> annotationClass, Object value, String fieldName, Class<?> fieldClass) {
 		return field(access, typeOf(annotationClass), value, fieldName, typeOf(fieldClass));
@@ -36,13 +35,14 @@ public interface ClassDefineField<CB>{
 	default CB field(String fieldName, Class<?> fieldClass, Class<?>... signatureClasses) {
 		return field(ACC_PRIVATE, fieldName, typeOf(fieldClass), signatureOf(typeOf(fieldClass), signatureClasses));
 	}
-	
+
 	default CB field(String fieldName, Class<?> fieldClass, String signature) {
 		return field(ACC_PRIVATE, fieldName, typeOf(fieldClass), signature);
 	}
 
 	default CB field(String fieldName, String fieldClass, String... signatureClasses) {
-		return field(ACC_PRIVATE, fieldName, typeOf(fieldClass), signatureOf(typeOf(fieldClass), typeOf(signatureClasses)));
+		return field(ACC_PRIVATE, fieldName, typeOf(fieldClass),
+				signatureOf(typeOf(fieldClass), typeOf(signatureClasses)));
 	}
 
 	default CB fieldWithAnnotation(Class<?> annotationClass, Object value, String fieldName, Class<?> fieldClass) {
@@ -51,20 +51,25 @@ public interface ClassDefineField<CB>{
 
 	default CB fieldWithAnnotation(Class<?> annotationClass, Object value, String fieldName, Class<?> fieldClass,
 			Class<?>... signatureClasses) {
-		return field(ACC_PRIVATE, typeOf(annotationClass), value, fieldName, typeOf(fieldClass), signatureOf(typeOf(fieldClass), signatureClasses));
+		return field(ACC_PRIVATE, typeOf(annotationClass), value, fieldName, typeOf(fieldClass),
+				signatureOf(typeOf(fieldClass), signatureClasses));
 	}
 
-	default CB fieldWithAnnotation(Class<?> annotationClass, Object value, String fieldName, Class<?> fieldClass, String signature) {
+	default CB fieldWithAnnotation(Class<?> annotationClass, Object value, String fieldName, Class<?> fieldClass,
+			String signature) {
 		return field(ACC_PRIVATE, typeOf(annotationClass), value, fieldName, typeOf(fieldClass), signature);
 	}
 
 	default CB fieldWithAnnotation(Class<?> annotationClass, String fieldName, Class<?> fieldClass) {
 		return field(ACC_PRIVATE, typeOf(annotationClass), null, fieldName, typeOf(fieldClass));
 	}
-	default CB fieldWithAnnotation(Class<?> annotationClass, String fieldName, Class<?> fieldClass, Class<?>... signatureClasses) {
-		return field(ACC_PRIVATE, typeOf(annotationClass), null, fieldName, typeOf(fieldClass), signatureOf(typeOf(fieldClass), signatureClasses));
+
+	default CB fieldWithAnnotation(Class<?> annotationClass, String fieldName, Class<?> fieldClass,
+			Class<?>... signatureClasses) {
+		return field(ACC_PRIVATE, typeOf(annotationClass), null, fieldName, typeOf(fieldClass),
+				signatureOf(typeOf(fieldClass), signatureClasses));
 	}
-	
+
 	default CB fieldWithAnnotation(Class<?> annotationClass, String fieldName, Class<?> fieldClass, String signature) {
 		return field(ACC_PRIVATE, typeOf(annotationClass), null, fieldName, typeOf(fieldClass), signature);
 	}
