@@ -7,7 +7,7 @@ import org.objectweb.asm.Opcodes;
 
 interface MethodCodeASM {
 
-	void codeAccessLabel(Label label);
+	void when(Label label);
 
 	void codeAccessLabel(Label label, int line);
 
@@ -111,7 +111,7 @@ interface MethodCodeASM {
 
 	void XOR();
 
-	void CMP();
+	void LCMP();
 
 	void CMPL();
 

@@ -67,9 +67,9 @@ public class EnumBuilder implements Opcodes {
 		cb.mvStaticMethod(ACC_STATIC + ACC_PUBLIC, arrayOf(typeOf(objectType), true), "values",
 				namesOf(exceptionClasses))
 			.code(mc -> {
-				mc.var("vs", objectType, true);
-				mc.var("length", int.class);
-				mc.var("newvs", objectType, true);
+				mc.define("vs", objectType, true);
+				mc.define("length", int.class);
+				mc.define("newvs", objectType, true);
 				mc.line(1);
 				mc.GETSTATIC(typeOf(objectType), "ENUM$VALUES", arrayOf(typeOf(objectType)));
 				mc.DUP();

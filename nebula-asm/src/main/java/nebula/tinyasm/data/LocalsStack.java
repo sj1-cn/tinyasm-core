@@ -20,6 +20,19 @@ public class LocalsStack extends ArrayListMap<LocalsVariable> {
 //		if (var.startFrom == null) var.startFrom = label;
 		return var;
 	}
+	
+
+	public LocalsVariable accessLoad(int index, Label label) {
+		LocalsVariable var = get(index);
+		if (var.startFrom == null) var.startFrom = label;
+		return var;
+	}
+
+	public LocalsVariable accessStore(int index, Label label) {
+		LocalsVariable var = get(index);
+//		if (var.startFrom == null) var.startFrom = label;
+		return var;
+	}
 
 	@Override
 	public void push(String name, LocalsVariable value) {

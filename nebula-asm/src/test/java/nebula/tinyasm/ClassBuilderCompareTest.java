@@ -35,7 +35,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -45,7 +45,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -55,7 +55,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -65,7 +65,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -75,7 +75,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -85,7 +85,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});		
 
@@ -95,7 +95,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -105,7 +105,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -115,7 +115,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -125,7 +125,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -135,7 +135,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -145,7 +145,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});	
 		
@@ -156,7 +156,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -166,7 +166,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});		
 
@@ -176,7 +176,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -186,7 +186,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -196,7 +196,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -206,7 +206,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -216,7 +216,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -226,7 +226,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});		
 
@@ -236,7 +236,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -246,7 +246,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -256,7 +256,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -266,51 +266,50 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});		
 
 		cw.method(boolean.class, "eq").parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.line(102);
 			mc.LOAD("x","y");
-			mc.CMP();
-			Label ifElse = mc.codeNewLabel();
-			mc.IFNE(ifElse);
+			mc.LCMP();
+			Label ifElse=mc.IFNE();
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.method(boolean.class, "ne").parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.line(106);
 			mc.LOAD("x","y");
-			mc.CMP();
+			mc.LCMP();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFEQ(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.method(boolean.class, "ge").parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.line(110);
 			mc.LOAD("x","y");
-			mc.CMP();
+			mc.LCMP();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.method(boolean.class, "le").parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.line(114);
 			mc.LOAD("x","y");
-			mc.CMP();
+			mc.LCMP();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -318,22 +317,22 @@ public class ClassBuilderCompareTest extends TestBase {
 		cw.method(boolean.class, "gt").parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.line(118);
 			mc.LOAD("x","y");
-			mc.CMP();
+			mc.LCMP();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
 		cw.method(boolean.class, "lt").parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.line(122);
 			mc.LOAD("x","y");
-			mc.CMP();
+			mc.LCMP();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});				
 
@@ -344,7 +343,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFNE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -355,7 +354,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFEQ(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -367,7 +366,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -378,7 +377,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -389,7 +388,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -400,7 +399,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});		
 		
@@ -412,7 +411,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFNE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -423,7 +422,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFEQ(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 		
@@ -435,7 +434,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -446,7 +445,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGT(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -458,7 +457,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 
@@ -469,7 +468,7 @@ public class ClassBuilderCompareTest extends TestBase {
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGE(ifElse);
 			mc.RETURN(1);
-			mc.codeAccessLabel(ifElse);
+			mc.when(ifElse);
 			mc.RETURN(0);
 		});
 

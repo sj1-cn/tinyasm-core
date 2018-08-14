@@ -99,7 +99,7 @@ import org.objectweb.asm.Type;
 
 public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
-	void codeAccessLabel(Label label);
+	void when(Label label);
 
 	void codeAccessLabel(Label label, int line);
 
@@ -119,15 +119,19 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	void mvJumpInsn(int opcode, Label label);
 
+	abstract Type codeThisFieldType(String name);
+
 	abstract int codeLocalLoadAccess(String name);
 
 	abstract Type codeLocalLoadAccessType(String name);
 
-	abstract Type codeThisFieldType(String name);
-
 	abstract int codeLocalStoreAccess(String name);
 
 	abstract Type codeLocalStoreAccessType(String name);
+
+	abstract Type codeLocalLoadAccessType(int index);
+
+	abstract Type codeLocalStoreAccessType(int index);
 
 	abstract Type codeGetStack(int i);
 
@@ -195,6 +199,29 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	default void LOAD(String... names) {
 		for (String name : names) {
 			LOAD(name);
+		}
+	}
+
+	default void LOAD(int index) {
+		Type valueType = codeLocalLoadAccessType(index);
+		switch (valueType.getSort()) {
+		case Type.OBJECT:
+		case Type.ARRAY:
+			codePush(valueType);
+			mvInst(ALOAD, index);
+			// ALOAD (→ objectref) : load a reference onto the stack from a local
+			// variable #index
+			// ALOAD_0 (→ objectref) : load a reference onto the stack from local variable 0
+			// ALOAD_1 (→ objectref) : load a reference onto the stack from local variable 1
+			// ALOAD_2 (→ objectref) : load a reference onto the stack from local variable 2
+			// ALOAD_3 (→ objectref) : load a reference onto the stack from local variable 3
+			break;
+		case Type.VOID:
+			throw new UnsupportedOperationException("load VOID");
+		default:
+			codePush(valueType);
+			mvInst(valueType.getOpcode(ILOAD), index);
+			break;
 		}
 	}
 
@@ -587,7 +614,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	/* Comparison: dcmpg, dcmpl, fcmpg, fcmpl, lcmp. */
 
 	@Override
-	default void CMP() {
+	default void LCMP() {
 		Type typeRightValue = codePopStack();
 		Type typeLeftValue = codePopStack();
 		assert typeRightValue.getSort() == Type.LONG : "actual: " + typeRightValue + "  expected:" + Type.LONG;
@@ -1069,6 +1096,14 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		mvJumpInsn(IFNE, falseLabel);
 	}
 
+	default Label IFNE() {
+		Label falseLabel = new Label();
+		Type value = codePopStack();
+		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
+		mvJumpInsn(IFNE, falseLabel);
+		return falseLabel;
+	}
+
 	@Override
 	default void IFLT(Label falseLabel) {
 		Type value = codePopStack();
@@ -1548,52 +1583,52 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	C block(Consumer<C> invocation);
 
 	@Override
-	default C var(String fieldName, Class<?> clz) {
+	default C define(String fieldName, Class<?> clz) {
 		return vmVar(fieldName, typeOf(clz), null);
 	}
 
 	@Override
-	default C var(String fieldName, Class<?> clz, boolean isarray) {
+	default C define(String fieldName, Class<?> clz, boolean isarray) {
 		return vmVar(fieldName, typeOf(clz), null);
 	}
 
 	@Override
-	default C var(String fieldName, Class<?> clz, boolean isarray, Class<?>... signatureClasses) {
+	default C define(String fieldName, Class<?> clz, boolean isarray, Class<?>... signatureClasses) {
 		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
 	}
 
 	@Override
-	default C var(String fieldName, Class<?> clz, Class<?>... signatureClasses) {
+	default C define(String fieldName, Class<?> clz, Class<?>... signatureClasses) {
 		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
 	}
 
 	@Override
-	default C var(String fieldName, String clz) {
+	default C define(String fieldName, String clz) {
 		return vmVar(fieldName, typeOf(clz), null);
 	}
 
 	@Override
-	default C var(String fieldName, String clz, boolean isarray) {
+	default C define(String fieldName, String clz, boolean isarray) {
 		return vmVar(fieldName, typeOf(clz, isarray), null);
 	}
 
 	@Override
-	default C var(String fieldName, String clz, boolean isarray, Class<?>... signatureClasses) {
+	default C define(String fieldName, String clz, boolean isarray, Class<?>... signatureClasses) {
 		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
 	}
 
 	@Override
-	default C var(String fieldName, String clz, boolean isarray, String... signatureClasses) {
+	default C define(String fieldName, String clz, boolean isarray, String... signatureClasses) {
 		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
 	}
 
 	@Override
-	default C var(String fieldName, String clz, Class<?>... signatureClasses) {
+	default C define(String fieldName, String clz, Class<?>... signatureClasses) {
 		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
 	}
 
 	@Override
-	default C var(String fieldName, String clz, String... signatureClasses) {
+	default C define(String fieldName, String clz, String... signatureClasses) {
 		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
 	}
 

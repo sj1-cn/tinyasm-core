@@ -44,7 +44,7 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 	abstract public MC code();
 
 	@Override
-	public void codeAccessLabel(Label label) {
+	public void when(Label label) {
 		labelCurrent = label;
 		mv.visitLabel(label);
 	}
@@ -69,6 +69,16 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 	@Override
 	public Type codeLocalLoadAccessType(String name) {
 		return locals.accessLoad(name, labelCurrent).type;
+	}
+
+	@Override
+	public Type codeLocalLoadAccessType(int index) {
+		return locals.accessLoad(index, labelCurrent).type;
+	}
+
+	@Override
+	public Type codeLocalStoreAccessType(int index) {
+		return locals.accessLoad(index, labelCurrent).type;
 	}
 
 	@Override

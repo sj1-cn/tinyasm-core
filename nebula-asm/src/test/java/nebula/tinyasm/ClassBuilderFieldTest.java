@@ -41,7 +41,7 @@ public class ClassBuilderFieldTest extends TestBase {
 		});
 		
 		cw.method(int.class, "getField").code(mc->{
-			mc.var("x", int.class);
+			mc.define("x", int.class);
 			mc.line(14).LOAD("this");
 			mc.GET_THIS_FIELD("b");
 			mc.LOAD("this");
@@ -53,7 +53,7 @@ public class ClassBuilderFieldTest extends TestBase {
 		});
 
 		cw.method(int.class, "getFieldAll").code(mc->{
-			mc.var("x", int.class);
+			mc.define("x", int.class);
 			mc.line(19);
 			mc.getThisField("b");
 			mc.getThisField("c");
@@ -207,7 +207,7 @@ public class ClassBuilderFieldTest extends TestBase {
 		});
 
 		cw.method(String.class, "getFieldStr").code(mc->{
-			mc.var("xstr", String.class);
+			mc.define("xstr", String.class);
 			mc.line(53).LOADConst("hello ");
 			mc.STORE("xstr");
 			mc.line(54).NEW(StringBuilder.class);
@@ -226,8 +226,8 @@ public class ClassBuilderFieldTest extends TestBase {
 		});
 
 		cw.method(byte.class, "retByte").code(mc->{
-			mc.var("x", byte.class);
-			mc.var("y", byte.class);
+			mc.define("x", byte.class);
+			mc.define("y", byte.class);
 			mc.line(59).LOADConstByte(1);
 			mc.STORE("x");
 			mc.line().LOAD("x");

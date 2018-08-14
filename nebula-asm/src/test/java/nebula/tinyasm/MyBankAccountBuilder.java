@@ -60,7 +60,7 @@ public class MyBankAccountBuilder {
 				mc.LOADThisField("overdraftLimit");
 				mc.ADD();
 
-				mc.CMP();
+				mc.LCMP();
 				Label ifEnd = mc.codeNewLabel();
 				mc.IFGT(ifEnd);
 
@@ -93,7 +93,7 @@ public class MyBankAccountBuilder {
 
 	private static void visitDefine_onMoneyAdded(ClassBody cw) {
 		cw.privateMethod("onMoneyAdded").parameter("amount", long.class).code(mc -> {
-			mc.var("newbalance", long.class);
+			mc.define("newbalance", long.class);
 			mc.line(107).LOADThisField("balance");
 			mc.LOAD("amount");
 			mc.ADD();
