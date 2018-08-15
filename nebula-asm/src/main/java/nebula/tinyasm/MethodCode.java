@@ -177,16 +177,16 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
-	default void LOADThisField(String fieldname) {
+	default void thIsField(String fieldname) {
 		LOADThisField(fieldname, codeThisFieldType(fieldname));
 	}
 
 	@Override
-	default void LOADThisField(String fieldname, Class<?> feildtype) {
+	default void loadFieldOfThis(String fieldname, Class<?> feildtype) {
 		LOADThisField(fieldname, typeOf(fieldname));
 	}
 
-	default void LOADThisField(String fieldname, String feildtype) {
+	default void loadFieldOfThis(String fieldname, String feildtype) {
 		LOADThisField(fieldname, typeOf(fieldname));
 	}
 
@@ -196,7 +196,8 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
-	default void LOAD(String... names) {
+	default void LOAD(String firstname, String... names) {
+		LOAD(firstname);
 		for (String name : names) {
 			LOAD(name);
 		}
@@ -511,7 +512,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	/* Negate: ineg, lneg, fneg, dneg. */
 	@Override
-	default void NEG(String left) {
+	default void neg(String left) {
 		LOAD(left);
 		REM();
 	}
@@ -553,7 +554,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	/* Bitwise OR: ior, lor. */
 	@Override
-	default void OR(String left, String right) {
+	default void or(String left, String right) {
 		LOAD(left);
 		LOAD(right);
 		OR();
@@ -571,7 +572,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	/* Bitwise AND: iand, land. */
 	@Override
-	default void AND(String left, String right) {
+	default void and(String left, String right) {
 		LOAD(left);
 		LOAD(right);
 		AND();
@@ -591,7 +592,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	/* Bitwise exclusive OR: ixor, lxor. */
 	@Override
-	default void XOR(String left, String right) {
+	default void xor(String left, String right) {
 		LOAD(left);
 		LOAD(right);
 		XOR();
@@ -912,7 +913,6 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		ARRAYLOAD(valueType);
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	default void ARRAYLOAD(Class<?> value) {
 		ARRAYLOAD(typeOf(value));
@@ -1322,7 +1322,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
-	default void GET_THIS_FIELD(String fieldname) {
+	default void GETFIELD_OF_THIS(String fieldname) {
 		GETFIELD(fieldname, codeThisFieldType(fieldname));
 	}
 
@@ -1381,7 +1381,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	}
 
 	@Override
-	default void PUT_THIS_FIELD(String fieldname) {
+	default void PUTFIELD_OF_THIS(String fieldname) {
 		PUTFIELD(fieldname, codeThisFieldType(fieldname));
 	}
 

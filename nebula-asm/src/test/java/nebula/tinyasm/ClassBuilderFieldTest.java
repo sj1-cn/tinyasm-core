@@ -43,9 +43,9 @@ public class ClassBuilderFieldTest extends TestBase {
 		cw.method(int.class, "getField").code(mc->{
 			mc.define("x", int.class);
 			mc.line(14).LOAD("this");
-			mc.GET_THIS_FIELD("b");
+			mc.GETFIELD_OF_THIS("b");
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("i");
+			mc.GETFIELD_OF_THIS("i");
 			mc.ADD();
 			mc.STORE("x");
 			mc.line(15).LOAD("x");
@@ -59,22 +59,22 @@ public class ClassBuilderFieldTest extends TestBase {
 			mc.getThisField("c");
 			mc.ADD();
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("s");
+			mc.GETFIELD_OF_THIS("s");
 			mc.ADD();
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("i");
+			mc.GETFIELD_OF_THIS("i");
 			mc.ADD();
 			mc.CONVERTTO(long.class);
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("l");
+			mc.GETFIELD_OF_THIS("l");
 			mc.ADD();
 			mc.CONVERTTO(float.class);
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("f");
+			mc.GETFIELD_OF_THIS("f");
 			mc.ADD();
 			mc.CONVERTTO(double.class);
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("d");
+			mc.GETFIELD_OF_THIS("d");
 			mc.ADD();
 			mc.CONVERTTO(int.class);
 			mc.STORE("x");
@@ -85,57 +85,57 @@ public class ClassBuilderFieldTest extends TestBase {
 		cw.publicMethod(int.class,"getFieldConst").code(mc->{
 			mc.line(24).LOAD("this");
 			mc.LOADConstByte(100);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 			mc.line(25).LOAD("this");
 			mc.LOADConstShort(1000);
-			mc.PUT_THIS_FIELD("c");
+			mc.PUTFIELD_OF_THIS("c");
 			mc.line(26).LOAD("this");
 			mc.LOADConstShort(10000);
-			mc.PUT_THIS_FIELD("s");
+			mc.PUTFIELD_OF_THIS("s");
 
 			mc.line(27).LOAD("this");
 			mc.LOADConst(100000);
-			mc.PUT_THIS_FIELD("i");
+			mc.PUTFIELD_OF_THIS("i");
 
 			mc.line(28).LOAD("this");
 			mc.LOADConst(1000000L);
-			mc.PUT_THIS_FIELD("l");
+			mc.PUTFIELD_OF_THIS("l");
 			
 			mc.line(29).LOAD("this");
 			mc.LOADConst(1.0E7F);
-			mc.PUT_THIS_FIELD("f");
+			mc.PUTFIELD_OF_THIS("f");
 
 
 			mc.line(30).LOAD("this");
 			mc.LOADConst(1.0E8D);
-			mc.PUT_THIS_FIELD("d");
+			mc.PUTFIELD_OF_THIS("d");
 			
 			mc.line(31).LOAD("this");
 			mc.LOADConst("1000000000s");
-			mc.PUT_THIS_FIELD("str");
+			mc.PUTFIELD_OF_THIS("str");
 			
 			mc.line(32).LOAD("this");
-			mc.GET_THIS_FIELD("b");
+			mc.GETFIELD_OF_THIS("b");
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("c");
+			mc.GETFIELD_OF_THIS("c");
 			mc.ADD();
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("s");
+			mc.GETFIELD_OF_THIS("s");
 			mc.ADD();
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("i");
+			mc.GETFIELD_OF_THIS("i");
 			mc.ADD();
 			mc.CONVERTTO(long.class);
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("l");
+			mc.GETFIELD_OF_THIS("l");
 			mc.ADD();
 			mc.CONVERTTO(float.class);
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("f");
+			mc.GETFIELD_OF_THIS("f");
 			mc.ADD();
 			mc.CONVERTTO(double.class);
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("d");
+			mc.GETFIELD_OF_THIS("d");
 			mc.ADD();
 
 			mc.CONVERTTO(int.class);
@@ -148,60 +148,60 @@ public class ClassBuilderFieldTest extends TestBase {
 			int i = 36;
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(0);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(1);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(2);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(3);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(4);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(5);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(6);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(7);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(8);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 			
 			
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(-4);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(-3);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 			
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(-2);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 
 
 			mc.line(i++).LOAD("this");
 			mc.LOADConstByte(-1);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 			
 			mc.line(i++).LOAD("this");
-			mc.GET_THIS_FIELD("b");
+			mc.GETFIELD_OF_THIS("b");
 			mc.RETURNTop();
 
 		});
@@ -216,7 +216,7 @@ public class ClassBuilderFieldTest extends TestBase {
 			mc.INVOKESTATIC(String.class,String.class, "valueOf",Object.class);
 			mc.INVOKESPECIAL(StringBuilder.class,"<init>",String.class);
 			mc.LOADThis();
-			mc.GET_THIS_FIELD("str");
+			mc.GETFIELD_OF_THIS("str");
 			mc.INVOKEVIRTUAL(StringBuilder.class,StringBuilder.class, "append",String.class);
 			mc.LOADConst("!");
 			mc.INVOKEVIRTUAL(StringBuilder.class,StringBuilder.class, "append",String.class);
@@ -238,12 +238,12 @@ public class ClassBuilderFieldTest extends TestBase {
 			
 			mc.line().LOADThis();
 			mc.LOADConstByte(10);
-			mc.PUT_THIS_FIELD("b");
+			mc.PUTFIELD_OF_THIS("b");
 			mc.line().LOADThis();
-			mc.GET_THIS_FIELD("b");
+			mc.GETFIELD_OF_THIS("b");
 			mc.STORE("x");
 			mc.line().LOADThis();
-			mc.GET_THIS_FIELD("b");
+			mc.GETFIELD_OF_THIS("b");
 			mc.LOAD("x");
 			mc.ADD();
 			mc.CONVERTTO(byte.class);

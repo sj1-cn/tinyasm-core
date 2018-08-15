@@ -20,8 +20,8 @@ public interface MethodHeader<MC> extends MethodDefineParameter<MC> {
 		return annotation(typeOf(annotationClass), name, value);
 	}
 
-	default MethodHeader<MC> annotation(Type type) {
-		return annotation(type, null);
+	default MethodHeader<MC> annotation(String annotationClass, String name, Object value) {
+		return annotation(typeOf(annotationClass), name, value);
 	}
 
 	MethodHeader<MC> annotation(Type type, Object value);

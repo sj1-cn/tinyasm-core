@@ -412,16 +412,22 @@ public class TypeUtils {
 		return signature;
 	}
 
-	static public String toPropertyGetName(String fieldName, Type FieldType) {
-		return "get" + toPropertyName(fieldName);
+	static public String toPropertyGetName(String name, String clazz) {
+		return "get" + toPropertyName(name);
+	}
+	static public String toPropertyGetName(String name, Class<?> clazz) {
+		return "get" + toPropertyName(name);
 	}
 
-	static public String toPropertyName(String fieldName) {
-		return Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
+	static public String toPropertyName(String name) {
+		return Character.toUpperCase(name.charAt(0)) + name.substring(1);
 	}
 
-	static public String toPropertySetName(String fieldName, Type FieldType) {
-		return "set" + toPropertyName(fieldName);
+	static public String toPropertySetName(String name, String clazz) {
+		return "set" + toPropertyName(name);
+	}
+	static public String toPropertySetName(String name, Class<?> clazz) {
+		return "set" + toPropertyName(name);
 	}
 
 	static public String toSimpleName(String name) {

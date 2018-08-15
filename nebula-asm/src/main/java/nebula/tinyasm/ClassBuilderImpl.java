@@ -22,6 +22,11 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 		return className.substring(className.lastIndexOf('.') + 1);
 	}
 
+	@Override
+	public String getName() {
+		return this.thisType.getClassName();
+	}
+
 	ArrayListMap<Field> fields = new ArrayListMap<>();
 
 	boolean hadEnd = false;
@@ -141,7 +146,8 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public ClassBody mvField(int access, Type annotationType, Object annotationValue, String fieldName, Type fieldType) {
+	public ClassBody mvField(int access, Type annotationType, Object annotationValue, String fieldName,
+			Type fieldType) {
 		Field field1 = new ClassField(access, fieldName, fieldType, null, null);
 		fields.push(field1.name, field1);
 		visitDefineField(cv, access, fieldName, fieldType, annotationType, annotationValue);

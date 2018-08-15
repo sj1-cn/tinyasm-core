@@ -3,23 +3,13 @@ package nebula.tinyasm;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
-//import org.objectweb.asm.Class<?>;
 
 interface MethodCodeASM {
-
-	void when(Label label);
-
-	void codeAccessLabel(Label label, int line);
-
 	void LOADThis();
 
-	void LOADThisField(String fieldname, Class<?> feildtype);
-
-	void LOADThisField(String fieldname, String feildtype);
-
-	void LOAD(String... names);
-
 	void LOAD(String name);
+	
+	void LOAD(String name, String... names);
 
 	void STORE(String varname);
 
@@ -63,31 +53,23 @@ interface MethodCodeASM {
 	 * 
 	 */
 	/** MATH **/
-	void add(String left, String right);
-
 	void ADD();
-
-	void sub(String left, String right);
 
 	void SUB();
 
 	/* Multiply: imul, lmul, fmul, dmul. */
-	void mul(String left, String right);
 
 	void MUL();
 
 	/* Divide: idiv, ldiv, fdiv, ddiv. */
-	void div(String left, String right);
 
 	void DIV();
 
 	/* Remainder: irem, lrem, frem, drem. */
-	void rem(String left, String right);
 
 	void REM();
 
 	/* Negate: ineg, lneg, fneg, dneg. */
-	void NEG(String left);
 
 	void NEG();
 
@@ -97,17 +79,14 @@ interface MethodCodeASM {
 	void SHR();
 
 	/* Bitwise OR: ior, lor. */
-	void OR(String left, String right);
 
 	void OR();
 
 	/* Bitwise AND: iand, land. */
-	void AND(String left, String right);
 
 	void AND();
 
 	/* Bitwise exclusive OR: ixor, lxor. */
-	void XOR(String left, String right);
 
 	void XOR();
 
@@ -181,9 +160,6 @@ interface MethodCodeASM {
 	void NEW(String objectref);
 
 	/* Create a new array: newarray, anewarray, multianewarray. */
-	void newarray(String count, Class<?> type);
-
-	void newarray(String count, String type);
 
 	void NEWARRAY(Class<?> type);
 
@@ -193,15 +169,9 @@ interface MethodCodeASM {
 
 	void ARRAYLENGTH();
 
-	void arrayload(String arrayref, String index, Class<?> valueType);
-
-	void arrayload(String arrayref, String index, String valueType);
-
 	void ARRAYLOAD(Class<?> value);
 
 	void ARRAYLOAD(String value);
-
-	void arraystore(String varArray, String index, String value);
 
 	void ARRAYSTORE();
 
@@ -288,39 +258,22 @@ interface MethodCodeASM {
 	void INITObject();
 
 	/** ARRAY **/
-	void getfield(String objectname, String fieldname, Class<?> fieldType);
 
-	void getfield(String objectname, String fieldname, String fieldType);
+	void GETFIELD_OF_THIS(String fieldname);
 
-	void getThisField(String fieldname);
-
-	void GET_THIS_FIELD(String fieldname);
-
-	void LOADThisField(String fieldname);
-	
 	void GETFIELD(String fieldname, Class<?> fieldType);
 
 	void GETFIELD(String fieldname, String fieldType);
 
-	void putfield(String objectref, String varname, String fieldname, Class<?> fieldType);
-
-	void putfield(String objectref, String varname, String fieldname, String fieldType);
-
-	void putVarToThisField(String varname, String fieldname);
-
 	void PUTFIELD(String fieldname, Class<?> fieldType);
 
-	void PUT_THIS_FIELD(String fieldname);
+	void PUTFIELD_OF_THIS(String fieldname);
 
 	void PUTFIELD(String fieldname, String fieldType);
 
 	void GETSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
 
 	void GETSTATIC(String objectType, String fieldName, String fieldType);
-
-	void putstatic(Class<?> objectType, String varname, String fieldname, Class<?> fieldType);
-
-	void putstatic(String objectType, String varname, String fieldname, String fieldType);
 
 	void PUTSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
 
@@ -347,6 +300,6 @@ interface MethodCodeASM {
 
 	void INVOKEVIRTUAL(String objectType, String returnType, String methodName, String... paramTypes);
 
-	void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>[] paramTypes);
+	void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
 
 }

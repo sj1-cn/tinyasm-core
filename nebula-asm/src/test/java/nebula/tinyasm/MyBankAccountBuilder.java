@@ -56,8 +56,8 @@ public class MyBankAccountBuilder {
 			cw.publicMethod(boolean.class, "withdraw").parameter("amount", long.class).code(mc -> {
 				mc.line(50).LOAD("amount");
 
-				mc.LOADThisField("balance");
-				mc.LOADThisField("overdraftLimit");
+				mc.thIsField("balance");
+				mc.thIsField("overdraftLimit");
 				mc.ADD();
 
 				mc.LCMP();
@@ -86,7 +86,7 @@ public class MyBankAccountBuilder {
 				mc.line(101).putVarToThisField("overdraftLimit", "overdraftLimit");
 				mc.line(102).LOADThis();
 				mc.LOADConst(0L);
-				mc.PUT_THIS_FIELD("balance");
+				mc.PUTFIELD_OF_THIS("balance");
 				mc.line(103).RETURN();
 			});
 	}
@@ -94,13 +94,13 @@ public class MyBankAccountBuilder {
 	private static void visitDefine_onMoneyAdded(ClassBody cw) {
 		cw.privateMethod("onMoneyAdded").parameter("amount", long.class).code(mc -> {
 			mc.define("newbalance", long.class);
-			mc.line(107).LOADThisField("balance");
+			mc.line(107).thIsField("balance");
 			mc.LOAD("amount");
 			mc.ADD();
 			mc.STORE("newbalance");
 			mc.line(108).LOADThis();
 			mc.LOAD("newbalance");
-			mc.PUT_THIS_FIELD("balance");
+			mc.PUTFIELD_OF_THIS("balance");
 			mc.line(109).RETURN();
 		});
 	}
@@ -109,10 +109,10 @@ public class MyBankAccountBuilder {
 		cw.privateMethod("onMoneySubtracted").parameter("amount", long.class).code(mc -> {
 			mc.line(113).LOADThis();
 			mc.DUP();
-			mc.GET_THIS_FIELD("balance");
+			mc.GETFIELD_OF_THIS("balance");
 			mc.LOAD("amount");
 			mc.SUB();
-			mc.PUT_THIS_FIELD("balance");
+			mc.PUTFIELD_OF_THIS("balance");
 			mc.line(114).RETURN();
 		});
 	}
