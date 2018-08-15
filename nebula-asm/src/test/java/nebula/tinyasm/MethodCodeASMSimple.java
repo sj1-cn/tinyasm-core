@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-public class ClassBuilderField {
+public class MethodCodeASMSimple {
 	private byte b;
 	private char c;
 	private short s;

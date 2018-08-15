@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ClassBuilderMathTest extends TestBase {
+public class MethodCodeASMMathTest extends TestBase {
 
 	@Before
 	public void setUp() throws Exception {
@@ -21,7 +21,7 @@ public class ClassBuilderMathTest extends TestBase {
 //		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), new PrintWriter(System.out));
 //		ClassVisitor visitor = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 
-		ClassBody cw = ClassBuilder.make(ClassBuilderMath.class).body();
+		ClassBody cw = ClassBuilder.make(MethodCodeASMMath.class).body();
 		cw.publicMethod("<init>").code(mc -> {
 			mc.line(3).INITObject();
 			mc.RETURN();
@@ -209,7 +209,7 @@ public class ClassBuilderMathTest extends TestBase {
 		byte[] code = cw.end().toByteArray();
 
 		String strCode = toString(code);
-		String strCodeExpected = toString(ClassBuilderMath.class.getName());
+		String strCodeExpected = toString(MethodCodeASMMath.class.getName());
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 //

@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-public class ClassBuilderCompare {
+public class MethodCodeASMLogicSample {
 
 	public boolean eq(byte x, byte y) {
 		return x == y;

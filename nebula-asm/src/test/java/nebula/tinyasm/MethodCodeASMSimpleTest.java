@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ClassBuilderFieldTest extends TestBase {
+public class MethodCodeASMSimpleTest extends TestBase {
 
 	@Before
 	public void setUp() throws Exception {
@@ -21,7 +21,7 @@ public class ClassBuilderFieldTest extends TestBase {
 //		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), new PrintWriter(System.out));
 //		ClassVisitor visitor = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 
-		ClassBody cw = ClassBuilder.make(ClassBuilderField.class.getName()).body();
+		ClassBody cw = ClassBuilder.make(MethodCodeASMSimple.class.getName()).body();
 
 		// @formatter:off
 		cw.field("b",  byte.class);
@@ -258,7 +258,7 @@ public class ClassBuilderFieldTest extends TestBase {
 		byte[] code = cw.end().toByteArray();
 
 		String strCode = toString(code);
-		String strCodeExpected = toString(ClassBuilderField.class.getName());
+		String strCodeExpected = toString(MethodCodeASMSimple.class.getName());
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 

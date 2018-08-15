@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.objectweb.asm.Label;
 
-public class ClassBuilderCompareTest extends TestBase {
+public class MethodCodeASMLogicTest extends TestBase {
 
 	@Before
 	public void setUp() throws Exception {
@@ -646,7 +646,7 @@ public class ClassBuilderCompareTest extends TestBase {
 		byte[] code = cw.end().toByteArray();
 
 		String strCode = toString(code);
-		String strCodeExpected = toString(ClassBuilderCompare.class.getName());
+		String strCodeExpected = toString(MethodCodeASMLogicSample.class.getName());
 
 		assertEquals("Code", strCodeExpected, strCode);
 	}
