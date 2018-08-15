@@ -2,8 +2,6 @@ package nebula.tinyasm;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,8 +26,8 @@ public class MyBankAccountBuilderTest extends TestBase {
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 
-	@Test
-	public void printClass() throws IOException {
-		System.out.println(toString(ClassBuilderMath.class.getName()));
-	}
+//	@Test
+//	public void printClass() throws IOException {
+//		System.out.println(toString(ClassBuilderMath.class.getName()));
+//	}
 }

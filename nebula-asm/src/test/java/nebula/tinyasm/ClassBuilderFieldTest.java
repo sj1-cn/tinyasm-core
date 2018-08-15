@@ -2,8 +2,6 @@ package nebula.tinyasm;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +21,7 @@ public class ClassBuilderFieldTest extends TestBase {
 //		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), new PrintWriter(System.out));
 //		ClassVisitor visitor = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 
-		ClassBody cw = ClassBuilder.make(this.getClass().getPackage().getName() + "/ClassBuilderField").body();
+		ClassBody cw = ClassBuilder.make(ClassBuilderField.class.getName()).body();
 
 		// @formatter:off
 		cw.field("b",  byte.class);
@@ -205,16 +203,20 @@ public class ClassBuilderFieldTest extends TestBase {
 			mc.RETURNTop();
 
 		});
-
+//		mv.visitMethodInsn(INVOKESPECIAL, "java/lang/StringBuilder", "<init>", "()V", false);
+//		mv.visitVarInsn(ALOAD, 1);
+//		mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
+//		mv.visitVarInsn(ALOAD, 0);
+		
 		cw.method(String.class, "getFieldStr").code(mc->{
 			mc.define("xstr", String.class);
 			mc.line(53).LOADConst("hello ");
 			mc.STORE("xstr");
 			mc.line(54).NEW(StringBuilder.class);
 			mc.DUP();
+			mc.INVOKESPECIAL(StringBuilder.class,"<init>");
 			mc.LOAD("xstr");
-			mc.INVOKESTATIC(String.class,String.class, "valueOf",Object.class);
-			mc.INVOKESPECIAL(StringBuilder.class,"<init>",String.class);
+			mc.INVOKEVIRTUAL(StringBuilder.class,StringBuilder.class, "append",String.class);
 			mc.LOADThis();
 			mc.GETFIELD_OF_THIS("str");
 			mc.INVOKEVIRTUAL(StringBuilder.class,StringBuilder.class, "append",String.class);
@@ -260,8 +262,8 @@ public class ClassBuilderFieldTest extends TestBase {
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 
-	@Test
-	public void printClass() throws IOException {
-		System.out.println(toString(ClassBuilderField.class.getName()));
-	}
+//	@Test
+//	public void printClass() throws IOException {
+//		System.out.println(toString(ClassBuilderField.class.getName()));
+//	}
 }

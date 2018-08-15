@@ -99,7 +99,7 @@ import org.objectweb.asm.Type;
 
 public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
-	void when(Label label);
+	void labelHere(Label label);
 
 	void codeAccessLabel(Label label, int line);
 

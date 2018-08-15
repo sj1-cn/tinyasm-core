@@ -2,8 +2,6 @@ package nebula.tinyasm;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,9 +33,13 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);
+			mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "ne").parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
@@ -46,9 +48,13 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);
+			mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "ge").parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
@@ -57,9 +63,13 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);
+			mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "le").parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
@@ -68,9 +78,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "gt").parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
@@ -79,9 +92,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "lt").parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
@@ -90,9 +106,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});		
 
 		cw.method(boolean.class, "eq").parameter("x", char.class).parameter("y", char.class).code(mc -> {
@@ -101,9 +120,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "ne").parameter("x", char.class).parameter("y", char.class).code(mc -> {
@@ -112,9 +134,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "ge").parameter("x", char.class).parameter("y", char.class).code(mc -> {
@@ -123,9 +148,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "le").parameter("x", char.class).parameter("y", char.class).code(mc -> {
@@ -134,9 +162,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "gt").parameter("x", char.class).parameter("y", char.class).code(mc -> {
@@ -145,9 +176,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "lt").parameter("x", char.class).parameter("y", char.class).code(mc -> {
@@ -156,9 +190,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});	
 		
 
@@ -168,9 +205,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 		
 		cw.method(boolean.class, "ne").parameter("x",short.class).parameter("y",short.class).code(mc -> {
@@ -179,9 +219,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});		
 
 		cw.method(boolean.class, "ge").parameter("x",short.class).parameter("y",short.class).code(mc -> {
@@ -190,9 +233,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "le").parameter("x",short.class).parameter("y",short.class).code(mc -> {
@@ -201,9 +247,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "gt").parameter("x",short.class).parameter("y",short.class).code(mc -> {
@@ -212,9 +261,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "lt").parameter("x",short.class).parameter("y",short.class).code(mc -> {
@@ -223,9 +275,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 		
 		cw.method(boolean.class, "eq").parameter("x", int.class).parameter("y", int.class).code(mc -> {
@@ -233,9 +288,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("x");mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "ne").parameter("x", int.class).parameter("y", int.class).code(mc -> {
@@ -244,9 +302,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPEQ(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});		
 
 		cw.method(boolean.class, "ge").parameter("x", int.class).parameter("y", int.class).code(mc -> {
@@ -255,9 +316,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "le").parameter("x", int.class).parameter("y", int.class).code(mc -> {
@@ -266,9 +330,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "gt").parameter("x", int.class).parameter("y", int.class).code(mc -> {
@@ -277,9 +344,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPLE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "lt").parameter("x", int.class).parameter("y", int.class).code(mc -> {
@@ -288,9 +358,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPGE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});		
 
 		cw.method(boolean.class, "eq").parameter("x",long.class).parameter("y",long.class).code(mc -> {
@@ -299,9 +372,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LOAD("y");
 			mc.LCMP();
 			Label ifElse=mc.IFNE();
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "ne").parameter("x",long.class).parameter("y",long.class).code(mc -> {
@@ -311,9 +387,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LCMP();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFEQ(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "ge").parameter("x",long.class).parameter("y",long.class).code(mc -> {
@@ -323,9 +402,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LCMP();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "le").parameter("x",long.class).parameter("y",long.class).code(mc -> {
@@ -335,9 +417,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LCMP();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 
@@ -348,9 +433,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LCMP();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "lt").parameter("x",long.class).parameter("y",long.class).code(mc -> {
@@ -360,9 +448,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.LCMP();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});				
 
 		cw.method(boolean.class, "eq").parameter("x", float.class).parameter("y", float.class).code(mc -> {
@@ -372,9 +463,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPL();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFNE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "ne").parameter("x", float.class).parameter("y", float.class).code(mc -> {
@@ -384,9 +478,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPL();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFEQ(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 		
 
@@ -397,9 +494,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPL();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "le").parameter("x", float.class).parameter("y", float.class).code(mc -> {
@@ -409,9 +509,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPG();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "gt").parameter("x", float.class).parameter("y", float.class).code(mc -> {
@@ -421,9 +524,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPL();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 		
 		cw.method(boolean.class, "lt").parameter("x", float.class).parameter("y", float.class).code(mc -> {
@@ -433,9 +539,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPG();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});		
 		
 
@@ -446,9 +555,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPL();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFNE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "ne").parameter("x", double.class).parameter("y", double.class).code(mc -> {
@@ -458,9 +570,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPL();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFEQ(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 		
 
@@ -471,9 +586,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPL();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "le").parameter("x", double.class).parameter("y", double.class).code(mc -> {
@@ -483,9 +601,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPG();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGT(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 
@@ -496,9 +617,12 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPL();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFLE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		cw.method(boolean.class, "lt").parameter("x", double.class).parameter("y", double.class).code(mc -> {
@@ -508,9 +632,13 @@ public class ClassBuilderCompareTest extends TestBase {
 			mc.CMPG();
 			Label ifElse = mc.codeNewLabel();
 			mc.IFGE(ifElse);
-			mc.RETURN(1);
-			mc.when(ifElse);
-			mc.RETURN(0);
+			Label end = mc.codeNewLabel();
+			mc.LOADConstByte(1);
+			mc.GOTO(end);
+			mc.labelHere(ifElse);
+			mc.LOADConstByte(0);
+			mc.labelHere(end);
+			mc.RETURNTop();
 		});
 
 		// @formatter:on
@@ -523,8 +651,8 @@ public class ClassBuilderCompareTest extends TestBase {
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 
-	@Test
-	public void printClass() throws IOException {
-		System.out.println(toString(ClassBuilderCompare.class.getName()));
-	}
+//	@Test
+//	public void printClass() throws IOException {
+//		System.out.println(toString(ClassBuilderCompare.class.getName()));
+//	}
 }

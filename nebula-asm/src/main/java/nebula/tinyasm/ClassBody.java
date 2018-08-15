@@ -303,11 +303,11 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 
 			mc.DUP();
 
+			mc.INVOKESPECIAL(StringBuilder.class, "<init>");
 			mc.LOADThis();
 			mc.INVOKEVIRTUAL(Object.class, Class.class, "getClass");
 			mc.INVOKEVIRTUAL(Class.class, String.class, "getSimpleName");
-			mc.INVOKESTATIC(String.class, String.class, "valueOf", Object.class);
-			mc.INVOKESPECIAL(StringBuilder.class, "<init>", String.class);
+			mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
 
 			if (fields.size() > 0) {
 				mc.LOADConst(" [" + fields.get(0).name + "=");
