@@ -184,7 +184,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 
 	@Override
 	public MethodHeader<MethodCodeInstance> mvMethod(int access, Type returnType, String methodName,
-			String[] exceptions) {
+			String... exceptions) {
 		return new MethodHeaderInstanceBuilder(this, thisType, access, returnType, methodName, exceptions);
 	}
 
