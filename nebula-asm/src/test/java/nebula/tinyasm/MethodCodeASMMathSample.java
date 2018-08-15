@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-public class MethodCodeASMMath {
+public class MethodCodeASMMathSample {
 	public int add(int x, int y) {
 		return x + y;
 	}

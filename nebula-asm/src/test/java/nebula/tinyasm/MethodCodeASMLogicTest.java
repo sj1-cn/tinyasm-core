@@ -19,8 +19,8 @@ public class MethodCodeASMLogicTest extends TestBase {
 
 	@Test
 	public void testMath() throws Exception {
-
-		ClassBody cw = ClassBuilder.make(this.getClass().getPackage().getName() + "/ClassBuilderCompare").body();
+		String clazz = MethodCodeASMLogicSample.class.getName();
+		ClassBody cw = ClassBuilder.make(clazz).body();
 		cw.publicMethod("<init>").code(mc -> {
 			mc.line(3).INITObject();
 			mc.RETURN();
@@ -643,12 +643,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 
 		// @formatter:on
 
-		byte[] code = cw.end().toByteArray();
-
-		String strCode = toString(code);
-		String strCodeExpected = toString(MethodCodeASMLogicSample.class.getName());
-
-		assertEquals("Code", strCodeExpected, strCode);
+		String codeActual = toString(cw.end().toByteArray());
+		String codeExpected = toString(clazz);
+		assertEquals("Code", codeExpected, codeActual);
 	}
 
 //	@Test

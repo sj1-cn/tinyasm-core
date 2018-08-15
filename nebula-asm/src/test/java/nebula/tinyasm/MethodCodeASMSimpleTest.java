@@ -18,10 +18,8 @@ public class MethodCodeASMSimpleTest extends TestBase {
 
 	@Test
 	public void testMath() throws Exception {
-//		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), new PrintWriter(System.out));
-//		ClassVisitor visitor = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
-
-		ClassBody cw = ClassBuilder.make(MethodCodeASMSimple.class.getName()).body();
+		String clazz = MethodCodeASMSimpleSample.class.getName();
+		ClassBody cw = ClassBuilder.make(clazz).body();
 
 		// @formatter:off
 		cw.field("b",  byte.class);
@@ -255,11 +253,9 @@ public class MethodCodeASMSimpleTest extends TestBase {
 		
 		// @formatter:on
 
-		byte[] code = cw.end().toByteArray();
-
-		String strCode = toString(code);
-		String strCodeExpected = toString(MethodCodeASMSimple.class.getName());
-		assertEquals("Code", strCodeExpected, strCode);
+		String codeActual = toString(cw.end().toByteArray());
+		String codeExpected = toString(clazz);
+		assertEquals("Code", codeExpected, codeActual);
 	}
 
 //	@Test

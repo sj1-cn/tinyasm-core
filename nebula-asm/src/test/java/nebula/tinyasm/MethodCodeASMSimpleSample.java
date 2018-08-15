@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-public class MethodCodeASMSimple {
+public class MethodCodeASMSimpleSample {
 	private byte b;
 	private char c;
 	private short s;
