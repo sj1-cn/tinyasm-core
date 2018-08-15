@@ -2,8 +2,6 @@ package nebula.tinyasm;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,22 +21,22 @@ public class MethodASMArrayTest extends TestBase {
 	public void testMath() throws Exception {
 		String clazz = MethodASMArraySample.class.getName();
 		ClassBody cw = ClassBuilder.make(clazz).body();
-		
-		cw.field("ba", byte.class,true);
 
-		cw.field("ca", char.class,true);
+		cw.field("ba", byte.class, true);
 
-		cw.field("sa", short.class,true);
+		cw.field("ca", char.class, true);
 
-		cw.field("ia", int.class,true);
+		cw.field("sa", short.class, true);
 
-		cw.field("la", long.class,true);
+		cw.field("ia", int.class, true);
 
-		cw.field("fa", float.class,true);
+		cw.field("la", long.class, true);
 
-		cw.field("da", double.class,true);
+		cw.field("fa", float.class, true);
 
-		cw.field("stra", String.class,true);
+		cw.field("da", double.class, true);
+
+		cw.field("stra", String.class, true);
 
 		cw.method("<init>").code(mv -> {
 			Label l0 = mv.codeNewLabel();

@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.Field;
 
 interface MethodDefineParameter<MC> {
