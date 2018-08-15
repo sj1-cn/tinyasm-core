@@ -1,6 +1,7 @@
 package nebula.tinyasm;
 
 import static nebula.tinyasm.util.TypeUtils.arrayOf;
+import static nebula.tinyasm.util.TypeUtils.arrayTyoeCodeOf;
 import static nebula.tinyasm.util.TypeUtils.checkMathTypes;
 import static nebula.tinyasm.util.TypeUtils.in;
 import static nebula.tinyasm.util.TypeUtils.signatureOf;
@@ -42,6 +43,7 @@ import static org.objectweb.asm.Opcodes.IADD;
 import static org.objectweb.asm.Opcodes.IALOAD;
 import static org.objectweb.asm.Opcodes.IAND;
 import static org.objectweb.asm.Opcodes.IASTORE;
+import static org.objectweb.asm.Opcodes.ICONST_0;
 import static org.objectweb.asm.Opcodes.IDIV;
 import static org.objectweb.asm.Opcodes.IFEQ;
 import static org.objectweb.asm.Opcodes.IFGE;
@@ -99,7 +101,7 @@ import org.objectweb.asm.Type;
 
 public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
-	void labelHere(Label label);
+	void codeAccessLabel(Label label);
 
 	void codeAccessLabel(Label label, int line);
 
@@ -354,24 +356,29 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 	default void LOADConst(Object cst) {
 
 		if (cst instanceof Integer) {
-			mvLdcInsn(cst);
-			codePush(Type.getType(Integer.class));
+			int v = ((Integer) cst).intValue();
+			if (0L == v || 1L == v) {
+				mvInst(ICONST_0 + v);
+				codePush(Type.getType(int.class));
+			} else {
+				mvLdcInsn(cst);
+				codePush(Type.getType(int.class));
+			}
 		} else if (cst instanceof Float) {
 			mvLdcInsn(cst);
-			codePush(Type.getType(Float.class));
+			codePush(Type.getType(float.class));
 		} else if (cst instanceof Long) {
 			int v = ((Long) cst).intValue();
 			if (0L == v || 1L == v) {
 				mvInst(LCONST_0 + v);
-				codePush(Type.getType(Long.class));
+				codePush(Type.getType(long.class));
 			} else {
-
 				mvLdcInsn(cst);
-				codePush(Type.getType(Long.class));
+				codePush(Type.getType(long.class));
 			}
 		} else if (cst instanceof Double) {
 			mvLdcInsn(cst);
-			codePush(Type.getType(Double.class));
+			codePush(Type.getType(double.class));
 		} else if (cst instanceof String) {
 			mvLdcInsn(cst);
 			codePush(Type.getType(String.class));
@@ -831,18 +838,15 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	@Override
 	default void newarray(String count, Class<?> type) {
-		newarray(count, typeOf(type));
+		LOAD(count);
+		NEWARRAY(typeOf(type));
 	}
 
 	@Override
 	default void newarray(String count, String type) {
-		newarray(count, typeOf(type));
-
-	}
-
-	default void newarray(String count, Type type) {
 		LOAD(count);
-		NEWARRAY(type);
+		NEWARRAY(typeOf(type));
+
 	}
 
 	@Override
@@ -863,8 +867,10 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		Type arrayType = arrayOf(type);
 		codePush(arrayType);
 
-		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) mvTypeInsn(NEWARRAY, type);
-		else if (type.getSort() == Type.ARRAY) mvTypeInsn(ANEWARRAY, type);
+		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) {
+			int typecode = arrayTyoeCodeOf(type);
+			mvIntInsn(NEWARRAY, typecode);
+		} else if (type.getSort() == Type.ARRAY) mvTypeInsn(ANEWARRAY, type);
 		else if (type.getSort() == Type.OBJECT) mvTypeInsn(ANEWARRAY, type);
 		else if (type.getSort() == Type.VOID) RETURN();
 		else
@@ -945,40 +951,41 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 		Type value = codePopStack();
 		Type index = codePopStack();
 		Type arrayref = codePopStack();
-		switch (value.getSort()) {
+		Type itemType = arrayref.getElementType();
 
-		// AASTORE (arrayref, index, value →) : store into a reference in an array
-		case Type.OBJECT:
-			mvInst(AASTORE);
-			break;
+		switch (itemType.getSort()) {
 		// BASTORE (arrayref, index, value →) : store a byte or Boolean value into an
 		// array
 		case Type.BYTE:
-			mvInst(value.getOpcode(BASTORE));
+			mvInst(itemType.getOpcode(IASTORE));
 			break;
 		// CASTORE (arrayref, index, value →) : store a char into an array
 		case Type.CHAR:
-			mvInst(value.getOpcode(CASTORE));
+			mvInst(itemType.getOpcode(IASTORE));
 			break;
 		// DASTORE (arrayref, index, value →) : store a double into an array
 		case Type.DOUBLE:
-			mvInst(value.getOpcode(DASTORE));
+			mvInst(itemType.getOpcode(IASTORE));
 			break;
 		// FASTORE (arrayref, index, value →) : store a float in an array
 		case Type.FLOAT:
-			mvInst(value.getOpcode(FASTORE));
+			mvInst(itemType.getOpcode(IASTORE));
 			break;
 		// IASTORE (arrayref, index, value →) : store an int into an array
 		case Type.INT:
-			mvInst(value.getOpcode(IASTORE));
+			mvInst(itemType.getOpcode(IASTORE));
 			break;
 		// LASTORE (arrayref, index, value →) : store a long to an array
 		case Type.LONG:
-			mvInst(value.getOpcode(LASTORE));
+			mvInst(itemType.getOpcode(IASTORE));
 			break;
 		// SASTORE (arrayref, index, value →) : store short to array
 		case Type.SHORT:
-			mvInst(value.getOpcode(SASTORE));
+			mvInst(itemType.getOpcode(IASTORE));
+			break;
+		// AASTORE (arrayref, index, value →) : store into a reference in an array
+		case Type.OBJECT:
+			mvInst(AASTORE);
 			break;
 		default:
 			throw new UnsupportedOperationException();

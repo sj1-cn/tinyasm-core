@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.data.Field;
@@ -465,6 +466,22 @@ public class TypeUtils {
 		primaryTypeMaps.put(long.class.getName(), Type.LONG_TYPE);
 		primaryTypeMaps.put(float.class.getName(), Type.FLOAT_TYPE);
 		primaryTypeMaps.put(double.class.getName(), Type.DOUBLE_TYPE);
+	}
+
+	static Map<Type, Integer> arrayTypeMaps = new HashMap<Type, Integer>();
+	static {
+		arrayTypeMaps.put(typeOf(boolean.class), Opcodes.T_BOOLEAN);
+		arrayTypeMaps.put(typeOf(byte.class.getName()), Opcodes.T_BYTE);
+		arrayTypeMaps.put(typeOf(char.class.getName()), Opcodes.T_CHAR);
+		arrayTypeMaps.put(typeOf(short.class.getName()), Opcodes.T_SHORT);
+		arrayTypeMaps.put(typeOf(int.class.getName()), Opcodes.T_INT);
+		arrayTypeMaps.put(typeOf(long.class.getName()), Opcodes.T_LONG);
+		arrayTypeMaps.put(typeOf(float.class.getName()), Opcodes.T_FLOAT);
+		arrayTypeMaps.put(typeOf(double.class.getName()), Opcodes.T_DOUBLE);
+	}
+	
+	static public int arrayTyoeCodeOf(Type type) {
+		return arrayTypeMaps.get(type);
 	}
 
 	static public Type typeOf(Class<?> clz) {

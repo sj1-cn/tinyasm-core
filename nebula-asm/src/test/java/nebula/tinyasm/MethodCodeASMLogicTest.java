@@ -36,9 +36,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);
 			mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -51,9 +51,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);
 			mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -66,9 +66,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);
 			mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -80,9 +80,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPGT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -94,9 +94,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPLE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -108,9 +108,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPGE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});		
 
@@ -122,9 +122,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPNE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -136,9 +136,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPEQ(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -150,9 +150,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPLT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -164,9 +164,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPGT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -178,9 +178,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPLE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -192,9 +192,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPGE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});	
 		
@@ -207,9 +207,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPNE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 		
@@ -221,9 +221,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPEQ(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});		
 
@@ -235,9 +235,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPLT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -249,9 +249,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPGT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -263,9 +263,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPLE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -277,9 +277,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPGE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 		
@@ -290,9 +290,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPNE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -304,9 +304,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPEQ(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});		
 
@@ -318,9 +318,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPLT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -332,9 +332,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPGT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -346,9 +346,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPLE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -360,9 +360,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IF_ICMPGE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});		
 
@@ -374,9 +374,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			Label ifElse=mc.IFNE();
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -389,9 +389,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFEQ(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -404,9 +404,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFLT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -419,9 +419,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFGT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -435,9 +435,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFLE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -450,9 +450,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFGE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});				
 
@@ -465,9 +465,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFNE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -480,9 +480,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFEQ(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 		
@@ -496,9 +496,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFLT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -511,9 +511,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFGT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -526,9 +526,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFLE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 		
@@ -541,9 +541,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFGE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});		
 		
@@ -557,9 +557,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFNE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -572,9 +572,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFEQ(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 		
@@ -588,9 +588,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFLT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -603,9 +603,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFGT(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -619,9 +619,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			mc.IFLE(ifElse);
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 
@@ -635,9 +635,9 @@ public class MethodCodeASMLogicTest extends TestBase {
 			Label end = mc.codeNewLabel();
 			mc.LOADConstByte(1);
 			mc.GOTO(end);
-			mc.labelHere(ifElse);
+			mc.codeAccessLabel(ifElse);
 			mc.LOADConstByte(0);
-			mc.labelHere(end);
+			mc.codeAccessLabel(end);
 			mc.RETURNTop();
 		});
 

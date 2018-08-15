@@ -55,7 +55,7 @@ public class MakeReadOnlyPojo {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [b=" + b + ", c=" + c + ", s=" + s + ", i=" + i + ", l=" + l + ", f=" + f + ", d=" + d + ", str=" + str + "]";
+		return "MakeReadOnlyPojo [b=" + b + ", c=" + c + ", s=" + s + ", i=" + i + ", l=" + l + ", f=" + f + ", d=" + d + ", str=" + str + "]";
 	}
 
 }

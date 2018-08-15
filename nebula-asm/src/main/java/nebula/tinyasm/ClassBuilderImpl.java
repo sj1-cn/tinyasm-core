@@ -28,6 +28,12 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
+	public String getSimpleName() {
+		String name = getName();
+		return name.substring(name.lastIndexOf(".") + 1, name.length() );
+	}
+
+	@Override
 	public String clazzOfField(String name) {
 
 		return fields.get(name).type.getClassName();
@@ -254,4 +260,5 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 		mb.accept(this);
 		return this;
 	}
+
 }

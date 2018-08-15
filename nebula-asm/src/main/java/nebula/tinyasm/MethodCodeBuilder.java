@@ -45,7 +45,7 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 	abstract public MC code();
 
 	@Override
-	public void labelHere(Label label) {
+	public void codeAccessLabel(Label label) {
 		labelCurrent = label;
 		mv.visitLabel(label);
 	}

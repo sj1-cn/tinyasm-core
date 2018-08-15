@@ -12,8 +12,6 @@ import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.Field;
 
 interface MethodDefineParameter<MC> {
-	MethodHeader<MC> parameter(ClassField field);
-
 	default MethodHeader<MC> parameter(Field parameter) {
 		return parameter(parameter.name, parameter.type);
 	}

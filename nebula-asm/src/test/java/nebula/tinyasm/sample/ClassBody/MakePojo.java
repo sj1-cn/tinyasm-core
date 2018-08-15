@@ -76,7 +76,7 @@ public class MakePojo {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [b=" + b + ", c=" + c + ", s=" + s + ", i=" + i + ", l=" + l + ", f=" + f + ", d=" + d + ", str=" + str + "]";
+		return "MakePojo [b=" + b + ", c=" + c + ", s=" + s + ", i=" + i + ", l=" + l + ", f=" + f + ", d=" + d + ", str=" + str + "]";
 	}
 
 }

@@ -51,6 +51,13 @@ public class TestBase {
 
 		input = input.replaceAll("mv.visitInsn\\(\\wRETURN\\);", "mv.RETURNTop();");
 		input = input.replaceAll("mv.visitVarInsn\\(\\wLOAD, (\\d*)\\);", "mv.LOAD($1);");
+		input = input.replaceAll("mv.visitInsn\\(\\wALOAD\\);", "mv.ARRAYLOAD();");
+		input = input.replaceAll("mv.visitInsn\\(\\wASTORE\\);", "mv.ARRAYSTORE();");
+		input = input.replaceAll("mv.visitFieldInsn\\(GETFIELD, \"[^\"]*\", (\"[^\"]*\")[^\\n]*;\\n", "mv.GETFIELD($1);");
+		input = input.replaceAll("mv.visitFieldInsn\\(PUTFIELD, \"[^\"]*\", (\"[^\"]*\")[^\\n]*;\\n", "mv.PUTFIELD($1);");
+
+		input = input.replaceAll("mv.visitLdcInsn(\\([^;]*)[^\\n]*;\\n", "mv.LOADConst$1;");
+		
 
 		input = input.replaceAll("mv.visitJumpInsn\\((\\w+), (l\\d+)\\);", "mv.$1($2);");
 
@@ -77,10 +84,19 @@ public class TestBase {
 
 		input = input.replaceAll("mv = cw.visitMethod\\(([^\\n]*);\\n", "cw.method($1");
 		input = input.replaceAll("<method>(.*)</method>", "$1");
-		input = input.replaceAll("<code>(.*)</code>", ".code(mc -> {\n\t$1});");
+		input = input.replaceAll("<code>(.*)</code>", ".code(mv -> {\n\t$1});");
 
+		
+//		mv.visitFieldInsn(GETFIELD, "nebula/tinyasm/MethodASMArraySample", "ia", "[I");
+		
+		
 		// reformater by line
 		input = input.replaceAll("\\);", "\\);\n\t");
+
+		input = input.replaceAll("mv = cw.visitMethod\\(ACC_PUBLIC, (\"[^\"]*\"), \"\\(([^\\)]*)\\)([^\"]*)\",[^;]*;", "\tcw.method(/*$3*/, $1,/*$2*/)");
+
+		input = input.replaceAll("(?:\\})?\\{fv = cw.visitField\\(ACC_PRIVATE, \"([^\"]*)\", \"([^\"]*)\",[^;]*;", "cw.field(\"$1\", \"$2\");");
+		input = input.replaceAll("fv.visitEnd\\(\\);", "");
 		return input;
 	}
 

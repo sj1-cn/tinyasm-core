@@ -183,13 +183,6 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 	}
 
 	@Override
-	public MethodHeader<MC> parameter(ClassField param) {
-		thisMethod.params.push(param.name, param);
-		thisMethod.parameterAnnotations.add(null);
-		return this;
-	}
-
-	@Override
 	public MethodHeader<MC> parameter(String paramname, Type paramType) {
 		LocalsVariable param = new LocalsVariable(VarType.PARAM,paramname, paramType);
 		thisMethod.params.push(param.name, param);

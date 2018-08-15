@@ -30,6 +30,7 @@ public class ClassBodyTest extends TestBase {
 		String clazz = this.getClass().getPackage().getName() + ".sample.ClassBody.ConstructerEmpty";
 		ClassBody cw = ClassBuilder.make(clazz).body();
 		cw.constructerEmpty();
+		cw.toStringWithAllFields();
 
 		String codeActual = toString(cw.end().toByteArray());
 		String codeExpected = toString(clazz);
