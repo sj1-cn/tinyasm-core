@@ -17,7 +17,7 @@ public class TestBase {
 		PrintWriter pw = new PrintWriter(sw);
 		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
 		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return excludeLineNumber(sw.toString());
+		return skipToString(excludeLineNumber(sw.toString()));
 	}
 
 	public static String toString(Class<?> clazz) throws IOException {
@@ -26,16 +26,16 @@ public class TestBase {
 		PrintWriter pw = new PrintWriter(sw);
 		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
 		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return excludeLineNumber(sw.toString());
+		return skipToString(excludeLineNumber(sw.toString()));
 	}
-	
+
 	public static String toString(String className) throws IOException {
 		ClassReader cr = new ClassReader(className);
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
 		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return excludeLineNumber(sw.toString());
+		return skipToString(excludeLineNumber(sw.toString()));
 	}
 
 	public static String refineCode(String input) {
@@ -53,11 +53,12 @@ public class TestBase {
 		input = input.replaceAll("mv.visitVarInsn\\(\\wLOAD, (\\d*)\\);", "mv.LOAD($1);");
 		input = input.replaceAll("mv.visitInsn\\(\\wALOAD\\);", "mv.ARRAYLOAD();");
 		input = input.replaceAll("mv.visitInsn\\(\\wASTORE\\);", "mv.ARRAYSTORE();");
-		input = input.replaceAll("mv.visitFieldInsn\\(GETFIELD, \"[^\"]*\", (\"[^\"]*\")[^\\n]*;\\n", "mv.GETFIELD($1);");
-		input = input.replaceAll("mv.visitFieldInsn\\(PUTFIELD, \"[^\"]*\", (\"[^\"]*\")[^\\n]*;\\n", "mv.PUTFIELD($1);");
+		input = input.replaceAll("mv.visitFieldInsn\\(GETFIELD, \"[^\"]*\", (\"[^\"]*\")[^\\n]*;\\n",
+				"mv.GETFIELD($1);");
+		input = input.replaceAll("mv.visitFieldInsn\\(PUTFIELD, \"[^\"]*\", (\"[^\"]*\")[^\\n]*;\\n",
+				"mv.PUTFIELD($1);");
 
 		input = input.replaceAll("mv.visitLdcInsn(\\([^;]*)[^\\n]*;\\n", "mv.LOADConst$1;");
-		
 
 		input = input.replaceAll("mv.visitJumpInsn\\((\\w+), (l\\d+)\\);", "mv.$1($2);");
 
@@ -86,22 +87,35 @@ public class TestBase {
 		input = input.replaceAll("<method>(.*)</method>", "$1");
 		input = input.replaceAll("<code>(.*)</code>", ".code(mv -> {\n\t$1});");
 
-		
 //		mv.visitFieldInsn(GETFIELD, "nebula/tinyasm/MethodASMArraySample", "ia", "[I");
-		
-		
+
 		// reformater by line
 		input = input.replaceAll("\\);", "\\);\n\t");
 
-		input = input.replaceAll("mv = cw.visitMethod\\(ACC_PUBLIC, (\"[^\"]*\"), \"\\(([^\\)]*)\\)([^\"]*)\",[^;]*;", "\tcw.method(/*$3*/, $1,/*$2*/)");
+		input = input.replaceAll("mv = cw.visitMethod\\(ACC_PUBLIC, (\"[^\"]*\"), \"\\(([^\\)]*)\\)([^\"]*)\",[^;]*;",
+				"\tcw.method(/*$3*/, $1,/*$2*/)");
 
-		input = input.replaceAll("(?:\\})?\\{fv = cw.visitField\\(ACC_PRIVATE, \"([^\"]*)\", \"([^\"]*)\",[^;]*;", "cw.field(\"$1\", \"$2\");");
+		input = input.replaceAll("(?:\\})?\\{fv = cw.visitField\\(ACC_PRIVATE, \"([^\"]*)\", \"([^\"]*)\",[^;]*;",
+				"cw.field(\"$1\", \"$2\");");
 		input = input.replaceAll("fv.visitEnd\\(\\);", "");
 		return input;
 	}
 
 	public static String excludeLineNumber(String input) {
 		input = input.replaceAll("LineNumber\\([0-9]*\\,", "LineNumber(1,");
+		return input;
+	}
+
+	public static String skipToString(String input) {
+		input = input.replaceAll("\\n", "<br/>");
+		input = input.replaceAll("(\\{<br/>mv = cw.visitMethod\\()", "\n<method>$1");
+		input = input.replaceAll("(mv.visitEnd\\(\\);<br/>})", "$1</method>\n");
+
+		input = input.replaceAll("(<method>\\{<br/>mv = cw.visitMethod\\(ACC_PUBLIC, \"toString\",[^\\n]*)", "");
+
+		input = input.replaceAll("\\n<method>", "");
+		input = input.replaceAll("</method>\\n", "");
+		input = input.replaceAll("<br/>", "\n");
 		return input;
 	}
 

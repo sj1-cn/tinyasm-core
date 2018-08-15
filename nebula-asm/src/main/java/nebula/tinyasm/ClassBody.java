@@ -292,9 +292,10 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 	}
 
 	default ClassBody makeReadonlyPojo() {
-		constructerWithAllFields();
-		makeAllPropertyGet();
-		return toStringWithAllFields();
+		ClassBody cb = constructerWithAllFields();
+		cb = makeAllPropertyGet();
+		cb =   toStringWithAllFields();
+		return cb;
 	}
 
 	default ClassBody toStringWithAllFields() {
