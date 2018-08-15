@@ -17,16 +17,25 @@ public class TestBase {
 		PrintWriter pw = new PrintWriter(sw);
 		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
 		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return sw.toString().replaceAll("LineNumber\\([0-9]*\\,", "LineNumber(1,");
+		return excludeLineNumber(sw.toString());
 	}
 
+	public static String toString(Class<?> clazz) throws IOException {
+		ClassReader cr = new ClassReader(clazz.getName());
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
+		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
+		return excludeLineNumber(sw.toString());
+	}
+	
 	public static String toString(String className) throws IOException {
 		ClassReader cr = new ClassReader(className);
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
 		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return exclude(sw.toString());
+		return excludeLineNumber(sw.toString());
 	}
 
 	public static String refineCode(String input) {
@@ -75,7 +84,7 @@ public class TestBase {
 		return input;
 	}
 
-	public static String exclude(String input) {
+	public static String excludeLineNumber(String input) {
 		input = input.replaceAll("LineNumber\\([0-9]*\\,", "LineNumber(1,");
 		return input;
 	}

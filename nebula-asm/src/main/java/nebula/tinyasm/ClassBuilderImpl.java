@@ -27,6 +27,12 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 		return this.thisType.getClassName();
 	}
 
+	@Override
+	public String clazzOfField(String name) {
+
+		return fields.get(name).type.getClassName();
+	}
+
 	ArrayListMap<Field> fields = new ArrayListMap<>();
 
 	boolean hadEnd = false;
@@ -169,12 +175,12 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 
 	@Override
 	public List<Field> getFields() {
-		return this.fields.values();
+		return this.fields.list();
 	}
 
 	@Override
-	public Type getSuperType() {
-		return superType;
+	public String getSuperClass() {
+		return superType.getClassName();
 	}
 
 	private void initType(Type thisType, Type superType) {
@@ -189,12 +195,12 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody, 
 	}
 
 	@Override
-	public Type referInnerClass(String name) {
+	public String referInnerClass(String name) {
 		String internalName = thisType.getInternalName() + "$" + name;
 
 		cv.visitInnerClass(internalName, thisType.getInternalName(), name, 0);
 
-		return Type.getType("L" + internalName + ";");
+		return Type.getType("L" + internalName + ";").getClassName();
 	}
 
 	@Override

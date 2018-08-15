@@ -14,6 +14,7 @@ import org.objectweb.asm.Type;
 
 import nebula.tinyasm.data.LocalsStack;
 import nebula.tinyasm.data.LocalsVariable;
+import nebula.tinyasm.data.LocalsVariable.VarType;
 
 abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCode<MC> {
 	private final MethodVisitor mv;
@@ -95,7 +96,7 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 	public Type codeThisFieldType(String name) {
 		throw new UnsupportedOperationException();
 	}
-	
+
 	@Override
 	public Label codeNewLabel() {
 		Label label = new Label();
@@ -117,7 +118,7 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 
 	@Override
 	public MC vmVar(String name, Type type, String signature) {
-		locals.push(new LocalsVariable(name, type, signature));
+		locals.push(new LocalsVariable(VarType.LOCAL, name, type, signature));
 //		recomputerLocals();
 		return code();
 	}

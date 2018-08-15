@@ -1,12 +1,11 @@
 package nebula.tinyasm;
 
+import static nebula.tinyasm.util.TypeUtils.stringInnerUserType;
 import static nebula.tinyasm.util.TypeUtils.toPropertyGetName;
 import static nebula.tinyasm.util.TypeUtils.toPropertySetName;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
 
 import java.util.List;
-
-import org.objectweb.asm.Type;
 
 import nebula.tinyasm.data.Field;
 
@@ -16,10 +15,10 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 
 	List<Field> getFields();
 
-	Type getSuperType();
+	String getSuperClass();
 
-	Type referInnerClass(String innerClass);
-	
+	String referInnerClass(String innerClass);
+
 	String getName();
 
 	@Deprecated
@@ -27,12 +26,13 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 
 	default ClassBody constructerEmpty() {
 		publicMethod("<init>").code(mc -> {
-			mc.INITObject();
+			mc.line(1).INITObject();
 			mc.RETURN();
 		});
 		return this;
 	}
 
+	@Deprecated
 	default ClassBody constructerToSuper(Field[] superFields) {
 		if (this.getFields().size() > 0) {
 			publicMethod("<init>").parameter(this.getFields()).parameter(superFields).code(mc -> {
@@ -40,11 +40,10 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
-				mc.INVOKESPECIAL(getSuperType(), Type.VOID_TYPE, "<init>", typeOf(superFields));
+				mc.INVOKESPECIAL(typeOf(getSuperClass()), null, "<init>", typeOf(superFields));
 
 				for (Field param : this.getFields()) {
 					mc.putfield("this", param.name, param.name, param.type);
-					;
 				}
 				mc.RETURN();
 			});
@@ -55,7 +54,7 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
-				mc.INVOKESPECIAL(getSuperType(), Type.VOID_TYPE, "<init>", typeOf(superFields));
+				mc.INVOKESPECIAL(typeOf(getSuperClass()), null, "<init>", typeOf(superFields));
 
 				mc.RETURN();
 			});
@@ -63,6 +62,7 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 		}
 	}
 
+	@Deprecated
 	default ClassBody constructerToSuper(List<Field> superFields) {
 		if (this.getFields().size() > 0) {
 			publicMethod("<init>").parameter(this.getFields()).parameter(superFields).code(mc -> {
@@ -70,7 +70,7 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
-				mc.INVOKESPECIAL(getSuperType(), Type.VOID_TYPE, "<init>", typeOf(superFields));
+				mc.INVOKESPECIAL(typeOf(getSuperClass()), null, "<init>", typeOf(superFields));
 
 				for (Field param : this.getFields()) {
 					mc.putfield("this", param.name, param.name, param.type);
@@ -84,7 +84,7 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 				for (Field param : superFields) {
 					mc.LOAD(param.name);
 				}
-				mc.INVOKESPECIAL(getSuperType(), Type.VOID_TYPE, "<init>", typeOf(superFields));
+				mc.INVOKESPECIAL(typeOf(getSuperClass()), null, "<init>", typeOf(superFields));
 
 				mc.RETURN();
 			});
@@ -95,129 +95,242 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 	default ClassBody constructerWithAllFields() {
 		final List<Field> fields = getFields();
 		publicMethod("<init>").parameter(fields).code(mc -> {
-			mc.INITObject();
+			mc.line().INITObject();
 			for (Field param : fields) {
-				mc.putfield("this", param.name, param.name, param.type);
+				mc.line().putfield("this", param.name, param.name, param.type);
 			}
-			mc.RETURN();
+			mc.line().RETURN();
 		});
 		return this;
 	}
 
-	default ClassBody definePropertyGet(final String fieldName, final String fieldClass) {
+	String clazzOfField(String name);
+
+	default ClassBody makePropertyGet(final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
 		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).code(mc -> {
-			mc.LOADThis();
+			mc.line().LOADThis();
 			mc.GETFIELD(fieldName, fieldClass);
 			mc.RETURNTop();
 		});
 		return this;
 	}
 
-	default ClassBody definePropertySet(final Class<?> annotationClass, final String fieldName,
-			final Class<?> fieldClass) {
-		final Type fieldClass1 = typeOf(fieldClass);
-		publicMethod(toPropertySetName(fieldName, fieldClass1.getClassName())).annotation(typeOf(annotationClass), null)
-			.parameter(fieldName, fieldClass1)
+	default ClassBody makePropertyGet(final Class<?> annotationClazz, final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(typeOf(annotationClazz), null)
 			.code(mc -> {
-				mc.putfield("this", fieldName, fieldName, fieldClass1);
-				mc.RETURN();
+				mc.line().LOADThis();
+				mc.GETFIELD(fieldName, fieldClass);
+				mc.RETURNTop();
 			});
 		return this;
 	}
 
-	default ClassBody definePropertySet(final String fieldName, final Class<?> fieldClass) {
+	default ClassBody makePropertyGet(final String annotationClazz, final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(typeOf(annotationClazz), null)
+			.code(mc -> {
+				mc.line().LOADThis();
+				mc.GETFIELD(fieldName, fieldClass);
+				mc.RETURNTop();
+			});
+		return this;
+	}
+
+	default ClassBody makePropertyGet(final Class<?> annotationClazz, Object value, final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, value)
+			.code(mc -> {
+				mc.line().LOADThis();
+				mc.GETFIELD(fieldName, fieldClass);
+				mc.RETURNTop();
+			});
+		return this;
+	}
+
+	default ClassBody makePropertyGet(final String annotationClazz, Object value, final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, value)
+			.code(mc -> {
+				mc.line().LOADThis();
+				mc.GETFIELD(fieldName, fieldClass);
+				mc.RETURNTop();
+			});
+		return this;
+	}
+
+	default ClassBody makePropertyGet(final Class<?> annotationClazz, String name, Object value,
+			final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, name, value)
+			.code(mc -> {
+				mc.line().LOADThis();
+				mc.GETFIELD(fieldName, fieldClass);
+				mc.RETURNTop();
+			});
+		return this;
+	}
+
+	default ClassBody makePropertyGet(final String annotationClazz, String name, Object value, final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, name, value)
+			.code(mc -> {
+				mc.line().LOADThis();
+				mc.GETFIELD(fieldName, fieldClass);
+				mc.RETURNTop();
+			});
+		return this;
+	}
+
+	default ClassBody makePropertySet(final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
 		publicMethod(toPropertySetName(fieldName, fieldClass)).parameter(fieldName, fieldClass).code(mc -> {
-			mc.putfield("this", fieldName, fieldName, fieldClass);
-			mc.RETURN();
+			mc.line().putfield("this", fieldName, fieldName, fieldClass);
+			mc.line().RETURN();
 		});
 		return this;
 	}
 
-	default ClassBody definePropertySet(final String annotationType, String name, Object value, final String fieldName,
-			final Class<?> fieldClass) {
-		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationType, name, value)
+	default ClassBody makePropertySet(final Class<?> annotationClazz, final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(typeOf(annotationClazz), null)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
-				mc.putfield("this", fieldName, fieldName, fieldClass);
-				mc.RETURN();
+				mc.line().putfield("this", fieldName, fieldName, fieldClass);
+				mc.line().RETURN();
 			});
 		return this;
 	}
 
-	default ClassBody definePropertySet(final String annotationClass, final String fieldName, final String fieldClass) {
-		final Type fieldClass1 = typeOf(fieldClass);
-		publicMethod(toPropertySetName(fieldName, fieldClass1.getClassName())).annotation(typeOf(annotationClass), null)
-			.parameter(fieldName, fieldClass1)
+	default ClassBody makePropertySet(final String annotationClazz, final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(typeOf(annotationClazz), null)
+			.parameter(fieldName, fieldClass)
 			.code(mc -> {
-				mc.putfield("this", fieldName, fieldName, fieldClass1);
-				mc.RETURN();
+				mc.line().putfield("this", fieldName, fieldName, fieldClass);
+				mc.line().RETURN();
 			});
 		return this;
 	}
 
-	default ClassBody defineAllPropetyGet() {
+	default ClassBody makePropertySet(final Class<?> annotationClazz, Object annotationValue, final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz, annotationValue)
+			.parameter(fieldName, fieldClass)
+			.code(mc -> {
+				mc.line().putfield("this", fieldName, fieldName, fieldClass);
+				mc.line().RETURN();
+			});
+		return this;
+	}
+
+	default ClassBody makePropertySet(final String annotationClazz, Object annotationValue, final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz, annotationValue)
+			.parameter(fieldName, fieldClass)
+			.code(mc -> {
+				mc.line().putfield("this", fieldName, fieldName, fieldClass);
+				mc.line().RETURN();
+			});
+		return this;
+	}
+
+	default ClassBody makePropertySet(final Class<?> annotationClazz, String annotationName, Object annotationValue,
+			final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(toPropertySetName(fieldName, fieldClass))
+			.annotation(annotationClazz, annotationName, annotationValue)
+			.parameter(fieldName, fieldClass)
+			.code(mc -> {
+				mc.line().putfield("this", fieldName, fieldName, fieldClass);
+				mc.line().RETURN();
+			});
+		return this;
+	}
+
+	default ClassBody makePropertySet(final String annotationClazz, String annotationName, Object annotationValue,
+			final String fieldName) {
+		String fieldClass = clazzOfField(fieldName);
+		publicMethod(toPropertySetName(fieldName, fieldClass))
+			.annotation(annotationClazz, annotationName, annotationValue)
+			.parameter(fieldName, fieldClass)
+			.code(mc -> {
+				mc.line().putfield("this", fieldName, fieldName, fieldClass);
+				mc.line().RETURN();
+			});
+		return this;
+	}
+
+	default ClassBody makeAllPropertyGet() {
 		for (Field param : getFields()) {
-			final Field field = param;
-			definePropertyGet(field.name, field.type.getClassName());
+			makePropertyGet(param.name);
 		}
 		return this;
 	}
 
-	default ClassBody defineAllPropetySet() {
+	default ClassBody makeAllPropertySet() {
 		for (Field param : getFields()) {
 			final Field field = param;
-			publicMethod(toPropertySetName(field.name, field.type.getClassName()))
-				.parameter(field.name, field.type.getClassName())
+			String fieldClass = clazzOfField(field.name);
+			publicMethod(toPropertySetName(field.name, fieldClass)).parameter(field.name, field.type.getClassName())
 				.code(mc -> {
-					mc.putfield("this", field.name, field.name, field.type.getClassName());
-					mc.RETURN();
+					mc.line().putfield("this", field.name, field.name, fieldClass);
+					mc.line().RETURN();
 				});
 		}
 		return this;
 	}
 
-
 	default ClassBody makePojo() {
-		constructerWithAllFields();
-		defineAllPropetyGet();
-		defineAllPropetySet();
-		toStringWithAllFields();
+		constructerEmpty();
+		makeAllPropertyGet();
+		makeAllPropertySet();
 		return toStringWithAllFields();
 	}
 
 	default ClassBody makeReadonlyPojo() {
 		constructerWithAllFields();
-		defineAllPropetyGet();
+		makeAllPropertyGet();
 		return toStringWithAllFields();
 	}
 
 	default ClassBody toStringWithAllFields() {
 		final List<Field> fields = getFields();
-		publicMethod(String.class, "toString").parameter(fields).code(mc -> {
+		publicMethod(String.class, "toString").code(mc -> {
+			mc.line();
 			mc.NEW(StringBuilder.class);
 
 			mc.DUP();
-			mc.LOADConst(getName() + "(");
 
+			mc.LOADThis();
+			mc.INVOKEVIRTUAL(Object.class, Class.class, "getClass");
+			mc.INVOKEVIRTUAL(Class.class, String.class, "getSimpleName");
+			mc.INVOKESTATIC(String.class, String.class, "valueOf", Object.class);
 			mc.INVOKESPECIAL(StringBuilder.class, "<init>", String.class);
+
+			if (fields.size() > 0) {
+				mc.LOADConst(" [" + fields.get(0).name + "=");
+			} else {
+				mc.LOADConst(" [");
+			}
+			mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
 
 			for (int i = 0; i < fields.size(); i++) {
 				Field field = fields.get(i);
-				if (i != 0) {
-					mc.LOADConst(",");
+				if (i > 0) {
+					mc.LOADConst(", " + field.name + "=");
 					mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
 				}
 
-				mc.LOADConst(field.name + "=");
-				mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
-
 				mc.LOADThis();
-				mc.GETFIELD(field.name, field.type);
+				mc.GETFIELD_OF_THIS(field.name);
 
-				mc.INVOKEVIRTUAL(typeOf(StringBuilder.class), typeOf(StringBuilder.class), "append", field.type);
+				mc.INVOKEVIRTUAL(StringBuilder.class.getName(), StringBuilder.class.getName(), "append",
+						stringInnerUserType(field.type).getClassName());
 			}
 
-			mc.LOADConst(")");
+			mc.LOADConst("]");
 			mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
 			mc.INVOKEVIRTUAL(StringBuilder.class, String.class, "toString");
 			mc.RETURNTop();
@@ -225,9 +338,11 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 		return this;
 	}
 
+	@Deprecated
 	default ClassBody toStringWithAllProperties() {
 		final List<Field> fields = getFields();
 		publicMethod(String.class, "toString").parameter(fields).code(mc -> {
+			mc.line();
 			mc.NEW(StringBuilder.class);
 
 			mc.DUP();
@@ -236,6 +351,7 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 
 			for (int i = 0; i < fields.size(); i++) {
 				Field field = fields.get(i);
+				mc.line();
 				if (i != 0) {
 					mc.LOADConst(",");
 					mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);

@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.internalOf;
+import static nebula.tinyasm.util.TypeUtils.internalNamelOf;
 import static nebula.tinyasm.util.TypeUtils.is;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
@@ -19,6 +19,7 @@ import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.Field;
 import nebula.tinyasm.data.LocalsStack;
 import nebula.tinyasm.data.LocalsVariable;
+import nebula.tinyasm.data.LocalsVariable.VarType;
 import nebula.tinyasm.util.ArrayListMap;
 
 abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodHeader<MC> {
@@ -190,7 +191,7 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 	@Override
 	public MethodHeader<MC> parameter(String paramname, Type paramType) {
-		LocalsVariable param = new LocalsVariable(paramname, paramType);
+		LocalsVariable param = new LocalsVariable(VarType.PARAM,paramname, paramType);
 		thisMethod.params.push(param.name, param);
 		thisMethod.parameterAnnotations.add(null);
 		return this;
@@ -205,7 +206,7 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 	@Override
 	public MethodHeader<MC> parameterGeneric(String fieldName, Type fieldType, String signature) {
-		LocalsVariable param = new LocalsVariable(fieldName, fieldType, signature);
+		LocalsVariable param = new LocalsVariable(VarType.PARAM,fieldName, fieldType, signature);
 		thisMethod.params.push(param.name, param);
 		thisMethod.parameterAnnotations.add(null);
 		return this;
@@ -214,7 +215,7 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 	@Override
 	public MethodHeader<MC> parameterGenericWithAnnotation(Type annotationType, Object value, String fieldName,
 			Type fieldType, String signature) {
-		LocalsVariable param = new LocalsVariable(fieldName, fieldType, signature);
+		LocalsVariable param = new LocalsVariable(VarType.PARAM,fieldName, fieldType, signature);
 		thisMethod.params.push(param.name, param);
 		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
 				new ClassAnnotation(annotationType, null, value));
@@ -224,7 +225,7 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 	@Override
 	public MethodHeader<MC> parameterWithAnnotation(Type annotationType, Object value, String fieldName,
 			Type fieldType) {
-		LocalsVariable param = new LocalsVariable(fieldName, fieldType);
+		LocalsVariable param = new LocalsVariable(VarType.PARAM,fieldName, fieldType);
 		thisMethod.params.push(param.name, param);
 		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
 				new ClassAnnotation(annotationType, null, value));
@@ -256,8 +257,8 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 		}
 
 		this.mv = classVisitor.visitMethod(thisMethod.access, thisMethod.name,
-				Type.getMethodDescriptor(thisMethod.returnType, ClassField.typesOf(thisMethod.params.values())),
-				signature, internalOf(this.thisMethod.excptions));
+				Type.getMethodDescriptor(thisMethod.returnType, ClassField.typesOf(thisMethod.params.list())),
+				signature, internalNamelOf(this.thisMethod.excptions));
 
 		assert this.mv != null;
 		for (ClassAnnotation annotation : thisMethod.annotations) {
@@ -275,7 +276,7 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 	protected void preapareMethodWithParams() {
 		for (ClassField field : thisMethod.params) {
-			mhLocals.push(new LocalsVariable(field, labelCurrent));
+			mhLocals.push(new LocalsVariable(VarType.PARAM, field, labelCurrent));
 		}
 	}
 

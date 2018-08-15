@@ -1,7 +1,9 @@
 package nebula.tinyasm.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.objectweb.asm.Type;
 
@@ -43,8 +45,22 @@ public class TypeUtils {
 		return innerType;
 	}
 
+	static public Type stringInnerUserType(Type type) {
+		switch (type.getSort()) {
+		case Type.BOOLEAN:
+		case Type.BYTE:
+//		case Type.CHAR:
+		case Type.SHORT:
+			return Type.INT_TYPE;
+		default:
+			break;
+		}
+		return type;
+	}
+
 	static public Type mathInnerUserType(Type type) {
 		switch (type.getSort()) {
+		case Type.BOOLEAN:
 		case Type.BYTE:
 		case Type.CHAR:
 		case Type.SHORT:
@@ -415,6 +431,7 @@ public class TypeUtils {
 	static public String toPropertyGetName(String name, String clazz) {
 		return "get" + toPropertyName(name);
 	}
+
 	static public String toPropertyGetName(String name, Class<?> clazz) {
 		return "get" + toPropertyName(name);
 	}
@@ -426,6 +443,7 @@ public class TypeUtils {
 	static public String toPropertySetName(String name, String clazz) {
 		return "set" + toPropertyName(name);
 	}
+
 	static public String toPropertySetName(String name, Class<?> clazz) {
 		return "set" + toPropertyName(name);
 	}
@@ -435,6 +453,18 @@ public class TypeUtils {
 		if (index < 0) index = name.lastIndexOf('/');
 
 		return name.substring(index + 1);
+	}
+
+	static Map<String, Type> primaryTypeMaps = new HashMap<String, Type>();
+	static {
+		primaryTypeMaps.put(boolean.class.getName(), Type.BOOLEAN_TYPE);
+		primaryTypeMaps.put(byte.class.getName(), Type.BYTE_TYPE);
+		primaryTypeMaps.put(char.class.getName(), Type.CHAR_TYPE);
+		primaryTypeMaps.put(short.class.getName(), Type.SHORT_TYPE);
+		primaryTypeMaps.put(int.class.getName(), Type.INT_TYPE);
+		primaryTypeMaps.put(long.class.getName(), Type.LONG_TYPE);
+		primaryTypeMaps.put(float.class.getName(), Type.FLOAT_TYPE);
+		primaryTypeMaps.put(double.class.getName(), Type.DOUBLE_TYPE);
 	}
 
 	static public Type typeOf(Class<?> clz) {
@@ -447,11 +477,12 @@ public class TypeUtils {
 	}
 
 	static public Type typeOf(String name, boolean isarray) {
-		return arrayOf(Type.getObjectType(name.replace('.', '/')), isarray);
+		return arrayOf(typeOf(name), isarray);
 	};
 
 	static public Type typeOf(String name) {
 		if (name == null) return Type.VOID_TYPE;
+		if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
 		return Type.getObjectType(name.replace('.', '/'));
 	};
 
@@ -471,7 +502,7 @@ public class TypeUtils {
 		return types;
 	};
 
-	static public String[] internalOf(Type[] types) {
+	static public String[] internalNamelOf(Type[] types) {
 		String[] strs = new String[types.length];
 		for (int i = 0; i < types.length; i++) {
 			strs[i] = types[i].getInternalName();
@@ -479,7 +510,7 @@ public class TypeUtils {
 		return strs;
 	}
 
-	static public String[] internalOf(String[] classes) {
+	static public String[] internalNamelOf(String[] classes) {
 		String[] strs = new String[classes.length];
 		for (int i = 0; i < classes.length; i++) {
 			strs[i] = typeOf(classes[i]).getInternalName();

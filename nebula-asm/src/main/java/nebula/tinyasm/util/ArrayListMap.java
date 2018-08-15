@@ -35,7 +35,7 @@ public class ArrayListMap<V> implements Iterable<V> {
 		return stack.iterator();
 	}
 
-	public List<V> values() {
+	public List<V> list() {
 		return stack;
 	}
 }
