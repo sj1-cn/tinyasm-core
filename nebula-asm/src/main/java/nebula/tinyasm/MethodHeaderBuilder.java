@@ -123,17 +123,14 @@ class MethodHeaderBuilder implements MethodHeader {
 				assert mv != null;
 				assert var != null;
 				assert var.clazz.getDescriptor() != null;
-				mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), var.startFrom,
+				Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
+				mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom,
 						endLabel, var.locals);
 			}
 		}
 		mv.visitMaxs(0, 0);
 		mv.visitEnd();
 		thisMethod.hasEnded = true;
-	}
-
-	protected Type getStackTopType() {
-		return stackTopType;
 	}
 
 	protected Label labelWithoutLineNumber() {
@@ -146,7 +143,6 @@ class MethodHeaderBuilder implements MethodHeader {
 	MethodCode makeCode(MethodVisitor mv) {
 		return new MethodCodeBuilder(mv, this, mhLocals);
 	}
-
 
 	@Override
 	public MethodHeader annotation(Annotation annotation) {
@@ -174,7 +170,7 @@ class MethodHeaderBuilder implements MethodHeader {
 			String name = thisMethod.name;
 
 			Type returnType;
-			if (returnClazz != null) returnType = typeOf(returnClazz.clazz, returnClazz.isarray);
+			if (returnClazz != null) returnType = Type.getType(returnClazz.getDescriptor());
 			else
 				returnType = Type.VOID_TYPE;
 
@@ -193,7 +189,13 @@ class MethodHeaderBuilder implements MethodHeader {
 					}
 				}
 				sb.append(")");
-				sb.append(returnType.getDescriptor());
+				if (returnClazz != null) {
+					needSignature |= returnClazz.needSignature();
+					sb.append(returnClazz.signatureAnyway());
+				} else {
+					sb.append(returnType.getDescriptor());
+
+				}
 				String signatureFromParameter = sb.toString();
 
 				if (needSignature) {

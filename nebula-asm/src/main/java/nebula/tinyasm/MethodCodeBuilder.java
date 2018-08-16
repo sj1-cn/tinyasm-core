@@ -137,13 +137,6 @@ public class MethodCodeBuilder implements MethodCode {
 		mh.finishMethod();
 	}
 
-	protected Label labelWithoutLineNumber() {
-		Label label = new Label();
-		labelCurrent = label;
-		mv.visitLabel(label);
-		return label;
-	}
-
 	public MethodCode line() {
 		Label label;
 		if (!labelHasDefineBegin) {

@@ -36,15 +36,15 @@ public class Annotation {
 	}
 
 	static public Annotation annotation(Class<?> clazz) {
-		return annotation(nameOf(clazz), null);
+		return annotation(classnameOf(clazz), null);
 	}
 
 	static public Annotation annotation(String clazz) {
-		return annotation(nameOf(clazz), null);
+		return annotation(classnameOf(clazz), null);
 	}
 
 	static public Annotation annotation(Class<?> clazz, Object value) {
-		return annotation(nameOf(clazz), value);
+		return annotation(classnameOf(clazz), value);
 	}
 
 	static public Annotation annotation(String clazz, Object value) {
@@ -60,11 +60,11 @@ public class Annotation {
 	}
 
 	static public Annotation annotation(Class<?> clazz, String[] names, Object[] values) {
-		return annotation(nameOf(clazz), names, values);
+		return annotation(classnameOf(clazz), names, values);
 	}
 
 	static public Annotation annotation(Class<?> clazz, Object value, String[] names, Object[] values) {
-		return annotation(nameOf(clazz), value, names, values);
+		return annotation(classnameOf(clazz), value, names, values);
 	}
 
 	public String getDescriptor() {

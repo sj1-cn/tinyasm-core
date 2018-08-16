@@ -19,26 +19,6 @@ public class TypeUtils {
 		return (access & modified) > 0;
 	}
 
-	static public String nameOf(Class<?> clazz) {
-		return clazz.getName();
-	}
-
-	static public String[] nameOf(Class<?>... clazz) {
-		String[] names = new String[clazz.length];
-		for (int i = 0; i < names.length; i++) {
-			names[i] = clazz[i].getName();
-		}
-		return names;
-	}
-
-	static public String[] nameOf(String... clazz) {
-		return clazz;
-	}
-
-	static public String nameOf(String clazz) {
-		return clazz;
-	}
-
 	/**
 	 * The stack size variation corresponding to each JVM instruction. This stack
 	 * variation is equal to the size of the values produced by an instruction,
@@ -382,7 +362,7 @@ public class TypeUtils {
 		return values[0];
 	}
 
-	static public String[] namesOf(Class<?>... classes) {
+	static public String[] internalNameOf(Class<?>... classes) {
 		String[] types = new String[classes.length];
 		for (int i = 0; i < classes.length; i++) {
 			types[i] = Type.getInternalName(classes[i]);
@@ -600,11 +580,57 @@ public class TypeUtils {
 		return types;
 	}
 
-	static public String[] nameOf(List<Field> fields) {
-		String[] types = new String[fields.size()];
-		for (int i = 0; i < fields.size(); i++) {
-			types[i] = fields.get(i).clazz.clazz;
-		}
-		return types;
+
+	static public String classnameOf(Class<?> clazz) {
+		return clazz.getName();
 	}
+
+	static public String[] classnamesOf(Class<?>... clazz) {
+		String[] names = new String[clazz.length];
+		for (int i = 0; i < names.length; i++) {
+			names[i] = clazz[i].getName();
+		}
+		return names;
+	}
+
+	static public String[] classnamesOf(String... clazz) {
+		return clazz;
+	}
+
+	static public String classnameOf(String clazz) {
+		return clazz;
+	}
+
+	static public String classnameOf(Type type) {
+		return type.getClassName();
+	}
+
+	static public String classnameOf(GenericClazz clazz) {
+		return clazz.clazz;
+	}
+
+	static public String[] classnamesOf(Type[] types) {
+		String[] strs = new String[types.length];
+		for (int i = 0; i < types.length; i++) {
+			strs[i] = types[i].getClassName();
+		}
+		return strs;
+	}
+
+	static public String[] classnamesOf(List<GenericClazz> clazzes) {
+		String[] strs = new String[clazzes.size()];
+		for (int i = 0; i < clazzes.size(); i++) {
+			strs[i] = clazzes.get(i).clazz;
+		}
+		return strs;
+	}
+
+	static public String[] classnamesOf(GenericClazz... clazzes) {
+		String[] strs = new String[clazzes.length];
+		for (int i = 0; i < clazzes.length; i++) {
+			strs[i] = clazzes[i].clazz;
+		}
+		return strs;
+	}
+
 }

@@ -25,7 +25,7 @@ public class GenericClazz {
 	public String signatureAnyway() {
 		String signature;
 		if (genericClazz != null && genericClazz.length > 0) {
-			signature = signatureOf(arrayOf(clazz,isarray), typeOf(genericClazz));
+			signature = signatureOf(arrayOf(clazz, isarray), typeOf(genericClazz));
 		} else {
 			signature = typeOf(clazz).getDescriptor();
 		}
@@ -34,7 +34,7 @@ public class GenericClazz {
 
 	public String signatureWhenNeed() {
 		if (genericClazz != null && genericClazz.length > 0) {
-			return signatureOf(arrayOf(clazz,isarray), typeOf(genericClazz));
+			return signatureOf(arrayOf(clazz, isarray), typeOf(genericClazz));
 		} else {
 			return null;
 		}
@@ -49,31 +49,35 @@ public class GenericClazz {
 	}
 
 	static public GenericClazz clazz(Class<?> clazz) {
-		return new GenericClazz(nameOf(clazz), null);
+		return new GenericClazz(classnameOf(clazz), null);
 	}
 
 	static public GenericClazz clazz(String clazz) {
-		return new GenericClazz(nameOf(clazz), null);
+		return new GenericClazz(classnameOf(clazz), null);
 	}
 
-	static public GenericClazz clazz(Class<?> clazz, String[] genericClazz) {
-		return new GenericClazz(nameOf(clazz), genericClazz);
+	static public GenericClazz clazz(Class<?> clazz, String... genericClazz) {
+		return new GenericClazz(classnameOf(clazz), genericClazz);
+	}
+
+	static public GenericClazz clazz(Class<?> clazz, Class<?>... genericClazz) {
+		return new GenericClazz(classnameOf(clazz), classnamesOf(genericClazz));
 	}
 
 	static public GenericClazz clazz(Class<?> clazz, boolean isarray) {
-		return new GenericClazz(nameOf(clazz), isarray, null);
+		return new GenericClazz(classnameOf(clazz), isarray, null);
 	}
 
 	static public GenericClazz clazz(String clazz, boolean isarray) {
-		return new GenericClazz(nameOf(clazz), isarray, null);
+		return new GenericClazz(classnameOf(clazz), isarray, null);
 	}
 
-	static public GenericClazz clazz(Class<?> clazz, String[] genericClazz, boolean isarray) {
-		return new GenericClazz(nameOf(clazz), isarray, genericClazz);
+	static public GenericClazz clazz(Class<?> clazz, boolean isarray, String[] genericClazz) {
+		return new GenericClazz(classnameOf(clazz), isarray, genericClazz);
 	}
 
 	public String getDescriptor() {
-		return arrayOf(clazz,isarray).getDescriptor();
+		return arrayOf(clazz, isarray).getDescriptor();
 	}
 
 }
