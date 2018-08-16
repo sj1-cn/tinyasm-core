@@ -9,7 +9,7 @@ import java.util.List;
 
 import nebula.tinyasm.ClassBuilder;
 
-public interface ClassBody extends WithDefineField<ClassBody>, ClassDefineStaticMethod, ClassDefineInstanceMethod {
+public interface ClassBody extends WithDefineField<ClassBody>, WithMakeStaticMethod, WithMakeInstanceMethod {
 
 	ClassBuilder end();
 
@@ -33,66 +33,6 @@ public interface ClassBody extends WithDefineField<ClassBody>, ClassDefineStatic
 		});
 		return this;
 	}
-//
-//	@Deprecated
-//	default ClassBody constructerToSuper(Field[] superFields) {
-//		if (this.getFields().size() > 0) {
-//			publicMethod("<init>").parameter(this.getFields()).parameter(superFields).code(mc -> {
-//				mc.LOADThis();
-//				for (Field param : superFields) {
-//					mc.LOAD(param.name);
-//				}
-//				mc.INVOKESPECIAL(typeOf(getSuperClass()), null, "<init>", typeOf(superFields));
-//
-//				for (Field param : this.getFields()) {
-//					mc.putfield("this", param.name, param.name, param.type);
-//				}
-//				mc.RETURN();
-//			});
-//			return this;
-//		} else {
-//			publicMethod("<init>").parameter(superFields).code(mc -> {
-//				mc.LOADThis();
-//				for (Field param : superFields) {
-//					mc.LOAD(param.name);
-//				}
-//				mc.INVOKESPECIAL(typeOf(getSuperClass()), null, "<init>", typeOf(superFields));
-//
-//				mc.RETURN();
-//			});
-//			return this;
-//		}
-//	}
-//
-//	@Deprecated
-//	default ClassBody constructerToSuper(List<Field> superFields) {
-//		if (this.getFields().size() > 0) {
-//			publicMethod("<init>").parameter(this.getFields()).parameter(superFields).code(mc -> {
-//				mc.LOADThis();
-//				for (Field param : superFields) {
-//					mc.LOAD(param.name);
-//				}
-//				mc.INVOKESPECIAL(typeOf(getSuperClass()), null, "<init>", typeOf(superFields));
-//
-//				for (Field param : this.getFields()) {
-//					mc.putfield("this", param.name, param.name, param.type);
-//				}
-//				mc.RETURN();
-//			});
-//			return this;
-//		} else {
-//			publicMethod("<init>").parameter(superFields).code(mc -> {
-//				mc.LOADThis();
-//				for (Field param : superFields) {
-//					mc.LOAD(param.name);
-//				}
-//				mc.INVOKESPECIAL(typeOf(getSuperClass()), null, "<init>", typeOf(superFields));
-//
-//				mc.RETURN();
-//			});
-//			return this;
-//		}
-//	}
 
 	default ClassBody constructerWithAllFields() {
 		final List<Field> fields = getFields();

@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.internalNamelOf;
+import static nebula.tinyasm.util.TypeUtils.*;
 import static nebula.tinyasm.util.TypeUtils.is;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
@@ -22,23 +22,16 @@ import nebula.tinyasm.data.MethodHeader;
 
 class MethodHeaderBuilder implements MethodHeader {
 	class ThisMethod {
-		int access;
-		List<Annotation> annotations = new ArrayList<>();
-		// final Type thisType;
-		String[] excptions;
 
 		String name;
 
-		ArrayListMap<LocalsVariable> params = new ArrayListMap<>();
-		ArrayListMap<ClassField> fields;
-
-		Type returnType;
 		Type type;
 		boolean hasEnded = false;
 		boolean instanceMethod = true;
 	}
 
 	ThisMethod thisMethod;
+	int access;
 
 	final private ClassVisitor classVisitor;
 
@@ -48,23 +41,31 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	Type stackTopType;
 
-	protected LocalsStack mhLocals = new LocalsStack();
+	final LocalsStack mhLocals = new LocalsStack();
+	final ArrayListMap<LocalsVariable> params = new ArrayListMap<>();
+	final List<Annotation> annotations = new ArrayList<>();
+	final ArrayListMap<ClassField> fields;
 
 	MethodVisitor mv;
 
 	final List<GenericClazz> exceptions = new ArrayList<>();
+	GenericClazz returnClazz = null;
 
-	public MethodHeaderBuilder(ClassBodyImpl cv, boolean instanceMethod, Type thisType, int access, Type returnType,
-			String methodName, String[] exceptiones) {
+	public MethodHeaderBuilder(ClassBodyImpl cv, boolean isInstanceMethod, String className, int access,
+			String returnType, String methodName) {
+		this(cv, isInstanceMethod, className, access, methodName);
+		this.returnClazz = returnType != null ? GenericClazz.clazz(returnType) : null;
+	}
+
+	public MethodHeaderBuilder(ClassBodyImpl cv, boolean instanceMethod, String className, int access,
+			String methodName) {
 		this.classVisitor = cv;
 		thisMethod = new ThisMethod();
 		thisMethod.name = methodName;
-		thisMethod.access = access;
-		thisMethod.returnType = returnType;
-		thisMethod.excptions = exceptiones;
-		thisMethod.type = thisType;
-		thisMethod.fields = cv.fields;
+		this.access = access;
+		thisMethod.type = typeOf(className);
 		thisMethod.instanceMethod = instanceMethod;
+		this.fields = cv.fields;
 	}
 //
 //	@Override
@@ -75,7 +76,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	@Override
 	public MethodHeader annotation(String clazz, Object defaultValue, String[] names, Object[] values) {
-		thisMethod.annotations.add(new Annotation(clazz, defaultValue, names, values));
+		annotations.add(new Annotation(clazz, defaultValue, names, values));
 		return this;
 	}
 
@@ -141,34 +142,6 @@ class MethodHeaderBuilder implements MethodHeader {
 		mv.visitLabel(label);
 		return label;
 	}
-//O
-//	public MethodCode line() {
-//		Label label;
-//		if (!labelHasDefineBegin) {
-//			label = new Label();
-//			labelCurrent = label;
-//			mv.visitLabel(label);
-//		} else {
-//			label = labelCurrent;
-//		}
-//		lastLineNumber = lastLineNumber + 1;
-//		mv.visitLineNumber(lastLineNumber, label);
-//		return code();
-//	}
-//
-//	public MethodCode line(int line) {
-//		Label label;
-//		if (!labelHasDefineBegin) {
-//			label = new Label();
-//			labelCurrent = label;
-//			mv.visitLabel(label);
-//		} else {
-//			label = labelCurrent;
-//		}
-//		lastLineNumber = line;
-//		mv.visitLineNumber(line, label);
-//		return code();
-//	}
 
 	MethodCode makeCode(MethodVisitor mv) {
 		return new MethodCodeBuilder(mv, this, mhLocals);
@@ -202,35 +175,44 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	@Override
 	public MethodHeader annotation(Annotation annotation) {
-		thisMethod.annotations.add(annotation);
+		annotations.add(annotation);
 		return this;
 	}
 
 	@Override
 	public MethodHeader parameter(String name, GenericClazz clazz) {
 		LocalsVariable param = new LocalsVariable(name, clazz);
-		thisMethod.params.push(param.name, param);
+		params.push(param.name, param);
 		return this;
 	}
 
 	@Override
 	public MethodHeader parameter(Annotation annotation, String name, GenericClazz clazz) {
 		LocalsVariable param = new LocalsVariable(annotation, name, clazz);
-		thisMethod.params.push(param.name, param);
+		params.push(param.name, param);
 		return this;
 	}
 
 	protected void prapareMethodDefination() {
 		{
-			int access = thisMethod.access;
+			if (access == 0) {
+				this.ACC_PUBLIC();
+			}
+			int access = this.access;
 			String name = thisMethod.name;
-			String desc = Type.getMethodDescriptor(thisMethod.returnType, ClassField.typesOf(thisMethod.params.list()));
+
+			Type returnType;
+			if (returnClazz != null) returnType = typeOf(returnClazz.clazz, returnClazz.isarray);
+			else
+				returnType = Type.VOID_TYPE;
+
+			String desc = Type.getMethodDescriptor(returnType, ClassField.typesOf(params.list()));
 			String signature = null;
 			boolean needSignature = false;
 			{
 				StringBuilder sb = new StringBuilder();
 				sb.append("(");
-				for (ClassField param : thisMethod.params) {
+				for (ClassField param : params) {
 					if (param.clazz.needSignature()) {
 						sb.append(param.clazz.signatureAnyway());
 						needSignature = true;
@@ -239,24 +221,24 @@ class MethodHeaderBuilder implements MethodHeader {
 					}
 				}
 				sb.append(")");
-				sb.append(thisMethod.returnType.getDescriptor());
+				sb.append(returnType.getDescriptor());
 				String signatureFromParameter = sb.toString();
 
 				if (needSignature) {
 					signature = signatureFromParameter;
 				}
 			}
-			String[] exceptions = internalNamelOf(this.thisMethod.excptions);
+			String[] exceptions = internalNamesOf(this.exceptions);
 
 			this.mv = classVisitor.visitMethod(access, name, desc, signature, exceptions);
 		}
 
 		assert this.mv != null;
-		for (Annotation annotation : thisMethod.annotations) {
+		for (Annotation annotation : annotations) {
 			visitAnnotation(this.mv, annotation);
 		}
-		for (int i = 0; i < thisMethod.params.size(); i++) {
-			LocalsVariable param = thisMethod.params.get(i);
+		for (int i = 0; i < params.size(); i++) {
+			LocalsVariable param = params.get(i);
 			if (param.annotation != null) {
 				visitParameterAnnotation(this.mv, i, param.annotation);
 			}
@@ -267,7 +249,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	protected void preapareMethodWithParams() {
-		for (ClassField field : thisMethod.params) {
+		for (ClassField field : params) {
 			mhLocals.push(new LocalsVariable(field, labelCurrent));
 		}
 	}
@@ -279,16 +261,29 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	@Override
-	public MethodHeader reTurn(String clazz) {
-		// TODO Auto-generated method stub
-		return null;
+	public MethodHeader tHrow(GenericClazz clazz) {
+		exceptions.add(clazz);
+		return this;
 	}
 
 	@Override
-	public MethodHeader tHrow(String... clazzes) {
-		for (String clazz : clazzes) {
-			exceptions.add(new GenericClazz(clazz, null));
-		}
+	public MethodHeader access(int access) {
+		this.access |= access;
 		return this;
 	}
+
+	@Override
+	public MethodHeader reTurn(GenericClazz clazz) {
+		this.returnClazz = clazz;
+		return this;
+	}
+
+//
+//	@Override
+//	public MethodHeader tHrow(String... clazzes) {
+//		for (String clazz : clazzes) {
+//			exceptions.add(clazz, null));
+//		}
+//		return this;
+//	}
 }

@@ -9,6 +9,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.data.Field;
+import nebula.tinyasm.data.GenericClazz;
 
 //import nebula.tinyasm.api.Field;
 
@@ -543,6 +544,10 @@ public class TypeUtils {
 		return types.getInternalName();
 	}
 
+	static public String internalNamelOf(GenericClazz clazz) {
+		return typeOf(clazz.clazz).getInternalName();
+	}
+
 	static public String internalNamelOf(String clazz) {
 		return typeOf(clazz).getInternalName();
 	}
@@ -551,6 +556,22 @@ public class TypeUtils {
 		String[] strs = new String[types.length];
 		for (int i = 0; i < types.length; i++) {
 			strs[i] = types[i].getInternalName();
+		}
+		return strs;
+	}
+
+	static public String[] internalNamesOf(List<GenericClazz> clazzes) {
+		String[] strs = new String[clazzes.size()];
+		for (int i = 0; i < clazzes.size(); i++) {
+			strs[i] = typeOf(clazzes.get(i).clazz).getInternalName();
+		}
+		return strs;
+	}
+
+	static public String[] internalNamesOf(GenericClazz... clazzes) {
+		String[] strs = new String[clazzes.length];
+		for (int i = 0; i < clazzes.length; i++) {
+			strs[i] = typeOf(clazzes[i].clazz).getInternalName();
 		}
 		return strs;
 	}
@@ -578,7 +599,7 @@ public class TypeUtils {
 		}
 		return types;
 	}
-	
+
 	static public String[] nameOf(List<Field> fields) {
 		String[] types = new String[fields.size()];
 		for (int i = 0; i < fields.size(); i++) {

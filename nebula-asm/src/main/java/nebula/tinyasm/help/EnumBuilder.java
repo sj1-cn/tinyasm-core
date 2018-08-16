@@ -1,7 +1,6 @@
 package nebula.tinyasm.help;
 
 import static nebula.tinyasm.util.TypeUtils.arrayOf;
-import static nebula.tinyasm.util.TypeUtils.namesOf;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
 
 import org.objectweb.asm.Opcodes;
@@ -64,46 +63,39 @@ public class EnumBuilder implements Opcodes {
 			mc.INVOKESPECIAL(Enum.class, "<init>", String.class, int.class);
 			mc.RETURN();
 		});
-		Class<?>[] exceptionClasses = {};
+		cb.staticMethod("values").ACC_STATIC().ACC_PUBLIC().reTurn(clazz,true).code(mc -> {
+			mc.define("vs", clazz, true);
+			mc.define("length", int.class);
+			mc.define("newvs", clazz, true);
+			mc.line(1);
+			mc.GETSTATIC(typeOf(clazz), "ENUM$VALUES", arrayOf(typeOf(clazz)));
+			mc.DUP();
+			mc.STORE("vs");
 
-		cb.mvStaticMethod(ACC_STATIC + ACC_PUBLIC, arrayOf(typeOf(clazz), true), "values",
-				namesOf(exceptionClasses))
-			.code(mc -> {
-				mc.define("vs", clazz, true);
-				mc.define("length", int.class);
-				mc.define("newvs", clazz, true);
-				mc.line(1);
-				mc.GETSTATIC(typeOf(clazz), "ENUM$VALUES", arrayOf(typeOf(clazz)));
-				mc.DUP();
-				mc.STORE("vs");
+			mc.LOADConstByte(0);
+			mc.LOAD("vs");
+			mc.ARRAYLENGTH();
+			mc.DUP();
+			mc.STORE("length");
+			mc.NEWARRAY(typeOf(clazz));
+			mc.DUP();
+			mc.STORE("newvs");
 
-				mc.LOADConstByte(0);
-				mc.LOAD("vs");
-				mc.ARRAYLENGTH();
-				mc.DUP();
-				mc.STORE("length");
-				mc.NEWARRAY(typeOf(clazz));
-				mc.DUP();
-				mc.STORE("newvs");
+			mc.LOADConstByte(0);
+			mc.LOAD("length");
 
-				mc.LOADConstByte(0);
-				mc.LOAD("length");
+			mc.INVOKESTATIC(System.class, "arraycopy", Object.class, int.class, Object.class, int.class, int.class);
+			mc.RETURN("newvs");
+		});
 
-				mc.INVOKESTATIC(System.class, "arraycopy", Object.class, int.class, Object.class, int.class, int.class);
-				mc.RETURN("newvs");
-			});
-		Class<?>[] exceptionClasses1 = {};
-
-		cb.mvStaticMethod(ACC_STATIC + ACC_PUBLIC, typeOf(clazz), "valueOf", namesOf(exceptionClasses1))
-			.parameter("name", String.class)
-			.code(mc -> {
-				mc.line(1);
-				mc.LOADConst(typeOf(clazz));
-				mc.LOAD("name");
-				mc.INVOKESTATIC(Enum.class, Enum.class, "valueOf", Class.class, String.class);
-				mc.CHECKCAST(typeOf(clazz));
-				mc.RETURNTop();
-			});
+		cb.staticMethod("valueOf").ACC_STATIC().ACC_PUBLIC().reTurn(clazz).parameter("name", String.class).code(mc -> {
+			mc.line(1);
+			mc.LOADConst(typeOf(clazz));
+			mc.LOAD("name");
+			mc.INVOKESTATIC(Enum.class, Enum.class, "valueOf", Class.class, String.class);
+			mc.CHECKCAST(typeOf(clazz));
+			mc.RETURNTop();
+		});
 		return cb;
 	}
 }

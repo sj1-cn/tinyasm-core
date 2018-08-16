@@ -36,12 +36,6 @@ public class MethodCodeBuilder implements MethodCode {
 		this.labelHasDefineBegin = mh.labelHasDefineBegin;
 		this.labelCurrent = mh.labelCurrent;
 	}
-//
-//	@Override
-//	public Type codeThisFieldType(String name) {
-//		assert this.fields.containsKey(name) : "field + " + name + " not exist!";
-//		return this.fields.get(name).type;
-//	}
 
 	@Override
 	public MethodCode block(Consumer<MethodCode> invocation) {
@@ -100,8 +94,8 @@ public class MethodCodeBuilder implements MethodCode {
 	@Override
 	public Type codeThisFieldType(String name) {
 		if (mh.thisMethod.instanceMethod) {
-			assert mh.thisMethod.fields.containsKey(name) : "field + " + name + " not exist!";
-			return mh.thisMethod.fields.get(name).type;
+			assert mh.fields.containsKey(name) : "field + " + name + " not exist!";
+			return mh.fields.get(name).type;
 		} else {
 			throw new UnsupportedOperationException();
 		}

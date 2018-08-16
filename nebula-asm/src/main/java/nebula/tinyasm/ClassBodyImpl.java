@@ -132,13 +132,23 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public MethodHeader mvMethod(int access, Type returnType, String methodName, String... exceptions) {
-		return new MethodHeaderBuilder(this, true, thisType, access, returnType, methodName, exceptions);
+	public MethodHeader staticMethod(int access, String name) {
+		return new MethodHeaderBuilder(this, false, thisType.getClassName(), access, name);
 	}
 
 	@Override
-	public MethodHeader mvStaticMethod(int access, Type returnType, String methodName, String[] exceptionClasses) {
-		return new MethodHeaderBuilder(this, false, thisType, access, returnType, methodName, exceptionClasses);
+	public MethodHeader staticMethod(int access, String returnType, String name) {
+		return new MethodHeaderBuilder(this, false, thisType.getClassName(), access, returnType, name);
+	}
+
+	@Override
+	public MethodHeader method(int access, String name) {
+		return new MethodHeaderBuilder(this, true, thisType.getClassName(), access, name);
+	}
+
+	@Override
+	public MethodHeader method(int access, String returnType, String name) {
+		return new MethodHeaderBuilder(this, true, thisType.getClassName(), access, returnType, name);
 	}
 
 	@Override
