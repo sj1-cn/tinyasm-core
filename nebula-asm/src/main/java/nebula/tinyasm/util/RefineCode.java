@@ -11,6 +11,7 @@ public class RefineCode {
 		input = input.replaceAll("mv.visitLabel\\(l1\\)[^\\n]*;\\n", "");
 		
 		
+		input = input.replaceAll("mv.visitMaxs[^\\n]*;\\n", "");
 		
 		
 		return input;

@@ -116,6 +116,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	abstract Type codeThisFieldType(String name);
 
+	abstract Type codeThisClassFieldType(String name);
+
 	abstract int codeLocalLoadAccess(String name);
 
 	abstract Type codeLocalLoadAccessType(String name);
@@ -1419,6 +1421,11 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	}
 
 	@Override
+	default void GET_THIS_STATIC(String objectType, String fieldName) {
+		GETSTATIC(typeOf(objectType), fieldName, codeThisClassFieldType(fieldName));
+	}
+
+	@Override
 	default void GETSTATIC(String objectType, String fieldName, String fieldType) {
 		GETSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
 	}
@@ -1451,6 +1458,11 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
 	}
 
+	@Override
+	default void PUT_THIS_STATIC(String objectType, String fieldName) {
+		PUTSTATIC(typeOf(objectType), fieldName, codeThisClassFieldType(fieldName));
+	}
+	
 	@Override
 	default void PUTSTATIC(String objectType, String fieldName, String fieldType) {
 		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));

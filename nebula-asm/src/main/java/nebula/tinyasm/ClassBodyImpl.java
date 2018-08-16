@@ -22,6 +22,7 @@ import nebula.tinyasm.data.MethodHeader;
 class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	ArrayListMap<ClassField> fields = new ArrayListMap<>();
+	ArrayListMap<ClassField> staticFields = new ArrayListMap<>();
 
 	boolean hadEnd = false;
 
@@ -99,6 +100,29 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	@Override
 	public String getSuperClass() {
 		return superType.getClassName();
+	}
+
+	@Override
+	public ClassBody staticField(int access, String name, GenericClazz clazz) {
+		access |= Opcodes.ACC_STATIC;
+		ClassField field1 = new ClassField(access, name, clazz, null);
+		staticFields.push(field1.name, field1);
+		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
+		fv.visitEnd();
+		return this;
+	}
+
+	@Override
+	public ClassBody staticField(int access, Annotation annotation, String name, GenericClazz clazz) {
+		access |= Opcodes.ACC_STATIC;
+		ClassField field1 = new ClassField(access, name, clazz, null);
+		staticFields.push(field1.name, field1);
+		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
+		if (annotation != null) {
+			Annotation.visitAnnotation(fv, annotation);
+		}
+		fv.visitEnd();
+		return this;
 	}
 
 	@Override

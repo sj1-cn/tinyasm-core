@@ -9,7 +9,7 @@ import java.util.List;
 
 import nebula.tinyasm.ClassBuilder;
 
-public interface ClassBody extends WithDefineField<ClassBody>, WithMakeStaticMethod, WithMakeInstanceMethod {
+public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineField<ClassBody>, WithMakeStaticMethod, WithMakeInstanceMethod {
 
 	ClassBuilder end();
 

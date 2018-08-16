@@ -91,6 +91,12 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	@Override
+	public Type codeThisClassFieldType(String name) {
+		assert mh.staticFields.containsKey(name) : "field + " + name + " not exist!";
+		return mh.staticFields.get(name).type;
+	}
+
+	@Override
 	public Type codeThisFieldType(String name) {
 		if (mh.thisMethod.instanceMethod) {
 			assert mh.fields.containsKey(name) : "field + " + name + " not exist!";

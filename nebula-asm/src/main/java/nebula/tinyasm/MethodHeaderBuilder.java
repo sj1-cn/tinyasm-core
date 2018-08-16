@@ -45,6 +45,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	final ArrayListMap<LocalsVariable> params = new ArrayListMap<>();
 	final List<Annotation> annotations = new ArrayList<>();
 	final ArrayListMap<ClassField> fields;
+	final ArrayListMap<ClassField> staticFields;
 
 	MethodVisitor mv;
 
@@ -66,6 +67,7 @@ class MethodHeaderBuilder implements MethodHeader {
 		thisMethod.type = typeOf(className);
 		thisMethod.instanceMethod = instanceMethod;
 		this.fields = cv.fields;
+		this.staticFields = cv.staticFields;
 	}
 //
 //	@Override

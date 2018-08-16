@@ -274,11 +274,13 @@ public interface MethodCodeASM {
 
 	void GETSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
 
+	void GET_THIS_STATIC(String objectType, String fieldName) ;
 	void GETSTATIC(String objectType, String fieldName, String fieldType);
 
 	void PUTSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
 
 	void PUTSTATIC(String objectType, String fieldName, String fieldType);
+	void PUT_THIS_STATIC(String objectType, String fieldName) ;
 
 	/** INVOKE **/
 	void INVOKESTATIC(Class<?> objectType, String methodName, Class<?>... paramTypes);
