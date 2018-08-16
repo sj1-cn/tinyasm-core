@@ -2,7 +2,7 @@ package nebula.tinyasm;
 
 import org.objectweb.asm.Label;
 
-import nebula.tinyasm.data.ClassAnnotation;
+import nebula.tinyasm.data.Annotation;
 
 public class MyBankAccountBuilder {
 
@@ -13,7 +13,7 @@ public class MyBankAccountBuilder {
 			.annotation("org/axonframework/spring/stereotype/Aggregate")
 			.body();
 
-		cb.field(ClassAnnotation.annotation("org/axonframework/commandhandling/model/AggregateIdentifier"),
+		cb.field(Annotation.annotation("org/axonframework/commandhandling/model/AggregateIdentifier"),
 				"axonBankAccountId", String.class);
 		cb.field("overdraftLimit", long.class);
 		cb.field("balance", long.class);

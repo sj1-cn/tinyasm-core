@@ -4,6 +4,9 @@ import static nebula.tinyasm.util.TypeUtils.nameOf;
 
 import java.util.function.Consumer;
 
+import nebula.tinyasm.data.WithAccess;
+import nebula.tinyasm.data.WithAnnotation;
+
 public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<ClassHeader> {
 
 	default ClassHeader eXtend(Class<?> clazz, Class<?>... genericClazz) {

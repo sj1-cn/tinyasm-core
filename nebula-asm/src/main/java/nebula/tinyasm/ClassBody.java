@@ -8,6 +8,7 @@ import static nebula.tinyasm.util.TypeUtils.typeOf;
 import java.util.List;
 
 import nebula.tinyasm.data.Field;
+import nebula.tinyasm.data.WithDefineField;
 
 public interface ClassBody extends WithDefineField<ClassBody>, ClassDefineStaticMethod, ClassDefineInstanceMethod {
 

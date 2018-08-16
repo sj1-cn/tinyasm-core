@@ -13,9 +13,8 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.ClassAnnotation;
-import nebula.tinyasm.data.LocalsStack;
-import nebula.tinyasm.data.LocalsVariable;
+import nebula.tinyasm.data.Annotation;
+import nebula.tinyasm.data.GenericClazz;
 
 class MethodCodeBuilder implements MethodCode {
 	private final MethodVisitor mv;
@@ -134,7 +133,7 @@ class MethodCodeBuilder implements MethodCode {
 	}
 
 	@Override
-	public MethodCode define(ClassAnnotation annotation, String name, GenericClazz clazz) {
+	public MethodCode define(Annotation annotation, String name, GenericClazz clazz) {
 		locals.push(new LocalsVariable(annotation, name, clazz));
 		return this;
 	}

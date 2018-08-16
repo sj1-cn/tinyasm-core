@@ -14,16 +14,14 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.ClassAnnotation;
-import nebula.tinyasm.data.ClassField;
-import nebula.tinyasm.data.LocalsStack;
-import nebula.tinyasm.data.LocalsVariable;
+import nebula.tinyasm.data.Annotation;
+import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.util.ArrayListMap;
 
-class MethodHeaderBuilder implements MethodHeader<MethodCode> {
+class MethodHeaderBuilder implements MethodHeader {
 	class ThisMethod {
 		int access;
-		List<ClassAnnotation> annotations = new ArrayList<>();
+		List<Annotation> annotations = new ArrayList<>();
 		// final Type thisType;
 		String[] excptions;
 
@@ -54,7 +52,7 @@ class MethodHeaderBuilder implements MethodHeader<MethodCode> {
 
 	final List<GenericClazz> exceptions = new ArrayList<>();
 
-	public MethodHeaderBuilder(ClassBuilderImpl cv, boolean instanceMethod, Type thisType, int access, Type returnType,
+	public MethodHeaderBuilder(ClassBodyImpl cv, boolean instanceMethod, Type thisType, int access, Type returnType,
 			String methodName, String[] exceptiones) {
 		this.classVisitor = cv;
 		thisMethod = new ThisMethod();
@@ -68,25 +66,25 @@ class MethodHeaderBuilder implements MethodHeader<MethodCode> {
 	}
 //
 //	@Override
-//	public MethodHeader<MethodCode> annotation(String clazz, Object value) {
+//	public MethodHeader annotation(String clazz, Object value) {
 //		thisMethod.annotations.add(new ClassAnnotation(type, null, value));
 //		return this;
 //	}
 
 	@Override
-	public MethodHeader<MethodCode> annotation(String clazz, Object defaultValue, String[] names, Object[] values) {
-		thisMethod.annotations.add(new ClassAnnotation(clazz, defaultValue, names, values));
+	public MethodHeader annotation(String clazz, Object defaultValue, String[] names, Object[] values) {
+		thisMethod.annotations.add(new Annotation(clazz, defaultValue, names, values));
 		return this;
 	}
 
 //	@Override
-//	public MethodHeader<MethodCode> annotation(Type type, Object value) {
+//	public MethodHeader annotation(Type type, Object value) {
 //		thisMethod.annotations.add(new ClassAnnotation(type, null, value));
 //		return this;
 //	}
 //
 //	@Override
-//	public MethodHeader<MethodCode> annotation(Type type, String name, Object value) {
+//	public MethodHeader annotation(Type type, String name, Object value) {
 //		thisMethod.annotations.add(new ClassAnnotation(type, name, value));
 //		return this;
 //	}
@@ -174,7 +172,7 @@ class MethodHeaderBuilder implements MethodHeader<MethodCode> {
 		return new MethodCodeBuilder(mv, this, mhLocals);
 	}
 
-	public static void visitAnnotation(MethodVisitor mv, ClassAnnotation annotation) {
+	public static void visitAnnotation(MethodVisitor mv, Annotation annotation) {
 		AnnotationVisitor av0 = mv.visitAnnotation(annotation.getDescriptor(), true);
 		if (annotation.defaultValue != null) {
 			av0.visit("value", annotation.defaultValue);
@@ -187,7 +185,7 @@ class MethodHeaderBuilder implements MethodHeader<MethodCode> {
 		av0.visitEnd();
 	}
 
-	public static void visitParameterAnnotation(MethodVisitor mv, int parameter, ClassAnnotation annotation) {
+	public static void visitParameterAnnotation(MethodVisitor mv, int parameter, Annotation annotation) {
 		AnnotationVisitor av0 = mv.visitParameterAnnotation(parameter, annotation.getDescriptor(), true);
 		if (annotation.defaultValue != null) {
 			av0.visit("value", annotation.defaultValue);
@@ -201,20 +199,20 @@ class MethodHeaderBuilder implements MethodHeader<MethodCode> {
 	}
 
 	@Override
-	public MethodHeader<MethodCode> annotation(ClassAnnotation annotation) {
+	public MethodHeader annotation(Annotation annotation) {
 		thisMethod.annotations.add(annotation);
 		return this;
 	}
 
 	@Override
-	public MethodHeader<MethodCode> parameter(String name, GenericClazz clazz) {
+	public MethodHeader parameter(String name, GenericClazz clazz) {
 		LocalsVariable param = new LocalsVariable(name, clazz);
 		thisMethod.params.push(param.name, param);
 		return this;
 	}
 
 	@Override
-	public MethodHeader<MethodCode> parameter(ClassAnnotation annotation, String name, GenericClazz clazz) {
+	public MethodHeader parameter(Annotation annotation, String name, GenericClazz clazz) {
 		LocalsVariable param = new LocalsVariable(annotation, name, clazz);
 		thisMethod.params.push(param.name, param);
 		return this;
@@ -252,7 +250,7 @@ class MethodHeaderBuilder implements MethodHeader<MethodCode> {
 		}
 
 		assert this.mv != null;
-		for (ClassAnnotation annotation : thisMethod.annotations) {
+		for (Annotation annotation : thisMethod.annotations) {
 			visitAnnotation(this.mv, annotation);
 		}
 		for (int i = 0; i < thisMethod.params.size(); i++) {
@@ -279,13 +277,13 @@ class MethodHeaderBuilder implements MethodHeader<MethodCode> {
 	}
 
 	@Override
-	public MethodHeader<MethodCode> reTurn(String clazz) {
+	public MethodHeader reTurn(String clazz) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public MethodHeader<MethodCode> tHrow(String... clazzes) {
+	public MethodHeader tHrow(String... clazzes) {
 		for (String clazz : clazzes) {
 			exceptions.add(new GenericClazz(clazz, null));
 		}

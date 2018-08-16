@@ -13,12 +13,12 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.ClassAnnotation;
-import nebula.tinyasm.data.ClassField;
+import nebula.tinyasm.data.Annotation;
 import nebula.tinyasm.data.Field;
+import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.util.ArrayListMap;
 
-class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
+class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	ArrayListMap<ClassField> fields = new ArrayListMap<>();
 
@@ -28,7 +28,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	final private Type thisType;
 
-	ClassBuilderImpl(ClassVisitor cv, ClassHeaderImpl header) {
+	ClassBodyImpl(ClassVisitor cv, ClassHeaderImpl header) {
 		super(Opcodes.ASM5, cv);
 
 		this.thisType = typeOf(header.name);
@@ -57,7 +57,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		}
 		cv.visitSource(toSimpleName(this.thisType.getClassName()) + ".java", null);
 
-		for (ClassAnnotation annotation : header.annotations) {
+		for (Annotation annotation : header.annotations) {
 			visitAnnotation(annotation);
 		}
 	}
@@ -68,7 +68,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public ClassBuilderImpl end() {
+	public ClassBodyImpl end() {
 		cv.visitEnd();
 		hadEnd = true;
 		return this;
@@ -110,7 +110,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public ClassBody field(int access, ClassAnnotation annotation, String name, GenericClazz clazz) {
+	public ClassBody field(int access, Annotation annotation, String name, GenericClazz clazz) {
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		fields.push(field1.name, field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
@@ -130,13 +130,12 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public MethodHeader<MethodCode> mvMethod(int access, Type returnType, String methodName, String... exceptions) {
+	public MethodHeader mvMethod(int access, Type returnType, String methodName, String... exceptions) {
 		return new MethodHeaderBuilder(this, true, thisType, access, returnType, methodName, exceptions);
 	}
 
 	@Override
-	public MethodHeader<MethodCode> mvStaticMethod(int access, Type returnType, String methodName,
-			String[] exceptionClasses) {
+	public MethodHeader mvStaticMethod(int access, Type returnType, String methodName, String[] exceptionClasses) {
 		return new MethodHeaderBuilder(this, false, thisType, access, returnType, methodName, exceptionClasses);
 	}
 
@@ -160,7 +159,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		return null;
 	}
 
-	void visitAnnotation(ClassAnnotation annotation) {
+	void visitAnnotation(Annotation annotation) {
 		AnnotationVisitor av0 = cv.visitAnnotation(typeOf(annotation.clazz).getDescriptor(), true);
 		if (annotation.defaultValue != null) {
 			AnnotationVisitor av1 = av0.visitArray("value");

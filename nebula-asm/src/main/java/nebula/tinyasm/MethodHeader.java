@@ -4,21 +4,24 @@ import static nebula.tinyasm.util.TypeUtils.nameOf;
 
 import java.util.function.Consumer;
 
-public interface MethodHeader<MC> extends WithDefineParameter<MethodHeader<MC>>, WithAnnotation<MethodHeader<MC>> {
-	MC begin();
+import nebula.tinyasm.data.WithAnnotation;
+import nebula.tinyasm.data.WithDefineParameter;
 
-	default MethodHeader<MC> tHrow(Class<?>... clazz) {
+public interface MethodHeader extends WithDefineParameter<MethodHeader>, WithAnnotation<MethodHeader> {
+	MethodCode begin();
+
+	default MethodHeader tHrow(Class<?>... clazz) {
 		return tHrow(nameOf(clazz));
 	}
 
-	MethodHeader<MC> tHrow(String... clazz);
+	MethodHeader tHrow(String... clazz);
 
-	default MethodHeader<MC> reTurn(Class<?> clazz) {
+	default MethodHeader reTurn(Class<?> clazz) {
 		return reTurn(nameOf(clazz));
 	}
 
-	MethodHeader<MC> reTurn(String clazz);
+	MethodHeader reTurn(String clazz);
 
-	void code(Consumer<MC> invocation);
+	void code(Consumer<MethodCode> invocation);
 
 }

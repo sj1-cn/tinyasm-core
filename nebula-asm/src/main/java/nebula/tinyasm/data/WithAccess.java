@@ -1,4 +1,4 @@
-package nebula.tinyasm;
+package nebula.tinyasm.data;
 
 import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
 import static org.objectweb.asm.Opcodes.ACC_ANNOTATION;

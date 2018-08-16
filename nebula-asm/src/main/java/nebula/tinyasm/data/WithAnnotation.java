@@ -1,8 +1,6 @@
-package nebula.tinyasm;
+package nebula.tinyasm.data;
 
 import static nebula.tinyasm.util.TypeUtils.nameOf;
-
-import nebula.tinyasm.data.ClassAnnotation;
 
 public interface WithAnnotation<B> {
 
@@ -23,10 +21,10 @@ public interface WithAnnotation<B> {
 	}
 
 	default B annotation(String clazz, Object value, String[] names, Object[] values) {
-		return annotation(ClassAnnotation.annotation(clazz, value, names, values));
+		return annotation(Annotation.annotation(clazz, value, names, values));
 	}
 
-	B annotation(ClassAnnotation annotation);
+	B annotation(Annotation annotation);
 
 	default B annotation(String clazz, String[] names, Object[] values) {
 		return annotation(clazz, null, names, values);

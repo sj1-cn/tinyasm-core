@@ -1,4 +1,4 @@
-package nebula.tinyasm.data;
+package nebula.tinyasm;
 
 import static nebula.tinyasm.util.TypeUtils.arrayOf;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
@@ -7,7 +7,8 @@ import java.util.List;
 
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.GenericClazz;
+import nebula.tinyasm.data.Field;
+import nebula.tinyasm.data.GenericClazz;
 
 public class ClassField extends Field {
 	public ClassField(int access, String name, GenericClazz clazz, Object defaultValue) {

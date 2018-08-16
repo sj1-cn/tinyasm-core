@@ -1,15 +1,16 @@
-package nebula.tinyasm.data;
+package nebula.tinyasm;
 
 import org.objectweb.asm.Label;
 
-import nebula.tinyasm.GenericClazz;
+import nebula.tinyasm.data.Annotation;
+import nebula.tinyasm.data.GenericClazz;
 
-public class LocalsVariable extends ClassField {
+class LocalsVariable extends ClassField {
 	public Label startFrom;
 
 	public Object value;
 
-	public ClassAnnotation annotation;
+	public Annotation annotation;
 
 	public LocalsVariable(ClassField field, Label startFrom) {
 		super(field.access, field.name, field.clazz, null);
@@ -20,7 +21,7 @@ public class LocalsVariable extends ClassField {
 		super(0, name, clazz, null);
 	}
 
-	public LocalsVariable(ClassAnnotation annotation, String name, GenericClazz clazz) {
+	public LocalsVariable(Annotation annotation, String name, GenericClazz clazz) {
 		super(0, name, clazz, null);
 		this.annotation = annotation;
 	}

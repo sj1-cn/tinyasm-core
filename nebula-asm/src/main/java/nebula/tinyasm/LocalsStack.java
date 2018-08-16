@@ -1,11 +1,11 @@
-package nebula.tinyasm.data;
+package nebula.tinyasm;
 
 import org.objectweb.asm.Label;
 
-import nebula.tinyasm.GenericClazz;
+import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.util.ArrayListMap;
 
-public class LocalsStack extends ArrayListMap<LocalsVariable> {
+class LocalsStack extends ArrayListMap<LocalsVariable> {
 
 	int top = 0;
 

@@ -8,20 +8,10 @@ import java.util.function.Consumer;
 
 import org.objectweb.asm.ClassVisitor;
 
-import nebula.tinyasm.data.ClassAnnotation;
+import nebula.tinyasm.data.Annotation;
+import nebula.tinyasm.data.GenericClazz;
 
-public class ClassHeaderImpl implements ClassHeader {
-
-	static class Annotation {
-		String clazz;
-		Object value;
-
-		public Annotation(String clazz, Object value) {
-			this.clazz = clazz;
-			this.value = value;
-		}
-	}
-
+class ClassHeaderImpl implements ClassHeader {
 	final String name;
 	GenericClazz clazz;
 
@@ -29,11 +19,11 @@ public class ClassHeaderImpl implements ClassHeader {
 
 	int access;
 	final ClassVisitor cv;
-	final List<ClassAnnotation> annotations = new ArrayList<>();
+	final List<Annotation> annotations = new ArrayList<>();
 
 	final List<GenericClazz> interfaces = new ArrayList<>();
 
-	ClassBuilderImpl classBuilderImpl;
+	ClassBodyImpl classBuilderImpl;
 
 	public ClassHeaderImpl(ClassVisitor cv, String name) {
 		super();
@@ -62,7 +52,7 @@ public class ClassHeaderImpl implements ClassHeader {
 	}
 
 	@Override
-	public ClassHeader annotation(ClassAnnotation annotation) {
+	public ClassHeader annotation(Annotation annotation) {
 		annotations.add(annotation);
 		return this;
 	}
@@ -115,7 +105,7 @@ public class ClassHeaderImpl implements ClassHeader {
 			this.eXtend(Object.class);
 		}
 
-		classBuilderImpl = new ClassBuilderImpl(cv, this);
+		classBuilderImpl = new ClassBodyImpl(cv, this);
 		return classBuilderImpl;
 	}
 
