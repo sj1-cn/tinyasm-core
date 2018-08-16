@@ -92,7 +92,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
+public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode> {
 
 	void codeAccessLabel(Label label);
 
@@ -1580,7 +1580,7 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	}
 
-	C block(Consumer<C> invocation);
+	MethodCode block(Consumer<MethodCode> invocation);
 
 //	@Override
 //	default C define(String fieldName, Class<?> clz) {

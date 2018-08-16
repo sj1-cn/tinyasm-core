@@ -17,33 +17,37 @@ import nebula.tinyasm.data.ClassAnnotation;
 import nebula.tinyasm.data.LocalsStack;
 import nebula.tinyasm.data.LocalsVariable;
 
-abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCode<MC> {
+class MethodCodeBuilder implements MethodCode {
 	private final MethodVisitor mv;
 
 	final protected LocalsStack locals;
 	final Stack<Type> stack = new Stack<>();
-	final MethodHeaderBuilder<MC> mh;
+	final MethodHeaderBuilder mh;
 
 	int lastLineNumber = 0;
 
 	protected Label labelCurrent;
 	protected boolean labelHasDefineBegin;
 
-	public MethodCodeBuilder(MethodVisitor mv, MethodHeaderBuilder<MC> mh, LocalsStack locals) {
+	public MethodCodeBuilder(MethodVisitor mv, MethodHeaderBuilder mh, LocalsStack locals) {
 		this.mv = mv;
 		this.mh = mh;
 		this.locals = locals;
 		this.labelHasDefineBegin = mh.labelHasDefineBegin;
 		this.labelCurrent = mh.labelCurrent;
 	}
+//
+//	@Override
+//	public Type codeThisFieldType(String name) {
+//		assert this.fields.containsKey(name) : "field + " + name + " not exist!";
+//		return this.fields.get(name).type;
+//	}
 
 	@Override
-	public MC block(Consumer<MC> invocation) {
-		invocation.accept(code());
-		return code();
+	public MethodCode block(Consumer<MethodCode> invocation) {
+		invocation.accept(this);
+		return this;
 	}
-
-	abstract public MC code();
 
 	@Override
 	public void codeAccessLabel(Label label) {
@@ -95,7 +99,13 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 
 	@Override
 	public Type codeThisFieldType(String name) {
-		throw new UnsupportedOperationException();
+		if (mh.thisMethod.instanceMethod) {
+			assert mh.thisMethod.fields.containsKey(name) : "field + " + name + " not exist!";
+			return mh.thisMethod.fields.get(name).type;
+		} else {
+			throw new UnsupportedOperationException();
+		}
+
 	}
 
 	@Override
@@ -118,15 +128,15 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 	}
 
 	@Override
-	public MC define(String name, GenericClazz clazz) {
+	public MethodCode define(String name, GenericClazz clazz) {
 		locals.push(new LocalsVariable(name, clazz));
-		return code();
+		return this;
 	}
 
 	@Override
-	public MC define(ClassAnnotation annotation, String name, GenericClazz clazz) {
-		locals.push(new LocalsVariable(annotation,name, clazz));
-		return code();
+	public MethodCode define(ClassAnnotation annotation, String name, GenericClazz clazz) {
+		locals.push(new LocalsVariable(annotation, name, clazz));
+		return this;
 	}
 
 	@Override
@@ -141,7 +151,7 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 		return label;
 	}
 
-	public MC line() {
+	public MethodCode line() {
 		Label label;
 		if (!labelHasDefineBegin) {
 			label = new Label();
@@ -152,10 +162,10 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 		}
 		lastLineNumber = lastLineNumber + 1;
 		mv.visitLineNumber(lastLineNumber, label);
-		return code();
+		return this;
 	}
 
-	public MC line(int line) {
+	public MethodCode line(int line) {
 		Label label;
 		if (!labelHasDefineBegin) {
 			label = new Label();
@@ -166,7 +176,7 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 		}
 		lastLineNumber = line;
 		mv.visitLineNumber(line, label);
-		return code();
+		return this;
 	}
 
 	public void mvAnnotation(MethodVisitor mv, Type annotationType, String name, Object value) {

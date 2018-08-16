@@ -1,6 +1,7 @@
 package nebula.tinyasm.help;
 
 import static nebula.tinyasm.util.AsmBuilder.toPropertyGetName;
+import static nebula.tinyasm.util.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 
@@ -9,8 +10,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import static nebula.tinyasm.util.TypeUtils.*;
 
 import nebula.tinyasm.data.Field;
 

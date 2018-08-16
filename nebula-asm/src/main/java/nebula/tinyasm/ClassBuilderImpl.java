@@ -16,7 +16,6 @@ import org.objectweb.asm.Type;
 import nebula.tinyasm.data.ClassAnnotation;
 import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.Field;
-import nebula.tinyasm.data.LocalsVariable;
 import nebula.tinyasm.util.ArrayListMap;
 
 class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
@@ -82,7 +81,7 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Field> List<T> getFields() {
-		return (List<T>)this.fields.list();
+		return (List<T>) this.fields.list();
 	}
 
 	@Override
@@ -130,17 +129,15 @@ class ClassBuilderImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		return this;
 	}
 
-
 	@Override
-	public MethodHeader<MethodCodeInstance> mvMethod(int access, Type returnType, String methodName,
-			String... exceptions) {
-		return new MethodHeaderInstanceBuilder(this, thisType, access, returnType, methodName, exceptions);
+	public MethodHeader<MethodCode> mvMethod(int access, Type returnType, String methodName, String... exceptions) {
+		return new MethodHeaderBuilder(this, true, thisType, access, returnType, methodName, exceptions);
 	}
 
 	@Override
-	public MethodHeader<MethodCodeStatic> mvStaticMethod(int access, Type returnType, String methodName,
+	public MethodHeader<MethodCode> mvStaticMethod(int access, Type returnType, String methodName,
 			String[] exceptionClasses) {
-		return new MethodHeaderStaticBuilder(this, thisType, access, returnType, methodName, exceptionClasses);
+		return new MethodHeaderBuilder(this, false, thisType, access, returnType, methodName, exceptionClasses);
 	}
 
 	@Override
