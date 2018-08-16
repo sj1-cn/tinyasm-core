@@ -1,4 +1,4 @@
-package nebula.tinyasm.help;
+package nebula.tinyasm.analyze;
 
 public class Lamba {
 //	public static ClassBody invokeConsumer(String objectType, String parentType, String consumeType, String fieldName,

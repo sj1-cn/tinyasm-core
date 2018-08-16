@@ -14,9 +14,9 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.data.Annotation;
+import nebula.tinyasm.data.ArrayListMap;
 import nebula.tinyasm.data.Field;
 import nebula.tinyasm.data.GenericClazz;
-import nebula.tinyasm.util.ArrayListMap;
 
 class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 

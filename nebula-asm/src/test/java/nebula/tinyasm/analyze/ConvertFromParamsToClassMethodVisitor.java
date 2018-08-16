@@ -1,4 +1,4 @@
-package nebula.tinyasm.help;
+package nebula.tinyasm.analyze;
 
 import static nebula.tinyasm.util.AsmBuilder.toPropertyGetName;
 import static nebula.tinyasm.util.TypeUtils.typeOf;

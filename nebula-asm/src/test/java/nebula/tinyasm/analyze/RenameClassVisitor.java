@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nebula.tinyasm.help;
+package nebula.tinyasm.analyze;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
