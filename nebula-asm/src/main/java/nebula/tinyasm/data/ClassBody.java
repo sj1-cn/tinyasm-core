@@ -1,4 +1,4 @@
-package nebula.tinyasm;
+package nebula.tinyasm.data;
 
 import static nebula.tinyasm.util.TypeUtils.stringInnerUserType;
 import static nebula.tinyasm.util.TypeUtils.toPropertyGetName;
@@ -7,8 +7,7 @@ import static nebula.tinyasm.util.TypeUtils.typeOf;
 
 import java.util.List;
 
-import nebula.tinyasm.data.Field;
-import nebula.tinyasm.data.WithDefineField;
+import nebula.tinyasm.ClassBuilder;
 
 public interface ClassBody extends WithDefineField<ClassBody>, ClassDefineStaticMethod, ClassDefineInstanceMethod {
 

@@ -9,6 +9,8 @@ import java.util.function.Consumer;
 import org.objectweb.asm.ClassVisitor;
 
 import nebula.tinyasm.data.Annotation;
+import nebula.tinyasm.data.ClassBody;
+import nebula.tinyasm.data.ClassHeader;
 import nebula.tinyasm.data.GenericClazz;
 
 class ClassHeaderImpl implements ClassHeader {

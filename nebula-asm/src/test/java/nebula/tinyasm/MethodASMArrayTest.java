@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.objectweb.asm.Label;
 
+import nebula.tinyasm.data.ClassBody;
+
 public class MethodASMArrayTest extends TestBase {
 
 	@Before

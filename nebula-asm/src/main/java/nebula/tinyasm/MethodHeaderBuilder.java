@@ -17,6 +17,8 @@ import org.objectweb.asm.Type;
 import nebula.tinyasm.data.Annotation;
 import nebula.tinyasm.data.ArrayListMap;
 import nebula.tinyasm.data.GenericClazz;
+import nebula.tinyasm.data.MethodCode;
+import nebula.tinyasm.data.MethodHeader;
 
 class MethodHeaderBuilder implements MethodHeader {
 	class ThisMethod {

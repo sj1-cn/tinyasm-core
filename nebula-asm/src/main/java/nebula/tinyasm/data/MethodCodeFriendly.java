@@ -1,8 +1,6 @@
-package nebula.tinyasm;
+package nebula.tinyasm.data;
 
-import nebula.tinyasm.data.WithDefineVar;
-
-interface MethodCodeFriendly<C> extends WithDefineVar<C>{
+public interface MethodCodeFriendly<C> extends WithDefineVar<C>{
 
 //	C define(String fieldName, Class<?> clz);
 //

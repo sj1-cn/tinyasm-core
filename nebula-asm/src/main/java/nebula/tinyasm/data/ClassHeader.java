@@ -1,11 +1,10 @@
-package nebula.tinyasm;
+package nebula.tinyasm.data;
 
 import static nebula.tinyasm.util.TypeUtils.nameOf;
 
 import java.util.function.Consumer;
 
-import nebula.tinyasm.data.WithAccess;
-import nebula.tinyasm.data.WithAnnotation;
+import nebula.tinyasm.ClassBuilder;
 
 public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<ClassHeader> {
 

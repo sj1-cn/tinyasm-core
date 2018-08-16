@@ -1,10 +1,10 @@
-package nebula.tinyasm;
+package nebula.tinyasm.data;
 
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 
-interface MethodCodeASM {
+public interface MethodCodeASM {
 	void LOADThis();
 
 	void LOAD(String name);

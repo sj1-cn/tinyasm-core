@@ -15,8 +15,9 @@ import org.objectweb.asm.Type;
 
 import nebula.tinyasm.data.Annotation;
 import nebula.tinyasm.data.GenericClazz;
+import nebula.tinyasm.data.MethodCode;
 
-class MethodCodeBuilder implements MethodCode {
+public class MethodCodeBuilder implements MethodCode {
 	private final MethodVisitor mv;
 
 	final protected LocalsStack locals;

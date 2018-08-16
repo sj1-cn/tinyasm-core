@@ -1,11 +1,8 @@
-package nebula.tinyasm;
+package nebula.tinyasm.data;
 
 import static nebula.tinyasm.util.TypeUtils.nameOf;
 
 import java.util.function.Consumer;
-
-import nebula.tinyasm.data.WithAnnotation;
-import nebula.tinyasm.data.WithDefineParameter;
 
 public interface MethodHeader extends WithDefineParameter<MethodHeader>, WithAnnotation<MethodHeader> {
 	MethodCode begin();

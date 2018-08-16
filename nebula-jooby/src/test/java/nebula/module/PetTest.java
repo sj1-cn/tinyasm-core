@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
+import nebula.tinyasm.data.ClassBody;
 
 public class PetTest extends TestBase {
 

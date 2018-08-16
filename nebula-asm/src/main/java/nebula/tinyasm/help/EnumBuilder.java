@@ -7,8 +7,8 @@ import static nebula.tinyasm.util.TypeUtils.typeOf;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
+import nebula.tinyasm.data.ClassBody;
 
 public class EnumBuilder implements Opcodes {
 
