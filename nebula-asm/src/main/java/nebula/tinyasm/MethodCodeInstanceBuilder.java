@@ -3,13 +3,13 @@ package nebula.tinyasm;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.Field;
+import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.LocalsStack;
 import nebula.tinyasm.util.ArrayListMap;
 
 public class MethodCodeInstanceBuilder extends MethodCodeBuilder<MethodCodeInstance> implements MethodCodeInstance {
 
-	ArrayListMap<Field> fields;
+	ArrayListMap<ClassField> fields;
 
 	public MethodCodeInstanceBuilder(MethodVisitor mv, MethodHeaderBuilder<MethodCodeInstance> mh, LocalsStack locals) {
 		super(mv, mh, locals);

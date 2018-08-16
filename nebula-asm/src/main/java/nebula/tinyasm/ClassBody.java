@@ -9,11 +9,11 @@ import java.util.List;
 
 import nebula.tinyasm.data.Field;
 
-public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStaticMethod, ClassDefineInstanceMethod {
+public interface ClassBody extends WithDefineField<ClassBody>, ClassDefineStaticMethod, ClassDefineInstanceMethod {
 
 	ClassBuilder end();
 
-	List<Field> getFields();
+	<T extends Field> List<T> getFields();
 
 	String getSuperClass();
 
@@ -99,7 +99,7 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 		publicMethod("<init>").parameter(fields).code(mc -> {
 			mc.line().INITObject();
 			for (Field param : fields) {
-				mc.line().putfield("this", param.name, param.name, param.type);
+				mc.line().putfield("this", param.name, param.name, param.clazz.clazz);
 			}
 			mc.line().RETURN();
 		});
@@ -120,23 +120,21 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 
 	default ClassBody makePropertyGet(final Class<?> annotationClazz, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(typeOf(annotationClazz), null)
-			.code(mc -> {
-				mc.line().LOADThis();
-				mc.GETFIELD(fieldName, fieldClass);
-				mc.RETURNTop();
-			});
+		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz).code(mc -> {
+			mc.line().LOADThis();
+			mc.GETFIELD(fieldName, fieldClass);
+			mc.RETURNTop();
+		});
 		return this;
 	}
 
 	default ClassBody makePropertyGet(final String annotationClazz, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(typeOf(annotationClazz), null)
-			.code(mc -> {
-				mc.line().LOADThis();
-				mc.GETFIELD(fieldName, fieldClass);
-				mc.RETURNTop();
-			});
+		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz).code(mc -> {
+			mc.line().LOADThis();
+			mc.GETFIELD(fieldName, fieldClass);
+			mc.RETURNTop();
+		});
 		return this;
 	}
 
@@ -196,7 +194,7 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 
 	default ClassBody makePropertySet(final Class<?> annotationClazz, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(typeOf(annotationClazz), null)
+		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
 				mc.line().putfield("this", fieldName, fieldName, fieldClass);
@@ -207,7 +205,7 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 
 	default ClassBody makePropertySet(final String annotationClazz, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(typeOf(annotationClazz), null)
+		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
 				mc.line().putfield("this", fieldName, fieldName, fieldClass);
@@ -275,7 +273,7 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 		for (Field param : getFields()) {
 			final Field field = param;
 			String fieldClass = clazzOfField(field.name);
-			publicMethod(toPropertySetName(field.name, fieldClass)).parameter(field.name, field.type.getClassName())
+			publicMethod(toPropertySetName(field.name, fieldClass)).parameter(field.name, field.clazz.clazz)
 				.code(mc -> {
 					mc.line().putfield("this", field.name, field.name, fieldClass);
 					mc.line().RETURN();
@@ -294,7 +292,7 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 	default ClassBody makeReadonlyPojo() {
 		ClassBody cb = constructerWithAllFields();
 		cb = makeAllPropertyGet();
-		cb =   toStringWithAllFields();
+		cb = toStringWithAllFields();
 		return cb;
 	}
 
@@ -323,7 +321,7 @@ public interface ClassBody extends ClassDefineField<ClassBody>, ClassDefineStati
 					mc.GETFIELD_OF_THIS(field.name);
 
 					mc.INVOKEVIRTUAL(StringBuilder.class.getName(), StringBuilder.class.getName(), "append",
-							stringInnerUserType(field.type).getClassName());
+							stringInnerUserType(typeOf(field.clazz.clazz)).getClassName());
 				}
 				mc.LOADConst("]");
 				mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);

@@ -22,7 +22,12 @@ interface ClassDefineInstanceMethod {
 
 	default MethodHeader<MethodCodeInstance> method(int access, Class<?> returnClass, String methodName,
 			Class<?>... exceptionClasses) {
-		return mvMethod(access, Type.getType(returnClass), methodName, namesOf(exceptionClasses));
+		return mvMethod(access, typeOf(returnClass), methodName, namesOf(exceptionClasses));
+	}
+
+	default MethodHeader<MethodCodeInstance> method(int access, String returnClass, String methodName,
+			Class<?>... exceptionClasses) {
+		return mvMethod(access, typeOf(returnClass), methodName, namesOf(exceptionClasses));
 	}
 
 	default MethodHeader<MethodCodeInstance> method(String methodName) {
@@ -66,6 +71,11 @@ interface ClassDefineInstanceMethod {
 		return mvMethod(ACC_PROTECTED, typeOf(returnClass), methodName, namesOf(exceptionClasses));
 	}
 
+	default MethodHeader<MethodCodeInstance> protectdMethod(String returnClass, String methodName,
+			Class<?>... exceptionClasses) {
+		return mvMethod(ACC_PROTECTED, typeOf(returnClass), methodName, namesOf(exceptionClasses));
+	}
+
 	default MethodHeader<MethodCodeInstance> protectdMethod(String methodName) {
 		Class<?>[] exceptionClasses = {};
 		return mvMethod(ACC_PROTECTED, Type.VOID_TYPE, methodName, namesOf(exceptionClasses));
@@ -84,6 +94,11 @@ interface ClassDefineInstanceMethod {
 	}
 
 	default MethodHeader<MethodCodeInstance> publicMethod(Class<?> returnClass, String methodName,
+			Class<?>... exceptionClasses) {
+		return mvMethod(ACC_PUBLIC, typeOf(returnClass), methodName, namesOf(exceptionClasses));
+	}
+
+	default MethodHeader<MethodCodeInstance> publicMethod(String returnClass, String methodName,
 			Class<?>... exceptionClasses) {
 		return mvMethod(ACC_PUBLIC, typeOf(returnClass), methodName, namesOf(exceptionClasses));
 	}

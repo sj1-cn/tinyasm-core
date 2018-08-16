@@ -17,7 +17,7 @@ class MethodHeaderInstanceBuilder extends MethodHeaderBuilder<MethodCodeInstance
 
 	@Override
 	protected void preapareMethodWithThis() {
-		mhLocals.push("this", thisMethod.type, labelCurrent);
+		mhLocals.push("this", GenericClazz.clazz(thisMethod.type.getClassName()), labelCurrent);
 	}
 
 }

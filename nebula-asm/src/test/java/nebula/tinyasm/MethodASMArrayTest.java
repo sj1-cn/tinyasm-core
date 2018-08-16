@@ -50,6 +50,7 @@ public class MethodASMArrayTest extends TestBase {
 		cw.method("init").code(mv -> {
 			Label l0 = mv.codeNewLabel();
 			mv.codeAccessLabel(l0);
+			
 			mv.line();
 			mv.LOAD(0);
 			mv.LOADConstByte(10);
@@ -57,6 +58,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.PUTFIELD_OF_THIS("ba");
 			Label l1 = mv.codeNewLabel();
 			mv.codeAccessLabel(l1);
+			
 			mv.line();
 			mv.LOAD(0);
 			mv.LOADConstByte(10);
@@ -64,6 +66,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.PUTFIELD_OF_THIS("ca");
 			Label l2 = mv.codeNewLabel();
 			mv.codeAccessLabel(l2);
+			
 			mv.line();
 			mv.LOAD(0);
 			mv.LOADConstByte(10);
@@ -71,6 +74,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.PUTFIELD_OF_THIS("sa");
 			Label l3 = mv.codeNewLabel();
 			mv.codeAccessLabel(l3);
+			
 			mv.line();
 			mv.LOAD(0);
 			mv.LOADConstByte(10);
@@ -78,6 +82,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.PUTFIELD_OF_THIS("ia");
 			Label l4 = mv.codeNewLabel();
 			mv.codeAccessLabel(l4);
+			
 			mv.line();
 			mv.LOAD(0);
 			mv.LOADConstByte(10);
@@ -85,6 +90,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.PUTFIELD_OF_THIS("la");
 			Label l5 = mv.codeNewLabel();
 			mv.codeAccessLabel(l5);
+			
 			mv.line();
 			mv.LOAD(0);
 			mv.LOADConstByte(10);
@@ -92,6 +98,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.PUTFIELD_OF_THIS("fa");
 			Label l6 = mv.codeNewLabel();
 			mv.codeAccessLabel(l6);
+			
 			mv.line();
 			mv.LOAD(0);
 			mv.LOADConstByte(10);
@@ -99,6 +106,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.PUTFIELD_OF_THIS("da");
 			Label l7 = mv.codeNewLabel();
 			mv.codeAccessLabel(l7);
+			
 			mv.line();
 			mv.LOAD(0);
 			mv.LOADConstByte(10);
@@ -106,6 +114,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.PUTFIELD_OF_THIS("stra");
 			Label l8 = mv.codeNewLabel();
 			mv.codeAccessLabel(l8);
+			
 			mv.line();
 			mv.RETURN();
 			Label l9 = mv.codeNewLabel();

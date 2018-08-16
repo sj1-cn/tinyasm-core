@@ -2,6 +2,8 @@ package nebula.tinyasm;
 
 import org.objectweb.asm.Label;
 
+import nebula.tinyasm.data.ClassAnnotation;
+
 public class MyBankAccountBuilder {
 
 	public static byte[] dump() throws Exception {
@@ -11,8 +13,8 @@ public class MyBankAccountBuilder {
 			.annotation("org/axonframework/spring/stereotype/Aggregate")
 			.body();
 
-		cb.fieldWithAnnotation("org/axonframework/commandhandling/model/AggregateIdentifier", "axonBankAccountId",
-				String.class);
+		cb.field(ClassAnnotation.annotation("org/axonframework/commandhandling/model/AggregateIdentifier"),
+				"axonBankAccountId", String.class);
 		cb.field("overdraftLimit", long.class);
 		cb.field("balance", long.class);
 
@@ -66,7 +68,7 @@ public class MyBankAccountBuilder {
 
 				mc.line(51).LOADThis();
 				mc.LOAD("amount");
-				mc.INVOKESPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", null, "onMoneySubtracted", long.class);
+				mc.INVOKESPECIAL( "com.nebula.cqrs.core.asm.MyBankAccount", null, "onMoneySubtracted", long.class);
 				mc.line(52).LOADConstByte(1);
 				mc.RETURNTop();
 

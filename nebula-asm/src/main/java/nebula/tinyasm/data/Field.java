@@ -1,19 +1,19 @@
 package nebula.tinyasm.data;
 
-import org.objectweb.asm.Type;
+import nebula.tinyasm.GenericClazz;
 
 public class Field {
-	public Field(String name, Type type) {
+	public Field(String name, GenericClazz generic) {
 		this.name = name;
-		this.type = type;
+		this.clazz = generic;
 	}
 
 	@Override
 	public String toString() {
-		return "Field [name=" + name + ", type=" + type + "]";
+		return "Field [name=" + name + ", type=" + clazz + "]";
 	}
 
 	public String name;
-	final public Type type;
+	final public GenericClazz clazz;
 	public boolean identifier;
 }

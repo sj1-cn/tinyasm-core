@@ -1,5 +1,6 @@
 package nebula.tinyasm;
 
+import static nebula.tinyasm.util.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.BIPUSH;
 import static org.objectweb.asm.Opcodes.ICONST_0;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
@@ -12,9 +13,9 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.data.ClassAnnotation;
 import nebula.tinyasm.data.LocalsStack;
 import nebula.tinyasm.data.LocalsVariable;
-import nebula.tinyasm.data.LocalsVariable.VarType;
 
 abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCode<MC> {
 	private final MethodVisitor mv;
@@ -89,7 +90,7 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 
 	@Override
 	public Type codeLocalStoreAccessType(String name) {
-		return locals.accessStore(name, labelCurrent).type;
+		return typeOf(locals.accessStore(name, labelCurrent).clazz.clazz);
 	}
 
 	@Override
@@ -117,9 +118,14 @@ abstract class MethodCodeBuilder<MC extends MethodCode<MC>> implements MethodCod
 	}
 
 	@Override
-	public MC vmVar(String name, Type type, String signature) {
-		locals.push(new LocalsVariable(VarType.LOCAL, name, type, signature));
-//		recomputerLocals();
+	public MC define(String name, GenericClazz clazz) {
+		locals.push(new LocalsVariable(name, clazz));
+		return code();
+	}
+
+	@Override
+	public MC define(ClassAnnotation annotation, String name, GenericClazz clazz) {
+		locals.push(new LocalsVariable(annotation,name, clazz));
 		return code();
 	}
 

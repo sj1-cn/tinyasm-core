@@ -202,7 +202,7 @@ public class ClassBodyTest extends TestBase {
 	@Test
 	public void testMakePojo() throws IOException {
 		String clazz = MakePojo.class.getName();
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.make(clazz).annotation(TestAnnotation.class).body();
 		cw.field("b", byte.class);
 		cw.field("c", char.class);
 		cw.field("s", short.class);

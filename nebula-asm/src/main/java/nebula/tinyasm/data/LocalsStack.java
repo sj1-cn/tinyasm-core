@@ -1,9 +1,8 @@
 package nebula.tinyasm.data;
 
 import org.objectweb.asm.Label;
-import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.LocalsVariable.VarType;
+import nebula.tinyasm.GenericClazz;
 import nebula.tinyasm.util.ArrayListMap;
 
 public class LocalsStack extends ArrayListMap<LocalsVariable> {
@@ -47,7 +46,7 @@ public class LocalsStack extends ArrayListMap<LocalsVariable> {
 		top += value.type.getSize();
 	}
 
-	public void push(String name, Type type, Label label) {
-		push(new LocalsVariable(VarType.LOCAL, name, type, null, label));
+	public void push(String name, GenericClazz clazz, Label label) {
+		push(new LocalsVariable(name, clazz, label));
 	}
 }

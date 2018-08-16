@@ -4,7 +4,6 @@ import static nebula.tinyasm.util.TypeUtils.arrayOf;
 import static nebula.tinyasm.util.TypeUtils.arrayTyoeCodeOf;
 import static nebula.tinyasm.util.TypeUtils.checkMathTypes;
 import static nebula.tinyasm.util.TypeUtils.in;
-import static nebula.tinyasm.util.TypeUtils.signatureOf;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ALOAD;
@@ -1583,57 +1582,57 @@ public interface MethodCode<C> extends MethodCodeASM, MethodCodeFriendly<C> {
 
 	C block(Consumer<C> invocation);
 
-	@Override
-	default C define(String fieldName, Class<?> clz) {
-		return vmVar(fieldName, typeOf(clz), null);
-	}
-
-	@Override
-	default C define(String fieldName, Class<?> clz, boolean isarray) {
-		return vmVar(fieldName, typeOf(clz), null);
-	}
-
-	@Override
-	default C define(String fieldName, Class<?> clz, boolean isarray, Class<?>... signatureClasses) {
-		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
-	}
-
-	@Override
-	default C define(String fieldName, Class<?> clz, Class<?>... signatureClasses) {
-		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
-	}
-
-	@Override
-	default C define(String fieldName, String clz) {
-		return vmVar(fieldName, typeOf(clz), null);
-	}
-
-	@Override
-	default C define(String fieldName, String clz, boolean isarray) {
-		return vmVar(fieldName, typeOf(clz, isarray), null);
-	}
-
-	@Override
-	default C define(String fieldName, String clz, boolean isarray, Class<?>... signatureClasses) {
-		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
-	}
-
-	@Override
-	default C define(String fieldName, String clz, boolean isarray, String... signatureClasses) {
-		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
-	}
-
-	@Override
-	default C define(String fieldName, String clz, Class<?>... signatureClasses) {
-		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
-	}
-
-	@Override
-	default C define(String fieldName, String clz, String... signatureClasses) {
-		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
-	}
-
-	C vmVar(String fieldName, Type fieldType, String signature);
+//	@Override
+//	default C define(String fieldName, Class<?> clz) {
+//		return vmVar(fieldName, typeOf(clz), null);
+//	}
+//
+//	@Override
+//	default C define(String fieldName, Class<?> clz, boolean isarray) {
+//		return vmVar(fieldName, typeOf(clz), null);
+//	}
+//
+//	@Override
+//	default C define(String fieldName, Class<?> clz, boolean isarray, Class<?>... signatureClasses) {
+//		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
+//	}
+//
+//	@Override
+//	default C define(String fieldName, Class<?> clz, Class<?>... signatureClasses) {
+//		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
+//	}
+//
+//	@Override
+//	default C define(String fieldName, String clz) {
+//		return vmVar(fieldName, typeOf(clz), null);
+//	}
+//
+//	@Override
+//	default C define(String fieldName, String clz, boolean isarray) {
+//		return vmVar(fieldName, typeOf(clz, isarray), null);
+//	}
+//
+//	@Override
+//	default C define(String fieldName, String clz, boolean isarray, Class<?>... signatureClasses) {
+//		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
+//	}
+//
+//	@Override
+//	default C define(String fieldName, String clz, boolean isarray, String... signatureClasses) {
+//		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
+//	}
+//
+//	@Override
+//	default C define(String fieldName, String clz, Class<?>... signatureClasses) {
+//		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
+//	}
+//
+//	@Override
+//	default C define(String fieldName, String clz, String... signatureClasses) {
+//		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
+//	}
+//
+//	C vmVar(String fieldName, Type fieldType, String signature);
 
 	void end();
 

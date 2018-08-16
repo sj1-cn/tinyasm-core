@@ -19,7 +19,6 @@ import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.Field;
 import nebula.tinyasm.data.LocalsStack;
 import nebula.tinyasm.data.LocalsVariable;
-import nebula.tinyasm.data.LocalsVariable.VarType;
 import nebula.tinyasm.util.ArrayListMap;
 
 abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodHeader<MC> {
@@ -31,24 +30,12 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 		String name;
 
-		List<ClassAnnotation> parameterAnnotations = new ArrayList<>(10);
-
-		ArrayListMap<ClassField> params = new ArrayListMap<>();
-		ArrayListMap<Field> fields;
+		ArrayListMap<LocalsVariable> params = new ArrayListMap<>();
+		ArrayListMap<ClassField> fields;
 
 		Type returnType;
 		Type type;
 		boolean hasEnded = false;
-	}
-
-	public static void visitParameterAnnotation(MethodVisitor mv, int parameter, Type annotationType, Object value) {
-		AnnotationVisitor av0 = mv.visitParameterAnnotation(parameter, annotationType.getDescriptor(), true);
-		if (value != null) {
-			AnnotationVisitor av1 = av0.visitArray("value");
-			av1.visit(null, value);
-			av1.visitEnd();
-		}
-		av0.visitEnd();
 	}
 
 	ThisMethod thisMethod;
@@ -65,6 +52,8 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 	MethodVisitor mv;
 
+	final List<GenericClazz> exceptions = new ArrayList<>();
+
 	public MethodHeaderBuilder(ClassBuilderImpl cv, Type thisType, int access, Type returnType, String methodName,
 			String[] exceptiones) {
 		this.classVisitor = cv;
@@ -74,20 +63,32 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 		thisMethod.returnType = returnType;
 		thisMethod.excptions = exceptiones;
 		thisMethod.type = thisType;
-		thisMethod.fields = cv.fields ;
+		thisMethod.fields = cv.fields;
 	}
+//
+//	@Override
+//	public MethodHeader<MC> annotation(String clazz, Object value) {
+//		thisMethod.annotations.add(new ClassAnnotation(type, null, value));
+//		return this;
+//	}
 
 	@Override
-	public MethodHeader<MC> annotation(Type type, Object value) {
-		thisMethod.annotations.add(new ClassAnnotation(type, null, value));
+	public MethodHeader<MC> annotation(String clazz, Object defaultValue, String[] names, Object[] values) {
+		thisMethod.annotations.add(new ClassAnnotation(clazz, defaultValue, names, values));
 		return this;
 	}
 
-	@Override
-	public MethodHeader<MC> annotation(Type type, String name, Object value) {
-		thisMethod.annotations.add(new ClassAnnotation(type, name, value));
-		return this;
-	}
+//	@Override
+//	public MethodHeader<MC> annotation(Type type, Object value) {
+//		thisMethod.annotations.add(new ClassAnnotation(type, null, value));
+//		return this;
+//	}
+//
+//	@Override
+//	public MethodHeader<MC> annotation(Type type, String name, Object value) {
+//		thisMethod.annotations.add(new ClassAnnotation(type, name, value));
+//		return this;
+//	}
 
 	@Override
 	public MC begin() {
@@ -110,6 +111,23 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 	void codeEnd() {
 		finishMethod();
+	}
+
+	protected void finishMethod() {
+		if (thisMethod.hasEnded) return;
+		Label endLabel = this.labelWithoutLineNumber();
+		for (LocalsVariable var : mhLocals) {
+			if (!is(var.access, ACC_SYNTHETIC)) {
+				assert mv != null;
+				assert var != null;
+				assert var.clazz.getDescriptor() != null;
+				mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), var.startFrom,
+						endLabel, var.locals);
+			}
+		}
+		mv.visitMaxs(0, 0);
+		mv.visitEnd();
+		thisMethod.hasEnded = true;
 	}
 
 	protected Type getStackTopType() {
@@ -153,113 +171,91 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 	abstract MC makeCode(MethodVisitor mv);
 
-	protected void finishMethod() {
-		if (thisMethod.hasEnded) return;
-		Label endLabel = this.labelWithoutLineNumber();
-		for (LocalsVariable var : mhLocals) {
-			if (!is(var.access, ACC_SYNTHETIC)) {
-				assert mv != null;
-				assert var != null;
-				assert var.type.getDescriptor() != null;
-				mv.visitLocalVariable(var.name, var.type.getDescriptor(), var.signature, var.startFrom, endLabel,
-						var.locals);
+	public static void visitAnnotation(MethodVisitor mv, ClassAnnotation annotation) {
+		AnnotationVisitor av0 = mv.visitAnnotation(annotation.getDescriptor(), true);
+		if (annotation.defaultValue != null) {
+			av0.visit("value", annotation.defaultValue);
+		}
+		if (annotation.names != null) {
+			for (int i = 0; i < annotation.names.length; i++) {
+				av0.visit(annotation.names[i], annotation.values[i]);
 			}
 		}
-		mv.visitMaxs(0, 0);
-		mv.visitEnd();
-		thisMethod.hasEnded = true;
+		av0.visitEnd();
 	}
 
-	public void mvAnnotation(MethodVisitor mv, Type annotationType, String name, Object value) {
-		AnnotationVisitor av0 = mv.visitAnnotation(annotationType.getDescriptor(), true);
-		if (value != null) {
-			if (name != null) {
-				av0.visit(name, value);
-			} else {
-				av0.visit("value", value);
+	public static void visitParameterAnnotation(MethodVisitor mv, int parameter, ClassAnnotation annotation) {
+		AnnotationVisitor av0 = mv.visitParameterAnnotation(parameter, annotation.getDescriptor(), true);
+		if (annotation.defaultValue != null) {
+			av0.visit("value", annotation.defaultValue);
+		}
+		if (annotation.names != null) {
+			for (int i = 0; i < annotation.names.length; i++) {
+				av0.visit(annotation.names[i], annotation.values[i]);
 			}
 		}
 		av0.visitEnd();
 	}
 
 	@Override
-	public MethodHeader<MC> parameter(String paramname, Type paramType) {
-		LocalsVariable param = new LocalsVariable(VarType.PARAM,paramname, paramType);
-		thisMethod.params.push(param.name, param);
-		thisMethod.parameterAnnotations.add(null);
+	public MethodHeader<MC> annotation(ClassAnnotation annotation) {
+		thisMethod.annotations.add(annotation);
 		return this;
 	}
 
 	@Override
-	public MethodHeader<MC> parameterAnnotation(Type annotationType, Object value) {
-		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
-				new ClassAnnotation(annotationType, null, value));
+	public MethodHeader<MC> parameter(String name, GenericClazz clazz) {
+		LocalsVariable param = new LocalsVariable(name, clazz);
+		thisMethod.params.push(param.name, param);
 		return this;
 	}
 
 	@Override
-	public MethodHeader<MC> parameterGeneric(String fieldName, Type fieldType, String signature) {
-		LocalsVariable param = new LocalsVariable(VarType.PARAM,fieldName, fieldType, signature);
+	public MethodHeader<MC> parameter(ClassAnnotation annotation, String name, GenericClazz clazz) {
+		LocalsVariable param = new LocalsVariable(annotation, name, clazz);
 		thisMethod.params.push(param.name, param);
-		thisMethod.parameterAnnotations.add(null);
-		return this;
-	}
-
-	@Override
-	public MethodHeader<MC> parameterGenericWithAnnotation(Type annotationType, Object value, String fieldName,
-			Type fieldType, String signature) {
-		LocalsVariable param = new LocalsVariable(VarType.PARAM,fieldName, fieldType, signature);
-		thisMethod.params.push(param.name, param);
-		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
-				new ClassAnnotation(annotationType, null, value));
-		return this;
-	}
-
-	@Override
-	public MethodHeader<MC> parameterWithAnnotation(Type annotationType, Object value, String fieldName,
-			Type fieldType) {
-		LocalsVariable param = new LocalsVariable(VarType.PARAM,fieldName, fieldType);
-		thisMethod.params.push(param.name, param);
-		thisMethod.parameterAnnotations.set(thisMethod.params.size() - 1,
-				new ClassAnnotation(annotationType, null, value));
 		return this;
 	}
 
 	protected void prapareMethodDefination() {
-		String signature = null;
-
-		boolean needSignature = false;
 		{
-			StringBuilder sb = new StringBuilder();
-			sb.append("(");
-			for (ClassField param : thisMethod.params) {
-				if (param.signature != null) {
-					sb.append(param.signature);
-					needSignature = true;
-				} else {
-					sb.append(param.type.getDescriptor());
+			int access = thisMethod.access;
+			String name = thisMethod.name;
+			String desc = Type.getMethodDescriptor(thisMethod.returnType, ClassField.typesOf(thisMethod.params.list()));
+			String signature = null;
+			boolean needSignature = false;
+			{
+				StringBuilder sb = new StringBuilder();
+				sb.append("(");
+				for (ClassField param : thisMethod.params) {
+					if (param.clazz.needSignature()) {
+						sb.append(param.clazz.signatureAnyway());
+						needSignature = true;
+					} else {
+						sb.append(param.clazz.getDescriptor());
+					}
+				}
+				sb.append(")");
+				sb.append(thisMethod.returnType.getDescriptor());
+				String signatureFromParameter = sb.toString();
+
+				if (needSignature) {
+					signature = signatureFromParameter;
 				}
 			}
-			sb.append(")");
-			sb.append(thisMethod.returnType.getDescriptor());
-			String signatureFromParameter = sb.toString();
+			String[] exceptions = internalNamelOf(this.thisMethod.excptions);
 
-			if (needSignature) {
-				signature = signatureFromParameter;
-			}
+			this.mv = classVisitor.visitMethod(access, name, desc, signature, exceptions);
 		}
-
-		this.mv = classVisitor.visitMethod(thisMethod.access, thisMethod.name,
-				Type.getMethodDescriptor(thisMethod.returnType, ClassField.typesOf(thisMethod.params.list())),
-				signature, internalNamelOf(this.thisMethod.excptions));
 
 		assert this.mv != null;
 		for (ClassAnnotation annotation : thisMethod.annotations) {
-			mvAnnotation(this.mv, annotation.type, annotation.name, annotation.value);
+			visitAnnotation(this.mv, annotation);
 		}
-		for (ClassAnnotation annotation : thisMethod.parameterAnnotations) {
-			if (annotation != null) {
-				visitParameterAnnotation(this.mv, annotation.parameter, annotation.type, annotation.value);
+		for (int i = 0; i < thisMethod.params.size(); i++) {
+			LocalsVariable param = thisMethod.params.get(i);
+			if (param.annotation != null) {
+				visitParameterAnnotation(this.mv, i, param.annotation);
 			}
 		}
 	}
@@ -269,10 +265,24 @@ abstract class MethodHeaderBuilder<MC extends MethodCode<MC>> implements MethodH
 
 	protected void preapareMethodWithParams() {
 		for (ClassField field : thisMethod.params) {
-			mhLocals.push(new LocalsVariable(VarType.PARAM, field, labelCurrent));
+			mhLocals.push(new LocalsVariable(field, labelCurrent));
 		}
 	}
 
 	protected void preapareMethodWithThis() {
+	}
+
+	@Override
+	public MethodHeader<MC> reTurn(String clazz) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MethodHeader<MC> tHrow(String... clazzes) {
+		for (String clazz : clazzes) {
+			exceptions.add(new GenericClazz(clazz, null));
+		}
+		return this;
 	}
 }

@@ -16,41 +16,43 @@ public class EnumBuilder implements Opcodes {
 		return build(objectType, names).end().toByteArray();
 	}
 
-	public static ClassBody build(String objectType, String... names) {
-		String superType = "java.lang.Enum";
+	public static ClassBody build(String clazz, String... names) {
 
-		ClassBody cb = ClassBuilder
-			.make(ACC_PUBLIC + ACC_FINAL + ACC_SUPER + ACC_ENUM, objectType, superType, new String[] { objectType })
+		ClassBody cb = ClassBuilder.make(clazz)
+			.eXtend(Enum.class, clazz)
+			.ACC_PUBLIC()
+			.ACC_FINAL()
+			.ACC_SUPER()
+			.ACC_ENUM()
 			.body();
-
 		for (String name : names) {
-			cb.field(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, objectType);
+			cb.field(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, clazz);
 		}
-		cb.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", objectType, true);
+		cb.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", clazz, true);
 
 		cb.staticMethod("<clinit>").code(mc -> {
 			{
 				mc.line(4);
 
 				for (int i = 0; i < names.length; i++) {
-					mc.NEW(typeOf(objectType));
+					mc.NEW(typeOf(clazz));
 					mc.DUP();
 					mc.LOADConst(names[i]);
 					mc.LOADConstByte(i);
-					mc.INVOKESPECIAL(typeOf(objectType), Type.VOID_TYPE, "<init>", typeOf(String.class), Type.INT_TYPE);
-					mc.PUTSTATIC(typeOf(objectType), names[i], typeOf(objectType));
+					mc.INVOKESPECIAL(typeOf(clazz), Type.VOID_TYPE, "<init>", typeOf(String.class), Type.INT_TYPE);
+					mc.PUTSTATIC(typeOf(clazz), names[i], typeOf(clazz));
 				}
 
 				mc.line(3).LOADConstByte(names.length);
-				mc.NEWARRAY(typeOf(objectType));
+				mc.NEWARRAY(typeOf(clazz));
 
 				for (int i = 0; i < names.length; i++) {
 					mc.DUP();
 					mc.LOADConstByte(i);
-					mc.GETSTATIC(typeOf(objectType), names[i], typeOf(objectType));
+					mc.GETSTATIC(typeOf(clazz), names[i], typeOf(clazz));
 					mc.ARRAYSTORE();
 				}
-				mc.PUTSTATIC(typeOf(objectType), "ENUM$VALUES", arrayOf(typeOf(objectType)));
+				mc.PUTSTATIC(typeOf(clazz), "ENUM$VALUES", arrayOf(typeOf(clazz)));
 				mc.RETURN();
 			}
 		});
@@ -64,14 +66,14 @@ public class EnumBuilder implements Opcodes {
 		});
 		Class<?>[] exceptionClasses = {};
 
-		cb.mvStaticMethod(ACC_STATIC + ACC_PUBLIC, arrayOf(typeOf(objectType), true), "values",
+		cb.mvStaticMethod(ACC_STATIC + ACC_PUBLIC, arrayOf(typeOf(clazz), true), "values",
 				namesOf(exceptionClasses))
 			.code(mc -> {
-				mc.define("vs", objectType, true);
+				mc.define("vs", clazz, true);
 				mc.define("length", int.class);
-				mc.define("newvs", objectType, true);
+				mc.define("newvs", clazz, true);
 				mc.line(1);
-				mc.GETSTATIC(typeOf(objectType), "ENUM$VALUES", arrayOf(typeOf(objectType)));
+				mc.GETSTATIC(typeOf(clazz), "ENUM$VALUES", arrayOf(typeOf(clazz)));
 				mc.DUP();
 				mc.STORE("vs");
 
@@ -80,7 +82,7 @@ public class EnumBuilder implements Opcodes {
 				mc.ARRAYLENGTH();
 				mc.DUP();
 				mc.STORE("length");
-				mc.NEWARRAY(typeOf(objectType));
+				mc.NEWARRAY(typeOf(clazz));
 				mc.DUP();
 				mc.STORE("newvs");
 
@@ -92,14 +94,14 @@ public class EnumBuilder implements Opcodes {
 			});
 		Class<?>[] exceptionClasses1 = {};
 
-		cb.mvStaticMethod(ACC_STATIC + ACC_PUBLIC, typeOf(objectType), "valueOf", namesOf(exceptionClasses1))
+		cb.mvStaticMethod(ACC_STATIC + ACC_PUBLIC, typeOf(clazz), "valueOf", namesOf(exceptionClasses1))
 			.parameter("name", String.class)
 			.code(mc -> {
 				mc.line(1);
-				mc.LOADConst(typeOf(objectType));
+				mc.LOADConst(typeOf(clazz));
 				mc.LOAD("name");
 				mc.INVOKESTATIC(Enum.class, Enum.class, "valueOf", Class.class, String.class);
-				mc.CHECKCAST(typeOf(objectType));
+				mc.CHECKCAST(typeOf(clazz));
 				mc.RETURNTop();
 			});
 		return cb;

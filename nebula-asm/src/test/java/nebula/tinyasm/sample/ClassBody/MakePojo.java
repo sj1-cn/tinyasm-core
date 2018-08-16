@@ -1,5 +1,6 @@
 package nebula.tinyasm.sample.ClassBody;
 
+@TestAnnotation
 public class MakePojo {
 	private byte b;
 	private char c;

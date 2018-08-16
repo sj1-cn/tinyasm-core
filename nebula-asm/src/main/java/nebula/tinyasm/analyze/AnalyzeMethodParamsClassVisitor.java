@@ -3,7 +3,6 @@ package nebula.tinyasm.analyze;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
 import static org.objectweb.asm.Opcodes.ASM5;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,10 +10,6 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-
-import nebula.tinyasm.data.Field;
-
 
 class AnalyzeMethodParamsClassVisitor extends ClassVisitor {
 	public AnalyzeMethodParamsClassVisitor(int api, ClassVisitor cv) {
@@ -52,27 +47,27 @@ class AnalyzeMethodParamsClassVisitor extends ClassVisitor {
 			if (is(access, ACC_STATIC)) {
 				staticMethod = true;
 			}
-
-			Type[] types = Type.getArgumentTypes(desc);
-			this.method.params = new Field[types.length];
-			this.method.locals = new ArrayList<>();
-			for (int i = 0; i < types.length; i++) {
-				this.method.params[i] = new Field("", types[i]);
-			}
+//
+//			Type[] types = Type.getArgumentTypes(desc);
+//			this.method.params = new Field[types.length];
+//			this.method.locals = new ArrayList<>();
+//			for (int i = 0; i < types.length; i++) {
+//				this.method.params[i] = new Field("", types[i]);
+//			}
 		}
 
 		@Override
 		public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
-			if (!staticMethod) {
-				if (0 < index && index <= this.method.params.length) {
-					this.method.params[index - 1].name = name;
-				}
-			} else {
-				if (0 <= index && index < this.method.params.length) {
-					this.method.params[index].name = name;
-				}
-			}
-			this.method.locals.add(new Variable(name, Type.getType(desc), signature));
+//			if (!staticMethod) {
+//				if (0 < index && index <= this.method.params.length) {
+//					this.method.params[index - 1].name = name;
+//				}
+//			} else {
+//				if (0 <= index && index < this.method.params.length) {
+//					this.method.params[index].name = name;
+//				}
+//			}
+//			this.method.locals.add(new Variable(name, Type.getType(desc), signature));
 			super.visitLocalVariable(name, desc, signature, start, end, index);
 		}
 	}

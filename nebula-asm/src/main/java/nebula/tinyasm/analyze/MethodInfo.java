@@ -1,14 +1,13 @@
 package nebula.tinyasm.analyze;
 
 import java.util.Arrays;
-import java.util.List;
 
 import nebula.tinyasm.data.Field;
 
 class MethodInfo {
 	public String name;
 	public Field[] params;
-	public List<Variable> locals;
+//	public List<Variable> locals;
 
 	public MethodInfo(String name) {
 		super();

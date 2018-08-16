@@ -8,6 +8,7 @@ import java.util.Map;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.data.ClassField;
 import nebula.tinyasm.data.Field;
 
 //import nebula.tinyasm.api.Field;
@@ -16,6 +17,26 @@ public class TypeUtils {
 
 	static public boolean is(int access, int modified) {
 		return (access & modified) > 0;
+	}
+
+	static public String nameOf(Class<?> clazz) {
+		return clazz.getName();
+	}
+
+	static public String[] nameOf(Class<?>... clazz) {
+		String[] names = new String[clazz.length];
+		for (int i = 0; i < names.length; i++) {
+			names[i] = clazz[i].getName();
+		}
+		return names;
+	}
+
+	static public String[] nameOf(String... clazz) {
+		return clazz;
+	}
+
+	static public String nameOf(String clazz) {
+		return clazz;
 	}
 
 	/**
@@ -479,7 +500,7 @@ public class TypeUtils {
 		arrayTypeMaps.put(typeOf(float.class.getName()), Opcodes.T_FLOAT);
 		arrayTypeMaps.put(typeOf(double.class.getName()), Opcodes.T_DOUBLE);
 	}
-	
+
 	static public int arrayTyoeCodeOf(Type type) {
 		return arrayTypeMaps.get(type);
 	}
@@ -519,6 +540,14 @@ public class TypeUtils {
 		return types;
 	};
 
+	static public String internalNamelOf(Type types) {
+		return types.getInternalName();
+	}
+
+	static public String internalNamelOf(String clazz) {
+		return typeOf(clazz).getInternalName();
+	}
+
 	static public String[] internalNamelOf(Type[] types) {
 		String[] strs = new String[types.length];
 		for (int i = 0; i < types.length; i++) {
@@ -538,7 +567,7 @@ public class TypeUtils {
 	static public Type[] typeOf(Field... fields) {
 		Type[] types = new Type[fields.length];
 		for (int i = 0; i < fields.length; i++) {
-			types[i] = fields[i].type;
+			types[i] = typeOf(fields[i].clazz.clazz);
 		}
 		return types;
 	}
@@ -546,7 +575,15 @@ public class TypeUtils {
 	static public Type[] typeOf(List<Field> fields) {
 		Type[] types = new Type[fields.size()];
 		for (int i = 0; i < fields.size(); i++) {
-			types[i] = fields.get(i).type;
+			types[i] = typeOf(fields.get(i).clazz.clazz);
+		}
+		return types;
+	}
+	
+	static public String[] nameOf(List<Field> fields) {
+		String[] types = new String[fields.size()];
+		for (int i = 0; i < fields.size(); i++) {
+			types[i] = fields.get(i).clazz.clazz;
 		}
 		return types;
 	}

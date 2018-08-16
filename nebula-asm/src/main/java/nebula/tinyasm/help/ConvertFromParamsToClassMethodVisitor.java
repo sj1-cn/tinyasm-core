@@ -10,6 +10,8 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import static nebula.tinyasm.util.TypeUtils.*;
+
 import nebula.tinyasm.data.Field;
 
 public class ConvertFromParamsToClassMethodVisitor extends MethodVisitor {
@@ -33,7 +35,7 @@ public class ConvertFromParamsToClassMethodVisitor extends MethodVisitor {
 			super.visitVarInsn(ALOAD, 1);
 			Field field = params[var - 1];
 			mv.visitMethodInsn(INVOKEVIRTUAL, eventType.getInternalName(), toPropertyGetName(field.name),
-					Type.getMethodDescriptor(field.type), false);
+					Type.getMethodDescriptor(typeOf(field.clazz.clazz)), false);
 		} else {
 			super.visitVarInsn(opcode, var);
 		}
