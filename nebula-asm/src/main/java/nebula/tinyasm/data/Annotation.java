@@ -2,6 +2,11 @@ package nebula.tinyasm.data;
 
 import static nebula.tinyasm.util.TypeUtils.*;
 
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.MethodVisitor;
+
 public class Annotation {
 	final public String clazz;
 
@@ -43,7 +48,7 @@ public class Annotation {
 	}
 
 	static public Annotation annotation(String clazz, Object value) {
-		return new Annotation(clazz, value, null, null);
+		return new Annotation(clazz, value);
 	}
 
 	static public Annotation annotation(String clazz, Object value, String[] names, Object[] values) {
@@ -65,4 +70,55 @@ public class Annotation {
 	public String getDescriptor() {
 		return typeOf(clazz).getDescriptor();
 	}
+
+
+	public static void visitParameterAnnotation(MethodVisitor mv, int parameter, Annotation annotation) {
+		AnnotationVisitor av0 = mv.visitParameterAnnotation(parameter, annotation.getDescriptor(), true);
+		if (annotation.defaultValue != null) {
+			av0.visit("value", annotation.defaultValue);
+		}
+		if (annotation.names != null) {
+			for (int i = 0; i < annotation.names.length; i++) {
+				av0.visit(annotation.names[i], annotation.values[i]);
+			}
+		}
+		av0.visitEnd();
+	}
+	public static void visitAnnotation(FieldVisitor fv, Annotation annotation) {
+		AnnotationVisitor av0 = fv.visitAnnotation(annotation.getDescriptor(), true);
+		if (annotation.defaultValue != null) {
+			av0.visit("value", annotation.defaultValue);
+		}
+		if (annotation.names != null) {
+			for (int i = 0; i < annotation.names.length; i++) {
+				av0.visit(annotation.names[i], annotation.values[i]);
+			}
+		}
+		av0.visitEnd();
+	}
+	public static void visitAnnotation(ClassVisitor cv, Annotation annotation) {
+		AnnotationVisitor av0 = cv.visitAnnotation(annotation.getDescriptor(), true);
+		if (annotation.defaultValue != null) {
+			av0.visit("value", annotation.defaultValue);
+		}
+		if (annotation.names != null) {
+			for (int i = 0; i < annotation.names.length; i++) {
+				av0.visit(annotation.names[i], annotation.values[i]);
+			}
+		}
+		av0.visitEnd();
+	}
+	public static void visitAnnotation(MethodVisitor mv, Annotation annotation) {
+		AnnotationVisitor av0 = mv.visitAnnotation(annotation.getDescriptor(), true);
+		if (annotation.defaultValue != null) {
+			av0.visit("value", annotation.defaultValue);
+		}
+		if (annotation.names != null) {
+			for (int i = 0; i < annotation.names.length; i++) {
+				av0.visit(annotation.names[i], annotation.values[i]);
+			}
+		}
+		av0.visitEnd();
+	}
+
 }

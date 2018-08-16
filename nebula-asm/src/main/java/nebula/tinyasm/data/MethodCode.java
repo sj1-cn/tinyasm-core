@@ -8,7 +8,7 @@ import static nebula.tinyasm.util.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.ANEWARRAY;
-import static org.objectweb.asm.Opcodes.ARETURN;
+import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Opcodes.ARRAYLENGTH;
 import static org.objectweb.asm.Opcodes.ASTORE;
 import static org.objectweb.asm.Opcodes.BIPUSH;
@@ -326,6 +326,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	default void LOADConstShort(int value) {
 		mvIntInsn(SIPUSH, value);
 		codePush(Type.SHORT_TYPE);
+	}
+	
+	@Override
+	default void LOADConstNULL() {
+		mvInst(ACONST_NULL);
+		codePush(Type.getType(Object.class));
 	}
 
 	/**

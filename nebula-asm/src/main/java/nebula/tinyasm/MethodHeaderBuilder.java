@@ -1,14 +1,14 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.*;
+import static nebula.tinyasm.util.TypeUtils.internalNamesOf;
 import static nebula.tinyasm.util.TypeUtils.is;
+import static nebula.tinyasm.util.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -147,31 +147,6 @@ class MethodHeaderBuilder implements MethodHeader {
 		return new MethodCodeBuilder(mv, this, mhLocals);
 	}
 
-	public static void visitAnnotation(MethodVisitor mv, Annotation annotation) {
-		AnnotationVisitor av0 = mv.visitAnnotation(annotation.getDescriptor(), true);
-		if (annotation.defaultValue != null) {
-			av0.visit("value", annotation.defaultValue);
-		}
-		if (annotation.names != null) {
-			for (int i = 0; i < annotation.names.length; i++) {
-				av0.visit(annotation.names[i], annotation.values[i]);
-			}
-		}
-		av0.visitEnd();
-	}
-
-	public static void visitParameterAnnotation(MethodVisitor mv, int parameter, Annotation annotation) {
-		AnnotationVisitor av0 = mv.visitParameterAnnotation(parameter, annotation.getDescriptor(), true);
-		if (annotation.defaultValue != null) {
-			av0.visit("value", annotation.defaultValue);
-		}
-		if (annotation.names != null) {
-			for (int i = 0; i < annotation.names.length; i++) {
-				av0.visit(annotation.names[i], annotation.values[i]);
-			}
-		}
-		av0.visitEnd();
-	}
 
 	@Override
 	public MethodHeader annotation(Annotation annotation) {
@@ -195,9 +170,6 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void prapareMethodDefination() {
 		{
-			if (access == 0) {
-				this.ACC_PUBLIC();
-			}
 			int access = this.access;
 			String name = thisMethod.name;
 
@@ -235,12 +207,12 @@ class MethodHeaderBuilder implements MethodHeader {
 
 		assert this.mv != null;
 		for (Annotation annotation : annotations) {
-			visitAnnotation(this.mv, annotation);
+			Annotation.visitAnnotation(this.mv, annotation);
 		}
 		for (int i = 0; i < params.size(); i++) {
 			LocalsVariable param = params.get(i);
 			if (param.annotation != null) {
-				visitParameterAnnotation(this.mv, i, param.annotation);
+				Annotation.visitParameterAnnotation(this.mv, i, param.annotation);
 			}
 		}
 	}

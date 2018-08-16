@@ -8,7 +8,6 @@ import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 import java.util.Stack;
 import java.util.function.Consumer;
 
-import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
@@ -171,18 +170,6 @@ public class MethodCodeBuilder implements MethodCode {
 		lastLineNumber = line;
 		mv.visitLineNumber(line, label);
 		return this;
-	}
-
-	public void mvAnnotation(MethodVisitor mv, Type annotationType, String name, Object value) {
-		AnnotationVisitor av0 = mv.visitAnnotation(annotationType.getDescriptor(), true);
-		if (value != null) {
-			if (name != null) {
-				av0.visit(name, value);
-			} else {
-				av0.visit("value", value);
-			}
-		}
-		av0.visitEnd();
 	}
 
 	@Override

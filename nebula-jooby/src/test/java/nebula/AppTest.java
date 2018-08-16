@@ -1,12 +1,7 @@
 package nebula;
 
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-
-import org.jooby.Request;
+import org.h2.bnf.Rule;
 import org.jooby.test.JoobyRule;
-import org.jooby.test.MockRouter;
 import org.junit.ClassRule;
 import org.junit.Test;
 

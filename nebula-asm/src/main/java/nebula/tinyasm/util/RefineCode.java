@@ -6,6 +6,13 @@ public class RefineCode {
 		input = input.replaceAll("mv.visitParameter[^\\n]*;\\n", "");
 		input = input.replaceAll("mv.visitLocalVariable[^\\n]*;\\n", "");
 		input = input.replaceAll("LineNumber\\([0-9]*\\,", "LineNumber(1,");
+
+		input = input.replaceAll("Label l1 = new Label\\(\\)[^\\n]*;\\n", "");
+		input = input.replaceAll("mv.visitLabel\\(l1\\)[^\\n]*;\\n", "");
+		
+		
+		
+		
 		return input;
 	}
 

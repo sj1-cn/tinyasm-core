@@ -6,7 +6,6 @@ import static nebula.tinyasm.util.TypeUtils.typeOf;
 
 import java.util.List;
 
-import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
@@ -60,7 +59,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		cv.visitSource(toSimpleName(this.thisType.getClassName()) + ".java", null);
 
 		for (Annotation annotation : header.annotations) {
-			visitAnnotation(annotation);
+			Annotation.visitAnnotation(cv, annotation);
 		}
 	}
 
@@ -117,16 +116,8 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		fields.push(field1.name, field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
 		if (annotation != null) {
-			AnnotationVisitor av0 = fv.visitAnnotation(annotation.getDescriptor(), true);
-			if (annotation.defaultValue != null) {
-				AnnotationVisitor av1 = av0.visitArray("value");
-				av1.visit(null, annotation.defaultValue);
-				av1.visitEnd();
-			}
-			av0.visitEnd();
+			Annotation.visitAnnotation(fv, annotation);
 		}
-		fv.visitEnd();
-
 		fv.visitEnd();
 		return this;
 	}
@@ -169,17 +160,6 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 			return ((ClassWriter) cv).toByteArray();
 		}
 		return null;
-	}
-
-	void visitAnnotation(Annotation annotation) {
-		AnnotationVisitor av0 = cv.visitAnnotation(typeOf(annotation.clazz).getDescriptor(), true);
-		if (annotation.defaultValue != null) {
-			AnnotationVisitor av1 = av0.visitArray("value");
-			av1.visit(null, annotation.defaultValue);
-			av1.visitEnd();
-		}
-		av0.visitEnd();
-		// TODO named annotation
 	}
 
 //	@Override

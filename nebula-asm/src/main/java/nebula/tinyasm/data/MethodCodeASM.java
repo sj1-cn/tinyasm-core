@@ -17,6 +17,7 @@ public interface MethodCodeASM {
 
 	void LOADConstShort(int value);
 
+	void LOADConstNULL();
 	/**
 	 * Visits an instruction with a single int operand.
 	 * 

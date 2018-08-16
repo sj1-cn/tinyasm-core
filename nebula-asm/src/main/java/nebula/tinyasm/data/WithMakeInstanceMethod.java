@@ -10,6 +10,10 @@ interface WithMakeInstanceMethod {
 		return method(ACC_PRIVATE, returnClass.getName(), name);
 	}
 
+	default MethodHeader privateMethod(String returnClass, String name) {
+		return method(ACC_PRIVATE, returnClass, name);
+	}
+
 	default MethodHeader privateMethod(String name) {
 		return method(ACC_PRIVATE, name);
 	}
@@ -52,6 +56,10 @@ interface WithMakeInstanceMethod {
 
 	default MethodHeader method(String name) {
 		return method(ACC_PUBLIC, name);
+	}
+
+	default MethodHeader method(String returnType, String name) {
+		return method(ACC_PUBLIC, returnType, name);
 	}
 
 }

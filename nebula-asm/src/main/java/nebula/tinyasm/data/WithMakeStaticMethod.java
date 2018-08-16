@@ -15,6 +15,10 @@ public interface WithMakeStaticMethod {
 		return staticMethod(ACC_STATIC + ACC_PRIVATE, name);
 	}
 
+	default MethodHeader privateStaticMethod(String returnClass, String name) {
+		return staticMethod(ACC_STATIC + ACC_PRIVATE, returnClass, name);
+	}
+
 	default MethodHeader protectdStaticMethod(Class<?> returnClass, String name) {
 		return staticMethod(ACC_STATIC + ACC_PROTECTED, returnClass.getName(), name);
 	}
@@ -22,6 +26,7 @@ public interface WithMakeStaticMethod {
 	default MethodHeader protectdStaticMethod(String name) {
 		return staticMethod(ACC_STATIC + ACC_PROTECTED, name);
 	}
+
 	default MethodHeader protectdStaticMethod(String returnClass, String name) {
 		return staticMethod(ACC_STATIC + ACC_PROTECTED, returnClass, name);
 	}
@@ -39,17 +44,20 @@ public interface WithMakeStaticMethod {
 	}
 
 	default MethodHeader staticMethod(Class<?> returnClass, String name) {
-		return staticMethod(ACC_STATIC + ACC_PUBLIC, returnClass.getName(), name);
+		return staticMethod(ACC_STATIC, returnClass.getName(), name);
 	}
-	
+
 	default MethodHeader staticMethod(int access, Class<?> returnClass, String name) {
 		return staticMethod(access, returnClass.getName(), name);
 	}
 
-	
 	MethodHeader staticMethod(int access, String name);
-	
+
 	MethodHeader staticMethod(int access, String returnType, String name);
+
+	default MethodHeader staticMethod(String returnType, String name) {
+		return staticMethod(ACC_STATIC, returnType, name);
+	}
 
 	default MethodHeader staticMethod(String name) {
 		return staticMethod(ACC_STATIC, name);

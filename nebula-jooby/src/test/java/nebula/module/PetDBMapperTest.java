@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
 import org.junit.Test;
-import org.objectweb.asm.Label;
 
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.data.ClassBody;
@@ -34,15 +33,12 @@ public class PetDBMapperTest extends TestBase {
 
 		cw.constructerEmpty();
 
-//		public Pet map(final ResultSet rs, final StatementContext ctx) throws SQLException {
-
-		cw.publicMethod(targetClazz, "map", SQLException.class)
+		cw.publicMethod(targetClazz, "map")
+			.tHrow(SQLException.class)
 			.parameter("rs", ResultSet.class)
 			.parameter("ctx", StatementContext.class)
 			.code(mv -> {
-				Label l0 = mv.codeNewLabel();
 				mv.line();
-				mv.codeAccessLabel(l0);
 				mv.NEW(targetClazz);
 				mv.DUP();
 
@@ -62,52 +58,24 @@ public class PetDBMapperTest extends TestBase {
 						String.class.getName());
 
 				mv.RETURNTop();
-				Label l1 = mv.codeNewLabel();
-				mv.codeAccessLabel(l1);
 			});
-//		(int access, Type returnType, String methodName,
-//				String... exceptionClasses);
-//		"(Ljava/sql/ResultSet;Lorg/jdbi/v3/core/statement/StatementContext;)Ljava/lang/Object;", null,
-		cw.method(ACC_PUBLIC + ACC_BRIDGE + ACC_SYNTHETIC, Object.class.getName(), "map", SQLException.class)
+
+		cw.method(ACC_PUBLIC + ACC_BRIDGE + ACC_SYNTHETIC, Object.class.getName(), "map")
+			.tHrow(SQLException.class)
 			.parameter("rs", ResultSet.class)
 			.parameter("ctx", StatementContext.class)
 			.code(mv -> {
-				Label l0 = mv.codeNewLabel();
 				mv.line();
-				mv.codeAccessLabel(l0);
 				mv.LOAD(0);
 				mv.LOAD(1);
 				mv.LOAD(2);
 				mv.INVOKEVIRTUAL(cw.getName(), targetClazz, "map", ResultSet.class.getName(),
 						StatementContext.class.getName());
 				mv.RETURNTop();
-				Label l1 = mv.codeNewLabel();
-				mv.codeAccessLabel(l1);
 			});
 
 		String codeActual = toString(cw.end().toByteArray());
 		String codeExpected = toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
-
-//	@Test
-//	public void testConstructerWithAllFields() throws IOException {
-//		String clazz = ConstructerWithAllFields.class.getName();
-//		ClassBody cw = ClassBuilder.make(clazz).body();
-//		cw.field("b", byte.class);
-//		cw.field("c", char.class);
-//		cw.field("s", short.class);
-//		cw.field("i", int.class);
-//		cw.field("l", long.class);
-//		cw.field("f", float.class);
-//		cw.field("d", double.class);
-//		cw.field("str", String.class);
-//
-//		cw.constructerWithAllFields();
-//		cw.makeAllPropertyGet();
-//
-//		String codeActual = toString(cw.end().toByteArray());
-//		String codeExpected = toString(clazz);
-//		assertEquals("Code", codeExpected, codeActual);
-//	}
 }
