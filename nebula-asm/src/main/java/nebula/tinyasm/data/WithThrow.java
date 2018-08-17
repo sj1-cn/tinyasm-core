@@ -17,7 +17,7 @@ public interface WithThrow<T> {
 	default MethodHeader tHrow(String... clazzes) {
 		MethodHeader mh = null;
 		for (String clazz : clazzes) {
-			mh = tHrow(GenericClazz.clazz(clazz));
+			mh = tHrow(GenericClazz.generic(clazz));
 		}
 		return mh;
 	}
@@ -25,6 +25,6 @@ public interface WithThrow<T> {
 	MethodHeader tHrow(GenericClazz clazz);
 
 	default MethodHeader tHrow(String clazz) {
-		return tHrow(GenericClazz.clazz(clazz));
+		return tHrow(GenericClazz.generic(clazz));
 	}
 }

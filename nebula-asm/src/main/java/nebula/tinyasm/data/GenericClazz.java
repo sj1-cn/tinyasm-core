@@ -52,7 +52,7 @@ public class GenericClazz {
 		return new GenericClazz(classnameOf(clazz), null);
 	}
 
-	static public GenericClazz clazz(String clazz) {
+	static public GenericClazz generic(String clazz) {
 		return new GenericClazz(classnameOf(clazz), null);
 	}
 

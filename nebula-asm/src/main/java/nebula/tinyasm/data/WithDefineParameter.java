@@ -13,7 +13,7 @@ public interface WithDefineParameter<T> {
 	}
 
 	default T parameter(String name, String clazz) {
-		return parameter(name, GenericClazz.clazz(clazz));
+		return parameter(name, GenericClazz.generic(clazz));
 	}
 
 	default T parameter(String name, Class<?> clazz) {
@@ -23,7 +23,7 @@ public interface WithDefineParameter<T> {
 	T parameter(String name, GenericClazz clazz);
 
 	default T parameter(Class<?> annotation, String name, String clazz) {
-		return parameter(Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return parameter(Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T parameter(Class<?> annotation, String name, Class<?> clazz) {
@@ -35,7 +35,7 @@ public interface WithDefineParameter<T> {
 	}
 
 	default T parameter(Annotation annotation, String name, String clazz) {
-		return parameter(Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return parameter(Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T parameter(Annotation annotation, String name, Class<?> clazz) {

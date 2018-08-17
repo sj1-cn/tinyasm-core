@@ -13,7 +13,7 @@ public interface WithDefineVar<T> {
 	}
 
 	default T define(String name, String clazz) {
-		return define(name, GenericClazz.clazz(clazz));
+		return define(name, GenericClazz.generic(clazz));
 	}
 
 	default T define(String name, Class<?> clazz) {
@@ -23,7 +23,7 @@ public interface WithDefineVar<T> {
 	T define(String name, GenericClazz clazz);
 
 	default T define(Class<?> annotation, String name, String clazz) {
-		return define(Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return define(Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T define(Class<?> annotation, String name, Class<?> clazz) {
@@ -35,7 +35,7 @@ public interface WithDefineVar<T> {
 	}
 
 	default T define(Annotation annotation, String name, String clazz) {
-		return define(Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return define(Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T define(Annotation annotation, String name, Class<?> clazz) {

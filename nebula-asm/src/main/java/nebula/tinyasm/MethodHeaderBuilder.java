@@ -55,7 +55,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	public MethodHeaderBuilder(ClassBodyImpl cv, boolean isInstanceMethod, String className, int access,
 			String returnType, String methodName) {
 		this(cv, isInstanceMethod, className, access, methodName);
-		this.returnClazz = returnType != null ? GenericClazz.clazz(returnType) : null;
+		this.returnClazz = returnType != null ? GenericClazz.generic(returnType) : null;
 	}
 
 	public MethodHeaderBuilder(ClassBodyImpl cv, boolean instanceMethod, String className, int access,
@@ -232,7 +232,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void preapareMethodWithThis() {
 		if (thisMethod.instanceMethod) {
-			mhLocals.push("this", GenericClazz.clazz(thisMethod.type.getClassName()), labelCurrent);
+			mhLocals.push("this", GenericClazz.generic(thisMethod.type.getClassName()), labelCurrent);
 		}
 	}
 

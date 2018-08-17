@@ -15,7 +15,7 @@ public interface WithDefineField<T> {
 	}
 
 	default T field(String name, String clazz) {
-		return field(name, GenericClazz.clazz(clazz));
+		return field(name, GenericClazz.generic(clazz));
 	}
 
 	default T field(String name, Class<?> clazz) {
@@ -27,7 +27,7 @@ public interface WithDefineField<T> {
 	}
 
 	default T field(Class<?> annotation, String name, String clazz) {
-		return field(Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return field(Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T field(Class<?> annotation, String name, Class<?> clazz) {
@@ -39,7 +39,7 @@ public interface WithDefineField<T> {
 	}
 
 	default T field(Annotation annotation, String name, String clazz) {
-		return field(Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return field(Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T field(Annotation annotation, String name, Class<?> clazz) {
@@ -75,7 +75,7 @@ public interface WithDefineField<T> {
 	}
 
 	default T field(int access, String name, String clazz) {
-		return field(access, name, GenericClazz.clazz(clazz));
+		return field(access, name, GenericClazz.generic(clazz));
 	}
 
 	default T field(int access, String name, Class<?> clazz) {
@@ -85,7 +85,7 @@ public interface WithDefineField<T> {
 	T field(int access, String name, GenericClazz clazz);
 
 	default T field(int access, Class<?> annotation, String name, String clazz) {
-		return field(access, Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return field(access, Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T field(int access, Class<?> annotation, String name, Class<?> clazz) {
@@ -97,7 +97,7 @@ public interface WithDefineField<T> {
 	}
 
 	default T field(int access, Annotation annotation, String name, String clazz) {
-		return field(access, Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return field(access, Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T field(int access, Annotation annotation, String name, Class<?> clazz) {

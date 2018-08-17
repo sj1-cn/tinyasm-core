@@ -15,7 +15,7 @@ public interface WithDefineStaticField<T> {
 	}
 
 	default T staticField(String name, String clazz) {
-		return staticField(name, GenericClazz.clazz(clazz));
+		return staticField(name, GenericClazz.generic(clazz));
 	}
 
 	default T staticField(String name, Class<?> clazz) {
@@ -27,7 +27,7 @@ public interface WithDefineStaticField<T> {
 	}
 
 	default T staticField(Class<?> annotation, String name, String clazz) {
-		return staticField(Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return staticField(Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T staticField(Class<?> annotation, String name, Class<?> clazz) {
@@ -39,7 +39,7 @@ public interface WithDefineStaticField<T> {
 	}
 
 	default T staticField(Annotation annotation, String name, String clazz) {
-		return staticField(Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return staticField(Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T staticField(Annotation annotation, String name, Class<?> clazz) {
@@ -75,7 +75,7 @@ public interface WithDefineStaticField<T> {
 	}
 
 	default T staticField(int access, String name, String clazz) {
-		return staticField(access, name, GenericClazz.clazz(clazz));
+		return staticField(access, name, GenericClazz.generic(clazz));
 	}
 
 	default T staticField(int access, String name, Class<?> clazz) {
@@ -85,7 +85,7 @@ public interface WithDefineStaticField<T> {
 	T staticField(int access, String name, GenericClazz clazz);
 
 	default T staticField(int access, Class<?> annotation, String name, String clazz) {
-		return staticField(access, Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return staticField(access, Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T staticField(int access, Class<?> annotation, String name, Class<?> clazz) {
@@ -97,7 +97,7 @@ public interface WithDefineStaticField<T> {
 	}
 
 	default T staticField(int access, Annotation annotation, String name, String clazz) {
-		return staticField(access, Annotation.annotation(annotation), name, GenericClazz.clazz(clazz));
+		return staticField(access, Annotation.annotation(annotation), name, GenericClazz.generic(clazz));
 	}
 
 	default T staticField(int access, Annotation annotation, String name, Class<?> clazz) {

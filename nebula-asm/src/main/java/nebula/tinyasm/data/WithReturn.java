@@ -9,7 +9,7 @@ public interface WithReturn<T> {
 	MethodHeader reTurn(GenericClazz clazz);
 
 	default MethodHeader reTurn(String clazz) {
-		return reTurn(GenericClazz.clazz(clazz));
+		return reTurn(GenericClazz.generic(clazz));
 	}
 
 	default MethodHeader reTurn(Class<?> clazz, boolean isarray) {
