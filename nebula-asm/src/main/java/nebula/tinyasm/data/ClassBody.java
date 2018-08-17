@@ -24,9 +24,6 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	String getSimpleName();
 
-	@Deprecated
-	void visitInnerClass(String name, String outerName, String innerName, int access);
-
 	default ClassBody constructerEmpty() {
 		publicMethod("<init>").code(mc -> {
 			mc.line(1);
@@ -42,7 +39,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		publicMethod("<init>").parameter(fields).code(mc -> {
 			mc.line().INITObject();
 			for (Field param : fields) {
-				mc.line().putfield("this", param.name, param.name, param.clazz.clazz);
+				mc.line().putfield("this", param.name, param.name, param.clazz.classname);
 			}
 			mc.line().RETURN();
 		});
@@ -216,7 +213,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		for (Field param : getFields()) {
 			final Field field = param;
 			String fieldClass = clazzOfField(field.name);
-			publicMethod(toPropertySetName(field.name, fieldClass)).parameter(field.name, field.clazz.clazz)
+			publicMethod(toPropertySetName(field.name, fieldClass)).parameter(field.name, field.clazz.classname)
 				.code(mc -> {
 					mc.line().putfield("this", field.name, field.name, fieldClass);
 					mc.line().RETURN();
@@ -264,7 +261,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 					mc.GETFIELD_OF_THIS(field.name);
 
 					mc.INVOKEVIRTUAL(StringBuilder.class.getName(), StringBuilder.class.getName(), "append",
-							stringInnerUserType(typeOf(field.clazz.clazz)).getClassName());
+							stringInnerUserType(typeOf(field.clazz.classname)).getClassName());
 				}
 				mc.LOADConst("]");
 				mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);

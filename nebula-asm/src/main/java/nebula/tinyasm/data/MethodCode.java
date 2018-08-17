@@ -123,9 +123,9 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	abstract int codeLocalGetLocals(String name);
 
-	abstract Type codeLocalGetType(String name);
+//	abstract Type codeLocalGetType(String name);
 
-	abstract Type codeLocalGetType(int index);
+//	abstract Type codeLocalGetType(int index);
 
 	abstract Type codeLocalLoadAccess(int index);
 

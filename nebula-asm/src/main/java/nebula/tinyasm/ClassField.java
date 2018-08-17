@@ -1,7 +1,6 @@
 package nebula.tinyasm;
 
 import static nebula.tinyasm.util.TypeUtils.arrayOf;
-import static nebula.tinyasm.util.TypeUtils.typeOf;
 
 import java.util.List;
 
@@ -15,23 +14,32 @@ public class ClassField extends Field {
 		super(name, clazz);
 		this.access = access;
 		this.defaultValue = defaultValue;
-		this.type = arrayOf(clazz.clazz, clazz.isarray);
+		this.type = arrayOf(clazz.classname, clazz.isarray);
 	}
-
-	@Override
-	public String toString() {
-		return "Field [name=" + name + ", type=" + clazz + "]";
-	}
+//
+//	@Override
+//	public String toString() {
+//		return "Field [name=" + name + ", type=" + clazz + "]";
+//	}
 
 	final public int access;
 
+	// TODO
 	static public <T extends ClassField> Type[] typesOf(List<T> fields) {
 		Type[] types = new Type[fields.size()];
 		for (int i = 0; i < fields.size(); i++) {
-			types[i] = typeOf(fields.get(i).clazz.clazz);
+			types[i] = fields.get(i).type;
 		}
 		return types;
 	}
+
+//	static public <T extends ClassField> GenericClazz[] genericOf(List<T> fields) {
+//		GenericClazz[] generics = new GenericClazz[fields.size()];
+//		for (int i = 0; i < fields.size(); i++) {
+//			generics[i] = fields.get(i).clazz;
+//		}
+//		return generics;
+//	}
 
 	final public Type type;
 	public boolean identifier;

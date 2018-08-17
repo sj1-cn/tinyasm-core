@@ -69,16 +69,16 @@ public class MethodCodeBuilder implements MethodCode {
 	public int codeLocalGetLocals(String name) {
 		return locals.get(name).locals;
 	}
-
-	@Override
-	public Type codeLocalGetType(String name) {
-		return locals.get(name).type;
-	}
-
-	@Override
-	public Type codeLocalGetType(int localsIndex) {
-		return locals.getByLocal(localsIndex).type;
-	}
+//
+//	@Override
+//	public Type codeLocalGetType(String name) {
+//		return locals.get(name).type;
+//	}
+//
+//	@Override
+//	public Type codeLocalGetType(int localsIndex) {
+//		return locals.getByLocal(localsIndex).type;
+//	}
 
 	@Override
 	public Type codeLocalLoadAccess(int localsIndex) {
@@ -98,13 +98,9 @@ public class MethodCodeBuilder implements MethodCode {
 
 	@Override
 	public Type codeThisFieldType(String name) {
-		if (mh.thisMethod.instanceMethod) {
-			assert mh.fields.containsKey(name) : "field + " + name + " not exist!";
-			return mh.fields.get(name).type;
-		} else {
-			throw new UnsupportedOperationException();
-		}
-
+		assert mh.thisMethod.instanceMethod;
+		assert mh.fields.containsKey(name) : "field + " + name + " not exist!";
+		return mh.fields.get(name).type;
 	}
 
 	@Override

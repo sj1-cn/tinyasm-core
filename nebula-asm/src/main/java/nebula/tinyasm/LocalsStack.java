@@ -2,7 +2,6 @@ package nebula.tinyasm;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -24,35 +23,20 @@ class LocalsStack implements Iterable<LocalsVariable> {
 		return maps.get(name);
 	}
 
-	public boolean containsKey(String name) {
-		return maps.containsKey(name);
-	}
+//	public boolean containsKey(String name) {
+//		return maps.containsKey(name);
+//	}
 
-	public int size() {
-		return stack.size();
-	}
+//	public int size() {
+//		return stack.size();
+//	}
 
 	public Iterator<LocalsVariable> iterator() {
 		return stack.iterator();
 	}
 
-	public List<LocalsVariable> list() {
-		return stack;
-	}
-
 	int top = 0;
 
-	public LocalsVariable accessLoad(String name, Label label) {
-		LocalsVariable var = get(name);
-		if (var.startFrom == null) var.startFrom = label;
-		return var;
-	}
-
-	public LocalsVariable accessStore(String name, Label label) {
-		LocalsVariable var = get(name);
-//		if (var.startFrom == null) var.startFrom = label;
-		return var;
-	}
 
 	public LocalsVariable accessLoad(int index, Label label) {
 		LocalsVariable var = getByLocal(index);

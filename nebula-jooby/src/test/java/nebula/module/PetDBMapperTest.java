@@ -44,15 +44,15 @@ public class PetDBMapperTest extends TestBase {
 
 				mv.LOAD("rs");
 				mv.LOADConst("id");
-				mv.INVOKEINTERFACE(ResultSet.class, long.class, "getLong", String.class);
-				mv.INVOKESTATIC(Long.class, Long.class, "valueOf", long.class);
+				mv.INTERFACE(ResultSet.class, "getLong").param(String.class).reTurn(long.class).INVOKE();
+				mv.STATIC(Long.class, "valueOf").param(long.class).reTurn(Long.class).INVOKE();
 
 				mv.LOAD("rs");
 				mv.LOADConst("name");
-				mv.INVOKEINTERFACE(ResultSet.class, String.class, "getString", String.class);
+				mv.INTERFACE(ResultSet.class, "getString").param(String.class).reTurn(String.class).INVOKE();
 				mv.LOAD("rs");
 				mv.LOADConst("desciption");
-				mv.INVOKEINTERFACE(ResultSet.class, String.class, "getString", String.class);
+				mv.INTERFACE(ResultSet.class, "getString").param(String.class).reTurn(String.class).INVOKE();
 
 				mv.INVOKESPECIAL(targetClazz, null, "<init>", Long.class.getName(), String.class.getName(),
 						String.class.getName());

@@ -5,36 +5,36 @@ import static nebula.tinyasm.util.TypeUtils.signatureOf;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
 
 public class GenericClazz {
-	public String clazz;
+	public String classname;
 	public String[] genericClazz;
 	public boolean isarray;
 
 	public GenericClazz(String clazz, boolean isarray, String[] genericClazz) {
 		super();
-		this.clazz = clazz;
+		this.classname = clazz;
 		this.genericClazz = genericClazz;
 		this.isarray = isarray;
 	}
 
 	public GenericClazz(String clazz, String[] genericClazz) {
 		super();
-		this.clazz = clazz;
+		this.classname = clazz;
 		this.genericClazz = genericClazz;
 	}
 
 	public String signatureAnyway() {
 		String signature;
 		if (genericClazz != null && genericClazz.length > 0) {
-			signature = signatureOf(arrayOf(clazz, isarray), typeOf(genericClazz));
+			signature = signatureOf(arrayOf(classname, isarray), typeOf(genericClazz));
 		} else {
-			signature = typeOf(clazz).getDescriptor();
+			signature = typeOf(classname).getDescriptor();
 		}
 		return signature;
 	}
 
 	public String signatureWhenNeed() {
 		if (genericClazz != null && genericClazz.length > 0) {
-			return signatureOf(arrayOf(clazz, isarray), typeOf(genericClazz));
+			return signatureOf(arrayOf(classname, isarray), typeOf(genericClazz));
 		} else {
 			return null;
 		}
@@ -81,7 +81,7 @@ public class GenericClazz {
 	}
 
 	public String getDescriptor() {
-		return arrayOf(clazz, isarray).getDescriptor();
+		return arrayOf(classname, isarray).getDescriptor();
 	}
 
 }

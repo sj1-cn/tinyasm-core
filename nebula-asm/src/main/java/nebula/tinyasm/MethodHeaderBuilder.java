@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -34,7 +33,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	ThisMethod thisMethod;
 	int access;
 
-	final private ClassVisitor classVisitor;
+	final private ClassBodyImpl classVisitor;
 
 	protected Label labelCurrent;
 
@@ -105,10 +104,11 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	@Override
-	public void code(Consumer<MethodCode> invocation) {
+	public MethodHeader code(Consumer<MethodCode> invocation) {
 		MethodCode mc = this.begin();
 		invocation.accept(mc);
 		this.codeEnd();
+		return this;
 	}
 
 	void codeEnd() {
@@ -253,6 +253,37 @@ class MethodHeaderBuilder implements MethodHeader {
 		this.returnClazz = clazz;
 		return this;
 	}
+//
+//	
+//	@Override
+//	public void makeBridgeMathod() {
+//
+//		MethodHeader mh = this.classVisitor.method(this.access | ACC_BRIDGE + ACC_SYNTHETIC, this.returnClazz.classname,
+//				this.thisMethod.name);
+//		for (GenericClazz exClazz : exceptions) {
+//			mh.tHrow(exClazz);
+//		}
+//		for (ClassField field : this.params) {
+//			mh.parameter(field.name, field.clazz.classname);
+//		}
+//		mh.code(mv -> {
+//			mv.line();
+//			mv.LOAD(0);
+//
+//			for (ClassField field : this.params) {
+//				mv.LOAD(field.name);
+//			}
+//			mv.VIRTUAL(this.classVisitor.getName(), this.thisMethod.name)
+//				.param(ClassField.genericOf(this.params.list()))
+//				.reTurn(this.returnClazz)
+//				.INVOKE();
+//			if (this.returnClazz != null) {
+//				mv.RETURNTop();
+//			} else {
+//				mv.RETURN();
+//			}
+//		});
+//	}
 
 //
 //	@Override

@@ -34,7 +34,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		super(Opcodes.ASM5, cv);
 
 		this.thisType = typeOf(header.name);
-		this.superType = typeOf(header.superClazz.clazz);
+		this.superType = typeOf(header.superClazz.classname);
 		{
 			int version = 52;
 			int access = header.access;
@@ -52,12 +52,19 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 			String superName = this.superType.getInternalName();
 			String[] interfaces = new String[header.interfaces.size()];
 			for (int i = 0; i < header.interfaces.size(); i++) {
-				interfaces[i] = internalNamelOf(header.interfaces.get(i).clazz);
+				interfaces[i] = internalNamelOf(header.interfaces.get(i).classname);
 			}
 
 			cv.visit(version, access, name, signature, superName, interfaces);
 		}
-		cv.visitSource(toSimpleName(this.thisType.getClassName()) + ".java", null);
+
+		String fileName = this.thisType.getClassName();
+		int i = fileName.indexOf("$");
+		if (i >= 0) {
+			fileName = fileName.substring(0, fileName.indexOf("$"));
+		}
+
+		cv.visitSource(toSimpleName(fileName) + ".java", null);
 
 		for (Annotation annotation : header.annotations) {
 			Annotation.visitAnnotation(cv, annotation);
@@ -66,7 +73,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	@Override
 	public String clazzOfField(String name) {
-		return fields.get(name).clazz.clazz;
+		return fields.get(name).clazz.classname;
 	}
 
 	@Override
@@ -76,9 +83,9 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		return this;
 	}
 
-	public Field fieldOfThis(String fieldName) {
-		return fields.get(fieldName);
-	}
+//	public Field fieldOfThis(String fieldName) {
+//		return fields.get(fieldName);
+//	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -118,9 +125,10 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		staticFields.push(field1.name, field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
-		if (annotation != null) {
-			Annotation.visitAnnotation(fv, annotation);
-		}
+
+		assert annotation != null;
+		Annotation.visitAnnotation(fv, annotation);
+
 		fv.visitEnd();
 		return this;
 	}
@@ -139,9 +147,10 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		fields.push(field1.name, field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
-		if (annotation != null) {
-			Annotation.visitAnnotation(fv, annotation);
-		}
+
+		assert annotation != null;
+		Annotation.visitAnnotation(fv, annotation);
+
 		fv.visitEnd();
 		return this;
 	}
@@ -167,12 +176,19 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public String referInnerClass(String name) {
-		String internalName = thisType.getInternalName() + "$" + name;
+	public String referInnerClass(String innerName) {
+		if (thisType.getInternalName().indexOf("$") < 0) {
+			String outerName = thisType.getInternalName();
+			String fullName = outerName + "$" + innerName;
+			cv.visitInnerClass(fullName, outerName, innerName, 0);
 
-		cv.visitInnerClass(internalName, thisType.getInternalName(), name, 0);
-
-		return Type.getType("L" + internalName + ";").getClassName();
+			return Type.getType("L" + fullName + ";").getClassName();
+		} else {
+			String fullName = thisType.getInternalName();
+			String outerName = fullName.substring(0, fullName.indexOf("$"));
+			cv.visitInnerClass(fullName, outerName, innerName, 0);
+			return Type.getType("L" + fullName + ";").getClassName();
+		}
 	}
 
 	@Override
@@ -180,34 +196,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		if (!hadEnd) {
 			end();
 		}
-		if (cv instanceof ClassWriter) {
-			return ((ClassWriter) cv).toByteArray();
-		}
-		return null;
+		assert cv instanceof ClassWriter;
+		return ((ClassWriter) cv).toByteArray();
 	}
-
-//	@Override
-//	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-//		initType(Type.getObjectType(name), Type.getObjectType(superName));
-//		super.visit(version, access, name, signature, superName, interfaces);
-//	}
-
-	@Override
-	public void visitEnd() {
-		super.visitEnd();
-		hadEnd = true;
-	}
-
-//	@Override
-//	public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
-//		Field field = new ClassField(access, name, Type.getType(desc), value);
-//		this.fields.push(field.name, field);
-//		return super.visitField(access, name, desc, signature, value);
-//	}
-//
-//	@Override
-//	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-//		return cv.visitMethod(access, name, desc, signature, exceptions);
-//	}
-
 }

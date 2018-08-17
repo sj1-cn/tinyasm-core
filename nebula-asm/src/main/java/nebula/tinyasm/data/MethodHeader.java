@@ -6,6 +6,8 @@ public interface MethodHeader extends WithAccess<MethodHeader>, WithReturn<Metho
 		WithDefineParameter<MethodHeader>, WithAnnotation<MethodHeader> {
 	MethodCode begin();
 
-	void code(Consumer<MethodCode> invocation);
+	MethodHeader code(Consumer<MethodCode> invocation);
+	
+//	void makeBridgeMathod();
 
 }

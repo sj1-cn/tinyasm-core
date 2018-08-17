@@ -341,7 +341,7 @@ public class TypeUtils {
 	}
 
 	static public String classnameOf(GenericClazz clazz) {
-		return clazz.clazz;
+		return clazz.classname;
 	}
 
 	static public String classnameOf(String clazz) {
@@ -363,7 +363,7 @@ public class TypeUtils {
 	static public String[] classnamesOf(GenericClazz... clazzes) {
 		String[] strs = new String[clazzes.length];
 		for (int i = 0; i < clazzes.length; i++) {
-			strs[i] = clazzes[i].clazz;
+			strs[i] = clazzes[i].classname;
 		}
 		return strs;
 	}
@@ -371,7 +371,7 @@ public class TypeUtils {
 	static public String[] classnamesOf(List<GenericClazz> clazzes) {
 		String[] strs = new String[clazzes.size()];
 		for (int i = 0; i < clazzes.size(); i++) {
-			strs[i] = clazzes.get(i).clazz;
+			strs[i] = clazzes.get(i).classname;
 		}
 		return strs;
 	}
@@ -415,7 +415,7 @@ public class TypeUtils {
 	}
 
 	static public String internalNamelOf(GenericClazz clazz) {
-		return typeOf(clazz.clazz).getInternalName();
+		return typeOf(clazz.classname).getInternalName();
 	}
 
 	static public String internalNamelOf(String clazz) {
@@ -453,7 +453,7 @@ public class TypeUtils {
 	static public String[] internalNamesOf(GenericClazz... clazzes) {
 		String[] strs = new String[clazzes.length];
 		for (int i = 0; i < clazzes.length; i++) {
-			strs[i] = typeOf(clazzes[i].clazz).getInternalName();
+			strs[i] = typeOf(clazzes[i].classname).getInternalName();
 		}
 		return strs;
 	}
@@ -461,7 +461,7 @@ public class TypeUtils {
 	static public String[] internalNamesOf(List<GenericClazz> clazzes) {
 		String[] strs = new String[clazzes.size()];
 		for (int i = 0; i < clazzes.size(); i++) {
-			strs[i] = typeOf(clazzes.get(i).clazz).getInternalName();
+			strs[i] = typeOf(clazzes.get(i).classname).getInternalName();
 		}
 		return strs;
 	}
@@ -603,14 +603,14 @@ public class TypeUtils {
 	static public Type[] typeOf(Field... fields) {
 		Type[] types = new Type[fields.length];
 		for (int i = 0; i < fields.length; i++) {
-			types[i] = typeOf(fields[i].clazz.clazz);
+			types[i] = typeOf(fields[i].clazz.classname);
 		}
 		return types;
 	}
 
 	static public Type typeOf(GenericClazz clazz) {
 		if (clazz == null) return Type.VOID_TYPE;
-		String name = clazz.clazz;
+		String name = clazz.classname;
 		if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
 		return Type.getObjectType(name.replace('.', '/'));
 	}
@@ -626,7 +626,7 @@ public class TypeUtils {
 	static public Type[] typeOf(List<Field> fields) {
 		Type[] types = new Type[fields.size()];
 		for (int i = 0; i < fields.size(); i++) {
-			types[i] = typeOf(fields.get(i).clazz.clazz);
+			types[i] = typeOf(fields.get(i).clazz.classname);
 		}
 		return types;
 	}
