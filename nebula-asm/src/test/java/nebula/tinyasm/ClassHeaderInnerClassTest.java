@@ -63,9 +63,9 @@ public class ClassHeaderInnerClassTest extends TestBase {
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
-	@Test
-	public void printClass() {
-		System.out.println(RefineCode.refineCode(toString(innerclazz)));
-	}
+//	@Test
+//	public void printClass() {
+//		System.out.println(RefineCode.refineCode(toString(innerclazz)));
+//	}
 
 }

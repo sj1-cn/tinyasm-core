@@ -42,17 +42,38 @@ public class PetDBMapperTest extends TestBase {
 				mv.NEW(targetClazz);
 				mv.DUP();
 
-				mv.LOAD("rs");
-				mv.LOADConst("id");
-				mv.INTERFACE(ResultSet.class, "getLong").param(String.class).reTurn(long.class).INVOKE();
-				mv.STATIC(Long.class, "valueOf").param(long.class).reTurn(Long.class).INVOKE();
+				{
+					String name = "id";
+					String jdbcFuncName = "getLong";
+					Class<?> jdbcType = long.class;
+					Class<?> pojoType = Long.class;
 
-				mv.LOAD("rs");
-				mv.LOADConst("name");
-				mv.INTERFACE(ResultSet.class, "getString").param(String.class).reTurn(String.class).INVOKE();
-				mv.LOAD("rs");
-				mv.LOADConst("desciption");
-				mv.INTERFACE(ResultSet.class, "getString").param(String.class).reTurn(String.class).INVOKE();
+					mv.LOAD("rs");
+					mv.LOADConst(name);
+					mv.INTERFACE(ResultSet.class, jdbcFuncName).param(String.class).reTurn(jdbcType).INVOKE();
+					mv.STATIC(Long.class, "valueOf").param(long.class).reTurn(pojoType).INVOKE();
+				}
+				{
+					String name = "name";
+					String jdbcFuncName = "getString";
+					Class<?> jdbcClass = String.class;
+					Class<?> pojoClass = String.class;
+
+					mv.LOAD("rs");
+					mv.LOADConst(name);
+					mv.INTERFACE(ResultSet.class, jdbcFuncName).param(jdbcClass).reTurn(pojoClass).INVOKE();
+				}
+
+				{
+					String name = "desciption";
+					String jdbcFuncName = "getString";
+					Class<?> jdbcClass = String.class;
+					Class<?> pojoClass = String.class;
+
+					mv.LOAD("rs");
+					mv.LOADConst(name);
+					mv.INTERFACE(ResultSet.class, jdbcFuncName).param(jdbcClass).reTurn(pojoClass).INVOKE();
+				}
 
 				mv.INVOKESPECIAL(targetClazz, null, "<init>", Long.class.getName(), String.class.getName(),
 						String.class.getName());
