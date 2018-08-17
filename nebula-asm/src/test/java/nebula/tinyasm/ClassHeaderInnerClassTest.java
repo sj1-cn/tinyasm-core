@@ -9,7 +9,6 @@ import org.objectweb.asm.Opcodes;
 
 import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.sample.ClassHeader.InnerClassSample;
-import nebula.tinyasm.util.RefineCode;
 
 public class ClassHeaderInnerClassTest extends TestBase {
 
