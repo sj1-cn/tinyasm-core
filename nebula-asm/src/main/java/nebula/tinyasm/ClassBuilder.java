@@ -14,7 +14,16 @@ public interface ClassBuilder {
 		return new ClassHeaderImpl(classWriter, clazz, superClazz);
 	}
 
+	static public ClassHeader make(ClassVisitor classWriter, String clazz, Class<?> superClazz) {
+		return new ClassHeaderImpl(classWriter, clazz, superClazz);
+	}
+
 	static public ClassHeader make(ClassVisitor classWriter, String clazz, String superClazz, String interfaceType) {
+		return new ClassHeaderImpl(classWriter, clazz, superClazz).imPlements(interfaceType);
+	}
+
+	static public ClassHeader make(ClassVisitor classWriter, String clazz, Class<?> superClazz,
+			Class<?> interfaceType) {
 		return new ClassHeaderImpl(classWriter, clazz, superClazz).imPlements(interfaceType);
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 public class MethodCodeMethodCallerSample {
 
+	@SuppressWarnings("unused")
 	private int i = 10;
 
 	public MethodCodeMethodCallerSample() {

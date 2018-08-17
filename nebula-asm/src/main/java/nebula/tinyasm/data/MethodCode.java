@@ -243,7 +243,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		Type valueType = codeGetStackType(0);
 		switch (valueType.getSort()) {
 		case Type.ARRAY:
-			assert valueType.getSort()== localType.getSort() : "type don't match! local: " + localType + "  stack:" + valueType;
+			assert valueType.getSort() == localType.getSort() : "type don't match! local: " + localType + "  stack:"
+					+ valueType;
 			codePopStack();
 			mvInst(ASTORE, index);
 			// ASTORE (objectref →) : store a reference into a local variable #index
@@ -253,7 +254,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			// ASTORE_3 (objectref →) : store a reference into local variable 3
 			break;
 		case Type.OBJECT:
-			assert valueType.getSort()== localType.getSort() : "type don't match! local: " + localType + "  stack:" + valueType;
+			assert valueType.getSort() == localType.getSort() : "type don't match! local: " + localType + "  stack:"
+					+ valueType;
 			codePopStack();
 			mvInst(ASTORE, index);
 			// ASTORE (objectref →) : store a reference into a local variable #index
@@ -1571,6 +1573,11 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		mvInvoke(opcode, objectType, returnType, methodName, paramTypes);
 		if (returnType != Type.VOID_TYPE) codePush(returnType);
 
+	}
+
+	default MethodCode line(Consumer<MethodCode> invocation) {
+		line();
+		return block(invocation);
 	}
 
 	MethodCode block(Consumer<MethodCode> invocation);
