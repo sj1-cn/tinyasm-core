@@ -15,10 +15,6 @@ import nebula.tinyasm.data.GenericClazz;
 
 public class TypeUtils {
 
-	static public boolean is(int access, int modified) {
-		return (access & modified) > 0;
-	}
-
 	/**
 	 * The stack size variation corresponding to each JVM instruction. This stack
 	 * variation is equal to the size of the values produced by an instruction,
@@ -26,55 +22,38 @@ public class TypeUtils {
 	 */
 	static public final int[] SIZE = buildOpcodeSize();
 
-	static public boolean in(Type type, Type... types) {
-		for (Type type2 : types) {
-			if (type2 == type) {
-				return true;
-			}
-		}
-		return false;
+	static Map<String, Type> primaryTypeMaps = new HashMap<String, Type>();
+
+	static {
+		primaryTypeMaps.put(boolean.class.getName(), Type.BOOLEAN_TYPE);
+		primaryTypeMaps.put(byte.class.getName(), Type.BYTE_TYPE);
+		primaryTypeMaps.put(char.class.getName(), Type.CHAR_TYPE);
+		primaryTypeMaps.put(short.class.getName(), Type.SHORT_TYPE);
+		primaryTypeMaps.put(int.class.getName(), Type.INT_TYPE);
+		primaryTypeMaps.put(long.class.getName(), Type.LONG_TYPE);
+		primaryTypeMaps.put(float.class.getName(), Type.FLOAT_TYPE);
+		primaryTypeMaps.put(double.class.getName(), Type.DOUBLE_TYPE);
 	}
 
-	static public Type checkMathTypes(Type right, Type left) {
-		assert in(right, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE,
-				Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "right value type";
-		assert in(left, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE, Type.FLOAT_TYPE,
-				Type.DOUBLE_TYPE) : "left value type";
-		right = mathInnerUserType(right);
-		left = mathInnerUserType(left);
-		assert left == right : "left type should equal right type";
-		Type innerType = mathInnerUserType(left);
-		return innerType;
-	}
+	static Map<Type, Integer> arrayTypeMaps = new HashMap<Type, Integer>();
 
-	static public Type stringInnerUserType(Type type) {
-		switch (type.getSort()) {
-		case Type.BOOLEAN:
-		case Type.BYTE:
-//		case Type.CHAR:
-		case Type.SHORT:
-			return Type.INT_TYPE;
-		default:
-			break;
-		}
-		return type;
-	}
-
-	static public Type mathInnerUserType(Type type) {
-		switch (type.getSort()) {
-		case Type.BOOLEAN:
-		case Type.BYTE:
-		case Type.CHAR:
-		case Type.SHORT:
-			return Type.INT_TYPE;
-		default:
-			break;
-		}
-		return type;
+	static {
+		arrayTypeMaps.put(typeOf(boolean.class), Opcodes.T_BOOLEAN);
+		arrayTypeMaps.put(typeOf(byte.class.getName()), Opcodes.T_BYTE);
+		arrayTypeMaps.put(typeOf(char.class.getName()), Opcodes.T_CHAR);
+		arrayTypeMaps.put(typeOf(short.class.getName()), Opcodes.T_SHORT);
+		arrayTypeMaps.put(typeOf(int.class.getName()), Opcodes.T_INT);
+		arrayTypeMaps.put(typeOf(long.class.getName()), Opcodes.T_LONG);
+		arrayTypeMaps.put(typeOf(float.class.getName()), Opcodes.T_FLOAT);
+		arrayTypeMaps.put(typeOf(double.class.getName()), Opcodes.T_DOUBLE);
 	}
 
 	static public Type arrayOf(Class<?> clz) {
 		return arrayOf(typeOf(clz), true);
+	}
+
+	static public Type arrayOf(Class<?> clz, boolean array) {
+		return arrayOf(typeOf(clz), array);
 	}
 
 	static public Type arrayOf(String clz) {
@@ -82,10 +61,6 @@ public class TypeUtils {
 	}
 
 	static public Type arrayOf(String clz, boolean array) {
-		return arrayOf(typeOf(clz), array);
-	}
-
-	static public Type arrayOf(Class<?> clz, boolean array) {
 		return arrayOf(typeOf(clz), array);
 	}
 
@@ -99,6 +74,10 @@ public class TypeUtils {
 		} else {
 			return type;
 		}
+	}
+
+	static public int arrayTyoeCodeOf(Type type) {
+		return arrayTypeMaps.get(type);
 	}
 
 	/**
@@ -329,13 +308,16 @@ public class TypeUtils {
 		// System.err.println();
 	}
 
-	static public String concat(String... strs) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(strs[0]);
-		for (int i = 1; i < strs.length; i++) {
-			sb.append(toPropertyName(strs[i]));
-		}
-		return sb.toString();
+	static public Type checkMathTypes(Type right, Type left) {
+		assert in(right, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE,
+				Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "right value type";
+		assert in(left, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE, Type.FLOAT_TYPE,
+				Type.DOUBLE_TYPE) : "left value type";
+		right = mathInnerUserType(right);
+		left = mathInnerUserType(left);
+		assert left == right : "left type should equal right type";
+		Type innerType = mathInnerUserType(left);
+		return innerType;
 	}
 
 //	static public Field[] fieldsOf(Field field, Field[] fields) {
@@ -354,6 +336,67 @@ public class TypeUtils {
 //		return newfields;
 //	}
 
+	static public String classnameOf(Class<?> clazz) {
+		return clazz.getName();
+	}
+
+	static public String classnameOf(GenericClazz clazz) {
+		return clazz.clazz;
+	}
+
+	static public String classnameOf(String clazz) {
+		return clazz;
+	}
+
+	static public String classnameOf(Type type) {
+		return type.getClassName();
+	};
+
+	static public String[] classnamesOf(Class<?>... clazz) {
+		String[] names = new String[clazz.length];
+		for (int i = 0; i < names.length; i++) {
+			names[i] = clazz[i].getName();
+		}
+		return names;
+	}
+
+	static public String[] classnamesOf(GenericClazz... clazzes) {
+		String[] strs = new String[clazzes.length];
+		for (int i = 0; i < clazzes.length; i++) {
+			strs[i] = clazzes[i].clazz;
+		}
+		return strs;
+	}
+
+	static public String[] classnamesOf(List<GenericClazz> clazzes) {
+		String[] strs = new String[clazzes.size()];
+		for (int i = 0; i < clazzes.size(); i++) {
+			strs[i] = clazzes.get(i).clazz;
+		}
+		return strs;
+	}
+
+	static public String[] classnamesOf(String... clazz) {
+		return clazz;
+	}
+
+	static public String[] classnamesOf(Type[] types) {
+		String[] strs = new String[types.length];
+		for (int i = 0; i < types.length; i++) {
+			strs[i] = types[i].getClassName();
+		}
+		return strs;
+	}
+
+	static public String concat(String... strs) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(strs[0]);
+		for (int i = 1; i < strs.length; i++) {
+			sb.append(toPropertyName(strs[i]));
+		}
+		return sb.toString();
+	}
+
 	static public <T> T firstOf(List<T> values) {
 		return values.get(0);
 	}
@@ -362,12 +405,82 @@ public class TypeUtils {
 		return values[0];
 	}
 
+	static public boolean in(Type type, Type... types) {
+		for (Type type2 : types) {
+			if (type2 == type) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	static public String internalNamelOf(GenericClazz clazz) {
+		return typeOf(clazz.clazz).getInternalName();
+	}
+
+	static public String internalNamelOf(String clazz) {
+		return typeOf(clazz).getInternalName();
+	}
+
+	static public String[] internalNamelOf(String[] classes) {
+		String[] strs = new String[classes.length];
+		for (int i = 0; i < classes.length; i++) {
+			strs[i] = typeOf(classes[i]).getInternalName();
+		}
+		return strs;
+	}
+
+	static public String internalNamelOf(Type types) {
+		return types.getInternalName();
+	}
+
+	static public String[] internalNamelOf(Type[] types) {
+		String[] strs = new String[types.length];
+		for (int i = 0; i < types.length; i++) {
+			strs[i] = types[i].getInternalName();
+		}
+		return strs;
+	}
+
 	static public String[] internalNameOf(Class<?>... classes) {
 		String[] types = new String[classes.length];
 		for (int i = 0; i < classes.length; i++) {
 			types[i] = Type.getInternalName(classes[i]);
 		}
 		return types;
+	}
+
+	static public String[] internalNamesOf(GenericClazz... clazzes) {
+		String[] strs = new String[clazzes.length];
+		for (int i = 0; i < clazzes.length; i++) {
+			strs[i] = typeOf(clazzes[i].clazz).getInternalName();
+		}
+		return strs;
+	}
+
+	static public String[] internalNamesOf(List<GenericClazz> clazzes) {
+		String[] strs = new String[clazzes.size()];
+		for (int i = 0; i < clazzes.size(); i++) {
+			strs[i] = typeOf(clazzes.get(i).clazz).getInternalName();
+		}
+		return strs;
+	}
+
+	static public boolean is(int access, int modified) {
+		return (access & modified) > 0;
+	}
+
+	static public Type mathInnerUserType(Type type) {
+		switch (type.getSort()) {
+		case Type.BOOLEAN:
+		case Type.BYTE:
+		case Type.CHAR:
+		case Type.SHORT:
+			return Type.INT_TYPE;
+		default:
+			break;
+		}
+		return type;
 	}
 
 	static public <T> List<T> restOf(List<T> values) {
@@ -384,19 +497,19 @@ public class TypeUtils {
 			newvalues.add(values[i]);
 		}
 		return newvalues;
-	}
-
-	static public String signatureOf(String type, String... signatureClasses) {
-		return signatureOf(typeOf(type), typeOf(signatureClasses));
-	}
-
-	static public String signatureOf(String type, Class<?>... signatureClasses) {
-		return signatureOf(typeOf(type), typeOf(signatureClasses));
-	}
+	};
 
 	static public String signatureOf(Class<?> type, Class<?>... signatureClasses) {
 		return signatureOf(typeOf(type), typeOf(signatureClasses));
-	}
+	};
+
+	static public String signatureOf(String type, Class<?>... signatureClasses) {
+		return signatureOf(typeOf(type), typeOf(signatureClasses));
+	};
+
+	static public String signatureOf(String type, String... signatureClasses) {
+		return signatureOf(typeOf(type), typeOf(signatureClasses));
+	};
 
 	static public String signatureOf(Type type, Class<?>... signatureClasses) {
 		String signature = null;
@@ -412,7 +525,7 @@ public class TypeUtils {
 			signature = sb.toString();
 		}
 		return signature;
-	}
+	};
 
 	static public String signatureOf(Type type, Type... signatureTypes) {
 		String signature = null;
@@ -428,13 +541,26 @@ public class TypeUtils {
 			signature = sb.toString();
 		}
 		return signature;
-	}
+	};
 
-	static public String toPropertyGetName(String name, String clazz) {
-		return "get" + toPropertyName(name);
+	static public Type stringInnerUserType(Type type) {
+		switch (type.getSort()) {
+		case Type.BOOLEAN:
+		case Type.BYTE:
+//		case Type.CHAR:
+		case Type.SHORT:
+			return Type.INT_TYPE;
+		default:
+			break;
+		}
+		return type;
 	}
 
 	static public String toPropertyGetName(String name, Class<?> clazz) {
+		return "get" + toPropertyName(name);
+	}
+
+	static public String toPropertyGetName(String name, String clazz) {
 		return "get" + toPropertyName(name);
 	}
 
@@ -442,11 +568,11 @@ public class TypeUtils {
 		return Character.toUpperCase(name.charAt(0)) + name.substring(1);
 	}
 
-	static public String toPropertySetName(String name, String clazz) {
+	static public String toPropertySetName(String name, Class<?> clazz) {
 		return "set" + toPropertyName(name);
 	}
 
-	static public String toPropertySetName(String name, Class<?> clazz) {
+	static public String toPropertySetName(String name, String clazz) {
 		return "set" + toPropertyName(name);
 	}
 
@@ -457,52 +583,10 @@ public class TypeUtils {
 		return name.substring(index + 1);
 	}
 
-	static Map<String, Type> primaryTypeMaps = new HashMap<String, Type>();
-	static {
-		primaryTypeMaps.put(boolean.class.getName(), Type.BOOLEAN_TYPE);
-		primaryTypeMaps.put(byte.class.getName(), Type.BYTE_TYPE);
-		primaryTypeMaps.put(char.class.getName(), Type.CHAR_TYPE);
-		primaryTypeMaps.put(short.class.getName(), Type.SHORT_TYPE);
-		primaryTypeMaps.put(int.class.getName(), Type.INT_TYPE);
-		primaryTypeMaps.put(long.class.getName(), Type.LONG_TYPE);
-		primaryTypeMaps.put(float.class.getName(), Type.FLOAT_TYPE);
-		primaryTypeMaps.put(double.class.getName(), Type.DOUBLE_TYPE);
-	}
-
-	static Map<Type, Integer> arrayTypeMaps = new HashMap<Type, Integer>();
-	static {
-		arrayTypeMaps.put(typeOf(boolean.class), Opcodes.T_BOOLEAN);
-		arrayTypeMaps.put(typeOf(byte.class.getName()), Opcodes.T_BYTE);
-		arrayTypeMaps.put(typeOf(char.class.getName()), Opcodes.T_CHAR);
-		arrayTypeMaps.put(typeOf(short.class.getName()), Opcodes.T_SHORT);
-		arrayTypeMaps.put(typeOf(int.class.getName()), Opcodes.T_INT);
-		arrayTypeMaps.put(typeOf(long.class.getName()), Opcodes.T_LONG);
-		arrayTypeMaps.put(typeOf(float.class.getName()), Opcodes.T_FLOAT);
-		arrayTypeMaps.put(typeOf(double.class.getName()), Opcodes.T_DOUBLE);
-	}
-
-	static public int arrayTyoeCodeOf(Type type) {
-		return arrayTypeMaps.get(type);
-	}
-
 	static public Type typeOf(Class<?> clz) {
 		if (clz == null) return Type.VOID_TYPE;
 		return Type.getType(clz);
 	}
-
-	static public Type typeOf(Class<?> clz, boolean isarray) {
-		return arrayOf(Type.getType(clz), isarray);
-	}
-
-	static public Type typeOf(String name, boolean isarray) {
-		return arrayOf(typeOf(name), isarray);
-	};
-
-	static public Type typeOf(String name) {
-		if (name == null) return Type.VOID_TYPE;
-		if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
-		return Type.getObjectType(name.replace('.', '/'));
-	};
 
 	static public Type[] typeOf(Class<?>... classes) {
 		Type[] types = new Type[classes.length];
@@ -510,64 +594,31 @@ public class TypeUtils {
 			types[i] = typeOf(classes[i]);
 		}
 		return types;
-	};
-
-	static public Type[] typeOf(String... classes) {
-		Type[] types = new Type[classes.length];
-		for (int i = 0; i < classes.length; i++) {
-			types[i] = typeOf(classes[i]);
-		}
-		return types;
-	};
-
-	static public String internalNamelOf(Type types) {
-		return types.getInternalName();
 	}
 
-	static public String internalNamelOf(GenericClazz clazz) {
-		return typeOf(clazz.clazz).getInternalName();
-	}
-
-	static public String internalNamelOf(String clazz) {
-		return typeOf(clazz).getInternalName();
-	}
-
-	static public String[] internalNamelOf(Type[] types) {
-		String[] strs = new String[types.length];
-		for (int i = 0; i < types.length; i++) {
-			strs[i] = types[i].getInternalName();
-		}
-		return strs;
-	}
-
-	static public String[] internalNamesOf(List<GenericClazz> clazzes) {
-		String[] strs = new String[clazzes.size()];
-		for (int i = 0; i < clazzes.size(); i++) {
-			strs[i] = typeOf(clazzes.get(i).clazz).getInternalName();
-		}
-		return strs;
-	}
-
-	static public String[] internalNamesOf(GenericClazz... clazzes) {
-		String[] strs = new String[clazzes.length];
-		for (int i = 0; i < clazzes.length; i++) {
-			strs[i] = typeOf(clazzes[i].clazz).getInternalName();
-		}
-		return strs;
-	}
-
-	static public String[] internalNamelOf(String[] classes) {
-		String[] strs = new String[classes.length];
-		for (int i = 0; i < classes.length; i++) {
-			strs[i] = typeOf(classes[i]).getInternalName();
-		}
-		return strs;
+	static public Type typeOf(Class<?> clz, boolean isarray) {
+		return arrayOf(Type.getType(clz), isarray);
 	}
 
 	static public Type[] typeOf(Field... fields) {
 		Type[] types = new Type[fields.length];
 		for (int i = 0; i < fields.length; i++) {
 			types[i] = typeOf(fields[i].clazz.clazz);
+		}
+		return types;
+	}
+
+	static public Type typeOf(GenericClazz clazz) {
+		if (clazz == null) return Type.VOID_TYPE;
+		String name = clazz.clazz;
+		if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
+		return Type.getObjectType(name.replace('.', '/'));
+	}
+
+	static public Type[] typeOf(GenericClazz... clazzes) {
+		Type[] types = new Type[clazzes.length];
+		for (int i = 0; i < clazzes.length; i++) {
+			types[i] = typeOf(clazzes[i]);
 		}
 		return types;
 	}
@@ -580,57 +631,30 @@ public class TypeUtils {
 		return types;
 	}
 
-
-	static public String classnameOf(Class<?> clazz) {
-		return clazz.getName();
-	}
-
-	static public String[] classnamesOf(Class<?>... clazz) {
-		String[] names = new String[clazz.length];
-		for (int i = 0; i < names.length; i++) {
-			names[i] = clazz[i].getName();
-		}
-		return names;
-	}
-
-	static public String[] classnamesOf(String... clazz) {
-		return clazz;
-	}
-
-	static public String classnameOf(String clazz) {
-		return clazz;
-	}
-
-	static public String classnameOf(Type type) {
-		return type.getClassName();
-	}
-
-	static public String classnameOf(GenericClazz clazz) {
-		return clazz.clazz;
-	}
-
-	static public String[] classnamesOf(Type[] types) {
-		String[] strs = new String[types.length];
-		for (int i = 0; i < types.length; i++) {
-			strs[i] = types[i].getClassName();
-		}
-		return strs;
-	}
-
-	static public String[] classnamesOf(List<GenericClazz> clazzes) {
-		String[] strs = new String[clazzes.size()];
+	static public Type[] typesOf(List<GenericClazz> clazzes) {
+		Type[] types = new Type[clazzes.size()];
 		for (int i = 0; i < clazzes.size(); i++) {
-			strs[i] = clazzes.get(i).clazz;
+			types[i] = typeOf(clazzes.get(i));
 		}
-		return strs;
+		return types;
 	}
 
-	static public String[] classnamesOf(GenericClazz... clazzes) {
-		String[] strs = new String[clazzes.length];
-		for (int i = 0; i < clazzes.length; i++) {
-			strs[i] = clazzes[i].clazz;
+	static public Type typeOf(String name) {
+		if (name == null) return Type.VOID_TYPE;
+		if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
+		return Type.getObjectType(name.replace('.', '/'));
+	}
+
+	static public Type[] typeOf(String... classes) {
+		Type[] types = new Type[classes.length];
+		for (int i = 0; i < classes.length; i++) {
+			types[i] = typeOf(classes[i]);
 		}
-		return strs;
+		return types;
+	}
+
+	static public Type typeOf(String name, boolean isarray) {
+		return arrayOf(typeOf(name), isarray);
 	}
 
 }

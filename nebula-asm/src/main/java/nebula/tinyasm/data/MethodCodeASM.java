@@ -8,16 +8,21 @@ public interface MethodCodeASM {
 	void LOADThis();
 
 	void LOAD(String name);
-	
+
+	void LOAD(int local);
+
 	void LOAD(String name, String... names);
 
 	void STORE(String varname);
+
+	void STORE(int local);
 
 	void LOADConstByte(int value);
 
 	void LOADConstShort(int value);
 
 	void LOADConstNULL();
+
 	/**
 	 * Visits an instruction with a single int operand.
 	 * 
@@ -274,13 +279,15 @@ public interface MethodCodeASM {
 
 	void GETSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
 
-	void GET_THIS_STATIC(String objectType, String fieldName) ;
+	void GET_THIS_STATIC(String objectType, String fieldName);
+
 	void GETSTATIC(String objectType, String fieldName, String fieldType);
 
 	void PUTSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
 
 	void PUTSTATIC(String objectType, String fieldName, String fieldType);
-	void PUT_THIS_STATIC(String objectType, String fieldName) ;
+
+	void PUT_THIS_STATIC(String objectType, String fieldName);
 
 	/** INVOKE **/
 	void INVOKESTATIC(Class<?> objectType, String methodName, Class<?>... paramTypes);

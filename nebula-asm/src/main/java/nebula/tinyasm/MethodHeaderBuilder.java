@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.data.Annotation;
@@ -52,35 +53,32 @@ class MethodHeaderBuilder implements MethodHeader {
 	final List<GenericClazz> exceptions = new ArrayList<>();
 	GenericClazz returnClazz = null;
 
-	public MethodHeaderBuilder(ClassBodyImpl cv, boolean isInstanceMethod, String className, int access,
-			String returnType, String methodName) {
-		this(cv, isInstanceMethod, className, access, methodName);
+	public MethodHeaderBuilder(ClassBodyImpl cv, String className, int access, String returnType, String methodName) {
+		this(cv, className, access, methodName);
 		this.returnClazz = returnType != null ? GenericClazz.generic(returnType) : null;
 	}
 
-	public MethodHeaderBuilder(ClassBodyImpl cv, boolean instanceMethod, String className, int access,
-			String methodName) {
+	public MethodHeaderBuilder(ClassBodyImpl cv, String className, int access, String methodName) {
 		this.classVisitor = cv;
 		thisMethod = new ThisMethod();
 		thisMethod.name = methodName;
 		this.access = access;
 		thisMethod.type = typeOf(className);
-		thisMethod.instanceMethod = instanceMethod;
 		this.fields = cv.fields;
 		this.staticFields = cv.staticFields;
 	}
-//
+
 //	@Override
 //	public MethodHeader annotation(String clazz, Object value) {
 //		thisMethod.annotations.add(new ClassAnnotation(type, null, value));
 //		return this;
 //	}
 
-	@Override
-	public MethodHeader annotation(String clazz, Object defaultValue, String[] names, Object[] values) {
-		annotations.add(new Annotation(clazz, defaultValue, names, values));
-		return this;
-	}
+//	@Override
+//	public MethodHeader annotation(String clazz, Object defaultValue, String[] names, Object[] values) {
+//		annotations.add(new Annotation(clazz, defaultValue, names, values));
+//		return this;
+//	}
 
 //	@Override
 //	public MethodHeader annotation(Type type, Object value) {
@@ -171,6 +169,8 @@ class MethodHeaderBuilder implements MethodHeader {
 			int access = this.access;
 			String name = thisMethod.name;
 
+			thisMethod.instanceMethod = (access & Opcodes.ACC_STATIC) == 0;
+
 			Type returnType;
 			if (returnClazz != null) returnType = Type.getType(returnClazz.getDescriptor());
 			else
@@ -226,7 +226,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void preapareMethodWithParams() {
 		for (ClassField field : params) {
-			mhLocals.push(new LocalsVariable(field, labelCurrent));
+			mhLocals.push(field.name, new LocalsVariable(field, labelCurrent));
 		}
 	}
 

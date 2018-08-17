@@ -85,7 +85,7 @@ public class RefineCode {
 		input = input.replaceAll("\\);", "\\);\n\t");
 
 		input = input.replaceAll("mv = cw.visitMethod\\(ACC_PUBLIC, (\"[^\"]*\"), \"\\(([^\\)]*)\\)([^\"]*)\",[^;]*;",
-				"\tcw.method(/*$3*/, $1,/*$2*/)");
+				"\tcw.method(/*$3*/ $1 /*$2*/)");
 
 		input = input.replaceAll("(?:\\})?\\{fv = cw.visitField\\(ACC_PRIVATE, \"([^\"]*)\", \"([^\"]*)\",[^;]*;",
 				"cw.field(\"$1\", \"$2\");");

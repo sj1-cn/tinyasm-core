@@ -1,19 +1,24 @@
 package nebula.tinyasm;
 
 import static nebula.tinyasm.util.TypeUtils.typeOf;
+import static nebula.tinyasm.util.TypeUtils.typesOf;
 import static org.objectweb.asm.Opcodes.BIPUSH;
 import static org.objectweb.asm.Opcodes.ICONST_0;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 import java.util.function.Consumer;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.data.Annotation;
 import nebula.tinyasm.data.GenericClazz;
+import nebula.tinyasm.data.MethodCaller;
 import nebula.tinyasm.data.MethodCode;
 
 public class MethodCodeBuilder implements MethodCode {
@@ -56,38 +61,33 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	@Override
-	public Type codeGetStack(int i) {
+	public Type codeGetStackType(int i) {
 		return stack.get(stack.size() - i - 1);
 	}
 
 	@Override
-	public int codeLocalLoadAccess(String name) {
-		return locals.accessLoad(name, labelCurrent).locals;
+	public int codeLocalGetLocals(String name) {
+		return locals.get(name).locals;
 	}
 
 	@Override
-	public Type codeLocalLoadAccessType(String name) {
-		return locals.accessLoad(name, labelCurrent).type;
+	public Type codeLocalGetType(String name) {
+		return locals.get(name).type;
 	}
 
 	@Override
-	public Type codeLocalLoadAccessType(int index) {
-		return locals.accessLoad(index, labelCurrent).type;
+	public Type codeLocalGetType(int localsIndex) {
+		return locals.getByLocal(localsIndex).type;
 	}
 
 	@Override
-	public Type codeLocalStoreAccessType(int index) {
-		return locals.accessLoad(index, labelCurrent).type;
+	public Type codeLocalLoadAccess(int localsIndex) {
+		return locals.accessLoad(localsIndex, labelCurrent).type;
 	}
 
 	@Override
-	public int codeLocalStoreAccess(String name) {
-		return locals.accessStore(name, labelCurrent).locals;
-	}
-
-	@Override
-	public Type codeLocalStoreAccessType(String name) {
-		return typeOf(locals.accessStore(name, labelCurrent).clazz.clazz);
+	public Type codeLocalStoreAccess(int localsIndex) {
+		return locals.accessStore(localsIndex, labelCurrent).type;
 	}
 
 	@Override
@@ -128,13 +128,13 @@ public class MethodCodeBuilder implements MethodCode {
 
 	@Override
 	public MethodCode define(String name, GenericClazz clazz) {
-		locals.push(new LocalsVariable(name, clazz));
+		locals.push(name, new LocalsVariable(name, clazz));
 		return this;
 	}
 
 	@Override
 	public MethodCode define(Annotation annotation, String name, GenericClazz clazz) {
-		locals.push(new LocalsVariable(annotation, name, clazz));
+		locals.push(name, new LocalsVariable(annotation, name, clazz));
 		return this;
 	}
 
@@ -228,4 +228,59 @@ public class MethodCodeBuilder implements MethodCode {
 //		System.out.println(sb.toString());
 	}
 
+	@Override
+	public MethodCaller<MethodCode> STATIC(String objectType, String methodName) {
+		// TODO Auto-generated method stub
+		return new MethodCallerImpl(Opcodes.INVOKESTATIC, GenericClazz.generic(objectType), methodName);
+	}
+
+	@Override
+	public MethodCaller<MethodCode> INTERFACE(String objectType, String methodName) {
+		return new MethodCallerImpl(Opcodes.INVOKEINTERFACE, GenericClazz.generic(objectType), methodName);
+	}
+
+	@Override
+	public MethodCaller<MethodCode> SPECIAL(String objectType, String methodName) {
+		return new MethodCallerImpl(Opcodes.INVOKESPECIAL, GenericClazz.generic(objectType), methodName);
+	}
+
+	@Override
+	public MethodCaller<MethodCode> VIRTUAL(String objectType, String methodName) {
+		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, GenericClazz.generic(objectType), methodName);
+	}
+
+	class MethodCallerImpl implements MethodCaller<MethodCode> {
+		List<GenericClazz> params = new ArrayList<>();
+		GenericClazz returnClazz;
+
+		final int opcode;
+		final GenericClazz resideClazz;
+		final String methodName;
+
+		public MethodCallerImpl(int opcode, GenericClazz resideClazz, String methodName) {
+			super();
+			this.opcode = opcode;
+			this.resideClazz = resideClazz;
+			this.methodName = methodName;
+		}
+
+		@Override
+		public MethodCaller<MethodCode> param(GenericClazz clazz) {
+			params.add(clazz);
+			return this;
+		}
+
+		@Override
+		public MethodCaller<MethodCode> reTurn(GenericClazz clazz) {
+			returnClazz = clazz;
+			return this;
+		}
+
+		@Override
+		public void INVOKE() {
+			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz), typeOf(returnClazz), methodName,
+					typesOf(params));
+		}
+
+	}
 }

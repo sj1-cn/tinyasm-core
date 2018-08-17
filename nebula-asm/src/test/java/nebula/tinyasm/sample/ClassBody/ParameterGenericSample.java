@@ -6,7 +6,7 @@ import java.util.List;
 import nebula.tinyasm.data.Annotation;
 
 @SuppressWarnings("serial")
-public class ParameterGenericSample extends ArrayList<Annotation> implements List<Annotation> {
+public class ParameterGenericSample extends ArrayList<Annotation> implements TestInerface, List<Annotation> {
 
 	@SuppressWarnings("unused")
 	private List<String> annotation;

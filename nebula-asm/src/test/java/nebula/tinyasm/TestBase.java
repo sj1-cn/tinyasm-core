@@ -1,5 +1,8 @@
 package nebula.tinyasm;
 
+import static nebula.tinyasm.util.RefineCode.excludeLineNumber;
+import static nebula.tinyasm.util.RefineCode.skipToString;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -9,35 +12,45 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.util.ASMifier;
 import org.objectweb.asm.util.TraceClassVisitor;
 
-import static nebula.tinyasm.util.RefineCode.*;
-
 public class TestBase {
 
 	public static String toString(byte[] code) throws IOException {
-		ClassReader cr = new ClassReader(code);
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
-		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return skipToString(excludeLineNumber(sw.toString()));
+		try {
+			ClassReader cr = new ClassReader(code);
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
+			cr.accept(visitor, ClassReader.EXPAND_FRAMES);
+			return skipToString(excludeLineNumber(sw.toString()));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	public static String toString(Class<?> clazz) throws IOException {
-		ClassReader cr = new ClassReader(clazz.getName());
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
-		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return skipToString(excludeLineNumber(sw.toString()));
+	public static String toString(Class<?> clazz) {
+		try {
+			ClassReader cr = new ClassReader(clazz.getName());
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
+			cr.accept(visitor, ClassReader.EXPAND_FRAMES);
+			return skipToString(excludeLineNumber(sw.toString()));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	public static String toString(String className) throws IOException {
-		ClassReader cr = new ClassReader(className);
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
-		cr.accept(visitor, ClassReader.EXPAND_FRAMES);
-		return skipToString(excludeLineNumber(sw.toString()));
+	public static String toString(String className) {
+		try {
+			ClassReader cr = new ClassReader(className);
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
+			cr.accept(visitor, ClassReader.EXPAND_FRAMES);
+			return skipToString(excludeLineNumber(sw.toString()));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 //
 //	public static String refineCode(String input) {

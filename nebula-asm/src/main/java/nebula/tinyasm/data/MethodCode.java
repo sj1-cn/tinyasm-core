@@ -6,9 +6,10 @@ import static nebula.tinyasm.util.TypeUtils.checkMathTypes;
 import static nebula.tinyasm.util.TypeUtils.in;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.AASTORE;
+import static org.objectweb.asm.Opcodes.ACONST_NULL;
 import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.ANEWARRAY;
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.ARRAYLENGTH;
 import static org.objectweb.asm.Opcodes.ASTORE;
 import static org.objectweb.asm.Opcodes.BIPUSH;
@@ -92,7 +93,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode> {
+public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode>, WithInvoke<MethodCode> {
 
 	void codeAccessLabel(Label label);
 
@@ -118,19 +119,17 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	abstract Type codeThisClassFieldType(String name);
 
-	abstract int codeLocalLoadAccess(String name);
+	abstract int codeLocalGetLocals(String name);
 
-	abstract Type codeLocalLoadAccessType(String name);
+	abstract Type codeLocalGetType(String name);
 
-	abstract int codeLocalStoreAccess(String name);
+	abstract Type codeLocalGetType(int index);
 
-	abstract Type codeLocalStoreAccessType(String name);
+	abstract Type codeLocalLoadAccess(int index);
 
-	abstract Type codeLocalLoadAccessType(int index);
+	abstract Type codeLocalStoreAccess(int index);
 
-	abstract Type codeLocalStoreAccessType(int index);
-
-	abstract Type codeGetStack(int i);
+	abstract Type codeGetStackType(int i);
 
 	abstract Type codePopStack();
 
@@ -200,8 +199,9 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
+	@Override
 	default void LOAD(int index) {
-		Type valueType = codeLocalLoadAccessType(index);
+		Type valueType = codeLocalLoadAccess(index);
 		switch (valueType.getSort()) {
 		case Type.OBJECT:
 		case Type.ARRAY:
@@ -224,55 +224,26 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	}
 
 	@Override
-	default void LOAD(String name) {
-		Type valueType = codeLocalLoadAccessType(name);
-		switch (valueType.getSort()) {
-		case Type.OBJECT:
-		case Type.ARRAY:
-			codePush(valueType);
-			mvInst(ALOAD, codeLocalLoadAccess(name));
-			// ALOAD (→ objectref) : load a reference onto the stack from a local
-			// variable #index
-			// ALOAD_0 (→ objectref) : load a reference onto the stack from local variable 0
-			// ALOAD_1 (→ objectref) : load a reference onto the stack from local variable 1
-			// ALOAD_2 (→ objectref) : load a reference onto the stack from local variable 2
-			// ALOAD_3 (→ objectref) : load a reference onto the stack from local variable 3
-			break;
-		case Type.VOID:
-			throw new UnsupportedOperationException("load VOID");
-		default:
-			codePush(valueType);
-			mvInst(valueType.getOpcode(ILOAD), codeLocalLoadAccess(name));
-			// DLOAD (→ value) : load a double value from a local variable #index
-			// FLOAD (→ value) : load a float value from a local variable #index
-			// ILOAD (→ value) : load an int value from a local variable #index
-			// LLOAD (→ value) : load a long value from a local variable #index
-			// DLOAD_0 (→ value) : load a double from local variable 0
-			// FLOAD_0 (→ value) : load a float value from local variable 0
-			// ILOAD_0 (→ value) : load an int value from local variable 0
-			// LLOAD_0 (→ value) : load a long value from a local variable 0
-			// DLOAD_1 (→ value) : load a double from local variable 1
-			// FLOAD_1 (→ value) : load a float value from local variable 1
-			// ILOAD_1 (→ value) : load an int value from local variable 1
-			// LLOAD_1 (→ value) : load a long value from a local variable 1
-			// DLOAD_2 (→ value) : load a double from local variable 2
-			// FLOAD_2 (→ value) : load a float value from local variable 2
-			// ILOAD_2 (→ value) : load an int value from local variable 2
-			// LLOAD_2 (→ value) : load a long value from a local variable 2
-			// DLOAD_3 (→ value) : load a double from local variable 3
-			// FLOAD_3 (→ value) : load a float value from local variable 3
-			// ILOAD_3 (→ value) : load an int value from local variable 3
-			break;
-		}
+	default void LOAD(String varname) {
+		int local = codeLocalGetLocals(varname);
+		LOAD(local);
 	}
 
 	@Override
 	default void STORE(String varname) {
-		Type value = codeGetStack(0);
-		switch (value.getSort()) {
+		int local = codeLocalGetLocals(varname);
+		STORE(local);
+	}
+
+	@Override
+	default void STORE(int index) {
+		Type localType = codeLocalStoreAccess(index);
+		Type valueType = codeGetStackType(0);
+//		assert valueType == localType : "type not match! local: " + valueType + "  stack:" + Type.INT_TYPE;
+		switch (valueType.getSort()) {
 		case Type.ARRAY:
 			codePopStack();
-			mvInst(ASTORE, codeLocalStoreAccess(varname));
+			mvInst(ASTORE, index);
 			// ASTORE (objectref →) : store a reference into a local variable #index
 			// ASTORE_0 (objectref →) : store a reference into local variable 0
 			// ASTORE_1 (objectref →) : store a reference into local variable 1
@@ -281,7 +252,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			break;
 		case Type.OBJECT:
 			codePopStack();
-			mvInst(ASTORE, codeLocalStoreAccess(varname));
+			mvInst(ASTORE, index);
 			// ASTORE (objectref →) : store a reference into a local variable #index
 			// ASTORE_0 (objectref →) : store a reference into local variable 0
 			// ASTORE_1 (objectref →) : store a reference into local variable 1
@@ -292,7 +263,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			throw new UnsupportedOperationException();
 		default:
 			Type type = codePopStack();
-			mvInst(type.getOpcode(ISTORE), codeLocalStoreAccess(varname));
+			mvInst(type.getOpcode(ISTORE), index);
 
 			// DSTORE (value →) : store a double value into a local variable #index
 			// FSTORE (value →) : store a float value into a local variable #index
@@ -329,7 +300,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		mvIntInsn(SIPUSH, value);
 		codePush(Type.SHORT_TYPE);
 	}
-	
+
 	@Override
 	default void LOADConstNULL() {
 		mvInst(ACONST_NULL);
@@ -369,9 +340,9 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			mvLdcInsn(cst);
 			codePush(Type.getType(float.class));
 		} else if (cst instanceof Long) {
-			int v = ((Long) cst).intValue();
+			long v = ((Long) cst);
 			if (0L == v || 1L == v) {
-				mvInst(LCONST_0 + v);
+				mvInst(LCONST_0 + ((Long) cst).intValue());
 				codePush(Type.getType(long.class));
 			} else {
 				mvLdcInsn(cst);
@@ -1056,7 +1027,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	@Override
 	default void DUP() {
-		Type left = codeGetStack(0);
+		Type left = codeGetStackType(0);
 		codePush(left);
 		mvInst(DUP);
 		// DUP (value → value, value) : duplicate the value on top of the stack
@@ -1064,8 +1035,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	@Override
 	default void DUP2() {
-		Type right = codeGetStack(-1);
-		Type left = codeGetStack(0);
+		Type right = codeGetStackType(-1);
+		Type left = codeGetStackType(0);
 		codePush(right);
 		codePush(left);
 		codePush(right);
@@ -1093,7 +1064,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	@Override
 	default void IFEQ(Label falseLabel) {
 		Type value = codePopStack();
-		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
+		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
 		mvJumpInsn(IFEQ, falseLabel);
 	}
 
@@ -1254,7 +1225,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	@Override
 	default void RETURNTop() {
-		Type type = codeGetStack(0);
+		Type type = codeGetStackType(0);
 		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) {
 			Type objectref = codePopStack();
 			mvInst(objectref.getOpcode(IRETURN));
@@ -1462,7 +1433,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	default void PUT_THIS_STATIC(String objectType, String fieldName) {
 		PUTSTATIC(typeOf(objectType), fieldName, codeThisClassFieldType(fieldName));
 	}
-	
+
 	@Override
 	default void PUTSTATIC(String objectType, String fieldName, String fieldType) {
 		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
@@ -1586,9 +1557,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	}
 
-	@Deprecated
 	@SuppressWarnings("unused")
-	default void invoke_op(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
+	default void INVOKE(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
 			codePopStack();
 		}
