@@ -93,6 +93,8 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.util.TypeUtils;
+
 public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode>, WithInvoke<MethodCode> {
 
 	void codeAccessLabel(Label label);
@@ -239,9 +241,9 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	default void STORE(int index) {
 		Type localType = codeLocalStoreAccess(index);
 		Type valueType = codeGetStackType(0);
-//		assert valueType == localType : "type not match! local: " + valueType + "  stack:" + Type.INT_TYPE;
 		switch (valueType.getSort()) {
 		case Type.ARRAY:
+			assert valueType.getSort()== localType.getSort() : "type don't match! local: " + localType + "  stack:" + valueType;
 			codePopStack();
 			mvInst(ASTORE, index);
 			// ASTORE (objectref →) : store a reference into a local variable #index
@@ -251,6 +253,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			// ASTORE_3 (objectref →) : store a reference into local variable 3
 			break;
 		case Type.OBJECT:
+			assert valueType.getSort()== localType.getSort() : "type don't match! local: " + localType + "  stack:" + valueType;
 			codePopStack();
 			mvInst(ASTORE, index);
 			// ASTORE (objectref →) : store a reference into a local variable #index
@@ -262,6 +265,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		case Type.VOID:
 			throw new UnsupportedOperationException();
 		default:
+			TypeUtils.checkMathTypes(localType, valueType);
+
 			Type type = codePopStack();
 			mvInst(type.getOpcode(ISTORE), index);
 

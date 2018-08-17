@@ -13,9 +13,6 @@ import org.objectweb.asm.Label;
 
 import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.sample.ClassBody.MethodHeaderSample;
-import nebula.tinyasm.sample.ClassBody.TestInerface;
-import nebula.tinyasm.sample.ClassHeader.TestSuperClass;
-import nebula.tinyasm.util.RefineCode;
 
 public class MethodHeaderTest extends TestBase {
 
@@ -128,9 +125,9 @@ public class MethodHeaderTest extends TestBase {
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
-	@Test
-	public void printClass() {
-		System.out.println(RefineCode.refineCode(toString(clazz)));
-	}
+//	@Test
+//	public void printClass() {
+//		System.out.println(RefineCode.refineCode(toString(clazz)));
+//	}
 
 }

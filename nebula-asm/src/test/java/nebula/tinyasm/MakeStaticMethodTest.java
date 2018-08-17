@@ -2,8 +2,6 @@ package nebula.tinyasm;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +9,6 @@ import org.objectweb.asm.Opcodes;
 
 import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.sample.ClassBody.MakeStaticMethod;
-import nebula.tinyasm.util.RefineCode;
 
 public class MakeStaticMethodTest extends TestBase {
 
@@ -148,7 +145,7 @@ public class MakeStaticMethodTest extends TestBase {
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
-		
+
 		cw.publicStaticMethod("publicStaticMethod").reTurn(String.class).code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
@@ -204,7 +201,7 @@ public class MakeStaticMethodTest extends TestBase {
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
-		
+
 		cw.publicStaticMethod("publicStaticMethod").reTurn(String.class.getName()).code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
@@ -227,7 +224,7 @@ public class MakeStaticMethodTest extends TestBase {
 			mv.line();
 			mv.RETURN();
 		});
-		
+
 		cw.publicStaticMethod("publicStaticMethodVoid").code(mv -> {
 			mv.line();
 			mv.RETURN();
@@ -250,54 +247,58 @@ public class MakeStaticMethodTest extends TestBase {
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
-	
-
 	@Test
 	public void testMathssssssssdd() throws Exception {
 		ClassBody cw = ClassBuilder.make(clazz).body();
 
 		cw.constructerEmpty();
 
-		cw.staticMethod(Opcodes.ACC_STATIC,"staticMethod").reTurn(String.class.getName()).code(mv -> {
-			mv.line();
-			mv.LOADConst("here");
-			mv.RETURNTop();
-		});
-		
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PUBLIC, "publicStaticMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC, "staticMethod").reTurn(String.class.getName()).code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PRIVATE, "privateStaticMethod").reTurn(String.class.getName()).code(mv -> {
-			mv.line();
-			mv.LOADConst("here");
-			mv.RETURNTop();
-		});
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, "publicStaticMethod")
+			.reTurn(String.class.getName())
+			.code(mv -> {
+				mv.line();
+				mv.LOADConst("here");
+				mv.RETURNTop();
+			});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PROTECTED, "protectedStaticMethod").reTurn(String.class.getName()).code(mv -> {
-			mv.line();
-			mv.LOADConst("here");
-			mv.RETURNTop();
-		});
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE, "privateStaticMethod")
+			.reTurn(String.class.getName())
+			.code(mv -> {
+				mv.line();
+				mv.LOADConst("here");
+				mv.RETURNTop();
+			});
 
-		cw.staticMethod(Opcodes.ACC_STATIC,"staticMethodVoid").code(mv -> {
-			mv.line();
-			mv.RETURN();
-		});
-		
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PUBLIC, "publicStaticMethodVoid").code(mv -> {
-			mv.line();
-			mv.RETURN();
-		});
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PROTECTED, "protectedStaticMethod")
+			.reTurn(String.class.getName())
+			.code(mv -> {
+				mv.line();
+				mv.LOADConst("here");
+				mv.RETURNTop();
+			});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PRIVATE,"privateStaticMethodVoid").code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC, "staticMethodVoid").code(mv -> {
 			mv.line();
 			mv.RETURN();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PROTECTED, "protectedStaticMethodVoid").code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, "publicStaticMethodVoid").code(mv -> {
+			mv.line();
+			mv.RETURN();
+		});
+
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE, "privateStaticMethodVoid").code(mv -> {
+			mv.line();
+			mv.RETURN();
+		});
+
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PROTECTED, "protectedStaticMethodVoid").code(mv -> {
 			mv.line();
 			mv.RETURN();
 		});
@@ -308,7 +309,6 @@ public class MakeStaticMethodTest extends TestBase {
 		String codeExpected = toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
-	
 
 	@Test
 	public void testMathssssssdfsdfsdfssdd() throws Exception {
@@ -316,46 +316,46 @@ public class MakeStaticMethodTest extends TestBase {
 
 		cw.constructerEmpty();
 
-		cw.staticMethod(Opcodes.ACC_STATIC,String.class,"staticMethod").code(mv -> {
-			mv.line();
-			mv.LOADConst("here");
-			mv.RETURNTop();
-		});
-		
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PUBLIC,String.class, "publicStaticMethod").code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC, String.class, "staticMethod").code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PRIVATE, String.class,"privateStaticMethod").code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, String.class, "publicStaticMethod").code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PROTECTED,String.class, "protectedStaticMethod").code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE, String.class, "privateStaticMethod").code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC,"staticMethodVoid").code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PROTECTED, String.class, "protectedStaticMethod").code(mv -> {
 			mv.line();
-			mv.RETURN();
+			mv.LOADConst("here");
+			mv.RETURNTop();
 		});
-		
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PUBLIC, "publicStaticMethodVoid").code(mv -> {
+
+		cw.staticMethod(Opcodes.ACC_STATIC, "staticMethodVoid").code(mv -> {
 			mv.line();
 			mv.RETURN();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PRIVATE,"privateStaticMethodVoid").code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, "publicStaticMethodVoid").code(mv -> {
 			mv.line();
 			mv.RETURN();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PROTECTED, "protectedStaticMethodVoid").code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE, "privateStaticMethodVoid").code(mv -> {
+			mv.line();
+			mv.RETURN();
+		});
+
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PROTECTED, "protectedStaticMethodVoid").code(mv -> {
 			mv.line();
 			mv.RETURN();
 		});
@@ -373,46 +373,49 @@ public class MakeStaticMethodTest extends TestBase {
 
 		cw.constructerEmpty();
 
-		cw.staticMethod(Opcodes.ACC_STATIC,String.class.getName(),"staticMethod").code(mv -> {
-			mv.line();
-			mv.LOADConst("here");
-			mv.RETURNTop();
-		});
-		
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PUBLIC,String.class.getName(), "publicStaticMethod").code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC, String.class.getName(), "staticMethod").code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PRIVATE, String.class.getName(),"privateStaticMethod").code(mv -> {
-			mv.line();
-			mv.LOADConst("here");
-			mv.RETURNTop();
-		});
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, String.class.getName(), "publicStaticMethod")
+			.code(mv -> {
+				mv.line();
+				mv.LOADConst("here");
+				mv.RETURNTop();
+			});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PROTECTED,String.class.getName(), "protectedStaticMethod").code(mv -> {
-			mv.line();
-			mv.LOADConst("here");
-			mv.RETURNTop();
-		});
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE, String.class.getName(), "privateStaticMethod")
+			.code(mv -> {
+				mv.line();
+				mv.LOADConst("here");
+				mv.RETURNTop();
+			});
 
-		cw.staticMethod(Opcodes.ACC_STATIC,"staticMethodVoid").code(mv -> {
-			mv.line();
-			mv.RETURN();
-		});
-		
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PUBLIC, "publicStaticMethodVoid").code(mv -> {
-			mv.line();
-			mv.RETURN();
-		});
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PROTECTED, String.class.getName(), "protectedStaticMethod")
+			.code(mv -> {
+				mv.line();
+				mv.LOADConst("here");
+				mv.RETURNTop();
+			});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PRIVATE,"privateStaticMethodVoid").code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC, "staticMethodVoid").code(mv -> {
 			mv.line();
 			mv.RETURN();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC+ Opcodes.ACC_PROTECTED, "protectedStaticMethodVoid").code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, "publicStaticMethodVoid").code(mv -> {
+			mv.line();
+			mv.RETURN();
+		});
+
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE, "privateStaticMethodVoid").code(mv -> {
+			mv.line();
+			mv.RETURN();
+		});
+
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PROTECTED, "protectedStaticMethodVoid").code(mv -> {
 			mv.line();
 			mv.RETURN();
 		});
@@ -423,9 +426,9 @@ public class MakeStaticMethodTest extends TestBase {
 		String codeExpected = toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
-	@Test
-	public void printClass() throws IOException {
-		System.out.println(RefineCode.refineCode(toString(clazz)));
-	}
+//	@Test
+//	public void printClass() throws IOException {
+//		System.out.println(RefineCode.refineCode(toString(clazz)));
+//	}
 
 }

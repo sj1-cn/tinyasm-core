@@ -2,8 +2,6 @@ package nebula.tinyasm;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +9,6 @@ import org.objectweb.asm.Opcodes;
 
 import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.sample.ClassBody.MakeInstanceMethodSample;
-import nebula.tinyasm.util.RefineCode;
 
 public class MakeInstanceMethodTest extends TestBase {
 
@@ -420,10 +417,10 @@ public class MakeInstanceMethodTest extends TestBase {
 		String codeExpected = toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
-
-	@Test
-	public void printClass() throws IOException {
-		System.out.println(RefineCode.refineCode(toString(clazz)));
-	}
+//
+//	@Test
+//	public void printClass() throws IOException {
+//		System.out.println(RefineCode.refineCode(toString(clazz)));
+//	}
 
 }

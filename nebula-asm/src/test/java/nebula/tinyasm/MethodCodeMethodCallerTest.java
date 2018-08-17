@@ -11,7 +11,6 @@ import org.junit.Test;
 import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.sample.ClassBody.MethodCodeMethodCallerSample;
-import nebula.tinyasm.util.RefineCode;
 
 public class MethodCodeMethodCallerTest extends TestBase {
 
@@ -111,9 +110,9 @@ public class MethodCodeMethodCallerTest extends TestBase {
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
-	@Test
-	public void printClass() {
-		System.out.println(RefineCode.refineCode(toString(clazz)));
-	}
+//	@Test
+//	public void printClass() {
+//		System.out.println(RefineCode.refineCode(toString(clazz)));
+//	}
 
 }

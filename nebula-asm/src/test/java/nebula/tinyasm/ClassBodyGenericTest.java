@@ -2,7 +2,6 @@ package nebula.tinyasm;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.sample.ClassBody.ParameterGenericSample;
 import nebula.tinyasm.sample.ClassBody.TestAnnotation;
 import nebula.tinyasm.sample.ClassBody.TestInerface;
-import nebula.tinyasm.util.RefineCode;
 
 public class ClassBodyGenericTest extends TestBase {
 
@@ -148,9 +146,9 @@ public class ClassBodyGenericTest extends TestBase {
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
-	@Test
-	public void printClass() throws IOException {
-		System.out.println(RefineCode.refineCode(toString(clazz)));
-	}
+//	@Test
+//	public void printClass() throws IOException {
+//		System.out.println(RefineCode.refineCode(toString(clazz)));
+//	}
 
 }
