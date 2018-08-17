@@ -9,13 +9,13 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.objectweb.asm.Label;
 
 import nebula.tinyasm.data.Annotation;
 import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.sample.ClassBody.ParameterGenericSample;
 import nebula.tinyasm.sample.ClassBody.TestAnnotation;
+import nebula.tinyasm.sample.ClassBody.TestInerface;
 import nebula.tinyasm.util.RefineCode;
 
 public class ClassBodyGenericTest extends TestBase {
@@ -31,30 +31,33 @@ public class ClassBodyGenericTest extends TestBase {
 	}
 
 	@Test
-	public void testMath() throws Exception {
+	public void testMathClass() throws Exception {
 		ClassBody cw = ClassBuilder.make(clazz)
-			.eXtend(ArrayList.class, Annotation.class)
-			.imPlements(List.class, Annotation.class)
+			.eXtend(ArrayList.class.getName(), Annotation.class.getName())
+			.imPlements(TestInerface.class.getName())
+			.imPlements(List.class.getName(), Annotation.class.getName())
 			.body();
 
-//		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class);
-		cw.field("annotation", GenericClazz.clazz(List.class, String.class));
+//		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
+		cw.field("annotation", GenericClazz.clazz(List.class.getName(), String.class.getName()));
 
 		cw.method("<init>").code(mv -> {
 			mv.line();
 			mv.LOAD(0);
-			mv.INVOKESPECIAL(ArrayList.class, "<init>");
+			mv.SPECIAL(ArrayList.class.getName(), "<init>").INVOKE();
 			mv.RETURN();
 		});
 
-		cw.privateMethod("annotationMethod").reTurn(GenericClazz.clazz(List.class, String.class)).code(mv -> {
-			mv.line();
-			mv.LOADConstNULL();
-			mv.RETURNTop();
-		});
+		cw.privateMethod("annotationMethod")
+			.reTurn(GenericClazz.clazz(List.class.getName(), String.class.getName()))
+			.code(mv -> {
+				mv.line();
+				mv.LOADConstNULL();
+				mv.RETURNTop();
+			});
 
 		cw.method("method")
-			.parameter("annotation", GenericClazz.clazz(List.class, String.class))
+			.parameter("annotation", GenericClazz.clazz(List.class.getName(), String.class.getName()))
 
 			.code(mv -> {
 				mv.line();
@@ -65,18 +68,80 @@ public class ClassBodyGenericTest extends TestBase {
 				mv.RETURN();
 			});
 
-		cw.method("methodGenericVar").parameter("annotation", GenericClazz.clazz(List.class, String.class)).code(mv -> {
-			mv.define(TestAnnotation.class, "thisannotation", GenericClazz.clazz(List.class, String.class));
-			mv.line();
-			mv.LOAD(1);
-			mv.STORE("thisannotation");
+		cw.method("methodGenericVar")
+			.parameter("annotation", GenericClazz.clazz(List.class.getName(), String.class.getName()))
+			.code(mv -> {
+				mv.define(TestAnnotation.class, "thisannotation",
+						GenericClazz.clazz(List.class.getName(), String.class.getName()));
+				mv.line();
+				mv.LOAD(1);
+				mv.STORE("thisannotation");
+				mv.line();
+				mv.LOAD(0);
+				mv.LOAD(1);
+				mv.PUTFIELD_OF_THIS("annotation");
+				mv.line();
+				mv.RETURN();
+			});
+
+		String codeActual = toString(cw.end().toByteArray());
+		String codeExpected = toString(clazz);
+		assertEquals("Code", codeExpected, codeActual);
+	}
+
+	@Test
+	public void testMathString() throws Exception {
+		ClassBody cw = ClassBuilder.make(clazz)
+			.eXtend(ArrayList.class.getName(), Annotation.class.getName())
+			.imPlements(TestInerface.class.getName())
+			.imPlements(List.class.getName(), Annotation.class.getName())
+			.body();
+
+//		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
+		cw.field("annotation", GenericClazz.clazz(List.class.getName(), String.class.getName()));
+
+		cw.method("<init>").code(mv -> {
 			mv.line();
 			mv.LOAD(0);
-			mv.LOAD(1);
-			mv.PUTFIELD_OF_THIS("annotation");
-			mv.line();
+			mv.SPECIAL(ArrayList.class.getName(), "<init>").INVOKE();
 			mv.RETURN();
 		});
+
+		cw.privateMethod("annotationMethod")
+			.reTurn(GenericClazz.clazz(List.class.getName(), String.class.getName()))
+			.code(mv -> {
+				mv.line();
+				mv.LOADConstNULL();
+				mv.RETURNTop();
+			});
+
+		cw.method("method")
+			.parameter("annotation", GenericClazz.clazz(List.class.getName(), String.class.getName()))
+
+			.code(mv -> {
+				mv.line();
+				mv.LOAD(0);
+				mv.LOAD(1);
+				mv.PUTFIELD_OF_THIS("annotation");
+				mv.line();
+				mv.RETURN();
+			});
+
+		cw.method("methodGenericVar")
+			.parameter("annotation", GenericClazz.clazz(List.class.getName(), String.class.getName()))
+			.code(mv -> {
+				mv.define(TestAnnotation.class, "thisannotation",
+						GenericClazz.clazz(List.class.getName(), String.class.getName()));
+				mv.line();
+				mv.LOAD(1);
+				mv.STORE("thisannotation");
+				mv.line();
+				mv.LOAD(0);
+				mv.LOAD(1);
+				mv.PUTFIELD_OF_THIS("annotation");
+				mv.line();
+				mv.RETURN();
+			});
 
 		String codeActual = toString(cw.end().toByteArray());
 		String codeExpected = toString(clazz);

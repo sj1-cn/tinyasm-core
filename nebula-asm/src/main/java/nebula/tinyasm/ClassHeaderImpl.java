@@ -69,7 +69,7 @@ class ClassHeaderImpl implements ClassHeader {
 	public ClassBuilder body(Consumer<ClassBody> mb) {
 		makeClassBuilder();
 		mb.accept(classBuilderImpl);
-		return null;
+		return classBuilderImpl;
 	}
 
 	@Override
@@ -87,7 +87,7 @@ class ClassHeaderImpl implements ClassHeader {
 	@Override
 	public ClassHeader imPlements(String clazz) {
 		interfaces.add(new GenericClazz(clazz, new String[0]));
-		return null;
+		return this;
 	}
 
 	@Override

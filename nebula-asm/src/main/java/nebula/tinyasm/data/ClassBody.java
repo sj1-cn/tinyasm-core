@@ -9,7 +9,8 @@ import java.util.List;
 
 import nebula.tinyasm.ClassBuilder;
 
-public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineField<ClassBody>, WithMakeStaticMethod, WithMakeInstanceMethod {
+public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineField<ClassBody>, WithMakeStaticMethod,
+		WithMakeInstanceMethod {
 
 	ClassBuilder end();
 
@@ -28,7 +29,9 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody constructerEmpty() {
 		publicMethod("<init>").code(mc -> {
-			mc.line(1).INITObject();
+			mc.line(1);
+			mc.LOADThis();
+			mc.SPECIAL(getSuperClass(), "<init>").INVOKE();
 			mc.RETURN();
 		});
 		return this;

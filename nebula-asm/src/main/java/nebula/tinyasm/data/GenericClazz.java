@@ -56,6 +56,10 @@ public class GenericClazz {
 		return new GenericClazz(classnameOf(clazz), null);
 	}
 
+	static public GenericClazz clazz(String clazz, String... genericClazz) {
+		return new GenericClazz(classnameOf(clazz), genericClazz);
+	}
+	
 	static public GenericClazz clazz(Class<?> clazz, String... genericClazz) {
 		return new GenericClazz(classnameOf(clazz), genericClazz);
 	}
