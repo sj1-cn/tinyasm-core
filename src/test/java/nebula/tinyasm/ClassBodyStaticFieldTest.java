@@ -46,8 +46,8 @@ public class ClassBodyStaticFieldTest extends TestBase {
 				"annotationWithDefaultValueAndNamedValue2", String.class);
 
 		cw.staticField(Opcodes.ACC_PRIVATE, TestAnnotation.class, "genericWithAnnotation",
-				GenericClazz.clazz(List.class, String.class));
-		cw.staticField(Opcodes.ACC_PRIVATE, "genericWithoutAnnotation", GenericClazz.clazz(List.class, String.class));
+				GenericClazz.generic(List.class, String.class));
+		cw.staticField(Opcodes.ACC_PRIVATE, "genericWithoutAnnotation", GenericClazz.generic(List.class, String.class));
 
 		cw.constructerEmpty();
 

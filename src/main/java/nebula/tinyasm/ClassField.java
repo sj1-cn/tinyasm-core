@@ -14,7 +14,7 @@ public class ClassField extends Field {
 		super(name, clazz);
 		this.access = access;
 		this.defaultValue = defaultValue;
-		this.type = arrayOf(clazz.classname, clazz.isarray);
+		this.type = arrayOf(clazz.originclazz, clazz.isarray);
 	}
 //
 //	@Override

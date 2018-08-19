@@ -282,20 +282,20 @@ public class MethodCodeBuilder implements MethodCode {
 
 			Type thisClazzInternalName = mh.thisMethod.type;
 
-			String originDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz),
+			String originDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz.originclazz),
 					typesOf(originMethod.params));
-			String originSignature = Type.getMethodDescriptor(typeOf(originMethod.returnClazz),
+			String originSignature = Type.getMethodDescriptor(typeOf(originMethod.returnClazz.genericClazz),
 					typesOf(originMethod.params));
 
 			String lambdaDescriptor = Type.getMethodDescriptor(typeOf(this.returnClazz), typesOf(this.params));
 			@SuppressWarnings("unused")
-			String lambdaSignature = Type.getMethodDescriptor(typeOf(this.returnClazz), typesOf(this.params));
+			String lambdaSignature = Type.getMethodDescriptor(typeOf(this.returnClazz.signatureAnyway()), typesOf(this.params));
 
 			List<GenericClazz> resultMethodParams = new ArrayList<>();
 			resultMethodParams.addAll(this.params);
 			resultMethodParams.addAll(originMethod.params);
 
-			String resultDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz),
+			String resultDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz.genericClazz),
 					typesOf(resultMethodParams));
 
 //			String resultMethodDescriptor ;
@@ -304,9 +304,20 @@ public class MethodCodeBuilder implements MethodCode {
 					"java/lang/invoke/LambdaMetafactory", "metafactory",
 					"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
 					false),
-					new Object[] { Type.getType(originDescriptor), new Handle(Opcodes.H_INVOKESTATIC,
-							thisClazzInternalName.getInternalName(), originMethod.methodName, resultDescriptor, false),
+					new Object[] { Type.getType(originDescriptor),
+							new Handle(Opcodes.H_INVOKESTATIC,
+							thisClazzInternalName.getInternalName(), 
+							originMethod.methodName, 
+							resultDescriptor, false),
 							Type.getType(originSignature) });
+			/*mv.visitInvokeDynamicInsn("withHandle", "()Lorg/jdbi/v3/core/HandleCallback;", 
+			 * new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;"), 
+			 * new Object[]{Type.getType("(Lorg/jdbi/v3/core/Handle;)Ljava/util/List;"), 			 * 
+				 * new Handle(Opcodes.H_INVOKESTATIC,
+				 *  "nebula/module/UserRepository", 
+				 *  "lambda$0", 
+				 *  "(Lorg/jdbi/v3/core/Handle;)Ljava/util/List;"), 
+				 *  Type.getType("(Lorg/jdbi/v3/core/Handle;)Ljava/util/List;")});*/
 
 			codePush(typeOf(this.returnClazz));
 		}
@@ -348,7 +359,7 @@ public class MethodCodeBuilder implements MethodCode {
 
 		@Override
 		public MethodCaller<MethodCode> LAMBDA(String targetClazz, String targetMethodName) {
-			return new LAMBDAImpl(this.opcode, this, GenericClazz.clazz(targetClazz), targetMethodName);
+			return new LAMBDAImpl(this.opcode, this, GenericClazz.generic(targetClazz), targetMethodName);
 		}
 
 	}

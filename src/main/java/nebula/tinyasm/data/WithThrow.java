@@ -3,13 +3,13 @@ package nebula.tinyasm.data;
 public interface WithThrow<T> {
 
 	default MethodHeader tHrow(Class<?> clazz) {
-		return tHrow(GenericClazz.clazz(clazz));
+		return tHrow(GenericClazz.generic(clazz));
 	}
 
 	default MethodHeader tHrow(Class<?>... clazzes) {
 		MethodHeader mh = null;
 		for (Class<?> clazz : clazzes) {
-			mh = tHrow(GenericClazz.clazz(clazz));
+			mh = tHrow(GenericClazz.generic(clazz));
 		}
 		return mh;
 	}

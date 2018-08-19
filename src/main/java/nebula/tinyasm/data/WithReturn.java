@@ -3,7 +3,7 @@ package nebula.tinyasm.data;
 public interface WithReturn<T> {
 
 	default MethodHeader reTurn(Class<?> clazz) {
-		return reTurn(GenericClazz.clazz(clazz));
+		return reTurn(GenericClazz.generic(clazz));
 	}
 
 	MethodHeader reTurn(GenericClazz clazz);
@@ -13,10 +13,10 @@ public interface WithReturn<T> {
 	}
 
 	default MethodHeader reTurn(Class<?> clazz, boolean isarray) {
-		return reTurn(GenericClazz.clazz(clazz, isarray));
+		return reTurn(GenericClazz.generic(clazz, isarray));
 	}
 
 	default MethodHeader reTurn(String clazz, boolean isarray) {
-		return reTurn(GenericClazz.clazz(clazz, isarray));
+		return reTurn(GenericClazz.generic(clazz, isarray));
 	}
 }

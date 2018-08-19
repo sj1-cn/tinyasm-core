@@ -3,11 +3,11 @@ package nebula.tinyasm.data;
 public interface MethodCaller<T> {
 
 	default MethodCaller<T> parameter(Class<?> clazz) {
-		return parameter(GenericClazz.clazz(clazz));
+		return parameter(GenericClazz.generic(clazz));
 	}
 
 	default MethodCaller<T> parameter(Class<?> clazz, boolean isarray) {
-		return parameter(GenericClazz.clazz(clazz, isarray));
+		return parameter(GenericClazz.generic(clazz, isarray));
 	}
 
 	MethodCaller<T> parameter(GenericClazz clazz);
@@ -33,15 +33,15 @@ public interface MethodCaller<T> {
 	}
 
 	default MethodCaller<T> parameter(String clazz, boolean isarray) {
-		return parameter(GenericClazz.clazz(clazz, isarray));
+		return parameter(GenericClazz.generic(clazz, isarray));
 	}
 
 	default MethodCaller<T> reTurn(Class<?> clazz) {
-		return reTurn(GenericClazz.clazz(clazz));
+		return reTurn(GenericClazz.generic(clazz));
 	}
 
 	default MethodCaller<T> reTurn(Class<?> clazz, boolean isarray) {
-		return reTurn(GenericClazz.clazz(clazz, isarray));
+		return reTurn(GenericClazz.generic(clazz, isarray));
 	}
 
 	MethodCaller<T> reTurn(GenericClazz clazz);
@@ -51,7 +51,7 @@ public interface MethodCaller<T> {
 	}
 
 	default MethodCaller<T> reTurn(String clazz, boolean isarray) {
-		return reTurn(GenericClazz.clazz(clazz, isarray));
+		return reTurn(GenericClazz.generic(clazz, isarray));
 	}
 
 	void INVOKE();

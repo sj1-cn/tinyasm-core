@@ -34,7 +34,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		super(Opcodes.ASM5, cv);
 
 		this.thisType = typeOf(header.name);
-		this.superType = typeOf(header.superClazz.classname);
+		this.superType = typeOf(header.superClazz.originclazz);
 		{
 			int version = 52;
 			int access = header.access;
@@ -52,7 +52,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 			String superName = this.superType.getInternalName();
 			String[] interfaces = new String[header.interfaces.size()];
 			for (int i = 0; i < header.interfaces.size(); i++) {
-				interfaces[i] = internalNamelOf(header.interfaces.get(i).classname);
+				interfaces[i] = internalNamelOf(header.interfaces.get(i).originclazz);
 			}
 
 			cv.visit(version, access, name, signature, superName, interfaces);
@@ -73,7 +73,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	@Override
 	public String clazzOfField(String name) {
-		return fields.get(name).clazz.classname;
+		return fields.get(name).clazz.originclazz;
 	}
 
 	@Override
@@ -176,10 +176,10 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public String referInnerClass(String objectclazz, String innerName) {
+	public String referInnerClass(int access, String objectclazz, String innerName) {
 		String outerName = typeOf(objectclazz).getInternalName();
 		String fullName = outerName + "$" + innerName;
-		cv.visitInnerClass(fullName, outerName, innerName, 0);
+		cv.visitInnerClass(fullName, outerName, innerName, access);
 
 		return Type.getType("L" + fullName + ";").getClassName();
 	}

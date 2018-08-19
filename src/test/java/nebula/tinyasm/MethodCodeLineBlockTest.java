@@ -53,7 +53,7 @@ public class MethodCodeLineBlockTest extends TestBase {
 			mv.define("i", int.class);
 			mv.define("l", Long.class);
 			mv.define("s", String.class);
-			mv.define("ls", GenericClazz.clazz(List.class, String.class));
+			mv.define("ls", GenericClazz.generic(List.class, String.class));
 
 			mv.line(line -> {
 				line.LOADConstByte(10);

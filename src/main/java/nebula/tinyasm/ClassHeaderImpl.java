@@ -1,7 +1,5 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.classnameOf;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -37,14 +35,14 @@ class ClassHeaderImpl implements ClassHeader {
 		super();
 		this.cv = cv;
 		this.name = name;
-		this.superClazz = new GenericClazz(classnameOf(superClazz), null);
+		this.superClazz = GenericClazz.generic(superClazz);
 	}
 
 	public ClassHeaderImpl(ClassVisitor cv, String name, String superClazz) {
 		super();
 		this.cv = cv;
 		this.name = name;
-		this.superClazz = new GenericClazz(superClazz, null);
+		this.superClazz = GenericClazz.generic(superClazz);
 	}
 
 	@Override
