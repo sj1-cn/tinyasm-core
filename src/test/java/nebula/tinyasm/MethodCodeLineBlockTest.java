@@ -60,12 +60,12 @@ public class MethodCodeLineBlockTest extends TestBase {
 				line.STORE("i");
 			}).line(line -> {
 				line.LOADConst(new Long(10L));
-				line.STATIC(Long.class, "valueOf").param(long.class).reTurn(Long.class).INVOKE();
+				line.STATIC(Long.class, "valueOf").parameter(long.class).reTurn(Long.class).INVOKE();
 				line.STORE("l");
 
 			}).line(line -> {
 				line.LOAD(1);
-				line.STATIC(String.class, "valueOf").param(int.class).reTurn(String.class).INVOKE();
+				line.STATIC(String.class, "valueOf").parameter(int.class).reTurn(String.class).INVOKE();
 				line.STORE("s");
 
 			}).line(line -> {
@@ -73,11 +73,11 @@ public class MethodCodeLineBlockTest extends TestBase {
 				line.DUP();
 				line.SPECIAL(StringBuilder.class, "<init>").INVOKE();
 				line.LOAD("s");
-				line.VIRTUAL(StringBuilder.class, "append").param(String.class).reTurn(StringBuilder.class).INVOKE();
+				line.VIRTUAL(StringBuilder.class, "append").parameter(String.class).reTurn(StringBuilder.class).INVOKE();
 				line.LOAD("i");
-				line.VIRTUAL(StringBuilder.class, "append").param(int.class).reTurn(StringBuilder.class).INVOKE();
+				line.VIRTUAL(StringBuilder.class, "append").parameter(int.class).reTurn(StringBuilder.class).INVOKE();
 				line.LOAD("l");
-				line.VIRTUAL(StringBuilder.class, "append").param(Object.class).reTurn(StringBuilder.class).INVOKE();
+				line.VIRTUAL(StringBuilder.class, "append").parameter(Object.class).reTurn(StringBuilder.class).INVOKE();
 				line.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
 				line.STORE("s");
 
@@ -90,13 +90,13 @@ public class MethodCodeLineBlockTest extends TestBase {
 			}).line(line -> {
 				line.LOAD("ls");
 				line.LOADConst("first");
-				line.INTERFACE("java/util/List", "add").param(Object.class).reTurn(boolean.class).INVOKE();
+				line.INTERFACE("java/util/List", "add").parameter(Object.class).reTurn(boolean.class).INVOKE();
 				line.POP();
 
 			}).line(line -> {
 				line.LOAD("ls");
 				line.LOADConst("second");
-				line.INTERFACE("java/util/List", "add").param(Object.class).reTurn(boolean.class).INVOKE();
+				line.INTERFACE("java/util/List", "add").parameter(Object.class).reTurn(boolean.class).INVOKE();
 				line.POP();
 			});
 

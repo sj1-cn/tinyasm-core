@@ -41,7 +41,7 @@ public class MethodHeaderTest extends TestBase {
 			mv.NEW("java/io/File");
 			mv.DUP();
 			mv.LOADConst("./");
-			mv.SPECIAL("java/io/File", "<init>").param(String.class).INVOKE();
+			mv.SPECIAL("java/io/File", "<init>").parameter(String.class).INVOKE();
 			mv.STORE(1);
 
 			mv.line();
@@ -54,7 +54,7 @@ public class MethodHeaderTest extends TestBase {
 			mv.NEW("java/io/FileInputStream");
 			mv.DUP();
 			mv.LOAD(1);
-			mv.SPECIAL("java/io/FileInputStream", "<init>").param(File.class).INVOKE();
+			mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
 			mv.STORE(2);
 
 			mv.line();
@@ -90,7 +90,7 @@ public class MethodHeaderTest extends TestBase {
 		mv.NEW("java/io/File");
 		mv.DUP();
 		mv.LOADConst("./");
-		mv.SPECIAL("java/io/File", "<init>").param(String.class).INVOKE();
+		mv.SPECIAL("java/io/File", "<init>").parameter(String.class).INVOKE();
 		mv.STORE(1);
 
 		mv.line();
@@ -103,7 +103,7 @@ public class MethodHeaderTest extends TestBase {
 		mv.NEW("java/io/FileInputStream");
 		mv.DUP();
 		mv.LOAD(1);
-		mv.SPECIAL("java/io/FileInputStream", "<init>").param(File.class).INVOKE();
+		mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
 		mv.STORE(2);
 
 		mv.block(mb -> {
@@ -141,7 +141,7 @@ public class MethodHeaderTest extends TestBase {
 			mv.NEW("java/io/File");
 			mv.DUP();
 			mv.LOADConst("./");
-			mv.SPECIAL("java/io/File", "<init>").param(String.class).INVOKE();
+			mv.SPECIAL("java/io/File", "<init>").parameter(String.class).INVOKE();
 			mv.STORE(1);
 
 			mv.line();
@@ -154,7 +154,7 @@ public class MethodHeaderTest extends TestBase {
 			mv.NEW("java/io/FileInputStream");
 			mv.DUP();
 			mv.LOAD(1);
-			mv.SPECIAL("java/io/FileInputStream", "<init>").param(File.class).INVOKE();
+			mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
 			mv.STORE(2);
 
 			mv.line();

@@ -60,12 +60,12 @@ public class MethodCodeMethodCallerTest extends TestBase {
 			mv.STORE("i");
 			mv.line();
 			mv.LOADConst(new Long(10L));
-			mv.STATIC(Long.class, "valueOf").param(long.class).reTurn(Long.class).INVOKE();
+			mv.STATIC(Long.class, "valueOf").parameter(long.class).reTurn(Long.class).INVOKE();
 			mv.STORE("l");
 
 			mv.line();
 			mv.LOAD(1);
-			mv.STATIC(String.class, "valueOf").param(int.class).reTurn(String.class).INVOKE();
+			mv.STATIC(String.class, "valueOf").parameter(int.class).reTurn(String.class).INVOKE();
 			mv.STORE("s");
 
 			mv.line();
@@ -73,11 +73,11 @@ public class MethodCodeMethodCallerTest extends TestBase {
 			mv.DUP();
 			mv.SPECIAL(StringBuilder.class, "<init>").INVOKE();
 			mv.LOAD("s");
-			mv.VIRTUAL(StringBuilder.class, "append").param(String.class).reTurn(StringBuilder.class).INVOKE();
+			mv.VIRTUAL(StringBuilder.class, "append").parameter(String.class).reTurn(StringBuilder.class).INVOKE();
 			mv.LOAD("i");
-			mv.VIRTUAL(StringBuilder.class, "append").param(int.class).reTurn(StringBuilder.class).INVOKE();
+			mv.VIRTUAL(StringBuilder.class, "append").parameter(int.class).reTurn(StringBuilder.class).INVOKE();
 			mv.LOAD("l");
-			mv.VIRTUAL(StringBuilder.class, "append").param(Object.class).reTurn(StringBuilder.class).INVOKE();
+			mv.VIRTUAL(StringBuilder.class, "append").parameter(Object.class).reTurn(StringBuilder.class).INVOKE();
 			mv.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
 			mv.STORE("s");
 
@@ -90,13 +90,13 @@ public class MethodCodeMethodCallerTest extends TestBase {
 			mv.line();
 			mv.LOAD("ls");
 			mv.LOADConst("first");
-			mv.INTERFACE("java/util/List", "add").param(Object.class).reTurn(boolean.class).INVOKE();
+			mv.INTERFACE("java/util/List", "add").parameter(Object.class).reTurn(boolean.class).INVOKE();
 			mv.POP();
 
 			mv.line();
 			mv.LOAD("ls");
 			mv.LOADConst("second");
-			mv.INTERFACE("java/util/List", "add").param(Object.class).reTurn(boolean.class).INVOKE();
+			mv.INTERFACE("java/util/List", "add").parameter(Object.class).reTurn(boolean.class).INVOKE();
 			mv.POP();
 
 			mv.line();

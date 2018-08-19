@@ -264,7 +264,7 @@ public class MethodCodeBuilder implements MethodCode {
 		}
 
 		@Override
-		public MethodCaller<MethodCode> param(GenericClazz clazz) {
+		public MethodCaller<MethodCode> parameter(GenericClazz clazz) {
 			params.add(clazz);
 			return this;
 		}
@@ -288,6 +288,7 @@ public class MethodCodeBuilder implements MethodCode {
 					typesOf(originMethod.params));
 
 			String lambdaDescriptor = Type.getMethodDescriptor(typeOf(this.returnClazz), typesOf(this.params));
+			@SuppressWarnings("unused")
 			String lambdaSignature = Type.getMethodDescriptor(typeOf(this.returnClazz), typesOf(this.params));
 
 			List<GenericClazz> resultMethodParams = new ArrayList<>();
@@ -328,7 +329,7 @@ public class MethodCodeBuilder implements MethodCode {
 		}
 
 		@Override
-		public MethodCaller<MethodCode> param(GenericClazz clazz) {
+		public MethodCaller<MethodCode> parameter(GenericClazz clazz) {
 			params.add(clazz);
 			return this;
 		}

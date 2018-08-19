@@ -2,38 +2,38 @@ package nebula.tinyasm.data;
 
 public interface MethodCaller<T> {
 
-	default MethodCaller<T> param(Class<?> clazz) {
-		return param(GenericClazz.clazz(clazz));
+	default MethodCaller<T> parameter(Class<?> clazz) {
+		return parameter(GenericClazz.clazz(clazz));
 	}
 
-	default MethodCaller<T> param(Class<?> clazz, boolean isarray) {
-		return param(GenericClazz.clazz(clazz, isarray));
+	default MethodCaller<T> parameter(Class<?> clazz, boolean isarray) {
+		return parameter(GenericClazz.clazz(clazz, isarray));
 	}
 
-	MethodCaller<T> param(GenericClazz clazz);
+	MethodCaller<T> parameter(GenericClazz clazz);
 
-	default MethodCaller<T> param(GenericClazz... clazzes) {
+	default MethodCaller<T> parameter(GenericClazz... clazzes) {
 		MethodCaller<T> mh = null;
 		for (GenericClazz clazz : clazzes) {
-			mh = param(clazz);
+			mh = parameter(clazz);
 		}
 		return mh;
 	}
 
-	default MethodCaller<T> param(String clazz) {
-		return param(GenericClazz.generic(clazz));
+	default MethodCaller<T> parameter(String clazz) {
+		return parameter(GenericClazz.generic(clazz));
 	}
 
-	default MethodCaller<T> param(String... clazz) {
+	default MethodCaller<T> parameter(String... clazz) {
 		MethodCaller<T> mh = null;
 		for (String string : clazz) {
-			mh = param(GenericClazz.generic(string));
+			mh = parameter(GenericClazz.generic(string));
 		}
 		return mh;
 	}
 
-	default MethodCaller<T> param(String clazz, boolean isarray) {
-		return param(GenericClazz.clazz(clazz, isarray));
+	default MethodCaller<T> parameter(String clazz, boolean isarray) {
+		return parameter(GenericClazz.clazz(clazz, isarray));
 	}
 
 	default MethodCaller<T> reTurn(Class<?> clazz) {
