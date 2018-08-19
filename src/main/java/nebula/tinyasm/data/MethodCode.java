@@ -1308,7 +1308,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	}
 
 	@Override
-	default void GETFIELD_OF_THIS(String fieldname) {
+	default void GET_THIS_FIELD(String fieldname) {
 		GETFIELD(fieldname, codeThisFieldType(fieldname));
 	}
 

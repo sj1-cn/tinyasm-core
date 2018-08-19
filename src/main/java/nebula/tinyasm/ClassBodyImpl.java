@@ -176,6 +176,15 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
+	public String referInnerClass(String objectclazz, String innerName) {
+		String outerName = typeOf(objectclazz).getInternalName();
+		String fullName = outerName + "$" + innerName;
+		cv.visitInnerClass(fullName, outerName, innerName, 0);
+
+		return Type.getType("L" + fullName + ";").getClassName();
+	}
+
+	@Override
 	public String referInnerClass(String innerName) {
 		if (thisType.getInternalName().indexOf("$") < 0) {
 			String outerName = thisType.getInternalName();

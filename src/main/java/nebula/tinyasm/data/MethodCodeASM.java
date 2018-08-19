@@ -265,7 +265,7 @@ public interface MethodCodeASM {
 
 	/** ARRAY **/
 
-	void GETFIELD_OF_THIS(String fieldname);
+	void GET_THIS_FIELD(String fieldname);
 
 	void GETFIELD(String fieldname, Class<?> fieldType);
 

@@ -26,4 +26,5 @@ public interface WithInvoke<T> {
 
 	MethodCaller<T> VIRTUAL(String objectType, String methodName);
 
+
 }

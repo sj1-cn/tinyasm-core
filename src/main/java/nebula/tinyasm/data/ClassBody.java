@@ -19,6 +19,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	String getSuperClass();
 
 	String referInnerClass(String innerClass);
+	
+	String referInnerClass(String objectclazz, String innerClass);
 
 	String getName();
 
@@ -258,7 +260,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 					}
 
 					mc.LOADThis();
-					mc.GETFIELD_OF_THIS(field.name);
+					mc.GET_THIS_FIELD(field.name);
 
 					mc.INVOKEVIRTUAL(StringBuilder.class.getName(), StringBuilder.class.getName(), "append",
 							stringInnerUserType(typeOf(field.clazz.classname)).getClassName());

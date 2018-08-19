@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.function.Consumer;
 
+import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -226,7 +227,7 @@ public class MethodCodeBuilder implements MethodCode {
 
 	@Override
 	public MethodCaller<MethodCode> STATIC(String objectType, String methodName) {
-		// TODO Auto-generated method stub
+
 		return new MethodCallerImpl(Opcodes.INVOKESTATIC, GenericClazz.generic(objectType), methodName);
 	}
 
@@ -243,6 +244,72 @@ public class MethodCodeBuilder implements MethodCode {
 	@Override
 	public MethodCaller<MethodCode> VIRTUAL(String objectType, String methodName) {
 		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, GenericClazz.generic(objectType), methodName);
+	}
+
+	class LAMBDAImpl extends MethodCallerImpl implements MethodCaller<MethodCode> {
+		List<GenericClazz> params = new ArrayList<>();
+		GenericClazz returnClazz;
+
+		final int opcode;
+		final GenericClazz resideClazz;
+		final String methodName;
+		final MethodCallerImpl originMethod;
+
+		public LAMBDAImpl(int opcode, MethodCallerImpl targetMethod, GenericClazz resideClazz, String methodName) {
+			super(opcode, resideClazz, methodName);
+			this.opcode = opcode;
+			this.resideClazz = resideClazz;
+			this.methodName = methodName;
+			this.originMethod = targetMethod;
+		}
+
+		@Override
+		public MethodCaller<MethodCode> param(GenericClazz clazz) {
+			params.add(clazz);
+			return this;
+		}
+
+		@Override
+		public MethodCaller<MethodCode> reTurn(GenericClazz clazz) {
+			returnClazz = clazz;
+			return this;
+		}
+
+		@Override
+		public void INVOKE() {
+//			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz), typeOf(returnClazz), methodName,
+//					typesOf(params));
+
+			Type thisClazzInternalName = mh.thisMethod.type;
+
+			String originDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz),
+					typesOf(originMethod.params));
+			String originSignature = Type.getMethodDescriptor(typeOf(originMethod.returnClazz),
+					typesOf(originMethod.params));
+
+			String lambdaDescriptor = Type.getMethodDescriptor(typeOf(this.returnClazz), typesOf(this.params));
+			String lambdaSignature = Type.getMethodDescriptor(typeOf(this.returnClazz), typesOf(this.params));
+
+			List<GenericClazz> resultMethodParams = new ArrayList<>();
+			resultMethodParams.addAll(this.params);
+			resultMethodParams.addAll(originMethod.params);
+
+			String resultDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz),
+					typesOf(resultMethodParams));
+
+//			String resultMethodDescriptor ;
+
+			mv.visitInvokeDynamicInsn(methodName, lambdaDescriptor, new Handle(Opcodes.H_INVOKESTATIC,
+					"java/lang/invoke/LambdaMetafactory", "metafactory",
+					"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
+					false),
+					new Object[] { Type.getType(originDescriptor), new Handle(Opcodes.H_INVOKESTATIC,
+							thisClazzInternalName.getInternalName(), originMethod.methodName, resultDescriptor, false),
+							Type.getType(originSignature) });
+
+			codePush(typeOf(this.returnClazz));
+		}
+
 	}
 
 	class MethodCallerImpl implements MethodCaller<MethodCode> {
@@ -276,6 +343,11 @@ public class MethodCodeBuilder implements MethodCode {
 		public void INVOKE() {
 			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz), typeOf(returnClazz), methodName,
 					typesOf(params));
+		}
+
+		@Override
+		public MethodCaller<MethodCode> LAMBDA(String targetClazz, String targetMethodName) {
+			return new LAMBDAImpl(this.opcode, this, GenericClazz.clazz(targetClazz), targetMethodName);
 		}
 
 	}

@@ -112,7 +112,7 @@ public class MyBankAccountBuilder {
 		cw.privateMethod("onMoneySubtracted").parameter("amount", long.class).code(mc -> {
 			mc.line(113).LOADThis();
 			mc.DUP();
-			mc.GETFIELD_OF_THIS("balance");
+			mc.GET_THIS_FIELD("balance");
 			mc.LOAD("amount");
 			mc.SUB();
 			mc.PUTFIELD_OF_THIS("balance");
