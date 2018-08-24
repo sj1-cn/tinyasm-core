@@ -38,7 +38,7 @@ public class RefineCode {
 	public static void add(String match, String replace) {
 		matches.add(match);
 		replaces.add(replace);
-		System.out.println("match: " + match + " replace: " + replace);
+//		System.out.println("match: " + match + " replace: " + replace);
 	}
 
 	public static String excludeLineNumber(String input) {
@@ -46,10 +46,17 @@ public class RefineCode {
 		input = input.replaceAll("mv.visitLocalVariable[^\\n]*;\\n", "");
 		input = input.replaceAll("LineNumber\\([0-9]*\\,", "LineNumber(1,");
 
-		input = input.replaceAll("Label l1 = new Label\\(\\)[^\\n]*;\\n", "");
-		input = input.replaceAll("mv.visitLabel\\(l1\\)[^\\n]*;\\n", "");
+//		input = input.replaceAll("Label l1 = new Label\\(\\)[^\\n]*;\\n", "");
+//		input = input.replaceAll("mv.visitLabel\\(l1\\)[^\\n]*;\\n", "");
 
-		input = input.replaceAll("mv.visitMaxs[^\\n]*;\\n", "");
+//		input = input.replaceAll("mv.visitMaxs[^\\n]*;\\n", "");
+		
+
+		input = input.replaceAll(visit("mv.visitLocalVariable",  TYPE.STRING, TYPE.STRING, TYPE.STRING,TYPE.NAME,TYPE.NAME,TYPE.NAME), "mv.visitLocalVariable($1,$2,$3,l0,l1,$6);\n");
+//		add(,
+//				);
+//		
+//		mv.visitLocalVariable("this", "Lnebula/module/UserJdbcRepository;", null, l0, l1, 0);
 
 		return input;
 	}
@@ -158,6 +165,8 @@ public class RefineCode {
 			add(visit("mv.visitVarInsn", "[A|I|L|F|D]STORE", TYPE.INT), "mv.STORE($1);\n");
 
 			add(visit("mv.visitInsn", "AASTORE"), "mv.ARRAYSTORE();\n");
+			
+			add(visit("mv.visitInsn", "ATHROW"), "mv.ATHROW();\n");
 
 			add(visit("mv.visitInsn", "[A|I|L|F|D]ADD"), "mv.ADD();\n");
 			add(visit("mv.visitInsn", "[A|I|L|F|D]SUB"), "mv.SUB();\n");
@@ -185,20 +194,20 @@ public class RefineCode {
 					"mv.PUTFIELD($1,$2,$3);\n");
 
 			add(visit("mv.visitFieldInsn", "GETFIELD", TYPE.STRING, TYPE.STRING, TYPE.STRING),
-					"mv.PUTFIELD($1,$2,$3);\n");
+					"mv.GETFIELD($1,$2,$3);\n");
 
 			add(visit("mv.visitLdcInsn", TYPE.STRING), "mv.LOADConst($1);\n");
 
 			add("mv.visitLdcInsn\\((new Long\\(\\d*L\\))\\);", "mv.LOADConst($1);\n");
 
 			add(visit("mv.visitMethodInsn", "INVOKESPECIAL", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
-					"mv.VIRTUAL($1,$2).param(\"$3\").reTurn(\"$4\").INVOKE();\n");
+					"mv.SPECIAL($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
 			add(visit("mv.visitMethodInsn", "INVOKESTATIC", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
-					"mv.VIRTUAL($1,$2).param(\"$3\").reTurn(\"$4\").INVOKE();\n");
+					"mv.STATIC($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
 			add(visit("mv.visitMethodInsn", "INVOKEVIRTUAL", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
-					"mv.VIRTUAL($1,$2).param(\"$3\").reTurn(\"$4\").INVOKE();\n");
+					"mv.VIRTUAL($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
 			add(visit("mv.visitMethodInsn", "INVOKEINTERFACE", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
-					"mv.VIRTUAL($1,$2).param(\"$3\").reTurn(\"$4\").INVOKE();\n");
+					"mv.INTERFACE($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
 
 			add("\\.param\\(\"\"\\)", "");
 			add("\\.reTurn\\(\"V\"\\)", "");
@@ -297,15 +306,15 @@ public class RefineCode {
 	}
 
 	public static String skipToString(String input) {
-		input = input.replaceAll("\\n", "<br/>");
-		input = input.replaceAll("(\\{<br/>mv = cw.visitMethod\\()", "\n<method>$1");
-		input = input.replaceAll("(mv.visitEnd\\(\\);<br/>})", "$1</method>\n");
-
-		input = input.replaceAll("(<method>\\{<br/>mv = cw.visitMethod\\(ACC_PUBLIC, \"toString\",[^\\n]*)", "");
-
-		input = input.replaceAll("\\n<method>", "");
-		input = input.replaceAll("</method>\\n", "");
-		input = input.replaceAll("<br/>", "\n");
+//		input = input.replaceAll("\\n", "<br/>");
+//		input = input.replaceAll("(\\{<br/>mv = cw.visitMethod\\()", "\n<method>$1");
+//		input = input.replaceAll("(mv.visitEnd\\(\\);<br/>})", "$1</method>\n");
+//
+//		input = input.replaceAll("(<method>\\{<br/>mv = cw.visitMethod\\(ACC_PUBLIC, \"toString\",[^\\n]*)", "");
+//
+//		input = input.replaceAll("\\n<method>", "");
+//		input = input.replaceAll("</method>\\n", "");
+//		input = input.replaceAll("<br/>", "\n");
 		return input;
 	}
 

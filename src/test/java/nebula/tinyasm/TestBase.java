@@ -14,7 +14,7 @@ import org.objectweb.asm.util.TraceClassVisitor;
 
 public class TestBase {
 
-	public static String toString(byte[] code) throws IOException {
+	public static String toString(byte[] code) {
 		try {
 			ClassReader cr = new ClassReader(code);
 			StringWriter sw = new StringWriter();

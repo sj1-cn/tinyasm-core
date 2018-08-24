@@ -288,6 +288,8 @@ public interface MethodCodeASM {
 	void PUTSTATIC(String objectType, String fieldName, String fieldType);
 
 	void PUT_THIS_STATIC(String objectType, String fieldName);
+	
+	void ATHROW();
 
 	/** INVOKE **/
 	void INVOKESTATIC(Class<?> objectType, String methodName, Class<?>... paramTypes);

@@ -151,8 +151,8 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	@Override
-	public MethodHeader parameter(String name, GenericClazz clazz) {
-		LocalsVariable param = new LocalsVariable(name, clazz);
+	public MethodHeader parameter(int access, String name, GenericClazz clazz) {
+		LocalsVariable param = new LocalsVariable(access, name, clazz);
 		params.push(param.name, param);
 		return this;
 	}
@@ -218,6 +218,7 @@ class MethodHeaderBuilder implements MethodHeader {
 			if (param.annotation != null) {
 				Annotation.visitParameterAnnotation(this.mv, i, param.annotation);
 			}
+			mv.visitParameter(param.name, param.access);
 		}
 	}
 

@@ -12,6 +12,7 @@ import static org.objectweb.asm.Opcodes.ANEWARRAY;
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.ARRAYLENGTH;
 import static org.objectweb.asm.Opcodes.ASTORE;
+import static org.objectweb.asm.Opcodes.ATHROW;
 import static org.objectweb.asm.Opcodes.BIPUSH;
 import static org.objectweb.asm.Opcodes.CHECKCAST;
 import static org.objectweb.asm.Opcodes.D2F;
@@ -97,9 +98,9 @@ import nebula.tinyasm.util.TypeUtils;
 
 public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode>, WithInvoke<MethodCode> {
 
-	void codeAccessLabel(Label label);
+	void visitLabel(Label label);
 
-	void codeAccessLabel(Label label, int line);
+	void visitLabel(Label label, int line);
 
 	void mvInst(int opcode);
 
@@ -110,6 +111,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	void mvFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
 
 	void mvInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
+
+	void mvTryCatchBlock(Label start, Label end, Label handler, Type exctpionClazz);
 
 	void mvLdcInsn(Object cst);
 
@@ -237,9 +240,14 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		STORE(local);
 	}
 
+	default void STOREException(int index) {
+		mvInst(ASTORE, index);
+	}
+
 	@Override
 	default void STORE(int index) {
 		Type localType = codeLocalStoreAccess(index);
+
 		Type valueType = codeGetStackType(0);
 		switch (valueType.getSort()) {
 		case Type.ARRAY:
@@ -1252,6 +1260,19 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			throw new UnsupportedOperationException();
 	}
 
+	@Override
+	default void ATHROW() {
+		mvInst(ATHROW);
+	}
+
+	default void tryCatchBlock(Label start, Label end, Label handler, String exctpionClazz) {
+		mvTryCatchBlock(start, end, handler, typeOf(exctpionClazz));
+	}
+
+	default void tryCatchBlock(Label start, Label end, Label handler, Class<?> exctpionClazz) {
+		mvTryCatchBlock(start, end, handler, typeOf(exctpionClazz));
+	}
+
 	/*
 	 * 2.11.8. Method Invocation and Return Instructions The following five
 	 * instructions invoke methods:
@@ -1637,4 +1658,5 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	void end();
 
 	Label codeNewLabel();
+
 }

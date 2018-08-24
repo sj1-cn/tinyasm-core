@@ -21,6 +21,10 @@ class LocalsVariable extends ClassField {
 		super(0, name, clazz, null);
 	}
 
+	public LocalsVariable(int access, String name, GenericClazz clazz) {
+		super(access, name, clazz, null);
+	}
+
 	public LocalsVariable(Annotation annotation, String name, GenericClazz clazz) {
 		super(0, name, clazz, null);
 		this.annotation = annotation;

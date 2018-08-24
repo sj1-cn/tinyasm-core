@@ -49,13 +49,13 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	@Override
-	public void codeAccessLabel(Label label) {
+	public void visitLabel(Label label) {
 		labelCurrent = label;
 		mv.visitLabel(label);
 	}
 
 	@Override
-	public void codeAccessLabel(Label label, int line) {
+	public void visitLabel(Label label, int line) {
 		labelCurrent = label;
 		mv.visitLabel(label);
 		mv.visitLineNumber(line, label);
@@ -197,6 +197,12 @@ public class MethodCodeBuilder implements MethodCode {
 		mv.visitMethodInsn(opcode, objectType.getInternalName(), methodName,
 				Type.getMethodDescriptor(returnType, paramTypes), opcode == INVOKEINTERFACE);
 
+	}
+
+	@Override
+	public void mvTryCatchBlock(Label start, Label end, Label handler, Type exctpionClazz) {
+		// TODO Auto-generated method stub
+		mv.visitTryCatchBlock(start, end, handler, exctpionClazz.getInternalName());
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public class ClassBodyStaticFieldTest extends TestBase {
 				mv.LOADConstNULL();
 				mv.RETURNTop();
 				Label l1 = mv.codeNewLabel();
-				mv.codeAccessLabel(l1);
+				mv.visitLabel(l1);
 			});
 
 		cw.privateStaticMethod(String.class, "annotationWithDefaultValue")
@@ -72,7 +72,7 @@ public class ClassBodyStaticFieldTest extends TestBase {
 				mv.LOADConstNULL();
 				mv.RETURNTop();
 				Label l1 = mv.codeNewLabel();
-				mv.codeAccessLabel(l1);
+				mv.visitLabel(l1);
 			});
 
 		cw.privateStaticMethod(String.class, "annotationWithDefaultValueAndNamedValue")
@@ -83,7 +83,7 @@ public class ClassBodyStaticFieldTest extends TestBase {
 				mv.LOADConstNULL();
 				mv.RETURNTop();
 				Label l1 = mv.codeNewLabel();
-				mv.codeAccessLabel(l1);
+				mv.visitLabel(l1);
 			});
 
 		cw.privateStaticMethod(String.class, "annotationWithDefaultValueAndNamedValue2")
@@ -95,7 +95,7 @@ public class ClassBodyStaticFieldTest extends TestBase {
 				mv.LOADConstNULL();
 				mv.RETURNTop();
 				Label l1 = mv.codeNewLabel();
-				mv.codeAccessLabel(l1);
+				mv.visitLabel(l1);
 			});
 
 		cw.method("method")

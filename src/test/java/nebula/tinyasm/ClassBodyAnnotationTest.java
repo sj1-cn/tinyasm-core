@@ -49,7 +49,7 @@ public class ClassBodyAnnotationTest extends TestBase {
 			mv.LOADConstNULL();
 			mv.RETURNTop();
 			Label l1 = mv.codeNewLabel();
-			mv.codeAccessLabel(l1);
+			mv.visitLabel(l1);
 		});
 
 		cw.privateMethod(String.class, "annotationWithDefaultValue")
@@ -60,7 +60,7 @@ public class ClassBodyAnnotationTest extends TestBase {
 				mv.LOADConstNULL();
 				mv.RETURNTop();
 				Label l1 = mv.codeNewLabel();
-				mv.codeAccessLabel(l1);
+				mv.visitLabel(l1);
 			});
 
 		cw.privateMethod(String.class, "annotationWithDefaultValueAndNamedValue")
@@ -71,7 +71,7 @@ public class ClassBodyAnnotationTest extends TestBase {
 				mv.LOADConstNULL();
 				mv.RETURNTop();
 				Label l1 = mv.codeNewLabel();
-				mv.codeAccessLabel(l1);
+				mv.visitLabel(l1);
 			});
 
 		cw.privateMethod(String.class, "annotationWithDefaultValueAndNamedValue2")
@@ -83,7 +83,7 @@ public class ClassBodyAnnotationTest extends TestBase {
 				mv.LOADConstNULL();
 				mv.RETURNTop();
 				Label l1 = mv.codeNewLabel();
-				mv.codeAccessLabel(l1);
+				mv.visitLabel(l1);
 			});
 
 		cw.method("method")

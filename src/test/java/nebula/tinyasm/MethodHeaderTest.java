@@ -42,10 +42,10 @@ public class MethodHeaderTest extends TestBase {
 			mv.DUP();
 			mv.LOADConst("./");
 			mv.SPECIAL("java/io/File", "<init>").parameter(String.class).INVOKE();
-			mv.STORE(1);
+			mv.STORE("file");
 
 			mv.line();
-			mv.LOAD(1);
+			mv.LOAD("file");
 			mv.VIRTUAL("java/io/File", "exists").reTurn(boolean.class).INVOKE();
 			Label l2 = mv.codeNewLabel();
 			mv.IFEQ(l2);
@@ -53,20 +53,20 @@ public class MethodHeaderTest extends TestBase {
 			mv.line();
 			mv.NEW("java/io/FileInputStream");
 			mv.DUP();
-			mv.LOAD(1);
+			mv.LOAD("file");
 			mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
-			mv.STORE(2);
+			mv.STORE("fin");
 
 			mv.line();
-			mv.LOAD(2);
+			mv.LOAD("fin");
 			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
 			mv.POP();
 
 			mv.line();
-			mv.LOAD(2);
+			mv.LOAD("fin");
 			mv.VIRTUAL("java/io/FileInputStream", "close").INVOKE();
 
-			mv.codeAccessLabel(l2);
+			mv.visitLabel(l2);
 			mv.line();
 			mv.RETURN();
 		});
@@ -91,10 +91,10 @@ public class MethodHeaderTest extends TestBase {
 		mv.DUP();
 		mv.LOADConst("./");
 		mv.SPECIAL("java/io/File", "<init>").parameter(String.class).INVOKE();
-		mv.STORE(1);
+		mv.STORE("file");
 
 		mv.line();
-		mv.LOAD(1);
+		mv.LOAD("file");
 		mv.VIRTUAL("java/io/File", "exists").reTurn(boolean.class).INVOKE();
 		Label l2 = mv.codeNewLabel();
 		mv.IFEQ(l2);
@@ -102,22 +102,22 @@ public class MethodHeaderTest extends TestBase {
 		mv.line();
 		mv.NEW("java/io/FileInputStream");
 		mv.DUP();
-		mv.LOAD(1);
+		mv.LOAD("file");
 		mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
-		mv.STORE(2);
+		mv.STORE("fin");
 
 		mv.block(mb -> {
 			mv.line();
-			mv.LOAD(2);
+			mv.LOAD("fin");
 			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
 			mv.POP();
 		});
 
 		mv.line();
-		mv.LOAD(2);
+		mv.LOAD("fin");
 		mv.VIRTUAL("java/io/FileInputStream", "close").INVOKE();
 
-		mv.codeAccessLabel(l2);
+		mv.visitLabel(l2);
 		mv.line();
 		mv.RETURN();
 		mv.end();
@@ -142,10 +142,10 @@ public class MethodHeaderTest extends TestBase {
 			mv.DUP();
 			mv.LOADConst("./");
 			mv.SPECIAL("java/io/File", "<init>").parameter(String.class).INVOKE();
-			mv.STORE(1);
+			mv.STORE("file");
 
 			mv.line();
-			mv.LOAD(1);
+			mv.LOAD("file");
 			mv.VIRTUAL("java/io/File", "exists").reTurn(boolean.class).INVOKE();
 			Label l2 = mv.codeNewLabel();
 			mv.IFEQ(l2);
@@ -153,20 +153,20 @@ public class MethodHeaderTest extends TestBase {
 			mv.line();
 			mv.NEW("java/io/FileInputStream");
 			mv.DUP();
-			mv.LOAD(1);
+			mv.LOAD("file");
 			mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
-			mv.STORE(2);
+			mv.STORE("fin");
 
 			mv.line();
-			mv.LOAD(2);
+			mv.LOAD("fin");
 			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
 			mv.POP();
 
 			mv.line();
-			mv.LOAD(2);
+			mv.LOAD("fin");
 			mv.VIRTUAL("java/io/FileInputStream", "close").INVOKE();
 
-			mv.codeAccessLabel(l2);
+			mv.visitLabel(l2);
 			mv.line();
 			mv.RETURN();
 		});

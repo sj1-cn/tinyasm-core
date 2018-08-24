@@ -73,7 +73,7 @@ public class MyBankAccountBuilder {
 				mc.line(52).LOADConstByte(1);
 				mc.RETURNTop();
 
-				mc.codeAccessLabel(ifEnd, 54);
+				mc.visitLabel(ifEnd, 54);
 				mc.LOADConstByte(0);
 				mc.RETURNTop();
 			});

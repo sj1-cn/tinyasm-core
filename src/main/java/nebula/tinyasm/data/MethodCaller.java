@@ -18,6 +18,12 @@ public interface MethodCaller<T> {
 			mh = parameter(clazz);
 		}
 		return mh;
+	}default MethodCaller<T> parameter(Class<?>... clazzes) {
+		MethodCaller<T> mh = null;
+		for (Class<?> clazz : clazzes) {
+			mh = parameter(clazz);
+		}
+		return mh;
 	}
 
 	default MethodCaller<T> parameter(String clazz) {

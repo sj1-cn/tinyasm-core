@@ -47,7 +47,7 @@ public class ClassHeaderInnerClassTest extends TestBase {
 		cw.field(0, "inner", int.class);
 		cw.field(Opcodes.ACC_FINAL + Opcodes.ACC_SYNTHETIC, "this$0", clazz);
 
-		cw.method(0, "<init>").parameter("this$0", clazz).code(mv -> {
+		cw.method(0, "<init>").parameter(Opcodes.ACC_SYNTHETIC,"this$0", clazz).code(mv -> {
 			mv.line();
 			mv.LOAD(0);
 			mv.LOAD(1);
