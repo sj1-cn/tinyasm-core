@@ -4,7 +4,10 @@ public class ConstructerEmpty {
 
 	@Override
 	public String toString() {
-		return "ConstructerEmpty []";
+		StringBuilder builder = new StringBuilder();
+		builder.append("ConstructerEmpty []");
+		return builder.toString();
 	}
+
 
 }

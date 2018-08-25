@@ -3,7 +3,7 @@ package nebula.tinyasm;
 import static nebula.tinyasm.util.TypeUtils.internalNamesOf;
 import static nebula.tinyasm.util.TypeUtils.is;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
-import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
+import static org.objectweb.asm.Opcodes.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	Type stackTopType;
 
 	final LocalsStack mhLocals = new LocalsStack();
-	final ArrayListMap<LocalsVariable> params = new ArrayListMap<>();
+	final ArrayListMap<LocalsVariable> params = new ArrayListMap<>(f->f.name);
 	final List<Annotation> annotations = new ArrayList<>();
 	final ArrayListMap<ClassField> fields;
 	final ArrayListMap<ClassField> staticFields;
@@ -120,15 +120,24 @@ class MethodHeaderBuilder implements MethodHeader {
 		if (!is(this.access, ACC_SYNTHETIC)) {
 			Label endLabel = this.labelWithoutLineNumber();
 			for (LocalsVariable var : mhLocals) {
-//				if (!is(var.access, ACC_SYNTHETIC)) {
+				if (!is(var.access, ACC_SYNTHETIC)) {
 					assert mv != null;
 					assert var != null;
 					assert var.clazz.getDescriptor() != null;
 					Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
 					mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom,
 							endLabel, var.locals);
-//				}
+				}
 			}
+		} else if(is(this.access, ACC_SYNTHETIC) && is(this.access, ACC_BRIDGE)) {
+			Label endLabel = this.labelWithoutLineNumber();
+			LocalsVariable var =  mhLocals.getByLocal(0);
+			assert mv != null;
+			assert var != null;
+			assert var.clazz.getDescriptor() != null;
+			Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
+			mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom,
+					endLabel, var.locals);
 		}
 		mv.visitMaxs(0, 0);
 		mv.visitEnd();
@@ -155,14 +164,14 @@ class MethodHeaderBuilder implements MethodHeader {
 	@Override
 	public MethodHeader parameter(int access, String name, GenericClazz clazz) {
 		LocalsVariable param = new LocalsVariable(access, name, clazz);
-		params.push(param.name, param);
+		params.push(param);
 		return this;
 	}
 
 	@Override
 	public MethodHeader parameter(Annotation annotation, String name, GenericClazz clazz) {
 		LocalsVariable param = new LocalsVariable(annotation, name, clazz);
-		params.push(param.name, param);
+		params.push(param);
 		return this;
 	}
 

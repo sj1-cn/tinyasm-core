@@ -54,6 +54,10 @@ public class RefineCode {
 //		System.out.println("match: " + match + " replace: " + replace);
 	}
 
+	public static String excludeLocalVariable(String input) {
+		input = input.replaceAll("mv.visitLocalVariable[^\\n]*;\\n", "");
+		return input;
+	}
 	public static String excludeLineNumber(String input) {
 		input = input.replaceAll("mv.visitParameter[^\\n]*;\\n", "");
 //		input = input.replaceAll("mv.visitLocalVariable[^\\n]*;\\n", "");
@@ -65,6 +69,8 @@ public class RefineCode {
 //		input = input.replaceAll("mv.visitMaxs[^\\n]*;\\n", "");
 		input = input.replaceAll("mv.visitFrame[^\\n]*;\\n", "");
 
+		input = input.replaceAll("mv.visitLocalVariable\\(\\\"this\\$0\\\"[^\\n]*;\\n", "");
+		
 		input = input.replaceAll(
 				visit("mv.visitLocalVariable", TYPE.STRING, TYPE.STRING, TYPE.STRING, TYPE.NAME, TYPE.NAME, TYPE.NAME),
 				"mv.visitLocalVariable($1,$2,$3,l0,l1,$6);\n");

@@ -203,29 +203,6 @@ public class MethodCodeASMSimpleTest extends TestBase {
 			mc.RETURNTop();
 
 		});
-//		mv.visitMethodInsn(INVOKESPECIAL, "java/lang/StringBuilder", "<init>", "()V", false);
-//		mv.visitVarInsn(ALOAD, 1);
-//		mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
-//		mv.visitVarInsn(ALOAD, 0);
-		
-		cw.method(String.class, "getFieldStr").code(mc->{
-			mc.define("xstr", String.class);
-			mc.line(53).LOADConst("hello ");
-			mc.STORE("xstr");
-			mc.line(54).NEW(StringBuilder.class);
-			mc.DUP();
-			mc.INVOKESPECIAL(StringBuilder.class,"<init>");
-			mc.LOAD("xstr");
-			mc.INVOKEVIRTUAL(StringBuilder.class,StringBuilder.class, "append",String.class);
-			mc.LOADThis();
-			mc.GET_THIS_FIELD("str");
-			mc.INVOKEVIRTUAL(StringBuilder.class,StringBuilder.class, "append",String.class);
-			mc.LOADConst("!");
-			mc.INVOKEVIRTUAL(StringBuilder.class,StringBuilder.class, "append",String.class);
-			mc.INVOKEVIRTUAL(StringBuilder.class,String.class, "toString");
-			mc.STORE("xstr");
-			mc.line(55).RETURN("xstr");	
-		});
 
 		cw.method(byte.class, "retByte").code(mc->{
 			mc.define("x", byte.class);

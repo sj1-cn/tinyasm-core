@@ -7,6 +7,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 import nebula.tinyasm.data.ClassBody;
+import nebula.tinyasm.sample.ClassBody.ConstructerEmpty;
 import nebula.tinyasm.sample.ClassBody.ConstructerWithAllFields;
 import nebula.tinyasm.sample.ClassBody.MakeAllPropertyGetSet;
 import nebula.tinyasm.sample.ClassBody.MakeIntPropertyGetSet;
@@ -28,7 +29,7 @@ public class ClassBodyTest extends TestBase {
 
 	@Test
 	public void testConstructerEmpty() throws IOException {
-		String clazz = this.getClass().getPackage().getName() + ".sample.ClassBody.ConstructerEmpty";
+		String clazz = ConstructerEmpty.class.getName();
 		ClassBody cw = ClassBuilder.make(clazz).body();
 		cw.constructerEmpty();
 		cw.toStringWithAllFields();

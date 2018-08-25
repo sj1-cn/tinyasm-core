@@ -9,10 +9,25 @@ import java.util.Stack;
 public class ArrayListMap<V> implements Iterable<V> {
 	Stack<V> stack = new Stack<>();
 	Map<String, V> maps = new HashMap<>();
+	Naming<V> namingHandler;
 
-	public void push(String name, V value) {
-		stack.push(value);
-		maps.put(name, value);
+	public ArrayListMap(Naming<V> namingHandler) {
+		this.namingHandler = namingHandler;
+	}
+
+	public void push(V value) {
+		if (maps.containsKey(namingHandler.nameOf(value))) {
+			String name = namingHandler.nameOf(value);
+			for (int i = 0; i < stack.size(); i++) {
+				if (name.equals(namingHandler.nameOf(stack.get(i)))) {
+					stack.set(i, value);
+					break;
+				}
+			}
+		} else {
+			stack.push(value);
+		}
+		maps.put(namingHandler.nameOf(value), value);
 	}
 
 	public V get(int index) {
@@ -21,6 +36,16 @@ public class ArrayListMap<V> implements Iterable<V> {
 
 	public V get(String name) {
 		return maps.get(name);
+	}
+
+	public void remove(String name) {
+		for (int i = 0; i < stack.size(); i++) {
+			if (name.equals(namingHandler.nameOf(stack.get(i)))) {
+				stack.remove(i);
+				break;
+			}
+		}
+		maps.remove(name);
 	}
 
 	public boolean containsKey(String name) {
@@ -38,4 +63,10 @@ public class ArrayListMap<V> implements Iterable<V> {
 	public List<V> list() {
 		return stack;
 	}
+
+	@Override
+	public String toString() {
+		return stack.toString();
+	}
+
 }

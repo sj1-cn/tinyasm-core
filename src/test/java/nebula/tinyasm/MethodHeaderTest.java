@@ -14,6 +14,7 @@ import org.objectweb.asm.Label;
 import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.data.MethodCode;
 import nebula.tinyasm.sample.ClassBody.MethodHeaderSample;
+import nebula.tinyasm.util.RefineCode;
 
 public class MethodHeaderTest extends TestBase {
 
@@ -71,8 +72,8 @@ public class MethodHeaderTest extends TestBase {
 			mv.RETURN();
 		});
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = RefineCode.excludeLocalVariable(toString(cw.end().toByteArray()));
+		String codeExpected = RefineCode.excludeLocalVariable(toString(clazz));
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -122,8 +123,8 @@ public class MethodHeaderTest extends TestBase {
 		mv.RETURN();
 		mv.end();
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = RefineCode.excludeLocalVariable(toString(cw.end().toByteArray()));
+		String codeExpected = RefineCode.excludeLocalVariable(toString(clazz));
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -171,8 +172,8 @@ public class MethodHeaderTest extends TestBase {
 			mv.RETURN();
 		});
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = RefineCode.excludeLocalVariable(toString(cw.end().toByteArray()));
+		String codeExpected = RefineCode.excludeLocalVariable(toString(clazz));
 		assertEquals("Code", codeExpected, codeActual);
 	}
 

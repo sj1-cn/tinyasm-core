@@ -8,6 +8,7 @@ public class MethodCodeASMSimpleSample {
 	private long l;
 	private float f;
 	private double d;
+	@SuppressWarnings("unused")
 	private String str;
 
 	public int getField() {
@@ -47,12 +48,6 @@ public class MethodCodeASMSimpleSample {
 		b = -2;
 		b = -1;
 		return b;
-	}
-
-	public String getFieldStr() {
-		String xstr = "hello ";
-		xstr = xstr + str + "!";
-		return xstr;
 	}
 
 	public byte retByte() {

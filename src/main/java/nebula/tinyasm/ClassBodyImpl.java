@@ -13,7 +13,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.data.Annotation;
-import nebula.tinyasm.data.ArrayListMap;
 import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.data.Field;
 import nebula.tinyasm.data.GenericClazz;
@@ -21,8 +20,8 @@ import nebula.tinyasm.data.MethodHeader;
 
 class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
-	ArrayListMap<ClassField> fields = new ArrayListMap<>();
-	ArrayListMap<ClassField> staticFields = new ArrayListMap<>();
+	FieldList fields = new FieldList();
+	FieldList staticFields = new FieldList();
 
 	boolean hadEnd = false;
 
@@ -113,7 +112,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	public ClassBody staticField(int access, String name, GenericClazz clazz) {
 		access |= Opcodes.ACC_STATIC;
 		ClassField field1 = new ClassField(access, name, clazz, null);
-		staticFields.push(field1.name, field1);
+		staticFields.push(field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
 		fv.visitEnd();
 		return this;
@@ -123,7 +122,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	public ClassBody staticField(int access, Annotation annotation, String name, GenericClazz clazz) {
 		access |= Opcodes.ACC_STATIC;
 		ClassField field1 = new ClassField(access, name, clazz, null);
-		staticFields.push(field1.name, field1);
+		staticFields.push(field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
 
 		assert annotation != null;
@@ -136,7 +135,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	@Override
 	public ClassBody field(int access, String name, GenericClazz clazz) {
 		ClassField field1 = new ClassField(access, name, clazz, null);
-		fields.push(field1.name, field1);
+		fields.push(field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
 		fv.visitEnd();
 		return this;
@@ -145,7 +144,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	@Override
 	public ClassBody field(int access, Annotation annotation, String name, GenericClazz clazz) {
 		ClassField field1 = new ClassField(access, name, clazz, null);
-		fields.push(field1.name, field1);
+		fields.push(field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
 
 		assert annotation != null;

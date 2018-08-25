@@ -245,6 +245,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	default ClassBody toStringWithAllFields() {
 		final List<Field> fields = getFields();
 		publicMethod(String.class, "toString").code(mc -> {
+			mc.define("builder", StringBuilder.class);
 			mc.line();
 
 			if (fields.size() > 0) {
@@ -252,6 +253,10 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 				mc.DUP();
 				mc.INVOKESPECIAL(StringBuilder.class, "<init>");
+				mc.STORE("builder");
+				mc.line();
+				mc.LOAD("builder");
+
 				mc.LOADConst(getSimpleName() + " [" + fields.get(0).name + "=");
 
 				mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
@@ -260,20 +265,39 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 					Field field = fields.get(i);
 					if (i > 0) {
 						mc.LOADConst(", " + field.name + "=");
+						mc.line();
 						mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
 					}
-
 					mc.LOADThis();
 					mc.GET_THIS_FIELD(field.name);
-
+					mc.line();
 					mc.INVOKEVIRTUAL(StringBuilder.class.getName(), StringBuilder.class.getName(), "append",
 							stringInnerUserType(typeOf(field.clazz.originclazz)).getClassName());
+
 				}
 				mc.LOADConst("]");
+				mc.line();
 				mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
+				mc.POP();
+				mc.line();
+				mc.LOAD("builder");
 				mc.INVOKEVIRTUAL(StringBuilder.class, String.class, "toString");
 			} else {
+
+				mc.NEW(StringBuilder.class);
+
+				mc.DUP();
+				mc.INVOKESPECIAL(StringBuilder.class, "<init>");
+				mc.STORE("builder");
+				mc.line();
+				mc.LOAD("builder");
+
 				mc.LOADConst(getSimpleName() + " []");
+				mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
+				mc.POP();
+				mc.line();
+				mc.LOAD("builder");
+				mc.INVOKEVIRTUAL(StringBuilder.class, String.class, "toString");
 			}
 
 			mc.RETURNTop();
