@@ -54,6 +54,10 @@ public class RefineCode {
 //		System.out.println("match: " + match + " replace: " + replace);
 	}
 
+	public static String excludeLocalVariable(String input) {
+		input = input.replaceAll("mv.visitLocalVariable[^\\n]*;\\n", "");
+		return input;
+	}
 	public static String excludeLineNumber(String input) {
 		input = input.replaceAll("mv.visitParameter[^\\n]*;\\n", "");
 //		input = input.replaceAll("mv.visitLocalVariable[^\\n]*;\\n", "");
