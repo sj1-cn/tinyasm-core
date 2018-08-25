@@ -1,7 +1,11 @@
 package nebula.tinyasm.sample.ClassBody;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("serial")
 @TestAnnotation
-public class MakeComplexSample {
+public class MakeComplexSample extends ArrayList<String> implements List<String> {
 	private byte b;
 	private char c;
 	private short s;

@@ -2,14 +2,17 @@ package nebula.tinyasm.util;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RefineCode {
 
 	static enum TYPE {
-		STRING, NAME, INT, ACCESS, PARAMS_RET, BOOLEAN
+		STRING, NAME, INT, ACCESS, PARAMS_RET, BOOLEAN, CLAZZARRAY, NORMAL_CLASS_ACCESS, ACC_PUBLIC, CLASSDESCRIPTION,
+		CLASSNAME
 	}
 
 	static final List<String> matches = new ArrayList<>();
@@ -19,20 +22,30 @@ public class RefineCode {
 	static EnumMap<TYPE, String> mat = new EnumMap<>(TYPE.class);
 	static {
 		mat.put(TYPE.STRING, "((?:\\\"[^\\\"]*\\\")|null)");
-		mat.put(TYPE.NAME, "([\\w|_]+)");
+		mat.put(TYPE.NAME, "([\\w|_|\\d]+)");
 		mat.put(TYPE.INT, "([\\d]+)");
 		mat.put(TYPE.ACCESS, "([\\w|_]+(?: \\+ [\\w|_]+)*)");
 
-		String matchObjectName = "(?:L(?:\\w|\\/|\\d)+;)";
-		String matchObjectNameOrPrimary = "(?:" + matchObjectName + "|\\w)";
-		;
-		String matchObjectNameWithArray = "(?:\\[?" + matchObjectNameOrPrimary + ")";
+		String matchInntenalName = "(?:[\\w\\d_]+(?:\\/[\\w\\d_]+)*)";
+
+		String matchObjectDescription = "(?:L" + matchInntenalName + ";)";
+		String matchObjectDescriptionOrPrimary = "(?:" + matchObjectDescription + "|\\w)";
+		String matchObjectDescriptionWithArray = "(?:\\[?" + matchObjectDescriptionOrPrimary + ")";
+		String matchObjectDescriptionGeneric = "(?:" + matchObjectDescriptionWithArray + "(?:<"
+				+ matchObjectDescriptionWithArray + "+>)?)";
+
 //			String type = "(?:(?:\\[?L(?:\\w|\\/|\\d)*;)|\\w)*";
-		mat.put(TYPE.PARAMS_RET, "\\\"\\((" + matchObjectNameWithArray + "*)\\)(" + matchObjectNameWithArray + ")\\\"");
+		mat.put(TYPE.PARAMS_RET,
+				"\\\"\\((" + matchObjectDescriptionGeneric + "*)\\)(" + matchObjectDescriptionGeneric + ")\\\"");
+		mat.put(TYPE.CLASSDESCRIPTION, "(\\\"" + matchObjectDescriptionGeneric + "*\\\")");
+		mat.put(TYPE.CLASSNAME, "(\\\"" + matchInntenalName + "\\\")");
 		mat.put(TYPE.BOOLEAN, "(true|false)");
+		mat.put(TYPE.CLAZZARRAY, "((?:new String\\[\\] \\{ \\\"[\\d|\\w|\\.\\/]*\\\" \\})|null)");
+		mat.put(TYPE.NORMAL_CLASS_ACCESS, "(ACC_PUBLIC \\+ ACC_SUPER)");
+		mat.put(TYPE.ACC_PUBLIC, "(ACC_PUBLIC)");
 
+//		"Ljava/lang/Object;Lnebula/module/JdbcRowMapper<Lnebula/module/User;>;"
 		prepareMatches();
-
 	}
 
 	public static void add(String match, String replace) {
@@ -43,16 +56,18 @@ public class RefineCode {
 
 	public static String excludeLineNumber(String input) {
 		input = input.replaceAll("mv.visitParameter[^\\n]*;\\n", "");
-		input = input.replaceAll("mv.visitLocalVariable[^\\n]*;\\n", "");
+//		input = input.replaceAll("mv.visitLocalVariable[^\\n]*;\\n", "");
 		input = input.replaceAll("LineNumber\\([0-9]*\\,", "LineNumber(1,");
 
 //		input = input.replaceAll("Label l1 = new Label\\(\\)[^\\n]*;\\n", "");
 //		input = input.replaceAll("mv.visitLabel\\(l1\\)[^\\n]*;\\n", "");
 
 //		input = input.replaceAll("mv.visitMaxs[^\\n]*;\\n", "");
-		
+		input = input.replaceAll("mv.visitFrame[^\\n]*;\\n", "");
 
-		input = input.replaceAll(visit("mv.visitLocalVariable",  TYPE.STRING, TYPE.STRING, TYPE.STRING,TYPE.NAME,TYPE.NAME,TYPE.NAME), "mv.visitLocalVariable($1,$2,$3,l0,l1,$6);\n");
+		input = input.replaceAll(
+				visit("mv.visitLocalVariable", TYPE.STRING, TYPE.STRING, TYPE.STRING, TYPE.NAME, TYPE.NAME, TYPE.NAME),
+				"mv.visitLocalVariable($1,$2,$3,l0,l1,$6);\n");
 //		add(,
 //				);
 //		
@@ -62,9 +77,9 @@ public class RefineCode {
 	}
 
 	public static String getClasName(CharSequence source) {
-		Pattern p = Pattern
-			.compile(visit("cw.visit", TYPE.INT, TYPE.ACCESS, TYPE.STRING, TYPE.STRING, TYPE.STRING, TYPE.STRING));
-		Matcher m = p.matcher(source); // 获取 matcher 对象
+		Pattern p = Pattern.compile(
+				visit("cw.visit", TYPE.INT, TYPE.ACCESS, TYPE.CLASSNAME, TYPE.STRING, TYPE.CLASSNAME, TYPE.CLAZZARRAY));
+		Matcher m = p.matcher(source);
 		while (m.find()) {
 			return m.group(3).replaceAll("\"", "").replaceAll("/", ".");
 		}
@@ -105,15 +120,16 @@ public class RefineCode {
 			add("package (?:[\\w|\\.|\\d]+);\\n", "");
 			add("import java.util.*;\\n", "");
 			add("import org.objectweb.asm.*;\\n", "");
-			add("public static class (?:[\\w|\\.|\\d]+) implements Opcodes \\{\\n", "");
+			add("public class (?:[\\w|\\.|\\d]+) implements Opcodes \\{\\n", "");
 
-			add("public static  byte\\[\\] dump \\(\\) throws Exception \\{\\n", "");
+			add("public static byte\\[\\] dump \\(\\) throws Exception \\{\\n", "");
 
 			add("ClassWriter cw = new ClassWriter\\(0\\);\\n", "");
 			add("FieldVisitor fv;\\n", "");
 			add("MethodVisitor mv;\\n", "");
 			add("AnnotationVisitor av0;\\n", "");
 			add("cw.visitEnd\\(\\);\\n", "");
+			add("return cw.toByteArray\\(\\);\\n", "return cw.end().toByteArray();\n");
 
 			add(visit("cw.visitInnerClass", TYPE.STRING, TYPE.STRING, TYPE.STRING, TYPE.ACCESS),
 					"cw.referInnerClass($2,$3);/*$4*/\n");
@@ -122,8 +138,11 @@ public class RefineCode {
 
 		// class
 		{
-			add(visit("cw.visit", TYPE.INT, TYPE.ACCESS, TYPE.STRING, TYPE.STRING, TYPE.STRING, TYPE.STRING),
-					"ClassBody cw = ClassBuilder.make($2,$3).eXtend($5).body();");
+
+			add(visit("cw.visit", TYPE.INT, TYPE.NORMAL_CLASS_ACCESS, TYPE.CLASSNAME, TYPE.STRING, TYPE.CLASSNAME,
+					TYPE.CLAZZARRAY), "ClassBody cw = ClassBuilder.make($3).eXtend($5).body()/*$4 $6*/;");
+			add(visit("cw.visit", TYPE.INT, TYPE.ACCESS, TYPE.CLASSNAME, TYPE.CLASSNAME, TYPE.CLASSDESCRIPTION,
+					TYPE.CLAZZARRAY), "ClassBody cw = ClassBuilder.make($2,$3).eXtend($5).body()/*$4 $6*/;");
 			add(".eXtend\\(\\\"java/lang/Object\\\"\\)", "");
 			add("cw.visitSource\\(" + mat.get(TYPE.STRING) + ", null\\);\n", "");
 		}
@@ -139,8 +158,11 @@ public class RefineCode {
 		// mv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "dump", "()[B", null, new
 		// String[] { "java/lang/Exception" });
 		{
-			add(visit("mv = cw.visitMethod", TYPE.ACCESS, TYPE.STRING, TYPE.PARAMS_RET, TYPE.STRING, TYPE.STRING),
-					"cw.method($1,$2).parameter(\"name\",\"$3\").reTurn(\"$4\")/*$5*/\n");
+			add(visit("mv = cw.visitMethod", TYPE.ACC_PUBLIC, TYPE.STRING, TYPE.PARAMS_RET, TYPE.STRING,
+					TYPE.CLAZZARRAY), "cw.method($2).parameter(\"name\",\"$3\").reTurn(\"$4\")/*$5*//*$6*/\n");
+
+			add(visit("mv = cw.visitMethod", TYPE.ACCESS, TYPE.STRING, TYPE.PARAMS_RET, TYPE.STRING, TYPE.CLAZZARRAY),
+					"cw.method($1,$2).parameter(\"name\",\"$3\").reTurn(\"$4\")/*$5*//*$6*/\n");
 
 			add("mv.visitCode\\(\\);", ".code(mv -> {");
 			add("mv.visitEnd\\(\\);", "});");
@@ -155,6 +177,7 @@ public class RefineCode {
 			add("mv.visitLabel\\(l\\d*\\);\n", "");
 			add(visit("mv.visitLabel", TYPE.NAME), "");
 			add(visit("mv.visitLineNumber", TYPE.INT, TYPE.NAME), "mv.line();\n");
+			add(visit("mv.visitMaxs", TYPE.INT, TYPE.INT), "");
 			add(visit("mv.visitTypeInsn", "NEW", TYPE.STRING), "mv.NEW($1);\n");
 			add(visit("mv.visitInsn", "DUP"), "mv.DUP();\n");
 			add(visit("mv.visitInsn", "POP"), "mv.POP();\n");
@@ -165,7 +188,7 @@ public class RefineCode {
 			add(visit("mv.visitVarInsn", "[A|I|L|F|D]STORE", TYPE.INT), "mv.STORE($1);\n");
 
 			add(visit("mv.visitInsn", "AASTORE"), "mv.ARRAYSTORE();\n");
-			
+
 			add(visit("mv.visitInsn", "ATHROW"), "mv.ATHROW();\n");
 
 			add(visit("mv.visitInsn", "[A|I|L|F|D]ADD"), "mv.ADD();\n");
@@ -187,18 +210,25 @@ public class RefineCode {
 
 			add("mv.visitInsn\\(ICONST_(\\d*)\\);\n", "mv.LOADConst($1);\n");
 
+			add(visit("mv.visitFieldInsn", "PUTSTATIC", TYPE.STRING, TYPE.STRING, TYPE.STRING),
+					"mv.PUTSTATIC($1,$2,$3);\n");
+
 			add(visit("mv.visitFieldInsn", "GETSTATIC", TYPE.STRING, TYPE.STRING, TYPE.STRING),
 					"mv.GETSTATIC($1,$2,$3);\n");
 
-			add(visit("mv.visitFieldInsn", "PUTFIELD", TYPE.STRING, TYPE.STRING, TYPE.STRING),
-					"mv.PUTFIELD($1,$2,$3);\n");
+			add(visit("mv.visitFieldInsn", "PUTFIELD", TYPE.STRING, TYPE.STRING, TYPE.STRING), "mv.PUTFIELD($2,$3);\n");
 
-			add(visit("mv.visitFieldInsn", "GETFIELD", TYPE.STRING, TYPE.STRING, TYPE.STRING),
-					"mv.GETFIELD($1,$2,$3);\n");
+			add(visit("mv.visitFieldInsn", "GETFIELD", TYPE.STRING, TYPE.STRING, TYPE.STRING), "mv.GETFIELD($2,$3);\n");
 
 			add(visit("mv.visitLdcInsn", TYPE.STRING), "mv.LOADConst($1);\n");
 
 			add("mv.visitLdcInsn\\((new Long\\(\\d*L\\))\\);", "mv.LOADConst($1);\n");
+
+			add(visit("mv.visitLocalVariable", "\\\"this\\\"", TYPE.STRING, TYPE.STRING, TYPE.NAME, TYPE.NAME,
+					TYPE.INT), "");
+
+			add(visit("mv.visitLocalVariable", TYPE.STRING, TYPE.STRING, TYPE.STRING, TYPE.NAME, TYPE.NAME, TYPE.INT),
+					"mv.define($1,$2);/*$6*/\n");
 
 			add(visit("mv.visitMethodInsn", "INVOKESPECIAL", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
 					"mv.SPECIAL($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
@@ -209,16 +239,44 @@ public class RefineCode {
 			add(visit("mv.visitMethodInsn", "INVOKEINTERFACE", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
 					"mv.INTERFACE($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
 
-			add("\\.param\\(\"\"\\)", "");
+			add("\\.parameter\\(\"\"\\)", "");
+			add("\\.parameter\\(\"J\"\\)", ".parameter(long.class)");
+			add("\\.parameter\\(\"I\"\\)", ".parameter(int.class)");
 			add("\\.reTurn\\(\"V\"\\)", "");
+			add("\\.reTurn\\(\"Z\"\\)", ".reTurn(boolean.class)");
+			add("\\.reTurn\\(\"I\"\\)", ".reTurn(int.class)");
+			add("\\.reTurn\\(\"J\"\\)", ".reTurn(long.class)");
 
+			add("\\\"Ljava/lang/String;\\\"", "String.class");
+			add("\\\"Ljava/lang/Object;\\\"", "Object.class");
+			add("\\\"java/lang/String\\\"", "String.class");
+			add("\\\"java/lang/Object\\\"", "Object.class");
 		}
 	}
 
-	public static String refineCode(String source) {
+	static Class<?>[] predefineKnownClasses = new Class<?>[] { String.class, List.class, ArrayList.class, Map.class,
+			HashMap.class };
+
+	public static String refineCode(String source, Class<?>... KnownClasses) {
 		String classname = getClasName(source);
 
 		source = replaceAll(source);
+
+		for (Class<?> clazz : KnownClasses) {
+			String string = clazz.getName();
+			String iname = string.replace(".", "/");
+			String clzname = string.substring(string.lastIndexOf('.') + 1, string.length());
+			source = source.replaceAll("\\\"L" + iname + ";\\\"", clzname + ".class");
+			source = source.replaceAll("\\\"" + iname + "\\\"", clzname + ".class");
+		}
+		for (Class<?> clazz : predefineKnownClasses) {
+			String string = clazz.getName();
+			String iname = string.replace(".", "/");
+			String clzname = string.substring(string.lastIndexOf('.') + 1, string.length());
+			source = source.replaceAll("\\\"L" + iname + ";\\\"", clzname + ".class");
+			source = source.replaceAll("\\\"" + iname + "\\\"", clzname + ".class");
+		}
+
 		source = matchTypeInternalNameToClassName(source);
 		source = matchTypeDescription(source);
 
@@ -227,76 +285,6 @@ public class RefineCode {
 
 		return source;
 	}
-//
-//	public static String refineCode(String input) {
-//
-//		// match by line
-//		input = input.replaceAll("Label (l\\d*) = new Label\\(\\);\\s*\\n", "Label $1 = mv.codeNewLabel();");
-//		input = input.replaceAll("mv.visitLabel\\((l\\d*)\\);", "mv.codeAccessLabel\\($1\\);");
-//		input = input.replaceAll("mv.visitLineNumber\\(\\d, \\w\\d\\);\\s*\\n", "");
-//
-//		input = input.replaceAll("mv.visitInsn\\(LCMP\\);", "mv.CMP();");
-//		input = input.replaceAll("mv.visitInsn\\((?:D|F)CMPG\\);", "mv.CMPG();");
-//		input = input.replaceAll("mv.visitInsn\\((?:D|F)CMPL\\);", "mv.CMPL();");
-//
-//		input = input.replaceAll("mv.visitInsn\\(\\wRETURN\\);", "mv.RETURNTop();");
-//		input = input.replaceAll("mv.visitVarInsn\\(\\wLOAD, (\\d*)\\);", "mv.LOAD($1);");
-//		input = input.replaceAll("mv.visitInsn\\(\\wALOAD\\);", "mv.ARRAYLOAD();");
-//		input = input.replaceAll("mv.visitInsn\\(\\wASTORE\\);", "mv.ARRAYSTORE();");
-//		input = input.replaceAll("mv.visitFieldInsn\\(GETFIELD, \"[^\"]*\", (\"[^\"]*\")[^\\n]*;\\n",
-//				"mv.GETFIELD($1);");
-//		input = input.replaceAll("mv.visitFieldInsn\\(PUTFIELD, \"[^\"]*\", (\"[^\"]*\")[^\\n]*;\\n",
-//				"mv.PUTFIELD($1);");
-//
-//		input = input.replaceAll("mv.visitLdcInsn(\\([^;]*)[^\\n]*;\\n", "mv.LOADConst$1;");
-//
-//		input = input.replaceAll("mv.visitJumpInsn\\((\\w+), (l\\d+)\\);", "mv.$1($2);");
-//
-//		input = input.replaceAll("mv.visitLocalVariable\\(\"([\\d\\w]*)\", \"(\\w+)\"[^;]+;",
-//				"<def>mv.define(\"$1\",\"$2\"\\);</def>");
-//		input = input.replaceAll("mv.visitLocalVariable\\(\\\"this\\\"[^\\n]*\\n", "");
-//		input = input.replaceAll("mv.visitFrame[^;]*;\\s*\\n", "");
-//		input = input.replaceAll("mv.visitMaxs[^;]*;\\s*\\n", "");
-//		input = input.replaceAll("mv.visitInsn\\(ICONST_(\\d)\\);", "mv.LOADConst($1);");
-//
-//		input = input.replaceAll("mv.visitTypeInsn\\(CHECKCAST,", "mv.CHECKCAST(");
-//		input = input.replaceAll("mv.visitMethodInsn\\(INVOKE(\\w*),([^,]*),([^,]*),([^,]*), \\w*\\);",
-//				"mv.$1\\($2,$3/*$4*/);");
-//
-//		input = input.replaceAll("mv.visitInsn\\(DUP\\);", "mv.DUP();");
-//		input = input.replaceAll("mv.visitTypeInsn\\(NEW, ([^\\)]*)\\);", "mv.NEW($1);");
-//
-//		// match by method
-//		input = input.replaceAll("\\n", "");
-//		input = input.replaceAll("\\{(mv = cw.visitMethod\\()", "\n<method>$1");
-//		input = input.replaceAll("(mv.visitCode\\(\\);)", "<code>");
-//		input = input.replaceAll("(mv.visitEnd\\(\\);})", "</code></method>\n");
-//
-//		input = input.replaceAll(";(<def>.*)(?:;</def></code>)", ";<defs>$1;</def></defs></code>");
-//		input = input.replaceAll("#def#", ";");
-//
-//		input = input.replaceAll("(<code>)(.*)(<defs>.*</defs>)", "$1$3$2");
-//
-//		input = input.replaceAll("</?def>", "");
-//		input = input.replaceAll("<defs>(.*)</defs>", "$1");
-//
-//		input = input.replaceAll("mv = cw.visitMethod\\(([^\\n]*);", "cw.method($1");
-//		input = input.replaceAll("<method>(.*)</method>", "$1");
-//		input = input.replaceAll("<code>(.*)</code>", ".code(mv -> {\n\t$1});");
-//
-//		// reformater by line
-//		input = input.replaceAll("\\);", ");\n");
-//
-//		input = input.replaceAll("mv = cw.visitMethod\\(([^,],), (\"[^\"]*\"), \"\\(([^\\)]*)\\)([^\"]*)\",[^;]*;",
-//				"\tcw.method($1, $2)/*$4 $3*/");
-//
-//		input = input.replaceAll("(?:\\})?\\{fv = cw.visitField\\(([^,],), \"([^\"]*)\", \"([^\"]*)\",[^;]*;",
-//				"cw.field($1, \"$2\", \"$3\");");
-//		input = input.replaceAll("fv.visitEnd\\(\\);", "");
-//
-//		input = input.replaceAll("/\\* \"\\(\\)V\" \\*/", "");
-//		return input;
-//	}
 
 	public static String replaceAll(String input) {
 		for (int i = 0; i < matches.size(); i++) {
@@ -326,7 +314,7 @@ public class RefineCode {
 		sb.append("\\(");
 		sb.append(opcode);
 		for (int i = 0; i < params.length; i++) {
-			sb.append(", ");
+			sb.append(",(?: ?)");
 			sb.append(mat.get(params[i]));
 		}
 		sb.append("\\);\n");
@@ -345,7 +333,7 @@ public class RefineCode {
 			sb.append(mat.get(params[i]));
 		}
 		for (int i = 1; i < params.length; i++) {
-			sb.append(", ");
+			sb.append(",(?: ?)");
 			sb.append(mat.get(params[i]));
 		}
 		sb.append("\\);\n");

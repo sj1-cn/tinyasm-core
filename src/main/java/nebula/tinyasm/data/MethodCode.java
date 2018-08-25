@@ -240,8 +240,13 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		STORE(local);
 	}
 
-	default void STOREException(int index) {
-		mvInst(ASTORE, index);
+	default void STOREException(int local) {
+		mvInst(ASTORE, local);
+	}
+
+	default void STOREException(String varname) {
+		int local = codeLocalGetLocals(varname);
+		mvInst(ASTORE, local);
 	}
 
 	@Override
@@ -338,6 +343,20 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	 *                {@link Opcodes#T_BYTE}, {@link Opcodes#T_SHORT},
 	 *                {@link Opcodes#T_INT} or {@link Opcodes#T_LONG}.
 	 */
+
+//	@Override
+	default void LOADConst(int cst) {
+		if (0L == cst || 1L == cst) {
+			mvInst(ICONST_0 + cst);
+			codePush(Type.getType(int.class));
+		} else if (Byte.MIN_VALUE <= cst && cst <= Byte.MAX_VALUE) {
+			mvIntInsn(BIPUSH, cst);
+			codePush(Type.getType(int.class));
+		} else {
+			mvLdcInsn(cst);
+			codePush(Type.getType(int.class));
+		}
+	}
 
 	@Override
 	default void LOADConst(Object cst) {
@@ -1086,7 +1105,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	@Override
 	default void IFNE(Label falseLabel) {
 		Type value = codePopStack();
-		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
+		assert in(value, Type.INT_TYPE, Type.BOOLEAN_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE + " | "
+				+ Type.BOOLEAN_TYPE;
 		mvJumpInsn(IFNE, falseLabel);
 	}
 

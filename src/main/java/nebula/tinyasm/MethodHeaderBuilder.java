@@ -117,15 +117,17 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void finishMethod() {
 		if (thisMethod.hasEnded) return;
-		Label endLabel = this.labelWithoutLineNumber();
-		for (LocalsVariable var : mhLocals) {
-			if (!is(var.access, ACC_SYNTHETIC)) {
-				assert mv != null;
-				assert var != null;
-				assert var.clazz.getDescriptor() != null;
-				Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
-				mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom,
-						endLabel, var.locals);
+		if (!is(this.access, ACC_SYNTHETIC)) {
+			Label endLabel = this.labelWithoutLineNumber();
+			for (LocalsVariable var : mhLocals) {
+//				if (!is(var.access, ACC_SYNTHETIC)) {
+					assert mv != null;
+					assert var != null;
+					assert var.clazz.getDescriptor() != null;
+					Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
+					mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom,
+							endLabel, var.locals);
+//				}
 			}
 		}
 		mv.visitMaxs(0, 0);

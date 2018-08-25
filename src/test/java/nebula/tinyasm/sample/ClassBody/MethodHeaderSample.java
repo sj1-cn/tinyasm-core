@@ -8,12 +8,12 @@ public class MethodHeaderSample {
 
 	public void throwException() throws IOException {
 		File file;
-		FileInputStream fin;
+		FileInputStream fileInputStream;
 		file = new File("./");
 		if (file.exists()) {
-			fin = new FileInputStream(file);
-			fin.read();
-			fin.close();
+			fileInputStream = new FileInputStream(file);
+			fileInputStream.read();
+			fileInputStream.close();
 		}
 	}
 

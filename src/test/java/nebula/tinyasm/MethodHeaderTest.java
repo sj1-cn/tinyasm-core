@@ -35,7 +35,7 @@ public class MethodHeaderTest extends TestBase {
 
 		cw.method("throwException").tHrow(IOException.class).code(mv -> {
 			mv.define("file", File.class);
-			mv.define("fin", FileInputStream.class);
+			mv.define("fileInputStream", FileInputStream.class);
 
 			mv.line();
 			mv.NEW("java/io/File");
@@ -55,15 +55,15 @@ public class MethodHeaderTest extends TestBase {
 			mv.DUP();
 			mv.LOAD("file");
 			mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
-			mv.STORE("fin");
+			mv.STORE("fileInputStream");
 
 			mv.line();
-			mv.LOAD("fin");
+			mv.LOAD("fileInputStream");
 			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
 			mv.POP();
 
 			mv.line();
-			mv.LOAD("fin");
+			mv.LOAD("fileInputStream");
 			mv.VIRTUAL("java/io/FileInputStream", "close").INVOKE();
 
 			mv.visitLabel(l2);
@@ -84,7 +84,7 @@ public class MethodHeaderTest extends TestBase {
 
 		MethodCode mv = cw.method("throwException").tHrow(IOException.class).begin();
 		mv.define("file", File.class);
-		mv.define("fin", FileInputStream.class);
+		mv.define("fileInputStream", FileInputStream.class);
 
 		mv.line();
 		mv.NEW("java/io/File");
@@ -104,17 +104,17 @@ public class MethodHeaderTest extends TestBase {
 		mv.DUP();
 		mv.LOAD("file");
 		mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
-		mv.STORE("fin");
+		mv.STORE("fileInputStream");
 
 		mv.block(mb -> {
 			mv.line();
-			mv.LOAD("fin");
+			mv.LOAD("fileInputStream");
 			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
 			mv.POP();
 		});
 
 		mv.line();
-		mv.LOAD("fin");
+		mv.LOAD("fileInputStream");
 		mv.VIRTUAL("java/io/FileInputStream", "close").INVOKE();
 
 		mv.visitLabel(l2);
@@ -135,7 +135,7 @@ public class MethodHeaderTest extends TestBase {
 
 		cw.method("throwException").tHrow(IOException.class.getName()).code(mv -> {
 			mv.define("file", File.class);
-			mv.define("fin", FileInputStream.class);
+			mv.define("fileInputStream", FileInputStream.class);
 
 			mv.line();
 			mv.NEW("java/io/File");
@@ -155,15 +155,15 @@ public class MethodHeaderTest extends TestBase {
 			mv.DUP();
 			mv.LOAD("file");
 			mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
-			mv.STORE("fin");
+			mv.STORE("fileInputStream");
 
 			mv.line();
-			mv.LOAD("fin");
+			mv.LOAD("fileInputStream");
 			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
 			mv.POP();
 
 			mv.line();
-			mv.LOAD("fin");
+			mv.LOAD("fileInputStream");
 			mv.VIRTUAL("java/io/FileInputStream", "close").INVOKE();
 
 			mv.visitLabel(l2);
