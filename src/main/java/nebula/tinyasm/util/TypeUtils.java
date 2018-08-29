@@ -34,6 +34,19 @@ public class TypeUtils {
 		primaryTypeMaps.put(float.class.getName(), Type.FLOAT_TYPE);
 		primaryTypeMaps.put(double.class.getName(), Type.DOUBLE_TYPE);
 	}
+	
+	static Map<String, String> primaryTypeObjectMap = new HashMap<>();
+
+	static {
+		primaryTypeObjectMap.put(boolean.class.getName(), Boolean.class.getName());
+		primaryTypeObjectMap.put(byte.class.getName(), Byte.class.getName());
+		primaryTypeObjectMap.put(char.class.getName(),Character.class.getName());
+		primaryTypeObjectMap.put(short.class.getName(),Short.class.getName());
+		primaryTypeObjectMap.put(int.class.getName(), Integer.class.getName());
+		primaryTypeObjectMap.put(long.class.getName(),Long.class.getName());
+		primaryTypeObjectMap.put(float.class.getName(), Float.class.getName());
+		primaryTypeObjectMap.put(double.class.getName(), Double.class.getName());
+	}
 
 	static Map<Type, Integer> arrayTypeMaps = new HashMap<Type, Integer>();
 
@@ -612,6 +625,9 @@ public class TypeUtils {
 		if (clazz == null) return Type.VOID_TYPE;
 		String name = clazz.originclazz;
 		if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
+		if(clazz.isarray) {
+			return Type.getType("[" + Type.getObjectType(name.replace('.', '/')).getDescriptor());
+		}
 		return Type.getObjectType(name.replace('.', '/'));
 	}
 
