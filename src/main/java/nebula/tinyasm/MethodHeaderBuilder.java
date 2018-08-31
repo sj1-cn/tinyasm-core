@@ -3,7 +3,8 @@ package nebula.tinyasm;
 import static nebula.tinyasm.util.TypeUtils.internalNamesOf;
 import static nebula.tinyasm.util.TypeUtils.is;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
+import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +43,10 @@ class MethodHeaderBuilder implements MethodHeader {
 	Type stackTopType;
 
 	final LocalsStack mhLocals = new LocalsStack();
-	final ArrayListMap<LocalsVariable> params = new ArrayListMap<>(f->f.name);
+	final ArrayListMap<LocalsVariable> params = new ArrayListMap<>(f -> f.name);
 	final List<Annotation> annotations = new ArrayList<>();
-	final ArrayListMap<ClassField> fields;
-	final ArrayListMap<ClassField> staticFields;
+	final FieldList fields;
+	final FieldList staticFields;
 
 	MethodVisitor mv;
 
@@ -129,9 +130,9 @@ class MethodHeaderBuilder implements MethodHeader {
 							endLabel, var.locals);
 				}
 			}
-		} else if(is(this.access, ACC_SYNTHETIC) && is(this.access, ACC_BRIDGE)) {
+		} else if (is(this.access, ACC_SYNTHETIC) && is(this.access, ACC_BRIDGE)) {
 			Label endLabel = this.labelWithoutLineNumber();
-			LocalsVariable var =  mhLocals.getByLocal(0);
+			LocalsVariable var = mhLocals.getByLocal(0);
 			assert mv != null;
 			assert var != null;
 			assert var.clazz.getDescriptor() != null;

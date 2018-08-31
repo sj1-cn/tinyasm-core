@@ -1,5 +1,5 @@
 package nebula.tinyasm.data;
 
-public interface Naming<T> {
-	String nameOf(T t);
+public interface Naming<K, T> {
+	K nameOf(T t);
 }
