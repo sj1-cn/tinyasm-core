@@ -94,6 +94,8 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.ClazzImpl;
+import nebula.tinyasm.InstanceImpl;
 import nebula.tinyasm.util.TypeUtils;
 
 public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode>, WithInvoke<MethodCode> {
@@ -191,6 +193,27 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		GETFIELD(fieldname, feildtype);
 	}
 
+	default void set(String varname, Consumer<MethodCode> invocations) {
+		int locals = codeLocalGetLocals(varname);
+		if (locals >= 0) {
+			invocations.accept(this);
+			STORE(varname);
+		} else {
+			LOADThis();
+			invocations.accept(this);
+			PUTFIELD_OF_THIS(varname);
+		}
+
+	}
+
+	default Clazz clazz(Class<?> clazz) {
+		return new ClazzImpl(this, typeOf(clazz));
+	}
+
+	default Clazz clazz(String clazz) {
+		return new ClazzImpl(this, typeOf(clazz));
+	}
+
 	@Override
 	default void LOAD(String firstname, String... names) {
 		LOAD(firstname);
@@ -230,13 +253,21 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		LOAD(local);
 	}
 
-	default void load(String varname) {
+	default Instance load(String varname) {
 		int local = codeLocalGetLocals(varname);
 		if (local >= 0) {
 			LOAD(local);
 		} else {
 			loadThisField(varname);
 		}
+
+		return new InstanceImpl(this, codeGetStackType(0));
+	}
+
+	default Instance dup() {
+		DUP();
+		return new InstanceImpl(this, codeGetStackType(0));
+
 	}
 
 	@Override
@@ -1275,6 +1306,10 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		mvJumpInsn(GOTO, gotoLabel);
 	}
 
+	default void returnVoid() {
+		mvInst(RETURN);
+	}
+
 	@Override
 	default void RETURN() {
 		mvInst(RETURN);
@@ -1377,10 +1412,11 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		SPECIAL(clazz, "<init>").INVOKE();
 	}
 
-	default void init(Class<?> clazz) {
+	default Instance init(Class<?> clazz) {
 		NEW(clazz);
 		DUP();
 		SPECIAL(clazz, "<init>").INVOKE();
+		return new InstanceImpl(this, codeGetStackType(0));
 	}
 
 	/** ARRAY **/
