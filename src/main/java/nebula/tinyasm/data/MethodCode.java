@@ -211,7 +211,41 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			invocations.accept(this);
 			PUTFIELD_OF_THIS(varname);
 		}
+	}
 
+	default void setNull(String varname) {
+		int locals = codeLocalGetLocals(varname);
+		if (locals >= 0) {
+			LOADConstNULL();
+			STORE(varname);
+		} else {
+			loadThis();
+			LOADConstNULL();
+			PUTFIELD_OF_THIS(varname);
+		}
+	}
+	default void setConst(String varname, String cst) {
+		int locals = codeLocalGetLocals(varname);
+		if (locals >= 0) {
+			LOADConst(cst);
+			STORE(varname);
+		} else {
+			loadThis();
+			LOADConst(cst);
+			PUTFIELD_OF_THIS(varname);
+		}
+	}
+
+	default void setConst(String varname, int cst) {
+		int locals = codeLocalGetLocals(varname);
+		if (locals >= 0) {
+			LOADConst(cst);
+			STORE(varname);
+		} else {
+			loadThis();
+			LOADConst(cst);
+			PUTFIELD_OF_THIS(varname);
+		}
 	}
 
 	default Clazz clazz(Class<?> clazz) {
@@ -270,6 +304,20 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 
 		return topInstance();
+	}
+
+	default void ifTrue(Consumer<MethodCode> block) {
+		Label ifElse = codeNewLabel();
+		IFEQ(ifElse);
+		block.accept(this);
+		visitLabel(ifElse);
+	}
+
+	default void ifFalse(Consumer<MethodCode> block) {
+		Label ifElse = codeNewLabel();
+		IFNE(ifElse);
+		block.accept(this);
+		visitLabel(ifElse);
 	}
 
 	default void ifEqual(Consumer<MethodCode> block) {

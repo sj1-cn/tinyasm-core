@@ -54,7 +54,13 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 			paramsActual.add(type);
 		}
 
-		mv.INVOKE(invokeType, objectType, Type.VOID_TYPE, methodName, paramsActual.toArray(new Type[0]));
+		Type[] params;
+		if (definedParams) {
+			params = paramsRepected.toArray(new Type[0]);
+		} else {
+			params = paramsActual.toArray(new Type[0]);
+		}
+		mv.INVOKE(invokeType, objectType, Type.VOID_TYPE, methodName, params);
 	}
 
 	@Override
