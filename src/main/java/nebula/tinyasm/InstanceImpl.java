@@ -1,11 +1,15 @@
 package nebula.tinyasm;
 
+import java.util.function.Consumer;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.data.Instance;
 import nebula.tinyasm.data.InvokerPrepare;
 import nebula.tinyasm.data.MethodCode;
+import nebula.tinyasm.util.TypeUtils;
 
 public class InstanceImpl implements Instance {
 	final MethodCode mv;
@@ -33,7 +37,45 @@ public class InstanceImpl implements Instance {
 	}
 
 	@Override
-	public void set(String varname) {
+	public void setTo(String varname) {
 		mv.store(varname);
+	}
+
+	@Override
+	public void setElement(int index, Consumer<MethodCode> p0) {
+		Type arrayType = mv.codeGetStackType(0);
+		assert arrayType.getSort() == Type.ARRAY;
+
+		mv.LOADConst(index);
+		p0.accept(mv);
+		mv.ARRAYSTORE();
+	}
+
+	@Override
+	public Instance loadElement(int index) {
+		Type arrayType = mv.codeGetStackType(0);
+		assert arrayType.getSort() == Type.ARRAY;
+
+		mv.LOADConst(index);
+		mv.ARRAYLOAD(arrayType.getElementType());
+		return mv.topInstance();
+	}
+
+	@Override
+	public Instance boxWhenNeed() {
+		BoxUnbox.box(instanceType.getClassName()).accept(mv);
+		return mv.topInstance();
+	}
+
+	@Override
+	public Instance unbox() {
+		BoxUnbox.unbox(instanceType.getClassName()).accept(mv);
+		return mv.topInstance();
+	}
+
+	@Override
+	public Instance checkcast(GenericClazz clazz) {
+		mv.CHECKCAST(TypeUtils.typeOf(clazz));
+		return mv.topInstance();
 	}
 }

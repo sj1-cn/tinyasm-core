@@ -51,34 +51,34 @@ public class MethodCodeMethodCallerSimpleTest extends TestBase {
 				.clazz(Long.class)
 				.call("valueOf")
 				.parameter(long.class)
-				.returnObject(Long.class)
+				.reTurn(Long.class)
 				.invoke(m -> m.LOADConst(new Long(10L)))
-				.set("l");
+				.setTo("l");
 
 			mv.line()
 				.clazz(String.class)
 				.call("valueOf")
 				.parameter(int.class)
-				.returnObject(String.class)
+				.reTurn(String.class)
 				.invoke(m -> m.LOAD(1))
-				.set("s");
+				.setTo("s");
 
 			// @formatter:off
 			mv.line().init(StringBuilder.class)
-				.virtual("append").parameter(String.class).returnObject(StringBuilder.class).invoke("s")
-				.virtual("append").returnObject(StringBuilder.class).invoke("i")
-				.virtual("append").parameter(Object.class).returnObject(StringBuilder.class).invoke("l")
-				.virtual("toString").returnObject(String.class).invoke()
-				.set("s");
+				.virtual("append").parameter(String.class).reTurn(StringBuilder.class).invoke("s")
+				.virtual("append").reTurn(StringBuilder.class).invoke("i")
+				.virtual("append").parameter(Object.class).reTurn(StringBuilder.class).invoke("l")
+				.virtual("toString").reTurn(String.class).invoke()
+				.setTo("s");
 			// @formatter:on
 
-			mv.line().init(ArrayList.class).set("ls");
+			mv.line().init(ArrayList.class).setTo("ls");
 
 			mv.line()
 				.load("ls")
 				.inter("add")
 				.parameter(Object.class)
-				.returnObject(boolean.class)
+				.reTurn(boolean.class)
 				.invoke(m -> m.LOADConst("first"));
 			mv.POP();
 
@@ -86,7 +86,7 @@ public class MethodCodeMethodCallerSimpleTest extends TestBase {
 				.load("ls")
 				.inter("add")
 				.parameter(Object.class)
-				.returnObject(boolean.class)
+				.reTurn(boolean.class)
 				.invoke(m -> m.LOADConst("second"));
 			mv.POP();
 

@@ -33,7 +33,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	default ClassBody constructerEmpty() {
 		publicMethod("<init>").code(mc -> {
 			mc.line(1);
-			mc.LOADThis();
+			mc.loadThis();
 			mc.SPECIAL(getSuperClass(), "<init>").INVOKE();
 			mc.RETURN();
 		});
@@ -57,7 +57,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	default ClassBody makePropertyGet(final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
 		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).code(mc -> {
-			mc.line().LOADThis();
+			mc.line().loadThis();
 			mc.GETFIELD(fieldName, fieldClass);
 			mc.RETURNTop();
 		});
@@ -67,7 +67,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	default ClassBody makePropertyGet(final Class<?> annotationClazz, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
 		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz).code(mc -> {
-			mc.line().LOADThis();
+			mc.line().loadThis();
 			mc.GETFIELD(fieldName, fieldClass);
 			mc.RETURNTop();
 		});
@@ -77,7 +77,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	default ClassBody makePropertyGet(final String annotationClazz, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
 		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz).code(mc -> {
-			mc.line().LOADThis();
+			mc.line().loadThis();
 			mc.GETFIELD(fieldName, fieldClass);
 			mc.RETURNTop();
 		});
@@ -88,7 +88,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		String fieldClass = clazzOfField(fieldName);
 		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, value)
 			.code(mc -> {
-				mc.line().LOADThis();
+				mc.line().loadThis();
 				mc.GETFIELD(fieldName, fieldClass);
 				mc.RETURNTop();
 			});
@@ -99,7 +99,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		String fieldClass = clazzOfField(fieldName);
 		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, value)
 			.code(mc -> {
-				mc.line().LOADThis();
+				mc.line().loadThis();
 				mc.GETFIELD(fieldName, fieldClass);
 				mc.RETURNTop();
 			});
@@ -111,7 +111,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		String fieldClass = clazzOfField(fieldName);
 		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, name, value)
 			.code(mc -> {
-				mc.line().LOADThis();
+				mc.line().loadThis();
 				mc.GETFIELD(fieldName, fieldClass);
 				mc.RETURNTop();
 			});
@@ -122,7 +122,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		String fieldClass = clazzOfField(fieldName);
 		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, name, value)
 			.code(mc -> {
-				mc.line().LOADThis();
+				mc.line().loadThis();
 				mc.GETFIELD(fieldName, fieldClass);
 				mc.RETURNTop();
 			});
@@ -268,7 +268,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 						mc.line();
 						mc.INVOKEVIRTUAL(StringBuilder.class, StringBuilder.class, "append", String.class);
 					}
-					mc.LOADThis();
+					mc.loadThis();
 					mc.GET_THIS_FIELD(field.name);
 					mc.line();
 					mc.INVOKEVIRTUAL(StringBuilder.class.getName(), StringBuilder.class.getName(), "append",

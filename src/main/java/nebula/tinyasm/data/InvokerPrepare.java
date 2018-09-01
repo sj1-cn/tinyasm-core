@@ -17,11 +17,12 @@ public interface InvokerPrepare {
 
 	Invoker returnObject(GenericClazz returnClazz);
 
-	default Invoker returnObject(Class<?> returnClazz) {
+	default Invoker reTurn(Class<?> returnClazz) {
 		return returnObject(GenericClazz.generic(returnClazz));
 	}
 
-	default Invoker returnObject(String returnClazz) {
+	default Invoker reTurn(String returnClazz) {
 		return returnObject(GenericClazz.generic(returnClazz));
 	}
+
 }

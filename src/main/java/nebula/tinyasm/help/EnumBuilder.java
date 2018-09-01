@@ -57,7 +57,7 @@ public class EnumBuilder implements Opcodes {
 		});
 
 		cb.privateMethod("<init>").parameter("name", String.class).parameter("value", int.class).code(mc -> {
-			mc.line(3).LOADThis();
+			mc.line(3).loadThis();
 			mc.LOAD("name");
 			mc.LOAD("value");
 			mc.INVOKESPECIAL(Enum.class, "<init>", String.class, int.class);

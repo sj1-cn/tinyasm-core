@@ -215,13 +215,13 @@ public class MethodCodeASMSimpleTest extends TestBase {
 			mc.CONVERTTO(byte.class);
 			mc.STORE("x");
 			
-			mc.line().LOADThis();
+			mc.line().loadThis();
 			mc.LOADConstByte(10);
 			mc.PUTFIELD_OF_THIS("b");
-			mc.line().LOADThis();
+			mc.line().loadThis();
 			mc.GET_THIS_FIELD("b");
 			mc.STORE("x");
-			mc.line().LOADThis();
+			mc.line().loadThis();
 			mc.GET_THIS_FIELD("b");
 			mc.LOAD("x");
 			mc.ADD();

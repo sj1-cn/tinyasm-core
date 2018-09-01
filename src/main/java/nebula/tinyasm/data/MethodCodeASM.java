@@ -5,7 +5,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 
 public interface MethodCodeASM {
-	void LOADThis();
 
 	void LOAD(String name);
 

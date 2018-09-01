@@ -36,7 +36,7 @@ public class MyBankAccountBuilder {
 			.parameter("overdraftLimit", long.class)
 			.code(mc -> {
 				mc.line(38).INITObject();
-				mc.line(39).LOADThis();
+				mc.line(39).loadThis();
 				mc.LOAD("axonBankAccountId");
 				mc.LOAD("overdraftLimit");
 				mc.INVOKESPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", null, "onCreated", String.class, long.class);
@@ -46,7 +46,7 @@ public class MyBankAccountBuilder {
 
 	private static void visitDefine_deposit(ClassBody cw) {
 		cw.publicMethod(boolean.class, "deposit").parameter("amount", long.class).code(mc -> {
-			mc.line(44).LOADThis();
+			mc.line(44).loadThis();
 			mc.LOAD("amount");
 			mc.INVOKESPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", null, "onMoneyAdded", long.class);
 			mc.line(45).LOADConstByte(1);
@@ -67,7 +67,7 @@ public class MyBankAccountBuilder {
 				Label ifEnd = mc.codeNewLabel();
 				mc.IFGT(ifEnd);
 
-				mc.line(51).LOADThis();
+				mc.line(51).loadThis();
 				mc.LOAD("amount");
 				mc.INVOKESPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", null, "onMoneySubtracted", long.class);
 				mc.line(52).LOADConstByte(1);
@@ -87,7 +87,7 @@ public class MyBankAccountBuilder {
 			.code(mc -> {
 				mc.line(100).putThisFieldWithVar("axonBankAccountId", "axonBankAccountId");
 				mc.line(101).putThisFieldWithVar("overdraftLimit", "overdraftLimit");
-				mc.line(102).LOADThis();
+				mc.line(102).loadThis();
 				mc.LOADConst(0L);
 				mc.PUTFIELD_OF_THIS("balance");
 				mc.line(103).RETURN();
@@ -101,7 +101,7 @@ public class MyBankAccountBuilder {
 			mc.LOAD("amount");
 			mc.ADD();
 			mc.STORE("newbalance");
-			mc.line(108).LOADThis();
+			mc.line(108).loadThis();
 			mc.LOAD("newbalance");
 			mc.PUTFIELD_OF_THIS("balance");
 			mc.line(109).RETURN();
@@ -110,7 +110,7 @@ public class MyBankAccountBuilder {
 
 	private static void visitDefine_onMoneySubtracted(ClassBody cw) {
 		cw.privateMethod("onMoneySubtracted").parameter("amount", long.class).code(mc -> {
-			mc.line(113).LOADThis();
+			mc.line(113).loadThis();
 			mc.DUP();
 			mc.GET_THIS_FIELD("balance");
 			mc.LOAD("amount");

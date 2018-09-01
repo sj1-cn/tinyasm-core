@@ -21,48 +21,49 @@ public interface MethodCodeFriendly<C> extends WithDefineVar<C> {
 //	C define(String fieldName, String clz, Class<?>... signatureClasses);
 //
 //	C define(String fieldName, String clz, String... signatureClasses);
+	Instance loadThis();
 
 	C line(int line);
 
 	C line();
 
-	void add(String left, String right);
+	Instance add(String left, String right);
 
-	void sub(String left, String right);
+	Instance sub(String left, String right);
 
-	void mul(String left, String right);
+	Instance mul(String left, String right);
 
-	void div(String left, String right);
+	Instance div(String left, String right);
 
-	void rem(String left, String right);
+	Instance rem(String left, String right);
 
-	void neg(String left);
+	Instance neg(String left);
 
-	void and(String left, String right);
+	Instance and(String left, String right);
 
-	void or(String left, String right);
+	Instance or(String left, String right);
 
-	void xor(String left, String right);
+	Instance xor(String left, String right);
 
-	void newarray(Class<?> elementClazz, int count);
+	Instance newarray(Class<?> elementClazz, int count);
 
-	void newarray(String elementClazz, int count);
+	Instance newarray(String elementClazz, int count);
 
-	void arrayload(String arrayref, String index, Class<?> valueType);
+	Instance arrayload(String arrayref, String index, Class<?> valueType);
 
-	void arrayload(String arrayref, String index, String valueType);
+	Instance arrayload(String arrayref, String index, String valueType);
 
 	void arraystore(String varArray, String index, String value);
 
-	void getfield(String objectname, String fieldname, Class<?> fieldType);
+	Instance getfield(String objectname, String fieldname, Class<?> fieldType);
 
-	void getfield(String objectname, String fieldname, String fieldType);
+	Instance getfield(String objectname, String fieldname, String fieldType);
 
-	void loadThisField(String fieldname);
+	Instance loadThisField(String fieldname);
 
-	void loadThisField(String fieldname, Class<?> feildtype);
+	Instance loadThisField(String fieldname, Class<?> feildtype);
 
-	void loadThisField(String fieldname, String feildtype);
+	Instance loadThisField(String fieldname, String feildtype);
 	
 	void putThisFieldWithVar(String fieldname, String varname);
 
