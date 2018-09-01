@@ -68,7 +68,8 @@ public class MethodCodeBuilder implements MethodCode {
 
 	@Override
 	public int codeLocalGetLocals(String name) {
-		return locals.get(name).locals;
+		LocalsVariable var = locals.get(name);
+		return var!=null?locals.get(name).locals : -1;
 	}
 //
 //	@Override

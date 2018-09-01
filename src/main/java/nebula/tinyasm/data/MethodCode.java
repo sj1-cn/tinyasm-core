@@ -226,13 +226,33 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	@Override
 	default void LOAD(String varname) {
 		int local = codeLocalGetLocals(varname);
+		assert local >= 0 : varname + " doesn't exist";
 		LOAD(local);
+	}
+
+	default void load(String varname) {
+		int local = codeLocalGetLocals(varname);
+		if (local >= 0) {
+			LOAD(local);
+		} else {
+			loadThisField(varname);
+		}
 	}
 
 	@Override
 	default void STORE(String varname) {
 		int local = codeLocalGetLocals(varname);
+		assert local >= 0 : varname + " doesn't exist";
 		STORE(local);
+	}
+
+	default void store(String varname) {
+		int local = codeLocalGetLocals(varname);
+		if (local >= 0) {
+			STORE(local);
+		} else {
+			define(varname, codeGetStackType(0).getClassName());
+		}
 	}
 
 	default void STOREException(int local) {
@@ -917,6 +937,26 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		LOAD(arrayref);
 		LOAD(index);
 		ARRAYLOAD(valueType);
+	}
+
+	default void arrayload(String arrayref, int index, Type valueType) {
+		LOAD(arrayref);
+		LOADConst(index);
+		ARRAYLOAD(valueType);
+	}
+
+	default void arrayload(String arrayref, int index) {
+		load(arrayref);
+		Type arrayType = codeGetStackType(0);
+		LOADConst(index);
+		ARRAYLOAD(arrayType.getElementType());
+	}
+
+	default void arrayload(String varArray, String varIndex) {
+		load(varArray);
+		Type arrayType = codeGetStackType(0);
+		load(varIndex);
+		ARRAYLOAD(arrayType.getElementType());
 	}
 
 	@Override
