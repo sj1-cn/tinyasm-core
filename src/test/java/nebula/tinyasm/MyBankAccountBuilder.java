@@ -59,8 +59,8 @@ public class MyBankAccountBuilder {
 			cw.publicMethod(boolean.class, "withdraw").parameter("amount", long.class).code(mc -> {
 				mc.line(50).LOAD("amount");
 
-				mc.thIsField("balance");
-				mc.thIsField("overdraftLimit");
+				mc.loadThisField("balance");
+				mc.loadThisField("overdraftLimit");
 				mc.ADD();
 
 				mc.LCMP();
@@ -69,7 +69,7 @@ public class MyBankAccountBuilder {
 
 				mc.line(51).LOADThis();
 				mc.LOAD("amount");
-				mc.INVOKESPECIAL( "com.nebula.cqrs.core.asm.MyBankAccount", null, "onMoneySubtracted", long.class);
+				mc.INVOKESPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", null, "onMoneySubtracted", long.class);
 				mc.line(52).LOADConstByte(1);
 				mc.RETURNTop();
 
@@ -85,8 +85,8 @@ public class MyBankAccountBuilder {
 			.parameter("axonBankAccountId", String.class)
 			.parameter("overdraftLimit", long.class)
 			.code(mc -> {
-				mc.line(100).putVarToThisField("axonBankAccountId", "axonBankAccountId");
-				mc.line(101).putVarToThisField("overdraftLimit", "overdraftLimit");
+				mc.line(100).putThisFieldWithVar("axonBankAccountId", "axonBankAccountId");
+				mc.line(101).putThisFieldWithVar("overdraftLimit", "overdraftLimit");
 				mc.line(102).LOADThis();
 				mc.LOADConst(0L);
 				mc.PUTFIELD_OF_THIS("balance");
@@ -97,7 +97,7 @@ public class MyBankAccountBuilder {
 	private static void visitDefine_onMoneyAdded(ClassBody cw) {
 		cw.privateMethod("onMoneyAdded").parameter("amount", long.class).code(mc -> {
 			mc.define("newbalance", long.class);
-			mc.line(107).thIsField("balance");
+			mc.line(107).loadThisField("balance");
 			mc.LOAD("amount");
 			mc.ADD();
 			mc.STORE("newbalance");

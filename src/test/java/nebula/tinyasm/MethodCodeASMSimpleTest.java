@@ -53,8 +53,8 @@ public class MethodCodeASMSimpleTest extends TestBase {
 		cw.method(int.class, "getFieldAll").code(mc->{
 			mc.define("x", int.class);
 			mc.line(19);
-			mc.getThisField("b");
-			mc.getThisField("c");
+			mc.loadThisField("b");
+			mc.loadThisField("c");
 			mc.ADD();
 			mc.LOAD("this");
 			mc.GET_THIS_FIELD("s");

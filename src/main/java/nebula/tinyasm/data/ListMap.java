@@ -10,17 +10,17 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ListMap<K, V> implements Iterable<V> {
+public class ListMap<K, T> implements Iterable<T> {
 
-	Stack<V> stack = new Stack<>();
-	Map<K, V> maps = new HashMap<>();
-	protected Naming<K, V> namingHandler;
+	Stack<T> stack = new Stack<>();
+	Map<K, T> maps = new HashMap<>();
+	protected Naming<K, T> namingHandler;
 
-	public ListMap(Naming<K, V> namingHandler) {
+	public ListMap(Naming<K, T> namingHandler) {
 		this.namingHandler = namingHandler;
 	}
 
-	public void push(V value) {
+	public void push(T value) {
 		if (maps.containsKey(namingHandler.nameOf(value))) {
 			K name = namingHandler.nameOf(value);
 			for (int i = 0; i < stack.size(); i++) {
@@ -35,11 +35,11 @@ public class ListMap<K, V> implements Iterable<V> {
 		maps.put(namingHandler.nameOf(value), value);
 	}
 
-	public V get(int index) {
+	public T get(int index) {
 		return stack.get(index);
 	}
 
-	public V get(String name) {
+	public T get(String name) {
 		return maps.get(name);
 	}
 
@@ -61,17 +61,17 @@ public class ListMap<K, V> implements Iterable<V> {
 		return stack.size();
 	}
 
-	public Iterator<V> iterator() {
+	public Iterator<T> iterator() {
 		return stack.iterator();
 	}
 
-	public List<V> list() {
+	public List<T> list() {
 		return stack;
 	}
 
-	public ListMap<K, V> filter(Predicate<? super V> predicate) {
-		ListMap<K, V> newlist = new ListMap<>(namingHandler);
-		for (V v : this.stack) {
+	public ListMap<K, T> filter(Predicate<? super T> predicate) {
+		ListMap<K, T> newlist = new ListMap<>(namingHandler);
+		for (T v : this.stack) {
 			if (predicate.test(v)) {
 				newlist.push(v);
 			}
@@ -79,11 +79,19 @@ public class ListMap<K, V> implements Iterable<V> {
 		return newlist;
 	}
 
-	public <R> List<R> map(Function<? super V, ? extends R> mapper) {
+	public boolean allMatch(Predicate<? super T> predicate) {
+		return this.list().stream().allMatch(predicate);
+	}
+
+	public boolean anyMatch(Predicate<? super T> predicate) {
+		return this.list().stream().anyMatch(predicate);
+	}
+
+	public <R> List<R> map(Function<? super T, ? extends R> mapper) {
 		return this.list().stream().map(mapper).collect(Collectors.toList());
 	}
 
-	public void foreach(Consumer<? super V> action) {
+	public void foreach(Consumer<? super T> action) {
 		this.list().stream().forEach(action);
 	}
 

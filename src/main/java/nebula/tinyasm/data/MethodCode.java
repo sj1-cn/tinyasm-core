@@ -178,20 +178,15 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	}
 
 	@Override
-	default void thIsField(String fieldname) {
-		LOADThisField(fieldname, codeThisFieldType(fieldname));
+	default void loadThisField(String fieldname, Class<?> feildtype) {
+		loadThisField(fieldname, typeOf(fieldname));
 	}
 
-	@Override
-	default void loadFieldOfThis(String fieldname, Class<?> feildtype) {
-		LOADThisField(fieldname, typeOf(fieldname));
+	default void loadThisField(String fieldname, String feildtype) {
+		loadThisField(fieldname, typeOf(fieldname));
 	}
 
-	default void loadFieldOfThis(String fieldname, String feildtype) {
-		LOADThisField(fieldname, typeOf(fieldname));
-	}
-
-	default void LOADThisField(String fieldname, Type feildtype) {
+	default void loadThisField(String fieldname, Type feildtype) {
 		LOADThis();
 		GETFIELD(fieldname, feildtype);
 	}
@@ -843,16 +838,15 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	/* Create a new array: newarray, anewarray, multianewarray. */
 
 	@Override
-	default void newarray(String count, Class<?> type) {
-		LOAD(count);
-		NEWARRAY(typeOf(type));
+	default void newarray(Class<?> elementClazz, int count) {
+		LOADConst(count);
+		NEWARRAY(typeOf(elementClazz));
 	}
 
 	@Override
-	default void newarray(String count, String type) {
-		LOAD(count);
-		NEWARRAY(typeOf(type));
-
+	default void newarray(String elementClazz, int count) {
+		LOADConst(count);
+		NEWARRAY(typeOf(elementClazz));
 	}
 
 	@Override
@@ -1258,6 +1252,11 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		RETURNTop();
 	}
 
+	default void returnNull() {
+		LOADConstNULL();
+		RETURNTop();
+	}
+
 	@Override
 	default void RETURNTop() {
 		Type type = codeGetStackType(0);
@@ -1327,6 +1326,23 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		INVOKESPECIAL(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
 	}
 
+	default void initThis() {
+		LOAD(_THIS);
+		INVOKESPECIAL(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
+	}
+
+	default void init(String clazz) {
+		NEW(clazz);
+		DUP();
+		SPECIAL(clazz, "<init>").INVOKE();
+	}
+
+	default void init(Class<?> clazz) {
+		NEW(clazz);
+		DUP();
+		SPECIAL(clazz, "<init>").INVOKE();
+	}
+
 	/** ARRAY **/
 	@Override
 	default void getfield(String objectname, String fieldname, Class<?> fieldType) {
@@ -1334,7 +1350,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	}
 
 	@Override
-	default void getThisField(String fieldname) {
+	default void loadThisField(String fieldname) {
 		getfield(_THIS, fieldname, codeThisFieldType(fieldname));
 	}
 
@@ -1374,8 +1390,39 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	}
 
 	@Override
-	default void putVarToThisField(String varname, String fieldname) {
+	default void putThisFieldWithVar(String fieldname, String varname) {
 		putVarToThisField(varname, fieldname, codeThisFieldType(fieldname));
+	}
+
+	default void putThisFieldOfNewObject(String fieldname, String clazz) {
+		putThisFieldOfNewObject(fieldname, clazz, codeThisFieldType(fieldname));
+	}
+
+	default void putThisFieldOfNewObject(String fieldname, Class<?> clazz) {
+		putThisFieldOfNewObject(fieldname, clazz, codeThisFieldType(fieldname));
+	}
+
+	default void putThisFieldOfNewObject(String fieldname, Class<?> clazz, Type fieldType) {
+		LOADThis();
+		init(clazz);
+		PUTFIELD(fieldname, fieldType);
+	}
+
+	default void putThisFieldOfNewObject(String fieldname, String clazz, Type fieldType) {
+		LOADThis();
+		init(clazz);
+		PUTFIELD(fieldname, fieldType);
+	}
+
+	default void setNew(String varname, Class<?> clazz) {
+		init(clazz);
+		STORE(varname);
+	}
+
+	default void setOfNewObject(String varname, String clazz) {
+		LOADThis();
+		init(clazz);
+		STORE(varname);
 	}
 
 	default void putVarToThisField(String varname, String fieldname, Type fieldType) {
