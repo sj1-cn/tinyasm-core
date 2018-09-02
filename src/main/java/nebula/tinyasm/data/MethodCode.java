@@ -394,6 +394,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			STORE(local);
 		} else {
 			define(varname, codeGetStackType(0).getClassName());
+			local = codeLocalGetLocals(varname);
+			STORE(local);
 		}
 	}
 
