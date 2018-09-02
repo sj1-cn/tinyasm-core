@@ -305,7 +305,20 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 		return topInstance();
 	}
-
+	
+	default void wHile(Consumer<MethodCode> cause,Consumer<MethodCode> block) {
+		Label whileStart = codeNewLabel();
+		Label whileEnd = codeNewLabel();
+		visitLabel(whileStart);
+		cause.accept(this);
+		IFEQ(whileEnd);
+		{
+			block.accept(this);
+			GOTO(whileStart);
+		}
+		visitLabel(whileEnd);
+	}
+	
 	default void ifTrue(Consumer<MethodCode> block) {
 		Label ifElse = codeNewLabel();
 		IFEQ(ifElse);
@@ -1600,14 +1613,28 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	}
 
 	default void setNew(String varname, Class<?> clazz) {
-		init(clazz);
-		STORE(varname);
+		int locals = codeLocalGetLocals(varname);
+		if (locals >= 0) {
+			init(clazz);
+			STORE(varname);
+		} else {
+			loadThis();
+			init(clazz);
+			PUTFIELD_OF_THIS(varname);
+		}
 	}
 
-	default void setOfNewObject(String varname, String clazz) {
-		loadThis();
-		init(clazz);
-		STORE(varname);
+	default void setNew(String varname, String clazz) {
+		int locals = codeLocalGetLocals(varname);
+		if (locals >= 0) {
+			init(clazz);
+			STORE(varname);
+		} else {
+			loadThis();
+			init(clazz);
+			PUTFIELD_OF_THIS(varname);
+		}
+		
 	}
 
 	default void putVarToThisField(String varname, String fieldname, Type fieldType) {

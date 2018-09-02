@@ -18,6 +18,10 @@ public interface Instance {
 	Instance boxWhenNeed();
 
 	Instance unbox();
+	
+	void returnValue();
+	
+	void pop();
 
 	default Instance checkcast(Class<?> clazz) {
 		return checkcast(GenericClazz.generic(clazz));

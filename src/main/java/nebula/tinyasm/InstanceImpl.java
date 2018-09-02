@@ -74,6 +74,16 @@ public class InstanceImpl implements Instance {
 	}
 
 	@Override
+	public void pop() {
+		mv.POP();
+	}
+
+	@Override
+	public void returnValue() {
+		mv.RETURNTop();
+	}
+
+	@Override
 	public Instance checkcast(GenericClazz clazz) {
 		mv.CHECKCAST(TypeUtils.typeOf(clazz));
 		return mv.topInstance();
