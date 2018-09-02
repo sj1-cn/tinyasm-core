@@ -224,6 +224,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			PUTFIELD_OF_THIS(varname);
 		}
 	}
+
 	default void setConst(String varname, String cst) {
 		int locals = codeLocalGetLocals(varname);
 		if (locals >= 0) {
@@ -305,8 +306,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 		return topInstance();
 	}
-	
-	default void wHile(Consumer<MethodCode> cause,Consumer<MethodCode> block) {
+
+	default void wHile(Consumer<MethodCode> cause, Consumer<MethodCode> block) {
 		Label whileStart = codeNewLabel();
 		Label whileEnd = codeNewLabel();
 		visitLabel(whileStart);
@@ -318,7 +319,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 		visitLabel(whileEnd);
 	}
-	
+
 	default void ifTrue(Consumer<MethodCode> block) {
 		Label ifElse = codeNewLabel();
 		IFEQ(ifElse);
@@ -804,8 +805,10 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	default void CMPL() {
 		Type typeRightValue = codePopStack();
 		Type typeLeftValue = codePopStack();
-		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
-		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + ","
+				+ Type.DOUBLE_TYPE;
+		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + ","
+				+ Type.DOUBLE_TYPE;
 
 		codePush(Type.INT_TYPE);
 
@@ -820,8 +823,10 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	default void CMPG() {
 		Type typeRightValue = codePopStack();
 		Type typeLeftValue = codePopStack();
-		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
-		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + ","
+				+ Type.DOUBLE_TYPE;
+		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + ","
+				+ Type.DOUBLE_TYPE;
 
 		codePush(Type.INT_TYPE);
 
@@ -1440,7 +1445,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	}
 
 	@Override
-	default void RETURN(String varname) {
+	default void returnVar(String varname) {
 		LOAD(varname);
 		RETURNTop();
 	}
@@ -1634,7 +1639,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			init(clazz);
 			PUTFIELD_OF_THIS(varname);
 		}
-		
+
 	}
 
 	default void putVarToThisField(String varname, String fieldname, Type fieldType) {

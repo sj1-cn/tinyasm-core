@@ -85,7 +85,7 @@ public class EnumBuilder implements Opcodes {
 			mc.LOAD("length");
 
 			mc.INVOKESTATIC(System.class, "arraycopy", Object.class, int.class, Object.class, int.class, int.class);
-			mc.RETURN("newvs");
+			mc.returnVar("newvs");
 		});
 
 		cb.staticMethod("valueOf").ACC_STATIC().ACC_PUBLIC().reTurn(clazz).parameter("name", String.class).code(mc -> {

@@ -227,7 +227,7 @@ public class MethodCodeASMSimpleTest extends TestBase {
 			mc.ADD();
 			mc.CONVERTTO(byte.class);
 			mc.STORE("y");
-			mc.line().RETURN("y");			
+			mc.line().returnVar("y");			
 		});
 		
 		// @formatter:on

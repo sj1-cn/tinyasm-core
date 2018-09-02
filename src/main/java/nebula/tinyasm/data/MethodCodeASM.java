@@ -254,7 +254,7 @@ public interface MethodCodeASM {
 
 	void RETURN(int i);
 
-	void RETURN(String varname);
+	void returnVar(String varname);
 
 	void RETURNTop();
 
