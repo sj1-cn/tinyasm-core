@@ -249,6 +249,18 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
+	default void setConst(String varname, long cst) {
+		int locals = codeLocalGetLocals(varname);
+		if (locals >= 0) {
+			LOADConst(cst);
+			STORE(varname);
+		} else {
+			loadThis();
+			LOADConst(cst);
+			PUTFIELD_OF_THIS(varname);
+		}
+	}
+
 	default Clazz clazz(Class<?> clazz) {
 		return new ClazzImpl(this, typeOf(clazz));
 	}
@@ -515,6 +527,18 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
+	default Instance loadConst(int cst) {
+		LOADConst(cst);
+		return topInstance();
+	}
+	default Instance loadConst(long cst) {
+		LOADConst(cst);
+		return topInstance();
+	}
+	default Instance loadConst(Object cst) {
+		LOADConst(cst);
+		return topInstance();
+	}
 	@Override
 	default void LOADConst(Object cst) {
 
@@ -583,12 +607,34 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	/** MATH **/
 	@Override
 	default Instance add(String left, String right) {
-		LOAD(left);
-		LOAD(right);
+		load(left);
+		load(right);
 		ADD();
 		return topInstance();
 	}
 
+	default Instance add(String left, Consumer<MethodCode> right) {
+		load(left);
+		right.accept(this);
+		ADD();
+		return topInstance();
+	}
+
+	default Instance add(Consumer<MethodCode> left, String right) {
+		left.accept(this);
+		load(right);
+		ADD();
+		return topInstance();
+	}
+
+	default Instance add(Consumer<MethodCode> left, Consumer<MethodCode> right) {
+		left.accept(this);
+		right.accept(this);
+		ADD();
+		return topInstance();
+	}
+
+//
 	@Override
 	default void ADD() {
 		Type typeRightValue = codePopStack();
@@ -878,6 +924,9 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			break;
 		case Type.INT:
 			switch (typeTo.getSort()) {
+			case Type.BOOLEAN:
+				mvInst(I2B);
+				break;
 			case Type.SHORT:
 				mvInst(I2S);
 				break;

@@ -88,4 +88,45 @@ public class InstanceImpl implements Instance {
 		mv.CHECKCAST(TypeUtils.typeOf(clazz));
 		return mv.topInstance();
 	}
+
+	@Override
+	public Instance add(String varname) {
+		mv.load(varname);
+		mv.ADD();
+		return mv.topInstance();
+	}
+
+	@Override
+	public Instance add(int intvalue) {
+		mv.LOADConst(intvalue);
+		mv.ADD();
+		return mv.topInstance();
+	}
+
+	@Override
+	public Instance add(long longValue) {
+		mv.LOADConst(longValue);
+		mv.ADD();
+		return mv.topInstance();
+	}
+
+	@Override
+	public Instance add(Consumer<MethodCode> p0) {
+		p0.accept(mv);
+		mv.ADD();
+		return mv.topInstance();
+	}
+
+	@Override
+	public Instance convertTo(String clazz) {
+		mv.CONVERTTO(clazz);
+		return mv.topInstance();
+	}
+
+	@Override
+	public Instance convertTo(Class<?> clazz) {
+		mv.CONVERTTO(clazz);
+		return mv.topInstance();
+	}
+
 }
