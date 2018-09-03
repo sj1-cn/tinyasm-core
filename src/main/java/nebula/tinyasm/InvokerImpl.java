@@ -47,6 +47,24 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 	}
 
 	@Override
+	public void invokeVoid(String... varname) {
+		for (String var : varname) {
+			mv.load(var);
+			Type type = this.mv.codeGetStackType(0);
+			paramsActual.add(type);
+		}
+
+		Type[] params;
+		if (definedParams) {
+			params = paramsRepected.toArray(new Type[0]);
+		} else {
+			params = paramsActual.toArray(new Type[0]);
+		}
+		mv.INVOKE(invokeType, objectType, Type.VOID_TYPE, methodName, params);
+
+	}
+
+	@Override
 	public void invokeVoid(Consumer<MethodCode>[] invocations) {
 		for (Consumer<? super MethodCode> consumer : invocations) {
 			consumer.accept(this.mv);
