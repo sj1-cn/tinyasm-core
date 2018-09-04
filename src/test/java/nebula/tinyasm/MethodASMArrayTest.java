@@ -42,8 +42,9 @@ public class MethodASMArrayTest extends TestBase {
 
 		cw.method("<init>").code(mv -> {
 			Label l0 = mv.codeNewLabel();
-			mv.line().visitLabel(l0);
-			mv.INITObject();
+			mv.line();
+			mv.visitLabel(l0);
+			mv.initObject();
 			mv.RETURN();
 			Label l1 = mv.codeNewLabel();
 			mv.visitLabel(l1);

@@ -42,7 +42,8 @@ public class EnumBuilder implements Opcodes {
 					mc.PUTSTATIC(typeOf(clazz), names[i], typeOf(clazz));
 				}
 
-				mc.line(3).LOADConstByte(names.length);
+				mc.line(3);
+				mc.LOADConstByte(names.length);
 				mc.NEWARRAY(typeOf(clazz));
 
 				for (int i = 0; i < names.length; i++) {

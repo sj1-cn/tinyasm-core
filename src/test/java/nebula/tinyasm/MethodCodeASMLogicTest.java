@@ -24,7 +24,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		String clazz = MethodCodeASMLogicSample.class.getName();
 		ClassBody cw = ClassBuilder.make(clazz).body();
 		cw.publicMethod("<init>").code(mc -> {
-			mc.line(3).INITObject();
+			mc.line(3).initObject();
 			mc.RETURN();
 		});
 

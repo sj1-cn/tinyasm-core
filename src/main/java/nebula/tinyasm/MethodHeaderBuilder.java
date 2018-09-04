@@ -19,6 +19,7 @@ import nebula.tinyasm.data.Annotation;
 import nebula.tinyasm.data.ArrayListMap;
 import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.data.MethodCode;
+import nebula.tinyasm.data.MethodCodeFriendly;
 import nebula.tinyasm.data.MethodHeader;
 
 class MethodHeaderBuilder implements MethodHeader {
@@ -112,6 +113,14 @@ class MethodHeaderBuilder implements MethodHeader {
 		return this;
 	}
 
+	@Override
+	public MethodHeader friendly(Consumer<MethodCodeFriendly> invocation) {
+		MethodCode mc = this.begin();
+		invocation.accept(mc);
+		this.codeEnd();
+		return this;
+	}
+
 	void codeEnd() {
 		finishMethod();
 	}
@@ -126,8 +135,8 @@ class MethodHeaderBuilder implements MethodHeader {
 					assert var != null;
 					assert var.clazz.getDescriptor() != null;
 					Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
-					mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom,
-							endLabel, var.locals);
+					mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel,
+							var.locals);
 				}
 			}
 		} else if (is(this.access, ACC_SYNTHETIC) && is(this.access, ACC_BRIDGE)) {
@@ -137,8 +146,7 @@ class MethodHeaderBuilder implements MethodHeader {
 			assert var != null;
 			assert var.clazz.getDescriptor() != null;
 			Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
-			mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom,
-					endLabel, var.locals);
+			mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
 		}
 		mv.visitMaxs(0, 0);
 		mv.visitEnd();

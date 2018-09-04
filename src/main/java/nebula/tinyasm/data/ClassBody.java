@@ -35,7 +35,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 			mc.line(1);
 			mc.loadThis();
 			mc.SPECIAL(getSuperClass(), "<init>").INVOKE();
-			mc.RETURN();
+			mc.returnVoid();
 		});
 		return this;
 	}
@@ -43,11 +43,11 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	default ClassBody constructerWithAllFields() {
 		final List<Field> fields = getFields();
 		publicMethod("<init>").parameter(fields).code(mc -> {
-			mc.line().INITObject();
+			mc.line().initObject();
 			for (Field param : fields) {
-				mc.line().putfield("this", param.name, param.name, param.clazz.originclazz);
+				mc.line().putField("this", param.name, param.name, param.clazz.originclazz);
 			}
-			mc.line().RETURN();
+			mc.line().returnVoid();
 		});
 		return this;
 	}
@@ -132,8 +132,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	default ClassBody makePropertySet(final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
 		publicMethod(toPropertySetName(fieldName, fieldClass)).parameter(fieldName, fieldClass).code(mc -> {
-			mc.line().putfield("this", fieldName, fieldName, fieldClass);
-			mc.line().RETURN();
+			mc.line().putField("this", fieldName, fieldName, fieldClass);
+			mc.line().returnVoid();
 		});
 		return this;
 	}
@@ -143,8 +143,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
-				mc.line().putfield("this", fieldName, fieldName, fieldClass);
-				mc.line().RETURN();
+				mc.line().putField("this", fieldName, fieldName, fieldClass);
+				mc.line().returnVoid();
 			});
 		return this;
 	}
@@ -154,8 +154,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
-				mc.line().putfield("this", fieldName, fieldName, fieldClass);
-				mc.line().RETURN();
+				mc.line().putField("this", fieldName, fieldName, fieldClass);
+				mc.line().returnVoid();
 			});
 		return this;
 	}
@@ -165,8 +165,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz, annotationValue)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
-				mc.line().putfield("this", fieldName, fieldName, fieldClass);
-				mc.line().RETURN();
+				mc.line().putField("this", fieldName, fieldName, fieldClass);
+				mc.line().returnVoid();
 			});
 		return this;
 	}
@@ -176,8 +176,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz, annotationValue)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
-				mc.line().putfield("this", fieldName, fieldName, fieldClass);
-				mc.line().RETURN();
+				mc.line().putField("this", fieldName, fieldName, fieldClass);
+				mc.line().returnVoid();
 			});
 		return this;
 	}
@@ -189,8 +189,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 			.annotation(annotationClazz, annotationName, annotationValue)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
-				mc.line().putfield("this", fieldName, fieldName, fieldClass);
-				mc.line().RETURN();
+				mc.line().putField("this", fieldName, fieldName, fieldClass);
+				mc.line().returnVoid();
 			});
 		return this;
 	}
@@ -202,8 +202,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 			.annotation(annotationClazz, annotationName, annotationValue)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
-				mc.line().putfield("this", fieldName, fieldName, fieldClass);
-				mc.line().RETURN();
+				mc.line().putField("this", fieldName, fieldName, fieldClass);
+				mc.line().returnVoid();
 			});
 		return this;
 	}
@@ -221,8 +221,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 			String fieldClass = clazzOfField(field.name);
 			publicMethod(toPropertySetName(field.name, fieldClass)).parameter(field.name, field.clazz.originclazz)
 				.code(mc -> {
-					mc.line().putfield("this", field.name, field.name, fieldClass);
-					mc.line().RETURN();
+					mc.line().putField("this", field.name, field.name, fieldClass);
+					mc.line().returnVoid();
 				});
 		}
 		return this;

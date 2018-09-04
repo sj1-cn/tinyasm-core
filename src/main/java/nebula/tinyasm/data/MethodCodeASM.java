@@ -254,13 +254,11 @@ public interface MethodCodeASM {
 
 	void RETURN(int i);
 
-	void returnVar(String varname);
 
 	void RETURNTop();
 
 	String _THIS = "this";
 
-	void INITObject();
 
 	/** ARRAY **/
 

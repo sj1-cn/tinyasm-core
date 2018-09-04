@@ -1,31 +1,14 @@
 package nebula.tinyasm.data;
 
-public interface MethodCodeFriendly<C> extends WithDefineVar<C> {
+import java.util.function.Consumer;
 
-//	C define(String fieldName, Class<?> clz);
-//
-//	C define(String fieldName, Class<?> clz, boolean isarray);
-//
-//	C define(String fieldName, Class<?> clz, boolean isarray, Class<?>... signatureClasses);
-//
-//	C define(String fieldName, Class<?> clz, Class<?>... signatureClasses);
-//
-//	C define(String fieldName, String clz);
-//
-//	C define(String fieldName, String clz, boolean isarray);
-//
-//	C define(String fieldName, String clz, boolean isarray, Class<?>... signatureClasses);
-//
-//	C define(String fieldName, String clz, boolean isarray, String... signatureClasses);
-//
-//	C define(String fieldName, String clz, Class<?>... signatureClasses);
-//
-//	C define(String fieldName, String clz, String... signatureClasses);
+public interface MethodCodeFriendly extends WithDefineVar {
 	Instance loadThis();
 
-	C line(int line);
+	MethodCodeFriendly line(int line);
 
-	C line();
+	MethodCodeFriendly line();
+	void initObject();
 
 	Instance add(String left, String right);
 
@@ -53,7 +36,7 @@ public interface MethodCodeFriendly<C> extends WithDefineVar<C> {
 
 	Instance arrayload(String arrayref, String index, String valueType);
 
-	void arraystore(String varArray, String index, String value);
+	void arrayStore(String varArray, String index, String value);
 
 	Instance getfield(String objectname, String fieldname, Class<?> fieldType);
 
@@ -67,13 +50,87 @@ public interface MethodCodeFriendly<C> extends WithDefineVar<C> {
 	
 	void putThisFieldWithVar(String fieldname, String varname);
 
-	void putfield(String objectref, String varname, String fieldname, Class<?> fieldType);
+	void putField(String objectref, String varname, String fieldname, Class<?> fieldType);
 
-	void putfield(String objectref, String varname, String fieldname, String fieldType);
+	void putField(String objectref, String varname, String fieldname, String fieldType);
 
+	void putStatic(Class<?> objectType, String varname, String fieldname, Class<?> fieldType);
 
-	void putstatic(Class<?> objectType, String varname, String fieldname, Class<?> fieldType);
+	void putStatic(String objectType, String varname, String fieldname, String fieldType);
 
-	void putstatic(String objectType, String varname, String fieldname, String fieldType);
+	Instance topInstance();
+
+	void set(String varname, Consumer<MethodCode> invocations);
+
+	void setNull(String varname);
+
+	void setConst(String varname, String cst);
+
+	void setConst(String varname, int cst);
+
+	void setConst(String varname, long cst);
+
+	Clazz clazz(Class<?> clazz);
+
+	Clazz clazz(String clazz);
+
+	Instance load(String varname);
+
+	void ifTrue(Consumer<MethodCode> block);
+
+	void ifFalse(Consumer<MethodCode> block);
+
+	void ifEqual(Consumer<MethodCode> block);
+
+	void ifNotEqual(Consumer<MethodCode> block);
+
+	void ifGreatThan(Consumer<MethodCode> block);
+
+	void wHile(Consumer<MethodCode> cause, Consumer<MethodCode> block);
+
+	void store(String varname);
+
+	Instance dup();
+
+	void ifGreatEqual(Consumer<MethodCode> block);
+
+	void ifLessEqual(Consumer<MethodCode> block);
+
+	void ifLessThan(Consumer<MethodCode> block);
+
+	Instance loadConst(Object cst);
+
+	Instance loadConst(long cst);
+
+	Instance loadConst(int cst);
+
+	Instance arrayload(String arrayref, int index);
+
+	Instance arrayload(String varArray, String varIndex);
+
+	void returnVoid();
+
+	void returnVar(String varname);
+	
+	void returnNull();
+
+	void setNew(String varname, Class<?> clazz);
+
+	void initTo(Class<?> clazz, String varname);
+
+	void initTo(String clazz, String varname);
+
+	MethodCode line(Consumer<MethodCode> block);
+
+	MethodCode block(Consumer<MethodCode> block);
+
+	void initThis();
+
+	Instance init(Class<?> clazz);
+
+	Instance init(Class<?> clazz, String... varnames);
+
+	void init(String clazz);
+
 
 }

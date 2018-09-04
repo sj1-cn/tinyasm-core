@@ -23,7 +23,7 @@ public class MethodCodeFriendlyMathTest extends TestBase {
 		String clazz = MethodCodeFriendlyMathSample.class.getName();
 		ClassBody cw = ClassBuilder.make(clazz).body();
 		cw.publicMethod("<init>").code(mc -> {
-			mc.line(3).INITObject();
+			mc.line(3).initObject();
 			mc.RETURN();
 		});
 
@@ -93,14 +93,16 @@ public class MethodCodeFriendlyMathTest extends TestBase {
 			mc.RETURNTop();
 		});
 		cw.method(byte.class, "or"/* 6) */).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
-			mc.line(29).LOAD("x");
+			mc.line(29);
+			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.OR();
 			mc.CONVERTTO(byte.class);
 			mc.RETURNTop();
 		});
 		cw.method(byte.class, "xor"/* 7) */).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
-			mc.line(33).LOAD("x");
+			mc.line(33);
+			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.XOR();
 			mc.CONVERTTO(byte.class);
@@ -174,13 +176,15 @@ public class MethodCodeFriendlyMathTest extends TestBase {
 			mc.RETURNTop();
 		});
 		cw.method(long.class, "or"/* 16) */).parameter("x", long.class).parameter("y", long.class).code(mc -> {
-			mc.line(69).LOAD("x");
+			mc.line(69);
+			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.OR();
 			mc.RETURNTop();
 		});
 		cw.method(long.class, "xor"/* 17) */).parameter("x", long.class).parameter("y", long.class).code(mc -> {
-			mc.line(73).LOAD("x");
+			mc.line(73);
+			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.XOR();
 			mc.RETURNTop();
@@ -212,21 +216,24 @@ public class MethodCodeFriendlyMathTest extends TestBase {
 		});
 
 		cw.method(char.class, "and"/* 20) */).parameter("x", char.class).parameter("y", char.class).code(mc -> {
-			mc.line(85).LOAD("x");
+			mc.line(85);
+			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.AND();
 			mc.CONVERTTO(char.class);
 			mc.RETURNTop();
 		});
 		cw.method(char.class, "or"/* 21) */).parameter("x", char.class).parameter("y", char.class).code(mc -> {
-			mc.line(89).LOAD("x");
+			mc.line(89);
+			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.OR();
 			mc.CONVERTTO(char.class);
 			mc.RETURNTop();
 		});
 		cw.method(char.class, "xor").parameter("x", char.class).parameter("y", char.class).code(mc -> {
-			mc.line(93).LOAD("x");
+			mc.line(93);
+			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.XOR();
 			mc.CONVERTTO(char.class);

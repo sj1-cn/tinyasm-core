@@ -98,7 +98,7 @@ import nebula.tinyasm.ClazzImpl;
 import nebula.tinyasm.InstanceImpl;
 import nebula.tinyasm.util.TypeUtils;
 
-public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode>, WithInvoke<MethodCode> {
+public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvoke<MethodCode> {
 
 	void visitLabel(Label label);
 
@@ -174,6 +174,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	 * This notation for instruction families is used throughout this specification.
 	 */
 
+	@Override
 	default Instance topInstance() {
 		return new InstanceImpl(this, codeGetStackType(0));
 	}
@@ -190,6 +191,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		return topInstance();
 	}
 
+	@Override
 	default Instance loadThisField(String fieldname, String feildtype) {
 		loadThisField(fieldname, typeOf(fieldname));
 		return topInstance();
@@ -201,6 +203,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		return topInstance();
 	}
 
+	@Override
 	default void set(String varname, Consumer<MethodCode> invocations) {
 		int locals = codeLocalGetLocals(varname);
 		if (locals >= 0) {
@@ -213,6 +216,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
+	@Override
 	default void setNull(String varname) {
 		int locals = codeLocalGetLocals(varname);
 		if (locals >= 0) {
@@ -225,6 +229,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
+	@Override
 	default void setConst(String varname, String cst) {
 		int locals = codeLocalGetLocals(varname);
 		if (locals >= 0) {
@@ -237,6 +242,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
+	@Override
 	default void setConst(String varname, int cst) {
 		int locals = codeLocalGetLocals(varname);
 		if (locals >= 0) {
@@ -249,6 +255,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
+	@Override
 	default void setConst(String varname, long cst) {
 		int locals = codeLocalGetLocals(varname);
 		if (locals >= 0) {
@@ -261,10 +268,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
+	@Override
 	default Clazz clazz(Class<?> clazz) {
 		return new ClazzImpl(this, typeOf(clazz));
 	}
 
+	@Override
 	default Clazz clazz(String clazz) {
 		return new ClazzImpl(this, typeOf(clazz));
 	}
@@ -308,6 +317,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		LOAD(local);
 	}
 
+	@Override
 	default Instance load(String varname) {
 		int local = codeLocalGetLocals(varname);
 		if (local >= 0) {
@@ -319,6 +329,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		return topInstance();
 	}
 
+	@Override
 	default void wHile(Consumer<MethodCode> cause, Consumer<MethodCode> block) {
 		Label whileStart = codeNewLabel();
 		Label whileEnd = codeNewLabel();
@@ -332,6 +343,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		visitLabel(whileEnd);
 	}
 
+	@Override
 	default void ifTrue(Consumer<MethodCode> block) {
 		Label ifElse = codeNewLabel();
 		IFEQ(ifElse);
@@ -339,6 +351,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		visitLabel(ifElse);
 	}
 
+	@Override
 	default void ifFalse(Consumer<MethodCode> block) {
 		Label ifElse = codeNewLabel();
 		IFNE(ifElse);
@@ -346,6 +359,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		visitLabel(ifElse);
 	}
 
+	@Override
 	default void ifEqual(Consumer<MethodCode> block) {
 		Label ifElse = codeNewLabel();
 		IFNE(ifElse);
@@ -353,6 +367,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		visitLabel(ifElse);
 	}
 
+	@Override
 	default void ifNotEqual(Consumer<MethodCode> block) {
 		Label ifElse = codeNewLabel();
 		IFEQ(ifElse);
@@ -360,6 +375,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		visitLabel(ifElse);
 	}
 
+	@Override
 	default void ifGreatThan(Consumer<MethodCode> block) {
 		Label ifElse = codeNewLabel();
 		IFLE(ifElse);
@@ -367,6 +383,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		visitLabel(ifElse);
 	}
 
+	@Override
 	default void ifGreatEqual(Consumer<MethodCode> block) {
 		Label ifElse = codeNewLabel();
 		IFLT(ifElse);
@@ -374,6 +391,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		visitLabel(ifElse);
 	}
 
+	@Override
 	default void ifLessEqual(Consumer<MethodCode> block) {
 		Label ifElse = codeNewLabel();
 		IFGT(ifElse);
@@ -381,6 +399,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		visitLabel(ifElse);
 	}
 
+	@Override
 	default void ifLessThan(Consumer<MethodCode> block) {
 		Label ifElse = codeNewLabel();
 		IFGE(ifElse);
@@ -388,6 +407,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		visitLabel(ifElse);
 	}
 
+	@Override
 	default Instance dup() {
 		DUP();
 		return topInstance();
@@ -400,6 +420,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		STORE(local);
 	}
 
+	@Override
 	default void store(String varname) {
 		int local = codeLocalGetLocals(varname);
 		if (local >= 0) {
@@ -481,13 +502,13 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	@Override
 	default void LOADConstByte(int value) {
 		mvIntInsn(BIPUSH, value);
-		codePush(Type.BYTE_TYPE);
+		codePush(Type.INT_TYPE);
 	}
 
 	@Override
 	default void LOADConstShort(int value) {
 		mvIntInsn(SIPUSH, value);
-		codePush(Type.SHORT_TYPE);
+		codePush(Type.INT_TYPE);
 	}
 
 	@Override
@@ -527,18 +548,24 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
+	@Override
 	default Instance loadConst(int cst) {
 		LOADConst(cst);
 		return topInstance();
 	}
+
+	@Override
 	default Instance loadConst(long cst) {
 		LOADConst(cst);
 		return topInstance();
 	}
+
+	@Override
 	default Instance loadConst(Object cst) {
 		LOADConst(cst);
 		return topInstance();
 	}
+
 	@Override
 	default void LOADConst(Object cst) {
 
@@ -606,6 +633,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	 */
 	/** MATH **/
 	@Override
+	@Deprecated
 	default Instance add(String left, String right) {
 		load(left);
 		load(right);
@@ -613,6 +641,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		return topInstance();
 	}
 
+	@Deprecated
 	default Instance add(String left, Consumer<MethodCode> right) {
 		load(left);
 		right.accept(this);
@@ -620,6 +649,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		return topInstance();
 	}
 
+	@Deprecated
 	default Instance add(Consumer<MethodCode> left, String right) {
 		left.accept(this);
 		load(right);
@@ -627,6 +657,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		return topInstance();
 	}
 
+	@Deprecated
 	default Instance add(Consumer<MethodCode> left, Consumer<MethodCode> right) {
 		left.accept(this);
 		right.accept(this);
@@ -653,6 +684,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	/* Subtract: isub, lsub, fsub, dsub. */
 
 	@Override
+	@Deprecated
 	default Instance sub(String left, String right) {
 		LOAD(left);
 		LOAD(right);
@@ -672,6 +704,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	/* Multiply: imul, lmul, fmul, dmul. */
 	@Override
+	@Deprecated
 	default Instance mul(String left, String right) {
 		LOAD(left);
 		LOAD(right);
@@ -691,6 +724,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	/* Divide: idiv, ldiv, fdiv, ddiv. */
 	@Override
+	@Deprecated
 	default Instance div(String left, String right) {
 		LOAD(left);
 		LOAD(right);
@@ -714,6 +748,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	/* Remainder: irem, lrem, frem, drem. */
 	@Override
+	@Deprecated
 	default Instance rem(String left, String right) {
 		LOAD(left);
 		LOAD(right);
@@ -733,6 +768,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	/* Negate: ineg, lneg, fneg, dneg. */
 	@Override
+	@Deprecated
 	default Instance neg(String left) {
 		LOAD(left);
 		REM();
@@ -776,6 +812,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	/* Bitwise OR: ior, lor. */
 	@Override
+	@Deprecated
 	default Instance or(String left, String right) {
 		LOAD(left);
 		LOAD(right);
@@ -795,6 +832,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	/* Bitwise AND: iand, land. */
 	@Override
+	@Deprecated
 	default Instance and(String left, String right) {
 		LOAD(left);
 		LOAD(right);
@@ -816,6 +854,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	/* Bitwise exclusive OR: ixor, lxor. */
 	@Override
+	@Deprecated
 	default Instance xor(String left, String right) {
 		LOAD(left);
 		LOAD(right);
@@ -1149,14 +1188,16 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		return topInstance();
 	}
 
-	default Instance arrayload(String arrayref, int index) {
-		load(arrayref);
+	@Override
+	default Instance arrayload(String varArray, int index) {
+		load(varArray);
 		Type arrayType = codeGetStackType(0);
 		LOADConst(index);
 		ARRAYLOAD(arrayType.getElementType());
 		return topInstance();
 	}
 
+	@Override
 	default Instance arrayload(String varArray, String varIndex) {
 		load(varArray);
 		Type arrayType = codeGetStackType(0);
@@ -1184,10 +1225,10 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	}
 
 	@Override
-	default void arraystore(String varArray, String index, String value) {
+	default void arrayStore(String varArray, String index, String varValue) {
 		LOAD(varArray);
 		LOAD(index);
-		LOAD(value);
+		LOAD(varValue);
 		ARRAYSTORE();
 	}
 
@@ -1480,6 +1521,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		mvJumpInsn(GOTO, gotoLabel);
 	}
 
+	@Override
 	default void returnVoid() {
 		mvInst(RETURN);
 	}
@@ -1501,6 +1543,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		RETURNTop();
 	}
 
+	@Override
 	default void returnNull() {
 		LOADConstNULL();
 		RETURNTop();
@@ -1567,31 +1610,36 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	 * 
 	 */
 
-	String _THIS = "this";
+	int _THIS = 0;
 
 	@Override
-	default void INITObject() {
-		loadThis();
+	default void initObject() {
+		LOAD(_THIS);
 		INVOKESPECIAL(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
 	}
 
+	@Override
 	default void initThis() {
 		LOAD(_THIS);
 		INVOKESPECIAL(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
 	}
 
+	@Override
 	default void init(String clazz) {
 		NEW(clazz);
 		DUP();
 		SPECIAL(clazz, "<init>").INVOKE();
 	}
 
-	default Instance init(Class<?> clazz,String... varnames) {
+	@Override
+	default Instance init(Class<?> clazz, String... varnames) {
 		NEW(clazz);
 		DUP();
-		topInstance().special("<init>").invokeVoid(varnames);		
+		topInstance().special("<init>").invokeVoid(varnames);
 		return topInstance();
 	}
+
+	@Override
 	default Instance init(Class<?> clazz) {
 		NEW(clazz);
 		DUP();
@@ -1608,7 +1656,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	@Override
 	default Instance loadThisField(String fieldname) {
-		getfield(_THIS, fieldname, codeThisFieldType(fieldname));
+		getfield("this", fieldname, codeThisFieldType(fieldname));
 		return topInstance();
 	}
 
@@ -1674,6 +1722,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		PUTFIELD(fieldname, fieldType);
 	}
 
+	@Override
 	default void setNew(String varname, Class<?> clazz) {
 		int locals = codeLocalGetLocals(varname);
 		if (locals >= 0) {
@@ -1686,6 +1735,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
+	@Override
 	default void initTo(Class<?> clazz, String varname) {
 		int locals = codeLocalGetLocals(varname);
 		if (locals >= 0) {
@@ -1697,6 +1747,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			PUTFIELD_OF_THIS(varname);
 		}
 	}
+
+	@Override
 	default void initTo(String clazz, String varname) {
 		int locals = codeLocalGetLocals(varname);
 		if (locals >= 0) {
@@ -1722,12 +1774,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	}
 
 	@Override
-	default void putfield(String objectref, String varname, String fieldname, Class<?> fieldType) {
+	default void putField(String objectref, String varname, String fieldname, Class<?> fieldType) {
 		putfield(objectref, varname, fieldname, typeOf(fieldType));
 	}
 
 	@Override
-	default void putfield(String objectref, String varname, String fieldname, String fieldType) {
+	default void putField(String objectref, String varname, String fieldname, String fieldType) {
 		putfield(objectref, varname, fieldname, typeOf(fieldType));
 
 	}
@@ -1789,12 +1841,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 	}
 
 	@Override
-	default void putstatic(Class<?> objectType, String varname, String fieldname, Class<?> fieldType) {
+	default void putStatic(Class<?> objectType, String varname, String fieldname, Class<?> fieldType) {
 		putstatic(typeOf(objectType), varname, fieldname, typeOf(fieldType));
 	}
 
 	@Override
-	default void putstatic(String objectType, String varname, String fieldname, String fieldType) {
+	default void putStatic(String objectType, String varname, String fieldname, String fieldType) {
 		putstatic(typeOf(objectType), varname, fieldname, typeOf(fieldType));
 	}
 
@@ -1947,12 +1999,14 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 
 	}
 
-	default MethodCode line(Consumer<MethodCode> invocation) {
+	@Override
+	default MethodCode line(Consumer<MethodCode> block) {
 		line();
-		return block(invocation);
+		return block(block);
 	}
 
-	MethodCode block(Consumer<MethodCode> invocation);
+	@Override
+	MethodCode block(Consumer<MethodCode> block);
 
 //	@Override
 //	default C define(String fieldName, Class<?> clz) {
