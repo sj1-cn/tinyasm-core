@@ -9,7 +9,7 @@ import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.data.Instance;
 import nebula.tinyasm.data.InvokerPrepare;
 import nebula.tinyasm.data.MethodCode;
-import nebula.tinyasm.util.TypeUtils;
+import static nebula.tinyasm.util.TypeUtils.*;
 
 public class InstanceImpl implements Instance {
 	final MethodCode mv;
@@ -63,13 +63,19 @@ public class InstanceImpl implements Instance {
 
 	@Override
 	public Instance boxWhenNeed() {
-		BoxUnbox.box(instanceType.getClassName()).accept(mv);
+		BoxUnbox.box(instanceType).accept(mv);
+		return mv.topInstance();
+	}
+
+	@Override
+	public Instance checkcastAndUnbox(GenericClazz clazz) {
+		BoxUnbox.checkcastAndUnbox(typeOf(clazz)).accept(mv);
 		return mv.topInstance();
 	}
 
 	@Override
 	public Instance unbox() {
-		BoxUnbox.unbox(instanceType.getClassName()).accept(mv);
+		BoxUnbox.unbox(instanceType).accept(mv);
 		return mv.topInstance();
 	}
 
@@ -85,7 +91,7 @@ public class InstanceImpl implements Instance {
 
 	@Override
 	public Instance checkcast(GenericClazz clazz) {
-		mv.CHECKCAST(TypeUtils.typeOf(clazz));
+		mv.CHECKCAST(typeOf(clazz));
 		return mv.topInstance();
 	}
 

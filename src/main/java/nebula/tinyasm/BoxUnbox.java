@@ -1,31 +1,53 @@
 package nebula.tinyasm;
 
+import static nebula.tinyasm.util.TypeUtils.typeOf;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import org.objectweb.asm.Type;
 
 import nebula.tinyasm.data.MethodCode;
 
 public class BoxUnbox {
 
-	static Map<String, Consumer<MethodCode>> box = new HashMap<>();
-	static Map<String, Consumer<MethodCode>> unbox = new HashMap<>();
+	static Map<Type, Consumer<MethodCode>> box = new HashMap<>();
+	static Map<Type, Consumer<MethodCode>> unbox = new HashMap<>();
+	static Map<Type, Type> boxClazz = new HashMap<>();
+	static Map<Type, Type> unboxClazz = new HashMap<>();
 	static Consumer<MethodCode> doNothing = f -> {
 	};
 
 	static void register(Class<?> objectClazz, Class<?> primaryClazz, Consumer<MethodCode> convert, Consumer<MethodCode> revert) {
-		unbox.put(objectClazz.getName(), convert);
-		box.put(primaryClazz.getName(), revert);
+		unboxClazz.put(typeOf(objectClazz), typeOf(primaryClazz));
+		boxClazz.put(typeOf(primaryClazz), typeOf(objectClazz));
+		unbox.put(typeOf(objectClazz), convert);
+		box.put(typeOf(primaryClazz), revert);
 	}
 
-	static Consumer<MethodCode> box(String primaryClazz) {
+	static Consumer<MethodCode> box(Type primaryClazz) {
 		if (!box.containsKey(primaryClazz)) return doNothing;
 		return box.get(primaryClazz);
 	}
 
-	static Consumer<MethodCode> unbox(String primaryClazz) {
+	static Consumer<MethodCode> unbox(Type primaryClazz) {
 		if (!unbox.containsKey(primaryClazz)) return doNothing;
 		return unbox.get(primaryClazz);
+	}
+
+	static Consumer<MethodCode> checkcastAndUnbox(final Type primaryClazz) {
+		final Type objectClazz = boxClazz.get(primaryClazz);
+		if (objectClazz != null) {
+			return m -> {
+				m.CHECKCAST(objectClazz);
+				unbox.get(objectClazz).accept(m);
+			};
+		} else {
+			return m -> {
+				m.CHECKCAST(primaryClazz);
+			};
+		}
 	}
 
 	static {
