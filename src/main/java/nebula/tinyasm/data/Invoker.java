@@ -35,5 +35,4 @@ public interface Invoker {
 	Instance invoke(String... varname);
 
 	Instance invoke();
-
 }

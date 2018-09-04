@@ -5,6 +5,9 @@ import java.util.function.Consumer;
 public interface InvokerPrepare {
 	InvokerPrepare parameter(GenericClazz clazz);
 
+	default InvokerPrepare parameter(Class<?> clazz,boolean array) {
+		return parameter(GenericClazz.generic(clazz,array));
+	}
 	default InvokerPrepare parameter(Class<?> clazz) {
 		return parameter(GenericClazz.generic(clazz));
 	}

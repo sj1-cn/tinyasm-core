@@ -1586,6 +1586,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		SPECIAL(clazz, "<init>").INVOKE();
 	}
 
+	default Instance init(Class<?> clazz,String... varnames) {
+		NEW(clazz);
+		DUP();
+		topInstance().special("<init>").invokeVoid(varnames);		
+		return topInstance();
+	}
 	default Instance init(Class<?> clazz) {
 		NEW(clazz);
 		DUP();
@@ -1680,7 +1686,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
-	default void setNew(String varname, String clazz) {
+	default void setInit(String varname, String clazz) {
 		int locals = codeLocalGetLocals(varname);
 		if (locals >= 0) {
 			init(clazz);

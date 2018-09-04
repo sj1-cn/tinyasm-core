@@ -62,10 +62,13 @@ public interface WithAccess<T> {
 		return access(ACC_VOLATILE);
 
 	}
-
+	default T bridge() {
+		access(ACC_PUBLIC);
+		access(ACC_SYNTHETIC);
+		return access(ACC_BRIDGE);
+	}
 	default T ACC_BRIDGE() {
 		return access(ACC_BRIDGE);
-
 	}
 
 	default T ACC_VARARGS() {
