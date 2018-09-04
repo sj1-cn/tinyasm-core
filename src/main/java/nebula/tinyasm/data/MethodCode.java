@@ -1686,7 +1686,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 		}
 	}
 
-	default void setInit(String varname, String clazz) {
+	default void initTo(Class<?> clazz, String varname) {
 		int locals = codeLocalGetLocals(varname);
 		if (locals >= 0) {
 			init(clazz);
@@ -1696,7 +1696,17 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly<MethodCode
 			init(clazz);
 			PUTFIELD_OF_THIS(varname);
 		}
-
+	}
+	default void initTo(String clazz, String varname) {
+		int locals = codeLocalGetLocals(varname);
+		if (locals >= 0) {
+			init(clazz);
+			STORE(varname);
+		} else {
+			loadThis();
+			init(clazz);
+			PUTFIELD_OF_THIS(varname);
+		}
 	}
 
 	default void putVarToThisField(String varname, String fieldname, Type fieldType) {

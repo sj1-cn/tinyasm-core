@@ -33,7 +33,7 @@ public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<Cla
 		return imPlements(classnameOf(clazz), classnamesOf(genericClazz));
 	}
 
-	default ClassHeader imPlements(Class<?> clazz, String... genericClazz) {
+	default ClassHeader implement(Class<?> clazz, String... genericClazz) {
 		return imPlements(classnameOf(clazz), classnamesOf(genericClazz));
 	}
 
