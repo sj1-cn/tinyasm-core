@@ -8,6 +8,7 @@ public interface MethodCodeFriendly extends WithDefineVar {
 	MethodCodeFriendly line(int line);
 
 	MethodCodeFriendly line();
+	
 	void initObject();
 
 	Instance add(String left, String right);
@@ -129,8 +130,14 @@ public interface MethodCodeFriendly extends WithDefineVar {
 	Instance init(Class<?> clazz);
 
 	Instance init(Class<?> clazz, String... varnames);
+	
+	Instance init(String clazz, String... varnames);
 
-	void init(String clazz);
+	Instance init(String clazz);
+
+	void ifObjectEqual(Consumer<MethodCode> left, Consumer<MethodCode> right, Consumer<MethodCode> block);
+
+	void ifObjectNotEqual(Consumer<MethodCode> left, Consumer<MethodCode> right, Consumer<MethodCode> block);
 
 
 }

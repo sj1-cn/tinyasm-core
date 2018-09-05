@@ -22,10 +22,10 @@ public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<Cla
 	}
 
 	default ClassHeader eXtend(Class<?> clazz) {
-		return eXtend(classnameOf(clazz));
+		return subclass(classnameOf(clazz));
 	}
 
-	ClassHeader eXtend(String clazz);
+	ClassHeader subclass(String clazz);
 
 	ClassHeader eXtend(String clazz, String... genericClazz);
 

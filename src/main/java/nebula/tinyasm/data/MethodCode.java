@@ -1441,6 +1441,26 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 
 	@Override
+	default void ifObjectEqual(Consumer<MethodCode> left, Consumer<MethodCode> right, Consumer<MethodCode> block) {
+		left.accept(this);
+		right.accept(this);
+		Label ifElse = codeNewLabel();
+		IF_ACMPEQ(ifElse);
+		block.accept(this);
+		visitLabel(ifElse);
+	}
+
+	@Override
+	default void ifObjectNotEqual(Consumer<MethodCode> left, Consumer<MethodCode> right, Consumer<MethodCode> block) {
+		left.accept(this);
+		right.accept(this);
+		Label ifElse = codeNewLabel();
+		IF_ACMPNE(ifElse);
+		block.accept(this);
+		visitLabel(ifElse);
+	}
+	
+	@Override
 	default void IF_ACMPEQ(Label falseLabel) {
 		Type typeRightValue = codePopStack();
 		Type typeLeftValue = codePopStack();
@@ -1625,10 +1645,19 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 
 	@Override
-	default void init(String clazz) {
+	default Instance init(String clazz) {
 		NEW(clazz);
 		DUP();
 		SPECIAL(clazz, "<init>").INVOKE();
+		return topInstance();
+	}
+
+	@Override
+	default Instance init(String clazz, String... varnames) {
+		NEW(clazz);
+		DUP();
+		topInstance().special("<init>").invokeVoid(varnames);
+		return topInstance();
 	}
 
 	@Override

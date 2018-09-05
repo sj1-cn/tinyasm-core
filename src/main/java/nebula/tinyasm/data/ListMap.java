@@ -35,6 +35,12 @@ public class ListMap<K, T> implements Iterable<T> {
 		maps.put(namingHandler.nameOf(value), value);
 	}
 
+	public void push(List<T> values) {
+		for (T t : values) {
+			push(t);
+		}
+	}
+
 	public T get(int index) {
 		return stack.get(index);
 	}

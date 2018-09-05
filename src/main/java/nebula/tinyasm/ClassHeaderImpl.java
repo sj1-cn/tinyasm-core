@@ -71,7 +71,7 @@ class ClassHeaderImpl implements ClassHeader {
 	}
 
 	@Override
-	public ClassHeader eXtend(String clazz) {
+	public ClassHeader subclass(String clazz) {
 		this.superClazz = new GenericClazz(clazz, new String[0]);
 		return this;
 	}
