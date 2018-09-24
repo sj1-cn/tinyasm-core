@@ -454,6 +454,10 @@ public class TypeUtils {
 		return strs;
 	}
 
+	static public String internalNameOf(Class<?> classes) {
+		return  Type.getInternalName(classes);
+	}
+	
 	static public String[] internalNameOf(Class<?>... classes) {
 		String[] types = new String[classes.length];
 		for (int i = 0; i < classes.length; i++) {
