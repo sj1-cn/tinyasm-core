@@ -19,12 +19,12 @@ public interface ClassBuilder {
 	}
 
 	static public ClassHeader make(ClassVisitor classWriter, String clazz, String superClazz, String interfaceType) {
-		return new ClassHeaderImpl(classWriter, clazz, superClazz).imPlements(interfaceType);
+		return new ClassHeaderImpl(classWriter, clazz, superClazz).implement(interfaceType);
 	}
 
 	static public ClassHeader make(ClassVisitor classWriter, String clazz, Class<?> superClazz,
 			Class<?> interfaceType) {
-		return new ClassHeaderImpl(classWriter, clazz, superClazz).imPlements(interfaceType);
+		return new ClassHeaderImpl(classWriter, clazz, superClazz).implement(interfaceType);
 	}
 
 	static public ClassHeader make(String clazz) {
@@ -44,17 +44,17 @@ public interface ClassBuilder {
 
 	static public ClassHeader make(String clazz, String superClazz, String interfaceType) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
-		return new ClassHeaderImpl(classWriter, clazz, superClazz).imPlements(interfaceType);
+		return new ClassHeaderImpl(classWriter, clazz, superClazz).implement(interfaceType);
 	}
 
 	static public ClassHeader make(String clazz, Class<?> superClazz, String interfaceType) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
-		return new ClassHeaderImpl(classWriter, clazz, superClazz).imPlements(interfaceType);
+		return new ClassHeaderImpl(classWriter, clazz, superClazz).implement(interfaceType);
 	}
 
 	static public ClassHeader make(String clazz, Class<?> superClazz, Class<?> interfaceType) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
-		return new ClassHeaderImpl(classWriter, clazz, superClazz).imPlements(interfaceType);
+		return new ClassHeaderImpl(classWriter, clazz, superClazz).implement(interfaceType);
 	}
 
 	public byte[] toByteArray();

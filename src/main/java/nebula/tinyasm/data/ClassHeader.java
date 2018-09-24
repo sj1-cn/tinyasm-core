@@ -29,25 +29,25 @@ public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<Cla
 
 	ClassHeader eXtend(String clazz, String... genericClazz);
 
-	default ClassHeader imPlements(Class<?> clazz, Class<?>... genericClazz) {
-		return imPlements(classnameOf(clazz), classnamesOf(genericClazz));
+	default ClassHeader implement(Class<?> clazz, Class<?>... genericClazz) {
+		return implement(classnameOf(clazz), classnamesOf(genericClazz));
 	}
 
 	default ClassHeader implement(Class<?> clazz, String... genericClazz) {
-		return imPlements(classnameOf(clazz), classnamesOf(genericClazz));
+		return implement(classnameOf(clazz), classnamesOf(genericClazz));
 	}
 
-	default ClassHeader imPlements(String clazz, Class<?>... genericClazz) {
-		return imPlements(classnameOf(clazz), classnamesOf(genericClazz));
+	default ClassHeader implement(String clazz, Class<?>... genericClazz) {
+		return implement(classnameOf(clazz), classnamesOf(genericClazz));
 	}
 
-	default ClassHeader imPlements(Class<?> clazz) {
-		return imPlements(classnameOf(clazz));
+	default ClassHeader implement(Class<?> clazz) {
+		return implement(classnameOf(clazz));
 	}
 
-	ClassHeader imPlements(String clazz);
+	ClassHeader implement(String clazz);
 
-	ClassHeader imPlements(String clazz, String... genericClazz);
+	ClassHeader implement(String clazz, String... genericClazz);
 
 	ClassBody body();
 

@@ -83,13 +83,13 @@ class ClassHeaderImpl implements ClassHeader {
 	}
 
 	@Override
-	public ClassHeader imPlements(String clazz) {
+	public ClassHeader implement(String clazz) {
 		interfaces.add(new GenericClazz(clazz, new String[0]));
 		return this;
 	}
 
 	@Override
-	public ClassHeader imPlements(String clazz, String... genericClazz) {
+	public ClassHeader implement(String clazz, String... genericClazz) {
 		interfaces.add(new GenericClazz(clazz, genericClazz));
 		return this;
 	}

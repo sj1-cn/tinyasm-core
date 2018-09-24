@@ -175,6 +175,39 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	 */
 
 	@Override
+	default Instance box() {
+		Type topType = codeGetStackType(0);
+		BoxUnbox.box(topType).accept(this);
+		return topInstance();
+	}
+
+	@Override
+	default Instance unbox() {
+		Type topType = codeGetStackType(0);
+		BoxUnbox.unbox(topType).accept(this);
+		return topInstance();
+	}
+//	Instance checkcastAndUnbox(Class<?> clazz);
+//
+//	Instance checkcastAndUnbox(String clazz);
+	
+	@Override
+	default Instance checkcastAndUnbox(Class<?> clazz) {
+		BoxUnbox.checkcastAndUnbox(typeOf(clazz)).accept(this);
+		return topInstance();
+	}
+
+	default Instance checkcastAndUnbox(GenericClazz clazz) {
+		BoxUnbox.checkcastAndUnbox(typeOf(clazz)).accept(this);
+		return topInstance();
+	}
+	
+	@Override
+	default Instance checkcastAndUnbox(String clazz) {
+		BoxUnbox.checkcastAndUnbox(typeOf(clazz)).accept(this);
+		return topInstance();
+	}
+	@Override
 	default Instance topInstance() {
 		return new InstanceImpl(this, codeGetStackType(0));
 	}
@@ -596,6 +629,20 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		} else if (cst instanceof String) {
 			mvLdcInsn(cst);
 			codePush(Type.getType(String.class));
+		} else if (cst instanceof Class<?>) {
+			Type cstType = typeOf((Class<?>) cst);
+
+			int sort = ((Type) cstType).getSort();
+			if (sort == Type.OBJECT) {
+				mvLdcInsn(cstType);
+				codePush(Type.getType(String.class));
+			} else if (sort == Type.ARRAY) {
+				throw new UnsupportedOperationException();
+			} else if (sort == Type.METHOD) {
+				throw new UnsupportedOperationException();
+			} else {
+				throw new UnsupportedOperationException();
+			}
 		} else if (cst instanceof Type) {
 			int sort = ((Type) cst).getSort();
 			if (sort == Type.OBJECT) {
@@ -679,6 +726,16 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		// FADD (left, right → result) : add two floats
 		// IADD (left, right → result) : add two ints
 		// LADD (left, right → result) : add two longs
+	}
+
+	default void MATH(int op) {
+		Type typeRightValue = codePopStack();
+		Type typeLeftValue = codePopStack();
+
+		Type type = checkMathTypes(typeRightValue, typeLeftValue);
+		codePush(type);
+
+		mvInst(type.getOpcode(op));
 	}
 
 	/* Subtract: isub, lsub, fsub, dsub. */
@@ -1312,7 +1369,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 
 	default void CHECKCAST(Type type) {
-//		Type objectref = codePopStack();
+		codePopStack();
 		codePush(type);
 		mvTypeInsn(CHECKCAST, type);
 		// CHECKCAST (objectref → objectref) : checks whether an objectref is of a
@@ -1381,6 +1438,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		Type value = codePopStack();
 		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
 		mvJumpInsn(IFEQ, falseLabel);
+	}
+
+	default void JUMP(int opcode, Label falseLabel) {
+		Type value = codePopStack();
+		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
+		mvJumpInsn(opcode, falseLabel);
 	}
 
 	@Override
@@ -1459,7 +1522,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		block.accept(this);
 		visitLabel(ifElse);
 	}
-	
+
 	@Override
 	default void IF_ACMPEQ(Label falseLabel) {
 		Type typeRightValue = codePopStack();

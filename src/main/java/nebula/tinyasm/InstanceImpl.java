@@ -63,20 +63,17 @@ public class InstanceImpl implements Instance {
 
 	@Override
 	public Instance boxWhenNeed() {
-		BoxUnbox.box(instanceType).accept(mv);
-		return mv.topInstance();
+		return mv.box();
 	}
 
 	@Override
 	public Instance checkcastAndUnbox(GenericClazz clazz) {
-		BoxUnbox.checkcastAndUnbox(typeOf(clazz)).accept(mv);
-		return mv.topInstance();
+		return mv.checkcastAndUnbox(clazz);
 	}
 
 	@Override
 	public Instance unbox() {
-		BoxUnbox.unbox(instanceType).accept(mv);
-		return mv.topInstance();
+		return mv.unbox();
 	}
 
 	@Override

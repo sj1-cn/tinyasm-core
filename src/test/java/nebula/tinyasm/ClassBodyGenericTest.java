@@ -32,8 +32,8 @@ public class ClassBodyGenericTest extends TestBase {
 	public void testMathClass() throws Exception {
 		ClassBody cw = ClassBuilder.make(clazz)
 			.eXtend(ArrayList.class.getName(), Annotation.class.getName())
-			.imPlements(TestInerface.class.getName())
-			.imPlements(List.class.getName(), Annotation.class.getName())
+			.implement(TestInerface.class.getName())
+			.implement(List.class.getName(), Annotation.class.getName())
 			.body();
 
 //		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
@@ -91,8 +91,8 @@ public class ClassBodyGenericTest extends TestBase {
 	public void testMathString() throws Exception {
 		ClassBody cw = ClassBuilder.make(clazz)
 			.eXtend(ArrayList.class.getName(), Annotation.class.getName())
-			.imPlements(TestInerface.class.getName())
-			.imPlements(List.class.getName(), Annotation.class.getName())
+			.implement(TestInerface.class.getName())
+			.implement(List.class.getName(), Annotation.class.getName())
 			.body();
 
 //		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());

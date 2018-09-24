@@ -4,6 +4,10 @@ import java.util.function.Consumer;
 
 public interface MethodCodeFriendly extends WithDefineVar {
 	Instance loadThis();
+	
+	Instance box();
+	
+	Instance unbox();
 
 	MethodCodeFriendly line(int line);
 
@@ -138,6 +142,10 @@ public interface MethodCodeFriendly extends WithDefineVar {
 	void ifObjectEqual(Consumer<MethodCode> left, Consumer<MethodCode> right, Consumer<MethodCode> block);
 
 	void ifObjectNotEqual(Consumer<MethodCode> left, Consumer<MethodCode> right, Consumer<MethodCode> block);
+
+	Instance checkcastAndUnbox(Class<?> clazz);
+
+	Instance checkcastAndUnbox(String clazz);
 
 
 }
