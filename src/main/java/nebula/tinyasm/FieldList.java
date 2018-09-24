@@ -1,8 +1,8 @@
 package nebula.tinyasm;
 
-import nebula.tinyasm.data.ArrayListMap;
+import nebula.commons.list.StringListMap;
 
-public class FieldList extends ArrayListMap<ClassField> {
+public class FieldList extends StringListMap<ClassField> {
 
 	public FieldList() {
 		super(f -> f.name);

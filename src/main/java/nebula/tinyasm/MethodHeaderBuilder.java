@@ -15,8 +15,8 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import nebula.commons.list.StringListMap;
 import nebula.tinyasm.data.Annotation;
-import nebula.tinyasm.data.ArrayListMap;
 import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.data.MethodCode;
 import nebula.tinyasm.data.MethodCodeFriendly;
@@ -44,7 +44,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	Type stackTopType;
 
 	final LocalsStack mhLocals = new LocalsStack();
-	final ArrayListMap<LocalsVariable> params = new ArrayListMap<>(f -> f.name);
+	final StringListMap<LocalsVariable> params = new StringListMap<>(f -> f.name);
 	final List<Annotation> annotations = new ArrayList<>();
 	final FieldList fields;
 	final FieldList staticFields;

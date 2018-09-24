@@ -72,6 +72,11 @@
 			<version>5.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>nebula</groupId>
+			<artifactId>nebula-commons</artifactId>
+			<version>${nebula.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
