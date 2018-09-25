@@ -35,15 +35,32 @@ public class BoxUnbox {
 	}
 
 	static Consumer<MethodCode> checkcastAndUnbox(final Type objectClazz) {
-		final Type primaryClazz = boxClazz.get(objectClazz);
+		final Type primaryClazz = unboxClazz.get(objectClazz);
 		if (primaryClazz != null) {
 			return m -> {
 				m.CHECKCAST(objectClazz);
-				unbox.get(primaryClazz).accept(m);
+				unbox.get(objectClazz).accept(m);
 			};
 		} else {
 			return m -> {
+				if (objectClazz.getSort() == Type.OBJECT) m.CHECKCAST(objectClazz);
+			};
+		}
+	}
+
+	public static Consumer<MethodCode> unboxToWhenNeed(final Class<?> primaryClazz) {
+		return unboxToWhenNeed(typeOf(primaryClazz));
+	}
+	public static Consumer<MethodCode> unboxToWhenNeed(final Type primaryClazz) {
+		final Type objectClazz = boxClazz.get(primaryClazz);
+		if (objectClazz != null) {
+			return m -> {
 				m.CHECKCAST(objectClazz);
+				unbox.get(objectClazz).accept(m);
+			};
+		} else {
+			return m -> {
+				m.CHECKCAST(primaryClazz);
 			};
 		}
 	}
