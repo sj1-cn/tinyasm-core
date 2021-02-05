@@ -12,7 +12,7 @@
 
 	<properties>
 		<!-- Startup class -->
-		<jacoco.version>0.7.5.201505241946</jacoco.version>
+		<jacoco.version>0.8.6</jacoco.version>
 		<junit.version>4.12</junit.version>
 		<nebula.version>0.1.1-SNAPSHOT</nebula.version>
 		<slf4j.version>1.7.25</slf4j.version>
@@ -72,11 +72,11 @@
 			<version>5.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>nebula</groupId>
 			<artifactId>nebula-commons</artifactId>
 			<version>${nebula.version}</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 	<build>
@@ -84,7 +84,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
+				<version>3.8.1</version>
 				<configuration>
 					<skipMain>false</skipMain>
 					<skip>false</skip>
