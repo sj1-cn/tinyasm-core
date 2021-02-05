@@ -59,7 +59,7 @@ public class MethodCodeLineBlockTest extends TestBase {
 				line.LOADConstByte(10);
 				line.STORE("i");
 			}).line(line -> {
-				line.LOADConst(new Long(10L));
+				line.LOADConst(Long.valueOf(10L));
 				line.STATIC(Long.class, "valueOf").parameter(long.class).reTurn(Long.class).INVOKE();
 				line.STORE("l");
 

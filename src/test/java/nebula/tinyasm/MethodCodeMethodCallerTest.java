@@ -59,7 +59,7 @@ public class MethodCodeMethodCallerTest extends TestBase {
 			mv.LOADConstByte(10);
 			mv.STORE("i");
 			mv.line();
-			mv.LOADConst(new Long(10L));
+			mv.LOADConst(Long.valueOf(10L));
 			mv.STATIC(Long.class, "valueOf").parameter(long.class).reTurn(Long.class).INVOKE();
 			mv.STORE("l");
 

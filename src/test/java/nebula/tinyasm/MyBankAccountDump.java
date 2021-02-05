@@ -16,7 +16,7 @@ public class MyBankAccountDump implements Opcodes {
 		MethodVisitor mv;
 		AnnotationVisitor av0;
 
-		cw.visit(52, ACC_PUBLIC + ACC_SUPER, "com/nebula/cqrs/core/asm/MyBankAccount", null, "java/lang/Object", null);
+		cw.visit(53, ACC_PUBLIC + ACC_SUPER, "com/nebula/cqrs/core/asm/MyBankAccount", null, "java/lang/Object", null);
 
 		cw.visitSource("MyBankAccount.java", null);
 

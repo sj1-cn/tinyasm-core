@@ -52,7 +52,7 @@ public class MethodCodeMethodCallerSimpleTest extends TestBase {
 				.call("valueOf")
 				.parameter(long.class)
 				.reTurn(Long.class)
-				.invoke(m -> m.LOADConst(new Long(10L)))
+				.invoke(m -> m.LOADConst(Long.valueOf(10L)))
 				.setTo("l");
 
 			mv.line()

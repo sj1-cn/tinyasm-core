@@ -35,7 +35,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		this.thisType = typeOf(header.name);
 		this.superType = typeOf(header.superClazz.originclazz);
 		{
-			int version = 52;
+			int version = 53;
 			int access = header.access;
 			String name = this.thisType.getInternalName();
 			String signature = null;
