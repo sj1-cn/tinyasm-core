@@ -1,8 +1,8 @@
 package nebula.tinyasm;
 
-import java.util.HashMap;
+import static nebula.tinyasm.util.TypeUtils.typeOf;
+
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Stack;
 
 import org.objectweb.asm.Label;
@@ -10,41 +10,33 @@ import org.objectweb.asm.Type;
 
 public class LocalsStack implements Iterable<LocalsStack.Var> {
 
-	public static class Var extends ClassField {
-		public Label startFrom;
+	public static class Var {
+		int access;
+		String name;
+		Label startFrom;
+		Annotation annotation;
+		final Type type;
+		final GenericClazz clazz;
+		int locals = 0;
 
-		public Object value;
-
-		public Annotation annotation;
-
-		public Var(ClassField field, Label startFrom) {
-			super(field.access, field.name, field.clazz, null);
-			this.startFrom = startFrom;
+		//TODO fix bug
+		Var(GenericClazz clazz) {
+			this.clazz = clazz;
+			this.type = typeOf(clazz.originclazz);
 		}
 
-		public Var(String name, GenericClazz clazz) {
-			super(0, name, clazz, null);
+		Var(Type type) {
+			this.clazz = GenericClazz.generic(type);
+			this.type = type;
 		}
 
-		public Var(int access, String name, GenericClazz clazz) {
-			super(access, name, clazz, null);
+		Var(GenericClazz clazz, Type type) {
+			this.clazz = clazz;
+			this.type = type;
 		}
-
-		public Var(Annotation annotation, String name, GenericClazz clazz) {
-			super(0, name, clazz, null);
-			this.annotation = annotation;
-		}
-
-		public Var(String name, GenericClazz type, Label startFrom) {
-			super(0, name, type, null);
-			this.startFrom = startFrom;
-		}
-
-		public int locals = 0;
 	}
 
 	Stack<Var> stack = new Stack<>();
-	Map<String, Var> maps = new HashMap<>();
 
 	Stack<Integer> locals = new Stack<>();
 
@@ -53,16 +45,15 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 	}
 
 	public Var get(String name) {
-		return maps.get(name);
+		for (Var var : stack) {
+			if (name.equals(var.name)) return var;
+		}
+		return null;
 	}
 
-//	public boolean containsKey(String name) {
-//		return maps.containsKey(name);
-//	}
-
-//	public int size() {
-//		return stack.size();
-//	}
+	public int size() {
+		return locals.size();
+	}
 
 	public Iterator<Var> iterator() {
 		return stack.iterator();
@@ -70,52 +61,69 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 
 	int top = 0;
 
-//	public Var accessLoad(int index, Label label) {
-//		Var var = getByLocal(index);
-//		if (var.startFrom == null) var.startFrom = label;
-//		return var;
-//	}
-
 	public Type accessLoadType(int index, Label label) {
 		Var var = getByLocal(index);
 		if (var.startFrom == null) var.startFrom = label;
 		return var.type;
 	}
 
-//	public Var accessStore(int index, Label label) {
-//		Var var = getByLocal(index);
-////		if (var.startFrom == null) var.startFrom = label;
-//		return var;
-//	}
-
-	public Type accessStoreType(int index, Label label) {
+	// 存储变量不算访问？？？？
+	public Type accessStoreType(int index, Type type, Label label) {
+		if (index >= locals.size()) {
+			Var var1 = new Var(type);
+			var1.locals = index;
+			for (int i = 0; i < type.getSize(); i++) {
+				locals.push(stack.size());
+			}
+			stack.push(var1);
+		}
 		Var var = getByLocal(index);
 //		if (var.startFrom == null) var.startFrom = label;
 		return var.type;
 	}
 
-	public void push(String name, GenericClazz clazz) {
-		push(name, new Var(name, clazz));
-	}
+	// Method Parameter
+	public void pushParameter(String name, Type type, Label label) {
+		Var var = new Var(type);
+		var.name = name;
+		var.startFrom = label;
 
-	public void push(String name) {
-		push(name, new Var(name, null));
-	}
-
-	public void push(Annotation annotation, String name, GenericClazz clazz) {
-		push(name, new Var(annotation, name, clazz));
-	}
-
-	private void push(String name, Var value) {
-		value.locals = locals.size();
-		for (int i = 0; i < value.type.getSize(); i++) {
+		var.locals = locals.size();
+		for (int i = 0; i < var.type.getSize(); i++) {
 			locals.push(stack.size());
 		}
-		stack.push(value);
-		maps.put(name, value);
+		stack.push(var);
+	}
+	
+	// Method Parameter
+	public void pushParameter(String name, GenericClazz clazz, Label label) {
+		Var var = new Var(clazz);
+		var.name = name;
+		var.startFrom = label;
+
+		var.locals = locals.size();
+		for (int i = 0; i < var.type.getSize(); i++) {
+			locals.push(stack.size());
+		}
+		stack.push(var);
 	}
 
-	public void push(String name, GenericClazz clazz, Label label) {
-		push(name, new Var(name, clazz, label));
+	// 定义局部变量
+	public void define(String name, GenericClazz clazz) {
+		define(null, name, clazz);
 	}
+
+	// 定义局部变量
+	public void define(Annotation annotation, String name, GenericClazz clazz) {
+		Var var = new Var(clazz);
+		var.annotation = annotation;
+		var.name = name;
+
+		var.locals = locals.size();
+		for (int i = 0; i < var.type.getSize(); i++) {
+			locals.push(stack.size());
+		}
+		stack.push(var);
+	}
+
 }

@@ -4,10 +4,11 @@ public class SimpleSample {
 	int i = 0;
 
 	public SimpleSample() {
-		i = i+1;
-		i = i-1;
-		i = i *1;
-		i = i/1;
 		
+	}
+	
+	public void dd() {
+		int j=1;
+i=1;
 	}
 }

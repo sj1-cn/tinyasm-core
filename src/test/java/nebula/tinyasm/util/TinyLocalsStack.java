@@ -1,8 +1,6 @@
 package nebula.tinyasm.util;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Stack;
 
 import org.objectweb.asm.Label;
@@ -88,6 +86,12 @@ public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 		if (var.startFrom == null) var.startFrom = label;
 		return var.type;
 	}
+	
+	public void accessLoad(int index,int size) {
+		if(locals.size()>index) {
+			put(index, size);
+		}
+	}
 
 //	public Var accessStore(int index, Label label) {
 //		Var var = getByLocal(index);
@@ -101,6 +105,13 @@ public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 		return var.type;
 	}
 
+	public void accessStore(int index,int size) {
+		if(locals.size()>index) {
+			put(index, size);
+		}
+	}
+
+	
 	public Var push(String name, Type clazz) {
 		return push(name, new Var(name, clazz));
 	}
@@ -121,8 +132,21 @@ public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 		stack.push(value);
 		return value;
 	}
+	
+	private Var put(int index, int size) {
+		Var value = new Var(null, null);
+		value.locals = index;
+		for (int i = 0; i < size; i++) {
+			locals.push(stack.size());
+		}
+		stack.push(value);
+		return value;
+	}
 
 	public Var push(String name, Type clazz, Label label) {
 		return push(name, new Var(name, clazz, label));
+	}
+	public int size() {
+		return locals.size();
 	}
 }

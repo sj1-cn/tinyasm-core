@@ -2,7 +2,6 @@ package nebula.tinyasm.util;
 
 import static nebula.tinyasm.util.RefineCode.excludeLineNumber;
 import static nebula.tinyasm.util.RefineCode.skipToString;
-import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +14,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,15 +22,10 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
-import org.junit.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.util.TraceClassVisitor;
 
-import nebula.tinyasm.MethodCodeASMLogicSample;
-import nebula.tinyasm.MethodCodeASMLogicSampleTinyAsmDump;
-import nebula.tinyasm.MethodCodeASMMathSample;
-import nebula.tinyasm.MethodCodeASMMathSampleTinyAsmDump;
 import nebula.tinyasm.TestBase;
 
 public class TinyASMifierTestBase extends TestBase {

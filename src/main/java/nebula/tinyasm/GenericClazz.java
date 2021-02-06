@@ -4,6 +4,8 @@ import static nebula.tinyasm.util.TypeUtils.*;
 import static nebula.tinyasm.util.TypeUtils.signatureOf;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
 
+import org.objectweb.asm.Type;
+
 public class GenericClazz {
 	public String originclazz;
 	public String[] genericParameterClazz;
@@ -68,6 +70,10 @@ public class GenericClazz {
 		return new GenericClazz(classnameOf(originclazz));
 	}
 
+	//TODO need fix bug
+	static public GenericClazz generic(Type type) {
+		return new GenericClazz(type.getInternalName());
+	}
 	static public GenericClazz generic(String originclazz) {
 		return new GenericClazz(classnameOf(originclazz));
 	}

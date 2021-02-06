@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.arrayOf;
+import static nebula.tinyasm.util.TypeUtils.*;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class ClassField extends Field {
 		super(name, clazz);
 		this.access = access;
 		this.defaultValue = defaultValue;
-		this.type = arrayOf(clazz.originclazz, clazz.isarray);
+		this.type = typeOf(clazz.originclazz);
 	}
 //
 //	@Override

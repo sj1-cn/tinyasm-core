@@ -68,7 +68,7 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	@Override
-	public void startPush(Type type) {
+	public void stackPush(Type type) {
 		stack.push(type);
 		printStack(stack);
 	}
@@ -87,18 +87,18 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	@Override
-	public Type localsStoreAccess(int localsIndex) {
-		return locals.accessStoreType(localsIndex, labelCurrent);
+	public Type localsStoreAccess(int localsIndex, Type type) {
+		return locals.accessStoreType(localsIndex, type, labelCurrent);
 	}
 
 	@Override
 	public void define(String name, GenericClazz clazz) {
-		locals.push(name, clazz);
+		locals.define(name, clazz);
 	}
 
 	@Override
 	public void define(Annotation annotation, String name, GenericClazz clazz) {
-		locals.push(annotation, name, clazz);
+		locals.define(annotation, name, clazz);
 	}
 	
 	@Override
@@ -304,7 +304,7 @@ public class MethodCodeBuilder implements MethodCode {
 			 * Type.getType("(Lorg/jdbi/v3/core/Handle;)Ljava/util/List;")});
 			 */
 
-			startPush(typeOf(this.returnClazz));
+			stackPush(typeOf(this.returnClazz));
 		}
 
 	}

@@ -240,13 +240,13 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void preapareMethodWithParams() {
 		for (ClassField field : params) {
-			mhLocals.push(field.name, field.clazz, labelCurrent);
+			mhLocals.pushParameter(field.name,field.clazz, labelCurrent);
 		}
 	}
 
 	protected void preapareMethodWithThis() {
 		if (thisMethod.instanceMethod) {
-			mhLocals.push("this", GenericClazz.generic(thisMethod.type.getClassName()), labelCurrent);
+			mhLocals.pushParameter("this", thisMethod.type, labelCurrent);
 		}
 	}
 
