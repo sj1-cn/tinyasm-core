@@ -55,29 +55,29 @@ public class RefineCode {
 	}
 
 	public static String excludeLocalVariable(String input) {
-		input = input.replaceAll("mv.visitLocalVariable[^\\n]*;\\n", "");
+		input = input.replaceAll("methodVisitor.visitLocalVariable[^\\n]*;\\n", "");
 		return input;
 	}
 	public static String excludeLineNumber(String input) {
-		input = input.replaceAll("mv.visitParameter[^\\n]*;\\n", "");
-//		input = input.replaceAll("mv.visitLocalVariable[^\\n]*;\\n", "");
+		input = input.replaceAll("methodVisitor.visitParameter[^\\n]*;\\n", "");
+//		input = input.replaceAll("methodVisitor.visitLocalVariable[^\\n]*;\\n", "");
 		input = input.replaceAll("LineNumber\\([0-9]*\\,", "LineNumber(1,");
 
 //		input = input.replaceAll("Label l1 = new Label\\(\\)[^\\n]*;\\n", "");
-//		input = input.replaceAll("mv.visitLabel\\(l1\\)[^\\n]*;\\n", "");
+//		input = input.replaceAll("methodVisitor.visitLabel\\(l1\\)[^\\n]*;\\n", "");
 
-//		input = input.replaceAll("mv.visitMaxs[^\\n]*;\\n", "");
-		input = input.replaceAll("mv.visitFrame[^\\n]*;\\n", "");
+//		input = input.replaceAll("methodVisitor.visitMaxs[^\\n]*;\\n", "");
+		input = input.replaceAll("methodVisitor.visitFrame[^\\n]*;\\n", "");
 
-		input = input.replaceAll("mv.visitLocalVariable\\(\\\"this\\$0\\\"[^\\n]*;\\n", "");
+		input = input.replaceAll("methodVisitor.visitLocalVariable\\(\\\"this\\$0\\\"[^\\n]*;\\n", "");
 		
 		input = input.replaceAll(
-				visit("mv.visitLocalVariable", TYPE.STRING, TYPE.STRING, TYPE.STRING, TYPE.NAME, TYPE.NAME, TYPE.NAME),
-				"mv.visitLocalVariable($1,$2,$3,l0,l1,$6);\n");
+				visit("methodVisitor.visitLocalVariable", TYPE.STRING, TYPE.STRING, TYPE.STRING, TYPE.NAME, TYPE.NAME, TYPE.NAME),
+				"methodVisitor.visitLocalVariable($1,$2,$3,l0,l1,$6);\n");
 //		add(,
 //				);
 //		
-//		mv.visitLocalVariable("this", "Lnebula/module/UserJdbcRepository;", null, l0, l1, 0);
+//		methodVisitor.visitLocalVariable("this", "Lnebula/module/UserJdbcRepository;", null, l0, l1, 0);
 
 		return input;
 	}
@@ -170,8 +170,8 @@ public class RefineCode {
 			add(visit("mv = cw.visitMethod", TYPE.ACCESS, TYPE.STRING, TYPE.PARAMS_RET, TYPE.STRING, TYPE.CLAZZARRAY),
 					"cw.method($1,$2).parameter(\"name\",\"$3\").reTurn(\"$4\")/*$5*//*$6*/\n");
 
-			add("mv.visitCode\\(\\);", ".code(mv -> {");
-			add("mv.visitEnd\\(\\);", "});");
+			add("methodVisitor.visitCode\\(\\);", ".code(mv -> {");
+			add("methodVisitor.visitEnd\\(\\);", "});");
 			add("\\.reTurn\\(V\\)", "");
 			add("/\\*null\\*/", "");
 
@@ -180,70 +180,70 @@ public class RefineCode {
 		}
 		{
 			add("Label l\\d* = new Label\\(\\);\n", "");
-			add("mv.visitLabel\\(l\\d*\\);\n", "");
-			add(visit("mv.visitLabel", TYPE.NAME), "");
-			add(visit("mv.visitLineNumber", TYPE.INT, TYPE.NAME), "mv.line();\n");
-			add(visit("mv.visitMaxs", TYPE.INT, TYPE.INT), "");
-			add(visit("mv.visitTypeInsn", "NEW", TYPE.STRING), "mv.NEW($1);\n");
-			add(visit("mv.visitInsn", "DUP"), "mv.DUP();\n");
-			add(visit("mv.visitInsn", "POP"), "mv.POP();\n");
-			add(visit("mv.visitInsn", "RETURN"), "mv.RETURN();\n");
-			add(visit("mv.visitInsn", "[A|I|L|F|D]RETURN"), "mv.RETURNTop();\n");
+			add("methodVisitor.visitLabel\\(l\\d*\\);\n", "");
+			add(visit("methodVisitor.visitLabel", TYPE.NAME), "");
+			add(visit("methodVisitor.visitLineNumber", TYPE.INT, TYPE.NAME), "methodVisitor.line();\n");
+			add(visit("methodVisitor.visitMaxs", TYPE.INT, TYPE.INT), "");
+			add(visit("methodVisitor.visitTypeInsn", "NEW", TYPE.STRING), "methodVisitor.NEW($1);\n");
+			add(visit("methodVisitor.visitInsn", "DUP"), "methodVisitor.DUP();\n");
+			add(visit("methodVisitor.visitInsn", "POP"), "methodVisitor.POP();\n");
+			add(visit("methodVisitor.visitInsn", "RETURN"), "methodVisitor.RETURN();\n");
+			add(visit("methodVisitor.visitInsn", "[A|I|L|F|D]RETURN"), "methodVisitor.RETURNTop();\n");
 
-			add(visit("mv.visitVarInsn", "[A|I|L|F|D]LOAD", TYPE.INT), "mv.LOAD($1);\n");
-			add(visit("mv.visitVarInsn", "[A|I|L|F|D]STORE", TYPE.INT), "mv.STORE($1);\n");
+			add(visit("methodVisitor.visitVarInsn", "[A|I|L|F|D]LOAD", TYPE.INT), "methodVisitor.LOAD($1);\n");
+			add(visit("methodVisitor.visitVarInsn", "[A|I|L|F|D]STORE", TYPE.INT), "methodVisitor.STORE($1);\n");
 
-			add(visit("mv.visitInsn", "AASTORE"), "mv.ARRAYSTORE();\n");
+			add(visit("methodVisitor.visitInsn", "AASTORE"), "methodVisitor.ARRAYSTORE();\n");
 
-			add(visit("mv.visitInsn", "ATHROW"), "mv.ATHROW();\n");
+			add(visit("methodVisitor.visitInsn", "ATHROW"), "methodVisitor.ATHROW();\n");
 
-			add(visit("mv.visitInsn", "[A|I|L|F|D]ADD"), "mv.ADD();\n");
-			add(visit("mv.visitInsn", "[A|I|L|F|D]SUB"), "mv.SUB();\n");
-			add(visit("mv.visitInsn", "[A|I|L|F|D]MUL"), "mv.MUL();\n");
-			add(visit("mv.visitInsn", "[A|I|L|F|D]DIV"), "mv.DIV();\n");
-			add(visit("mv.visitInsn", "[A|I|L|F|D]REM"), "mv.REM();\n");
-			add(visit("mv.visitInsn", "[A|I|L|F|D]AND"), "mv.AND();\n");
-			add(visit("mv.visitInsn", "[A|I|L|F|D]OR"), "mv.OR();\n");
-			add(visit("mv.visitInsn", "[A|I|L|F|D]XOR"), "mv.XOR();\n");
-			add(visit("mv.visitInsn", "[A|I|L|F|D]SHL"), "mv.SHL();\n");
-			add(visit("mv.visitInsn", "[A|I|L|F|D]SHR"), "mv.SHR();\n");
-			add(visit("mv.visitInsn", "(\\w2\\w)"), "mv.$1();\n");
+			add(visit("methodVisitor.visitInsn", "[A|I|L|F|D]ADD"), "methodVisitor.ADD();\n");
+			add(visit("methodVisitor.visitInsn", "[A|I|L|F|D]SUB"), "methodVisitor.SUB();\n");
+			add(visit("methodVisitor.visitInsn", "[A|I|L|F|D]MUL"), "methodVisitor.MUL();\n");
+			add(visit("methodVisitor.visitInsn", "[A|I|L|F|D]DIV"), "methodVisitor.DIV();\n");
+			add(visit("methodVisitor.visitInsn", "[A|I|L|F|D]REM"), "methodVisitor.REM();\n");
+			add(visit("methodVisitor.visitInsn", "[A|I|L|F|D]AND"), "methodVisitor.AND();\n");
+			add(visit("methodVisitor.visitInsn", "[A|I|L|F|D]OR"), "methodVisitor.OR();\n");
+			add(visit("methodVisitor.visitInsn", "[A|I|L|F|D]XOR"), "methodVisitor.XOR();\n");
+			add(visit("methodVisitor.visitInsn", "[A|I|L|F|D]SHL"), "methodVisitor.SHL();\n");
+			add(visit("methodVisitor.visitInsn", "[A|I|L|F|D]SHR"), "methodVisitor.SHR();\n");
+			add(visit("methodVisitor.visitInsn", "(\\w2\\w)"), "methodVisitor.$1();\n");
 
-			add(visit("mv.visitIntInsn", "BIPUSH", TYPE.INT), "mv.LOADConst($1);\n");
+			add(visit("methodVisitor.visitIntInsn", "BIPUSH", TYPE.INT), "methodVisitor.LOADConst($1);\n");
 
-			add(visit("mv.visitTypeInsn", "NEW", TYPE.STRING), "mv.NEW($1);\n");
-			add(visit("mv.visitTypeInsn", "CHECKCAST", TYPE.STRING), "mv.CHECKCAST($1);\n");
+			add(visit("methodVisitor.visitTypeInsn", "NEW", TYPE.STRING), "methodVisitor.NEW($1);\n");
+			add(visit("methodVisitor.visitTypeInsn", "CHECKCAST", TYPE.STRING), "methodVisitor.CHECKCAST($1);\n");
 
-			add("mv.visitInsn\\(ICONST_(\\d*)\\);\n", "mv.LOADConst($1);\n");
+			add("methodVisitor.visitInsn\\(ICONST_(\\d*)\\);\n", "methodVisitor.LOADConst($1);\n");
 
-			add(visit("mv.visitFieldInsn", "PUTSTATIC", TYPE.STRING, TYPE.STRING, TYPE.STRING),
-					"mv.PUTSTATIC($1,$2,$3);\n");
+			add(visit("methodVisitor.visitFieldInsn", "PUTSTATIC", TYPE.STRING, TYPE.STRING, TYPE.STRING),
+					"methodVisitor.PUTSTATIC($1,$2,$3);\n");
 
-			add(visit("mv.visitFieldInsn", "GETSTATIC", TYPE.STRING, TYPE.STRING, TYPE.STRING),
-					"mv.GETSTATIC($1,$2,$3);\n");
+			add(visit("methodVisitor.visitFieldInsn", "GETSTATIC", TYPE.STRING, TYPE.STRING, TYPE.STRING),
+					"methodVisitor.GETSTATIC($1,$2,$3);\n");
 
-			add(visit("mv.visitFieldInsn", "PUTFIELD", TYPE.STRING, TYPE.STRING, TYPE.STRING), "mv.PUTFIELD($2,$3);\n");
+			add(visit("methodVisitor.visitFieldInsn", "PUTFIELD", TYPE.STRING, TYPE.STRING, TYPE.STRING), "methodVisitor.PUTFIELD($2,$3);\n");
 
-			add(visit("mv.visitFieldInsn", "GETFIELD", TYPE.STRING, TYPE.STRING, TYPE.STRING), "mv.GETFIELD($2,$3);\n");
+			add(visit("methodVisitor.visitFieldInsn", "GETFIELD", TYPE.STRING, TYPE.STRING, TYPE.STRING), "methodVisitor.GETFIELD($2,$3);\n");
 
-			add(visit("mv.visitLdcInsn", TYPE.STRING), "mv.LOADConst($1);\n");
+			add(visit("methodVisitor.visitLdcInsn", TYPE.STRING), "methodVisitor.LOADConst($1);\n");
 
-			add("mv.visitLdcInsn\\((new Long\\(\\d*L\\))\\);", "mv.LOADConst($1);\n");
+			add("methodVisitor.visitLdcInsn\\((new Long\\(\\d*L\\))\\);", "methodVisitor.LOADConst($1);\n");
 
-			add(visit("mv.visitLocalVariable", "\\\"this\\\"", TYPE.STRING, TYPE.STRING, TYPE.NAME, TYPE.NAME,
+			add(visit("methodVisitor.visitLocalVariable", "\\\"this\\\"", TYPE.STRING, TYPE.STRING, TYPE.NAME, TYPE.NAME,
 					TYPE.INT), "");
 
-			add(visit("mv.visitLocalVariable", TYPE.STRING, TYPE.STRING, TYPE.STRING, TYPE.NAME, TYPE.NAME, TYPE.INT),
-					"mv.define($1,$2);/*$6*/\n");
+			add(visit("methodVisitor.visitLocalVariable", TYPE.STRING, TYPE.STRING, TYPE.STRING, TYPE.NAME, TYPE.NAME, TYPE.INT),
+					"methodVisitor.define($1,$2);/*$6*/\n");
 
-			add(visit("mv.visitMethodInsn", "INVOKESPECIAL", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
-					"mv.SPECIAL($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
-			add(visit("mv.visitMethodInsn", "INVOKESTATIC", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
-					"mv.STATIC($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
-			add(visit("mv.visitMethodInsn", "INVOKEVIRTUAL", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
-					"mv.VIRTUAL($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
-			add(visit("mv.visitMethodInsn", "INVOKEINTERFACE", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
-					"mv.INTERFACE($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
+			add(visit("methodVisitor.visitMethodInsn", "INVOKESPECIAL", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
+					"methodVisitor.SPECIAL($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
+			add(visit("methodVisitor.visitMethodInsn", "INVOKESTATIC", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
+					"methodVisitor.STATIC($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
+			add(visit("methodVisitor.visitMethodInsn", "INVOKEVIRTUAL", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
+					"methodVisitor.VIRTUAL($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
+			add(visit("methodVisitor.visitMethodInsn", "INVOKEINTERFACE", TYPE.STRING, TYPE.STRING, TYPE.PARAMS_RET, TYPE.BOOLEAN),
+					"methodVisitor.INTERFACE($1,$2).parameter(\"$3\").reTurn(\"$4\").INVOKE();\n");
 
 			add("\\.parameter\\(\"\"\\)", "");
 			add("\\.parameter\\(\"J\"\\)", ".parameter(long.class)");
@@ -302,7 +302,7 @@ public class RefineCode {
 	public static String skipToString(String input) {
 //		input = input.replaceAll("\\n", "<br/>");
 //		input = input.replaceAll("(\\{<br/>mv = cw.visitMethod\\()", "\n<method>$1");
-//		input = input.replaceAll("(mv.visitEnd\\(\\);<br/>})", "$1</method>\n");
+//		input = input.replaceAll("(methodVisitor.visitEnd\\(\\);<br/>})", "$1</method>\n");
 //
 //		input = input.replaceAll("(<method>\\{<br/>mv = cw.visitMethod\\(ACC_PUBLIC, \"toString\",[^\\n]*)", "");
 //
@@ -327,7 +327,7 @@ public class RefineCode {
 
 		return sb.toString();
 
-//			String match = "mv.visit(\\w*)\\((\\w*), ([^,]*), ([^,]*), ([^,]*), ([^,]*)\\);";
+//			String match = "methodVisitor.visit(\\w*)\\((\\w*), ([^,]*), ([^,]*), ([^,]*), ([^,]*)\\);";
 
 	}
 
@@ -346,7 +346,7 @@ public class RefineCode {
 
 		return sb.toString();
 
-//			String match = "mv.visit(\\w*)\\((\\w*), ([^,]*), ([^,]*), ([^,]*), ([^,]*)\\);";
+//			String match = "methodVisitor.visit(\\w*)\\((\\w*), ([^,]*), ([^,]*), ([^,]*), ([^,]*)\\);";
 
 	}
 }

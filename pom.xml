@@ -68,15 +68,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm-all</artifactId>
-			<version>5.2</version>
+			<artifactId>asm-util</artifactId>
+			<version>${asm.version}</version>
 			<scope>test</scope>
 		</dependency>
-<!-- 		<dependency>
-			<groupId>nebula</groupId>
-			<artifactId>nebula-commons</artifactId>
-			<version>${nebula.version}</version>
-		</dependency> -->
 	</dependencies>
 
 	<build>
