@@ -59,7 +59,7 @@ public class InstanceImpl implements Instance {
 
 	@Override
 	public Instance boxWhenNeed() {
-		return mv.box();
+		return mv.boxTop();
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class InstanceImpl implements Instance {
 
 	@Override
 	public Instance unbox() {
-		return mv.unbox();
+		return mv.unboxTop();
 	}
 
 	@Override

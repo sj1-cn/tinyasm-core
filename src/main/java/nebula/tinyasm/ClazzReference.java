@@ -1,5 +1,5 @@
 package nebula.tinyasm;
 
-public interface Clazz {
+public interface ClazzReference {
 	InvokerPrepare call(String methodName);
 }

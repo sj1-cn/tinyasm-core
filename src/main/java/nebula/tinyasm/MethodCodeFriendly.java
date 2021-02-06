@@ -5,9 +5,9 @@ import java.util.function.Consumer;
 public interface MethodCodeFriendly extends WithDefineVar {
 	Instance loadThis();
 	
-	Instance box();
+	Instance boxTop();
 	
-	Instance unbox();
+	Instance unboxTop();
 
 	MethodCodeFriendly line(int line);
 
@@ -75,9 +75,9 @@ public interface MethodCodeFriendly extends WithDefineVar {
 
 	void setConst(String varname, long cst);
 
-	Clazz clazz(Class<?> clazz);
+	ClazzReference clazz(Class<?> clazz);
 
-	Clazz clazz(String clazz);
+	ClazzReference clazz(String clazz);
 
 	Instance load(String varname);
 

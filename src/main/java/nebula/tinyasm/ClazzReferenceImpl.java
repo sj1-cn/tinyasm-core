@@ -3,11 +3,11 @@ package nebula.tinyasm;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class ClazzImpl implements Clazz{
+public class ClazzReferenceImpl implements ClazzReference{
 	final MethodCode mv;
 	final Type clazz;
 
-	public ClazzImpl(MethodCode mv, Type clazz) {
+	public ClazzReferenceImpl(MethodCode mv, Type clazz) {
 		super();
 		this.mv = mv;
 		this.clazz = clazz;

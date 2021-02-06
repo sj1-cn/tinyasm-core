@@ -173,14 +173,14 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	 */
 
 	@Override
-	default Instance box() {
+	default Instance boxTop() {
 		Type topType = codeGetStackType(0);
 		BoxUnbox.box(topType).accept(this);
 		return topInstance();
 	}
 
 	@Override
-	default Instance unbox() {
+	default Instance unboxTop() {
 		Type topType = codeGetStackType(0);
 		BoxUnbox.unbox(topType).accept(this);
 		return topInstance();
@@ -300,13 +300,13 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 
 	@Override
-	default Clazz clazz(Class<?> clazz) {
-		return new ClazzImpl(this, typeOf(clazz));
+	default ClazzReference clazz(Class<?> clazz) {
+		return new ClazzReferenceImpl(this, typeOf(clazz));
 	}
 
 	@Override
-	default Clazz clazz(String clazz) {
-		return new ClazzImpl(this, typeOf(clazz));
+	default ClazzReference clazz(String clazz) {
+		return new ClazzReferenceImpl(this, typeOf(clazz));
 	}
 
 	@Override
