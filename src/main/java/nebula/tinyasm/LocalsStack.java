@@ -7,7 +7,7 @@ import java.util.Stack;
 
 import org.objectweb.asm.Label;
 
-class LocalsStack implements Iterable<LocalsVariable> {
+public class LocalsStack implements Iterable<LocalsVariable> {
 	Stack<LocalsVariable> stack = new Stack<>();
 	Map<String, LocalsVariable> maps = new HashMap<>();
 
