@@ -27,12 +27,10 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package nebula.tinyasm.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import static org.objectweb.asm.Opcodes.*;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ConstantDynamic;
@@ -46,12 +44,6 @@ import org.objectweb.asm.util.Printer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.objectweb.asm.Opcodes.*;
-
-import nebula.tinyasm.ClassBody;
-import nebula.tinyasm.ClassBuilder;
-import nebula.tinyasm.ClassField;
-import nebula.tinyasm.MethodCode;
 import nebula.tinyasm.util.TinyLocalsStack.Var;
 
 /**
@@ -76,29 +68,29 @@ public class TinyASMifier extends Printer {
 
 	private static final String ANNOTATION_VISITOR = "annotationVisitor";
 	private static final String ANNOTATION_VISITOR0 = "annotationVisitor0 = ";
-	private static final String NEW_OBJECT_ARRAY = ", new Object[] {";
+//	private static final String NEW_OBJECT_ARRAY = ", new Object[] {";
 	private static final String END_ARRAY = " });\n";
 	private static final String END_PARAMETERS = ");\n\n";
 	private static final String VISIT_END = ".visitEnd();\n";
 //	private static final String VISIT_END = ".visitEnd();\n";
 
-	private static final Map<Integer, String> CLASS_VERSIONS;
-
-	static {
-		HashMap<Integer, String> classVersions = new HashMap<Integer, String>();
-		classVersions.put(Opcodes.V1_1, "V1_1");
-		classVersions.put(Opcodes.V1_2, "V1_2");
-		classVersions.put(Opcodes.V1_3, "V1_3");
-		classVersions.put(Opcodes.V1_4, "V1_4");
-		classVersions.put(Opcodes.V1_5, "V1_5");
-		classVersions.put(Opcodes.V1_6, "V1_6");
-		classVersions.put(Opcodes.V1_7, "V1_7");
-		classVersions.put(Opcodes.V1_8, "V1_8");
-		classVersions.put(Opcodes.V9, "V9");
-		classVersions.put(Opcodes.V10, "V10");
-		classVersions.put(Opcodes.V11, "V11");
-		CLASS_VERSIONS = Collections.unmodifiableMap(classVersions);
-	}
+//	private static final Map<Integer, String> CLASS_VERSIONS;
+//
+//	static {
+//		HashMap<Integer, String> classVersions = new HashMap<Integer, String>();
+//		classVersions.put(Opcodes.V1_1, "V1_1");
+//		classVersions.put(Opcodes.V1_2, "V1_2");
+//		classVersions.put(Opcodes.V1_3, "V1_3");
+//		classVersions.put(Opcodes.V1_4, "V1_4");
+//		classVersions.put(Opcodes.V1_5, "V1_5");
+//		classVersions.put(Opcodes.V1_6, "V1_6");
+//		classVersions.put(Opcodes.V1_7, "V1_7");
+//		classVersions.put(Opcodes.V1_8, "V1_8");
+//		classVersions.put(Opcodes.V9, "V9");
+//		classVersions.put(Opcodes.V10, "V10");
+//		classVersions.put(Opcodes.V11, "V11");
+//		CLASS_VERSIONS = Collections.unmodifiableMap(classVersions);
+//	}
 
 	/** The name of the visitor variable in the produced code. */
 	protected final String visitname;
@@ -191,6 +183,7 @@ public class TinyASMifier extends Printer {
 		text.add("import nebula.tinyasm.ClassBody;\n");
 		text.add("import nebula.tinyasm.ClassBuilder;\n");
 		text.add("import nebula.tinyasm.MethodCode;\n");
+		text.add("import static org.objectweb.asm.Opcodes.*;\n");
 
 		text.add("public class " + simpleName + "TinyAsmDump {\n\n");
 		text.add("public static byte[] dump () throws Exception {\n\n");
@@ -324,17 +317,17 @@ public class TinyASMifier extends Printer {
 		text.add(stringBuilder.toString());
 	}
 
-	private String clazzOf(String description) {
-		logger.debug("clazzOf({})", description);
-		switch (description) {
-		case "I":
-			return "int.class";
-
-		default:
-			break;
-		}
-		return null;
-	}
+//	private String clazzOf(String description) {
+//		logger.trace("clazzOf({})", description);
+//		switch (description) {
+//		case "I":
+//			return "int.class";
+//
+//		default:
+//			break;
+//		}
+//		return null;
+//	}
 
 	static Map<String, String> typeMaps = new HashMap<>();
 	static {
@@ -346,13 +339,28 @@ public class TinyASMifier extends Printer {
 		typeMaps.put("J", "long.class");
 		typeMaps.put("F", "float.class");
 		typeMaps.put("D", "double.class");
+		typeMaps.put("[Z", "boolean[].class");
+		typeMaps.put("[B", "byte[].class");
+		typeMaps.put("[C", "char[].class");
+		typeMaps.put("[S", "short[].class");
+		typeMaps.put("[I", "int[].class");
+		typeMaps.put("[J", "long[].class");
+		typeMaps.put("[F", "float[].class");
+		typeMaps.put("[D", "double[].class");
 	}
 
 	private String clazzOf(Type type) {
 		logger.trace("clazzOf({})", type);
 		if (typeMaps.containsKey(type.getInternalName())) {
 			return typeMaps.get(type.getInternalName());
+		} else if (type.getSort() == Type.ARRAY && type.getElementType().getSort() == Type.OBJECT) {
+			logger.debug("{} Array", type.getElementType());
+			return type.getElementType().getClassName() + "[].class";
+		} else if (type.getSort() == Type.OBJECT) {
+			return type.getClassName() + ".class";
 		}
+
+//		Class<?> c = char[].class.isar;
 		return "unknown.class";
 //		switch (description) {
 //		case "I":
@@ -454,7 +462,6 @@ public class TinyASMifier extends Printer {
 //			stringBuilder.append("null");
 //		}
 		stringBuilder.append(")");
-
 
 //		methodParams = new Param[params.length];
 		if (params.length > 0) {
@@ -814,7 +821,7 @@ public class TinyASMifier extends Printer {
 		case NOP: // 0; // visitInsn
 		case ACONST_NULL: // 1; // -
 		case ICONST_M1: // 2; // -
-			stringBuilder.append(visitname).append(".visitInsn(").append(OPCODES[opcode]).append(");\n");
+			stringBuilder.append(visitname).append(".LOADConst(-1);\n");
 			break;
 
 		case ICONST_0: // 3; // -
@@ -1052,13 +1059,44 @@ public class TinyASMifier extends Printer {
 
 		switch (opcode) {
 		case BIPUSH: // 16; // visitIntInsn
-			stringBuilder.append(visitname).append(".LOADConst(").append(Integer.toString(operand)).append(");\n");
+			stringBuilder.append(visitname).append(".LOADConst(").append(operand).append(");\n");
 			break;
 		case SIPUSH: // 17; // -
-			stringBuilder.append(visitname).append(".LOADConst(").append(Integer.toString(operand)).append(");\n");
+			stringBuilder.append(visitname).append(".LOADConst(").append(operand).append(");\n");
 			break;
 
 		case NEWARRAY: // 188; // visitIntInsn
+			switch (operand) {
+			case T_BOOLEAN:// 4;
+				stringBuilder.append(visitname).append(".NEWARRAY(").append("boolean.class").append(");\n");
+				break;
+			case T_CHAR:// 5;
+				stringBuilder.append(visitname).append(".NEWARRAY(").append("char.class").append(");\n");
+				break;
+			case T_FLOAT:// 6;
+				stringBuilder.append(visitname).append(".NEWARRAY(").append("float.class").append(");\n");
+				break;
+			case T_DOUBLE:// 7;
+				stringBuilder.append(visitname).append(".NEWARRAY(").append("double.class").append(");\n");
+				break;
+			case T_BYTE:// 8;
+				stringBuilder.append(visitname).append(".NEWARRAY(").append("byte.class").append(");\n");
+				break;
+			case T_SHORT:// 9;
+				stringBuilder.append(visitname).append(".NEWARRAY(").append("short.class").append(");\n");
+				break;
+			case T_INT:// 10;
+				stringBuilder.append(visitname).append(".NEWARRAY(").append("int.class").append(");\n");
+				break;
+			case T_LONG:// 11;
+				stringBuilder.append(visitname).append(".NEWARRAY(").append("long.class").append(");\n");
+				break;
+
+			default:
+				stringBuilder.append(visitname).append(".NEWARRAY(").append(TYPES[operand]).append(");\n");
+				break;
+			}
+			break;
 		default:
 			stringBuilder.append(visitname).append(".visitIntInsn(").append(OPCODES[opcode]).append(", ")
 					.append(opcode == Opcodes.NEWARRAY ? TYPES[operand] : Integer.toString(operand)).append(");\n");
@@ -1071,25 +1109,31 @@ public class TinyASMifier extends Printer {
 		stringBuilder.setLength(0);
 //		stringBuilder.append(name).append(".visitVarInsn(").append(OPCODES[opcode]).append(", ").append(var)
 //				.append(");\n");
-		Var localVar;
-		switch (opcode) {
-		case ILOAD: // 21; // visitVarInsn
-		case ALOAD: // 25; // -
-			 localVar =mdLocals.accessLoad(var, 1);
-				stringBuilder.append(visitname).append(".LOAD(\"");
-				if (var == 0) stringBuilder.append("this");
-				else {
-					text.add(stringBuilder.toString());
-					text.add(localVar);
-					stringBuilder.setLength(0);
-				}
-				stringBuilder.append("\");\n");
+		Var localVar = null;
+		if (ILOAD <= opcode && opcode <= ALOAD) {
+			switch (opcode) {
+			case ILOAD: // 21; // visitVarInsn
+				localVar = mdLocals.accessLoad(var, 1);
+				break;
+			case LLOAD: // 22; // -
+				localVar = mdLocals.accessLoad(var, 2);
+				break;
+			case FLOAD: // 23; // -
+				localVar = mdLocals.accessLoad(var, 2);
+				break;
+			case DLOAD: // 24; // -
+				localVar = mdLocals.accessLoad(var, 2);
+				break;
+			case ALOAD: // 25; // -
+				localVar = mdLocals.accessLoad(var, 1);
+				break;
+			}
+			if (localVar.count == 1) {
 				text.add(stringBuilder.toString());
-			break;
-		case LLOAD: // 22; // -
-		case FLOAD: // 23; // -
-		case DLOAD: // 24; // -
-			 localVar =mdLocals.accessLoad(var, 2);
+				text.add(new DefineVar(localVar));
+				stringBuilder.setLength(0);
+			}
+
 			stringBuilder.append(visitname).append(".LOAD(\"");
 			if (var == 0) stringBuilder.append("this");
 			else {
@@ -1099,43 +1143,57 @@ public class TinyASMifier extends Printer {
 			}
 			stringBuilder.append("\");\n");
 			text.add(stringBuilder.toString());
-			break;
-		case ISTORE: // 54; // visitVarInsn
-		case ASTORE: // 58; // -
-			 localVar =	mdLocals.accessStore(var, 1);
-				stringBuilder.append(visitname).append(".STORE(\"");
-				if (var == 0) stringBuilder.append("this");
-				else {
-					text.add(stringBuilder.toString());
-					text.add(localVar);
-					stringBuilder.setLength(0);
-				}
-				stringBuilder.append("\");\n");
+		} else if (ISTORE <= opcode && opcode <= ASTORE) {
+			switch (opcode) {
+			case ISTORE: // 54; // visitVarInsn
+				localVar = mdLocals.accessStore(var, 1);
+				break;
+			case LSTORE: // 55; // -
+				localVar = mdLocals.accessStore(var, 2);
+				break;
+			case FSTORE: // 56; // -
+				localVar = mdLocals.accessStore(var, 2);
+				break;
+			case DSTORE: // 57; // -
+				localVar = mdLocals.accessStore(var, 2);
+				break;
+			case ASTORE: // 58; // -
+				localVar = mdLocals.accessStore(var, 1);
+				break;
+			}
+			if (localVar.count == 1) {
 				text.add(stringBuilder.toString());
-			break;
-		case LSTORE: // 55; // -
-		case FSTORE: // 56; // -
-		case DSTORE: // 57; // -
-			 localVar = mdLocals.accessStore(var, 2);
-				stringBuilder.append(visitname).append(".STORE(\"");
-				if (var == 0) stringBuilder.append("this");
-				else {
-					text.add(stringBuilder.toString());
-					text.add(localVar);
-					stringBuilder.setLength(0);
-				}
-				stringBuilder.append("\");\n");
+				text.add(new DefineVar(localVar));
+				stringBuilder.setLength(0);
+			}
+			stringBuilder.append(visitname).append(".STORE(\"");
+			if (var == 0) stringBuilder.append("this");
+			else {
 				text.add(stringBuilder.toString());
-			break;
-		case RET: // 169; // visitVarInsn
-			break;
-
-		default:
+				text.add(localVar);
+				stringBuilder.setLength(0);
+			}
+			stringBuilder.append("\");\n");
+			text.add(stringBuilder.toString());
+		} else if (opcode == RET) {// 169; // visitVarInsn
 
 			stringBuilder.append(visitname).append(".visitVarInsn(").append(OPCODES[opcode]).append(", ").append(var).append(");\n");
-			break;
+
 		}
 
+	}
+
+	class DefineVar {
+		Var var;
+
+		public DefineVar(Var var) {
+			this.var = var;
+		}
+
+		@Override
+		public String toString() {
+			return visitname + ".define(\"" + var.name + "\"," + var.type.getClassName() + ".class);\n";
+		}
 	}
 
 	@Override
@@ -1143,19 +1201,42 @@ public class TinyASMifier extends Printer {
 		switch (opcode) {
 
 		case NEW: // 187; // visitTypeInsn
+			stringBuilder.setLength(0);
+			stringBuilder.append(visitname).append(".NEW(");
+			stringBuilder.append(type.replace('/', '.'));
+			stringBuilder.append(".class);\n");
+			text.add(stringBuilder.toString());
+			break;
 		case ANEWARRAY: // 189; // visitTypeInsn
+			stringBuilder.setLength(0);
+			stringBuilder.append(visitname).append(".NEWARRAY(");
+			stringBuilder.append(type.replace('/', '.'));
+			stringBuilder.append(".class);\n");
+			text.add(stringBuilder.toString());
+			break;
 		case CHECKCAST: // 192; // visitTypeInsn
+			stringBuilder.setLength(0);
+			stringBuilder.append(visitname).append(".CHECKCAST(");
+			stringBuilder.append(type.replace('/', '.'));
+			stringBuilder.append(".class);\n");
+			text.add(stringBuilder.toString());
+			break;
 		case INSTANCEOF: // 193; // -
+			stringBuilder.setLength(0);
+			stringBuilder.append(visitname).append(".INSTANCEOF(");
+			stringBuilder.append(type.replace('/', '.'));
+			stringBuilder.append(".class);\n");
+			text.add(stringBuilder.toString());
 			break;
 
 		default:
+			stringBuilder.setLength(0);
+			stringBuilder.append(visitname).append(".visitTypeInsn(").append(OPCODES[opcode]).append(", ");
+			appendConstant(type);
+			stringBuilder.append(");\n");
+			text.add(stringBuilder.toString());
 			break;
 		}
-		stringBuilder.setLength(0);
-		stringBuilder.append(visitname).append(".visitTypeInsn(").append(OPCODES[opcode]).append(", ");
-		appendConstant(type);
-		stringBuilder.append(");\n");
-		text.add(stringBuilder.toString());
 	}
 
 	@Override
@@ -1183,7 +1264,7 @@ public class TinyASMifier extends Printer {
 			stringBuilder.append(this.visitname).append(".GETFIELD(");
 			appendConstant(name);
 			stringBuilder.append(", ");
-			stringBuilder.append(clazzOf(descriptor));
+			stringBuilder.append(clazzOf(Type.getType(descriptor)));
 			stringBuilder.append(");\n");
 			text.add(stringBuilder.toString());
 			break;
@@ -1203,7 +1284,7 @@ public class TinyASMifier extends Printer {
 			stringBuilder.append(this.visitname).append(".PUTFIELD(");
 			appendConstant(name);
 			stringBuilder.append(", ");
-			stringBuilder.append(clazzOf(descriptor));
+			stringBuilder.append(clazzOf(Type.getType(descriptor)));
 			stringBuilder.append(");\n");
 			text.add(stringBuilder.toString());
 			break;
@@ -1390,7 +1471,7 @@ public class TinyASMifier extends Printer {
 	@Override
 	public void visitLdcInsn(final Object value) {
 		stringBuilder.setLength(0);
-		stringBuilder.append(visitname).append(".visitLdcInsn(");
+		stringBuilder.append(visitname).append(".LOADConst(");
 		appendConstant(value);
 		stringBuilder.append(");\n");
 		text.add(stringBuilder.toString());
@@ -1490,6 +1571,7 @@ public class TinyASMifier extends Printer {
 		if (index < mdLocals.size()) {
 			TinyLocalsStack.Var var = mdLocals.getByLocal(index);
 			var.name = name;
+			var.type = Type.getType(descriptor);
 		}
 //		System.out.println(name + " " + index);
 //		stringBuilder.setLength(0);
@@ -1841,6 +1923,7 @@ public class TinyASMifier extends Printer {
 	 *              {@link Float}, {@link Long} or {@link Double} object, or an
 	 *              array of primitive values. May be <tt>null</tt>.
 	 */
+	@SuppressWarnings("deprecation")
 	protected void appendConstant(final Object value) {
 		if (value == null) {
 			stringBuilder.append("null");
@@ -1948,67 +2031,8 @@ public class TinyASMifier extends Printer {
 		}
 	}
 
-	/**
-	 * Calls {@link #declareLabel} for each label in the given stack map frame
-	 * types.
-	 *
-	 * @param nTypes     the number of stack map frame types in 'frameTypes'.
-	 * @param frameTypes an array of stack map frame types, in the format described
-	 *                   in {@link org.objectweb.asm.MethodVisitor#visitFrame}.
-	 */
-	private void declareFrameTypes(final int nTypes, final Object[] frameTypes) {
-		for (int i = 0; i < nTypes; ++i) {
-			if (frameTypes[i] instanceof Label) {
-				declareLabel((Label) frameTypes[i]);
-			}
-		}
-	}
 
-	/**
-	 * Appends the given stack map frame types to {@link #stringBuilder}.
-	 *
-	 * @param nTypes     the number of stack map frame types in 'frameTypes'.
-	 * @param frameTypes an array of stack map frame types, in the format described
-	 *                   in {@link org.objectweb.asm.MethodVisitor#visitFrame}.
-	 */
-	private void appendFrameTypes(final int nTypes, final Object[] frameTypes) {
-		for (int i = 0; i < nTypes; ++i) {
-			if (i > 0) {
-				stringBuilder.append(", ");
-			}
-			if (frameTypes[i] instanceof String) {
-				appendConstant(frameTypes[i]);
-			} else if (frameTypes[i] instanceof Integer) {
-				switch (((Integer) frameTypes[i]).intValue()) {
-				case 0:
-					stringBuilder.append("Opcodes.TOP");
-					break;
-				case 1:
-					stringBuilder.append("Opcodes.INTEGER");
-					break;
-				case 2:
-					stringBuilder.append("Opcodes.FLOAT");
-					break;
-				case 3:
-					stringBuilder.append("Opcodes.DOUBLE");
-					break;
-				case 4:
-					stringBuilder.append("Opcodes.LONG");
-					break;
-				case 5:
-					stringBuilder.append("Opcodes.NULL");
-					break;
-				case 6:
-					stringBuilder.append("Opcodes.UNINITIALIZED_THIS");
-					break;
-				default:
-					throw new IllegalArgumentException();
-				}
-			} else {
-				appendLabel((Label) frameTypes[i]);
-			}
-		}
-	}
+	
 
 	/**
 	 * Appends a declaration of the given label to {@link #stringBuilder}. This

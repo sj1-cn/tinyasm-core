@@ -22,21 +22,21 @@ public class MethodASMArrayTest extends TestBase {
 		String clazz = MethodASMArraySample.class.getName();
 		ClassBody cw = ClassBuilder.make(clazz).body();
 
-		cw.field("ba", byte.class, true);
-
-		cw.field("ca", char.class, true);
-
-		cw.field("sa", short.class, true);
-
-		cw.field("ia", int.class, true);
+//		cw.field("ba", byte.class, true);
+//
+//		cw.field("ca", char.class, true);
+//
+//		cw.field("sa", short.class, true);
+//
+//		cw.field("ia", int.class, true);
 
 		cw.field("la", long.class, true);
 
-		cw.field("fa", float.class, true);
-
-		cw.field("da", double.class, true);
-
-		cw.field("stra", String.class, true);
+//		cw.field("fa", float.class, true);
+//
+//		cw.field("da", double.class, true);
+//
+//		cw.field("stra", String.class, true);
 
 		cw.method("<init>").code(mv -> {
 			Label l0 = mv.codeNewLabel();
@@ -48,10 +48,10 @@ public class MethodASMArrayTest extends TestBase {
 			mv.visitLabel(l1);
 		});
 //
-//		cw.method("init").code(mv -> {
-//			Label l0 = mv.codeNewLabel();
-//			mv.visitLabel(l0);
-//
+		cw.method("init").code(mv -> {
+			Label l0 = mv.codeNewLabel();
+			mv.visitLabel(l0);
+
 //			mv.line();
 //			mv.LOAD(0);
 //			mv.LOADConstByte(10);
@@ -75,7 +75,7 @@ public class MethodASMArrayTest extends TestBase {
 //			mv.PUTFIELD_OF_THIS("sa");
 //			Label l3 = mv.codeNewLabel();
 //			mv.visitLabel(l3);
-//
+
 //			mv.line();
 //			mv.LOAD(0);
 //			mv.LOADConstByte(10);
@@ -83,14 +83,18 @@ public class MethodASMArrayTest extends TestBase {
 //			mv.PUTFIELD_OF_THIS("ia");
 //			Label l4 = mv.codeNewLabel();
 //			mv.visitLabel(l4);
-//
-//			mv.line();
-//			mv.LOAD(0);
-//			mv.LOADConstByte(10);
-//			mv.NEWARRAY(long.class);
-//			mv.PUTFIELD_OF_THIS("la");
-//			Label l5 = mv.codeNewLabel();
-//			mv.visitLabel(l5);
+
+			mv.line();
+			mv.LOAD(0);
+			mv.LOADConstByte(10);
+			mv.NEWARRAY(long.class);
+			mv.PUTFIELD_OF_THIS("la");
+//			mv.PUTFIELD("la", long[].class);
+			Label l5 = mv.codeNewLabel();
+			mv.visitLabel(l5);
+
+
+			
 //
 //			mv.line();
 //			mv.LOAD(0);
@@ -115,12 +119,12 @@ public class MethodASMArrayTest extends TestBase {
 //			mv.PUTFIELD_OF_THIS("stra");
 //			Label l8 = mv.codeNewLabel();
 //			mv.visitLabel(l8);
-//
-//			mv.line();
-//			mv.RETURN();
-//			Label l9 = mv.codeNewLabel();
-//			mv.visitLabel(l9);
-//		});
+
+			mv.line();
+			mv.RETURN();
+			Label l9 = mv.codeNewLabel();
+			mv.visitLabel(l9);
+		});
 //
 //		cw.method("setArrayValue").code(mv -> {
 //			Label l0 = mv.codeNewLabel();

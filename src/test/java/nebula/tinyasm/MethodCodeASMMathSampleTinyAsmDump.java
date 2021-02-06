@@ -3,6 +3,7 @@ import org.objectweb.asm.Label;
 import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
+import static org.objectweb.asm.Opcodes.*;
 public class MethodCodeASMMathSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {

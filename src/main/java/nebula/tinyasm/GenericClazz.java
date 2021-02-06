@@ -7,31 +7,36 @@ import static nebula.tinyasm.util.TypeUtils.typeOf;
 import org.objectweb.asm.Type;
 
 public class GenericClazz {
-	public String originclazz;
+	public Class<?> originclazz;
+	public String originclazzName;
 	public String[] genericParameterClazz;
 	public String genericClazz;
 	public boolean isarray;
 
-	public GenericClazz(String originclazz, boolean isarray, String[] genericClazz) {
+	public GenericClazz(String originclazzName, boolean isarray, String[] genericClazz) {
 		super();
-		this.originclazz = originclazz;
+		this.originclazzName = originclazzName;
 		this.genericParameterClazz = genericClazz;
 		this.isarray = isarray;
 	}
 
-	public GenericClazz(String originclazz, String[] genericClazz) {
+	public GenericClazz(String originclazzName, String[] genericClazz) {
 		super();
-		this.originclazz = originclazz;
+		this.originclazzName = originclazzName;
 		this.genericParameterClazz = genericClazz;
 	}
 
-	public GenericClazz(String originclazz, String genericBase) {
+	public GenericClazz(String originclazzName, String genericBase) {
 		super();
-		this.originclazz = originclazz;
+		this.originclazzName = originclazzName;
 		this.genericClazz = genericBase;
 	}
 
-	public GenericClazz(String originclazz) {
+	public GenericClazz(String originclazzName) {
+		super();
+		this.originclazzName = originclazzName;
+	}
+	public GenericClazz(Class<?> originclazz) {
 		super();
 		this.originclazz = originclazz;
 	}
@@ -39,18 +44,18 @@ public class GenericClazz {
 	public String signatureAnyway() {
 		String signature;
 		if (genericParameterClazz != null && genericParameterClazz.length > 0) {
-			signature = signatureOf(arrayOf(originclazz, isarray), typeOf(genericParameterClazz));
+			signature = signatureOf(arrayOf(originclazzName, isarray), typeOf(genericParameterClazz));
 		} else if (genericClazz != null) {
 			return typeOf(genericClazz).getDescriptor();
 		} else {
-			signature = typeOf(originclazz).getDescriptor();
+			signature = typeOf(originclazzName).getDescriptor();
 		}
 		return signature;
 	}
 
 	public String signatureWhenNeed() {
 		if (genericParameterClazz != null && genericParameterClazz.length > 0) {
-			return signatureOf(arrayOf(originclazz, isarray), typeOf(genericParameterClazz));
+			return signatureOf(arrayOf(originclazzName, isarray), typeOf(genericParameterClazz));
 		} else if (genericClazz != null) {
 			return typeOf(genericClazz).getDescriptor();
 		} else {
@@ -62,60 +67,60 @@ public class GenericClazz {
 		return (genericParameterClazz != null && genericParameterClazz.length > 0) || genericClazz != null;
 	}
 
-	static public GenericClazz generic(GenericClazz originclazz) {
-		return originclazz;
+	static public GenericClazz generic(GenericClazz originclazzName) {
+		return originclazzName;
 	}
 
-	static public GenericClazz generic(Class<?> originclazz) {
-		return new GenericClazz(classnameOf(originclazz));
+	static public GenericClazz generic(Class<?> originclazzName) {
+		return new GenericClazz(classnameOf(originclazzName));
 	}
 
 	//TODO need fix bug
 	static public GenericClazz generic(Type type) {
 		return new GenericClazz(type.getInternalName());
 	}
-	static public GenericClazz generic(String originclazz) {
-		return new GenericClazz(classnameOf(originclazz));
+	static public GenericClazz generic(String originclazzName) {
+		return new GenericClazz(classnameOf(originclazzName));
 	}
 
-	static public GenericClazz genericBase(Class<?> originclazz, Class<?> genericClass) {
-		return new GenericClazz(classnameOf(originclazz), classnameOf(genericClass));
+	static public GenericClazz genericBase(Class<?> originclazzName, Class<?> genericClass) {
+		return new GenericClazz(classnameOf(originclazzName), classnameOf(genericClass));
 	}
 
-	static public GenericClazz genericBase(Class<?> originclazz, String genericClass) {
-		return new GenericClazz(classnameOf(originclazz), classnameOf(genericClass));
+	static public GenericClazz genericBase(Class<?> originclazzName, String genericClass) {
+		return new GenericClazz(classnameOf(originclazzName), classnameOf(genericClass));
 	}
 
-	static public GenericClazz genericBase(String originclazz, String genericClass) {
-		return new GenericClazz(classnameOf(originclazz), classnameOf(genericClass));
+	static public GenericClazz genericBase(String originclazzName, String genericClass) {
+		return new GenericClazz(classnameOf(originclazzName), classnameOf(genericClass));
 	}
 
-	static public GenericClazz generic(String originclazz, String... genericParameterClazz) {
-		return new GenericClazz(classnameOf(originclazz), genericParameterClazz);
+	static public GenericClazz generic(String originclazzName, String... genericParameterClazz) {
+		return new GenericClazz(classnameOf(originclazzName), genericParameterClazz);
 	}
 
-	static public GenericClazz generic(Class<?> originclazz, String... genericParameterClazz) {
-		return new GenericClazz(classnameOf(originclazz), genericParameterClazz);
+	static public GenericClazz generic(Class<?> originclazzName, String... genericParameterClazz) {
+		return new GenericClazz(classnameOf(originclazzName), genericParameterClazz);
 	}
 
-	static public GenericClazz generic(Class<?> originclazz, Class<?>... genericParameterClazz) {
-		return new GenericClazz(classnameOf(originclazz), classnamesOf(genericParameterClazz));
+	static public GenericClazz generic(Class<?> originclazzName, Class<?>... genericParameterClazz) {
+		return new GenericClazz(classnameOf(originclazzName), classnamesOf(genericParameterClazz));
 	}
 
-	static public GenericClazz generic(Class<?> originclazz, boolean isarray) {
-		return new GenericClazz(classnameOf(originclazz), isarray, null);
+	static public GenericClazz generic(Class<?> originclazzName, boolean isarray) {
+		return new GenericClazz(classnameOf(originclazzName), isarray, null);
 	}
 
-	static public GenericClazz generic(String originclazz, boolean isarray) {
-		return new GenericClazz(classnameOf(originclazz), isarray, null);
+	static public GenericClazz generic(String originclazzName, boolean isarray) {
+		return new GenericClazz(classnameOf(originclazzName), isarray, null);
 	}
 
-	static public GenericClazz generic(Class<?> originclazz, boolean isarray, String[] genericParameterClazz) {
-		return new GenericClazz(classnameOf(originclazz), isarray, genericParameterClazz);
+	static public GenericClazz generic(Class<?> originclazzName, boolean isarray, String[] genericParameterClazz) {
+		return new GenericClazz(classnameOf(originclazzName), isarray, genericParameterClazz);
 	}
 
 	public String getDescriptor() {
-		return arrayOf(originclazz, isarray).getDescriptor();
+		return arrayOf(originclazzName, isarray).getDescriptor();
 	}
 
 }

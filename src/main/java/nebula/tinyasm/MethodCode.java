@@ -571,6 +571,9 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		} else if (Byte.MIN_VALUE <= cst && cst <= Byte.MAX_VALUE) {
 			visitInsn(BIPUSH, cst);
 			stackPush(Type.getType(int.class));
+		} else if (Short.MIN_VALUE <= cst && cst <= Short.MAX_VALUE) {
+			visitInsn(SIPUSH, cst);
+			stackPush(Type.getType(int.class));
 		} else {
 			visitLdcInsn(cst);
 			stackPush(Type.getType(int.class));

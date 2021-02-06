@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import nebula.tinyasm.MethodASMArraySample;
 import nebula.tinyasm.MethodCodeASMLogicSample;
 import nebula.tinyasm.MethodCodeASMMathSample;
+import nebula.tinyasm.MethodCodeASMSimpleSample;
 
 public class TinyASMifierTest extends TinyASMifierTestBase {
 
@@ -56,14 +58,23 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 			
 		}
 	}
-//	@Test
-//	public void testMethodCodeASMSimpleSample() throws Exception {
-//		Class<?> expectedClazz = MethodCodeASMSimpleSample.class;
-//
-//		String codeActual = toString(makeAndDump(expectedClazz));
-//		String codeExpected = toString(expectedClazz);
-//
-//		assertEquals("Code", codeExpected, codeActual);
-//	}
+	@Test
+	public void testMethodCodeASMSimpleSample() throws Exception {
+		Class<?> expectedClazz = MethodCodeASMSimpleSample.class;
+
+		String codeActual = toString(makeAndDump(expectedClazz));
+		String codeExpected = toString(expectedClazz);
+
+		assertEquals("Code", codeExpected, codeActual);
+	}
+	@Test
+	public void testMethodASMArraySample() throws Exception {
+		Class<?> expectedClazz = MethodASMArraySample.class;
+
+		String codeActual = toString(makeAndDump(expectedClazz));
+		String codeExpected = toString(expectedClazz);
+
+		assertEquals("Code", codeExpected, codeActual);
+	}
 	
 }

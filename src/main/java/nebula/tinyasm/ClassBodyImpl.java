@@ -27,7 +27,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		super(Opcodes.ASM5, cv);
 
 		this.thisType = typeOf(header.name);
-		this.superType = typeOf(header.superClazz.originclazz);
+		this.superType = typeOf(header.superClazz.originclazzName);
 		{
 			int version = 53;
 			int access = header.access;
@@ -45,7 +45,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 			String superName = this.superType.getInternalName();
 			String[] interfaces = new String[header.interfaces.size()];
 			for (int i = 0; i < header.interfaces.size(); i++) {
-				interfaces[i] = internalNamelOf(header.interfaces.get(i).originclazz);
+				interfaces[i] = internalNamelOf(header.interfaces.get(i).originclazzName);
 			}
 
 			cv.visit(version, access, name, signature, superName, interfaces);
@@ -66,7 +66,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	@Override
 	public String clazzOfField(String name) {
-		return fields.get(name).clazz.originclazz;
+		return fields.get(name).clazz.originclazzName;
 	}
 
 	@Override

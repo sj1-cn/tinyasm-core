@@ -272,7 +272,7 @@ public class MethodCodeBuilder implements MethodCode {
 
 			Type thisClazzInternalName = mh.thisMethod.type;
 
-			String originDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz.originclazz), typesOf(originMethod.params));
+			String originDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz.originclazzName), typesOf(originMethod.params));
 			String originSignature = Type.getMethodDescriptor(typeOf(originMethod.returnClazz.genericClazz), typesOf(originMethod.params));
 
 			String lambdaDescriptor = Type.getMethodDescriptor(typeOf(this.returnClazz), typesOf(this.params));

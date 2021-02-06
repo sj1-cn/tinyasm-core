@@ -349,11 +349,14 @@ public class TypeUtils {
 //	}
 
 	static public String classnameOf(Class<?> clazz) {
+		if(primaryTypeMaps.containsKey(clazz.getName())) {
+			return primaryTypeMaps.get(clazz.getName()).getInternalName();
+		}
 		return clazz.getName();
 	}
 
 	static public String classnameOf(GenericClazz clazz) {
-		return clazz.originclazz;
+		return clazz.originclazzName;
 	}
 
 	static public String classnameOf(String clazz) {
@@ -375,7 +378,7 @@ public class TypeUtils {
 	static public String[] classnamesOf(GenericClazz... clazzes) {
 		String[] strs = new String[clazzes.length];
 		for (int i = 0; i < clazzes.length; i++) {
-			strs[i] = clazzes[i].originclazz;
+			strs[i] = clazzes[i].originclazzName;
 		}
 		return strs;
 	}
@@ -383,7 +386,7 @@ public class TypeUtils {
 	static public String[] classnamesOf(List<GenericClazz> clazzes) {
 		String[] strs = new String[clazzes.size()];
 		for (int i = 0; i < clazzes.size(); i++) {
-			strs[i] = clazzes.get(i).originclazz;
+			strs[i] = clazzes.get(i).originclazzName;
 		}
 		return strs;
 	}
@@ -427,7 +430,7 @@ public class TypeUtils {
 	}
 
 	static public String internalNamelOf(GenericClazz clazz) {
-		return typeOf(clazz.originclazz).getInternalName();
+		return typeOf(clazz).getInternalName();
 	}
 
 	static public String internalNamelOf(String clazz) {
@@ -469,7 +472,7 @@ public class TypeUtils {
 	static public String[] internalNamesOf(GenericClazz... clazzes) {
 		String[] strs = new String[clazzes.length];
 		for (int i = 0; i < clazzes.length; i++) {
-			strs[i] = typeOf(clazzes[i].originclazz).getInternalName();
+			strs[i] = typeOf(clazzes[i].originclazzName).getInternalName();
 		}
 		return strs;
 	}
@@ -477,7 +480,7 @@ public class TypeUtils {
 	static public String[] internalNamesOf(List<GenericClazz> clazzes) {
 		String[] strs = new String[clazzes.size()];
 		for (int i = 0; i < clazzes.size(); i++) {
-			strs[i] = typeOf(clazzes.get(i).originclazz).getInternalName();
+			strs[i] = typeOf(clazzes.get(i).originclazzName).getInternalName();
 		}
 		return strs;
 	}
@@ -619,18 +622,18 @@ public class TypeUtils {
 	static public Type[] typeOf(Field... fields) {
 		Type[] types = new Type[fields.length];
 		for (int i = 0; i < fields.length; i++) {
-			types[i] = typeOf(fields[i].clazz.originclazz);
+			types[i] = typeOf(fields[i].clazz.originclazzName);
 		}
 		return types;
 	}
 
 	static public Type typeOf(GenericClazz clazz) {
 		if (clazz == null) return Type.VOID_TYPE;
-		String name = clazz.originclazz;
-		if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
+		String name = clazz.originclazzName;
 		if (clazz.isarray) {
 			return Type.getType("[" + Type.getObjectType(name.replace('.', '/')).getDescriptor());
-		}
+		}else 
+			if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
 		return Type.getObjectType(name.replace('.', '/'));
 	}
 
@@ -645,7 +648,7 @@ public class TypeUtils {
 	static public Type[] typeOf(List<Field> fields) {
 		Type[] types = new Type[fields.size()];
 		for (int i = 0; i < fields.size(); i++) {
-			types[i] = typeOf(fields.get(i).clazz.originclazz);
+			types[i] = typeOf(fields.get(i).clazz.originclazzName);
 		}
 		return types;
 	}

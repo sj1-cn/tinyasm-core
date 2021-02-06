@@ -22,7 +22,7 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 		//TODO fix bug
 		Var(GenericClazz clazz) {
 			this.clazz = clazz;
-			this.type = typeOf(clazz.originclazz);
+			this.type = typeOf(clazz.originclazzName);
 		}
 
 		Var(Type type) {

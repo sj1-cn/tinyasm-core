@@ -43,9 +43,11 @@ public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 
 		public int locals = 0;
 
+		int count = 0;
+
 		@Override
 		public String toString() {
-			return this.name!=null?this.name:"var"+locals;
+			return this.name != null ? this.name : "var" + locals;
 		}
 	}
 
@@ -56,65 +58,44 @@ public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 	public Var getByLocal(int index) {
 		return stack.get(locals.get(index));
 	}
+
 	public Iterator<Var> iterator() {
 		return stack.iterator();
 	}
 
-	int top = 0;
-
-//	public Var accessLoad(int index, Label label) {
-//		Var var = getByLocal(index);
-//		if (var.startFrom == null) var.startFrom = label;
-//		return var;
-//	}
-
-	public Type accessLoadType(int index, Label label) {
-		Var var = getByLocal(index);
-		if (var.startFrom == null) var.startFrom = label;
-		return var.type;
-	}
-	
-	public Var accessLoad(int index,int size) {
-		if(locals.size()<=index) {
-			Var value = new Var(null, null);
-			value.locals = index;
+	public Var accessLoad(int index, int size) {
+		Var var;
+		if (locals.size() <= index) {
+			var = new Var(null, null);
+			var.locals = index;
 			for (int i = 0; i < size; i++) {
 				locals.push(stack.size());
 			}
-			stack.push(value);
-			return value;
-		}else {
-			return getByLocal(index);
+			stack.push(var);
+		} else {
+			var = getByLocal(index);
 		}
+		var.count++;
+		return var;
 	}
 
-//	public Var accessStore(int index, Label label) {
-//		Var var = getByLocal(index);
-////		if (var.startFrom == null) var.startFrom = label;
-//		return var;
-//	}
 
-	public Type accessStoreType(int index, Label label) {
-		Var var = getByLocal(index);
-//		if (var.startFrom == null) var.startFrom = label;
-		return var.type;
-	}
-
-	public Var accessStore(int index,int size) {
-		if(locals.size()<=index) {
-			Var value = new Var(null, null);
-			value.locals = index;
+	public Var accessStore(int index, int size) {
+		Var var;
+		if (locals.size() <= index) {
+			var = new Var(null, null);
+			var.locals = index;
 			for (int i = 0; i < size; i++) {
 				locals.push(stack.size());
 			}
-			stack.push(value);
-			return value;
-		}else {
-			return getByLocal(index);
+			stack.push(var);
+		} else {
+			var = getByLocal(index);
 		}
+		var.count++;
+		return var;
 	}
 
-	
 	public Var push(String name, Type clazz) {
 		return push(name, new Var(name, clazz));
 	}
@@ -129,6 +110,7 @@ public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 	}
 
 	private Var push(String name, Var var) {
+		var.count++;
 		var.locals = locals.size();
 		for (int i = 0; i < var.type.getSize(); i++) {
 			locals.push(stack.size());
@@ -136,11 +118,12 @@ public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 		stack.push(var);
 		return var;
 	}
-	
+
 	public Var push(String name, Type clazz, Label label) {
 		Var var = new Var(name, clazz, label);
 		return push(name, var);
 	}
+
 	public int size() {
 		return locals.size();
 	}

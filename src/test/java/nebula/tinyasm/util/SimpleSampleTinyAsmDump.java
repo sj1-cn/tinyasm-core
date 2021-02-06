@@ -3,6 +3,7 @@ import org.objectweb.asm.Label;
 import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
+import static org.objectweb.asm.Opcodes.*;
 public class SimpleSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
@@ -34,6 +35,7 @@ Label label0 = new Label();
 	code.visitLabel(label0);
 	code.line(11);
 	code.LOADConst(1);
+	code.define("j",int.class);
 	code.STORE("j");
 Label label1 = new Label();
 	code.visitLabel(label1);
