@@ -57,7 +57,7 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	@Override
-	public Type codeGetStackType(int i) {
+	public Type stackTypeOf(int i) {
 		return stack.get(stack.size() - i - 1);
 	}
 
@@ -78,12 +78,12 @@ public class MethodCodeBuilder implements MethodCode {
 //	}
 
 	@Override
-	public Type codeLocalLoadAccess(int localsIndex) {
+	public Type localsLoadAccess(int localsIndex) {
 		return locals.accessLoad(localsIndex, labelCurrent).type;
 	}
 
 	@Override
-	public Type codeLocalStoreAccess(int localsIndex) {
+	public Type localsStoreAccess(int localsIndex) {
 		return locals.accessStore(localsIndex, labelCurrent).type;
 	}
 
@@ -107,14 +107,14 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	@Override
-	public Type codePopStack() {
+	public Type stackPop() {
 		Type type = stack.pop();
 		printStack(stack);
 		return type;
 	}
 
 	@Override
-	public void codePush(Type type) {
+	public void startPush(Type type) {
 		stack.push(type);
 		printStack(stack);
 	}
@@ -163,22 +163,22 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	@Override
-	public void mvFieldInsn(int opcode, Type ownerType, String fieldName, Type fieldType) {
+	public void visitFieldInsn(int opcode, Type ownerType, String fieldName, Type fieldType) {
 		mv.visitFieldInsn(opcode, ownerType.getInternalName(), fieldName, fieldType.getDescriptor());
 	}
 
 	@Override
-	public void mvInst(int opcode) {
+	public void visitInsn(int opcode) {
 		mv.visitInsn(opcode);
 	}
 
 	@Override
-	public void mvInst(int opcode, int var) {
+	public void visitVarInsn(int opcode, int var) {
 		mv.visitVarInsn(opcode, var);
 	}
 
 	@Override
-	public void mvIntInsn(int opcode, int operand) {
+	public void visitInsn(int opcode, int operand) {
 		if (opcode == BIPUSH && -1 <= operand && operand <= 5) {
 			mv.visitInsn(ICONST_0 + operand);
 		} else {
@@ -187,30 +187,30 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	@Override
-	public void mvInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
+	public void visitMethodInsn(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		mv.visitMethodInsn(opcode, objectType.getInternalName(), methodName, Type.getMethodDescriptor(returnType, paramTypes),
 				opcode == INVOKEINTERFACE);
 
 	}
 
 	@Override
-	public void mvTryCatchBlock(Label start, Label end, Label handler, Type exctpionClazz) {
+	public void visitTryCatchBlock(Label start, Label end, Label handler, Type exctpionClazz) {
 		// TODO Auto-generated method stub
 		mv.visitTryCatchBlock(start, end, handler, exctpionClazz.getInternalName());
 	}
 
 	@Override
-	public void mvJumpInsn(int opcode, Label label) {
+	public void visitJumpInsn(int opcode, Label label) {
 		mv.visitJumpInsn(opcode, label);
 	}
 
 	@Override
-	public void mvLdcInsn(Object cst) {
+	public void visitLdcInsn(Object cst) {
 		mv.visitLdcInsn(cst);
 	}
 
 	@Override
-	public void mvTypeInsn(int opcode, Type type) {
+	public void visitTypeInsn(int opcode, Type type) {
 		mv.visitTypeInsn(opcode, type.getInternalName());
 	}
 
@@ -315,7 +315,7 @@ public class MethodCodeBuilder implements MethodCode {
 			 * Type.getType("(Lorg/jdbi/v3/core/Handle;)Ljava/util/List;")});
 			 */
 
-			codePush(typeOf(this.returnClazz));
+			startPush(typeOf(this.returnClazz));
 		}
 
 	}

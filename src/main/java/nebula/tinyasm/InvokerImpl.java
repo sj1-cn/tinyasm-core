@@ -44,7 +44,7 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 	public void invokeVoid(String... varname) {
 		for (String var : varname) {
 			mv.load(var);
-			Type type = this.mv.codeGetStackType(0);
+			Type type = this.mv.stackTypeOf(0);
 			paramsActual.add(type);
 		}
 
@@ -62,7 +62,7 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 	public void invokeVoid(Consumer<MethodCode>[] invocations) {
 		for (Consumer<? super MethodCode> consumer : invocations) {
 			consumer.accept(this.mv);
-			Type type = this.mv.codeGetStackType(0);
+			Type type = this.mv.stackTypeOf(0);
 			paramsActual.add(type);
 		}
 
@@ -85,7 +85,7 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 	public Instance invoke(Consumer<MethodCode>[] invocations) {
 		for (Consumer<? super MethodCode> consumer : invocations) {
 			consumer.accept(mv);
-			paramsActual.add(mv.codeGetStackType(0));
+			paramsActual.add(mv.stackTypeOf(0));
 		}
 		Type[] params;
 		if (definedParams) {
@@ -102,7 +102,7 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 	public Instance invoke(String... varname) {
 		for (String string : varname) {
 			mv.load(string);
-			paramsActual.add(mv.codeGetStackType(0));
+			paramsActual.add(mv.stackTypeOf(0));
 		}
 		Type[] params;
 		if (definedParams) {

@@ -39,7 +39,7 @@ public class InstanceImpl implements Instance {
 
 	@Override
 	public void setElement(int index, Consumer<MethodCode> p0) {
-		Type arrayType = mv.codeGetStackType(0);
+		Type arrayType = mv.stackTypeOf(0);
 		assert arrayType.getSort() == Type.ARRAY;
 
 		mv.LOADConst(index);
@@ -49,7 +49,7 @@ public class InstanceImpl implements Instance {
 
 	@Override
 	public Instance loadElement(int index) {
-		Type arrayType = mv.codeGetStackType(0);
+		Type arrayType = mv.stackTypeOf(0);
 		assert arrayType.getSort() == Type.ARRAY;
 
 		mv.LOADConst(index);

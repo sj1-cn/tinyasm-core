@@ -102,23 +102,23 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	void visitLabel(Label label, int line);
 
-	void mvInst(int opcode);
+	void visitInsn(int opcode);
 
-	void mvInst(int opcode, int index);
+	void visitVarInsn(int opcode, int index);
 
-	void mvIntInsn(int opcode, int operand);
+	void visitInsn(int opcode, int operand);
 
-	void mvFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
+	void visitFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
 
-	void mvInvoke(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
+	void visitMethodInsn(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
 
-	void mvTryCatchBlock(Label start, Label end, Label handler, Type exctpionClazz);
+	void visitTryCatchBlock(Label start, Label end, Label handler, Type exctpionClazz);
 
-	void mvLdcInsn(Object cst);
+	void visitLdcInsn(Object cst);
 
-	void mvTypeInsn(int opcode, Type type);
+	void visitTypeInsn(int opcode, Type type);
 
-	void mvJumpInsn(int opcode, Label label);
+	void visitJumpInsn(int opcode, Label label);
 
 	abstract Type codeThisFieldType(String name);
 
@@ -130,15 +130,15 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 //	abstract Type codeLocalGetType(int index);
 
-	abstract Type codeLocalLoadAccess(int index);
+	abstract Type localsLoadAccess(int index);
 
-	abstract Type codeLocalStoreAccess(int index);
+	abstract Type localsStoreAccess(int index);
 
-	abstract Type codeGetStackType(int i);
+	abstract Type stackTypeOf(int i);
 
-	abstract Type codePopStack();
+	abstract Type stackPop();
 
-	abstract void codePush(Type type);
+	abstract void startPush(Type type);
 
 	/*
 	 * 2.11.2. Load and Store Instructions The load and store instructions transfer
@@ -174,14 +174,14 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default Instance boxTop() {
-		Type topType = codeGetStackType(0);
+		Type topType = stackTypeOf(0);
 		BoxUnbox.box(topType).accept(this);
 		return topInstance();
 	}
 
 	@Override
 	default Instance unboxTop() {
-		Type topType = codeGetStackType(0);
+		Type topType = stackTypeOf(0);
 		BoxUnbox.unbox(topType).accept(this);
 		return topInstance();
 	}
@@ -207,7 +207,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 	@Override
 	default Instance topInstance() {
-		return new InstanceImpl(this, codeGetStackType(0));
+		return new InstanceImpl(this, stackTypeOf(0));
 	}
 
 	@Override
@@ -319,12 +319,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void LOAD(int index) {
-		Type valueType = codeLocalLoadAccess(index);
+		Type valueType = localsLoadAccess(index);
 		switch (valueType.getSort()) {
 		case Type.OBJECT:
 		case Type.ARRAY:
-			codePush(valueType);
-			mvInst(ALOAD, index);
+			startPush(valueType);
+			visitVarInsn(ALOAD, index);
 			// ALOAD (→ objectref) : load a reference onto the stack from a local
 			// variable #index
 			// ALOAD_0 (→ objectref) : load a reference onto the stack from local variable 0
@@ -335,8 +335,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		case Type.VOID:
 			throw new UnsupportedOperationException("load VOID");
 		default:
-			codePush(valueType);
-			mvInst(valueType.getOpcode(ILOAD), index);
+			startPush(valueType);
+			visitVarInsn(valueType.getOpcode(ILOAD), index);
 			break;
 		}
 	}
@@ -457,31 +457,31 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		if (local >= 0) {
 			STORE(local);
 		} else {
-			define(varname, codeGetStackType(0).getClassName());
+			define(varname, stackTypeOf(0).getClassName());
 			local = codeLocalGetLocals(varname);
 			STORE(local);
 		}
 	}
 
 	default void STOREException(int local) {
-		mvInst(ASTORE, local);
+		visitVarInsn(ASTORE, local);
 	}
 
 	default void STOREException(String varname) {
 		int local = codeLocalGetLocals(varname);
-		mvInst(ASTORE, local);
+		visitVarInsn(ASTORE, local);
 	}
 
 	@Override
 	default void STORE(int index) {
-		Type localType = codeLocalStoreAccess(index);
+		Type localType = localsStoreAccess(index);
 
-		Type valueType = codeGetStackType(0);
+		Type valueType = stackTypeOf(0);
 		switch (valueType.getSort()) {
 		case Type.ARRAY:
 			assert valueType.getSort() == localType.getSort() : "type don't match! local: " + localType + "  stack:" + valueType;
-			codePopStack();
-			mvInst(ASTORE, index);
+			stackPop();
+			visitVarInsn(ASTORE, index);
 			// ASTORE (objectref →) : store a reference into a local variable #index
 			// ASTORE_0 (objectref →) : store a reference into local variable 0
 			// ASTORE_1 (objectref →) : store a reference into local variable 1
@@ -490,8 +490,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 			break;
 		case Type.OBJECT:
 			assert valueType.getSort() == localType.getSort() : "type don't match! local: " + localType + "  stack:" + valueType;
-			codePopStack();
-			mvInst(ASTORE, index);
+			stackPop();
+			visitVarInsn(ASTORE, index);
 			// ASTORE (objectref →) : store a reference into a local variable #index
 			// ASTORE_0 (objectref →) : store a reference into local variable 0
 			// ASTORE_1 (objectref →) : store a reference into local variable 1
@@ -503,8 +503,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		default:
 			TypeUtils.checkMathTypes(localType, valueType);
 
-			Type type = codePopStack();
-			mvInst(type.getOpcode(ISTORE), index);
+			Type type = stackPop();
+			visitVarInsn(type.getOpcode(ISTORE), index);
 
 			// DSTORE (value →) : store a double value into a local variable #index
 			// FSTORE (value →) : store a float value into a local variable #index
@@ -532,20 +532,20 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void LOADConstByte(int value) {
-		mvIntInsn(BIPUSH, value);
-		codePush(Type.INT_TYPE);
+		visitInsn(BIPUSH, value);
+		startPush(Type.INT_TYPE);
 	}
 
 	@Override
 	default void LOADConstShort(int value) {
-		mvIntInsn(SIPUSH, value);
-		codePush(Type.INT_TYPE);
+		visitInsn(SIPUSH, value);
+		startPush(Type.INT_TYPE);
 	}
 
 	@Override
 	default void LOADConstNULL() {
-		mvInst(ACONST_NULL);
-		codePush(Type.getType(Object.class));
+		visitInsn(ACONST_NULL);
+		startPush(Type.getType(Object.class));
 	}
 
 	/**
@@ -568,14 +568,14 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 //	@Override
 	default void LOADConst(int cst) {
 		if (0L == cst || 1L == cst) {
-			mvInst(ICONST_0 + cst);
-			codePush(Type.getType(int.class));
+			visitInsn(ICONST_0 + cst);
+			startPush(Type.getType(int.class));
 		} else if (Byte.MIN_VALUE <= cst && cst <= Byte.MAX_VALUE) {
-			mvIntInsn(BIPUSH, cst);
-			codePush(Type.getType(int.class));
+			visitInsn(BIPUSH, cst);
+			startPush(Type.getType(int.class));
 		} else {
-			mvLdcInsn(cst);
-			codePush(Type.getType(int.class));
+			visitLdcInsn(cst);
+			startPush(Type.getType(int.class));
 		}
 	}
 
@@ -603,37 +603,37 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		if (cst instanceof Integer) {
 			int v = ((Integer) cst).intValue();
 			if (0L == v || 1L == v) {
-				mvInst(ICONST_0 + v);
-				codePush(Type.getType(int.class));
+				visitInsn(ICONST_0 + v);
+				startPush(Type.getType(int.class));
 			} else {
-				mvLdcInsn(cst);
-				codePush(Type.getType(int.class));
+				visitLdcInsn(cst);
+				startPush(Type.getType(int.class));
 			}
 		} else if (cst instanceof Float) {
-			mvLdcInsn(cst);
-			codePush(Type.getType(float.class));
+			visitLdcInsn(cst);
+			startPush(Type.getType(float.class));
 		} else if (cst instanceof Long) {
 			long v = ((Long) cst);
 			if (0L == v || 1L == v) {
-				mvInst(LCONST_0 + ((Long) cst).intValue());
-				codePush(Type.getType(long.class));
+				visitInsn(LCONST_0 + ((Long) cst).intValue());
+				startPush(Type.getType(long.class));
 			} else {
-				mvLdcInsn(cst);
-				codePush(Type.getType(long.class));
+				visitLdcInsn(cst);
+				startPush(Type.getType(long.class));
 			}
 		} else if (cst instanceof Double) {
-			mvLdcInsn(cst);
-			codePush(Type.getType(double.class));
+			visitLdcInsn(cst);
+			startPush(Type.getType(double.class));
 		} else if (cst instanceof String) {
-			mvLdcInsn(cst);
-			codePush(Type.getType(String.class));
+			visitLdcInsn(cst);
+			startPush(Type.getType(String.class));
 		} else if (cst instanceof Class<?>) {
 			Type cstType = typeOf((Class<?>) cst);
 
 			int sort = ((Type) cstType).getSort();
 			if (sort == Type.OBJECT) {
-				mvLdcInsn(cstType);
-				codePush(Type.getType(String.class));
+				visitLdcInsn(cstType);
+				startPush(Type.getType(String.class));
 			} else if (sort == Type.ARRAY) {
 				throw new UnsupportedOperationException();
 			} else if (sort == Type.METHOD) {
@@ -644,8 +644,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		} else if (cst instanceof Type) {
 			int sort = ((Type) cst).getSort();
 			if (sort == Type.OBJECT) {
-				mvLdcInsn(cst);
-				codePush(Type.getType(String.class));
+				visitLdcInsn(cst);
+				startPush(Type.getType(String.class));
 			} else if (sort == Type.ARRAY) {
 				throw new UnsupportedOperationException();
 			} else if (sort == Type.METHOD) {
@@ -713,13 +713,13 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 //
 	@Override
 	default void ADD() {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		codePush(type);
+		startPush(type);
 
-		mvInst(type.getOpcode(IADD));
+		visitInsn(type.getOpcode(IADD));
 		// DADD (left, right → result) : add two doubles
 		// FADD (left, right → result) : add two floats
 		// IADD (left, right → result) : add two ints
@@ -727,13 +727,13 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 
 	default void MATH(int op) {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		codePush(type);
+		startPush(type);
 
-		mvInst(type.getOpcode(op));
+		visitInsn(type.getOpcode(op));
 	}
 
 	/* Subtract: isub, lsub, fsub, dsub. */
@@ -749,12 +749,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void SUB() {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		codePush(type);
-		mvInst(type.getOpcode(ISUB));
+		startPush(type);
+		visitInsn(type.getOpcode(ISUB));
 	}
 
 	/* Multiply: imul, lmul, fmul, dmul. */
@@ -769,12 +769,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void MUL() {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		codePush(type);
-		mvInst(type.getOpcode(IMUL));
+		startPush(type);
+		visitInsn(type.getOpcode(IMUL));
 	}
 
 	/* Divide: idiv, ldiv, fdiv, ddiv. */
@@ -789,12 +789,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void DIV() {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		codePush(type);
-		mvInst(type.getOpcode(IDIV));
+		startPush(type);
+		visitInsn(type.getOpcode(IDIV));
 		// DDIV (left, right → result) : divide two doubles
 		// FDIV (left, right → result) : divide two floats
 		// IDIV (left, right → result) : divide two integers
@@ -813,12 +813,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void REM() {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		codePush(type);
-		mvInst(type.getOpcode(IREM));
+		startPush(type);
+		visitInsn(type.getOpcode(IREM));
 	}
 
 	/* Negate: ineg, lneg, fneg, dneg. */
@@ -832,21 +832,21 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void NEG() {
-		Type value = codePopStack();
+		Type value = stackPop();
 		Type result = value;
-		codePush(result);
-		mvInst(value.getOpcode(INEG));
+		startPush(result);
+		visitInsn(value.getOpcode(INEG));
 	}
 
 	/* Shift: ishl, ishr, iushr, lshl, lshr, lushr. */
 	@SuppressWarnings("unused")
 	@Override
 	default void SHL() {
-		Type right = codePopStack();
-		Type left = codePopStack();
+		Type right = stackPop();
+		Type left = stackPop();
 		Type result = left;
-		codePush(result);
-		mvInst(left.getOpcode(ISHR));
+		startPush(result);
+		visitInsn(left.getOpcode(ISHR));
 		// ISHL (left, right → result) : int shift left
 		// LSHL (left, right → result) : bitwise shift left of a
 		// long left by right positions
@@ -855,11 +855,11 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	@SuppressWarnings("unused")
 	@Override
 	default void SHR() {
-		Type right = codePopStack();
-		Type left = codePopStack();
+		Type right = stackPop();
+		Type left = stackPop();
 		Type result = left;
-		codePush(result);
-		mvInst(left.getOpcode(ISHR));
+		startPush(result);
+		visitInsn(left.getOpcode(ISHR));
 		// ISHR (left, right → result) : int arithmetic shift right
 		// LSHR (left, right → result) : bitwise shift right of a
 		// long left by right positions
@@ -877,12 +877,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void OR() {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		codePush(type);
-		mvInst(type.getOpcode(IOR));
+		startPush(type);
+		visitInsn(type.getOpcode(IOR));
 	}
 
 	/* Bitwise AND: iand, land. */
@@ -897,12 +897,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void AND() {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		codePush(type);
-		mvInst(type.getOpcode(IAND));
+		startPush(type);
+		visitInsn(type.getOpcode(IAND));
 		// IAND (left, right → result) : perform a bitwise and on two integers
 		// LAND (left, right → result) : bitwise and of two longs
 	}
@@ -919,12 +919,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void XOR() {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		codePush(type);
-		mvInst(type.getOpcode(IXOR));
+		startPush(type);
+		visitInsn(type.getOpcode(IXOR));
 
 		// IXOR (left, right → result) : int xor
 		// LXOR (left, right → result) : bitwise exclusive or of two longs
@@ -935,47 +935,47 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void LCMP() {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 		assert typeRightValue.getSort() == Type.LONG : "actual: " + typeRightValue + "  expected:" + Type.LONG;
 		assert typeRightValue.getSort() == Type.LONG : "actual: " + typeLeftValue + "  expected:" + Type.LONG;
-		codePush(Type.INT_TYPE);
-		mvInst(LCMP);
+		startPush(Type.INT_TYPE);
+		visitInsn(LCMP);
 	}
 
 	@Override
 	default void CMPL() {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + ","
 				+ Type.DOUBLE_TYPE;
 		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + ","
 				+ Type.DOUBLE_TYPE;
 
-		codePush(Type.INT_TYPE);
+		startPush(Type.INT_TYPE);
 
 		if (typeRightValue == Type.FLOAT_TYPE) {
-			mvInst(FCMPL);
+			visitInsn(FCMPL);
 		} else {
-			mvInst(DCMPL);
+			visitInsn(DCMPL);
 		}
 	}
 
 	@Override
 	default void CMPG() {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + ","
 				+ Type.DOUBLE_TYPE;
 		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + ","
 				+ Type.DOUBLE_TYPE;
 
-		codePush(Type.INT_TYPE);
+		startPush(Type.INT_TYPE);
 
 		if (typeRightValue == Type.FLOAT_TYPE) {
-			mvInst(FCMPG);
+			visitInsn(FCMPG);
 		} else {
-			mvInst(DCMPG);
+			visitInsn(DCMPG);
 		}
 	}
 
@@ -996,20 +996,20 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	 * long, or float
 	 */
 	default void CONVERTTO(Type typeTo) {
-		Type typeFrom = codePopStack();
-		codePush(typeTo);
+		Type typeFrom = stackPop();
+		startPush(typeTo);
 
 		switch (typeFrom.getSort()) {
 		case Type.LONG:
 			switch (typeTo.getSort()) {
 			case Type.INT:
-				mvInst(L2I);
+				visitInsn(L2I);
 				break;
 			case Type.FLOAT:
-				mvInst(L2F);
+				visitInsn(L2F);
 				break;
 			case Type.DOUBLE:
-				mvInst(L2D);
+				visitInsn(L2D);
 				break;
 
 			default:
@@ -1019,25 +1019,25 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		case Type.INT:
 			switch (typeTo.getSort()) {
 			case Type.BOOLEAN:
-				mvInst(I2B);
+				visitInsn(I2B);
 				break;
 			case Type.SHORT:
-				mvInst(I2S);
+				visitInsn(I2S);
 				break;
 			case Type.LONG:
-				mvInst(I2L);
+				visitInsn(I2L);
 				break;
 			case Type.FLOAT:
-				mvInst(I2F);
+				visitInsn(I2F);
 				break;
 			case Type.DOUBLE:
-				mvInst(I2D);
+				visitInsn(I2D);
 				break;
 			case Type.CHAR:
-				mvInst(I2C);
+				visitInsn(I2C);
 				break;
 			case Type.BYTE:
-				mvInst(I2B);
+				visitInsn(I2B);
 				break;
 
 			default:
@@ -1048,13 +1048,13 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 			switch (typeTo.getSort()) {
 			case Type.LONG:
-				mvInst(F2L);
+				visitInsn(F2L);
 				break;
 			case Type.INT:
-				mvInst(F2I);
+				visitInsn(F2I);
 				break;
 			case Type.DOUBLE:
-				mvInst(F2D);
+				visitInsn(F2D);
 				break;
 
 			default:
@@ -1064,13 +1064,13 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		case Type.DOUBLE:
 			switch (typeTo.getSort()) {
 			case Type.LONG:
-				mvInst(D2L);
+				visitInsn(D2L);
 				break;
 			case Type.INT:
-				mvInst(D2I);
+				visitInsn(D2I);
 				break;
 			case Type.FLOAT:
-				mvInst(D2F);
+				visitInsn(D2F);
 				break;
 
 			default:
@@ -1143,8 +1143,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 
 	default void NEW(Type objectclazz) {
-		codePush(objectclazz);
-		mvTypeInsn(NEW, objectclazz);
+		startPush(objectclazz);
+		visitTypeInsn(NEW, objectclazz);
 		// NEW (→ objectref) : create new object of type identified by class reference
 		// in constant pool index (indexbyte1 << 8 + indexbyte2)
 	}
@@ -1176,18 +1176,18 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 
 	default void NEWARRAY(Type type) {
-		Type count = codePopStack();
+		Type count = stackPop();
 		assert in(count, Type.INT_TYPE, Type.BYTE_TYPE, Type.SHORT_TYPE) : "array count type " + type;
 //		Type arrayref = Type.getType(Object.class); /* TODO */
 
 		Type arrayType = arrayOf(type);
-		codePush(arrayType);
+		startPush(arrayType);
 
 		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) {
 			int typecode = arrayTyoeCodeOf(type);
-			mvIntInsn(NEWARRAY, typecode);
-		} else if (type.getSort() == Type.ARRAY) mvTypeInsn(ANEWARRAY, type);
-		else if (type.getSort() == Type.OBJECT) mvTypeInsn(ANEWARRAY, type);
+			visitInsn(NEWARRAY, typecode);
+		} else if (type.getSort() == Type.ARRAY) visitTypeInsn(ANEWARRAY, type);
+		else if (type.getSort() == Type.OBJECT) visitTypeInsn(ANEWARRAY, type);
 		else if (type.getSort() == Type.VOID) RETURN();
 		else
 			throw new UnsupportedOperationException();
@@ -1212,10 +1212,10 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	@SuppressWarnings("unused")
 	@Override
 	default void ARRAYLENGTH() {
-		Type arrayref = codePopStack();
+		Type arrayref = stackPop();
 		Type length = Type.INT_TYPE;
-		mvInst(ARRAYLENGTH);
-		codePush(length);
+		visitInsn(ARRAYLENGTH);
+		startPush(length);
 		// ARRAYLENGTH (arrayref → length) : get the length of an array
 	}
 
@@ -1246,7 +1246,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	@Override
 	default Instance arrayload(String varArray, int index) {
 		load(varArray);
-		Type arrayType = codeGetStackType(0);
+		Type arrayType = stackTypeOf(0);
 		LOADConst(index);
 		ARRAYLOAD(arrayType.getElementType());
 		return topInstance();
@@ -1255,7 +1255,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	@Override
 	default Instance arrayload(String varArray, String varIndex) {
 		load(varArray);
-		Type arrayType = codeGetStackType(0);
+		Type arrayType = stackTypeOf(0);
 		load(varIndex);
 		ARRAYLOAD(arrayType.getElementType());
 		return topInstance();
@@ -1273,10 +1273,10 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@SuppressWarnings("unused")
 	default void ARRAYLOAD(Type elementClazz) {
-		Type index = codePopStack();
-		Type arrayref = codePopStack();
-		mvInst(elementClazz.getOpcode(IALOAD));
-		codePush(elementClazz);
+		Type index = stackPop();
+		Type arrayref = stackPop();
+		visitInsn(elementClazz.getOpcode(IALOAD));
+		startPush(elementClazz);
 	}
 
 	@Override
@@ -1290,44 +1290,44 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	@SuppressWarnings("unused")
 	@Override
 	default void ARRAYSTORE() {
-		Type value = codePopStack();
-		Type index = codePopStack();
-		Type arrayref = codePopStack();
+		Type value = stackPop();
+		Type index = stackPop();
+		Type arrayref = stackPop();
 		Type itemType = arrayref.getElementType();
 
 		switch (itemType.getSort()) {
 		// BASTORE (arrayref, index, value →) : store a byte or Boolean value into an
 		// array
 		case Type.BYTE:
-			mvInst(itemType.getOpcode(IASTORE));
+			visitInsn(itemType.getOpcode(IASTORE));
 			break;
 		// CASTORE (arrayref, index, value →) : store a char into an array
 		case Type.CHAR:
-			mvInst(itemType.getOpcode(IASTORE));
+			visitInsn(itemType.getOpcode(IASTORE));
 			break;
 		// DASTORE (arrayref, index, value →) : store a double into an array
 		case Type.DOUBLE:
-			mvInst(itemType.getOpcode(IASTORE));
+			visitInsn(itemType.getOpcode(IASTORE));
 			break;
 		// FASTORE (arrayref, index, value →) : store a float in an array
 		case Type.FLOAT:
-			mvInst(itemType.getOpcode(IASTORE));
+			visitInsn(itemType.getOpcode(IASTORE));
 			break;
 		// IASTORE (arrayref, index, value →) : store an int into an array
 		case Type.INT:
-			mvInst(itemType.getOpcode(IASTORE));
+			visitInsn(itemType.getOpcode(IASTORE));
 			break;
 		// LASTORE (arrayref, index, value →) : store a long to an array
 		case Type.LONG:
-			mvInst(itemType.getOpcode(IASTORE));
+			visitInsn(itemType.getOpcode(IASTORE));
 			break;
 		// SASTORE (arrayref, index, value →) : store short to array
 		case Type.SHORT:
-			mvInst(itemType.getOpcode(IASTORE));
+			visitInsn(itemType.getOpcode(IASTORE));
 			break;
 		// AASTORE (arrayref, index, value →) : store into a reference in an array
 		case Type.OBJECT:
-			mvInst(AASTORE);
+			visitInsn(AASTORE);
 			break;
 		default:
 			throw new UnsupportedOperationException();
@@ -1347,10 +1347,10 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	/* Check properties of class instances or arrays: instanceof, checkcast. */
 	@SuppressWarnings("unused")
 	default void INSTANCEOF(Type type) {
-		Type objectref = codePopStack();
+		Type objectref = stackPop();
 		Type result = Type.getType(int.class);
-		codePush(result);
-		mvTypeInsn(INSTANCEOF, type);
+		startPush(result);
+		visitTypeInsn(INSTANCEOF, type);
 		// INSTANCEOF (objectref → result) : determines if an object objectref is of a
 		// given type, identified by class reference index in constant pool (indexbyte1
 		// << 8 + indexbyte2)
@@ -1367,9 +1367,9 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 
 	default void CHECKCAST(Type type) {
-		codePopStack();
-		codePush(type);
-		mvTypeInsn(CHECKCAST, type);
+		stackPop();
+		startPush(type);
+		visitTypeInsn(CHECKCAST, type);
 		// CHECKCAST (objectref → objectref) : checks whether an objectref is of a
 		// certain type, the class reference of which is in the constant pool
 		// at index (indexbyte1 << 8 + indexbyte2)
@@ -1383,40 +1383,40 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	@SuppressWarnings("unused")
 	@Override
 	default void POP() {
-		Type left = codePopStack();
-		mvInst(POP);
+		Type left = stackPop();
+		visitInsn(POP);
 	}
 
 	@SuppressWarnings("unused")
 	@Override
 	default void POP2() {
-		Type right = codePopStack();
-		Type left = codePopStack();
-		mvInst(POP2);
+		Type right = stackPop();
+		Type left = stackPop();
+		visitInsn(POP2);
 	}
 
 	@Override
 	default void DUP() {
-		Type left = codeGetStackType(0);
-		codePush(left);
-		mvInst(DUP);
+		Type left = stackTypeOf(0);
+		startPush(left);
+		visitInsn(DUP);
 		// DUP (value → value, value) : duplicate the value on top of the stack
 	}
 
 	@Override
 	default void DUP2() {
-		Type right = codeGetStackType(-1);
-		Type left = codeGetStackType(0);
-		codePush(right);
-		codePush(left);
-		codePush(right);
-		codePush(left);
-		mvInst(DUP2);
+		Type right = stackTypeOf(-1);
+		Type left = stackTypeOf(0);
+		startPush(right);
+		startPush(left);
+		startPush(right);
+		startPush(left);
+		visitInsn(DUP2);
 	}
 
 	@Override
 	default void NOP() {
-		mvInst(Opcodes.NOP);
+		visitInsn(Opcodes.NOP);
 		// NOP ([No change]) : perform no operation
 	}
 
@@ -1433,72 +1433,72 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	 */
 	@Override
 	default void IFEQ(Label falseLabel) {
-		Type value = codePopStack();
+		Type value = stackPop();
 		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		mvJumpInsn(IFEQ, falseLabel);
+		visitJumpInsn(IFEQ, falseLabel);
 	}
 
 	default void JUMP(int opcode, Label falseLabel) {
-		Type value = codePopStack();
+		Type value = stackPop();
 		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		mvJumpInsn(opcode, falseLabel);
+		visitJumpInsn(opcode, falseLabel);
 	}
 
 	@Override
 	default void IFNE(Label falseLabel) {
-		Type value = codePopStack();
+		Type value = stackPop();
 		assert in(value, Type.INT_TYPE, Type.BOOLEAN_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE + " | " + Type.BOOLEAN_TYPE;
-		mvJumpInsn(IFNE, falseLabel);
+		visitJumpInsn(IFNE, falseLabel);
 	}
 
 	default Label IFNE() {
 		Label falseLabel = new Label();
-		Type value = codePopStack();
+		Type value = stackPop();
 		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		mvJumpInsn(IFNE, falseLabel);
+		visitJumpInsn(IFNE, falseLabel);
 		return falseLabel;
 	}
 
 	@Override
 	default void IFLT(Label falseLabel) {
-		Type value = codePopStack();
+		Type value = stackPop();
 		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		mvJumpInsn(IFLT, falseLabel);
+		visitJumpInsn(IFLT, falseLabel);
 	}
 
 	@Override
 	default void IFLE(Label falseLabel) {
-		Type value = codePopStack();
+		Type value = stackPop();
 		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		mvJumpInsn(IFLE, falseLabel);
+		visitJumpInsn(IFLE, falseLabel);
 	}
 
 	@Override
 	default void IFGT(Label falseLabel) {
-		Type value = codePopStack();
+		Type value = stackPop();
 		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		mvJumpInsn(IFGT, falseLabel);
+		visitJumpInsn(IFGT, falseLabel);
 	}
 
 	@Override
 	default void IFGE(Label falseLabel) {
-		Type value = codePopStack();
+		Type value = stackPop();
 		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		mvJumpInsn(IFGE, falseLabel);
+		visitJumpInsn(IFGE, falseLabel);
 	}
 
 	@Override
 	default void IFNULL(Label falseLabel) {
-		Type value = codePopStack();
+		Type value = stackPop();
 		assert value.getSort() == Type.OBJECT : "actual: " + value + "  expected:" + Type.OBJECT;
-		mvJumpInsn(IFNULL, falseLabel);
+		visitJumpInsn(IFNULL, falseLabel);
 	}
 
 	@Override
 	default void IFNONNULL(Label falseLabel) {
-		Type value = codePopStack();
+		Type value = stackPop();
 		assert value.getSort() == Type.OBJECT : "actual: " + value + "  expected:" + Type.OBJECT;
-		mvJumpInsn(IFNONNULL, falseLabel);
+		visitJumpInsn(IFNONNULL, falseLabel);
 	}
 
 	@Override
@@ -1523,74 +1523,74 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void IF_ACMPEQ(Label falseLabel) {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 		assert typeRightValue.getSort() == Type.OBJECT;
 		assert typeLeftValue.getSort() == Type.OBJECT;
-		mvJumpInsn(IF_ACMPEQ, falseLabel);
+		visitJumpInsn(IF_ACMPEQ, falseLabel);
 	}
 
 	@Override
 	default void IF_ACMPNE(Label falseLabel) {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 		assert typeRightValue.getSort() == Type.OBJECT;
 		assert typeLeftValue.getSort() == Type.OBJECT;
-		mvJumpInsn(IF_ACMPNE, falseLabel);
+		visitJumpInsn(IF_ACMPNE, falseLabel);
 	}
 
 	@Override
 	default void IF_ICMPEQ(Label falseLabel) {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 		checkMathTypes(typeRightValue, typeLeftValue);
 
-		mvJumpInsn(IF_ICMPEQ, falseLabel);
+		visitJumpInsn(IF_ICMPEQ, falseLabel);
 	}
 
 	@Override
 	default void IF_ICMPNE(Label falseLabel) {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 		checkMathTypes(typeRightValue, typeLeftValue);
 
-		mvJumpInsn(IF_ICMPNE, falseLabel);
+		visitJumpInsn(IF_ICMPNE, falseLabel);
 	}
 
 	@Override
 	default void IF_ICMPLT(Label falseLabel) {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 		checkMathTypes(typeRightValue, typeLeftValue);
 
-		mvJumpInsn(IF_ICMPLT, falseLabel);
+		visitJumpInsn(IF_ICMPLT, falseLabel);
 	}
 
 	@Override
 	default void IF_ICMPLE(Label falseLabel) {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 		checkMathTypes(typeRightValue, typeLeftValue);
 
-		mvJumpInsn(IF_ICMPLE, falseLabel);
+		visitJumpInsn(IF_ICMPLE, falseLabel);
 	}
 
 	@Override
 	default void IF_ICMPGT(Label falseLabel) {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 		checkMathTypes(typeRightValue, typeLeftValue);
 
-		mvJumpInsn(IF_ICMPGT, falseLabel);
+		visitJumpInsn(IF_ICMPGT, falseLabel);
 	}
 
 	@Override
 	default void IF_ICMPGE(Label falseLabel) {
-		Type typeRightValue = codePopStack();
-		Type typeLeftValue = codePopStack();
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
 		checkMathTypes(typeRightValue, typeLeftValue);
 
-		mvJumpInsn(IF_ICMPGE, falseLabel);
+		visitJumpInsn(IF_ICMPGE, falseLabel);
 	}
 
 	/* Compound conditional branch: tableswitch, lookupswitch. */
@@ -1599,17 +1599,17 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	/* Unconditional branch: goto, goto_w, jsr, jsr_w, ret. */
 	@Override
 	default void GOTO(Label gotoLabel) {
-		mvJumpInsn(GOTO, gotoLabel);
+		visitJumpInsn(GOTO, gotoLabel);
 	}
 
 	@Override
 	default void returnVoid() {
-		mvInst(RETURN);
+		visitInsn(RETURN);
 	}
 
 	@Override
 	default void RETURN() {
-		mvInst(RETURN);
+		visitInsn(RETURN);
 	}
 
 	@Override
@@ -1632,37 +1632,37 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@Override
 	default void RETURNTop() {
-		Type type = codeGetStackType(0);
+		Type type = stackTypeOf(0);
 		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) {
-			Type objectref = codePopStack();
-			mvInst(objectref.getOpcode(IRETURN));
+			Type objectref = stackPop();
+			visitInsn(objectref.getOpcode(IRETURN));
 			// DRETURN (value → [empty]) : return a double from a method
 			// FRETURN (value → [empty]) : return a float
 			// IRETURN (value → [empty]) : return an integer from a method
 			// LRETURN (value → [empty]) : return a long value
 		} else if (type.getSort() == Type.OBJECT) {
 			// ARETURN (objectref → [empty]) : return a reference from a method
-			codePopStack();
-			mvInst(ARETURN);
+			stackPop();
+			visitInsn(ARETURN);
 		} else if (type.getSort() == Type.ARRAY) {
 			// ARETURN (objectref → [empty]) : return a reference from a method
-			codePopStack();
-			mvInst(ARETURN);
+			stackPop();
+			visitInsn(ARETURN);
 		} else
 			throw new UnsupportedOperationException();
 	}
 
 	@Override
 	default void ATHROW() {
-		mvInst(ATHROW);
+		visitInsn(ATHROW);
 	}
 
 	default void tryCatchBlock(Label start, Label end, Label handler, String exctpionClazz) {
-		mvTryCatchBlock(start, end, handler, typeOf(exctpionClazz));
+		visitTryCatchBlock(start, end, handler, typeOf(exctpionClazz));
 	}
 
 	default void tryCatchBlock(Label start, Label end, Label handler, Class<?> exctpionClazz) {
-		mvTryCatchBlock(start, end, handler, typeOf(exctpionClazz));
+		visitTryCatchBlock(start, end, handler, typeOf(exctpionClazz));
 	}
 
 	/*
@@ -1734,7 +1734,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		NEW(clazz);
 		DUP();
 		SPECIAL(clazz, "<init>").INVOKE();
-		return new InstanceImpl(this, codeGetStackType(0));
+		return new InstanceImpl(this, stackTypeOf(0));
 	}
 
 	/** ARRAY **/
@@ -1778,9 +1778,9 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 
 	default void GETFIELD(String fieldname, Type fieldType) {
-		Type objectref = codePopStack();
-		codePush(fieldType);
-		mvFieldInsn(GETFIELD, objectref, fieldname, fieldType);
+		Type objectref = stackPop();
+		startPush(fieldType);
+		visitFieldInsn(GETFIELD, objectref, fieldname, fieldType);
 
 		// GETFIELD (objectref → value) : get a field value of an object objectref,
 		// where the field is identified by field reference in the constant
@@ -1897,10 +1897,10 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@SuppressWarnings("unused")
 	default void PUTFIELD(String fieldname, Type fieldType) {
-		Type value = codePopStack();
-		Type objectref = codePopStack();
+		Type value = stackPop();
+		Type objectref = stackPop();
 
-		mvFieldInsn(PUTFIELD, objectref, fieldname, fieldType);
+		visitFieldInsn(PUTFIELD, objectref, fieldname, fieldType);
 
 		// PUTFIELD (objectref, value →) : set field to value in an object objectref,
 		// where the field is identified by a field reference index in constant pool
@@ -1923,8 +1923,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 
 	default void GETSTATIC(Type objectType, String fieldName, Type fieldType) {
-		codePush(fieldType);
-		mvFieldInsn(GETSTATIC, objectType, fieldName, fieldType);
+		startPush(fieldType);
+		visitFieldInsn(GETSTATIC, objectType, fieldName, fieldType);
 		// GETSTATIC (→ value) : get a static field value of a class, where the field is
 		// identified by field reference in the constant pool index (index1 << 8 +
 		// index2)
@@ -1962,8 +1962,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 
 	@SuppressWarnings("unused")
 	default void PUTSTATIC(Type objectType, String fieldName, Type fieldType) {
-		Type value = codePopStack();
-		mvFieldInsn(PUTSTATIC, objectType, fieldName, fieldType);
+		Type value = stackPop();
+		visitFieldInsn(PUTSTATIC, objectType, fieldName, fieldType);
 
 		// PUTSTATIC (value →) : set static field to value in a class, where the field
 		// is identified by a field reference index in constant pool (indexbyte1 << 8 +
@@ -1989,10 +1989,10 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	@SuppressWarnings("unused")
 	default void INVOKESTATIC(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
-			codePopStack();
+			stackPop();
 		}
-		mvInvoke(INVOKESTATIC, objectType, returnType, methodName, paramTypes);
-		if (returnType != Type.VOID_TYPE) codePush(returnType);
+		visitMethodInsn(INVOKESTATIC, objectType, returnType, methodName, paramTypes);
+		if (returnType != Type.VOID_TYPE) startPush(returnType);
 		// INVOKESTATIC ([arg1, arg2, ...] →) : invoke a static method, where the method
 		// is identified by method reference index in constant pool (indexbyte1 << 8 +
 		// indexbyte2)
@@ -2012,11 +2012,11 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	@SuppressWarnings("unused")
 	default void INVOKEINTERFACE(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
-			codePopStack();
+			stackPop();
 		}
-		codePopStack(); // objectType
-		mvInvoke(INVOKEINTERFACE, objectType, returnType, methodName, paramTypes);
-		if (returnType != Type.VOID_TYPE) codePush(returnType);
+		stackPop(); // objectType
+		visitMethodInsn(INVOKEINTERFACE, objectType, returnType, methodName, paramTypes);
+		if (returnType != Type.VOID_TYPE) startPush(returnType);
 		// INVOKEINTERFACE (objectref, [arg1, arg2, ...] →) : invokes an interface
 		// method on object objectref, where the interface method is identified by
 		// method reference index in constant pool (indexbyte1 << 8 + indexbyte2)
@@ -2047,11 +2047,11 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	default void INVOKESPECIAL(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		if (returnType == null) returnType = Type.VOID_TYPE;
 		for (Type type : paramTypes) {
-			codePopStack();
+			stackPop();
 		}
-		codePopStack(); // objectType
-		mvInvoke(INVOKESPECIAL, objectType, returnType, methodName, paramTypes);
-		if (returnType != Type.VOID_TYPE) codePush(returnType);
+		stackPop(); // objectType
+		visitMethodInsn(INVOKESPECIAL, objectType, returnType, methodName, paramTypes);
+		if (returnType != Type.VOID_TYPE) startPush(returnType);
 		// INVOKESPECIAL (objectref, [arg1, arg2, ...] →) : invoke instance method on
 		// object objectref, where the method is identified by method reference indexin
 		// constant pool (indexbyte1 << 8 + indexbyte2)
@@ -2070,22 +2070,22 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	@SuppressWarnings("unused")
 	default void INVOKEVIRTUAL(Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
-			codePopStack();
+			stackPop();
 		}
-		codePopStack(); // objectType
-		mvInvoke(INVOKEVIRTUAL, objectType, returnType, methodName, paramTypes);
-		if (returnType != Type.VOID_TYPE) codePush(returnType);
+		stackPop(); // objectType
+		visitMethodInsn(INVOKEVIRTUAL, objectType, returnType, methodName, paramTypes);
+		if (returnType != Type.VOID_TYPE) startPush(returnType);
 
 	}
 
 	@SuppressWarnings("unused")
 	default void INVOKE(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {
-			codePopStack();
+			stackPop();
 		}
-		if (opcode != INVOKESTATIC) codePopStack(); // objectType
-		mvInvoke(opcode, objectType, returnType, methodName, paramTypes);
-		if (returnType != Type.VOID_TYPE) codePush(returnType);
+		if (opcode != INVOKESTATIC) stackPop(); // objectType
+		visitMethodInsn(opcode, objectType, returnType, methodName, paramTypes);
+		if (returnType != Type.VOID_TYPE) startPush(returnType);
 
 	}
 
