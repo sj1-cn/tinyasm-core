@@ -9,7 +9,7 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.SimpleSample").body();
 
-classWriter.field("i", "int.class");
+classWriter.field(0, "i", int.class);
 classWriter.method("<init>").code(code -> {
 Label label0 = new Label();
 	code.visitLabel(label0);
@@ -25,9 +25,45 @@ Label label1 = new Label();
 Label label2 = new Label();
 	code.visitLabel(label2);
 	code.line(7);
-	code.RETURN();
+	code.LOAD("this");
+	code.DUP();
+	code.GETFIELD("i", int.class);
+	code.LOADConst(1);
+	code.ADD();
+	code.PUTFIELD("i", int.class);
 Label label3 = new Label();
 	code.visitLabel(label3);
+	code.line(8);
+	code.LOAD("this");
+	code.DUP();
+	code.GETFIELD("i", int.class);
+	code.LOADConst(1);
+	code.SUB();
+	code.PUTFIELD("i", int.class);
+Label label4 = new Label();
+	code.visitLabel(label4);
+	code.line(9);
+	code.LOAD("this");
+	code.DUP();
+	code.GETFIELD("i", int.class);
+	code.LOADConst(1);
+	code.MUL();
+	code.PUTFIELD("i", int.class);
+Label label5 = new Label();
+	code.visitLabel(label5);
+	code.line(10);
+	code.LOAD("this");
+	code.DUP();
+	code.GETFIELD("i", int.class);
+	code.LOADConst(1);
+	code.DIV();
+	code.PUTFIELD("i", int.class);
+Label label6 = new Label();
+	code.visitLabel(label6);
+	code.line(12);
+	code.RETURN();
+Label label7 = new Label();
+	code.visitLabel(label7);
 });
 return classWriter.end().toByteArray();
 }

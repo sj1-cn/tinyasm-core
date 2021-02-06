@@ -43,15 +43,15 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.TypePath;
 import org.objectweb.asm.util.ASMifiable;
 import org.objectweb.asm.util.Printer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.objectweb.asm.Opcodes.*;
 
 import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.ClassField;
-import nebula.tinyasm.GenericClazz;
-import nebula.tinyasm.LocalsStack;
-import nebula.tinyasm.LocalsVariable;
+import nebula.tinyasm.LocalsStack.Var;
 import nebula.tinyasm.MethodCode;
 
 /**
@@ -60,6 +60,7 @@ import nebula.tinyasm.MethodCode;
  * @author Eric Bruneton
  */
 public class TinyASMifier extends Printer {
+	static Logger logger =LoggerFactory.getLogger(TinyASMifier.class);
 
 	/** A pseudo access flag used to distinguish class access flags. */
 	private static final int ACCESS_CLASS = 0x40000;
@@ -172,7 +173,7 @@ public class TinyASMifier extends Printer {
 				text.add("package " + name.substring(0, lastSlashIndex).replace('/', '.') + ";\n");
 				simpleName = name.substring(lastSlashIndex + 1).replace('-', '_');
 			}
-			
+
 		}
 //    text.add("import org.objectweb.asm.AnnotationVisitor;\n");
 //    text.add("import org.objectweb.asm.Attribute;\n");
@@ -324,6 +325,7 @@ public class TinyASMifier extends Printer {
 	}
 
 	private String clazzOf(String description) {
+		logger.debug("clazzOf({})",description);
 		switch (description) {
 		case "I":
 			return "int.class";
@@ -334,8 +336,23 @@ public class TinyASMifier extends Printer {
 		return null;
 	}
 
+	static Map<String,String> typeMaps = new HashMap<>();
+	static {
+		typeMaps.put("Z", "boolean.class");
+		typeMaps.put("B", "byte.class");
+		typeMaps.put("C", "char.class");
+		typeMaps.put("S", "short.class");
+		typeMaps.put("I", "int.class");
+		typeMaps.put("J", "long.class");
+		typeMaps.put("F", "float.class");
+		typeMaps.put("D", "double.class");
+	}
 	private String clazzOf(Type type) {
-		return "int.class";
+		logger.trace("clazzOf({})",type);
+		if(typeMaps.containsKey( type.getInternalName())){
+			return typeMaps.get(type.getInternalName());
+		}
+		return "unknown.class";
 //		switch (description) {
 //		case "I":
 //			return "int.class";
@@ -351,15 +368,20 @@ public class TinyASMifier extends Printer {
 //		classWriter.field("i", int.class);
 		stringBuilder.setLength(0);
 		stringBuilder.append("classWriter.field(");
+		if(!TypeUtils.is(access, ACC_PRIVATE)) {
+		appendAccessFlags(access | ACCESS_FIELD);
+		stringBuilder.append(", ");
+		
+		}
 		appendConstant(name);
 		stringBuilder.append(", ");
-		appendConstant(clazzOf(descriptor));
+		stringBuilder.append(clazzOf(Type.getType(descriptor)));
 		stringBuilder.append(");\n");
 
 //		
 //		stringBuilder.append("{\n");
 //		stringBuilder.append("fieldVisitor = classWriter.visitField(");
-//		appendAccessFlags(access | ACCESS_FIELD);
+
 //		stringBuilder.append(", ");
 //		appendConstant(name);
 //		stringBuilder.append(", ");
@@ -376,51 +398,29 @@ public class TinyASMifier extends Printer {
 		return asmifier;
 	}
 
-	class Param {
-		int index;
-		String name;
-		String type;
+	TinyLocalsStack methodLocals = null;
 
-		public Param(int i) {
-			this.index = i;
-		}
-
-		public Param(int i, String type) {
-			this.index = i;
-			this.type = type;
-		}
-
-		public Param(int i, String type, String name) {
-			this.index = i;
-			this.type = type;
-			this.name = name;
-		}
-
-		@Override
-		public String toString() {
-			return name != null ? name : "locals" + this.index;
-		}
-	}
-
-//	Param[] methodParams;
 	boolean isMethodStatic = false;
 
-//	mhLocals.push(field.name, new LocalsVariable(field, labelCurrent));
- LocalsStack mhLocals = new LocalsStack();
-	Stack<Type> stack = new Stack<>();
+////	mhLocals.push(field.name, new LocalsVariable(field, labelCurrent));
+// LocalsStack mhLocals = new LocalsStack();
+//	Stack<Type> stack = new Stack<>();
 
 	@Override
 	public TinyASMifier visitMethod(final int access, final String name, final String descriptor, final String signature, final String[] exceptions) {
+		methodLocals = new TinyLocalsStack();
 
-		if (access == ACC_STATIC) {
+		Type[] params = Type.getArgumentTypes(descriptor);
+		Type returnType = Type.getReturnType(descriptor);
+
+		if (TypeUtils.is(access,ACC_STATIC)) {
 			isMethodStatic = true;
-			stack.clear();
 		} else {
-			stack.clear();
+			methodLocals.push("this",Type.getType(Object.class));
 //			stack.add(new Param(0, "", "this"));
 			isMethodStatic = false;
 		}
-		
+
 		// classWriter.method("<init>").code(code -> {
 //			code.line();
 //			code.LOAD(MethodCode._THIS);
@@ -433,9 +433,11 @@ public class TinyASMifier extends Printer {
 		stringBuilder.append("classWriter.method(");
 //		appendAccessFlags(access);
 //		stringBuilder.append(", ");
+		if(returnType!=Type.VOID_TYPE) {
+			stringBuilder.append(clazzOf(returnType));
+			stringBuilder.append(", ");
+		}
 		appendConstant(name);
-
-//		stringBuilder.append(", ");
 //		appendConstant(descriptor);
 //		stringBuilder.append(", ");
 //		appendConstant(signature);
@@ -452,37 +454,32 @@ public class TinyASMifier extends Printer {
 //		}
 		stringBuilder.append(")");
 
-		Type[] params = Type.getArgumentTypes(descriptor);
-
-		
 		for (Type field : params) {
 //			mhLocals.push("", new LocalsVariable("", GenericClazz.generic(field.getClassName())));
 		}
-		
+
 //		methodParams = new Param[params.length];
-		Param paramField;
 		if (params.length > 0) {
 			stringBuilder.append(".parameter(\"");
 
 			int i = 0;
 			text.add(stringBuilder.toString());
-			paramField = new Param(i);
-			text.add(paramField);
+//			paramField = new Param(i);
+//			text.add(paramField);
 //			stack.add(paramField);
+			text.add(methodLocals.push("", params[i]));
+			
 			stringBuilder.setLength(0);
-
-			stringBuilder.append(",");
+			stringBuilder.append("\",");
 			stringBuilder.append(clazzOf(params[0]));
 			stringBuilder.append(")");
 			for (i = 1; i < params.length; i++) {
 				stringBuilder.append(".parameter(\"");
 
 				text.add(stringBuilder.toString());
-				paramField = new Param(i, clazzOf(params[i]));
-				text.add(paramField);
-//				stack.add(paramField);
+				text.add(methodLocals.push("", params[i]));
+				
 				stringBuilder.setLength(0);
-
 				stringBuilder.append("\",");
 				stringBuilder.append(clazzOf(params[i]));
 				stringBuilder.append(")");
@@ -492,6 +489,7 @@ public class TinyASMifier extends Printer {
 		stringBuilder.append(".code(code -> {\n");
 		text.add(stringBuilder.toString());
 		TinyASMifier asmifier = createASMifier("code", 0);
+		asmifier.methodLocals = this.methodLocals;
 		text.add(asmifier.getText());
 		text.add("});\n");
 		return asmifier;
@@ -950,6 +948,8 @@ public class TinyASMifier extends Printer {
 			break;
 		case IOR: // 128; // -
 		case LOR: // 129; // -
+			stringBuilder.append(visitname).append(".OR();\n");
+			break;
 		case IXOR: // 130; // -
 		case LXOR: // 131; // -
 			stringBuilder.append(visitname).append(".XOR();\n");
@@ -1447,10 +1447,11 @@ public class TinyASMifier extends Printer {
 
 	@Override
 	public void visitLocalVariable(final String name, final String descriptor, final String signature, final Label start, final Label end, final int index) {
-		if (index < stack.size()) {
-//			stack.get(index).name = name;
-		}
-		System.out.println(name + " " + index);
+//		if (index < methodLocals.size()) {
+		TinyLocalsStack.Var var = methodLocals.getByLocal(index);
+		var.name = name;
+//		}
+//		System.out.println(name + " " + index);
 //		stringBuilder.setLength(0);
 //		stringBuilder.append(this.name).append(".visitLocalVariable(");
 //		appendConstant(name);

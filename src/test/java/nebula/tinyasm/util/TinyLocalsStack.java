@@ -1,4 +1,4 @@
-package nebula.tinyasm;
+package nebula.tinyasm.util;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,43 +8,50 @@ import java.util.Stack;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 
-public class LocalsStack implements Iterable<LocalsStack.Var> {
+import nebula.tinyasm.Annotation;
 
-	public static class Var extends ClassField {
+public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
+
+	public static class Var {
+		int access;
 		public Label startFrom;
 
 		public Object value;
 
 		public Annotation annotation;
+		Type type;
+		String name;
 
-		public Var(ClassField field, Label startFrom) {
-			super(field.access, field.name, field.clazz, null);
-			this.startFrom = startFrom;
+		public Var(String name, Type type) {
+			this(0, name, type);
 		}
 
-		public Var(String name, GenericClazz clazz) {
-			super(0, name, clazz, null);
+		public Var(int access, String name, Type type) {
+			this.access = access;
+			this.name = name;
+			this.type = type;
 		}
 
-		public Var(int access, String name, GenericClazz clazz) {
-			super(access, name, clazz, null);
-		}
-
-		public Var(Annotation annotation, String name, GenericClazz clazz) {
-			super(0, name, clazz, null);
+		public Var(Annotation annotation, String name, Type clazz) {
+			this(0, name, clazz);
 			this.annotation = annotation;
 		}
 
-		public Var(String name, GenericClazz type, Label startFrom) {
-			super(0, name, type, null);
+		public Var(String name, Type type, Label startFrom) {
+			this(0, name, type);
 			this.startFrom = startFrom;
 		}
 
 		public int locals = 0;
+
+		@Override
+		public String toString() {
+			return this.name;
+		}
 	}
 
 	Stack<Var> stack = new Stack<>();
-	Map<String, Var> maps = new HashMap<>();
+//	Map<String, Var> maps = new HashMap<>();
 
 	Stack<Integer> locals = new Stack<>();
 
@@ -52,9 +59,9 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 		return stack.get(locals.get(index));
 	}
 
-	public Var get(String name) {
-		return maps.get(name);
-	}
+//	public Var get(String name) {
+//		return maps.get(name);
+//	}
 
 //	public boolean containsKey(String name) {
 //		return maps.containsKey(name);
@@ -94,28 +101,28 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 		return var.type;
 	}
 
-	public void push(String name, GenericClazz clazz) {
-		push(name, new Var(name, clazz));
+	public Var push(String name, Type clazz) {
+		return push(name, new Var(name, clazz));
 	}
 
-	public void push(String name) {
-		push(name, new Var(name, null));
+	public Var push(String name) {
+		return push(name, new Var(name, null));
 	}
 
-	public void push(Annotation annotation, String name, GenericClazz clazz) {
-		push(name, new Var(annotation, name, clazz));
+	public Var push(Annotation annotation, String name, Type clazz) {
+		return push(name, new Var(annotation, name, clazz));
 	}
 
-	private void push(String name, Var value) {
+	private Var push(String name, Var value) {
 		value.locals = locals.size();
 		for (int i = 0; i < value.type.getSize(); i++) {
 			locals.push(stack.size());
 		}
 		stack.push(value);
-		maps.put(name, value);
+		return value;
 	}
 
-	public void push(String name, GenericClazz clazz, Label label) {
-		push(name, new Var(name, clazz, label));
+	public Var push(String name, Type clazz, Label label) {
+		return push(name, new Var(name, clazz, label));
 	}
 }
