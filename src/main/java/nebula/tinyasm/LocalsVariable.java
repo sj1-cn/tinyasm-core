@@ -2,7 +2,7 @@ package nebula.tinyasm;
 
 import org.objectweb.asm.Label;
 
-class LocalsVariable extends ClassField {
+public class LocalsVariable extends ClassField {
 	public Label startFrom;
 
 	public Object value;

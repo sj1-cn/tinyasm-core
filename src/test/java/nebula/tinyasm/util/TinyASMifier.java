@@ -48,7 +48,10 @@ import static org.objectweb.asm.Opcodes.*;
 
 import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
+import nebula.tinyasm.ClassField;
+import nebula.tinyasm.GenericClazz;
 import nebula.tinyasm.LocalsStack;
+import nebula.tinyasm.LocalsVariable;
 import nebula.tinyasm.MethodCode;
 
 /**
@@ -402,7 +405,8 @@ public class TinyASMifier extends Printer {
 //	Param[] methodParams;
 	boolean isMethodStatic = false;
 
-	protected LocalsStack locals;
+//	mhLocals.push(field.name, new LocalsVariable(field, labelCurrent));
+ LocalsStack mhLocals = new LocalsStack();
 	Stack<Type> stack = new Stack<>();
 
 	@Override
@@ -416,6 +420,7 @@ public class TinyASMifier extends Printer {
 //			stack.add(new Param(0, "", "this"));
 			isMethodStatic = false;
 		}
+		
 		// classWriter.method("<init>").code(code -> {
 //			code.line();
 //			code.LOAD(MethodCode._THIS);
@@ -448,6 +453,12 @@ public class TinyASMifier extends Printer {
 		stringBuilder.append(")");
 
 		Type[] params = Type.getArgumentTypes(descriptor);
+
+		
+		for (Type field : params) {
+//			mhLocals.push("", new LocalsVariable("", GenericClazz.generic(field.getClassName())));
+		}
+		
 //		methodParams = new Param[params.length];
 		Param paramField;
 		if (params.length > 0) {

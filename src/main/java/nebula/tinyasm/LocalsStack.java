@@ -48,6 +48,14 @@ public class LocalsStack implements Iterable<LocalsVariable> {
 		return var;
 	}
 
+	public void push(String name, GenericClazz clazz) {
+		push(name, new LocalsVariable(name, clazz));
+	}
+
+	public void push(Annotation annotation, String name, GenericClazz clazz) {
+		push(name, new LocalsVariable(annotation, name, clazz));
+	}
+	
 	public void push(String name, LocalsVariable value) {
 		value.locals = locals.size();
 		for (int i = 0; i < value.type.getSize(); i++) {

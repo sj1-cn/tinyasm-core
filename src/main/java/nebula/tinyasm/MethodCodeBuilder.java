@@ -93,12 +93,12 @@ public class MethodCodeBuilder implements MethodCode {
 
 	@Override
 	public void define(String name, GenericClazz clazz) {
-		locals.push(name, new LocalsVariable(name, clazz));
+		locals.push(name, clazz);
 	}
 
 	@Override
 	public void define(Annotation annotation, String name, GenericClazz clazz) {
-		locals.push(name, new LocalsVariable(annotation, name, clazz));
+		locals.push(annotation, name, clazz);
 	}
 	
 	@Override
