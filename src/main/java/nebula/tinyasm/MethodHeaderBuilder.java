@@ -130,8 +130,7 @@ class MethodHeaderBuilder implements MethodHeader {
 					assert var != null;
 					assert var.clazz.getDescriptor() != null;
 					Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
-					mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel,
-							var.locals);
+					mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
 				}
 			}
 		} else if (is(this.access, ACC_SYNTHETIC) && is(this.access, ACC_BRIDGE)) {
@@ -188,8 +187,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 			Type returnType;
 			if (returnClazz != null) returnType = Type.getType(returnClazz.getDescriptor());
-			else
-				returnType = Type.VOID_TYPE;
+			else returnType = Type.VOID_TYPE;
 
 			String desc = Type.getMethodDescriptor(returnType, ClassField.typesOf(params.list()));
 			String signature = null;
@@ -242,7 +240,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void preapareMethodWithParams() {
 		for (ClassField field : params) {
-			mhLocals.push(field.name, new LocalsVariable(field, labelCurrent));
+			mhLocals.push(field.name, field.clazz, labelCurrent);
 		}
 	}
 
