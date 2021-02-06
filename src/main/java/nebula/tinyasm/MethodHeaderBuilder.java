@@ -124,7 +124,7 @@ class MethodHeaderBuilder implements MethodHeader {
 		if (thisMethod.hasEnded) return;
 		if (!is(this.access, ACC_SYNTHETIC)) {
 			Label endLabel = this.labelWithoutLineNumber();
-			for (LocalsVariable var : mhLocals) {
+			for (LocalsStack.Var var : mhLocals) {
 				if (!is(var.access, ACC_SYNTHETIC)) {
 					assert mv != null;
 					assert var != null;
@@ -135,7 +135,7 @@ class MethodHeaderBuilder implements MethodHeader {
 			}
 		} else if (is(this.access, ACC_SYNTHETIC) && is(this.access, ACC_BRIDGE)) {
 			Label endLabel = this.labelWithoutLineNumber();
-			LocalsVariable var = mhLocals.getByLocal(0);
+			LocalsStack.Var var = mhLocals.getByLocal(0);
 			assert mv != null;
 			assert var != null;
 			assert var.clazz.getDescriptor() != null;

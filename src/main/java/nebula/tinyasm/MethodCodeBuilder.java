@@ -77,18 +77,18 @@ public class MethodCodeBuilder implements MethodCode {
 	
 	@Override
 	public int codeLocalGetLocals(String name) {
-		LocalsVariable var = locals.get(name);
+		LocalsStack.Var var = locals.get(name);
 		return var != null ? locals.get(name).locals : -1;
 	}
 
 	@Override
 	public Type localsLoadAccess(int localsIndex) {
-		return locals.accessLoad(localsIndex, labelCurrent).type;
+		return locals.accessLoadType(localsIndex, labelCurrent);
 	}
 
 	@Override
 	public Type localsStoreAccess(int localsIndex) {
-		return locals.accessStore(localsIndex, labelCurrent).type;
+		return locals.accessStoreType(localsIndex, labelCurrent);
 	}
 
 	@Override
