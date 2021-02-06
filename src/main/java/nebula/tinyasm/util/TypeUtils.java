@@ -8,8 +8,8 @@ import java.util.Map;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.Field;
-import nebula.tinyasm.data.GenericClazz;
+import nebula.tinyasm.Field;
+import nebula.tinyasm.GenericClazz;
 
 //import nebula.tinyasm.api.Field;
 

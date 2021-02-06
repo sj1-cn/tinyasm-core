@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.sample.ClassBody.ConstructerEmpty;
 import nebula.tinyasm.sample.ClassBody.ConstructerWithAllFields;
 import nebula.tinyasm.sample.ClassBody.MakeAllPropertyGetSet;

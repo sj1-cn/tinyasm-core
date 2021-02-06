@@ -3,8 +3,6 @@ package nebula.tinyasm;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
-import nebula.tinyasm.data.ClassHeader;
-
 public interface ClassBuilder {
 	static public ClassHeader make(ClassVisitor classWriter, String clazz) {
 		return new ClassHeaderImpl(classWriter, clazz);

@@ -10,9 +10,6 @@ import org.junit.Test;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 
-import nebula.tinyasm.data.Annotation;
-import nebula.tinyasm.data.ClassBody;
-import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.sample.ClassBody.ParameterStaticSample;
 import nebula.tinyasm.sample.ClassBody.TestAnnotation;
 

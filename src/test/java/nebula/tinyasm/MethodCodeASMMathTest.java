@@ -6,8 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import nebula.tinyasm.data.ClassBody;
-
 public class MethodCodeASMMathTest extends TestBase {
 
 	@Before

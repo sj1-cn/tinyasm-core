@@ -7,8 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.objectweb.asm.Label;
 
-import nebula.tinyasm.data.Annotation;
-import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.sample.ClassBody.ParameterAnnotationSample;
 import nebula.tinyasm.sample.ClassBody.TestAnnotation;
 

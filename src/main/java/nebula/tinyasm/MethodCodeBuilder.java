@@ -17,11 +17,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.Annotation;
-import nebula.tinyasm.data.GenericClazz;
-import nebula.tinyasm.data.MethodCaller;
-import nebula.tinyasm.data.MethodCode;
-
 public class MethodCodeBuilder implements MethodCode {
 	private final MethodVisitor mv;
 

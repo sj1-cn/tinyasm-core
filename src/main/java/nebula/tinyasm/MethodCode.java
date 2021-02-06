@@ -1,4 +1,4 @@
-package nebula.tinyasm.data;
+package nebula.tinyasm;
 
 import static nebula.tinyasm.util.TypeUtils.arrayOf;
 import static nebula.tinyasm.util.TypeUtils.arrayTyoeCodeOf;
@@ -94,8 +94,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.ClazzImpl;
-import nebula.tinyasm.InstanceImpl;
 import nebula.tinyasm.util.TypeUtils;
 
 public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvoke<MethodCode> {

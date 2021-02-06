@@ -5,10 +5,6 @@ import java.util.function.Consumer;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.GenericClazz;
-import nebula.tinyasm.data.Instance;
-import nebula.tinyasm.data.InvokerPrepare;
-import nebula.tinyasm.data.MethodCode;
 import static nebula.tinyasm.util.TypeUtils.*;
 
 public class InstanceImpl implements Instance {

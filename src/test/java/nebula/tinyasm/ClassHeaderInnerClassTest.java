@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 
-import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.sample.ClassHeader.InnerClassSample;
 
 public class ClassHeaderInnerClassTest extends TestBase {

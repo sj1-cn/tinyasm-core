@@ -1,4 +1,4 @@
-package nebula.tinyasm.data;
+package nebula.tinyasm;
 
 public interface WithThrow<T> {
 

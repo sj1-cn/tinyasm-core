@@ -1,4 +1,4 @@
-package nebula.tinyasm.data;
+package nebula.tinyasm;
 
 public interface Naming<K, T> {
 	K nameOf(T t);

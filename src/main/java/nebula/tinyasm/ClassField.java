@@ -6,9 +6,6 @@ import java.util.List;
 
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.Field;
-import nebula.tinyasm.data.GenericClazz;
-
 public class ClassField extends Field {
 	public ClassField(int access, String name, GenericClazz clazz, Object defaultValue) {
 		super(name, clazz);

@@ -1,4 +1,4 @@
-package nebula.tinyasm.data;
+package nebula.tinyasm;
 
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;

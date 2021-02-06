@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.objectweb.asm.ClassWriter;
 
-import nebula.tinyasm.data.ClassBody;
 import nebula.tinyasm.sample.ClassBody.TestInerface;
 import nebula.tinyasm.sample.ClassHeader.MakeClassSuperInterfaceSample;
 import nebula.tinyasm.sample.ClassHeader.MakeClassSuperSample;

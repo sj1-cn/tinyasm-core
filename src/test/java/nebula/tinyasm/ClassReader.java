@@ -9,8 +9,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.TypePath;
 
-import nebula.tinyasm.data.ClassBody;
-
 public class ClassReader extends ClassVisitor {
 
 	ClassBody cb;

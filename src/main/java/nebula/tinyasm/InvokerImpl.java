@@ -8,12 +8,6 @@ import java.util.function.Consumer;
 
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.GenericClazz;
-import nebula.tinyasm.data.Instance;
-import nebula.tinyasm.data.Invoker;
-import nebula.tinyasm.data.InvokerPrepare;
-import nebula.tinyasm.data.MethodCode;
-
 public class InvokerImpl implements InvokerPrepare, Invoker {
 
 	final MethodCode mv;

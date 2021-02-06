@@ -9,9 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import nebula.tinyasm.data.Annotation;
-import nebula.tinyasm.data.ClassBody;
-import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.sample.ClassBody.ParameterGenericSample;
 import nebula.tinyasm.sample.ClassBody.TestAnnotation;
 import nebula.tinyasm.sample.ClassBody.TestInerface;

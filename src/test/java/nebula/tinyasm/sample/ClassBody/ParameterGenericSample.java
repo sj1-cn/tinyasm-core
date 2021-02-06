@@ -3,7 +3,7 @@ package nebula.tinyasm.sample.ClassBody;
 import java.util.ArrayList;
 import java.util.List;
 
-import nebula.tinyasm.data.Annotation;
+import nebula.tinyasm.Annotation;
 
 @SuppressWarnings("serial")
 public class ParameterGenericSample extends ArrayList<Annotation> implements TestInerface, List<Annotation> {

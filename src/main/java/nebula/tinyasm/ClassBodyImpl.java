@@ -12,12 +12,6 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.data.Annotation;
-import nebula.tinyasm.data.ClassBody;
-import nebula.tinyasm.data.Field;
-import nebula.tinyasm.data.GenericClazz;
-import nebula.tinyasm.data.MethodHeader;
-
 class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	FieldList fields = new FieldList();

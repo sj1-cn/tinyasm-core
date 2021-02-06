@@ -11,8 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.objectweb.asm.Label;
 
-import nebula.tinyasm.data.ClassBody;
-import nebula.tinyasm.data.MethodCode;
 import nebula.tinyasm.sample.ClassBody.MethodHeaderSample;
 import nebula.tinyasm.util.RefineCode;
 

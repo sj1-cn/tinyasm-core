@@ -1,4 +1,4 @@
-package nebula.tinyasm.data;
+package nebula.tinyasm;
 
 import static nebula.tinyasm.util.TypeUtils.typeOf;
 

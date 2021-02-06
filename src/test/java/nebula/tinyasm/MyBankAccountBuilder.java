@@ -2,9 +2,6 @@ package nebula.tinyasm;
 
 import org.objectweb.asm.Label;
 
-import nebula.tinyasm.data.Annotation;
-import nebula.tinyasm.data.ClassBody;
-
 public class MyBankAccountBuilder {
 
 	public static byte[] dump() throws Exception {

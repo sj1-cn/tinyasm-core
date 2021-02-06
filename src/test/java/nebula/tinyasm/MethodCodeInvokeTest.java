@@ -9,8 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import nebula.tinyasm.data.ClassBody;
-import nebula.tinyasm.data.GenericClazz;
 import nebula.tinyasm.sample.ClassBody.MethodCodeMethodCallerSample;
 import nebula.tinyasm.sample.MethodCode.InvokeSample;
 
