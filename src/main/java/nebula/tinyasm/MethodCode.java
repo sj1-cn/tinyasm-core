@@ -447,13 +447,6 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	@Override
 	default void STORE(String varname) {
 		int local = codeLocalGetLocals(varname);
-		assert local >= 0 : varname + " doesn't exist";
-		STORE(local);
-	}
-
-	@Override
-	default void store(String varname) {
-		int local = codeLocalGetLocals(varname);
 		if (local >= 0) {
 			STORE(local);
 		} else {
@@ -461,6 +454,11 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 			local = codeLocalGetLocals(varname);
 			STORE(local);
 		}
+	}
+
+	@Override
+	default void store(String varname) {
+		STORE(varname);
 	}
 
 	default void STOREException(int local) {

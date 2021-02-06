@@ -11,4 +11,8 @@ public class SimpleSample {
 		int j=1;
 i=1;
 	}
+	
+	public void methodWith1Param(int i) {
+		this.i = i;
+	}
 }

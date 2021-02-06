@@ -2,16 +2,10 @@ package nebula.tinyasm.util;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-
 import org.junit.Test;
 
 import nebula.tinyasm.MethodCodeASMLogicSample;
 import nebula.tinyasm.MethodCodeASMMathSample;
-import nebula.tinyasm.MethodCodeASMSimpleSample;
 
 public class TinyASMifierTest extends TinyASMifierTestBase {
 
@@ -31,11 +25,11 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 		}
 
 	}
-	
-	@Test
-	public void testDDDD() throws Exception {
-		SimpleSampleTinyAsmDump.dump();
-	}
+//	
+//	@Test
+//	public void testDDDD() throws Exception {
+//		SimpleSampleTinyAsmDump.dump();
+//	}
 
 	@Test
 	public void testMethodCodeASMLogicSample() throws Exception {

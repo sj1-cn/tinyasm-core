@@ -13,6 +13,7 @@ public interface WithDefineVar {
 	default void define(String name, String clazz) {
 		define(name, GenericClazz.generic(clazz));
 	}
+	
 
 	default void define(String name, Class<?> clazz) {
 		define(name, GenericClazz.generic(clazz));

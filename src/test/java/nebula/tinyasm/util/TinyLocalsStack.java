@@ -7,6 +7,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.Annotation;
+import nebula.tinyasm.util.TinyLocalsStack.Var;
 
 public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 
@@ -44,31 +45,17 @@ public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 
 		@Override
 		public String toString() {
-			return this.name;
+			return this.name!=null?this.name:"var"+locals;
 		}
 	}
 
 	Stack<Var> stack = new Stack<>();
-//	Map<String, Var> maps = new HashMap<>();
 
 	Stack<Integer> locals = new Stack<>();
 
 	public Var getByLocal(int index) {
 		return stack.get(locals.get(index));
 	}
-
-//	public Var get(String name) {
-//		return maps.get(name);
-//	}
-
-//	public boolean containsKey(String name) {
-//		return maps.containsKey(name);
-//	}
-
-//	public int size() {
-//		return stack.size();
-//	}
-
 	public Iterator<Var> iterator() {
 		return stack.iterator();
 	}
@@ -87,9 +74,17 @@ public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 		return var.type;
 	}
 	
-	public void accessLoad(int index,int size) {
-		if(locals.size()>index) {
-			put(index, size);
+	public Var accessLoad(int index,int size) {
+		if(locals.size()<=index) {
+			Var value = new Var(null, null);
+			value.locals = index;
+			for (int i = 0; i < size; i++) {
+				locals.push(stack.size());
+			}
+			stack.push(value);
+			return value;
+		}else {
+			return getByLocal(index);
 		}
 	}
 
@@ -105,9 +100,17 @@ public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 		return var.type;
 	}
 
-	public void accessStore(int index,int size) {
-		if(locals.size()>index) {
-			put(index, size);
+	public Var accessStore(int index,int size) {
+		if(locals.size()<=index) {
+			Var value = new Var(null, null);
+			value.locals = index;
+			for (int i = 0; i < size; i++) {
+				locals.push(stack.size());
+			}
+			stack.push(value);
+			return value;
+		}else {
+			return getByLocal(index);
 		}
 	}
 
@@ -121,30 +124,22 @@ public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 	}
 
 	public Var push(Annotation annotation, String name, Type clazz) {
-		return push(name, new Var(annotation, name, clazz));
+		Var var = new Var(annotation, name, clazz);
+		return push(name, var);
 	}
 
-	private Var push(String name, Var value) {
-		value.locals = locals.size();
-		for (int i = 0; i < value.type.getSize(); i++) {
+	private Var push(String name, Var var) {
+		var.locals = locals.size();
+		for (int i = 0; i < var.type.getSize(); i++) {
 			locals.push(stack.size());
 		}
-		stack.push(value);
-		return value;
+		stack.push(var);
+		return var;
 	}
 	
-	private Var put(int index, int size) {
-		Var value = new Var(null, null);
-		value.locals = index;
-		for (int i = 0; i < size; i++) {
-			locals.push(stack.size());
-		}
-		stack.push(value);
-		return value;
-	}
-
 	public Var push(String name, Type clazz, Label label) {
-		return push(name, new Var(name, clazz, label));
+		Var var = new Var(name, clazz, label);
+		return push(name, var);
 	}
 	public int size() {
 		return locals.size();

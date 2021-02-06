@@ -51,8 +51,8 @@ import static org.objectweb.asm.Opcodes.*;
 import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.ClassField;
-import nebula.tinyasm.LocalsStack.Var;
 import nebula.tinyasm.MethodCode;
+import nebula.tinyasm.util.TinyLocalsStack.Var;
 
 /**
  * A {@link Printer} that prints the ASM code to generate the classes if visits.
@@ -399,7 +399,7 @@ public class TinyASMifier extends Printer {
 		return asmifier;
 	}
 
-	TinyLocalsStack methodLocals = null;
+	TinyLocalsStack mdLocals = null;
 
 	boolean isMethodStatic = false;
 
@@ -409,7 +409,7 @@ public class TinyASMifier extends Printer {
 
 	@Override
 	public TinyASMifier visitMethod(final int access, final String name, final String descriptor, final String signature, final String[] exceptions) {
-		methodLocals = new TinyLocalsStack();
+		TinyLocalsStack locals = new TinyLocalsStack();
 
 		Type[] params = Type.getArgumentTypes(descriptor);
 		Type returnType = Type.getReturnType(descriptor);
@@ -417,7 +417,7 @@ public class TinyASMifier extends Printer {
 		if (TypeUtils.is(access, ACC_STATIC)) {
 			isMethodStatic = true;
 		} else {
-			methodLocals.push("this", Type.getType(Object.class));
+			locals.push("this", Type.getType(Object.class));
 //			stack.add(new Param(0, "", "this"));
 			isMethodStatic = false;
 		}
@@ -455,9 +455,6 @@ public class TinyASMifier extends Printer {
 //		}
 		stringBuilder.append(")");
 
-		for (Type field : params) {
-//			mhLocals.push("", new LocalsVariable("", GenericClazz.generic(field.getClassName())));
-		}
 
 //		methodParams = new Param[params.length];
 		if (params.length > 0) {
@@ -468,7 +465,8 @@ public class TinyASMifier extends Printer {
 //			paramField = new Param(i);
 //			text.add(paramField);
 //			stack.add(paramField);
-			text.add(methodLocals.push("", params[i]));
+			Var var = locals.push("", params[i]);
+			text.add(var);
 
 			stringBuilder.setLength(0);
 			stringBuilder.append("\",");
@@ -478,7 +476,7 @@ public class TinyASMifier extends Printer {
 				stringBuilder.append(".parameter(\"");
 
 				text.add(stringBuilder.toString());
-				text.add(methodLocals.push("", params[i]));
+				text.add(locals.push("", params[i]));
 
 				stringBuilder.setLength(0);
 				stringBuilder.append("\",");
@@ -490,7 +488,7 @@ public class TinyASMifier extends Printer {
 		stringBuilder.append(".code(code -> {\n");
 		text.add(stringBuilder.toString());
 		TinyASMifier asmifier = createASMifier("code", 0);
-		asmifier.methodLocals = this.methodLocals;
+		asmifier.mdLocals = locals;
 		text.add(asmifier.getText());
 		text.add("});\n");
 		return asmifier;
@@ -1073,53 +1071,68 @@ public class TinyASMifier extends Printer {
 		stringBuilder.setLength(0);
 //		stringBuilder.append(name).append(".visitVarInsn(").append(OPCODES[opcode]).append(", ").append(var)
 //				.append(");\n");
-
+		Var localVar;
 		switch (opcode) {
 		case ILOAD: // 21; // visitVarInsn
 		case ALOAD: // 25; // -
-			stringBuilder.append(visitname).append(".LOAD(");
-			if (var == 0) appendConstant("this");
-			else stringBuilder.append(var);
-			stringBuilder.append(");\n");
-			text.add(stringBuilder.toString());
-			methodLocals.accessLoad(var,1);
+			 localVar =mdLocals.accessLoad(var, 1);
+				stringBuilder.append(visitname).append(".LOAD(\"");
+				if (var == 0) stringBuilder.append("this");
+				else {
+					text.add(stringBuilder.toString());
+					text.add(localVar);
+					stringBuilder.setLength(0);
+				}
+				stringBuilder.append("\");\n");
+				text.add(stringBuilder.toString());
 			break;
 		case LLOAD: // 22; // -
 		case FLOAD: // 23; // -
 		case DLOAD: // 24; // -
-			methodLocals.accessLoad(var,2);
-			stringBuilder.append(visitname).append(".LOAD(");
-			if (var == 0) appendConstant("this");
-			else stringBuilder.append(var);
-			stringBuilder.append(");\n");
+			 localVar =mdLocals.accessLoad(var, 2);
+			stringBuilder.append(visitname).append(".LOAD(\"");
+			if (var == 0) stringBuilder.append("this");
+			else {
+				text.add(stringBuilder.toString());
+				text.add(localVar);
+				stringBuilder.setLength(0);
+			}
+			stringBuilder.append("\");\n");
 			text.add(stringBuilder.toString());
 			break;
 		case ISTORE: // 54; // visitVarInsn
 		case ASTORE: // 58; // -
-			methodLocals.accessLoad(var,1);
-			stringBuilder.append(visitname).append(".STORE(");
-			if (var == 0) appendConstant("this");
-			else stringBuilder.append(var);
-			stringBuilder.append(");\n");
-			text.add(stringBuilder.toString());
+			 localVar =	mdLocals.accessStore(var, 1);
+				stringBuilder.append(visitname).append(".STORE(\"");
+				if (var == 0) stringBuilder.append("this");
+				else {
+					text.add(stringBuilder.toString());
+					text.add(localVar);
+					stringBuilder.setLength(0);
+				}
+				stringBuilder.append("\");\n");
+				text.add(stringBuilder.toString());
 			break;
 		case LSTORE: // 55; // -
 		case FSTORE: // 56; // -
 		case DSTORE: // 57; // -
-			methodLocals.accessLoad(var,2);
-			stringBuilder.append(visitname).append(".STORE(");
-			if (var == 0) appendConstant("this");
-			else stringBuilder.append(var);
-			stringBuilder.append(");\n");
-			text.add(stringBuilder.toString());
+			 localVar = mdLocals.accessStore(var, 2);
+				stringBuilder.append(visitname).append(".STORE(\"");
+				if (var == 0) stringBuilder.append("this");
+				else {
+					text.add(stringBuilder.toString());
+					text.add(localVar);
+					stringBuilder.setLength(0);
+				}
+				stringBuilder.append("\");\n");
+				text.add(stringBuilder.toString());
 			break;
 		case RET: // 169; // visitVarInsn
 			break;
 
 		default:
 
-			stringBuilder.append(visitname).append(".visitVarInsn(").append(OPCODES[opcode]).append(", ").append(var)
-					.append(");\n");
+			stringBuilder.append(visitname).append(".visitVarInsn(").append(OPCODES[opcode]).append(", ").append(var).append(");\n");
 			break;
 		}
 
@@ -1474,8 +1487,8 @@ public class TinyASMifier extends Printer {
 
 	@Override
 	public void visitLocalVariable(final String name, final String descriptor, final String signature, final Label start, final Label end, final int index) {
-		if (index < methodLocals.size()) {
-			TinyLocalsStack.Var var = methodLocals.getByLocal(index);
+		if (index < mdLocals.size()) {
+			TinyLocalsStack.Var var = mdLocals.getByLocal(index);
 			var.name = name;
 		}
 //		System.out.println(name + " " + index);

@@ -130,7 +130,10 @@ class MethodHeaderBuilder implements MethodHeader {
 					assert var != null;
 					assert var.clazz.getDescriptor() != null;
 					Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
-					mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
+					
+					String varname = var.name!=null?var.name:"var"+ var.locals;
+					
+					mv.visitLocalVariable(varname, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
 				}
 			}
 		} else if (is(this.access, ACC_SYNTHETIC) && is(this.access, ACC_BRIDGE)) {
