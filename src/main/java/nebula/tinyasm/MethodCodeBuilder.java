@@ -20,8 +20,6 @@ import org.objectweb.asm.Type;
 public class MethodCodeBuilder implements MethodCode {
 	private final MethodVisitor mv;
 
-	final protected LocalsStack locals;
-	final Stack<Type> stack = new Stack<>();
 	final MethodHeaderBuilder mh;
 
 	int lastLineNumber = 0;
@@ -56,26 +54,32 @@ public class MethodCodeBuilder implements MethodCode {
 		mv.visitLineNumber(line, label);
 	}
 
+	final Stack<Type> stack = new Stack<>();
 	@Override
 	public Type stackTypeOf(int i) {
 		return stack.get(stack.size() - i - 1);
 	}
 
 	@Override
+	public Type stackPop() {
+		Type type = stack.pop();
+		printStack(stack);
+		return type;
+	}
+
+	@Override
+	public void startPush(Type type) {
+		stack.push(type);
+		printStack(stack);
+	}
+
+	final protected LocalsStack locals;
+	
+	@Override
 	public int codeLocalGetLocals(String name) {
 		LocalsVariable var = locals.get(name);
 		return var != null ? locals.get(name).locals : -1;
 	}
-//
-//	@Override
-//	public Type codeLocalGetType(String name) {
-//		return locals.get(name).type;
-//	}
-//
-//	@Override
-//	public Type codeLocalGetType(int localsIndex) {
-//		return locals.getByLocal(localsIndex).type;
-//	}
 
 	@Override
 	public Type localsLoadAccess(int localsIndex) {
@@ -87,6 +91,16 @@ public class MethodCodeBuilder implements MethodCode {
 		return locals.accessStore(localsIndex, labelCurrent).type;
 	}
 
+	@Override
+	public void define(String name, GenericClazz clazz) {
+		locals.push(name, new LocalsVariable(name, clazz));
+	}
+
+	@Override
+	public void define(Annotation annotation, String name, GenericClazz clazz) {
+		locals.push(name, new LocalsVariable(annotation, name, clazz));
+	}
+	
 	@Override
 	public Type codeThisClassFieldType(String name) {
 		assert mh.staticFields.containsKey(name) : "field + " + name + " not exist!";
@@ -104,29 +118,6 @@ public class MethodCodeBuilder implements MethodCode {
 	public Label codeNewLabel() {
 		Label label = new Label();
 		return label;
-	}
-
-	@Override
-	public Type stackPop() {
-		Type type = stack.pop();
-		printStack(stack);
-		return type;
-	}
-
-	@Override
-	public void startPush(Type type) {
-		stack.push(type);
-		printStack(stack);
-	}
-
-	@Override
-	public void define(String name, GenericClazz clazz) {
-		locals.push(name, new LocalsVariable(name, clazz));
-	}
-
-	@Override
-	public void define(Annotation annotation, String name, GenericClazz clazz) {
-		locals.push(name, new LocalsVariable(annotation, name, clazz));
 	}
 
 	@Override
@@ -188,8 +179,7 @@ public class MethodCodeBuilder implements MethodCode {
 
 	@Override
 	public void visitMethodInsn(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
-		mv.visitMethodInsn(opcode, objectType.getInternalName(), methodName, Type.getMethodDescriptor(returnType, paramTypes),
-				opcode == INVOKEINTERFACE);
+		mv.visitMethodInsn(opcode, objectType.getInternalName(), methodName, Type.getMethodDescriptor(returnType, paramTypes), opcode == INVOKEINTERFACE);
 
 	}
 
@@ -297,12 +287,11 @@ public class MethodCodeBuilder implements MethodCode {
 
 //			String resultMethodDescriptor ;
 
-			mv.visitInvokeDynamicInsn(methodName, lambdaDescriptor, new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory",
-					"metafactory",
+			mv.visitInvokeDynamicInsn(methodName, lambdaDescriptor, new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory",
 					"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
 					false),
-					new Object[] { Type.getType(originDescriptor), new Handle(Opcodes.H_INVOKESTATIC,
-							thisClazzInternalName.getInternalName(), originMethod.methodName, resultDescriptor, false),
+					new Object[] { Type.getType(originDescriptor),
+							new Handle(Opcodes.H_INVOKESTATIC, thisClazzInternalName.getInternalName(), originMethod.methodName, resultDescriptor, false),
 							Type.getType(originSignature) });
 			/*
 			 * mv.visitInvokeDynamicInsn("withHandle",
