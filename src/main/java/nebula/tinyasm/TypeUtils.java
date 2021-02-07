@@ -519,7 +519,7 @@ public class TypeUtils {
 	}
 
 	static Clazz generic(String originclazzName, boolean isarray) {
-		return new ClazzType(arrayOf(Type.getType(originclazzName), isarray));
+		return new ClazzType(arrayOf(typeOf(originclazzName), isarray));
 	}
 
 }

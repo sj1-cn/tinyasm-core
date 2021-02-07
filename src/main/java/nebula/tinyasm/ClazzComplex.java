@@ -7,14 +7,17 @@ import static nebula.tinyasm.TypeUtils.typeOf;
 import org.objectweb.asm.Type;
 
 public class ClazzComplex implements Clazz {
-	private Class<?> originclazz;
 	private String originclazzName;
 	private String[] genericParameterClazz;
 	private String genericClazz;
 	private boolean isarray;
 
 	public Type getType() {
-		return typeOf(originclazz);
+		String name = this.originclazzName;
+		if (this.isarray) {
+			return Type.getType("[" + Type.getObjectType(name.replace('.', '/')).getDescriptor());
+		} else if (TypeUtils.primaryTypeMaps.containsKey(name)) return TypeUtils.primaryTypeMaps.get(name);
+		return Type.getObjectType(name.replace('.', '/'));
 	}
 
 	ClazzComplex(String originclazzName, boolean isarray, String[] genericClazz) {
@@ -34,16 +37,6 @@ public class ClazzComplex implements Clazz {
 		super();
 		this.originclazzName = originclazzName;
 		this.genericClazz = genericBase;
-	}
-
-	ClazzComplex(String originclazzName) {
-		super();
-		this.originclazzName = originclazzName;
-	}
-
-	ClazzComplex(Class<?> originclazz) {
-		super();
-		this.originclazz = originclazz;
 	}
 
 	@Override
