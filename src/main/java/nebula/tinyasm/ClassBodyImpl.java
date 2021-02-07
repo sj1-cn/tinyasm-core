@@ -1,8 +1,8 @@
 package nebula.tinyasm;
 
 
-import static nebula.tinyasm.util.TypeUtils.toSimpleName;
-import static nebula.tinyasm.util.TypeUtils.typeOf;
+import static nebula.tinyasm.TypeUtils.toSimpleName;
+import static nebula.tinyasm.TypeUtils.typeOf;
 
 import java.util.List;
 
@@ -11,8 +11,6 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import nebula.tinyasm.util.GenericClazz;
 
 class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 

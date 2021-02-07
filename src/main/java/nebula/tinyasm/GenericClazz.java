@@ -1,8 +1,6 @@
-package nebula.tinyasm.util;
+package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.*;
-import static nebula.tinyasm.util.TypeUtils.signatureOf;
-import static nebula.tinyasm.util.TypeUtils.typeOf;
+import static nebula.tinyasm.TypeUtils.*;
 
 public class GenericClazz {
 	public Class<?> originclazz;

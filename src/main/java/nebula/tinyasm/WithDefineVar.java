@@ -2,9 +2,6 @@ package nebula.tinyasm;
 
 import java.util.List;
 
-import nebula.tinyasm.util.GenericClazz;
-import nebula.tinyasm.util.TypeUtils;
-
 public interface WithDefineVar {
 
 	default void define(List<Field> fields) {

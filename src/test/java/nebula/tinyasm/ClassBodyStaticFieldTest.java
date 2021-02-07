@@ -12,7 +12,6 @@ import org.objectweb.asm.Opcodes;
 
 import nebula.tinyasm.sample.ClassBody.ParameterStaticSample;
 import nebula.tinyasm.sample.ClassBody.TestAnnotation;
-import nebula.tinyasm.util.TypeUtils;
 
 public class ClassBodyStaticFieldTest extends TestBase {
 

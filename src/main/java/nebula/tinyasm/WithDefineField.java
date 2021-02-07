@@ -2,9 +2,6 @@ package nebula.tinyasm;
 
 import java.util.List;
 
-import nebula.tinyasm.util.GenericClazz;
-import nebula.tinyasm.util.TypeUtils;
-
 import static org.objectweb.asm.Opcodes.*;
 
 public interface WithDefineField<T> {

@@ -1,14 +1,11 @@
-package nebula.tinyasm.util;
+package nebula.tinyasm;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import nebula.tinyasm.Field;
 
 //import nebula.tinyasm.api.Field;
 
@@ -19,9 +16,9 @@ public class TypeUtils {
 	 * variation is equal to the size of the values produced by an instruction,
 	 * minus the size of the values consumed by this instruction.
 	 */
-	static public final int[] SIZE = buildOpcodeSize();
+	static protected final int[] SIZE = buildOpcodeSize();
 
-	public static Map<String, Type> primaryTypeMaps = new HashMap<String, Type>();
+	protected static Map<String, Type> primaryTypeMaps = new HashMap<String, Type>();
 
 	static {
 		primaryTypeMaps.put(boolean.class.getName(), Type.BOOLEAN_TYPE);
@@ -323,14 +320,7 @@ public class TypeUtils {
 //		return newfields;
 //	}
 
-	static public String classnameOf(Class<?> clazz) {
-		if(primaryTypeMaps.containsKey(clazz.getName())) {
-			return primaryTypeMaps.get(clazz.getName()).getInternalName();
-		}
-		return clazz.getName();
-	}
-
-	static public String[] classnamesOf(Class<?>... clazz) {
+static public String[] classnamesOf(Class<?>... clazz) {
 		String[] names = new String[clazz.length];
 		for (int i = 0; i < names.length; i++) {
 			names[i] = clazz[i].getName();
@@ -509,7 +499,7 @@ public class TypeUtils {
 	}
 
 	static public GenericClazz generic(Class<?> originclazzName) {
-		return new GenericClazz(classnameOf(originclazzName));
+		return new GenericClazz(originclazzName.getName());
 	}
 
 	static public GenericClazz generic(String originclazzName, String... genericParameterClazz) {
@@ -517,7 +507,7 @@ public class TypeUtils {
 	}
 
 	static public GenericClazz genericBase(Class<?> originclazzName, String genericClass) {
-		return new GenericClazz(classnameOf(originclazzName), genericClass);
+		return new GenericClazz(originclazzName.getName(), genericClass);
 	}
 
 	static public GenericClazz genericBase(String originclazzName, String genericClass) {
@@ -525,7 +515,7 @@ public class TypeUtils {
 	}
 
 	static public GenericClazz generic(Class<?> originclazzName, String... genericParameterClazz) {
-		return new GenericClazz(classnameOf(originclazzName), genericParameterClazz);
+		return new GenericClazz(originclazzName.getName(), genericParameterClazz);
 	}
 
 	static public GenericClazz generic(String originclazzName) {
@@ -533,15 +523,15 @@ public class TypeUtils {
 	}
 
 	static public GenericClazz genericBase(Class<?> originclazzName, Class<?> genericClass) {
-		return new GenericClazz(classnameOf(originclazzName), classnameOf(genericClass));
+		return new GenericClazz(originclazzName.getName(), genericClass.getName());
 	}
 
 	static public GenericClazz generic(Class<?> originclazzName, Class<?>... genericParameterClazz) {
-		return new GenericClazz(classnameOf(originclazzName), classnamesOf(genericParameterClazz));
+		return new GenericClazz(originclazzName.getName(), classnamesOf(genericParameterClazz));
 	}
 
 	static public GenericClazz generic(Class<?> originclazzName, boolean isarray) {
-		return new GenericClazz(classnameOf(originclazzName), isarray, null);
+		return new GenericClazz(originclazzName.getName(), isarray, null);
 	}
 
 	static public GenericClazz generic(String originclazzName, boolean isarray) {
@@ -549,7 +539,7 @@ public class TypeUtils {
 	}
 
 	static public GenericClazz generic(Class<?> originclazzName, boolean isarray, String[] genericParameterClazz) {
-		return new GenericClazz(classnameOf(originclazzName), isarray, genericParameterClazz);
+		return new GenericClazz(originclazzName.getName(), isarray, genericParameterClazz);
 	}
 
 }

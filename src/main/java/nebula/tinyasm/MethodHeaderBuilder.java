@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.typeOf;
+import static nebula.tinyasm.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
@@ -14,8 +14,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.commons.list.StringListMap;
-import nebula.tinyasm.util.GenericClazz;
-import nebula.tinyasm.util.TypeUtils;
 
 class MethodHeaderBuilder implements MethodHeader {
 	class ThisMethod {

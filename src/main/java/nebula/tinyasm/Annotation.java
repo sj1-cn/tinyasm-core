@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.*;
+import static nebula.tinyasm.TypeUtils.*;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
@@ -36,7 +36,7 @@ public class Annotation {
 	}
 
 	static public Annotation annotation(Class<?> clazz) {
-		return annotation(classnameOf(clazz), null);
+		return annotation(clazz.getName(), null);
 	}
 
 	static public Annotation annotation(String clazz) {
@@ -44,7 +44,7 @@ public class Annotation {
 	}
 
 	static public Annotation annotation(Class<?> clazz, Object value) {
-		return annotation(classnameOf(clazz), value);
+		return annotation(clazz.getName(), value);
 	}
 
 	static public Annotation annotation(String clazz, Object value) {
@@ -60,11 +60,11 @@ public class Annotation {
 	}
 
 	static public Annotation annotation(Class<?> clazz, String[] names, Object[] values) {
-		return annotation(classnameOf(clazz), names, values);
+		return annotation(clazz.getName(), names, values);
 	}
 
 	static public Annotation annotation(Class<?> clazz, Object value, String[] names, Object[] values) {
-		return annotation(classnameOf(clazz), value, names, values);
+		return annotation(clazz.getName(), value, names, values);
 	}
 
 	public String getDescriptor() {

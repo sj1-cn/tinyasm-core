@@ -1,9 +1,9 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.arrayOf;
-import static nebula.tinyasm.util.TypeUtils.checkMathTypes;
-import static nebula.tinyasm.util.TypeUtils.in;
-import static nebula.tinyasm.util.TypeUtils.typeOf;
+import static nebula.tinyasm.TypeUtils.arrayOf;
+import static nebula.tinyasm.TypeUtils.checkMathTypes;
+import static nebula.tinyasm.TypeUtils.in;
+import static nebula.tinyasm.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ACONST_NULL;
 import static org.objectweb.asm.Opcodes.ALOAD;
@@ -92,9 +92,6 @@ import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import nebula.tinyasm.util.GenericClazz;
-import nebula.tinyasm.util.TypeUtils;
 
 public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvoke<MethodCode> {
 

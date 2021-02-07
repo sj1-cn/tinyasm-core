@@ -1,8 +1,5 @@
 package nebula.tinyasm;
 
-import nebula.tinyasm.util.GenericClazz;
-import nebula.tinyasm.util.TypeUtils;
-
 public interface MethodCaller<T> {
 
 	default MethodCaller<T> parameter(Class<?> clazz) {

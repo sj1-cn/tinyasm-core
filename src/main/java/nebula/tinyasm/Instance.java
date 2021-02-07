@@ -2,9 +2,6 @@ package nebula.tinyasm;
 
 import java.util.function.Consumer;
 
-import nebula.tinyasm.util.GenericClazz;
-import nebula.tinyasm.util.TypeUtils;
-
 public interface Instance {
 	InvokerPrepare inter(String methodName);
 

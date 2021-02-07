@@ -1,13 +1,10 @@
-package nebula.tinyasm.help;
+package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.arrayOf;
-import static nebula.tinyasm.util.TypeUtils.typeOf;
+import static nebula.tinyasm.TypeUtils.arrayOf;
+import static nebula.tinyasm.TypeUtils.typeOf;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import nebula.tinyasm.ClassBody;
-import nebula.tinyasm.ClassBuilder;
 
 public class EnumBuilder implements Opcodes {
 

@@ -12,7 +12,6 @@ import org.junit.Test;
 import nebula.tinyasm.sample.ClassBody.ParameterGenericSample;
 import nebula.tinyasm.sample.ClassBody.TestAnnotation;
 import nebula.tinyasm.sample.ClassBody.TestInerface;
-import nebula.tinyasm.util.TypeUtils;
 
 public class ClassBodyGenericTest extends TestBase {
 

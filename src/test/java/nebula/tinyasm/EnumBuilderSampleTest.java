@@ -6,8 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import nebula.tinyasm.help.EnumBuilder;
-
 public class EnumBuilderSampleTest extends TestBase {
 
 	@Before

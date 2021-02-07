@@ -1,7 +1,7 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.typeOf;
-import static nebula.tinyasm.util.TypeUtils.typesOf;
+import static nebula.tinyasm.TypeUtils.typeOf;
+import static nebula.tinyasm.TypeUtils.typesOf;
 import static org.objectweb.asm.Opcodes.BIPUSH;
 import static org.objectweb.asm.Opcodes.ICONST_0;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
@@ -16,9 +16,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import nebula.tinyasm.util.GenericClazz;
-import nebula.tinyasm.util.TypeUtils;
 
 public class MethodCodeBuilder implements MethodCode {
 	private final MethodVisitor mv;

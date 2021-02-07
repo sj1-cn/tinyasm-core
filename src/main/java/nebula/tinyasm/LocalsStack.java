@@ -1,15 +1,12 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.typeOf;
+import static nebula.tinyasm.TypeUtils.typeOf;
 
 import java.util.Iterator;
 import java.util.Stack;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
-
-import nebula.tinyasm.util.GenericClazz;
-import nebula.tinyasm.util.TypeUtils;
 
 public class LocalsStack implements Iterable<LocalsStack.Var> {
 

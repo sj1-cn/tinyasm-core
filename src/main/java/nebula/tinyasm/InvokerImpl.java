@@ -1,14 +1,12 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.typeOf;
+import static nebula.tinyasm.TypeUtils.typeOf;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 import org.objectweb.asm.Type;
-
-import nebula.tinyasm.util.GenericClazz;
 
 public class InvokerImpl implements InvokerPrepare, Invoker {
 

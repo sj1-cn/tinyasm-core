@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import nebula.tinyasm.sample.ClassBody.MethodCodeMethodCallerSample;
-import nebula.tinyasm.util.TypeUtils;
 
 public class MethodCodeMethodCallerTest extends TestBase {
 

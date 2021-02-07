@@ -1,7 +1,5 @@
 package nebula.tinyasm;
 
-import nebula.tinyasm.util.GenericClazz;
-
 public class Field {
 	public Field(String name, GenericClazz generic) {
 		this.name = name;

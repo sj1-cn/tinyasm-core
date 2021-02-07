@@ -1,11 +1,11 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.*;
+import static nebula.tinyasm.TypeUtils.*;
 
 public interface WithAnnotation<B> {
 
 	default B annotation(Class<?> clazz) {
-		return annotation(classnameOf(clazz), null);
+		return annotation(clazz.getName(), null);
 	}
 
 	default B annotation(String clazz) {
@@ -13,7 +13,7 @@ public interface WithAnnotation<B> {
 	}
 
 	default B annotation(Class<?> clazz, Object value) {
-		return annotation(classnameOf(clazz), value);
+		return annotation(clazz.getName(), value);
 	}
 
 	default B annotation(String clazz, Object value) {
@@ -31,11 +31,11 @@ public interface WithAnnotation<B> {
 	}
 
 	default B annotation(Class<?> annotationClass, String[] names, Object[] values) {
-		return annotation(classnameOf(annotationClass), names, values);
+		return annotation(annotationClass.getName(), names, values);
 	}
 
 	default B annotation(Class<?> annotationClass, String name, Object value) {
-		return annotation(classnameOf(annotationClass), new String[] { name }, new Object[] { value });
+		return annotation(annotationClass.getName(), new String[] { name }, new Object[] { value });
 	}
 
 	default B annotation(String annotationClass, String name, Object value) {
@@ -43,7 +43,7 @@ public interface WithAnnotation<B> {
 	}
 
 	default B annotation(Class<?> annotationClass, Object value, String[] names, Object[] values) {
-		return annotation(classnameOf(annotationClass), value, names, values);
+		return annotation(annotationClass.getName(), value, names, values);
 	}
 
 }

@@ -6,9 +6,6 @@ import java.util.function.Consumer;
 
 import org.objectweb.asm.ClassVisitor;
 
-import nebula.tinyasm.util.GenericClazz;
-import nebula.tinyasm.util.TypeUtils;
-
 class ClassHeaderImpl implements ClassHeader {
 	final String name;
 	GenericClazz clazz;
