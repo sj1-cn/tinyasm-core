@@ -437,6 +437,11 @@ public class TypeUtils {
 		return types;
 	}
 
+	static Type typeOf(Clazz clazz) {
+		if (clazz == null) return Type.VOID_TYPE;
+		return clazz.getType();
+	}
+	
 //	static Type typeOf(GenericClazz clazz) {
 //		if (clazz == null) return Type.VOID_TYPE;
 //		String name = clazz.originclazzName;

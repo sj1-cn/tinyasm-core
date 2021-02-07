@@ -1,6 +1,5 @@
 package nebula.tinyasm;
 
-
 import static nebula.tinyasm.TypeUtils.toSimpleName;
 import static nebula.tinyasm.TypeUtils.typeOf;
 
@@ -27,7 +26,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		super(Opcodes.ASM5, cv);
 
 		this.thisType = typeOf(header.name);
-		this.superType = header.superClazz.getType();
+		this.superType = typeOf(header.superClazz);
 		{
 			int version = 53;
 			int access = header.access;

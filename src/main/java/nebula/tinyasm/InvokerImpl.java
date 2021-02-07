@@ -77,7 +77,7 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 
 	@Override
 	public Invoker returnObject(Clazz returnClazz) {
-		this.returnClazz = returnClazz.getType();
+		this.returnClazz = typeOf(returnClazz);
 		return this;
 	}
 

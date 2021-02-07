@@ -273,10 +273,10 @@ public class MethodCodeBuilder implements MethodCode {
 
 			Type thisClazzInternalName = mh.thisMethod.type;
 
-			String originDescriptor = Type.getMethodDescriptor(originMethod.returnClazz.getType(), typesOf(originMethod.params));
-			String originSignature = Type.getMethodDescriptor(originMethod.returnClazz.getType(), typesOf(originMethod.params));
+			String originDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(originMethod.params));
+			String originSignature = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(originMethod.params));
 
-			String lambdaDescriptor = Type.getMethodDescriptor(this.returnClazz.getType(), typesOf(this.params));
+			String lambdaDescriptor = Type.getMethodDescriptor(typeOf(returnClazz), typesOf(this.params));
 			@SuppressWarnings("unused")
 			String lambdaSignature = Type.getMethodDescriptor(typeOf(this.returnClazz.signatureAnyway()), typesOf(this.params));
 
@@ -284,7 +284,7 @@ public class MethodCodeBuilder implements MethodCode {
 			resultMethodParams.addAll(this.params);
 			resultMethodParams.addAll(originMethod.params);
 
-			String resultDescriptor = Type.getMethodDescriptor(originMethod.returnClazz.getType(), typesOf(resultMethodParams));
+			String resultDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(resultMethodParams));
 
 //			String resultMethodDescriptor ;
 
@@ -305,7 +305,7 @@ public class MethodCodeBuilder implements MethodCode {
 			 * Type.getType("(Lorg/jdbi/v3/core/Handle;)Ljava/util/List;")});
 			 */
 
-			stackPush(this.returnClazz.getType());
+			stackPush(typeOf(this.returnClazz));
 		}
 
 	}
@@ -339,7 +339,7 @@ public class MethodCodeBuilder implements MethodCode {
 
 		@Override
 		public void INVOKE() {
-			MethodCodeBuilder.this.INVOKE(opcode, resideClazz.getType(),returnClazz.getType(), methodName, typesOf(params));
+			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz),typeOf(returnClazz), methodName, typesOf(params));
 		}
 
 		@Override
