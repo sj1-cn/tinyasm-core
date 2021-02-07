@@ -41,7 +41,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		publicMethod("<init>").parameter(fields).code(mc -> {
 			mc.line().initObject();
 			for (Field param : fields) {
-				mc.line().putField("this", param.name, param.name, param.clazz.originclazzName);
+				mc.line().putField("this", param.name, param.name, param.clazz);
 			}
 			mc.line().returnVoid();
 		});
@@ -221,7 +221,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 			final Field field = param;
 			String fieldClass = clazzOfField(field.name);
 			String name = field.name;
-			publicMethod("set" + Character.toUpperCase(name.charAt(0)) + name.substring(1)).parameter(field.name, field.clazz.originclazzName)
+			publicMethod("set" + Character.toUpperCase(name.charAt(0)) + name.substring(1)).parameter(field.name, field.clazz)
 				.code(mc -> {
 					mc.line().putField("this", field.name, field.name, fieldClass);
 					mc.line().returnVoid();
@@ -274,7 +274,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 					mc.GET_THIS_FIELD(field.name);
 					mc.line();
 					mc.INVOKEVIRTUAL(StringBuilder.class.getName(), StringBuilder.class.getName(), "append",
-							stringInnerUserType(typeOf(field.clazz.originclazzName)).getClassName());
+							stringInnerUserType(field.clazz.getType()).getClassName());
 
 				}
 				mc.LOADConst("]");

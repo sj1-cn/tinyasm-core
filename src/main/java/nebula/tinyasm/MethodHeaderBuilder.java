@@ -44,8 +44,8 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	MethodVisitor mv;
 
-	final List<GenericClazz> exceptions = new ArrayList<>();
-	GenericClazz returnClazz = null;
+	final List<Clazz> exceptions = new ArrayList<>();
+	Clazz returnClazz = null;
 
 	public MethodHeaderBuilder(ClassBodyImpl cv, String className, int access, String returnType, String methodName) {
 		this(cv, className, access, methodName);
@@ -166,14 +166,14 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	@Override
-	public MethodHeader parameter(int access, String name, GenericClazz clazz) {
+	public MethodHeader parameter(int access, String name, Clazz clazz) {
 		LocalsVariable param = new LocalsVariable(access, name, clazz);
 		params.push(param);
 		return this;
 	}
 
 	@Override
-	public MethodHeader parameter(Annotation annotation, String name, GenericClazz clazz) {
+	public MethodHeader parameter(Annotation annotation, String name, Clazz clazz) {
 		LocalsVariable param = new LocalsVariable(annotation, name, clazz);
 		params.push(param);
 		return this;
@@ -220,7 +220,8 @@ class MethodHeaderBuilder implements MethodHeader {
 			}
 			String[] strs = new String[this.exceptions.size()];
 			for (int i = 0; i < this.exceptions.size(); i++) {
-				strs[i] = typeOf(this.exceptions.get(i).originclazzName).getInternalName();
+				//TODO 
+				strs[i] = this.exceptions.get(i).getType().getInternalName();
 			}
 			String[] exceptions = strs;
 
@@ -256,7 +257,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	@Override
-	public MethodHeader tHrow(GenericClazz clazz) {
+	public MethodHeader tHrow(Clazz clazz) {
 		exceptions.add(clazz);
 		return this;
 	}
@@ -268,7 +269,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	@Override
-	public MethodHeader reTurn(GenericClazz clazz) {
+	public MethodHeader reTurn(Clazz clazz) {
 		this.returnClazz = clazz;
 		return this;
 	}

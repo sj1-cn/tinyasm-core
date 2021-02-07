@@ -3,7 +3,7 @@ package nebula.tinyasm;
 import java.util.function.Consumer;
 
 public interface InvokerPrepare {
-	InvokerPrepare parameter(GenericClazz clazz);
+	InvokerPrepare parameter(Clazz clazz);
 
 	default InvokerPrepare parameter(Class<?> clazz,boolean array) {
 		return parameter(TypeUtils.generic(clazz,array));
@@ -46,7 +46,7 @@ public interface InvokerPrepare {
 
 	void invokeVoid(String... varname);
 
-	Invoker returnObject(GenericClazz returnClazz);
+	Invoker returnObject(Clazz returnClazz);
 
 	default Invoker reTurn(Class<?> returnClazz) {
 		return returnObject(TypeUtils.generic(returnClazz));

@@ -56,6 +56,8 @@ public interface MethodCodeFriendly extends WithDefineVar {
 	void putThisFieldWithVar(String fieldname, String varname);
 
 	void putField(String objectref, String varname, String fieldname, Class<?> fieldType);
+	
+	void putField(String objectref, String varname, String fieldname, Clazz fieldType);
 
 	void putField(String objectref, String varname, String fieldname, String fieldType);
 

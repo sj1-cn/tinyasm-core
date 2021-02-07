@@ -9,7 +9,7 @@ public interface WithDefineField<T> {
 	default T field(List<Field> fields) {
 		T t = null;
 		for (Field field : fields) {
-			t = field(field.name, TypeUtils.generic(field.clazz));
+			t = field(field.name, field.clazz);
 		}
 		return t;
 	}
@@ -22,8 +22,8 @@ public interface WithDefineField<T> {
 		return field(name, TypeUtils.generic(clazz));
 	}
 
-	default T field(String name, GenericClazz clazz) {
-		return field(ACC_PRIVATE, name, TypeUtils.generic(clazz));
+	default T field(String name, Clazz clazz) {
+		return field(ACC_PRIVATE, name, clazz);
 	}
 
 	default T field(Class<?> annotation, String name, String clazz) {
@@ -34,8 +34,8 @@ public interface WithDefineField<T> {
 		return field(Annotation.annotation(annotation), name, TypeUtils.generic(clazz));
 	}
 
-	default T field(Class<?> annotation, String name, GenericClazz clazz) {
-		return field(Annotation.annotation(annotation), name, TypeUtils.generic(clazz));
+	default T field(Class<?> annotation, String name, Clazz clazz) {
+		return field(Annotation.annotation(annotation), name, clazz);
 	}
 
 	default T field(Annotation annotation, String name, String clazz) {
@@ -46,7 +46,7 @@ public interface WithDefineField<T> {
 		return field(Annotation.annotation(annotation), name, TypeUtils.generic(clazz));
 	}
 
-	default T field(Annotation annotation, String name, GenericClazz clazz) {
+	default T field(Annotation annotation, String name, Clazz clazz) {
 		return field(ACC_PRIVATE, annotation, name, clazz);
 	}
 
@@ -82,7 +82,7 @@ public interface WithDefineField<T> {
 		return field(access, name, TypeUtils.generic(clazz));
 	}
 
-	T field(int access, String name, GenericClazz clazz);
+	T field(int access, String name, Clazz clazz);
 
 	default T field(int access, Class<?> annotation, String name, String clazz) {
 		return field(access, Annotation.annotation(annotation), name, TypeUtils.generic(clazz));
@@ -92,8 +92,8 @@ public interface WithDefineField<T> {
 		return field(access, Annotation.annotation(annotation), name, TypeUtils.generic(clazz));
 	}
 
-	default T field(int access, Class<?> annotation, String name, GenericClazz clazz) {
-		return field(access, Annotation.annotation(annotation), name, TypeUtils.generic(clazz));
+	default T field(int access, Class<?> annotation, String name, Clazz clazz) {
+		return field(access, Annotation.annotation(annotation), name, clazz);
 	}
 
 	default T field(int access, Annotation annotation, String name, String clazz) {
@@ -104,7 +104,7 @@ public interface WithDefineField<T> {
 		return field(access, Annotation.annotation(annotation), name, TypeUtils.generic(clazz));
 	}
 
-	T field(int access, Annotation annotation, String name, GenericClazz clazz);
+	T field(int access, Annotation annotation, String name, Clazz clazz);
 
 	default T field(int access, String name, String clazz, boolean isarray) {
 		return field(access, name, TypeUtils.generic(clazz, isarray));

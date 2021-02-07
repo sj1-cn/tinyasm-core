@@ -192,8 +192,8 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		return topInstance();
 	}
 
-	default Instance checkcastAndUnbox(GenericClazz clazz) {
-		BoxUnbox.checkcastAndUnbox(typeOf(clazz)).accept(this);
+	default Instance checkcastAndUnbox(Clazz clazz) {
+		BoxUnbox.checkcastAndUnbox(clazz.getType()).accept(this);
 		return topInstance();
 	}
 	
@@ -1861,6 +1861,12 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		STORE(varname);
 	}
 
+
+	@Override
+	default void putField(String objectref, String varname, String fieldname, Clazz fieldType) {
+		putfield(objectref, varname, fieldname,fieldType.getType());
+	}
+	
 	@Override
 	default void putField(String objectref, String varname, String fieldname, Class<?> fieldType) {
 		putfield(objectref, varname, fieldname, typeOf(fieldType));

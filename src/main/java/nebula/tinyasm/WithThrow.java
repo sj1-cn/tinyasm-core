@@ -22,7 +22,7 @@ public interface WithThrow<T> {
 		return mh;
 	}
 
-	MethodHeader tHrow(GenericClazz clazz);
+	MethodHeader tHrow(Clazz clazz);
 
 	default MethodHeader tHrow(String clazz) {
 		return tHrow(TypeUtils.generic(clazz));

@@ -6,7 +6,7 @@ public interface WithReturn<T> {
 		return reTurn(TypeUtils.generic(clazz));
 	}
 
-	MethodHeader reTurn(GenericClazz clazz);
+	MethodHeader reTurn(Clazz clazz);
 
 	default MethodHeader reTurn(String clazz) {
 		return reTurn(TypeUtils.generic(clazz));

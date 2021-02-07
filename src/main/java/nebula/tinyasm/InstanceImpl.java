@@ -63,7 +63,7 @@ public class InstanceImpl implements Instance {
 	}
 
 	@Override
-	public Instance checkcastAndUnbox(GenericClazz clazz) {
+	public Instance checkcastAndUnbox(Clazz clazz) {
 		return mv.checkcastAndUnbox(clazz);
 	}
 
@@ -83,8 +83,8 @@ public class InstanceImpl implements Instance {
 	}
 
 	@Override
-	public Instance checkcast(GenericClazz clazz) {
-		mv.CHECKCAST(typeOf(clazz));
+	public Instance checkcast(Clazz clazz) {
+		mv.CHECKCAST(clazz.getType());
 		return mv.topInstance();
 	}
 

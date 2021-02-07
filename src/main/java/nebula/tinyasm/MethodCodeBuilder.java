@@ -55,6 +55,7 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	final Stack<Type> stack = new Stack<>();
+
 	@Override
 	public Type stackTypeOf(int i) {
 		return stack.get(stack.size() - i - 1);
@@ -74,7 +75,7 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	final protected LocalsStack locals;
-	
+
 	@Override
 	public int codeLocalGetLocals(String name) {
 		LocalsStack.Var var = locals.get(name);
@@ -92,26 +93,26 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	@Override
-	public void define(String name, GenericClazz clazz) {
+	public void define(String name, Clazz clazz) {
 		locals.define(name, clazz);
 	}
 
 	@Override
-	public void define(Annotation annotation, String name, GenericClazz clazz) {
+	public void define(Annotation annotation, String name, Clazz clazz) {
 		locals.define(annotation, name, clazz);
 	}
-	
+
 	@Override
 	public Type codeThisClassFieldType(String name) {
 		assert mh.staticFields.containsKey(name) : "field + " + name + " not exist!";
-		return mh.staticFields.get(name).type;
+		return mh.staticFields.get(name).clazz.getType();
 	}
 
 	@Override
 	public Type codeThisFieldType(String name) {
 		assert mh.thisMethod.instanceMethod;
 		assert mh.fields.containsKey(name) : "field + " + name + " not exist!";
-		return mh.fields.get(name).type;
+		return mh.fields.get(name).clazz.getType();
 	}
 
 	@Override
@@ -237,15 +238,15 @@ public class MethodCodeBuilder implements MethodCode {
 	}
 
 	class LAMBDAImpl extends MethodCallerImpl implements MethodCaller<MethodCode> {
-		List<GenericClazz> params = new ArrayList<>();
-		GenericClazz returnClazz;
+		List<Clazz> params = new ArrayList<>();
+		Clazz returnClazz;
 
 		final int opcode;
-		final GenericClazz resideClazz;
+		final Clazz resideClazz;
 		final String methodName;
 		final MethodCallerImpl originMethod;
 
-		public LAMBDAImpl(int opcode, MethodCallerImpl targetMethod, GenericClazz resideClazz, String methodName) {
+		public LAMBDAImpl(int opcode, MethodCallerImpl targetMethod, Clazz resideClazz, String methodName) {
 			super(opcode, resideClazz, methodName);
 			this.opcode = opcode;
 			this.resideClazz = resideClazz;
@@ -254,13 +255,13 @@ public class MethodCodeBuilder implements MethodCode {
 		}
 
 		@Override
-		public MethodCaller<MethodCode> parameter(GenericClazz clazz) {
+		public MethodCaller<MethodCode> parameter(Clazz clazz) {
 			params.add(clazz);
 			return this;
 		}
 
 		@Override
-		public MethodCaller<MethodCode> reTurn(GenericClazz clazz) {
+		public MethodCaller<MethodCode> reTurn(Clazz clazz) {
 			returnClazz = clazz;
 			return this;
 		}
@@ -272,18 +273,18 @@ public class MethodCodeBuilder implements MethodCode {
 
 			Type thisClazzInternalName = mh.thisMethod.type;
 
-			String originDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz.originclazzName), typesOf(originMethod.params));
-			String originSignature = Type.getMethodDescriptor(typeOf(originMethod.returnClazz.genericClazz), typesOf(originMethod.params));
+			String originDescriptor = Type.getMethodDescriptor(originMethod.returnClazz.getType(), typesOf(originMethod.params));
+			String originSignature = Type.getMethodDescriptor(originMethod.returnClazz.getType(), typesOf(originMethod.params));
 
-			String lambdaDescriptor = Type.getMethodDescriptor(typeOf(this.returnClazz), typesOf(this.params));
+			String lambdaDescriptor = Type.getMethodDescriptor(this.returnClazz.getType(), typesOf(this.params));
 			@SuppressWarnings("unused")
 			String lambdaSignature = Type.getMethodDescriptor(typeOf(this.returnClazz.signatureAnyway()), typesOf(this.params));
 
-			List<GenericClazz> resultMethodParams = new ArrayList<>();
+			List<Clazz> resultMethodParams = new ArrayList<>();
 			resultMethodParams.addAll(this.params);
 			resultMethodParams.addAll(originMethod.params);
 
-			String resultDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz.genericClazz), typesOf(resultMethodParams));
+			String resultDescriptor = Type.getMethodDescriptor(originMethod.returnClazz.getType(), typesOf(resultMethodParams));
 
 //			String resultMethodDescriptor ;
 
@@ -304,20 +305,20 @@ public class MethodCodeBuilder implements MethodCode {
 			 * Type.getType("(Lorg/jdbi/v3/core/Handle;)Ljava/util/List;")});
 			 */
 
-			stackPush(typeOf(this.returnClazz));
+			stackPush(this.returnClazz.getType());
 		}
 
 	}
 
 	class MethodCallerImpl implements MethodCaller<MethodCode> {
-		List<GenericClazz> params = new ArrayList<>();
-		GenericClazz returnClazz;
+		List<Clazz> params = new ArrayList<>();
+		Clazz returnClazz;
 
 		final int opcode;
-		final GenericClazz resideClazz;
+		final Clazz resideClazz;
 		final String methodName;
 
-		public MethodCallerImpl(int opcode, GenericClazz resideClazz, String methodName) {
+		public MethodCallerImpl(int opcode, Clazz resideClazz, String methodName) {
 			super();
 			this.opcode = opcode;
 			this.resideClazz = resideClazz;
@@ -325,20 +326,20 @@ public class MethodCodeBuilder implements MethodCode {
 		}
 
 		@Override
-		public MethodCaller<MethodCode> parameter(GenericClazz clazz) {
+		public MethodCaller<MethodCode> parameter(Clazz clazz) {
 			params.add(clazz);
 			return this;
 		}
 
 		@Override
-		public MethodCaller<MethodCode> reTurn(GenericClazz clazz) {
+		public MethodCaller<MethodCode> reTurn(Clazz clazz) {
 			returnClazz = clazz;
 			return this;
 		}
 
 		@Override
 		public void INVOKE() {
-			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz), typeOf(returnClazz), methodName, typesOf(params));
+			MethodCodeBuilder.this.INVOKE(opcode, resideClazz.getType(),returnClazz.getType(), methodName, typesOf(params));
 		}
 
 		@Override

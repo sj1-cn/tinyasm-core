@@ -9,7 +9,7 @@ import org.objectweb.asm.Type;
 
 //import nebula.tinyasm.api.Field;
 
- public class TypeUtils {
+public class TypeUtils {
 
 	/**
 	 * The stack size variation corresponding to each JVM instruction. This stack
@@ -44,7 +44,7 @@ import org.objectweb.asm.Type;
 		primaryTypeObjectMap.put(double.class.getName(), Double.class.getName());
 	}
 
-	 static Map<Type, Integer> arrayTypeMaps = new HashMap<Type, Integer>();
+	static Map<Type, Integer> arrayTypeMaps = new HashMap<Type, Integer>();
 
 	static {
 		arrayTypeMaps.put(typeOf(boolean.class), Opcodes.T_BOOLEAN);
@@ -57,7 +57,7 @@ import org.objectweb.asm.Type;
 		arrayTypeMaps.put(typeOf(double.class.getName()), Opcodes.T_DOUBLE);
 	}
 
-	static  Type arrayOf(Type type, boolean array) {
+	static Type arrayOf(Type type, boolean array) {
 		if (array) {
 			return Type.getType("[" + type.getDescriptor());
 		} else {
@@ -68,7 +68,7 @@ import org.objectweb.asm.Type;
 	/**
 	 * Computes the stack size variation corresponding to each JVM instruction.
 	 */
-	static  int[] buildOpcodeSize() {
+	static int[] buildOpcodeSize() {
 		int i;
 		int[] b = new int[202];
 		String s = "EFFFFFFFFGGFFFGGFFFEEFGFGFEEEEEEEEEEEEEEEEEEEEDEDEDDDDD" + "CDCDEEEEEEEEEEEEEEEEEEEEBABABBBBDCFFFGGGEDCDCDCDCDCDCDCDCD"
@@ -261,13 +261,13 @@ import org.objectweb.asm.Type;
 		// -2, //DRETURN, // -
 		// -1, //ARETURN, // -
 		// 0, //RETURN, // -
-		// NA, //GETstatic  , // visitFieldInsn
-		// NA, //PUTstatic  , // -
+		// NA, //GETstatic , // visitFieldInsn
+		// NA, //PUTstatic , // -
 		// NA, //GETFIELD, // -
 		// NA, //PUTFIELD, // -
 		// NA, //INVOKEVIRTUAL, // visitMethodInsn
 		// NA, //INVOKESPECIAL, // -
-		// NA, //INVOKEstatic  , // -
+		// NA, //INVOKEstatic , // -
 		// NA, //INVOKEINTERFACE, // -
 		// NA, //INVOKEDYNAMIC, // visitInvokeDynamicInsn
 		// 1, //NEW, // visitTypeInsn
@@ -292,11 +292,11 @@ import org.objectweb.asm.Type;
 		// System.err.println();
 	}
 
-	static  Type checkMathTypes(Type right, Type left) {
-		assert in(right, Type.BOOLEAN_TYPE, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE, Type.FLOAT_TYPE,
-				Type.DOUBLE_TYPE) : "right value type";
-		assert in(left, Type.BOOLEAN_TYPE, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE, Type.FLOAT_TYPE,
-				Type.DOUBLE_TYPE) : "left value type";
+	static Type checkMathTypes(Type right, Type left) {
+		assert in(right, Type.BOOLEAN_TYPE, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
+				: "right value type";
+		assert in(left, Type.BOOLEAN_TYPE, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
+				: "left value type";
 		right = mathInnerUserType(right);
 		left = mathInnerUserType(left);
 		assert left == right : "left type should equal right type";
@@ -320,7 +320,7 @@ import org.objectweb.asm.Type;
 //		return newfields;
 //	}
 
-static  String[] classnamesOf(Class<?>... clazz) {
+	static String[] classnamesOf(Class<?>... clazz) {
 		String[] names = new String[clazz.length];
 		for (int i = 0; i < names.length; i++) {
 			names[i] = clazz[i].getName();
@@ -328,7 +328,7 @@ static  String[] classnamesOf(Class<?>... clazz) {
 		return names;
 	}
 
-	static  String concat(String... strs) {
+	static String concat(String... strs) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(strs[0]);
 		for (int i = 1; i < strs.length; i++) {
@@ -338,7 +338,7 @@ static  String[] classnamesOf(Class<?>... clazz) {
 		return sb.toString();
 	}
 
-	static  boolean in(Type type, Type... types) {
+	static boolean in(Type type, Type... types) {
 		for (Type type2 : types) {
 			if (type2 == type) {
 				return true;
@@ -360,7 +360,7 @@ static  String[] classnamesOf(Class<?>... clazz) {
 		return type;
 	}
 
-	static  String signatureOf(Type type, Class<?>... signatureClasses) {
+	static String signatureOf(Type type, Class<?>... signatureClasses) {
 		String signature = null;
 		if (signatureClasses != null && signatureClasses.length > 0) {
 			StringBuilder sb = new StringBuilder();
@@ -376,7 +376,7 @@ static  String[] classnamesOf(Class<?>... clazz) {
 		return signature;
 	};
 
-	static  String signatureOf(Type type, Type... signatureTypes) {
+	static String signatureOf(Type type, Type... signatureTypes) {
 		String signature = null;
 		if (signatureTypes != null && signatureTypes.length > 0) {
 			StringBuilder sb = new StringBuilder();
@@ -392,7 +392,7 @@ static  String[] classnamesOf(Class<?>... clazz) {
 		return signature;
 	};
 
-	static  Type stringInnerUserType(Type type) {
+	static Type stringInnerUserType(Type type) {
 		switch (type.getSort()) {
 		case Type.BOOLEAN:
 		case Type.BYTE:
@@ -405,19 +405,19 @@ static  String[] classnamesOf(Class<?>... clazz) {
 		return type;
 	}
 
-	static  String toSimpleName(String name) {
+	static String toSimpleName(String name) {
 		int index = name.lastIndexOf('.');
 		if (index < 0) index = name.lastIndexOf('/');
 
 		return name.substring(index + 1);
 	}
 
-	static  Type typeOf(Class<?> clz) {
+	static Type typeOf(Class<?> clz) {
 		if (clz == null) return Type.VOID_TYPE;
 		return Type.getType(clz);
 	}
 
-	static  Type[] typeOf(Class<?>... classes) {
+	static Type[] typeOf(Class<?>... classes) {
 		Type[] types = new Type[classes.length];
 		for (int i = 0; i < classes.length; i++) {
 			types[i] = typeOf(classes[i]);
@@ -425,59 +425,58 @@ static  String[] classnamesOf(Class<?>... clazz) {
 		return types;
 	}
 
-	static  Type typeOf(Class<?> clz, boolean isarray) {
+	static Type typeOf(Class<?> clz, boolean isarray) {
 		return arrayOf(Type.getType(clz), isarray);
 	}
 
-	static  Type[] typeOf(Field... fields) {
+	static Type[] typeOf(Field... fields) {
 		Type[] types = new Type[fields.length];
 		for (int i = 0; i < fields.length; i++) {
-			types[i] = typeOf(fields[i].clazz.originclazzName);
+			types[i] =fields[i].clazz.getType();
 		}
 		return types;
 	}
 
-	static  Type typeOf(GenericClazz clazz) {
-		if (clazz == null) return Type.VOID_TYPE;
-		String name = clazz.originclazzName;
-		if (clazz.isarray) {
-			return Type.getType("[" + Type.getObjectType(name.replace('.', '/')).getDescriptor());
-		}else 
-			if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
-		return Type.getType(name.replace('.', '/'));
-	}
-
-	static  Type[] typeOf(GenericClazz... clazzes) {
+//	static Type typeOf(GenericClazz clazz) {
+//		if (clazz == null) return Type.VOID_TYPE;
+//		String name = clazz.originclazzName;
+//		if (clazz.isarray) {
+//			return Type.getType("[" + Type.getObjectType(name.replace('.', '/')).getDescriptor());
+//		} else if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
+//		return Type.getType(name.replace('.', '/'));
+//	}
+	
+	static Type[] typeOf(Clazz... clazzes) {
 		Type[] types = new Type[clazzes.length];
 		for (int i = 0; i < clazzes.length; i++) {
-			types[i] = typeOf(clazzes[i]);
+			types[i] =clazzes[i].getType();
 		}
 		return types;
 	}
 
-	static  Type[] typeOf(List<Field> fields) {
+	static Type[] typeOf(List<Field> fields) {
 		Type[] types = new Type[fields.size()];
 		for (int i = 0; i < fields.size(); i++) {
-			types[i] = typeOf(fields.get(i).clazz.originclazzName);
+			types[i] = fields.get(i).clazz.getType();
 		}
 		return types;
 	}
 
-	static  Type[] typesOf(List<GenericClazz> clazzes) {
+	static Type[] typesOf(List<Clazz> clazzes) {
 		Type[] types = new Type[clazzes.size()];
 		for (int i = 0; i < clazzes.size(); i++) {
-			types[i] = typeOf(clazzes.get(i));
+			types[i] =clazzes.get(i).getType();
 		}
 		return types;
 	}
 
-	static  Type typeOf(String name) {
+	static Type typeOf(String name) {
 		if (name == null) return Type.VOID_TYPE;
 		if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
 		return Type.getObjectType(name.replace('.', '/'));
 	}
 
-	static  Type[] typeOf(String... classes) {
+	static Type[] typeOf(String... classes) {
 		Type[] types = new Type[classes.length];
 		for (int i = 0; i < classes.length; i++) {
 			types[i] = typeOf(classes[i]);
@@ -485,61 +484,41 @@ static  String[] classnamesOf(Class<?>... clazz) {
 		return types;
 	}
 
-	static  Type typeOf(String name, boolean isarray) {
+	static Type typeOf(String name, boolean isarray) {
 		return arrayOf(typeOf(name), isarray);
 	}
 
-	//TODO need fix bug
-	static  GenericClazz generic(Type type) {
-		return new GenericClazz(type.getInternalName());
+	// TODO need fix bug
+	static Clazz generic(Type type) {
+		return new ClazzType(type);
 	}
 
-	static  GenericClazz generic(GenericClazz originclazzName) {
-		return originclazzName;
+//	static   GenericClazz generic(GenericClazz originclazzName) {
+//		return originclazzName;
+//	}
+
+	static Clazz generic(Class<?> originclazzName) {
+		return new ClazzType(Type.getType(originclazzName));
 	}
 
-	static  GenericClazz generic(Class<?> originclazzName) {
-		return new GenericClazz(originclazzName.getName());
+	static Clazz generic(String originclazzName, String... genericParameterClazz) {
+		return new ClazzComplex(originclazzName, genericParameterClazz);
 	}
 
-	static  GenericClazz generic(String originclazzName, String... genericParameterClazz) {
-		return new GenericClazz(originclazzName, genericParameterClazz);
+	public static Clazz generic(Class<?> originclazzName, String... genericParameterClazz) {
+		return new ClazzComplex(originclazzName.getName(), genericParameterClazz);
 	}
 
-	static  GenericClazz genericBase(Class<?> originclazzName, String genericClass) {
-		return new GenericClazz(originclazzName.getName(), genericClass);
+	static Clazz generic(Class<?> originclazzName, Class<?>... genericParameterClazz) {
+		return new ClazzComplex(originclazzName.getName(), classnamesOf(genericParameterClazz));
 	}
 
-	static  GenericClazz genericBase(String originclazzName, String genericClass) {
-		return new GenericClazz(originclazzName, genericClass);
+	static Clazz generic(Class<?> originclazzName, boolean isarray) {
+		return new ClazzType(arrayOf(Type.getType(originclazzName), isarray));
 	}
 
-	public static  GenericClazz generic(Class<?> originclazzName, String... genericParameterClazz) {
-		return new GenericClazz(originclazzName.getName(), genericParameterClazz);
-	}
-
-	static  GenericClazz generic(String originclazzName) {
-		return new GenericClazz(originclazzName);
-	}
-
-	static  GenericClazz genericBase(Class<?> originclazzName, Class<?> genericClass) {
-		return new GenericClazz(originclazzName.getName(), genericClass.getName());
-	}
-
-	static  GenericClazz generic(Class<?> originclazzName, Class<?>... genericParameterClazz) {
-		return new GenericClazz(originclazzName.getName(), classnamesOf(genericParameterClazz));
-	}
-
-	static  GenericClazz generic(Class<?> originclazzName, boolean isarray) {
-		return new GenericClazz(originclazzName.getName(), isarray, null);
-	}
-
-	static  GenericClazz generic(String originclazzName, boolean isarray) {
-		return new GenericClazz(originclazzName, isarray, null);
-	}
-
-	static  GenericClazz generic(Class<?> originclazzName, boolean isarray, String[] genericParameterClazz) {
-		return new GenericClazz(originclazzName.getName(), isarray, genericParameterClazz);
+	static Clazz generic(String originclazzName, boolean isarray) {
+		return new ClazzType(arrayOf(Type.getType(originclazzName), isarray));
 	}
 
 }

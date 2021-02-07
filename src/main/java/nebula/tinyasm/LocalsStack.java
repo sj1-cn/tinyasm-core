@@ -1,7 +1,5 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.TypeUtils.typeOf;
-
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -16,13 +14,13 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 		Label startFrom;
 		Annotation annotation;
 		final Type type;
-		final GenericClazz clazz;
+		final Clazz clazz;
 		int locals = 0;
 
-		//TODO fix bug
-		Var(GenericClazz clazz) {
+		// TODO fix bug
+		Var(Clazz clazz) {
 			this.clazz = clazz;
-			this.type = typeOf(clazz);
+			this.type = clazz.getType();
 		}
 
 		Var(Type type) {
@@ -30,7 +28,7 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 			this.type = type;
 		}
 
-		Var(GenericClazz clazz, Type type) {
+		Var(Clazz clazz, Type type) {
 			this.clazz = clazz;
 			this.type = type;
 		}
@@ -94,9 +92,9 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 		}
 		stack.push(var);
 	}
-	
+
 	// Method Parameter
-	public void pushParameter(String name, GenericClazz clazz, Label label) {
+	public void pushParameter(String name, Clazz clazz, Label label) {
 		Var var = new Var(clazz);
 		var.name = name;
 		var.startFrom = label;
@@ -109,12 +107,12 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 	}
 
 	// 定义局部变量
-	public void define(String name, GenericClazz clazz) {
+	public void define(String name, Clazz clazz) {
 		define(null, name, clazz);
 	}
 
 	// 定义局部变量
-	public void define(Annotation annotation, String name, GenericClazz clazz) {
+	public void define(Annotation annotation, String name, Clazz clazz) {
 		Var var = new Var(clazz);
 		var.annotation = annotation;
 		var.name = name;

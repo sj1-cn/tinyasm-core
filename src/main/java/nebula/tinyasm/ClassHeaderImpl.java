@@ -5,18 +5,19 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.Type;
 
 class ClassHeaderImpl implements ClassHeader {
 	final String name;
-	GenericClazz clazz;
+	Clazz clazz;
 
-	GenericClazz superClazz;
+	Clazz superClazz;
 
 	int access;
 	final ClassVisitor cv;
 	final List<Annotation> annotations = new ArrayList<>();
 
-	final List<GenericClazz> interfaces = new ArrayList<>();
+	final List<Clazz> interfaces = new ArrayList<>();
 
 	ClassBodyImpl classBuilderImpl;
 
@@ -67,25 +68,25 @@ class ClassHeaderImpl implements ClassHeader {
 
 	@Override
 	public ClassHeader subclass(String clazz) {
-		this.superClazz = new GenericClazz(clazz, new String[0]);
+		this.superClazz = new ClazzType(Type.getType(clazz));
 		return this;
 	}
 
 	@Override
 	public ClassHeader eXtend(String clazz, String... genericClazz) {
-		this.superClazz = new GenericClazz(clazz, genericClazz);
+		this.superClazz = new ClazzComplex(clazz, genericClazz);
 		return this;
 	}
 
 	@Override
 	public ClassHeader implement(String clazz) {
-		interfaces.add(new GenericClazz(clazz, new String[0]));
+		interfaces.add(new ClazzType(Type.getType(clazz)));
 		return this;
 	}
 
 	@Override
 	public ClassHeader implement(String clazz, String... genericClazz) {
-		interfaces.add(new GenericClazz(clazz, genericClazz));
+		interfaces.add(new ClazzComplex(clazz, genericClazz));
 		return this;
 	}
 

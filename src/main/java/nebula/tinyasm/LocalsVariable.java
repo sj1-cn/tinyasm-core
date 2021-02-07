@@ -14,20 +14,20 @@ public class LocalsVariable extends ClassField {
 		this.startFrom = startFrom;
 	}
 
-	public LocalsVariable(String name, GenericClazz clazz) {
+	public LocalsVariable(String name, Clazz clazz) {
 		super(0, name, clazz, null);
 	}
 
-	public LocalsVariable(int access, String name, GenericClazz clazz) {
+	public LocalsVariable(int access, String name, Clazz clazz) {
 		super(access, name, clazz, null);
 	}
 
-	public LocalsVariable(Annotation annotation, String name, GenericClazz clazz) {
+	public LocalsVariable(Annotation annotation, String name, Clazz clazz) {
 		super(0, name, clazz, null);
 		this.annotation = annotation;
 	}
 
-	public LocalsVariable(String name, GenericClazz type, Label startFrom) {
+	public LocalsVariable(String name, Clazz type, Label startFrom) {
 		super(0, name, type, null);
 		this.startFrom = startFrom;
 	}

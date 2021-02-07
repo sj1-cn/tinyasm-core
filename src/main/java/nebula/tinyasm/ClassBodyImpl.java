@@ -27,7 +27,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		super(Opcodes.ASM5, cv);
 
 		this.thisType = typeOf(header.name);
-		this.superType = typeOf(header.superClazz.originclazzName);
+		this.superType = header.superClazz.getType();
 		{
 			int version = 53;
 			int access = header.access;
@@ -35,7 +35,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 			String signature = null;
 			boolean needSignature = header.superClazz.needSignature();
 			String superSignature = header.superClazz.signatureAnyway();
-			for (GenericClazz inTerface : header.interfaces) {
+			for (Clazz inTerface : header.interfaces) {
 				needSignature |= inTerface.needSignature();
 				superSignature += inTerface.signatureAnyway();
 			}
@@ -45,7 +45,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 			String superName = this.superType.getInternalName();
 			String[] interfaces = new String[header.interfaces.size()];
 			for (int i = 0; i < header.interfaces.size(); i++) {
-				interfaces[i] = typeOf(header.interfaces.get(i).originclazzName).getInternalName();
+				interfaces[i] = header.interfaces.get(i).getType().getInternalName();
 			}
 
 			cv.visit(version, access, name, signature, superName, interfaces);
@@ -66,7 +66,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	@Override
 	public String clazzOfField(String name) {
-		return fields.get(name).clazz.originclazzName;
+		return fields.get(name).clazz.getType().getClassName();
 	}
 
 	@Override
@@ -103,7 +103,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public ClassBody staticField(int access, String name, GenericClazz clazz) {
+	public ClassBody staticField(int access, String name, Clazz clazz) {
 		access |= Opcodes.ACC_STATIC;
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		staticFields.push(field1);
@@ -113,7 +113,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public ClassBody staticField(int access, Annotation annotation, String name, GenericClazz clazz) {
+	public ClassBody staticField(int access, Annotation annotation, String name, Clazz clazz) {
 		access |= Opcodes.ACC_STATIC;
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		staticFields.push(field1);
@@ -127,7 +127,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public ClassBody field(int access, String name, GenericClazz clazz) {
+	public ClassBody field(int access, String name, Clazz clazz) {
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		fields.push(field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
@@ -136,7 +136,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public ClassBody field(int access, Annotation annotation, String name, GenericClazz clazz) {
+	public ClassBody field(int access, Annotation annotation, String name, Clazz clazz) {
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		fields.push(field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);

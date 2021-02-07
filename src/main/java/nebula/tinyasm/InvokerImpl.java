@@ -34,9 +34,9 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 	}
 
 	@Override
-	public InvokerPrepare parameter(GenericClazz clazz) {
+	public InvokerPrepare parameter(Clazz clazz) {
 		definedParams = true;
-		paramsRepected.add(typeOf(clazz));
+		paramsRepected.add(clazz.getType());
 		return this;
 	}
 
@@ -76,8 +76,8 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 	}
 
 	@Override
-	public Invoker returnObject(GenericClazz returnClazz) {
-		this.returnClazz = typeOf(returnClazz);
+	public Invoker returnObject(Clazz returnClazz) {
+		this.returnClazz = returnClazz.getType();
 		return this;
 	}
 

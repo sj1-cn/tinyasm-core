@@ -1,17 +1,14 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.TypeUtils.*;
-
 import java.util.List;
 
 import org.objectweb.asm.Type;
 
 public class ClassField extends Field {
-	public ClassField(int access, String name, GenericClazz clazz, Object defaultValue) {
+	public ClassField(int access, String name, Clazz clazz, Object defaultValue) {
 		super(name, clazz);
 		this.access = access;
 		this.defaultValue = defaultValue;
-		this.type = typeOf(clazz);
 	}
 //
 //	@Override
@@ -25,7 +22,7 @@ public class ClassField extends Field {
 	static public <T extends ClassField> Type[] typesOf(List<T> fields) {
 		Type[] types = new Type[fields.size()];
 		for (int i = 0; i < fields.size(); i++) {
-			types[i] = fields.get(i).type;
+			types[i] = fields.get(i).clazz.getType();
 		}
 		return types;
 	}
@@ -38,7 +35,6 @@ public class ClassField extends Field {
 //		return generics;
 //	}
 
-	final public Type type;
 	public boolean identifier;
 	Object defaultValue;
 }

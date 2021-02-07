@@ -7,7 +7,7 @@ public interface WithDefineParameter<T> {
 	default T parameter(List<Field> fields) {
 		T t = null;
 		for (Field field : fields) {
-			t = parameter(0, field.name, TypeUtils.generic(field.clazz));
+			t = parameter(0, field.name, field.clazz);
 		}
 		return t;
 	}
@@ -36,11 +36,11 @@ public interface WithDefineParameter<T> {
 		return parameter(access, name, TypeUtils.generic(clazz));
 	}
 
-	default T parameter(String name, GenericClazz clazz) {
+	default T parameter(String name, Clazz clazz) {
 		return parameter(0, name, clazz);
 	}
 
-	T parameter(int access, String name, GenericClazz clazz);
+	T parameter(int access, String name, Clazz clazz);
 
 	default T parameter(Class<?> annotation, String name, String clazz) {
 		return parameter(Annotation.annotation(annotation), name, TypeUtils.generic(clazz));
@@ -50,8 +50,8 @@ public interface WithDefineParameter<T> {
 		return parameter(Annotation.annotation(annotation), name, TypeUtils.generic(clazz));
 	}
 
-	default T parameter(Class<?> annotation, String name, GenericClazz clazz) {
-		return parameter(Annotation.annotation(annotation), name, TypeUtils.generic(clazz));
+	default T parameter(Class<?> annotation, String name, Clazz clazz) {
+		return parameter(Annotation.annotation(annotation), name, clazz);
 	}
 
 	default T parameter(Annotation annotation, String name, String clazz) {
@@ -62,5 +62,5 @@ public interface WithDefineParameter<T> {
 		return parameter(Annotation.annotation(annotation), name, TypeUtils.generic(clazz));
 	}
 
-	T parameter(Annotation annotation, String name, GenericClazz clazz);
+	T parameter(Annotation annotation, String name, Clazz clazz);
 }

@@ -31,7 +31,7 @@ public interface Instance {
 		return checkcast(TypeUtils.generic(clazz));
 	}
 
-	Instance checkcastAndUnbox(GenericClazz clazz);
+	Instance checkcastAndUnbox(Clazz clazz);
 
 	default Instance checkcastAndUnbox(Class<?> clazz) {
 		return checkcastAndUnbox(TypeUtils.generic(clazz));
@@ -41,7 +41,7 @@ public interface Instance {
 		return checkcastAndUnbox(TypeUtils.generic(clazz));
 	}
 
-	Instance checkcast(GenericClazz clazz);
+	Instance checkcast(Clazz clazz);
 
 	Instance add(String varname);
 

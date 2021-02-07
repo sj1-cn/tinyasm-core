@@ -10,11 +10,11 @@ public interface MethodCaller<T> {
 		return parameter(TypeUtils.generic(clazz, isarray));
 	}
 
-	MethodCaller<T> parameter(GenericClazz clazz);
+	MethodCaller<T> parameter(Clazz clazz);
 
-	default MethodCaller<T> parameter(GenericClazz... clazzes) {
+	default MethodCaller<T> parameter(Clazz... clazzes) {
 		MethodCaller<T> mh = null;
-		for (GenericClazz clazz : clazzes) {
+		for (Clazz clazz : clazzes) {
 			mh = parameter(clazz);
 		}
 		return mh;
@@ -50,7 +50,7 @@ public interface MethodCaller<T> {
 		return reTurn(TypeUtils.generic(clazz, isarray));
 	}
 
-	MethodCaller<T> reTurn(GenericClazz clazz);
+	MethodCaller<T> reTurn(Clazz clazz);
 
 	default MethodCaller<T> reTurn(String clazz) {
 		return reTurn(TypeUtils.generic(clazz));
