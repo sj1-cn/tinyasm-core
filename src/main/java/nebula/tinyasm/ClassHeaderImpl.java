@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Type;
 
 class ClassHeaderImpl implements ClassHeader {
 	final String name;

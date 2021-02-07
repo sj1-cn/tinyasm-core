@@ -1,7 +1,5 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.TypeUtils.*;
-
 import java.util.function.Consumer;
 
 import org.objectweb.asm.Opcodes;

@@ -1,7 +1,5 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.TypeUtils.*;
-
 public interface WithAnnotation<B> {
 
 	default B annotation(Class<?> clazz) {

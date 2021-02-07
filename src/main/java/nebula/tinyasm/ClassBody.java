@@ -1,7 +1,6 @@
 package nebula.tinyasm;
 
 import static nebula.tinyasm.TypeUtils.stringInnerUserType;
-import static nebula.tinyasm.TypeUtils.typeOf;
 
 import java.util.List;
 
