@@ -73,14 +73,14 @@ public class ClassBodyTest extends TestBase {
 		cw.field("d", double.class);
 		cw.field("str", String.class);
 
-		assertEquals("Class", byte.class.getName(), cw.clazzOfField("b"));
-		assertEquals("Class", char.class.getName(), cw.clazzOfField("c"));
-		assertEquals("Class", short.class.getName(), cw.clazzOfField("s"));
-		assertEquals("Class", int.class.getName(), cw.clazzOfField("i"));
-		assertEquals("Class", long.class.getName(), cw.clazzOfField("l"));
-		assertEquals("Class", float.class.getName(), cw.clazzOfField("f"));
-		assertEquals("Class", double.class.getName(), cw.clazzOfField("d"));
-		assertEquals("Class", String.class.getName(), cw.clazzOfField("str"));
+		assertEquals("Class", byte.class.getName(), cw.clazzOfField("b").getType().getClassName());
+		assertEquals("Class", char.class.getName(), cw.clazzOfField("c").getType().getClassName());
+		assertEquals("Class", short.class.getName(), cw.clazzOfField("s").getType().getClassName());
+		assertEquals("Class", int.class.getName(), cw.clazzOfField("i").getType().getClassName());
+		assertEquals("Class", long.class.getName(), cw.clazzOfField("l").getType().getClassName());
+		assertEquals("Class", float.class.getName(), cw.clazzOfField("f").getType().getClassName());
+		assertEquals("Class", double.class.getName(), cw.clazzOfField("d").getType().getClassName());
+		assertEquals("Class", String.class.getName(), cw.clazzOfField("str").getType().getClassName());
 
 	}
 

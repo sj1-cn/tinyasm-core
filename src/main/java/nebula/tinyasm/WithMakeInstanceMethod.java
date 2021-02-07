@@ -7,11 +7,11 @@ import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 interface WithMakeInstanceMethod {
 
 	default MethodHeader privateMethod(Class<?> returnClass, String name) {
-		return method(ACC_PRIVATE, returnClass.getName(), name);
+		return method(ACC_PRIVATE, Clazz.of(returnClass), name);
 	}
 
 	default MethodHeader privateMethod(String returnClass, String name) {
-		return method(ACC_PRIVATE, returnClass, name);
+		return method(ACC_PRIVATE, Clazz.of(returnClass), name);
 	}
 
 	default MethodHeader privateMethod(String name) {
@@ -19,7 +19,7 @@ interface WithMakeInstanceMethod {
 	}
 
 	default MethodHeader protectdMethod(Class<?> returnClass, String name) {
-		return method(ACC_PROTECTED, returnClass.getName(), name);
+		return method(ACC_PROTECTED, Clazz.of(returnClass), name);
 	}
 
 	default MethodHeader protectdMethod(String name) {
@@ -27,11 +27,15 @@ interface WithMakeInstanceMethod {
 	}
 
 	default MethodHeader protectdMethod(String returnClass, String name) {
-		return method(ACC_PROTECTED, returnClass, name);
+		return method(ACC_PROTECTED, Clazz.of(returnClass), name);
 	}
 
 	default MethodHeader publicMethod(Class<?> returnClass, String name) {
-		return method(ACC_PUBLIC, returnClass.getName(), name);
+		return method(ACC_PUBLIC, Clazz.of(returnClass), name);
+	}
+
+	default MethodHeader publicMethod(Clazz returnClass, String name) {
+		return method(ACC_PUBLIC, returnClass, name);
 	}
 
 	default MethodHeader publicMethod(String name) {
@@ -39,27 +43,27 @@ interface WithMakeInstanceMethod {
 	}
 
 	default MethodHeader publicMethod(String returnClass, String name) {
-		return method(ACC_PUBLIC, returnClass, name);
+		return method(ACC_PUBLIC, Clazz.of(returnClass), name);
 	}
 
 	default MethodHeader method(Class<?> returnClass, String name) {
-		return method(ACC_PUBLIC, returnClass.getName(), name);
+		return method(ACC_PUBLIC, Clazz.of(returnClass), name);
 	}
 
 	default MethodHeader method(int access, Class<?> returnClass, String name) {
-		return method(access, returnClass.getName(), name);
+		return method(access, Clazz.of(returnClass), name);
 	}
 
 	MethodHeader method(int access, String name);
 
-	MethodHeader method(int access, String returnType, String name);
+	MethodHeader method(int access, Clazz returnType, String name);
 
 	default MethodHeader method(String name) {
 		return method(ACC_PUBLIC, name);
 	}
 
 	default MethodHeader method(String returnType, String name) {
-		return method(ACC_PUBLIC, returnType, name);
+		return method(ACC_PUBLIC, Clazz.of(returnType), name);
 	}
 
 }

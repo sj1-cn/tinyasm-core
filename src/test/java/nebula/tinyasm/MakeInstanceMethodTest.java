@@ -84,7 +84,7 @@ public class MakeInstanceMethodTest extends TestBase {
 
 		cw.constructerEmpty();
 
-		cw.method(0, String.class.getName(), "method").code(mv -> {
+		cw.method(0, String.class, "method").code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -366,25 +366,25 @@ public class MakeInstanceMethodTest extends TestBase {
 
 		cw.constructerEmpty();
 
-		cw.method(0, String.class.getName(), "method").code(mv -> {
+		cw.method(0, String.class, "method").code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.method(String.class.getName(), "publicMethod").code(mv -> {
+		cw.method(String.class, "publicMethod").code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.method(Opcodes.ACC_PRIVATE, String.class.getName(), "privateMethod").code(mv -> {
+		cw.method(Opcodes.ACC_PRIVATE, String.class, "privateMethod").code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.method(Opcodes.ACC_PROTECTED, String.class.getName(), "protectedMethod").code(mv -> {
+		cw.method(Opcodes.ACC_PROTECTED, String.class, "protectedMethod").code(mv -> {
 			mv.line();
 			mv.LOADConst("here");
 			mv.RETURNTop();

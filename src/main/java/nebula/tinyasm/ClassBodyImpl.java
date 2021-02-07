@@ -64,8 +64,8 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public String clazzOfField(String name) {
-		return fields.get(name).clazz.getType().getClassName();
+	public Clazz clazzOfField(String name) {
+		return fields.get(name).clazz;
 	}
 
 	@Override
@@ -74,10 +74,6 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		hadEnd = true;
 		return this;
 	}
-
-//	public Field fieldOfThis(String fieldName) {
-//		return fields.get(fieldName);
-//	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -154,7 +150,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	@Override
 	public MethodHeader staticMethod(int access, String returnType, String name) {
-		return new MethodHeaderBuilder(this, thisType.getClassName(), access |= Opcodes.ACC_STATIC, returnType, name);
+		return new MethodHeaderBuilder(this, thisType.getClassName(), access |= Opcodes.ACC_STATIC, Clazz.of(returnType), name);
 	}
 
 	@Override
@@ -163,7 +159,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public MethodHeader method(int access, String returnType, String name) {
+	public MethodHeader method(int access, Clazz returnType, String name) {
 		return new MethodHeaderBuilder(this, thisType.getClassName(), access, returnType, name);
 	}
 

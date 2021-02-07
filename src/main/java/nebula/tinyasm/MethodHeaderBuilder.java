@@ -47,9 +47,9 @@ class MethodHeaderBuilder implements MethodHeader {
 	final List<Clazz> exceptions = new ArrayList<>();
 	Clazz returnClazz = null;
 
-	public MethodHeaderBuilder(ClassBodyImpl cv, String className, int access, String returnType, String methodName) {
+	public MethodHeaderBuilder(ClassBodyImpl cv, String className, int access, Clazz returnType, String methodName) {
 		this(cv, className, access, methodName);
-		this.returnClazz = returnType != null ? TypeUtils.generic(returnType) : null;
+		this.returnClazz = returnType;
 	}
 
 	public MethodHeaderBuilder(ClassBodyImpl cv, String className, int access, String methodName) {
