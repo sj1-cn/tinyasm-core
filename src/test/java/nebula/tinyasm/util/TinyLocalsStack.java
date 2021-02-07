@@ -7,7 +7,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 
 import nebula.tinyasm.Annotation;
-import nebula.tinyasm.util.TinyLocalsStack.Var;
 
 public class TinyLocalsStack implements Iterable<TinyLocalsStack.Var> {
 

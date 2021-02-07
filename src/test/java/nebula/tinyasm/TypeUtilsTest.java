@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.objectweb.asm.Type;
 
-import nebula.tinyasm.TypeUtils;
+import static nebula.tinyasm.TypeUtils.*;
 
 public class TypeUtilsTest {
 
@@ -286,9 +286,9 @@ public class TypeUtilsTest {
 //
 	@Test
 	public void testTypeOfString() {
-		assertEquals(Type.VOID_TYPE, TypeUtils.typeOf((Class<?>)null));
+		assertEquals(Type.VOID_TYPE, typeOf((Class<?>)null));
 
-		assertEquals("I", TypeUtils.typeOf(int.class).getDescriptor());
+		assertEquals("I", typeOf(int.class).getDescriptor());
 	}
 //
 //	@Test
