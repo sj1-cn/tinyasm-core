@@ -12,11 +12,11 @@ public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<Cla
 	}
 
 	default ClassHeader eXtend(Class<?> clazz, String... genericClazz) {
-		return eXtend(classnameOf(clazz), classnamesOf(genericClazz));
+		return eXtend(classnameOf(clazz), genericClazz);
 	}
 
 	default ClassHeader eXtend(String clazz, Class<?>... genericClazz) {
-		return eXtend(classnameOf(clazz), classnamesOf(genericClazz));
+		return eXtend(clazz, classnamesOf(genericClazz));
 	}
 
 	default ClassHeader eXtend(Class<?> clazz) {
@@ -32,11 +32,11 @@ public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<Cla
 	}
 
 	default ClassHeader implement(Class<?> clazz, String... genericClazz) {
-		return implement(classnameOf(clazz), classnamesOf(genericClazz));
+		return implement(classnameOf(clazz), genericClazz);
 	}
 
 	default ClassHeader implement(String clazz, Class<?>... genericClazz) {
-		return implement(classnameOf(clazz), classnamesOf(genericClazz));
+		return implement(clazz, classnamesOf(genericClazz));
 	}
 
 	default ClassHeader implement(Class<?> clazz) {

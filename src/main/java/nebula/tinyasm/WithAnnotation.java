@@ -9,7 +9,7 @@ public interface WithAnnotation<B> {
 	}
 
 	default B annotation(String clazz) {
-		return annotation(classnameOf(clazz), null);
+		return annotation(clazz, null);
 	}
 
 	default B annotation(Class<?> clazz, Object value) {
@@ -39,7 +39,7 @@ public interface WithAnnotation<B> {
 	}
 
 	default B annotation(String annotationClass, String name, Object value) {
-		return annotation(classnameOf(annotationClass), new String[] { name }, new Object[] { value });
+		return annotation(annotationClass, new String[] { name }, new Object[] { value });
 	}
 
 	default B annotation(Class<?> annotationClass, Object value, String[] names, Object[] values) {

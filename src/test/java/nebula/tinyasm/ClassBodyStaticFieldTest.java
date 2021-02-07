@@ -12,6 +12,7 @@ import org.objectweb.asm.Opcodes;
 
 import nebula.tinyasm.sample.ClassBody.ParameterStaticSample;
 import nebula.tinyasm.sample.ClassBody.TestAnnotation;
+import nebula.tinyasm.util.TypeUtils;
 
 public class ClassBodyStaticFieldTest extends TestBase {
 
@@ -43,8 +44,8 @@ public class ClassBodyStaticFieldTest extends TestBase {
 				"annotationWithDefaultValueAndNamedValue2", String.class);
 
 		cw.staticField(Opcodes.ACC_PRIVATE, TestAnnotation.class, "genericWithAnnotation",
-				GenericClazz.generic(List.class, String.class));
-		cw.staticField(Opcodes.ACC_PRIVATE, "genericWithoutAnnotation", GenericClazz.generic(List.class, String.class));
+				TypeUtils.generic(List.class, String.class));
+		cw.staticField(Opcodes.ACC_PRIVATE, "genericWithoutAnnotation", TypeUtils.generic(List.class, String.class));
 
 		cw.constructerEmpty();
 

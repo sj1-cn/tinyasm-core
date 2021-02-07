@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.internalNamelOf;
+
 import static nebula.tinyasm.util.TypeUtils.toSimpleName;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
 
@@ -11,6 +11,8 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+
+import nebula.tinyasm.util.GenericClazz;
 
 class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
@@ -45,7 +47,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 			String superName = this.superType.getInternalName();
 			String[] interfaces = new String[header.interfaces.size()];
 			for (int i = 0; i < header.interfaces.size(); i++) {
-				interfaces[i] = internalNamelOf(header.interfaces.get(i).originclazzName);
+				interfaces[i] = typeOf(header.interfaces.get(i).originclazzName).getInternalName();
 			}
 
 			cv.visit(version, access, name, signature, superName, interfaces);

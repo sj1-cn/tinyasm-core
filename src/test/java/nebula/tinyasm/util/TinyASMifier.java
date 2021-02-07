@@ -377,7 +377,7 @@ public class TinyASMifier extends Printer {
 //		classWriter.field("i", int.class);
 		stringBuilder.setLength(0);
 		stringBuilder.append("classWriter.field(");
-		if (!TypeUtils.is(access, ACC_PRIVATE)) {
+		if (!((access & ACC_PRIVATE) > 0)) {
 			appendAccessFlags(access | ACCESS_FIELD);
 			stringBuilder.append(", ");
 
@@ -422,7 +422,7 @@ public class TinyASMifier extends Printer {
 		Type[] params = Type.getArgumentTypes(descriptor);
 		Type returnType = Type.getReturnType(descriptor);
 
-		if (TypeUtils.is(access, ACC_STATIC)) {
+		if ((access & ACC_STATIC) > 0) {
 			isMethodStatic = true;
 		} else {
 			locals.push("this", Type.getType(Object.class));

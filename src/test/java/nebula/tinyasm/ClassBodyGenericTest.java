@@ -12,6 +12,7 @@ import org.junit.Test;
 import nebula.tinyasm.sample.ClassBody.ParameterGenericSample;
 import nebula.tinyasm.sample.ClassBody.TestAnnotation;
 import nebula.tinyasm.sample.ClassBody.TestInerface;
+import nebula.tinyasm.util.TypeUtils;
 
 public class ClassBodyGenericTest extends TestBase {
 
@@ -34,7 +35,7 @@ public class ClassBodyGenericTest extends TestBase {
 			.body();
 
 //		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
-		cw.field("annotation", GenericClazz.generic(List.class.getName(), String.class.getName()));
+		cw.field("annotation", TypeUtils.generic(List.class.getName(), String.class.getName()));
 
 		cw.method("<init>").code(mv -> {
 			mv.line();
@@ -44,7 +45,7 @@ public class ClassBodyGenericTest extends TestBase {
 		});
 
 		cw.privateMethod("annotationMethod")
-			.reTurn(GenericClazz.generic(List.class.getName(), String.class.getName()))
+			.reTurn(TypeUtils.generic(List.class.getName(), String.class.getName()))
 			.code(mv -> {
 				mv.line();
 				mv.LOADConstNULL();
@@ -52,7 +53,7 @@ public class ClassBodyGenericTest extends TestBase {
 			});
 
 		cw.method("method")
-			.parameter("annotation", GenericClazz.generic(List.class.getName(), String.class.getName()))
+			.parameter("annotation", TypeUtils.generic(List.class.getName(), String.class.getName()))
 
 			.code(mv -> {
 				mv.line();
@@ -64,10 +65,10 @@ public class ClassBodyGenericTest extends TestBase {
 			});
 
 		cw.method("methodGenericVar")
-			.parameter("annotation", GenericClazz.generic(List.class.getName(), String.class.getName()))
+			.parameter("annotation", TypeUtils.generic(List.class.getName(), String.class.getName()))
 			.code(mv -> {
 				mv.define(TestAnnotation.class, "thisannotation",
-						GenericClazz.generic(List.class.getName(), String.class.getName()));
+						TypeUtils.generic(List.class.getName(), String.class.getName()));
 				mv.line();
 				mv.LOAD(1);
 				mv.STORE("thisannotation");
@@ -93,7 +94,7 @@ public class ClassBodyGenericTest extends TestBase {
 			.body();
 
 //		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
-		cw.field("annotation", GenericClazz.generic(List.class.getName(), String.class.getName()));
+		cw.field("annotation", TypeUtils.generic(List.class.getName(), String.class.getName()));
 
 		cw.method("<init>").code(mv -> {
 			mv.line();
@@ -103,7 +104,7 @@ public class ClassBodyGenericTest extends TestBase {
 		});
 
 		cw.privateMethod("annotationMethod")
-			.reTurn(GenericClazz.generic(List.class.getName(), String.class.getName()))
+			.reTurn(TypeUtils.generic(List.class.getName(), String.class.getName()))
 			.code(mv -> {
 				mv.line();
 				mv.LOADConstNULL();
@@ -111,7 +112,7 @@ public class ClassBodyGenericTest extends TestBase {
 			});
 
 		cw.method("method")
-			.parameter("annotation", GenericClazz.generic(List.class.getName(), String.class.getName()))
+			.parameter("annotation", TypeUtils.generic(List.class.getName(), String.class.getName()))
 
 			.code(mv -> {
 				mv.line();
@@ -123,10 +124,10 @@ public class ClassBodyGenericTest extends TestBase {
 			});
 
 		cw.method("methodGenericVar")
-			.parameter("annotation", GenericClazz.generic(List.class.getName(), String.class.getName()))
+			.parameter("annotation", TypeUtils.generic(List.class.getName(), String.class.getName()))
 			.code(mv -> {
 				mv.define(TestAnnotation.class, "thisannotation",
-						GenericClazz.generic(List.class.getName(), String.class.getName()));
+						TypeUtils.generic(List.class.getName(), String.class.getName()));
 				mv.line();
 				mv.LOAD(1);
 				mv.STORE("thisannotation");

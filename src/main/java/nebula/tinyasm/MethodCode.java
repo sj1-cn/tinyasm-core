@@ -1,7 +1,6 @@
 package nebula.tinyasm;
 
 import static nebula.tinyasm.util.TypeUtils.arrayOf;
-import static nebula.tinyasm.util.TypeUtils.arrayTyoeCodeOf;
 import static nebula.tinyasm.util.TypeUtils.checkMathTypes;
 import static nebula.tinyasm.util.TypeUtils.in;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
@@ -94,6 +93,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.util.GenericClazz;
 import nebula.tinyasm.util.TypeUtils;
 
 public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvoke<MethodCode> {
@@ -1181,11 +1181,11 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 		assert in(count, Type.INT_TYPE, Type.BYTE_TYPE, Type.SHORT_TYPE) : "array count type " + type;
 //		Type arrayref = Type.getType(Object.class); /* TODO */
 
-		Type arrayType = arrayOf(type);
+		Type arrayType = arrayOf(type, true);
 		stackPush(arrayType);
 
 		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) {
-			int typecode = arrayTyoeCodeOf(type);
+			int typecode = TypeUtils.arrayTypeMaps.get(type);
 			visitInsn(NEWARRAY, typecode);
 		} else if (type.getSort() == Type.ARRAY) visitTypeInsn(ANEWARRAY, type);
 		else if (type.getSort() == Type.OBJECT) visitTypeInsn(ANEWARRAY, type);

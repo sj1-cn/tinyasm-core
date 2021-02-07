@@ -1,8 +1,6 @@
 package nebula.tinyasm;
 
 import static nebula.tinyasm.util.TypeUtils.stringInnerUserType;
-import static nebula.tinyasm.util.TypeUtils.toPropertyGetName;
-import static nebula.tinyasm.util.TypeUtils.toPropertySetName;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
 
 import java.util.List;
@@ -54,7 +52,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertyGet(final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).code(mc -> {
+		publicMethod(fieldClass, "get" + toPropertyName(fieldName)).code(mc -> {
 			mc.line().loadThis();
 			mc.GETFIELD(fieldName, fieldClass);
 			mc.RETURNTop();
@@ -64,7 +62,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertyGet(final Class<?> annotationClazz, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz).code(mc -> {
+		publicMethod(fieldClass, "get" + toPropertyName(fieldName)).annotation(annotationClazz).code(mc -> {
 			mc.line().loadThis();
 			mc.GETFIELD(fieldName, fieldClass);
 			mc.RETURNTop();
@@ -74,7 +72,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertyGet(final String annotationClazz, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz).code(mc -> {
+		publicMethod(fieldClass, "get" + toPropertyName(fieldName)).annotation(annotationClazz).code(mc -> {
 			mc.line().loadThis();
 			mc.GETFIELD(fieldName, fieldClass);
 			mc.RETURNTop();
@@ -82,9 +80,14 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		return this;
 	}
 
+	//TODO need do now
+	default String toPropertyName(String fieldName) {
+		return null;
+	}
+
 	default ClassBody makePropertyGet(final Class<?> annotationClazz, Object value, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, value)
+		publicMethod(fieldClass, "get" + toPropertyName(fieldName)).annotation(annotationClazz, value)
 			.code(mc -> {
 				mc.line().loadThis();
 				mc.GETFIELD(fieldName, fieldClass);
@@ -95,7 +98,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertyGet(final String annotationClazz, Object value, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, value)
+		publicMethod(fieldClass, "get" + toPropertyName(fieldName)).annotation(annotationClazz, value)
 			.code(mc -> {
 				mc.line().loadThis();
 				mc.GETFIELD(fieldName, fieldClass);
@@ -107,7 +110,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	default ClassBody makePropertyGet(final Class<?> annotationClazz, String name, Object value,
 			final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, name, value)
+		publicMethod(fieldClass, "get" + toPropertyName(fieldName)).annotation(annotationClazz, name, value)
 			.code(mc -> {
 				mc.line().loadThis();
 				mc.GETFIELD(fieldName, fieldClass);
@@ -118,7 +121,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertyGet(final String annotationClazz, String name, Object value, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(fieldClass, toPropertyGetName(fieldName, fieldClass)).annotation(annotationClazz, name, value)
+		publicMethod(fieldClass, "get" + toPropertyName(fieldName)).annotation(annotationClazz, name, value)
 			.code(mc -> {
 				mc.line().loadThis();
 				mc.GETFIELD(fieldName, fieldClass);
@@ -129,7 +132,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertySet(final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(toPropertySetName(fieldName, fieldClass)).parameter(fieldName, fieldClass).code(mc -> {
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).parameter(fieldName, fieldClass).code(mc -> {
 			mc.line().putField("this", fieldName, fieldName, fieldClass);
 			mc.line().returnVoid();
 		});
@@ -138,7 +141,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertySet(final Class<?> annotationClazz, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz)
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
 				mc.line().putField("this", fieldName, fieldName, fieldClass);
@@ -149,7 +152,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertySet(final String annotationClazz, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz)
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
 				mc.line().putField("this", fieldName, fieldName, fieldClass);
@@ -160,7 +163,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertySet(final Class<?> annotationClazz, Object annotationValue, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz, annotationValue)
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz, annotationValue)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
 				mc.line().putField("this", fieldName, fieldName, fieldClass);
@@ -171,7 +174,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertySet(final String annotationClazz, Object annotationValue, final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(toPropertySetName(fieldName, fieldClass)).annotation(annotationClazz, annotationValue)
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz, annotationValue)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
 				mc.line().putField("this", fieldName, fieldName, fieldClass);
@@ -183,7 +186,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	default ClassBody makePropertySet(final Class<?> annotationClazz, String annotationName, Object annotationValue,
 			final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(toPropertySetName(fieldName, fieldClass))
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1))
 			.annotation(annotationClazz, annotationName, annotationValue)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
@@ -196,7 +199,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	default ClassBody makePropertySet(final String annotationClazz, String annotationName, Object annotationValue,
 			final String fieldName) {
 		String fieldClass = clazzOfField(fieldName);
-		publicMethod(toPropertySetName(fieldName, fieldClass))
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1))
 			.annotation(annotationClazz, annotationName, annotationValue)
 			.parameter(fieldName, fieldClass)
 			.code(mc -> {
@@ -217,7 +220,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 		for (Field param : getFields()) {
 			final Field field = param;
 			String fieldClass = clazzOfField(field.name);
-			publicMethod(toPropertySetName(field.name, fieldClass)).parameter(field.name, field.clazz.originclazzName)
+			String name = field.name;
+			publicMethod("set" + Character.toUpperCase(name.charAt(0)) + name.substring(1)).parameter(field.name, field.clazz.originclazzName)
 				.code(mc -> {
 					mc.line().putField("this", field.name, field.name, fieldClass);
 					mc.line().returnVoid();

@@ -1,7 +1,5 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.util.TypeUtils.internalNamesOf;
-import static nebula.tinyasm.util.TypeUtils.is;
 import static nebula.tinyasm.util.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
@@ -16,6 +14,8 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import nebula.commons.list.StringListMap;
+import nebula.tinyasm.util.GenericClazz;
+import nebula.tinyasm.util.TypeUtils;
 
 class MethodHeaderBuilder implements MethodHeader {
 	class ThisMethod {
@@ -51,7 +51,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	public MethodHeaderBuilder(ClassBodyImpl cv, String className, int access, String returnType, String methodName) {
 		this(cv, className, access, methodName);
-		this.returnClazz = returnType != null ? GenericClazz.generic(returnType) : null;
+		this.returnClazz = returnType != null ? TypeUtils.generic(returnType) : null;
 	}
 
 	public MethodHeaderBuilder(ClassBodyImpl cv, String className, int access, String methodName) {
@@ -122,10 +122,10 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void finishMethod() {
 		if (thisMethod.hasEnded) return;
-		if (!is(this.access, ACC_SYNTHETIC)) {
+		if (!((this.access & ACC_SYNTHETIC) > 0)) {
 			Label endLabel = this.labelWithoutLineNumber();
 			for (LocalsStack.Var var : mhLocals) {
-				if (!is(var.access, ACC_SYNTHETIC)) {
+				if (!((var.access & ACC_SYNTHETIC) > 0)) {
 					assert mv != null;
 					assert var != null;
 					assert var.clazz.getDescriptor() != null;
@@ -136,7 +136,7 @@ class MethodHeaderBuilder implements MethodHeader {
 					mv.visitLocalVariable(varname, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
 				}
 			}
-		} else if (is(this.access, ACC_SYNTHETIC) && is(this.access, ACC_BRIDGE)) {
+		} else if ((this.access & ACC_SYNTHETIC) > 0 && (this.access & ACC_BRIDGE) > 0) {
 			Label endLabel = this.labelWithoutLineNumber();
 			LocalsStack.Var var = mhLocals.getByLocal(0);
 			assert mv != null;
@@ -220,7 +220,11 @@ class MethodHeaderBuilder implements MethodHeader {
 					signature = signatureFromParameter;
 				}
 			}
-			String[] exceptions = internalNamesOf(this.exceptions);
+			String[] strs = new String[this.exceptions.size()];
+			for (int i = 0; i < this.exceptions.size(); i++) {
+				strs[i] = typeOf(this.exceptions.get(i).originclazzName).getInternalName();
+			}
+			String[] exceptions = strs;
 
 			this.mv = classVisitor.visitMethod(access, name, desc, signature, exceptions);
 		}

@@ -6,6 +6,9 @@ import java.util.function.Consumer;
 
 import org.objectweb.asm.ClassVisitor;
 
+import nebula.tinyasm.util.GenericClazz;
+import nebula.tinyasm.util.TypeUtils;
+
 class ClassHeaderImpl implements ClassHeader {
 	final String name;
 	GenericClazz clazz;
@@ -30,14 +33,14 @@ class ClassHeaderImpl implements ClassHeader {
 		super();
 		this.cv = cv;
 		this.name = name;
-		this.superClazz = GenericClazz.generic(superClazz);
+		this.superClazz = TypeUtils.generic(superClazz);
 	}
 
 	public ClassHeaderImpl(ClassVisitor cv, String name, String superClazz) {
 		super();
 		this.cv = cv;
 		this.name = name;
-		this.superClazz = GenericClazz.generic(superClazz);
+		this.superClazz = TypeUtils.generic(superClazz);
 	}
 
 	@Override

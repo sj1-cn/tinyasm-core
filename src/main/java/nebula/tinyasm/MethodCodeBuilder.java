@@ -17,6 +17,9 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.util.GenericClazz;
+import nebula.tinyasm.util.TypeUtils;
+
 public class MethodCodeBuilder implements MethodCode {
 	private final MethodVisitor mv;
 
@@ -218,22 +221,22 @@ public class MethodCodeBuilder implements MethodCode {
 	@Override
 	public MethodCaller<MethodCode> STATIC(String objectType, String methodName) {
 
-		return new MethodCallerImpl(Opcodes.INVOKESTATIC, GenericClazz.generic(objectType), methodName);
+		return new MethodCallerImpl(Opcodes.INVOKESTATIC, TypeUtils.generic(objectType), methodName);
 	}
 
 	@Override
 	public MethodCaller<MethodCode> INTERFACE(String objectType, String methodName) {
-		return new MethodCallerImpl(Opcodes.INVOKEINTERFACE, GenericClazz.generic(objectType), methodName);
+		return new MethodCallerImpl(Opcodes.INVOKEINTERFACE, TypeUtils.generic(objectType), methodName);
 	}
 
 	@Override
 	public MethodCaller<MethodCode> SPECIAL(String objectType, String methodName) {
-		return new MethodCallerImpl(Opcodes.INVOKESPECIAL, GenericClazz.generic(objectType), methodName);
+		return new MethodCallerImpl(Opcodes.INVOKESPECIAL, TypeUtils.generic(objectType), methodName);
 	}
 
 	@Override
 	public MethodCaller<MethodCode> VIRTUAL(String objectType, String methodName) {
-		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, GenericClazz.generic(objectType), methodName);
+		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, TypeUtils.generic(objectType), methodName);
 	}
 
 	class LAMBDAImpl extends MethodCallerImpl implements MethodCaller<MethodCode> {
@@ -343,7 +346,7 @@ public class MethodCodeBuilder implements MethodCode {
 
 		@Override
 		public MethodCaller<MethodCode> LAMBDA(String targetClazz, String targetMethodName) {
-			return new LAMBDAImpl(this.opcode, this, GenericClazz.generic(targetClazz), targetMethodName);
+			return new LAMBDAImpl(this.opcode, this, TypeUtils.generic(targetClazz), targetMethodName);
 		}
 
 	}

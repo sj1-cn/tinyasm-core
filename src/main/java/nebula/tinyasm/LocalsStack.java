@@ -8,6 +8,9 @@ import java.util.Stack;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
 
+import nebula.tinyasm.util.GenericClazz;
+import nebula.tinyasm.util.TypeUtils;
+
 public class LocalsStack implements Iterable<LocalsStack.Var> {
 
 	public static class Var {
@@ -22,11 +25,11 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 		//TODO fix bug
 		Var(GenericClazz clazz) {
 			this.clazz = clazz;
-			this.type = typeOf(clazz.originclazzName);
+			this.type = typeOf(clazz);
 		}
 
 		Var(Type type) {
-			this.clazz = GenericClazz.generic(type);
+			this.clazz = TypeUtils.generic(type);
 			this.type = type;
 		}
 

@@ -40,7 +40,7 @@ public class Annotation {
 	}
 
 	static public Annotation annotation(String clazz) {
-		return annotation(classnameOf(clazz), null);
+		return annotation(clazz, null);
 	}
 
 	static public Annotation annotation(Class<?> clazz, Object value) {

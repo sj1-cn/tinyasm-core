@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import nebula.tinyasm.sample.ClassBody.MethodCodeMethodCallerSample;
+import nebula.tinyasm.util.TypeUtils;
 
 public class MethodCodeLineBlockTest extends TestBase {
 
@@ -51,7 +52,7 @@ public class MethodCodeLineBlockTest extends TestBase {
 			mv.define("i", int.class);
 			mv.define("l", Long.class);
 			mv.define("s", String.class);
-			mv.define("ls", GenericClazz.generic(List.class, String.class));
+			mv.define("ls", TypeUtils.generic(List.class, String.class));
 
 			mv.line(line -> {
 				line.LOADConstByte(10);

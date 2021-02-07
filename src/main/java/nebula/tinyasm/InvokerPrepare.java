@@ -2,18 +2,21 @@ package nebula.tinyasm;
 
 import java.util.function.Consumer;
 
+import nebula.tinyasm.util.GenericClazz;
+import nebula.tinyasm.util.TypeUtils;
+
 public interface InvokerPrepare {
 	InvokerPrepare parameter(GenericClazz clazz);
 
 	default InvokerPrepare parameter(Class<?> clazz,boolean array) {
-		return parameter(GenericClazz.generic(clazz,array));
+		return parameter(TypeUtils.generic(clazz,array));
 	}
 	default InvokerPrepare parameter(Class<?> clazz) {
-		return parameter(GenericClazz.generic(clazz));
+		return parameter(TypeUtils.generic(clazz));
 	}
 
 	default InvokerPrepare parameter(String clazz) {
-		return parameter(GenericClazz.generic(clazz));
+		return parameter(TypeUtils.generic(clazz));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -49,11 +52,11 @@ public interface InvokerPrepare {
 	Invoker returnObject(GenericClazz returnClazz);
 
 	default Invoker reTurn(Class<?> returnClazz) {
-		return returnObject(GenericClazz.generic(returnClazz));
+		return returnObject(TypeUtils.generic(returnClazz));
 	}
 
 	default Invoker reTurn(String returnClazz) {
-		return returnObject(GenericClazz.generic(returnClazz));
+		return returnObject(TypeUtils.generic(returnClazz));
 	}
 
 }

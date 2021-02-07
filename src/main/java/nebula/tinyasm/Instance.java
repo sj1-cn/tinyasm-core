@@ -2,6 +2,9 @@ package nebula.tinyasm;
 
 import java.util.function.Consumer;
 
+import nebula.tinyasm.util.GenericClazz;
+import nebula.tinyasm.util.TypeUtils;
+
 public interface Instance {
 	InvokerPrepare inter(String methodName);
 
@@ -24,21 +27,21 @@ public interface Instance {
 	void pop();
 
 	default Instance checkcast(Class<?> clazz) {
-		return checkcast(GenericClazz.generic(clazz));
+		return checkcast(TypeUtils.generic(clazz));
 	}
 
 	default Instance checkcast(String clazz) {
-		return checkcast(GenericClazz.generic(clazz));
+		return checkcast(TypeUtils.generic(clazz));
 	}
 
 	Instance checkcastAndUnbox(GenericClazz clazz);
 
 	default Instance checkcastAndUnbox(Class<?> clazz) {
-		return checkcastAndUnbox(GenericClazz.generic(clazz));
+		return checkcastAndUnbox(TypeUtils.generic(clazz));
 	}
 
 	default Instance checkcastAndUnbox(String clazz) {
-		return checkcastAndUnbox(GenericClazz.generic(clazz));
+		return checkcastAndUnbox(TypeUtils.generic(clazz));
 	}
 
 	Instance checkcast(GenericClazz clazz);

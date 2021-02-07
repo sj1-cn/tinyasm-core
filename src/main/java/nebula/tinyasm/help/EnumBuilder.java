@@ -52,7 +52,7 @@ public class EnumBuilder implements Opcodes {
 					mc.GETSTATIC(typeOf(clazz), names[i], typeOf(clazz));
 					mc.ARRAYSTORE();
 				}
-				mc.PUTSTATIC(typeOf(clazz), "ENUM$VALUES", arrayOf(typeOf(clazz)));
+				mc.PUTSTATIC(typeOf(clazz), "ENUM$VALUES", arrayOf(typeOf(clazz), true));
 				mc.RETURN();
 			}
 		});
@@ -69,7 +69,7 @@ public class EnumBuilder implements Opcodes {
 			mc.define("length", int.class);
 			mc.define("newvs", clazz, true);
 			mc.line(1);
-			mc.GETSTATIC(typeOf(clazz), "ENUM$VALUES", arrayOf(typeOf(clazz)));
+			mc.GETSTATIC(typeOf(clazz), "ENUM$VALUES", arrayOf(typeOf(clazz), true));
 			mc.DUP();
 			mc.STORE("vs");
 
