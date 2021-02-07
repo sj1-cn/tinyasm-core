@@ -16,6 +16,14 @@ public interface WithDefineParameter<T> {
 		return parameter(0, name, TypeUtils.generic(clazz));
 	}
 
+	default T parameter(String name, String clazz,boolean array) {
+		return parameter(0, name, TypeUtils.generic(clazz,array));
+	}
+
+	default T parameter(String name, Class<?> clazz,boolean array) {
+		return parameter(0, name, TypeUtils.generic(clazz,array));
+	}
+
 	default T parameter(String name, Class<?> clazz) {
 		return parameter(0, name, TypeUtils.generic(clazz));
 	}

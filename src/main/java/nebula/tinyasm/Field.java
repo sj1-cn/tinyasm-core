@@ -5,6 +5,10 @@ public class Field {
 		this.name = name;
 		this.clazz = generic;
 	}
+	public Field(String name, Class<?> generic) {
+		this.name = name;
+		this.clazz = TypeUtils.generic(generic);
+	}
 
 	@Override
 	public String toString() {

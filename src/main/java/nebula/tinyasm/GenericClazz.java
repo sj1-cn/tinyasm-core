@@ -1,8 +1,7 @@
 package nebula.tinyasm;
 
 import static nebula.tinyasm.TypeUtils.*;
-
-public class GenericClazz {
+class GenericClazz {
 	public Class<?> originclazz;
 	public String originclazzName;
 	public String[] genericParameterClazz;
