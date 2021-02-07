@@ -1,8 +1,13 @@
 package nebula.tinyasm;
 
+import static nebula.tinyasm.TypeUtils.every;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -418,11 +423,7 @@ public class TypeUtils {
 	}
 
 	static Type[] typeOf(Class<?>... classes) {
-		Type[] types = new Type[classes.length];
-		for (int i = 0; i < classes.length; i++) {
-			types[i] = typeOf(classes[i]);
-		}
-		return types;
+		return every(Type.class, classes, c -> typeOf(c));
 	}
 
 	static Type typeOf(Class<?> clz, boolean isarray) {
@@ -430,18 +431,14 @@ public class TypeUtils {
 	}
 
 	static Type[] typeOf(Field... fields) {
-		Type[] types = new Type[fields.length];
-		for (int i = 0; i < fields.length; i++) {
-			types[i] =fields[i].clazz.getType();
-		}
-		return types;
+		return every(Type.class, fields, c -> c.clazz.getType());
 	}
 
 	static Type typeOf(Clazz clazz) {
 		if (clazz == null) return Type.VOID_TYPE;
 		return clazz.getType();
 	}
-	
+
 //	static Type typeOf(GenericClazz clazz) {
 //		if (clazz == null) return Type.VOID_TYPE;
 //		String name = clazz.originclazzName;
@@ -450,29 +447,17 @@ public class TypeUtils {
 //		} else if (primaryTypeMaps.containsKey(name)) return primaryTypeMaps.get(name);
 //		return Type.getType(name.replace('.', '/'));
 //	}
-	
+
 	static Type[] typeOf(Clazz... clazzes) {
-		Type[] types = new Type[clazzes.length];
-		for (int i = 0; i < clazzes.length; i++) {
-			types[i] =clazzes[i].getType();
-		}
-		return types;
+		return every(Type.class, clazzes, c -> c.getType());
 	}
 
 	static Type[] typeOf(List<Field> fields) {
-		Type[] types = new Type[fields.size()];
-		for (int i = 0; i < fields.size(); i++) {
-			types[i] = fields.get(i).clazz.getType();
-		}
-		return types;
+		return every(Type.class, fields, f -> f.clazz.getType());
 	}
 
 	static Type[] typesOf(List<Clazz> clazzes) {
-		Type[] types = new Type[clazzes.size()];
-		for (int i = 0; i < clazzes.size(); i++) {
-			types[i] =clazzes.get(i).getType();
-		}
-		return types;
+		return every(Type.class, clazzes, c -> typeOf(c));
 	}
 
 	static Type typeOf(String name) {
@@ -482,17 +467,12 @@ public class TypeUtils {
 	}
 
 	static Type[] typeOf(String... classes) {
-		Type[] types = new Type[classes.length];
-		for (int i = 0; i < classes.length; i++) {
-			types[i] = typeOf(classes[i]);
-		}
-		return types;
+		return every(Type.class, classes, c -> typeOf(c));
 	}
 
 	static Type typeOf(String name, boolean isarray) {
 		return arrayOf(typeOf(name), isarray);
 	}
-
 
 //	static   GenericClazz generic(GenericClazz originclazzName) {
 //		return originclazzName;
@@ -522,4 +502,21 @@ public class TypeUtils {
 		return new ClazzType(arrayOf(typeOf(originclazzName), isarray));
 	}
 
+	public static <T, R> R[] every(Class<R> clazz, List<T> list, Function<T, R> func) {
+		@SuppressWarnings("unchecked")
+		R[] results = (R[]) Array.newInstance(clazz, list.size());
+		for (int i = 0; i < list.size(); i++) {
+			results[i] = func.apply(list.get(i));
+		}
+		return results;
+	}
+
+	public static <T, R> R[] every(Class<R> clazz, T[] list, Function<T, R> func) {
+		@SuppressWarnings("unchecked")
+		R[] results = (R[]) Array.newInstance(clazz, list.length);
+		for (int i = 0; i < list.length; i++) {
+			results[i] = func.apply(list[i]);
+		}
+		return results;
+	}
 }

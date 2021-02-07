@@ -1,5 +1,9 @@
 package nebula.tinyasm;
 import org.objectweb.asm.Label;
+import nebula.tinyasm.ClassBody;
+import nebula.tinyasm.ClassBuilder;
+import nebula.tinyasm.MethodCode;
+import static org.objectweb.asm.Opcodes.*;
 public class MethodCodeASMLogicSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {

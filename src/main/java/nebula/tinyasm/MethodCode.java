@@ -1176,7 +1176,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	default void NEWARRAY(Type type) {
 		Type count = stackPop();
 		assert in(count, Type.INT_TYPE, Type.BYTE_TYPE, Type.SHORT_TYPE) : "array count type " + type;
-//		Type arrayref = Type.getType(Object.class); /* TODO */
+//		 TODO NEWARRAY Type arrayref = Type.getType(Object.class);
 
 		Type arrayType = arrayOf(type, true);
 		stackPush(arrayType);
@@ -1592,7 +1592,7 @@ public interface MethodCode extends MethodCodeASM, MethodCodeFriendly, WithInvok
 	}
 
 	/* Compound conditional branch: tableswitch, lookupswitch. */
-	// TODO
+	// TODO tableswitch, lookupswitch.
 
 	/* Unconditional branch: goto, goto_w, jsr, jsr_w, ret. */
 	@Override

@@ -1,6 +1,6 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.TypeUtils.typeOf;
+import static nebula.tinyasm.TypeUtils.*;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
@@ -128,9 +128,9 @@ class MethodHeaderBuilder implements MethodHeader {
 					assert var != null;
 					assert var.clazz.getDescriptor() != null;
 					Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
-					
-					String varname = var.name!=null?var.name:"var"+ var.locals;
-					
+
+					String varname = var.name != null ? var.name : "var" + var.locals;
+
 					mv.visitLocalVariable(varname, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
 				}
 			}
@@ -187,10 +187,16 @@ class MethodHeaderBuilder implements MethodHeader {
 			thisMethod.instanceMethod = (access & Opcodes.ACC_STATIC) == 0;
 
 			Type returnType;
-			if (returnClazz != null) returnType = Type.getType(returnClazz.getDescriptor());
+			if (returnClazz != null) returnType = returnClazz.getType();
 			else returnType = Type.VOID_TYPE;
 
-			String desc = Type.getMethodDescriptor(returnType, ClassField.typesOf(params.list()));
+			List<LocalsVariable> fields = params.list();
+			Type[] types1 = new Type[fields.size()];
+			for (int i1 = 0; i1 < fields.size(); i1++) {
+				types1[i1] = fields.get(i1).clazz.getType();
+			}
+
+			String desc = Type.getMethodDescriptor(returnType, types1);
 			String signature = null;
 			boolean needSignature = false;
 			{
@@ -218,14 +224,8 @@ class MethodHeaderBuilder implements MethodHeader {
 					signature = signatureFromParameter;
 				}
 			}
-			String[] strs = new String[this.exceptions.size()];
-			for (int i = 0; i < this.exceptions.size(); i++) {
-				//TODO 
-				strs[i] = this.exceptions.get(i).getType().getInternalName();
-			}
-			String[] exceptions = strs;
 
-			this.mv = classVisitor.visitMethod(access, name, desc, signature, exceptions);
+			this.mv = classVisitor.visitMethod(access, name, desc, signature, every(String.class, exceptions, e -> e.getType().getInternalName()));
 		}
 
 		assert this.mv != null;
@@ -246,7 +246,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void preapareMethodWithParams() {
 		for (ClassField field : params) {
-			mhLocals.pushParameter(field.name,field.clazz, labelCurrent);
+			mhLocals.pushParameter(field.name, field.clazz, labelCurrent);
 		}
 	}
 
