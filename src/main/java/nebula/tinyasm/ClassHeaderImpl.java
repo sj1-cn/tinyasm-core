@@ -68,7 +68,7 @@ class ClassHeaderImpl implements ClassHeader {
 
 	@Override
 	public ClassHeader subclass(String clazz) {
-		this.superClazz = new ClazzType(Type.getType(clazz));
+		this.superClazz = new ClazzType(clazz);
 		return this;
 	}
 
@@ -80,7 +80,7 @@ class ClassHeaderImpl implements ClassHeader {
 
 	@Override
 	public ClassHeader implement(String clazz) {
-		interfaces.add(new ClazzType(Type.getType(clazz)));
+		interfaces.add(new ClazzType(clazz));
 		return this;
 	}
 

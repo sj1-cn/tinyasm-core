@@ -24,7 +24,7 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 		}
 
 		Var(Type type) {
-			this.clazz = TypeUtils.generic(type);
+			this.clazz = new ClazzType(type);
 			this.type = type;
 		}
 

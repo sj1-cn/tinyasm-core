@@ -488,10 +488,6 @@ public class TypeUtils {
 		return arrayOf(typeOf(name), isarray);
 	}
 
-	// TODO need fix bug
-	static Clazz generic(Type type) {
-		return new ClazzType(type);
-	}
 
 //	static   GenericClazz generic(GenericClazz originclazzName) {
 //		return originclazzName;
