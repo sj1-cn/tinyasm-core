@@ -22,8 +22,8 @@ public class EnumBuilderSampleTest extends TestBase {
 		byte[] code = EnumBuilder.dump("com.nebula.dropwizard.core.Status", "STARTED", "FAILED", "COMPLETED");
 		byte[] codeExpected = EnumBuilderSampleDump.dump();
 
-		String strCode = toString(code);
 		String strCodeExpected = toString(codeExpected);
+		String strCode = toString(code);
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 

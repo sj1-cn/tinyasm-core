@@ -5,7 +5,7 @@ import static nebula.tinyasm.TypeUtils.checkMathTypes;
 import static nebula.tinyasm.TypeUtils.in;
 import static nebula.tinyasm.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.AASTORE;
-import static org.objectweb.asm.Opcodes.ACONST_NULL;
+import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.ANEWARRAY;
 import static org.objectweb.asm.Opcodes.ARETURN;
@@ -68,6 +68,7 @@ import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 import static org.objectweb.asm.Opcodes.IOR;
 import static org.objectweb.asm.Opcodes.IREM;
 import static org.objectweb.asm.Opcodes.IRETURN;
+import static org.objectweb.asm.Opcodes.ISHL;
 import static org.objectweb.asm.Opcodes.ISHR;
 import static org.objectweb.asm.Opcodes.ISTORE;
 import static org.objectweb.asm.Opcodes.ISUB;
@@ -181,13 +182,13 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	 * This notation for instruction families is used throughout this specification.
 	 */
 
-	@Override
-	public void LOAD(String firstname, String... names) {
-		LOAD(firstname);
-		for (String name : names) {
-			LOAD(name);
-		}
-	}
+//	@Override
+//	public void LOAD(String firstname, String... names) {
+//		LOAD(firstname);
+//		for (String name : names) {
+//			LOAD(name);
+//		}
+//	}
 
 	@Override
 	public void LOAD(int index) {
@@ -262,8 +263,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		visitVarInsn(ASTORE, local);
 	}
 
-	@Override
-	public void STORE(int index) {
+	private void STORE(int index) {
 		Type valueType = stackTypeOf(0);
 		Type localType = localsStoreAccess(index, valueType);
 
@@ -384,9 +384,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 				visitLdcInsn(cst);
 				stackPush(Type.getType(int.class));
 			}
-		} else if (cst instanceof Float) {
-			visitLdcInsn(cst);
-			stackPush(Type.getType(float.class));
 		} else if (cst instanceof Long) {
 			long v = ((Long) cst);
 			if (0L == v || 1L == v) {
@@ -396,9 +393,24 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 				visitLdcInsn(cst);
 				stackPush(Type.getType(long.class));
 			}
+		} else if (cst instanceof Float) {
+			float v = ((Float) cst);
+			if (0L == v || 1L == v) {
+				visitInsn(FCONST_0 + ((Float) cst).intValue());
+				stackPush(Type.getType(float.class));
+			} else {
+				visitLdcInsn(cst);
+				stackPush(Type.getType(float.class));
+			}
 		} else if (cst instanceof Double) {
-			visitLdcInsn(cst);
-			stackPush(Type.getType(double.class));
+			double v = ((Double) cst);
+			if (0L == v || 1L == v) {
+				visitInsn(DCONST_0 + ((Double) cst).intValue());
+				stackPush(Type.getType(double.class));
+			} else {
+				visitLdcInsn(cst);
+				stackPush(Type.getType(double.class));
+			}
 		} else if (cst instanceof String) {
 			visitLdcInsn(cst);
 			stackPush(Type.getType(String.class));
@@ -468,15 +480,15 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		// LADD (left, right → result) : add two longs
 	}
 
-	public void MATH(int op) {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-
-		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		stackPush(type);
-
-		visitInsn(type.getOpcode(op));
-	}
+//	public void MATH(int op) {
+//		Type typeRightValue = stackPop();
+//		Type typeLeftValue = stackPop();
+//
+//		Type type = checkMathTypes(typeRightValue, typeLeftValue);
+//		stackPush(type);
+//
+//		visitInsn(type.getOpcode(op));
+//	}
 
 	/* Subtract: isub, lsub, fsub, dsub. */
 	@Override
@@ -544,7 +556,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		Type left = stackPop();
 		Type result = left;
 		stackPush(result);
-		visitInsn(left.getOpcode(ISHR));
+		visitInsn(left.getOpcode(ISHL));
 		// ISHL (left, right → result) : int shift left
 		// LSHL (left, right → result) : bitwise shift left of a
 		// long left by right positions
@@ -695,6 +707,9 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 				break;
 			}
 			break;
+		case Type.BYTE:
+		case Type.SHORT:
+		case Type.CHAR:
 		case Type.INT:
 			switch (typeTo.getSort()) {
 			case Type.BOOLEAN:
@@ -757,7 +772,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 			}
 			break;
 		default:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Cannot " + typeFrom.getClassName() + " - " + typeTo.getClassName());
 
 		}
 	}
@@ -979,7 +994,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		CHECKCAST(typeOf(type));
 	}
 
-	public void CHECKCAST(Type type) {
+	protected void CHECKCAST(Type type) {
 		stackPop();
 		stackPush(type);
 		visitTypeInsn(CHECKCAST, type);
@@ -1200,11 +1215,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		visitInsn(RETURN);
 	}
 
-	@Override
-	public void RETURN(int i) {
-		LOADConstByte(i);
-		RETURNTop();
-	}
+//	@Override
+//	public void RETURN(int i) {
+//		LOADConstByte(i);
+//		RETURNTop();
+//	}
 
 	@Override
 	public void RETURN(String varname) {

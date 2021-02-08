@@ -14,17 +14,11 @@ public class EnumBuilder implements Opcodes {
 
 	public static ClassBody build(String clazz, String... names) {
 
-		ClassBody cb = ClassBuilder.make(clazz)
-			.eXtend(Enum.class, clazz)
-			.ACC_PUBLIC()
-			.ACC_FINAL()
-			.ACC_SUPER()
-			.ACC_ENUM()
-			.body();
+		ClassBody cb = ClassBuilder.make(clazz).eXtend(Enum.class, clazz).ACC_PUBLIC().ACC_FINAL().ACC_SUPER().ACC_ENUM().body();
 		for (String name : names) {
 			cb.field(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, clazz);
 		}
-		cb.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", clazz, true);
+		cb.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", Clazz.of(clazz,true));
 
 		cb.staticMethod("<clinit>").code(mc -> {
 			{
@@ -62,7 +56,7 @@ public class EnumBuilder implements Opcodes {
 			mc.INVOKESPECIAL(Enum.class, "<init>", String.class, int.class);
 			mc.RETURN();
 		});
-		cb.staticMethod("values").ACC_STATIC().ACC_PUBLIC().reTurn(clazz,true).code(mc -> {
+		cb.staticMethod("values").ACC_STATIC().ACC_PUBLIC().reTurn(clazz, true).code(mc -> {
 			mc.define("vs", clazz, true);
 			mc.define("length", int.class);
 			mc.define("newvs", clazz, true);
@@ -92,7 +86,7 @@ public class EnumBuilder implements Opcodes {
 			mc.LOADConst(typeOf(clazz));
 			mc.LOAD("name");
 			mc.INVOKESTATIC(Enum.class, Enum.class, "valueOf", Class.class, String.class);
-			mc.CHECKCAST(typeOf(clazz));
+			mc.CHECKCAST(clazz);
 			mc.RETURNTop();
 		});
 		return cb;

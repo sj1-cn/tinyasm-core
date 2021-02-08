@@ -1,6 +1,7 @@
 package nebula.tinyasm;
 
 import org.objectweb.asm.Label;
+import static org.objectweb.asm.Opcodes.*;
 
 public class MyBankAccountBuilder {
 
@@ -9,7 +10,7 @@ public class MyBankAccountBuilder {
 		ClassBody cb = ClassBuilder.make("com.nebula.cqrs.core.asm.MyBankAccount").annotation("com/nebula/cqrs/core/CqrsEntity")
 				.annotation("org/axonframework/spring/stereotype/Aggregate").body();
 
-		cb.field(Annotation.annotation("org/axonframework/commandhandling/model/AggregateIdentifier"), "axonBankAccountId", String.class);
+		cb.field(ACC_PRIVATE,Annotation.annotation("org/axonframework/commandhandling/model/AggregateIdentifier"), "axonBankAccountId", Clazz.of(String.class));
 		cb.field("overdraftLimit", long.class);
 		cb.field("balance", long.class);
 

@@ -4,17 +4,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>tinyasm</groupId>
-	<artifactId>tinhyasm-core</artifactId>
-	<version>${nebula.version}</version>
-	<name>tinhyasm-core</name>
-	<description>tinhyasm-core</description>
+	<groupId>com.github.ByronWang</groupId>
+	<artifactId>tinyasm-core</artifactId>
+	<version>${tinyasm.version}</version>
+	<name>tinyasm-core</name>
+	<description>tinyasm-core</description>
 
 	<properties>
 		<!-- Startup class -->
 		<jacoco.version>0.8.6</jacoco.version>
 		<junit.version>4.13.1</junit.version>
-		<nebula.version>0.1.1-SNAPSHOT</nebula.version>
+		<tinyasm.version>0.2.0</tinyasm.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<mockito.version>1.10.19</mockito.version>
 		<guava.version>19.0</guava.version>
@@ -22,10 +22,17 @@
 		<log4j.version>2.14.0</log4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.test.skip>false</maven.test.skip>
-		<compiler.compilerArgument></compiler.compilerArgument>
+		<compiler.compilerArgument>g:none</compiler.compilerArgument>
 	</properties>
 
 	<dependencies>
+		<!-- ASM -->
+		<!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>${asm.version}</version>
+		</dependency>
 		<!-- LOG -->
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
@@ -34,6 +41,11 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 		<!-- test -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -46,13 +58,6 @@
 			<artifactId>mockito-all</artifactId>
 			<version>${mockito.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<!-- ASM -->
-		<!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
-		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm</artifactId>
-			<version>${asm.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
@@ -73,9 +78,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
+			<groupId>com.github.ByronWang</groupId>
+			<artifactId>tinyasm-tool</artifactId>
+			<version>${tinyasm.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

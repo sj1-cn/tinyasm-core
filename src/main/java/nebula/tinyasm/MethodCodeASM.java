@@ -21,7 +21,7 @@ public interface MethodCodeASM {
 
 	void LOAD(int local);
 
-	void LOAD(String name, String... names);
+//	void LOAD(String name, String... names);
 
 	void STORE(String varname);
 
@@ -29,7 +29,7 @@ public interface MethodCodeASM {
 
 	void STORE(String varname, String clazz);
 
-	void STORE(int local);
+//	void STORE(int local);
 
 	void LOADConstByte(int value);
 
@@ -269,7 +269,7 @@ public interface MethodCodeASM {
 
 	void RETURN();
 
-	void RETURN(int i);
+//	void RETURN(int i);
 
 	void RETURN(String varname);
 

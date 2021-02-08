@@ -1,6 +1,7 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.TypeUtils.*;
+import static nebula.tinyasm.TypeUtils.every;
+import static nebula.tinyasm.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
@@ -12,8 +13,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import nebula.commons.list.StringListMap;
 
 class MethodHeaderBuilder implements MethodHeader {
 	class ThisMethod {
@@ -37,7 +36,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	Type stackTopType;
 
 	final LocalsStack mhLocals = new LocalsStack();
-	final StringListMap<LocalsVariable> params = new StringListMap<>(f -> f.name);
+	final List<LocalsVariable> params = new ArrayList<>();
 	final List<Annotation> annotations = new ArrayList<>();
 	final FieldList fields;
 	final FieldList staticFields;
@@ -106,13 +105,13 @@ class MethodHeaderBuilder implements MethodHeader {
 		return this;
 	}
 
-	@Override
-	public MethodHeader friendly(Consumer<MethodCodeAdv> invocation) {
-		MethodCode mc = this.begin();
-		invocation.accept((MethodCodeAdv)mc);
-		this.codeEnd();
-		return this;
-	}
+//	@Override
+//	public MethodHeader friendly(Consumer<MethodCodeAdv> invocation) {
+//		MethodCode mc = this.begin();
+//		invocation.accept((MethodCodeAdv)mc);
+//		this.codeEnd();
+//		return this;
+//	}
 
 	void codeEnd() {
 		finishMethod();
@@ -168,14 +167,14 @@ class MethodHeaderBuilder implements MethodHeader {
 	@Override
 	public MethodHeader parameter(int access, String name, Clazz clazz) {
 		LocalsVariable param = new LocalsVariable(access, name, clazz);
-		params.push(param);
+		params.add(param);
 		return this;
 	}
 
 	@Override
 	public MethodHeader parameter(Annotation annotation, String name, Clazz clazz) {
 		LocalsVariable param = new LocalsVariable(annotation, name, clazz);
-		params.push(param);
+		params.add(param);
 		return this;
 	}
 
@@ -190,10 +189,9 @@ class MethodHeaderBuilder implements MethodHeader {
 			if (returnClazz != null) returnType = returnClazz.getType();
 			else returnType = Type.VOID_TYPE;
 
-			List<LocalsVariable> fields = params.list();
-			Type[] types1 = new Type[fields.size()];
-			for (int i1 = 0; i1 < fields.size(); i1++) {
-				types1[i1] = fields.get(i1).clazz.getType();
+			Type[] types1 = new Type[params.size()];
+			for (int i1 = 0; i1 < params.size(); i1++) {
+				types1[i1] = params.get(i1).clazz.getType();
 			}
 
 			String desc = Type.getMethodDescriptor(returnType, types1);
