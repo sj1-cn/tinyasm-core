@@ -1128,11 +1128,11 @@ public class TinyASMifier extends Printer {
 				localVar = mdLocals.accessLoad(var, 1);
 				break;
 			}
-			if (localVar.count == 1) {
-				text.add(stringBuilder.toString());
-				text.add(new DefineVar(localVar));
-				stringBuilder.setLength(0);
-			}
+//			if (localVar.count == 1) {
+//				text.add(stringBuilder.toString());
+//				text.add(new DefineVar(localVar));
+//				stringBuilder.setLength(0);
+//			}
 
 			stringBuilder.append(visitname).append(".LOAD(\"");
 			if (var == 0) stringBuilder.append("this");
@@ -1191,18 +1191,18 @@ public class TinyASMifier extends Printer {
 
 	}
 
-	class DefineVar {
-		Var var;
-
-		public DefineVar(Var var) {
-			this.var = var;
-		}
-
-		@Override
-		public String toString() {
-			return visitname + ".define(\"" + var.name + "\"," + var.type.getClassName() + ".class);\n";
-		}
-	}
+//	class DefineVar {
+//		Var var;
+//
+//		public DefineVar(Var var) {
+//			this.var = var;
+//		}
+//
+//		@Override
+//		public String toString() {
+//			return visitname + ".define(\"" + var.name + "\"," + var.type.getClassName() + ".class);\n";
+//		}
+//	}
 	class VarType {
 		Var var;
 
@@ -1212,7 +1212,7 @@ public class TinyASMifier extends Printer {
 
 		@Override
 		public String toString() {
-			return var.type.getClassName() + ".class";
+			return clazzOf(var.type);
 		}
 	}
 
@@ -1266,8 +1266,23 @@ public class TinyASMifier extends Printer {
 		switch (opcode) {
 
 		case GETSTATIC: // 178; // visitFieldInsn
-		case PUTSTATIC: // 179; // -
-			throw new UnsupportedOperationException();
+
+//			code.GETSTATIC(System.class,"out",PrintStream.class);
+			stringBuilder.setLength(0);
+			stringBuilder.append(this.visitname).append(".GETSTATIC(");
+			stringBuilder.append(clazzOf(Type.getObjectType(owner)));
+			stringBuilder.append(", ");
+			appendConstant(name);
+			stringBuilder.append(", ");
+			stringBuilder.append(clazzOf(Type.getType(descriptor)));
+			stringBuilder.append(");\n");
+			text.add(stringBuilder.toString());
+			break;
+//		case PUTSTATIC: // 179; // -
+//			throw new UnsupportedOperationException();
+
+		
+
 		case GETFIELD: // 180; // -
 //			stringBuilder.setLength(0);
 //			stringBuilder.append("//");
@@ -1381,15 +1396,15 @@ public class TinyASMifier extends Printer {
 		Type returnType = Type.getReturnType(descriptor);
 		if (returnType != Type.VOID_TYPE) {
 			stringBuilder.append("\n\t\t.reTurn(");
-			stringBuilder.append(returnType.getClassName().replace('/', '.'));
-			stringBuilder.append(".class)");
+			stringBuilder.append(clazzOf( returnType));
+			stringBuilder.append(")");
 		}
 
 		Type[] argumentTypes = Type.getArgumentTypes(descriptor);
 		for (int i = 0; i < argumentTypes.length; i++) {
 			stringBuilder.append("\n\t\t.parameter(");
-			stringBuilder.append(argumentTypes[i].getClassName().replace('/', '.'));
-			stringBuilder.append(".class)");
+			stringBuilder.append(clazzOf(argumentTypes[i]));
+			stringBuilder.append(")");
 		}
 //		appendConstant(descriptor);
 //		stringBuilder.append(", ");
@@ -1495,7 +1510,8 @@ public class TinyASMifier extends Printer {
 	public void visitLabel(final Label label) {
 		if (labelNames!=null && labelNames.containsKey(label)) {
 			stringBuilder.setLength(0);
-			declareLabel(label);
+//			declareLabel(label);
+			stringBuilder.append("\n");
 			stringBuilder.append(visitname).append(".visitLabel(");
 			appendLabel(label);
 			stringBuilder.append(");\n");
@@ -1516,11 +1532,6 @@ public class TinyASMifier extends Printer {
 	public void visitIincInsn(final int var, final int increment) {
 		Var localVar = null;
 		localVar = mdLocals.accessLoad(var, 1);
-		if (localVar.count == 1) {
-			text.add(stringBuilder.toString());
-			text.add(new DefineVar(localVar));
-			stringBuilder.setLength(0);
-		}
 
 		stringBuilder.setLength(0);
 		stringBuilder.append(visitname).append(".IINC(\"");

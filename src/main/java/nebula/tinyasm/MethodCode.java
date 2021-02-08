@@ -96,7 +96,17 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		LOAD(_THIS);
 		SPECIAL(Object.class, "<init>").INVOKE();
 	}
+	@Override
+	public void BOX_Top() {
+		Type topType = stackTypeOf(0);
+		BoxUnbox.box(topType).accept(this);
+	}
 
+	@Override
+	public void UNBOX_Top() {
+		Type topType = stackTypeOf(0);
+		BoxUnbox.unbox(topType).accept(this);
+	}
 	public abstract void visitLabel(Label label);
 
 	abstract void visitLabel(Label label, int line);
@@ -108,6 +118,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	abstract void visitInsn(int opcode, int operand);
 
 	abstract void visitFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
+
+//	code.visitFieldInsn(GETSTATIC, "out", "Ljava/io/PrintStream;");
 
 	abstract void visitMethodInsn(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
 

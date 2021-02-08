@@ -31,9 +31,16 @@ classWriter.method("t").code(code -> {
 
 	code.LINE(7);
 	code.IINC("i", 1);
+
 	code.visitLabel(label0OfIF_ICMPNE);
 
 	code.LINE(9);
+	code.GETSTATIC(java.lang.System.class, "out", java.io.PrintStream.class);
+	code.LOADConst("ddd");
+	code.VIRTUAL(java.io.PrintStream.class, "println")
+		.parameter(java.lang.String.class).INVOKE();
+
+	code.LINE(10);
 	code.RETURN();
 });
 return classWriter.end().toByteArray();

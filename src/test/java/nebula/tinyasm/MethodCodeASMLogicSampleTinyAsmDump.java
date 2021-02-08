@@ -28,8 +28,10 @@ classWriter.method(boolean.class, "eq").parameter("x",byte.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPNE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -44,8 +46,10 @@ classWriter.method(boolean.class, "ne").parameter("x",byte.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPEQ);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -60,8 +64,10 @@ classWriter.method(boolean.class, "ge").parameter("x",byte.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPLT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -76,8 +82,10 @@ classWriter.method(boolean.class, "le").parameter("x",byte.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPGT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -92,8 +100,10 @@ classWriter.method(boolean.class, "gt").parameter("x",byte.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPLE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -108,8 +118,10 @@ classWriter.method(boolean.class, "lt").parameter("x",byte.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPGE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -124,8 +136,10 @@ classWriter.method(boolean.class, "eq").parameter("x",char.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPNE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -140,8 +154,10 @@ classWriter.method(boolean.class, "ne").parameter("x",char.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPEQ);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -156,8 +172,10 @@ classWriter.method(boolean.class, "ge").parameter("x",char.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPLT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -172,8 +190,10 @@ classWriter.method(boolean.class, "le").parameter("x",char.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPGT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -188,8 +208,10 @@ classWriter.method(boolean.class, "gt").parameter("x",char.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPLE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -204,8 +226,10 @@ classWriter.method(boolean.class, "lt").parameter("x",char.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPGE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -220,8 +244,10 @@ classWriter.method(boolean.class, "eq").parameter("x",short.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPNE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -236,8 +262,10 @@ classWriter.method(boolean.class, "ne").parameter("x",short.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPEQ);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -252,8 +280,10 @@ classWriter.method(boolean.class, "ge").parameter("x",short.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPLT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -268,8 +298,10 @@ classWriter.method(boolean.class, "le").parameter("x",short.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPGT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -284,8 +316,10 @@ classWriter.method(boolean.class, "gt").parameter("x",short.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPLE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -300,8 +334,10 @@ classWriter.method(boolean.class, "lt").parameter("x",short.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPGE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -316,8 +352,10 @@ classWriter.method(boolean.class, "eq").parameter("x",int.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPNE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -332,8 +370,10 @@ classWriter.method(boolean.class, "ne").parameter("x",int.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPEQ);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -348,8 +388,10 @@ classWriter.method(boolean.class, "ge").parameter("x",int.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPLT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -364,8 +406,10 @@ classWriter.method(boolean.class, "le").parameter("x",int.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPGT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -380,8 +424,10 @@ classWriter.method(boolean.class, "gt").parameter("x",int.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPLE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -396,8 +442,10 @@ classWriter.method(boolean.class, "lt").parameter("x",int.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIF_ICMPGE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -413,8 +461,10 @@ classWriter.method(boolean.class, "eq").parameter("x",long.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFNE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -430,8 +480,10 @@ classWriter.method(boolean.class, "ne").parameter("x",long.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFEQ);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -447,8 +499,10 @@ classWriter.method(boolean.class, "ge").parameter("x",long.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFLT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -464,8 +518,10 @@ classWriter.method(boolean.class, "le").parameter("x",long.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFGT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -481,8 +537,10 @@ classWriter.method(boolean.class, "gt").parameter("x",long.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFLE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -498,8 +556,10 @@ classWriter.method(boolean.class, "lt").parameter("x",long.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFGE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -515,8 +575,10 @@ classWriter.method(boolean.class, "eq").parameter("x",float.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFNE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -532,8 +594,10 @@ classWriter.method(boolean.class, "ne").parameter("x",float.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFEQ);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -549,8 +613,10 @@ classWriter.method(boolean.class, "ge").parameter("x",float.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFLT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -566,8 +632,10 @@ classWriter.method(boolean.class, "le").parameter("x",float.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFGT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -583,8 +651,10 @@ classWriter.method(boolean.class, "gt").parameter("x",float.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFLE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -600,8 +670,10 @@ classWriter.method(boolean.class, "lt").parameter("x",float.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFGE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -617,8 +689,10 @@ classWriter.method(boolean.class, "eq").parameter("x",double.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFNE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -634,8 +708,10 @@ classWriter.method(boolean.class, "ne").parameter("x",double.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFEQ);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -651,8 +727,10 @@ classWriter.method(boolean.class, "ge").parameter("x",double.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFLT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -668,8 +746,10 @@ classWriter.method(boolean.class, "le").parameter("x",double.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFGT);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -685,8 +765,10 @@ classWriter.method(boolean.class, "gt").parameter("x",double.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFLE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
@@ -702,8 +784,10 @@ classWriter.method(boolean.class, "lt").parameter("x",double.class)
 	code.LOADConst(1);
 	Label label1OfGOTO = new Label();
 	code.GOTO(label1OfGOTO);
+
 	code.visitLabel(label0OfIFGE);
 	code.LOADConst(0);
+
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });

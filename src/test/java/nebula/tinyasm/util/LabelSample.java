@@ -6,5 +6,6 @@ public class LabelSample {
 		if (i == 1) {
 			i++;
 		}
+		System.out.println("ddd");
 	}
 }

@@ -82,8 +82,8 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 	}
 
 	@Override
-	public Instance invoke(Consumer<MethodCode>[] invocations) {
-		for (Consumer<? super MethodCode> consumer : invocations) {
+	public Instance invoke(Consumer<MethodCodeAdv>[] invocations) {
+		for (Consumer<? super MethodCodeAdv> consumer : invocations) {
 			consumer.accept(mv);
 			paramsActual.add(mv.stackTypeOf(0));
 		}

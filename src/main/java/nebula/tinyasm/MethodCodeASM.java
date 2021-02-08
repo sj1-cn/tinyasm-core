@@ -2,11 +2,13 @@ package nebula.tinyasm;
 
 import java.util.function.Consumer;
 
-import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 
 public interface MethodCodeASM {
+	void BOX_Top() ;
+
+	void UNBOX_Top() ;
 	void BLOCK(Consumer<MethodCode> mc);
 
 	void LINE();

@@ -54,15 +54,13 @@ public abstract class MethodCodeAdv extends MethodCode implements MethodCodeFrie
 
 	@Override
 	public Instance boxTop() {
-		Type topType = stackTypeOf(0);
-		BoxUnbox.box(topType).accept(this);
+		BOX_Top();
 		return topInstance();
 	}
 
 	@Override
 	public Instance unboxTop() {
-		Type topType = stackTypeOf(0);
-		BoxUnbox.unbox(topType).accept(this);
+		UNBOX_Top();
 		return topInstance();
 	}
 //	Instance checkcastAndUnbox(Class<?> clazz);
