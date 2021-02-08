@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>nebula</groupId>
-	<artifactId>nebula-asm</artifactId>
+	<groupId>tinyasm</groupId>
+	<artifactId>tinhyasm-core</artifactId>
 	<version>${nebula.version}</version>
-	<name>nebula-asm</name>
-	<description>asm</description>
+	<name>tinhyasm-core</name>
+	<description>tinhyasm-core</description>
 
 	<properties>
 		<!-- Startup class -->
