@@ -87,4 +87,4 @@ nb-configuration.xml
 *.swp
 release.properties
 pom.xml.releaseBackup
-pom.xml.tag
+pom.xml.taglogs
