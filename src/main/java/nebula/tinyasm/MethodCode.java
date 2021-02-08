@@ -97,6 +97,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		LOAD(_THIS);
 		SPECIAL(Object.class, "<init>").INVOKE();
 	}
+
 	@Override
 	public void BOX_Top() {
 		Type topType = stackTypeOf(0);
@@ -108,6 +109,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		Type topType = stackTypeOf(0);
 		BoxUnbox.unbox(topType).accept(this);
 	}
+
 	public abstract void visitLabel(Label label);
 
 	abstract void visitLabel(Label label, int line);
@@ -464,7 +466,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	 * 
 	 */
 	/** MATH **/
-
 	@Override
 	public void ADD() {
 		Type typeRightValue = stackPop();
@@ -480,15 +481,15 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		// LADD (left, right → result) : add two longs
 	}
 
-//	public void MATH(int op) {
-//		Type typeRightValue = stackPop();
-//		Type typeLeftValue = stackPop();
-//
-//		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-//		stackPush(type);
-//
-//		visitInsn(type.getOpcode(op));
-//	}
+	public void MATH(int op) {
+		Type typeRightValue = stackPop();
+		Type typeLeftValue = stackPop();
+
+		Type type = checkMathTypes(typeRightValue, typeLeftValue);
+		stackPush(type);
+
+		visitInsn(type.getOpcode(op));
+	}
 
 	/* Subtract: isub, lsub, fsub, dsub. */
 	@Override
