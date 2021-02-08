@@ -29,7 +29,7 @@ public class MethodCodeMethodCallerSimpleTest extends TestBase {
 
 		cw.field("i", int.class);
 
-		cw.method("<init>").code(mv -> {
+		cw.method("<init>").friendly(mv -> {
 			mv.line().initThis();
 			mv.line().set("i", m -> m.LOADConstByte(10));
 			mv.line().set("i", m -> m.LOADConstByte(100));
@@ -37,7 +37,7 @@ public class MethodCodeMethodCallerSimpleTest extends TestBase {
 
 		});
 
-		cw.method("method").ACC_PUBLIC().ACC_STATIC().parameter("data", String.class).code(mv -> {
+		cw.method("method").ACC_PUBLIC().ACC_STATIC().parameter("data", String.class).friendly(mv -> {
 			mv.define("i", int.class);
 			mv.define("l", Long.class);
 			mv.define("s", String.class);

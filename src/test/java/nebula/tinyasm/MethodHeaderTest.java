@@ -36,37 +36,37 @@ public class MethodHeaderTest extends TestBase {
 			mv.define("file", File.class);
 			mv.define("fileInputStream", FileInputStream.class);
 
-			mv.line();
+			mv.LINE();
 			mv.NEW("java/io/File");
 			mv.DUP();
 			mv.LOADConst("./");
 			mv.SPECIAL("java/io/File", "<init>").parameter(String.class).INVOKE();
 			mv.STORE("file");
 
-			mv.line();
+			mv.LINE();
 			mv.LOAD("file");
 			mv.VIRTUAL("java/io/File", "exists").reTurn(boolean.class).INVOKE();
 			Label l2 = mv.codeNewLabel();
 			mv.IFEQ(l2);
 
-			mv.line();
+			mv.LINE();
 			mv.NEW("java/io/FileInputStream");
 			mv.DUP();
 			mv.LOAD("file");
 			mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
 			mv.STORE("fileInputStream");
 
-			mv.line();
+			mv.LINE();
 			mv.LOAD("fileInputStream");
 			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
 			mv.POP();
 
-			mv.line();
+			mv.LINE();
 			mv.LOAD("fileInputStream");
 			mv.VIRTUAL("java/io/FileInputStream", "close").INVOKE();
 
 			mv.visitLabel(l2);
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
@@ -85,41 +85,41 @@ public class MethodHeaderTest extends TestBase {
 		mv.define("file", File.class);
 		mv.define("fileInputStream", FileInputStream.class);
 
-		mv.line();
+		mv.LINE();
 		mv.NEW("java/io/File");
 		mv.DUP();
 		mv.LOADConst("./");
 		mv.SPECIAL("java/io/File", "<init>").parameter(String.class).INVOKE();
 		mv.STORE("file");
 
-		mv.line();
+		mv.LINE();
 		mv.LOAD("file");
 		mv.VIRTUAL("java/io/File", "exists").reTurn(boolean.class).INVOKE();
 		Label l2 = mv.codeNewLabel();
 		mv.IFEQ(l2);
 
-		mv.line();
+		mv.LINE();
 		mv.NEW("java/io/FileInputStream");
 		mv.DUP();
 		mv.LOAD("file");
 		mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
 		mv.STORE("fileInputStream");
 
-		mv.block(mb -> {
-			mv.line();
+		mv.BLOCK(mb -> {
+			mv.LINE();
 			mv.LOAD("fileInputStream");
 			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
 			mv.POP();
 		});
 
-		mv.line();
+		mv.LINE();
 		mv.LOAD("fileInputStream");
 		mv.VIRTUAL("java/io/FileInputStream", "close").INVOKE();
 
 		mv.visitLabel(l2);
-		mv.line();
+		mv.LINE();
 		mv.RETURN();
-		mv.end();
+		mv.END();
 
 		String codeActual = RefineCode.excludeLocalVariable(toString(cw.end().toByteArray()));
 		String codeExpected = RefineCode.excludeLocalVariable(toString(clazz));
@@ -136,37 +136,37 @@ public class MethodHeaderTest extends TestBase {
 			mv.define("file", File.class);
 			mv.define("fileInputStream", FileInputStream.class);
 
-			mv.line();
+			mv.LINE();
 			mv.NEW("java/io/File");
 			mv.DUP();
 			mv.LOADConst("./");
 			mv.SPECIAL("java/io/File", "<init>").parameter(String.class).INVOKE();
 			mv.STORE("file");
 
-			mv.line();
+			mv.LINE();
 			mv.LOAD("file");
 			mv.VIRTUAL("java/io/File", "exists").reTurn(boolean.class).INVOKE();
 			Label l2 = mv.codeNewLabel();
 			mv.IFEQ(l2);
 
-			mv.line();
+			mv.LINE();
 			mv.NEW("java/io/FileInputStream");
 			mv.DUP();
 			mv.LOAD("file");
 			mv.SPECIAL("java/io/FileInputStream", "<init>").parameter(File.class).INVOKE();
 			mv.STORE("fileInputStream");
 
-			mv.line();
+			mv.LINE();
 			mv.LOAD("fileInputStream");
 			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
 			mv.POP();
 
-			mv.line();
+			mv.LINE();
 			mv.LOAD("fileInputStream");
 			mv.VIRTUAL("java/io/FileInputStream", "close").INVOKE();
 
 			mv.visitLabel(l2);
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 

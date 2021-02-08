@@ -28,46 +28,46 @@ public class MakeInstanceMethodTest extends TestBase {
 		cw.constructerEmpty();
 
 		cw.method(0, String.class, "method").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.publicMethod(String.class, "publicMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.privateMethod(String.class, "privateMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.protectdMethod(String.class, "protectedMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(0, "methodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.publicMethod("publicMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.privateMethod("privateMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.protectdMethod("protectedMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
@@ -85,44 +85,44 @@ public class MakeInstanceMethodTest extends TestBase {
 		cw.constructerEmpty();
 
 		cw.method(0, String.class, "method").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 		cw.publicMethod(String.class.getName(), "publicMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.privateMethod(String.class.getName(), "privateMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.protectdMethod(String.class.getName(), "protectedMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(0, "methodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 		cw.publicMethod("publicMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.privateMethod("privateMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.protectdMethod("protectedMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
@@ -140,45 +140,45 @@ public class MakeInstanceMethodTest extends TestBase {
 		cw.constructerEmpty();
 
 		cw.method(0, "method").reTurn(String.class).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.publicMethod("publicMethod").reTurn(String.class).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.privateMethod("privateMethod").reTurn(String.class).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.protectdMethod("protectedMethod").reTurn(String.class).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(0, "methodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 		cw.publicMethod("publicMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.privateMethod("privateMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.protectdMethod("protectedMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
@@ -196,46 +196,46 @@ public class MakeInstanceMethodTest extends TestBase {
 		cw.constructerEmpty();
 
 		cw.method(0, "method").reTurn(String.class.getName()).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.publicMethod("publicMethod").reTurn(String.class.getName()).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.privateMethod("privateMethod").reTurn(String.class.getName()).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.protectdMethod("protectedMethod").reTurn(String.class.getName()).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(0, "methodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.publicMethod("publicMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.privateMethod("privateMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.protectdMethod("protectedMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
@@ -253,46 +253,46 @@ public class MakeInstanceMethodTest extends TestBase {
 		cw.constructerEmpty();
 
 		cw.method(0, "method").reTurn(String.class.getName()).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method("publicMethod").reTurn(String.class.getName()).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(Opcodes.ACC_PRIVATE, "privateMethod").reTurn(String.class.getName()).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(Opcodes.ACC_PROTECTED, "protectedMethod").reTurn(String.class.getName()).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(0, "methodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.method("publicMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.method(Opcodes.ACC_PRIVATE, "privateMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.method(Opcodes.ACC_PROTECTED, "protectedMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
@@ -310,46 +310,46 @@ public class MakeInstanceMethodTest extends TestBase {
 		cw.constructerEmpty();
 
 		cw.method(0, String.class, "method").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(String.class, "publicMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(Opcodes.ACC_PRIVATE, String.class, "privateMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(Opcodes.ACC_PROTECTED, String.class, "protectedMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(0, "methodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.method("publicMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.method(Opcodes.ACC_PRIVATE, "privateMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.method(Opcodes.ACC_PROTECTED, "protectedMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
@@ -367,46 +367,46 @@ public class MakeInstanceMethodTest extends TestBase {
 		cw.constructerEmpty();
 
 		cw.method(0, String.class, "method").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(String.class, "publicMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(Opcodes.ACC_PRIVATE, String.class, "privateMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(Opcodes.ACC_PROTECTED, String.class, "protectedMethod").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
 		cw.method(0, "methodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.method("publicMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.method(Opcodes.ACC_PRIVATE, "privateMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 
 		cw.method(Opcodes.ACC_PROTECTED, "protectedMethodVoid").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 

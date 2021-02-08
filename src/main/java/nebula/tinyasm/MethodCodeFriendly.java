@@ -2,18 +2,16 @@ package nebula.tinyasm;
 
 import java.util.function.Consumer;
 
-public interface MethodCodeFriendly extends WithDefineVar {
+public interface MethodCodeFriendly {
 	Instance loadThis();
 	
 	Instance boxTop();
 	
 	Instance unboxTop();
 
-	MethodCodeFriendly line(int line);
+	MethodCodeAdv line(int line);
 
-	MethodCodeFriendly line();
-	
-	void initObject();
+	MethodCodeAdv line();
 
 	Instance add(String left, String right);
 
@@ -67,7 +65,7 @@ public interface MethodCodeFriendly extends WithDefineVar {
 
 	Instance topInstance();
 
-	void set(String varname, Consumer<MethodCode> invocations);
+	void set(String varname, Consumer<MethodCodeAdv> invocations);
 
 	void setNull(String varname);
 
@@ -83,27 +81,27 @@ public interface MethodCodeFriendly extends WithDefineVar {
 
 	Instance load(String varname);
 
-	void ifTrue(Consumer<MethodCode> block);
+	void ifTrue(Consumer<MethodCodeAdv> block);
 
-	void ifFalse(Consumer<MethodCode> block);
+	void ifFalse(Consumer<MethodCodeAdv> block);
 
-	void ifEqual(Consumer<MethodCode> block);
+	void ifEqual(Consumer<MethodCodeAdv> block);
 
-	void ifNotEqual(Consumer<MethodCode> block);
+	void ifNotEqual(Consumer<MethodCodeAdv> block);
 
-	void ifGreatThan(Consumer<MethodCode> block);
+	void ifGreatThan(Consumer<MethodCodeAdv> block);
 
-	void wHile(Consumer<MethodCode> cause, Consumer<MethodCode> block);
+	void wHile(Consumer<MethodCodeAdv> cause, Consumer<MethodCodeAdv> block);
 
 	void store(String varname);
 
 	Instance dup();
 
-	void ifGreatEqual(Consumer<MethodCode> block);
+	void ifGreatEqual(Consumer<MethodCodeAdv> block);
 
-	void ifLessEqual(Consumer<MethodCode> block);
+	void ifLessEqual(Consumer<MethodCodeAdv> block);
 
-	void ifLessThan(Consumer<MethodCode> block);
+	void ifLessThan(Consumer<MethodCodeAdv> block);
 
 	Instance loadConst(Object cst);
 
@@ -127,12 +125,12 @@ public interface MethodCodeFriendly extends WithDefineVar {
 
 	void initTo(String clazz, String varname);
 
-	MethodCode line(Consumer<MethodCode> block);
-
-	MethodCode block(Consumer<MethodCode> block);
-
+	MethodCodeAdv line(Consumer<MethodCodeAdv> block);
+//
+	MethodCodeAdv block(Consumer<MethodCodeAdv> block);
+//
 	void initThis();
-
+//
 	Instance init(Class<?> clazz);
 
 	Instance init(Class<?> clazz, String... varnames);
@@ -141,9 +139,9 @@ public interface MethodCodeFriendly extends WithDefineVar {
 
 	Instance init(String clazz);
 
-	void ifObjectEqual(Consumer<MethodCode> left, Consumer<MethodCode> right, Consumer<MethodCode> block);
+	void ifObjectEqual(Consumer<MethodCodeAdv> left, Consumer<MethodCodeAdv> right, Consumer<MethodCodeAdv> block);
 
-	void ifObjectNotEqual(Consumer<MethodCode> left, Consumer<MethodCode> right, Consumer<MethodCode> block);
+	void ifObjectNotEqual(Consumer<MethodCodeAdv> left, Consumer<MethodCodeAdv> right, Consumer<MethodCodeAdv> block);
 
 	Instance checkcastAndUnbox(Class<?> clazz);
 

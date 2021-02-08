@@ -480,7 +480,7 @@ public class TinyASMifier extends Printer {
 			stringBuilder.append(clazzOf(params[0]));
 			stringBuilder.append(")");
 			for (i = 1; i < params.length; i++) {
-				stringBuilder.append(".parameter(\"");
+				stringBuilder.append("\n\t.parameter(\"");
 
 				text.add(stringBuilder.toString());
 				text.add(locals.push("", params[i]));
@@ -1161,11 +1161,11 @@ public class TinyASMifier extends Printer {
 				localVar = mdLocals.accessStore(var, 1);
 				break;
 			}
-			if (localVar.count == 1) {
-				text.add(stringBuilder.toString());
-				text.add(new DefineVar(localVar));
-				stringBuilder.setLength(0);
-			}
+//			if (localVar.count == 1) {
+//				text.add(stringBuilder.toString());
+//				text.add(new DefineVar(localVar));
+//				stringBuilder.setLength(0);
+//			}
 			stringBuilder.append(visitname).append(".STORE(\"");
 			if (var == 0) stringBuilder.append("this");
 			else {
@@ -1173,7 +1173,15 @@ public class TinyASMifier extends Printer {
 				text.add(localVar);
 				stringBuilder.setLength(0);
 			}
-			stringBuilder.append("\");\n");
+			stringBuilder.append("\"");
+			if(localVar.count==1) {
+				stringBuilder.append(",");
+				text.add(stringBuilder.toString());
+				text.add(new VarType(localVar));
+				stringBuilder.setLength(0);
+				stringBuilder.append("");
+			}
+			stringBuilder.append(");\n");
 			text.add(stringBuilder.toString());
 		} else if (opcode == RET) {// 169; // visitVarInsn
 
@@ -1193,6 +1201,18 @@ public class TinyASMifier extends Printer {
 		@Override
 		public String toString() {
 			return visitname + ".define(\"" + var.name + "\"," + var.type.getClassName() + ".class);\n";
+		}
+	}
+	class VarType {
+		Var var;
+
+		public VarType(Var var) {
+			this.var = var;
+		}
+
+		@Override
+		public String toString() {
+			return var.type.getClassName() + ".class";
 		}
 	}
 
@@ -1357,11 +1377,24 @@ public class TinyASMifier extends Printer {
 		stringBuilder.append(owner.replace('/', '.') + ".class");
 		stringBuilder.append(", ");
 		appendConstant(name);
-//		stringBuilder.append(", ");
+		stringBuilder.append(")");
+		Type returnType = Type.getReturnType(descriptor);
+		if (returnType != Type.VOID_TYPE) {
+			stringBuilder.append("\n\t\t.reTurn(");
+			stringBuilder.append(returnType.getClassName().replace('/', '.'));
+			stringBuilder.append(".class)");
+		}
+
+		Type[] argumentTypes = Type.getArgumentTypes(descriptor);
+		for (int i = 0; i < argumentTypes.length; i++) {
+			stringBuilder.append("\n\t\t.parameter(");
+			stringBuilder.append(argumentTypes[i].getClassName().replace('/', '.'));
+			stringBuilder.append(".class)");
+		}
 //		appendConstant(descriptor);
 //		stringBuilder.append(", ");
 //		stringBuilder.append(isInterface ? "true" : "false");
-		stringBuilder.append(").INVOKE();\n");
+		stringBuilder.append(".INVOKE();\n");
 		text.add(stringBuilder.toString());
 
 //		code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
@@ -1392,7 +1425,7 @@ public class TinyASMifier extends Printer {
 	@Override
 	public void visitJumpInsn(final int opcode, final Label label) {
 		stringBuilder.setLength(0);
-		declareLabel(label);
+		declareLabel(label,OPCODES[opcode]);
 		switch (opcode) {
 		case IFEQ: // 153; // visitJumpInsn
 			stringBuilder.append(visitname).append(".IFEQ(");
@@ -1460,12 +1493,14 @@ public class TinyASMifier extends Printer {
 
 	@Override
 	public void visitLabel(final Label label) {
-		stringBuilder.setLength(0);
-		declareLabel(label);
-		stringBuilder.append(visitname).append(".visitLabel(");
-		appendLabel(label);
-		stringBuilder.append(");\n");
-		text.add(stringBuilder.toString());
+		if (labelNames!=null && labelNames.containsKey(label)) {
+			stringBuilder.setLength(0);
+			declareLabel(label);
+			stringBuilder.append(visitname).append(".visitLabel(");
+			appendLabel(label);
+			stringBuilder.append(");\n");
+			text.add(stringBuilder.toString());
+		}
 	}
 
 	@Override
@@ -1479,8 +1514,20 @@ public class TinyASMifier extends Printer {
 
 	@Override
 	public void visitIincInsn(final int var, final int increment) {
+		Var localVar = null;
+		localVar = mdLocals.accessLoad(var, 1);
+		if (localVar.count == 1) {
+			text.add(stringBuilder.toString());
+			text.add(new DefineVar(localVar));
+			stringBuilder.setLength(0);
+		}
+
 		stringBuilder.setLength(0);
-		stringBuilder.append(visitname).append(".visitIincInsn(").append(var).append(", ").append(increment).append(");\n");
+		stringBuilder.append(visitname).append(".IINC(\"");
+		text.add(stringBuilder.toString());
+		text.add(localVar);
+		stringBuilder.setLength(0);
+		stringBuilder.append("\", ").append(increment).append(");\n");
 		text.add(stringBuilder.toString());
 	}
 
@@ -1626,7 +1673,8 @@ public class TinyASMifier extends Printer {
 	@Override
 	public void visitLineNumber(final int line, final Label start) {
 		stringBuilder.setLength(0);
-		stringBuilder.append(visitname).append(".line(").append(line);
+		stringBuilder.append("\n");
+		stringBuilder.append(visitname).append(".LINE(").append(line);
 		stringBuilder.append(");\n");
 		text.add(stringBuilder.toString());
 	}
@@ -2031,9 +2079,6 @@ public class TinyASMifier extends Printer {
 		}
 	}
 
-
-	
-
 	/**
 	 * Appends a declaration of the given label to {@link #stringBuilder}. This
 	 * declaration is of the form "Label labelXXX = new Label();". Does nothing if
@@ -2049,10 +2094,20 @@ public class TinyASMifier extends Printer {
 		if (labelName == null) {
 			labelName = "label" + labelNames.size();
 			labelNames.put(label, labelName);
-			stringBuilder.append("Label ").append(labelName).append(" = new Label();\n");
+			stringBuilder.append("\tLabel ").append(labelName).append(" = new Label();\n");
 		}
 	}
-
+	protected void declareLabel(final Label label,String name) {
+		if (labelNames == null) {
+			labelNames = new HashMap<Label, String>();
+		}
+		String labelName = labelNames.get(label);
+		if (labelName == null) {
+			labelName = "label"  + labelNames.size()+"Of" + name ;
+			labelNames.put(label, labelName);
+			stringBuilder.append("\tLabel ").append(labelName).append(" = new Label();\n");
+		}
+	}
 	/**
 	 * Appends the name of the given label to {@link #stringBuilder}. The given
 	 * label <i>must</i> already have a name. One way to ensure this is to always

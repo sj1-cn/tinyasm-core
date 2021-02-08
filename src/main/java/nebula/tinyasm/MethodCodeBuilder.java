@@ -17,7 +17,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class MethodCodeBuilder extends MethodCode {
+public class MethodCodeBuilder extends MethodCodeAdv {
 	private final MethodVisitor mv;
 
 	final MethodHeaderBuilder mh;
@@ -36,9 +36,8 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
-	public MethodCode block(Consumer<MethodCode> invocation) {
+	public void BLOCK(Consumer<MethodCode> invocation) {
 		invocation.accept(this);
-		return this;
 	}
 
 	@Override
@@ -122,11 +121,11 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
-	public void end() {
+	public void END() {
 		mh.finishMethod();
 	}
 
-	public MethodCode line() {
+	public void LINE() {
 		Label label;
 		if (!labelHasDefineBegin) {
 			label = new Label();
@@ -137,10 +136,9 @@ public class MethodCodeBuilder extends MethodCode {
 		}
 		lastLineNumber = lastLineNumber + 1;
 		mv.visitLineNumber(lastLineNumber, label);
-		return this;
 	}
 
-	public MethodCode line(int line) {
+	public void LINE(int line) {
 		Label label;
 		if (!labelHasDefineBegin) {
 			label = new Label();
@@ -151,7 +149,6 @@ public class MethodCodeBuilder extends MethodCode {
 		}
 		lastLineNumber = line;
 		mv.visitLineNumber(line, label);
-		return this;
 	}
 
 	@Override
@@ -178,6 +175,11 @@ public class MethodCodeBuilder extends MethodCode {
 		}
 	}
 
+	@Override
+	void visitIincInsn(int var, int increment) {
+		mv.visitIincInsn(var, increment);
+	}
+	
 	@Override
 	public void visitMethodInsn(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		mv.visitMethodInsn(opcode, objectType.getInternalName(), methodName, Type.getMethodDescriptor(returnType, paramTypes), opcode == INVOKEINTERFACE);
@@ -339,7 +341,7 @@ public class MethodCodeBuilder extends MethodCode {
 
 		@Override
 		public void INVOKE() {
-			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz),typeOf(returnClazz), methodName, typesOf(params));
+			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz), typeOf(returnClazz), methodName, typesOf(params));
 		}
 
 		@Override
@@ -348,4 +350,5 @@ public class MethodCodeBuilder extends MethodCode {
 		}
 
 	}
+
 }

@@ -1,0 +1,10 @@
+package nebula.tinyasm.util;
+
+public class LabelSample {
+	public void t() {
+		int i = 10;
+		if (i == 1) {
+			i++;
+		}
+	}
+}

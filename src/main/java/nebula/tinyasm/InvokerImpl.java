@@ -10,7 +10,7 @@ import org.objectweb.asm.Type;
 
 public class InvokerImpl implements InvokerPrepare, Invoker {
 
-	final MethodCode mv;
+	final MethodCodeAdv mv;
 	final int invokeType;
 	final Type objectType;
 	final String methodName;
@@ -19,7 +19,7 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 	List<Type> paramsActual = new ArrayList<>();
 	Type returnClazz;
 
-	public InvokerImpl(MethodCode mv, int invokeType, Type objectType, String methodName) {
+	public InvokerImpl(MethodCodeAdv mv, int invokeType, Type objectType, String methodName) {
 		super();
 		this.mv = mv;
 		this.invokeType = invokeType;
@@ -27,7 +27,7 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 		this.methodName = methodName;
 	}
 
-	public InvokerImpl(MethodCode mv, int invokeType, Type objectType, String methodName, Type type) {
+	public InvokerImpl(MethodCodeAdv mv, int invokeType, Type objectType, String methodName, Type type) {
 		this(mv, invokeType, objectType, methodName);
 
 		paramsRepected.add(type);
@@ -59,8 +59,8 @@ public class InvokerImpl implements InvokerPrepare, Invoker {
 	}
 
 	@Override
-	public void invokeVoid(Consumer<MethodCode>[] invocations) {
-		for (Consumer<? super MethodCode> consumer : invocations) {
+	public void invokeVoid(Consumer<MethodCodeAdv>[] invocations) {
+		for (Consumer<? super MethodCodeAdv> consumer : invocations) {
 			consumer.accept(this.mv);
 			Type type = this.mv.stackTypeOf(0);
 			paramsActual.add(type);

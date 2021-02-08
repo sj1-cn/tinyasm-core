@@ -6,10 +6,10 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public class InstanceImpl implements Instance {
-	final MethodCode mv;
+	final MethodCodeAdv mv;
 	final Type instanceType;
 
-	public InstanceImpl(MethodCode mv, Type instanceType) {
+	public InstanceImpl(MethodCodeAdv mv, Type instanceType) {
 		super();
 		this.mv = mv;
 		this.instanceType = instanceType;
@@ -32,7 +32,7 @@ public class InstanceImpl implements Instance {
 
 	@Override
 	public void setTo(String varname) {
-		mv.store(varname);
+		mv.STORE(varname);
 	}
 
 	@Override

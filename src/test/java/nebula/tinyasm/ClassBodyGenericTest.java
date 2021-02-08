@@ -37,7 +37,7 @@ public class ClassBodyGenericTest extends TestBase {
 		cw.field("annotation", TypeUtils.generic(List.class.getName(), String.class.getName()));
 
 		cw.method("<init>").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOAD(0);
 			mv.SPECIAL(ArrayList.class.getName(), "<init>").INVOKE();
 			mv.RETURN();
@@ -46,7 +46,7 @@ public class ClassBodyGenericTest extends TestBase {
 		cw.privateMethod("annotationMethod")
 			.reTurn(TypeUtils.generic(List.class.getName(), String.class.getName()))
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 				mv.LOADConstNULL();
 				mv.RETURNTop();
 			});
@@ -55,11 +55,11 @@ public class ClassBodyGenericTest extends TestBase {
 			.parameter("annotation", TypeUtils.generic(List.class.getName(), String.class.getName()))
 
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 				mv.LOAD(0);
 				mv.LOAD(1);
 				mv.PUTFIELD_OF_THIS("annotation");
-				mv.line();
+				mv.LINE();
 				mv.RETURN();
 			});
 
@@ -68,14 +68,14 @@ public class ClassBodyGenericTest extends TestBase {
 			.code(mv -> {
 				mv.define(TestAnnotation.class, "thisannotation",
 						TypeUtils.generic(List.class.getName(), String.class.getName()));
-				mv.line();
+				mv.LINE();
 				mv.LOAD(1);
 				mv.STORE("thisannotation");
-				mv.line();
+				mv.LINE();
 				mv.LOAD(0);
 				mv.LOAD(1);
 				mv.PUTFIELD_OF_THIS("annotation");
-				mv.line();
+				mv.LINE();
 				mv.RETURN();
 			});
 
@@ -96,7 +96,7 @@ public class ClassBodyGenericTest extends TestBase {
 		cw.field("annotation", TypeUtils.generic(List.class.getName(), String.class.getName()));
 
 		cw.method("<init>").code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOAD(0);
 			mv.SPECIAL(ArrayList.class.getName(), "<init>").INVOKE();
 			mv.RETURN();
@@ -105,7 +105,7 @@ public class ClassBodyGenericTest extends TestBase {
 		cw.privateMethod("annotationMethod")
 			.reTurn(TypeUtils.generic(List.class.getName(), String.class.getName()))
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 				mv.LOADConstNULL();
 				mv.RETURNTop();
 			});
@@ -114,11 +114,11 @@ public class ClassBodyGenericTest extends TestBase {
 			.parameter("annotation", TypeUtils.generic(List.class.getName(), String.class.getName()))
 
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 				mv.LOAD(0);
 				mv.LOAD(1);
 				mv.PUTFIELD_OF_THIS("annotation");
-				mv.line();
+				mv.LINE();
 				mv.RETURN();
 			});
 
@@ -127,14 +127,14 @@ public class ClassBodyGenericTest extends TestBase {
 			.code(mv -> {
 				mv.define(TestAnnotation.class, "thisannotation",
 						TypeUtils.generic(List.class.getName(), String.class.getName()));
-				mv.line();
+				mv.LINE();
 				mv.LOAD(1);
 				mv.STORE("thisannotation");
-				mv.line();
+				mv.LINE();
 				mv.LOAD(0);
 				mv.LOAD(1);
 				mv.PUTFIELD_OF_THIS("annotation");
-				mv.line();
+				mv.LINE();
 				mv.RETURN();
 			});
 

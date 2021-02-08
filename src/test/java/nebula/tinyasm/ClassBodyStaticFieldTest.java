@@ -53,7 +53,7 @@ public class ClassBodyStaticFieldTest extends TestBase {
 			.ACC_STATIC()
 			.annotation(TestAnnotation.class)
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 
 				mv.LOADConstNULL();
 				mv.RETURNTop();
@@ -64,7 +64,7 @@ public class ClassBodyStaticFieldTest extends TestBase {
 		cw.privateStaticMethod(String.class, "annotationWithDefaultValue")
 			.annotation(TestAnnotation.class, "value")
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 
 				mv.LOADConstNULL();
 				mv.RETURNTop();
@@ -75,7 +75,7 @@ public class ClassBodyStaticFieldTest extends TestBase {
 		cw.privateStaticMethod(String.class, "annotationWithDefaultValueAndNamedValue")
 			.annotation(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" })
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 
 				mv.LOADConstNULL();
 				mv.RETURNTop();
@@ -87,7 +87,7 @@ public class ClassBodyStaticFieldTest extends TestBase {
 			.annotation(TestAnnotation.class, new String[] { "name", "secondName" },
 					new Object[] { "name", "secondName" })
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 
 				mv.LOADConstNULL();
 				mv.RETURNTop();
@@ -106,19 +106,19 @@ public class ClassBodyStaticFieldTest extends TestBase {
 							new Object[] { "name", "secondName" }),
 					"annotationWithDefaultValueAndNamedValue2", String.class)
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 				mv.LOADConst("annotation");
 				mv.PUT_THIS_STATIC(clazz, "annotation");
-				mv.line();
+				mv.LINE();
 				mv.LOADConst("annotationWithDefaultValue");
 				mv.PUT_THIS_STATIC(clazz, "annotationWithDefaultValue");
-				mv.line();
+				mv.LINE();
 				mv.LOADConst("annotationWithDefaultValueAndNamedValue");
 				mv.PUT_THIS_STATIC(clazz, "annotationWithDefaultValueAndNamedValue");
-				mv.line();
+				mv.LINE();
 				mv.LOADConst("annotationWithDefaultValueAndNamedValue2");
 				mv.PUT_THIS_STATIC(clazz, "annotationWithDefaultValueAndNamedValue2");
-				mv.line();
+				mv.LINE();
 				mv.RETURN();
 			});
 

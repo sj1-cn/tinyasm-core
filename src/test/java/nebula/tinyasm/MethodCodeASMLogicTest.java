@@ -22,13 +22,14 @@ public class MethodCodeASMLogicTest extends TestBase {
 		String clazz = MethodCodeASMLogicSample.class.getName();
 		ClassBody cw = ClassBuilder.make(clazz).body();
 		cw.publicMethod("<init>").code(mc -> {
-			mc.line(3).initObject();
+			mc.LINE(3);
+			mc.INIT_OBJECT();
 			mc.RETURN();
 		});
 
 		// @formatter:off
 		cw.method("eq").reTurn(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
-			mc.line();
+			mc.LINE();
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -43,7 +44,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("ne").reTurn(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
-			mc.line();
+			mc.LINE();
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -58,7 +59,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("ge").reTurn(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
-			mc.line(14);
+			mc.LINE(14);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -73,7 +74,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("le").reTurn(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
-			mc.line(18);
+			mc.LINE(18);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -87,7 +88,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("gt").reTurn(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
-			mc.line(22);
+			mc.LINE(22);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -101,7 +102,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("lt").reTurn(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
-			mc.line(26);
+			mc.LINE(26);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -115,7 +116,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});		
 
 		cw.method("eq").reTurn(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
-			mc.line(30);
+			mc.LINE(30);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -129,7 +130,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("ne").reTurn(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
-			mc.line(34);
+			mc.LINE(34);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -143,7 +144,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("ge").reTurn(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
-			mc.line(38);
+			mc.LINE(38);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -157,7 +158,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("le").reTurn(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
-			mc.line(42);
+			mc.LINE(42);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -171,7 +172,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("gt").reTurn(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
-			mc.line(46);
+			mc.LINE(46);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -185,7 +186,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("lt").reTurn(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
-			mc.line(50);
+			mc.LINE(50);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -200,7 +201,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		
 
 		cw.method("eq").reTurn(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
-			mc.line(54);
+			mc.LINE(54);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -214,7 +215,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 		
 		cw.method("ne").reTurn(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
-			mc.line(58);
+			mc.LINE(58);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -228,7 +229,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});		
 
 		cw.method("ge").reTurn(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
-			mc.line(62);
+			mc.LINE(62);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -242,7 +243,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("le").reTurn(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
-			mc.line(66);
+			mc.LINE(66);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -256,7 +257,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("gt").reTurn(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
-			mc.line(70);
+			mc.LINE(70);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -270,7 +271,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("lt").reTurn(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
-			mc.line(74);
+			mc.LINE(74);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -284,7 +285,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 		
 		cw.method("eq").reTurn(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
-			mc.line(78);
+			mc.LINE(78);
 			mc.LOAD("x");mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
 			mc.IF_ICMPNE(ifElse);
@@ -297,7 +298,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("ne").reTurn(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
-			mc.line(82);
+			mc.LINE(82);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -311,7 +312,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});		
 
 		cw.method("ge").reTurn(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
-			mc.line(86);
+			mc.LINE(86);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -325,7 +326,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("le").reTurn(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
-			mc.line(90);
+			mc.LINE(90);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -339,7 +340,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("gt").reTurn(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
-			mc.line(94);
+			mc.LINE(94);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -353,7 +354,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("lt").reTurn(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
-			mc.line(98);
+			mc.LINE(98);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -367,7 +368,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});		
 
 		cw.method("eq").reTurn(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
-			mc.line(102);
+			mc.LINE(102);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.LCMP();
@@ -381,7 +382,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("ne").reTurn(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
-			mc.line(106);
+			mc.LINE(106);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.LCMP();
@@ -396,7 +397,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("ge").reTurn(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
-			mc.line(110);
+			mc.LINE(110);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.LCMP();
@@ -411,7 +412,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("le").reTurn(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
-			mc.line(114);
+			mc.LINE(114);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.LCMP();
@@ -427,7 +428,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 
 
 		cw.method("gt").reTurn(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
-			mc.line(118);
+			mc.LINE(118);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.LCMP();
@@ -442,7 +443,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("lt").reTurn(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
-			mc.line(122);
+			mc.LINE(122);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.LCMP();
@@ -457,7 +458,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});				
 
 		cw.method("eq").reTurn(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
-			mc.line(126);
+			mc.LINE(126);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPL();
@@ -472,7 +473,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("ne").reTurn(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
-			mc.line(130);
+			mc.LINE(130);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPL();
@@ -488,7 +489,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		
 
 		cw.method("ge").reTurn(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
-			mc.line(134);
+			mc.LINE(134);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPL();
@@ -503,7 +504,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("le").reTurn(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
-			mc.line(138);
+			mc.LINE(138);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPG();
@@ -518,7 +519,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("gt").reTurn(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
-			mc.line(142);
+			mc.LINE(142);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPL();
@@ -533,7 +534,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 		
 		cw.method("lt").reTurn(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
-			mc.line(146);
+			mc.LINE(146);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPG();
@@ -549,7 +550,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		
 
 		cw.method("eq").reTurn(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
-			mc.line(150);
+			mc.LINE(150);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPL();
@@ -564,7 +565,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("ne").reTurn(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
-			mc.line(154);
+			mc.LINE(154);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPL();
@@ -580,7 +581,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		
 
 		cw.method("ge").reTurn(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
-			mc.line(158);
+			mc.LINE(158);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPL();
@@ -595,7 +596,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("le").reTurn(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
-			mc.line(162);
+			mc.LINE(162);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPG();
@@ -611,7 +612,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 
 
 		cw.method("gt").reTurn(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
-			mc.line(166);
+			mc.LINE(166);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPL();
@@ -626,7 +627,7 @@ public class MethodCodeASMLogicTest extends TestBase {
 		});
 
 		cw.method("lt").reTurn(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
-			mc.line(170);
+			mc.LINE(170);
 			mc.LOAD("x");
 			mc.LOAD("y");
 			mc.CMPG();

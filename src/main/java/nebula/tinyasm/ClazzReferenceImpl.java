@@ -4,10 +4,10 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public class ClazzReferenceImpl implements ClazzReference{
-	final MethodCode mv;
+	final MethodCodeAdv mv;
 	final Type clazz;
 
-	public ClazzReferenceImpl(MethodCode mv, Type clazz) {
+	public ClazzReferenceImpl(MethodCodeAdv mv, Type clazz) {
 		super();
 		this.mv = mv;
 		this.clazz = clazz;

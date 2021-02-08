@@ -8,6 +8,7 @@ import nebula.tinyasm.MethodASMArraySample;
 import nebula.tinyasm.MethodCodeASMLogicSample;
 import nebula.tinyasm.MethodCodeASMMathSample;
 import nebula.tinyasm.MethodCodeASMSimpleSample;
+import nebula.tinyasm.sample.ClassBody.MakeReadOnlyPojo;
 
 public class TinyASMifierTest extends TinyASMifierTestBase {
 
@@ -76,5 +77,39 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
+	@Test
+	public void test_MakeReadOnlyPojo() throws Exception {
+		Class<?> expectedClazz = MakeReadOnlyPojo.class;
+
+		String codeActual = toString(makeAndDump(expectedClazz));
+		String codeExpected = toString(expectedClazz);
+
+		assertEquals("Code", codeExpected, codeActual);
+	}
+
+	@Test
+	public void test_LabelSample() throws Exception {
+		Class<?> expectedClazz = LabelSample.class;
+
+		String codeActual = toString(makeAndDump(expectedClazz));
+		String codeExpected = toString(expectedClazz);
+
+		assertEquals("Code", codeExpected, codeActual);
+	}
+	
+
+	@Test
+	public void test_Pojo() throws Exception {
+		Class<?> expectedClazz = Pojo.class;
+
+		String codeActual = toString(makeAndDump(expectedClazz));
+		String codeExpected = toString(expectedClazz);
+
+		assertEquals("Code", codeExpected, codeActual);
+	}
+	
+	
+	
+	
 	
 }

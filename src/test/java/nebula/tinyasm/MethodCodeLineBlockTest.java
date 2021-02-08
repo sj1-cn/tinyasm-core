@@ -28,7 +28,7 @@ public class MethodCodeLineBlockTest extends TestBase {
 
 		cw.field("i", int.class);
 
-		cw.method(/* V */ "<init>" /**/).code(mv -> {
+		cw.method(/* V */ "<init>" /**/).friendly(mv -> {
 			mv.line(line -> {
 				line.LOAD(0);
 				line.SPECIAL(Object.class, "<init>").INVOKE();
@@ -42,12 +42,12 @@ public class MethodCodeLineBlockTest extends TestBase {
 				line.PUTFIELD_OF_THIS("i");
 			});
 
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 
 		});
 
-		cw.method("method").ACC_PUBLIC().ACC_STATIC().parameter("data", String.class).code(mv -> {
+		cw.method("method").ACC_PUBLIC().ACC_STATIC().parameter("data", String.class).friendly(mv -> {
 			mv.define("i", int.class);
 			mv.define("l", Long.class);
 			mv.define("s", String.class);
@@ -98,7 +98,7 @@ public class MethodCodeLineBlockTest extends TestBase {
 				line.POP();
 			});
 
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 

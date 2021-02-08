@@ -42,7 +42,7 @@ public class ClassBodyAnnotationTest extends TestBase {
 
 //		Opcodes.NULL
 		cw.privateMethod(String.class, "annotationMethod").annotation(TestAnnotation.class).code(mv -> {
-			mv.line();
+			mv.LINE();
 
 			mv.LOADConstNULL();
 			mv.RETURNTop();
@@ -53,7 +53,7 @@ public class ClassBodyAnnotationTest extends TestBase {
 		cw.privateMethod(String.class, "annotationWithDefaultValue")
 			.annotation(TestAnnotation.class, "value")
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 
 				mv.LOADConstNULL();
 				mv.RETURNTop();
@@ -64,7 +64,7 @@ public class ClassBodyAnnotationTest extends TestBase {
 		cw.privateMethod(String.class, "annotationWithDefaultValueAndNamedValue")
 			.annotation(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" })
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 
 				mv.LOADConstNULL();
 				mv.RETURNTop();
@@ -76,7 +76,7 @@ public class ClassBodyAnnotationTest extends TestBase {
 			.annotation(TestAnnotation.class, new String[] { "name", "secondName" },
 					new Object[] { "name", "secondName" })
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 
 				mv.LOADConstNULL();
 				mv.RETURNTop();
@@ -94,20 +94,20 @@ public class ClassBodyAnnotationTest extends TestBase {
 							new Object[] { "name", "secondName" }),
 					"annotationWithDefaultValueAndNamedValue2", String.class)
 			.code(mv -> {
-				mv.line();
+				mv.LINE();
 
 				mv.LOADConst("annotation");
 				mv.STORE("annotation");
-				mv.line();
+				mv.LINE();
 				mv.LOADConst("annotationWithDefaultValue");
 				mv.STORE("annotationWithDefaultValue");
-				mv.line();
+				mv.LINE();
 				mv.LOADConst("annotationWithDefaultValueAndNamedValue");
 				mv.STORE("annotationWithDefaultValueAndNamedValue");
-				mv.line();
+				mv.LINE();
 				mv.LOADConst("annotationWithDefaultValueAndNamedValue2");
 				mv.STORE("annotationWithDefaultValueAndNamedValue2");
-				mv.line();
+				mv.LINE();
 				mv.RETURN();
 			});
 

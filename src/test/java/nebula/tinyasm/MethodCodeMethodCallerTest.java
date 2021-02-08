@@ -29,20 +29,20 @@ public class MethodCodeMethodCallerTest extends TestBase {
 		cw.field("i", int.class);
 
 		cw.method(/* V */ "<init>" /**/).code(mv -> {
-			mv.line();
+			mv.LINE();
 			mv.LOAD(0);
 			mv.SPECIAL(Object.class, "<init>").INVOKE();
-			mv.line();
+			mv.LINE();
 			mv.LOAD(0);
 			mv.LOADConstByte(10);
 			mv.PUTFIELD_OF_THIS("i");
 
-			mv.line();
+			mv.LINE();
 			mv.LOAD(0);
 			mv.LOADConstByte(100);
 			mv.PUTFIELD_OF_THIS("i");
 
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 
 		});
@@ -53,20 +53,20 @@ public class MethodCodeMethodCallerTest extends TestBase {
 			mv.define("s", String.class);
 			mv.define("ls", TypeUtils.generic(List.class, String.class));
 
-			mv.line();
+			mv.LINE();
 			mv.LOADConstByte(10);
 			mv.STORE("i");
-			mv.line();
+			mv.LINE();
 			mv.LOADConst(Long.valueOf(10L));
 			mv.STATIC(Long.class, "valueOf").parameter(long.class).reTurn(Long.class).INVOKE();
 			mv.STORE("l");
 
-			mv.line();
+			mv.LINE();
 			mv.LOAD(1);
 			mv.STATIC(String.class, "valueOf").parameter(int.class).reTurn(String.class).INVOKE();
 			mv.STORE("s");
 
-			mv.line();
+			mv.LINE();
 			mv.NEW("java/lang/StringBuilder");
 			mv.DUP();
 			mv.SPECIAL(StringBuilder.class, "<init>").INVOKE();
@@ -79,25 +79,25 @@ public class MethodCodeMethodCallerTest extends TestBase {
 			mv.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
 			mv.STORE("s");
 
-			mv.line();
+			mv.LINE();
 			mv.NEW("java/util/ArrayList");
 			mv.DUP();
 			mv.SPECIAL("java/util/ArrayList", "<init>").INVOKE();
 			mv.STORE("ls");
 
-			mv.line();
+			mv.LINE();
 			mv.LOAD("ls");
 			mv.LOADConst("first");
 			mv.INTERFACE("java/util/List", "add").parameter(Object.class).reTurn(boolean.class).INVOKE();
 			mv.POP();
 
-			mv.line();
+			mv.LINE();
 			mv.LOAD("ls");
 			mv.LOADConst("second");
 			mv.INTERFACE("java/util/List", "add").parameter(Object.class).reTurn(boolean.class).INVOKE();
 			mv.POP();
 
-			mv.line();
+			mv.LINE();
 			mv.RETURN();
 		});
 

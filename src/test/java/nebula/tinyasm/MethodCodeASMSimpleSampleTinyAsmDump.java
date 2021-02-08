@@ -19,38 +19,29 @@ classWriter.field("f", float.class);
 classWriter.field("d", double.class);
 classWriter.field("str", java.lang.String.class);
 classWriter.method("<init>").code(code -> {
-Label label0 = new Label();
-	code.visitLabel(label0);
-	code.line(3);
+
+	code.LINE(3);
 	code.LOAD("this");
 	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
 	code.RETURN();
-Label label1 = new Label();
-	code.visitLabel(label1);
 });
 classWriter.method(int.class, "getField").code(code -> {
-Label label0 = new Label();
-	code.visitLabel(label0);
-	code.line(15);
+
+	code.LINE(15);
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.LOAD("this");
 	code.GETFIELD("i", int.class);
 	code.ADD();
-	code.define("x",int.class);
-	code.STORE("x");
-Label label1 = new Label();
-	code.visitLabel(label1);
-	code.line(16);
+	code.STORE("x",int.class);
+
+	code.LINE(16);
 	code.LOAD("x");
 	code.RETURNTop();
-Label label2 = new Label();
-	code.visitLabel(label2);
 });
 classWriter.method(int.class, "getFieldAll").code(code -> {
-Label label0 = new Label();
-	code.visitLabel(label0);
-	code.line(20);
+
+	code.LINE(20);
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.LOAD("this");
@@ -75,68 +66,55 @@ Label label0 = new Label();
 	code.GETFIELD("d", double.class);
 	code.ADD();
 	code.CONVERTTO(int.class);
-	code.define("x",int.class);
-	code.STORE("x");
-Label label1 = new Label();
-	code.visitLabel(label1);
-	code.line(21);
+	code.STORE("x",int.class);
+
+	code.LINE(21);
 	code.LOAD("x");
 	code.RETURNTop();
-Label label2 = new Label();
-	code.visitLabel(label2);
 });
 classWriter.method(int.class, "getFieldConst").code(code -> {
-Label label0 = new Label();
-	code.visitLabel(label0);
-	code.line(25);
+
+	code.LINE(25);
 	code.LOAD("this");
 	code.LOADConst(100);
 	code.PUTFIELD("b", byte.class);
-Label label1 = new Label();
-	code.visitLabel(label1);
-	code.line(26);
+
+	code.LINE(26);
 	code.LOAD("this");
 	code.LOADConst(1000);
 	code.PUTFIELD("c", char.class);
-Label label2 = new Label();
-	code.visitLabel(label2);
-	code.line(27);
+
+	code.LINE(27);
 	code.LOAD("this");
 	code.LOADConst(10000);
 	code.PUTFIELD("s", short.class);
-Label label3 = new Label();
-	code.visitLabel(label3);
-	code.line(28);
+
+	code.LINE(28);
 	code.LOAD("this");
 	code.LOADConst(new Integer(100000));
 	code.PUTFIELD("i", int.class);
-Label label4 = new Label();
-	code.visitLabel(label4);
-	code.line(29);
+
+	code.LINE(29);
 	code.LOAD("this");
 	code.LOADConst(new Long(1000000L));
 	code.PUTFIELD("l", long.class);
-Label label5 = new Label();
-	code.visitLabel(label5);
-	code.line(30);
+
+	code.LINE(30);
 	code.LOAD("this");
 	code.LOADConst(new Float("1.0E7"));
 	code.PUTFIELD("f", float.class);
-Label label6 = new Label();
-	code.visitLabel(label6);
-	code.line(31);
+
+	code.LINE(31);
 	code.LOAD("this");
 	code.LOADConst(new Double("1.0E8"));
 	code.PUTFIELD("d", double.class);
-Label label7 = new Label();
-	code.visitLabel(label7);
-	code.line(32);
+
+	code.LINE(32);
 	code.LOAD("this");
 	code.LOADConst("1000000000s");
 	code.PUTFIELD("str", java.lang.String.class);
-Label label8 = new Label();
-	code.visitLabel(label8);
-	code.line(33);
+
+	code.LINE(33);
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.LOAD("this");
@@ -162,141 +140,113 @@ Label label8 = new Label();
 	code.ADD();
 	code.CONVERTTO(int.class);
 	code.RETURNTop();
-Label label9 = new Label();
-	code.visitLabel(label9);
 });
 classWriter.method(int.class, "getFieldIConst").code(code -> {
-Label label0 = new Label();
-	code.visitLabel(label0);
-	code.line(37);
+
+	code.LINE(37);
 	code.LOAD("this");
 	code.LOADConst(0);
 	code.PUTFIELD("b", byte.class);
-Label label1 = new Label();
-	code.visitLabel(label1);
-	code.line(38);
+
+	code.LINE(38);
 	code.LOAD("this");
 	code.LOADConst(1);
 	code.PUTFIELD("b", byte.class);
-Label label2 = new Label();
-	code.visitLabel(label2);
-	code.line(39);
+
+	code.LINE(39);
 	code.LOAD("this");
 	code.LOADConst(2);
 	code.PUTFIELD("b", byte.class);
-Label label3 = new Label();
-	code.visitLabel(label3);
-	code.line(40);
+
+	code.LINE(40);
 	code.LOAD("this");
 	code.LOADConst(3);
 	code.PUTFIELD("b", byte.class);
-Label label4 = new Label();
-	code.visitLabel(label4);
-	code.line(41);
+
+	code.LINE(41);
 	code.LOAD("this");
 	code.LOADConst(4);
 	code.PUTFIELD("b", byte.class);
-Label label5 = new Label();
-	code.visitLabel(label5);
-	code.line(42);
+
+	code.LINE(42);
 	code.LOAD("this");
 	code.LOADConst(5);
 	code.PUTFIELD("b", byte.class);
-Label label6 = new Label();
-	code.visitLabel(label6);
-	code.line(43);
+
+	code.LINE(43);
 	code.LOAD("this");
 	code.LOADConst(6);
 	code.PUTFIELD("b", byte.class);
-Label label7 = new Label();
-	code.visitLabel(label7);
-	code.line(44);
+
+	code.LINE(44);
 	code.LOAD("this");
 	code.LOADConst(7);
 	code.PUTFIELD("b", byte.class);
-Label label8 = new Label();
-	code.visitLabel(label8);
-	code.line(45);
+
+	code.LINE(45);
 	code.LOAD("this");
 	code.LOADConst(8);
 	code.PUTFIELD("b", byte.class);
-Label label9 = new Label();
-	code.visitLabel(label9);
-	code.line(46);
+
+	code.LINE(46);
 	code.LOAD("this");
 	code.LOADConst(-4);
 	code.PUTFIELD("b", byte.class);
-Label label10 = new Label();
-	code.visitLabel(label10);
-	code.line(47);
+
+	code.LINE(47);
 	code.LOAD("this");
 	code.LOADConst(-3);
 	code.PUTFIELD("b", byte.class);
-Label label11 = new Label();
-	code.visitLabel(label11);
-	code.line(48);
+
+	code.LINE(48);
 	code.LOAD("this");
 	code.LOADConst(-2);
 	code.PUTFIELD("b", byte.class);
-Label label12 = new Label();
-	code.visitLabel(label12);
-	code.line(49);
+
+	code.LINE(49);
 	code.LOAD("this");
 	code.LOADConst(-1);
 	code.PUTFIELD("b", byte.class);
-Label label13 = new Label();
-	code.visitLabel(label13);
-	code.line(50);
+
+	code.LINE(50);
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
-Label label14 = new Label();
-	code.visitLabel(label14);
 });
 classWriter.method(byte.class, "retByte").code(code -> {
-Label label0 = new Label();
-	code.visitLabel(label0);
-	code.line(54);
+
+	code.LINE(54);
 	code.LOADConst(1);
-	code.define("x",byte.class);
-	code.STORE("x");
-Label label1 = new Label();
-	code.visitLabel(label1);
-	code.line(55);
+	code.STORE("x",byte.class);
+
+	code.LINE(55);
 	code.LOAD("x");
 	code.LOADConst(1);
 	code.ADD();
 	code.CONVERTTO(byte.class);
 	code.STORE("x");
-Label label2 = new Label();
-	code.visitLabel(label2);
-	code.line(56);
+
+	code.LINE(56);
 	code.LOAD("this");
 	code.LOADConst(10);
 	code.PUTFIELD("b", byte.class);
-Label label3 = new Label();
-	code.visitLabel(label3);
-	code.line(57);
+
+	code.LINE(57);
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.STORE("x");
-Label label4 = new Label();
-	code.visitLabel(label4);
-	code.line(58);
+
+	code.LINE(58);
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.LOAD("x");
 	code.ADD();
 	code.CONVERTTO(byte.class);
-	code.define("y",byte.class);
-	code.STORE("y");
-Label label5 = new Label();
-	code.visitLabel(label5);
-	code.line(59);
+	code.STORE("y",byte.class);
+
+	code.LINE(59);
 	code.LOAD("y");
 	code.RETURNTop();
-Label label6 = new Label();
-	code.visitLabel(label6);
 });
 return classWriter.end().toByteArray();
 }

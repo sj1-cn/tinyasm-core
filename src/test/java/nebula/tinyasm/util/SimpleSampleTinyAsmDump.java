@@ -12,57 +12,42 @@ ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.SimpleSample").bo
 
 classWriter.field(0, "i", int.class);
 classWriter.method("<init>").code(code -> {
-Label label0 = new Label();
-	code.visitLabel(label0);
-	code.line(6);
+
+	code.LINE(6);
 	code.LOAD("this");
 	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
-Label label1 = new Label();
-	code.visitLabel(label1);
-	code.line(4);
+
+	code.LINE(4);
 	code.LOAD("this");
 	code.LOADConst(0);
 	code.PUTFIELD("i", int.class);
-Label label2 = new Label();
-	code.visitLabel(label2);
-	code.line(8);
+
+	code.LINE(8);
 	code.RETURN();
-Label label3 = new Label();
-	code.visitLabel(label3);
 });
 classWriter.method("dd").code(code -> {
-Label label0 = new Label();
-	code.visitLabel(label0);
-	code.line(11);
+
+	code.LINE(11);
 	code.LOADConst(1);
-	code.define("j",int.class);
-	code.STORE("j");
-Label label1 = new Label();
-	code.visitLabel(label1);
-	code.line(12);
+	code.STORE("j",int.class);
+
+	code.LINE(12);
 	code.LOAD("this");
 	code.LOADConst(1);
 	code.PUTFIELD("i", int.class);
-Label label2 = new Label();
-	code.visitLabel(label2);
-	code.line(13);
+
+	code.LINE(13);
 	code.RETURN();
-Label label3 = new Label();
-	code.visitLabel(label3);
 });
 classWriter.method("methodWith1Param").parameter("i",int.class).code(code -> {
-Label label0 = new Label();
-	code.visitLabel(label0);
-	code.line(16);
+
+	code.LINE(16);
 	code.LOAD("this");
 	code.LOAD("i");
 	code.PUTFIELD("i", int.class);
-Label label1 = new Label();
-	code.visitLabel(label1);
-	code.line(17);
+
+	code.LINE(17);
 	code.RETURN();
-Label label2 = new Label();
-	code.visitLabel(label2);
 });
 return classWriter.end().toByteArray();
 }

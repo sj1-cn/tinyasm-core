@@ -32,25 +32,26 @@ public class MethodCodeASMSimpleTest extends TestBase {
 		cw.field("str",String.class);
 		
 		cw.publicMethod("<init>").code(mc -> {
-			mc.line(3).initObject();
+			mc.LINE(3);
+			mc.INIT_OBJECT();
 			mc.RETURN();
 		});
 		
 		cw.method(int.class, "getField").code(mc->{
 			mc.define("x", int.class);
-			mc.line(14);mc.LOAD("this");
+			mc.LINE(14);mc.LOAD("this");
 			mc.GET_THIS_FIELD("b");
 			mc.LOAD("this");
 			mc.GET_THIS_FIELD("i");
 			mc.ADD();
 			mc.STORE("x");
-			mc.line(15);mc.LOAD("x");
+			mc.LINE(15);mc.LOAD("x");
 			mc.RETURNTop();
 		});
 
-		cw.method(int.class, "getFieldAll").code(mc->{
+		cw.method(int.class, "getFieldAll").friendly(mc->{
 			mc.define("x", int.class);
-			mc.line(19);
+			mc.LINE(19);
 			mc.loadThisField("b");
 			mc.loadThisField("c");
 			mc.ADD();
@@ -74,43 +75,43 @@ public class MethodCodeASMSimpleTest extends TestBase {
 			mc.ADD();
 			mc.CONVERTTO(int.class);
 			mc.STORE("x");
-			mc.line(20);mc.LOAD("x");
+			mc.LINE(20);mc.LOAD("x");
 			mc.RETURNTop();
 		});
 
 		cw.publicMethod(int.class,"getFieldConst").code(mc->{
-			mc.line(24);mc.LOAD("this");
+			mc.LINE(24);mc.LOAD("this");
 			mc.LOADConstByte(100);
 			mc.PUTFIELD_OF_THIS("b");
-			mc.line(25);mc.LOAD("this");
+			mc.LINE(25);mc.LOAD("this");
 			mc.LOADConstShort(1000);
 			mc.PUTFIELD_OF_THIS("c");
-			mc.line(26);mc.LOAD("this");
+			mc.LINE(26);mc.LOAD("this");
 			mc.LOADConstShort(10000);
 			mc.PUTFIELD_OF_THIS("s");
 
-			mc.line(27);mc.LOAD("this");
+			mc.LINE(27);mc.LOAD("this");
 			mc.LOADConst(100000);
 			mc.PUTFIELD_OF_THIS("i");
 
-			mc.line(28);mc.LOAD("this");
+			mc.LINE(28);mc.LOAD("this");
 			mc.LOADConst(1000000L);
 			mc.PUTFIELD_OF_THIS("l");
 			
-			mc.line(29);mc.LOAD("this");
+			mc.LINE(29);mc.LOAD("this");
 			mc.LOADConst(1.0E7F);
 			mc.PUTFIELD_OF_THIS("f");
 
 
-			mc.line(30);mc.LOAD("this");
+			mc.LINE(30);mc.LOAD("this");
 			mc.LOADConst(1.0E8D);
 			mc.PUTFIELD_OF_THIS("d");
 			
-			mc.line(31);mc.LOAD("this");
+			mc.LINE(31);mc.LOAD("this");
 			mc.LOADConst("1000000000s");
 			mc.PUTFIELD_OF_THIS("str");
 			
-			mc.line(32);mc.LOAD("this");
+			mc.LINE(32);mc.LOAD("this");
 			mc.GET_THIS_FIELD("b");
 			mc.LOAD("this");
 			mc.GET_THIS_FIELD("c");
@@ -142,61 +143,61 @@ public class MethodCodeASMSimpleTest extends TestBase {
 		cw.method(int.class, "getFieldIConst").code(mc->{
 
 			int i = 36;
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(0);
 			mc.PUTFIELD_OF_THIS("b");
 
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(1);
 			mc.PUTFIELD_OF_THIS("b");
 
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(2);
 			mc.PUTFIELD_OF_THIS("b");
 
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(3);
 			mc.PUTFIELD_OF_THIS("b");
 
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(4);
 			mc.PUTFIELD_OF_THIS("b");
 
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(5);
 			mc.PUTFIELD_OF_THIS("b");
 
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(6);
 			mc.PUTFIELD_OF_THIS("b");
 
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(7);
 			mc.PUTFIELD_OF_THIS("b");
 
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(8);
 			mc.PUTFIELD_OF_THIS("b");
 			
 			
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(-4);
 			mc.PUTFIELD_OF_THIS("b");
 
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(-3);
 			mc.PUTFIELD_OF_THIS("b");
 			
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(-2);
 			mc.PUTFIELD_OF_THIS("b");
 
 
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.LOADConstByte(-1);
 			mc.PUTFIELD_OF_THIS("b");
 			
-			mc.line(i++);mc.LOAD("this");
+			mc.LINE(i++);mc.LOAD("this");
 			mc.GET_THIS_FIELD("b");
 			mc.RETURNTop();
 
@@ -205,28 +206,28 @@ public class MethodCodeASMSimpleTest extends TestBase {
 		cw.method(byte.class, "retByte").code(mc->{
 			mc.define("x", byte.class);
 			mc.define("y", byte.class);
-			mc.line(59);mc.LOADConstByte(1);
+			mc.LINE(59);mc.LOADConstByte(1);
 			mc.STORE("x");
-			mc.line();mc.LOAD("x");
+			mc.LINE();mc.LOAD("x");
 			mc.LOADConstByte(1);
 			mc.ADD();
 			mc.CONVERTTO(byte.class);
 			mc.STORE("x");
 			
-			mc.line().loadThis();
+			mc.LINE();mc.LOAD_THIS();
 			mc.LOADConstByte(10);
 			mc.PUTFIELD_OF_THIS("b");
-			mc.line().loadThis();
+			mc.LINE();mc.LOAD_THIS();
 			mc.GET_THIS_FIELD("b");
 			mc.STORE("x");
-			mc.line().loadThis();
+			mc.LINE();mc.LOAD_THIS();
 			mc.GET_THIS_FIELD("b");
 			mc.LOAD("x");
 			mc.ADD();
 			mc.CONVERTTO(byte.class);
 			mc.STORE("y");
-			mc.line();
-			mc.returnVar("y");			
+			mc.LINE();
+			mc.RETURN("y");			
 		});
 		
 		// @formatter:on

@@ -107,9 +107,9 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	@Override
-	public MethodHeader friendly(Consumer<MethodCodeFriendly> invocation) {
+	public MethodHeader friendly(Consumer<MethodCodeAdv> invocation) {
 		MethodCode mc = this.begin();
-		invocation.accept(mc);
+		invocation.accept((MethodCodeAdv)mc);
 		this.codeEnd();
 		return this;
 	}
@@ -287,7 +287,7 @@ class MethodHeaderBuilder implements MethodHeader {
 //			mh.parameter(field.name, field.clazz.classname);
 //		}
 //		mh.code(mv -> {
-//			mv.line();
+//			mv.LINE();
 //			mv.LOAD(0);
 //
 //			for (ClassField field : this.params) {

@@ -86,14 +86,16 @@ import static org.objectweb.asm.Opcodes.PUTSTATIC;
 import static org.objectweb.asm.Opcodes.RETURN;
 import static org.objectweb.asm.Opcodes.SIPUSH;
 
-import java.util.function.Consumer;
-
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, WithInvoke<MethodCode> {
+public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode>, WithDefineVar {
+	public void INIT_OBJECT() {
+		LOAD(_THIS);
+		SPECIAL(Object.class, "<init>").INVOKE();
+	}
 
 	public abstract void visitLabel(Label label);
 
@@ -117,15 +119,13 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 
 	abstract void visitJumpInsn(int opcode, Label label);
 
+	abstract void visitIincInsn(final int var, final int increment);
+
 	protected abstract Type codeThisFieldType(String name);
 
 	protected abstract Type codeThisClassFieldType(String name);
 
 	protected abstract int codeLocalGetLocals(String name);
-
-//	protected abstract Type codeLocalGetType(String name);
-
-//	protected abstract Type codeLocalGetType(int index);
 
 	protected abstract Type localsLoadAccess(int index);
 
@@ -170,143 +170,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	 */
 
 	@Override
-	public Instance boxTop() {
-		Type topType = stackTypeOf(0);
-		BoxUnbox.box(topType).accept(this);
-		return topInstance();
-	}
-
-	@Override
-	public Instance unboxTop() {
-		Type topType = stackTypeOf(0);
-		BoxUnbox.unbox(topType).accept(this);
-		return topInstance();
-	}
-//	Instance checkcastAndUnbox(Class<?> clazz);
-//
-//	Instance checkcastAndUnbox(String clazz);
-	
-	@Override
-	public Instance checkcastAndUnbox(Class<?> clazz) {
-		BoxUnbox.checkcastAndUnbox(typeOf(clazz)).accept(this);
-		return topInstance();
-	}
-
-	public Instance checkcastAndUnbox(Clazz clazz) {
-		BoxUnbox.checkcastAndUnbox(clazz.getType()).accept(this);
-		return topInstance();
-	}
-	
-	@Override
-	public Instance checkcastAndUnbox(String clazz) {
-		BoxUnbox.checkcastAndUnbox(typeOf(clazz)).accept(this);
-		return topInstance();
-	}
-	@Override
-	public Instance topInstance() {
-		return new InstanceImpl(this, stackTypeOf(0));
-	}
-
-	@Override
-	public Instance loadThis() {
-		LOAD(_THIS);
-		return topInstance();
-	}
-
-	@Override
-	public Instance loadThisField(String fieldname, Class<?> feildtype) {
-		loadThisField(fieldname, typeOf(fieldname));
-		return topInstance();
-	}
-
-	@Override
-	public Instance loadThisField(String fieldname, String feildtype) {
-		loadThisField(fieldname, typeOf(fieldname));
-		return topInstance();
-	}
-
-	public Instance loadThisField(String fieldname, Type feildtype) {
-		loadThis();
-		GETFIELD(fieldname, feildtype);
-		return topInstance();
-	}
-
-	@Override
-	public void set(String varname, Consumer<MethodCode> invocations) {
-		int locals = codeLocalGetLocals(varname);
-		if (locals >= 0) {
-			invocations.accept(this);
-			STORE(varname);
-		} else {
-			loadThis();
-			invocations.accept(this);
-			PUTFIELD_OF_THIS(varname);
-		}
-	}
-
-	@Override
-	public void setNull(String varname) {
-		int locals = codeLocalGetLocals(varname);
-		if (locals >= 0) {
-			LOADConstNULL();
-			STORE(varname);
-		} else {
-			loadThis();
-			LOADConstNULL();
-			PUTFIELD_OF_THIS(varname);
-		}
-	}
-
-	@Override
-	public void setConst(String varname, String cst) {
-		int locals = codeLocalGetLocals(varname);
-		if (locals >= 0) {
-			LOADConst(cst);
-			STORE(varname);
-		} else {
-			loadThis();
-			LOADConst(cst);
-			PUTFIELD_OF_THIS(varname);
-		}
-	}
-
-	@Override
-	public void setConst(String varname, int cst) {
-		int locals = codeLocalGetLocals(varname);
-		if (locals >= 0) {
-			LOADConst(cst);
-			STORE(varname);
-		} else {
-			loadThis();
-			LOADConst(cst);
-			PUTFIELD_OF_THIS(varname);
-		}
-	}
-
-	@Override
-	public void setConst(String varname, long cst) {
-		int locals = codeLocalGetLocals(varname);
-		if (locals >= 0) {
-			LOADConst(cst);
-			STORE(varname);
-		} else {
-			loadThis();
-			LOADConst(cst);
-			PUTFIELD_OF_THIS(varname);
-		}
-	}
-
-	@Override
-	public ClazzReference clazz(Class<?> clazz) {
-		return new ClazzReferenceImpl(this, typeOf(clazz));
-	}
-
-	@Override
-	public ClazzReference clazz(String clazz) {
-		return new ClazzReferenceImpl(this, typeOf(clazz));
-	}
-
-	@Override
 	public void LOAD(String firstname, String... names) {
 		LOAD(firstname);
 		for (String name : names) {
@@ -339,106 +202,15 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	@Override
+	public void LOAD_THIS() {
+		LOAD(0);
+	}
+
+	@Override
 	public void LOAD(String varname) {
 		int local = codeLocalGetLocals(varname);
 		assert local >= 0 : varname + " doesn't exist";
 		LOAD(local);
-	}
-
-	@Override
-	public Instance load(String varname) {
-		int local = codeLocalGetLocals(varname);
-		if (local >= 0) {
-			LOAD(local);
-		} else {
-			loadThisField(varname);
-		}
-
-		return topInstance();
-	}
-
-	@Override
-	public void wHile(Consumer<MethodCode> cause, Consumer<MethodCode> block) {
-		Label whileStart = codeNewLabel();
-		Label whileEnd = codeNewLabel();
-		visitLabel(whileStart);
-		cause.accept(this);
-		IFEQ(whileEnd);
-		{
-			block.accept(this);
-			GOTO(whileStart);
-		}
-		visitLabel(whileEnd);
-	}
-
-	@Override
-	public void ifTrue(Consumer<MethodCode> block) {
-		Label ifElse = codeNewLabel();
-		IFEQ(ifElse);
-		block.accept(this);
-		visitLabel(ifElse);
-	}
-
-	@Override
-	public void ifFalse(Consumer<MethodCode> block) {
-		Label ifElse = codeNewLabel();
-		IFNE(ifElse);
-		block.accept(this);
-		visitLabel(ifElse);
-	}
-
-	@Override
-	public void ifEqual(Consumer<MethodCode> block) {
-		Label ifElse = codeNewLabel();
-		IFNE(ifElse);
-		block.accept(this);
-		visitLabel(ifElse);
-	}
-
-	@Override
-	public void ifNotEqual(Consumer<MethodCode> block) {
-		Label ifElse = codeNewLabel();
-		IFEQ(ifElse);
-		block.accept(this);
-		visitLabel(ifElse);
-	}
-
-	@Override
-	public void ifGreatThan(Consumer<MethodCode> block) {
-		Label ifElse = codeNewLabel();
-		IFLE(ifElse);
-		block.accept(this);
-		visitLabel(ifElse);
-	}
-
-	@Override
-	public void ifGreatEqual(Consumer<MethodCode> block) {
-		Label ifElse = codeNewLabel();
-		IFLT(ifElse);
-		block.accept(this);
-		visitLabel(ifElse);
-	}
-
-	@Override
-	public void ifLessEqual(Consumer<MethodCode> block) {
-		Label ifElse = codeNewLabel();
-		IFGT(ifElse);
-		block.accept(this);
-		visitLabel(ifElse);
-	}
-
-	@Override
-	public void ifLessThan(Consumer<MethodCode> block) {
-		Label ifElse = codeNewLabel();
-		IFGE(ifElse);
-		block.accept(this);
-		visitLabel(ifElse);
-	}
-
-	@Override
-	public Instance dup() {
-		DUP();
-		return topInstance();
 	}
 
 	@Override
@@ -454,8 +226,19 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	@Override
-	public void store(String varname) {
-		STORE(varname);
+	public void STORE(String varname, Class<?> clazz) {
+		int local = codeLocalGetLocals(varname);
+		define(varname, clazz);
+		local = codeLocalGetLocals(varname);
+		STORE(local);
+	}
+
+	@Override
+	public void STORE(String varname, String clazz) {
+		int local = codeLocalGetLocals(varname);
+		define(varname, clazz);
+		local = codeLocalGetLocals(varname);
+		STORE(local);
 	}
 
 	public void STOREException(int local) {
@@ -578,24 +361,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	@Override
-	public Instance loadConst(int cst) {
-		LOADConst(cst);
-		return topInstance();
-	}
-
-	@Override
-	public Instance loadConst(long cst) {
-		LOADConst(cst);
-		return topInstance();
-	}
-
-	@Override
-	public Instance loadConst(Object cst) {
-		LOADConst(cst);
-		return topInstance();
-	}
-
-	@Override
 	public void LOADConst(Object cst) {
 
 		if (cst instanceof Integer) {
@@ -675,40 +440,7 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	 * 
 	 */
 	/** MATH **/
-	@Override
-	@Deprecated
-	public Instance add(String left, String right) {
-		load(left);
-		load(right);
-		ADD();
-		return topInstance();
-	}
 
-	@Deprecated
-	public Instance add(String left, Consumer<MethodCode> right) {
-		load(left);
-		right.accept(this);
-		ADD();
-		return topInstance();
-	}
-
-	@Deprecated
-	public Instance add(Consumer<MethodCode> left, String right) {
-		left.accept(this);
-		load(right);
-		ADD();
-		return topInstance();
-	}
-
-	@Deprecated
-	public Instance add(Consumer<MethodCode> left, Consumer<MethodCode> right) {
-		left.accept(this);
-		right.accept(this);
-		ADD();
-		return topInstance();
-	}
-
-//
 	@Override
 	public void ADD() {
 		Type typeRightValue = stackPop();
@@ -735,16 +467,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	/* Subtract: isub, lsub, fsub, dsub. */
-
-	@Override
-	@Deprecated
-	public Instance sub(String left, String right) {
-		LOAD(left);
-		LOAD(right);
-		SUB();
-		return topInstance();
-	}
-
 	@Override
 	public void SUB() {
 		Type typeRightValue = stackPop();
@@ -757,15 +479,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 
 	/* Multiply: imul, lmul, fmul, dmul. */
 	@Override
-	@Deprecated
-	public Instance mul(String left, String right) {
-		LOAD(left);
-		LOAD(right);
-		MUL();
-		return topInstance();
-	}
-
-	@Override
 	public void MUL() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
@@ -776,14 +489,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	/* Divide: idiv, ldiv, fdiv, ddiv. */
-	@Override
-	@Deprecated
-	public Instance div(String left, String right) {
-		LOAD(left);
-		LOAD(right);
-		DIV();
-		return topInstance();
-	}
 
 	@Override
 	public void DIV() {
@@ -801,15 +506,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 
 	/* Remainder: irem, lrem, frem, drem. */
 	@Override
-	@Deprecated
-	public Instance rem(String left, String right) {
-		LOAD(left);
-		LOAD(right);
-		REM();
-		return topInstance();
-	}
-
-	@Override
 	public void REM() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
@@ -820,14 +516,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	/* Negate: ineg, lneg, fneg, dneg. */
-	@Override
-	@Deprecated
-	public Instance neg(String left) {
-		LOAD(left);
-		REM();
-		return topInstance();
-	}
-
 	@Override
 	public void NEG() {
 		Type value = stackPop();
@@ -864,14 +552,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	/* Bitwise OR: ior, lor. */
-	@Override
-	@Deprecated
-	public Instance or(String left, String right) {
-		LOAD(left);
-		LOAD(right);
-		OR();
-		return topInstance();
-	}
 
 	@Override
 	public void OR() {
@@ -884,14 +564,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	/* Bitwise AND: iand, land. */
-	@Override
-	@Deprecated
-	public Instance and(String left, String right) {
-		LOAD(left);
-		LOAD(right);
-		AND();
-		return topInstance();
-	}
 
 	@Override
 	public void AND() {
@@ -907,15 +579,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 
 	/* Bitwise exclusive OR: ixor, lxor. */
 	@Override
-	@Deprecated
-	public Instance xor(String left, String right) {
-		LOAD(left);
-		LOAD(right);
-		XOR();
-		return topInstance();
-	}
-
-	@Override
 	public void XOR() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
@@ -930,6 +593,16 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 
 	/* Local variable increment: iinc. */
 	/* Comparison: dcmpg, dcmpl, fcmpg, fcmpl, lcmp. */
+	@Override
+	public void IINC(String varname, int increment) {
+		int local = codeLocalGetLocals(varname);
+//		Type typeRightValue = stackPop();
+//		Type typeLeftValue = stackPop();
+//		assert typeRightValue.getSort() == Type.LONG : "actual: " + typeRightValue + "  expected:" + Type.LONG;
+//		assert typeRightValue.getSort() == Type.LONG : "actual: " + typeLeftValue + "  expected:" + Type.LONG;
+//		stackPush(Type.INT_TYPE);
+		visitIincInsn(local, increment);
+	}
 
 	@Override
 	public void LCMP() {
@@ -945,10 +618,8 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	public void CMPL() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
-		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + ","
-				+ Type.DOUBLE_TYPE;
-		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + ","
-				+ Type.DOUBLE_TYPE;
+		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
 
 		stackPush(Type.INT_TYPE);
 
@@ -963,10 +634,8 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	public void CMPG() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
-		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + ","
-				+ Type.DOUBLE_TYPE;
-		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + ","
-				+ Type.DOUBLE_TYPE;
+		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
 
 		stackPush(Type.INT_TYPE);
 
@@ -1148,21 +817,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	/* Create a new array: newarray, anewarray, multianewarray. */
-
-	@Override
-	public Instance newarray(Class<?> elementClazz, int count) {
-		LOADConst(count);
-		NEWARRAY(typeOf(elementClazz));
-		return topInstance();
-	}
-
-	@Override
-	public Instance newarray(String elementClazz, int count) {
-		LOADConst(count);
-		NEWARRAY(typeOf(elementClazz));
-		return topInstance();
-	}
-
 	@Override
 	public void NEWARRAY(Class<?> type) {
 		NEWARRAY(typeOf(type));
@@ -1187,8 +841,7 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 		} else if (type.getSort() == Type.ARRAY) visitTypeInsn(ANEWARRAY, type);
 		else if (type.getSort() == Type.OBJECT) visitTypeInsn(ANEWARRAY, type);
 		else if (type.getSort() == Type.VOID) RETURN();
-		else
-			throw new UnsupportedOperationException();
+		else throw new UnsupportedOperationException();
 	}
 
 	/*
@@ -1218,48 +871,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	@Override
-	public Instance arrayload(String arrayref, String index, Class<?> valueType) {
-		return arrayload(arrayref, index, typeOf(valueType));
-	}
-
-	@Override
-	public Instance arrayload(String arrayref, String index, String valueType) {
-		return arrayload(arrayref, index, typeOf(valueType));
-	}
-
-	public Instance arrayload(String arrayref, String index, Type valueType) {
-		LOAD(arrayref);
-		LOAD(index);
-		ARRAYLOAD(valueType);
-		return topInstance();
-	}
-
-	public Instance arrayload(String arrayref, int index, Type valueType) {
-		LOAD(arrayref);
-		LOADConst(index);
-		ARRAYLOAD(valueType);
-		return topInstance();
-	}
-
-	@Override
-	public Instance arrayload(String varArray, int index) {
-		load(varArray);
-		Type arrayType = stackTypeOf(0);
-		LOADConst(index);
-		ARRAYLOAD(arrayType.getElementType());
-		return topInstance();
-	}
-
-	@Override
-	public Instance arrayload(String varArray, String varIndex) {
-		load(varArray);
-		Type arrayType = stackTypeOf(0);
-		load(varIndex);
-		ARRAYLOAD(arrayType.getElementType());
-		return topInstance();
-	}
-
-	@Override
 	public void ARRAYLOAD(Class<?> value) {
 		ARRAYLOAD(typeOf(value));
 	}
@@ -1275,14 +886,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 		Type arrayref = stackPop();
 		visitInsn(elementClazz.getOpcode(IALOAD));
 		stackPush(elementClazz);
-	}
-
-	@Override
-	public void arrayStore(String varArray, String index, String varValue) {
-		LOAD(varArray);
-		LOAD(index);
-		LOAD(varValue);
-		ARRAYSTORE();
 	}
 
 	@SuppressWarnings("unused")
@@ -1500,26 +1103,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	@Override
-	public void ifObjectEqual(Consumer<MethodCode> left, Consumer<MethodCode> right, Consumer<MethodCode> block) {
-		left.accept(this);
-		right.accept(this);
-		Label ifElse = codeNewLabel();
-		IF_ACMPEQ(ifElse);
-		block.accept(this);
-		visitLabel(ifElse);
-	}
-
-	@Override
-	public void ifObjectNotEqual(Consumer<MethodCode> left, Consumer<MethodCode> right, Consumer<MethodCode> block) {
-		left.accept(this);
-		right.accept(this);
-		Label ifElse = codeNewLabel();
-		IF_ACMPNE(ifElse);
-		block.accept(this);
-		visitLabel(ifElse);
-	}
-
-	@Override
 	public void IF_ACMPEQ(Label falseLabel) {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
@@ -1601,11 +1184,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	@Override
-	public void returnVoid() {
-		visitInsn(RETURN);
-	}
-
-	@Override
 	public void RETURN() {
 		visitInsn(RETURN);
 	}
@@ -1617,14 +1195,8 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	}
 
 	@Override
-	public void returnVar(String varname) {
+	public void RETURN(String varname) {
 		LOAD(varname);
-		RETURNTop();
-	}
-
-	@Override
-	public void returnNull() {
-		LOADConstNULL();
 		RETURNTop();
 	}
 
@@ -1646,21 +1218,12 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 			// ARETURN (objectref → [empty]) : return a reference from a method
 			stackPop();
 			visitInsn(ARETURN);
-		} else
-			throw new UnsupportedOperationException();
+		} else throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void ATHROW() {
 		visitInsn(ATHROW);
-	}
-
-	public void tryCatchBlock(Label start, Label end, Label handler, String exctpionClazz) {
-		visitTryCatchBlock(start, end, handler, typeOf(exctpionClazz));
-	}
-
-	public void tryCatchBlock(Label start, Label end, Label handler, Class<?> exctpionClazz) {
-		visitTryCatchBlock(start, end, handler, typeOf(exctpionClazz));
 	}
 
 	/*
@@ -1692,75 +1255,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 	int _THIS = 0;
 
 	@Override
-	public void initObject() {
-		LOAD(_THIS);
-		INVOKESPECIAL(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
-	}
-
-	@Override
-	public void initThis() {
-		LOAD(_THIS);
-		INVOKESPECIAL(Type.getType(Object.class), Type.VOID_TYPE, "<init>");
-	}
-
-	@Override
-	public Instance init(String clazz) {
-		NEW(clazz);
-		DUP();
-		SPECIAL(clazz, "<init>").INVOKE();
-		return topInstance();
-	}
-
-	@Override
-	public Instance init(String clazz, String... varnames) {
-		NEW(clazz);
-		DUP();
-		topInstance().special("<init>").invokeVoid(varnames);
-		return topInstance();
-	}
-
-	@Override
-	public Instance init(Class<?> clazz, String... varnames) {
-		NEW(clazz);
-		DUP();
-		topInstance().special("<init>").invokeVoid(varnames);
-		return topInstance();
-	}
-
-	@Override
-	public Instance init(Class<?> clazz) {
-		NEW(clazz);
-		DUP();
-		SPECIAL(clazz, "<init>").INVOKE();
-		return new InstanceImpl(this, stackTypeOf(0));
-	}
-
-	/** ARRAY **/
-	@Override
-	public Instance getfield(String objectname, String fieldname, Class<?> fieldType) {
-		getfield(objectname, fieldname, typeOf(fieldType));
-		return topInstance();
-	}
-
-	@Override
-	public Instance loadThisField(String fieldname) {
-		getfield("this", fieldname, codeThisFieldType(fieldname));
-		return topInstance();
-	}
-
-	@Override
-	public Instance getfield(String objectname, String fieldname, String fieldType) {
-		getfield(objectname, fieldname, typeOf(fieldType));
-		return topInstance();
-	}
-
-	public Instance getfield(String objectname, String fieldname, Type fieldType) {
-		LOAD(objectname);
-		GETFIELD(fieldname, fieldType);
-		return topInstance();
-	}
-
-	@Override
 	public void GET_THIS_FIELD(String fieldname) {
 		GETFIELD(fieldname, codeThisFieldType(fieldname));
 	}
@@ -1783,105 +1277,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 		// GETFIELD (objectref → value) : get a field value of an object objectref,
 		// where the field is identified by field reference in the constant
 		// pool index (index1 << 8 + index2)
-	}
-
-	@Override
-	public void putThisFieldWithVar(String fieldname, String varname) {
-		putVarToThisField(varname, fieldname, codeThisFieldType(fieldname));
-	}
-
-	public void putThisFieldOfNewObject(String fieldname, String clazz) {
-		putThisFieldOfNewObject(fieldname, clazz, codeThisFieldType(fieldname));
-	}
-
-	public void putThisFieldOfNewObject(String fieldname, Class<?> clazz) {
-		putThisFieldOfNewObject(fieldname, clazz, codeThisFieldType(fieldname));
-	}
-
-	public void putThisFieldOfNewObject(String fieldname, Class<?> clazz, Type fieldType) {
-		loadThis();
-		init(clazz);
-		PUTFIELD(fieldname, fieldType);
-	}
-
-	public void putThisFieldOfNewObject(String fieldname, String clazz, Type fieldType) {
-		loadThis();
-		init(clazz);
-		PUTFIELD(fieldname, fieldType);
-	}
-
-	@Override
-	public void setNew(String varname, Class<?> clazz) {
-		int locals = codeLocalGetLocals(varname);
-		if (locals >= 0) {
-			init(clazz);
-			STORE(varname);
-		} else {
-			loadThis();
-			init(clazz);
-			PUTFIELD_OF_THIS(varname);
-		}
-	}
-
-	@Override
-	public void initTo(Class<?> clazz, String varname) {
-		int locals = codeLocalGetLocals(varname);
-		if (locals >= 0) {
-			init(clazz);
-			STORE(varname);
-		} else {
-			loadThis();
-			init(clazz);
-			PUTFIELD_OF_THIS(varname);
-		}
-	}
-
-	@Override
-	public void initTo(String clazz, String varname) {
-		int locals = codeLocalGetLocals(varname);
-		if (locals >= 0) {
-			init(clazz);
-			STORE(varname);
-		} else {
-			loadThis();
-			init(clazz);
-			PUTFIELD_OF_THIS(varname);
-		}
-	}
-
-	public void putVarToThisField(String varname, String fieldname, Type fieldType) {
-		loadThis();
-		LOAD(varname);
-		PUTFIELD(fieldname, fieldType);
-	}
-
-	public void getThisFieldTo(String fieldname, Type fieldType, String varname) {
-		loadThis();
-		GETFIELD(fieldname, fieldType);
-		STORE(varname);
-	}
-
-
-	@Override
-	public void putField(String objectref, String varname, String fieldname, Clazz fieldType) {
-		putfield(objectref, varname, fieldname,fieldType.getType());
-	}
-	
-	@Override
-	public void putField(String objectref, String varname, String fieldname, Class<?> fieldType) {
-		putfield(objectref, varname, fieldname, typeOf(fieldType));
-	}
-
-	@Override
-	public void putField(String objectref, String varname, String fieldname, String fieldType) {
-		putfield(objectref, varname, fieldname, typeOf(fieldType));
-
-	}
-
-	public void putfield(String objectref, String varname, String fieldname, Type fieldType) {
-		LOAD(objectref);
-		LOAD(varname);
-		PUTFIELD(fieldname, fieldType);
 	}
 
 	@Override
@@ -1932,21 +1327,6 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 		// GETSTATIC (→ value) : get a static field value of a class, where the field is
 		// identified by field reference in the constant pool index (index1 << 8 +
 		// index2)
-	}
-
-	@Override
-	public void putStatic(Class<?> objectType, String varname, String fieldname, Class<?> fieldType) {
-		putstatic(typeOf(objectType), varname, fieldname, typeOf(fieldType));
-	}
-
-	@Override
-	public void putStatic(String objectType, String varname, String fieldname, String fieldType) {
-		putstatic(typeOf(objectType), varname, fieldname, typeOf(fieldType));
-	}
-
-	public void putstatic(Type objectType, String varname, String fieldname, Type fieldType) {
-		LOAD(varname);
-		PUTSTATIC(objectType, fieldname, fieldType);
 	}
 
 	@Override
@@ -2093,66 +1473,7 @@ public abstract class MethodCode implements MethodCodeASM, MethodCodeFriendly, W
 
 	}
 
-	@Override
-	public MethodCode line(Consumer<MethodCode> block) {
-		line();
-		return block(block);
-	}
-
-
-//	@Override
-//	public C define(String fieldName, Class<?> clz) {
-//		return vmVar(fieldName, typeOf(clz), null);
-//	}
-//
-//	@Override
-//	public C define(String fieldName, Class<?> clz, boolean isarray) {
-//		return vmVar(fieldName, typeOf(clz), null);
-//	}
-//
-//	@Override
-//	public C define(String fieldName, Class<?> clz, boolean isarray, Class<?>... signatureClasses) {
-//		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
-//	}
-//
-//	@Override
-//	public C define(String fieldName, Class<?> clz, Class<?>... signatureClasses) {
-//		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
-//	}
-//
-//	@Override
-//	public C define(String fieldName, String clz) {
-//		return vmVar(fieldName, typeOf(clz), null);
-//	}
-//
-//	@Override
-//	public C define(String fieldName, String clz, boolean isarray) {
-//		return vmVar(fieldName, typeOf(clz, isarray), null);
-//	}
-//
-//	@Override
-//	public C define(String fieldName, String clz, boolean isarray, Class<?>... signatureClasses) {
-//		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
-//	}
-//
-//	@Override
-//	public C define(String fieldName, String clz, boolean isarray, String... signatureClasses) {
-//		return vmVar(fieldName, typeOf(clz, isarray), signatureOf(clz, signatureClasses));
-//	}
-//
-//	@Override
-//	public C define(String fieldName, String clz, Class<?>... signatureClasses) {
-//		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
-//	}
-//
-//	@Override
-//	public C define(String fieldName, String clz, String... signatureClasses) {
-//		return vmVar(fieldName, typeOf(clz), signatureOf(clz, signatureClasses));
-//	}
-//
-//	C vmVar(String fieldName, Type fieldType, String signature);
-
-	abstract void end();
+	abstract void END();
 
 	abstract Label codeNewLabel();
 

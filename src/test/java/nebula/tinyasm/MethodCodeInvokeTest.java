@@ -30,16 +30,15 @@ public class MethodCodeInvokeTest extends TestBase {
 
 		cw.field("i", int.class);
 
-		cw.method("<init>").code(mv -> {
+		cw.method("<init>").friendly(mv -> {
 			mv.line().initThis();
 			mv.line().setConst("i", 10);
 			mv.line().setConst("i", 100);
 			mv.line().returnVoid();
-
 		});
 
 		// @formatter:off
-		cw.method("method").ACC_PUBLIC().ACC_STATIC().parameter("data", String.class).code(mv -> {
+		cw.method("method").ACC_PUBLIC().ACC_STATIC().parameter("data", String.class).friendly(mv -> {
 			mv.define("i", int.class);
 			mv.define("l", Long.class);
 			mv.define("s", String.class);
@@ -80,7 +79,7 @@ public class MethodCodeInvokeTest extends TestBase {
 		cw.field("l", long.class);
 		cw.field("L", Long.class);
 
-		cw.method("<init>").code(mv -> {
+		cw.method("<init>").friendly(mv -> {
 			mv.line().initThis();
 			mv.line().setConst("i", 0);
 			mv.line().setConst("j", 0);
@@ -88,7 +87,8 @@ public class MethodCodeInvokeTest extends TestBase {
 			mv.returnVoid();
 		});
 
-		cw.method("run").code(mv -> {
+		cw.method("run").friendly(mv -> {
+
 			// long kl = 0L;
 			mv.define("kl", long.class);
 			mv.line().setConst("kl", 0L);
@@ -111,18 +111,18 @@ public class MethodCodeInvokeTest extends TestBase {
 			// invokeVoid(j, i);
 			mv.line().loadThis().virtual("invokeVoid").parameter(int.class).parameter(int.class).invokeVoid("j", "i");
 			// invokeVoid(i);
-			mv.line().loadThis().virtual("invokeVoid").invokeVoid(p -> p.load("i"));
+			mv.line().loadThis().virtual("invokeVoid").invokeVoid(p -> p.loadThisField("i"));
 			// invokeVoid(j, i);
-			mv.line().loadThis().virtual("invokeVoid").invokeVoid(p -> p.load("j"), p -> p.load("i"));
+			mv.line().loadThis().virtual("invokeVoid").invokeVoid(p -> p.loadThisField("j"), p -> p.loadThisField("i"));
 			// invokeVoid(i);
-			mv.line().loadThis().virtual("invokeVoid").parameter(int.class).invokeVoid(p -> p.load("i"));
+			mv.line().loadThis().virtual("invokeVoid").parameter(int.class).invokeVoid(p -> p.loadThisField("i"));
 			// invokeVoid(j, i);
-			mv.line().loadThis().virtual("invokeVoid").parameter(int.class).parameter(int.class).invokeVoid(p -> p.load("j"), p -> p.load("i"));
+			mv.line().loadThis().virtual("invokeVoid").parameter(int.class).parameter(int.class).invokeVoid(p -> p.loadThisField("j"), p -> p.loadThisField("i"));
 
-			mv.line().returnVoid();
+			mv.line().returnVoid(); 
 		});
 
-		cw.method("boxUnbox").code(mv -> {
+		cw.method("boxUnbox").friendly(mv -> {
 //			//boolean z=false;
 			mv.define("z", boolean.class);
 			mv.line().set("z", p -> p.loadConst(0));
@@ -198,23 +198,23 @@ public class MethodCodeInvokeTest extends TestBase {
 			mv.line().set("str", p -> p.load("STR").unbox());
 			mv.line().returnVoid();
 		});
-		cw.method("invokeVoid").code(mv -> {
+		cw.method("invokeVoid").friendly(mv -> {
 			mv.define("k", int.class);
 			mv.line().setConst("k", 10);
 			mv.line().set("i", p -> p.load("k").add("i"));
 			mv.line().returnVoid();
 		});
-		cw.method("invokeVoid").parameter("p1", int.class).code(mv -> {
+		cw.method("invokeVoid").parameter("p1", int.class).friendly(mv -> {
 			mv.line().set("i", p -> p.load("p1").add("i"));
 			mv.line().returnVoid();
 		});
-		cw.method("invokeVoid").parameter("p1", int.class).parameter("p2", int.class).code(mv -> {
+		cw.method("invokeVoid").parameter("p1", int.class).parameter("p2", int.class).friendly(mv -> {
 			mv.line().set("i", p -> p.load("p1").add("i").add("p2"));
 			mv.line().returnVoid();
 		});
 //
 //		// @formatter:off
-//		cw.method("method").ACC_PUBLIC().ACC_STATIC().parameter("data", String.class).code(mv -> {
+//		cw.method("method").ACC_PUBLIC().ACC_STATIC().parameter("data", String.class).friendly(mv -> {
 //			mv.define("i", int.class);
 //			mv.define("l", Long.class);
 //			mv.define("s", String.class);

@@ -1,18 +1,31 @@
 package nebula.tinyasm;
 
+import java.util.function.Consumer;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 
 public interface MethodCodeASM {
+	void BLOCK(Consumer<MethodCode> mc);
+
+	void LINE();
+
+	void LINE(int line);
 
 	void LOAD(String name);
+
+	void LOAD_THIS();
 
 	void LOAD(int local);
 
 	void LOAD(String name, String... names);
 
 	void STORE(String varname);
+
+	void STORE(String varname, Class<?> clazz);
+
+	void STORE(String varname, String clazz);
 
 	void STORE(int local);
 
@@ -94,6 +107,8 @@ public interface MethodCodeASM {
 	/* Bitwise exclusive OR: ixor, lxor. */
 
 	void XOR();
+
+	void IINC(String varname, int increment);
 
 	void LCMP();
 
@@ -254,11 +269,11 @@ public interface MethodCodeASM {
 
 	void RETURN(int i);
 
+	void RETURN(String varname);
 
 	void RETURNTop();
 
 	String _THIS = "this";
-
 
 	/** ARRAY **/
 
@@ -285,7 +300,7 @@ public interface MethodCodeASM {
 	void PUTSTATIC(String objectType, String fieldName, String fieldType);
 
 	void PUT_THIS_STATIC(String objectType, String fieldName);
-	
+
 	void ATHROW();
 
 	/** INVOKE **/

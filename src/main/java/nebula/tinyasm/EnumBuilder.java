@@ -28,7 +28,7 @@ public class EnumBuilder implements Opcodes {
 
 		cb.staticMethod("<clinit>").code(mc -> {
 			{
-				mc.line(4);
+				mc.LINE(4);
 
 				for (int i = 0; i < names.length; i++) {
 					mc.NEW(typeOf(clazz));
@@ -39,7 +39,7 @@ public class EnumBuilder implements Opcodes {
 					mc.PUTSTATIC(typeOf(clazz), names[i], typeOf(clazz));
 				}
 
-				mc.line(3);
+				mc.LINE(3);
 				mc.LOADConstByte(names.length);
 				mc.NEWARRAY(typeOf(clazz));
 
@@ -55,7 +55,8 @@ public class EnumBuilder implements Opcodes {
 		});
 
 		cb.privateMethod("<init>").parameter("name", String.class).parameter("value", int.class).code(mc -> {
-			mc.line(3).loadThis();
+			mc.LINE(3);
+			mc.LOAD_THIS();
 			mc.LOAD("name");
 			mc.LOAD("value");
 			mc.INVOKESPECIAL(Enum.class, "<init>", String.class, int.class);
@@ -65,7 +66,7 @@ public class EnumBuilder implements Opcodes {
 			mc.define("vs", clazz, true);
 			mc.define("length", int.class);
 			mc.define("newvs", clazz, true);
-			mc.line(1);
+			mc.LINE(1);
 			mc.GETSTATIC(typeOf(clazz), "ENUM$VALUES", arrayOf(typeOf(clazz), true));
 			mc.DUP();
 			mc.STORE("vs");
@@ -83,11 +84,11 @@ public class EnumBuilder implements Opcodes {
 			mc.LOAD("length");
 
 			mc.INVOKESTATIC(System.class, "arraycopy", Object.class, int.class, Object.class, int.class, int.class);
-			mc.returnVar("newvs");
+			mc.RETURN("newvs");
 		});
 
 		cb.staticMethod("valueOf").ACC_STATIC().ACC_PUBLIC().reTurn(clazz).parameter("name", String.class).code(mc -> {
-			mc.line(1);
+			mc.LINE(1);
 			mc.LOADConst(typeOf(clazz));
 			mc.LOAD("name");
 			mc.INVOKESTATIC(Enum.class, Enum.class, "valueOf", Class.class, String.class);
