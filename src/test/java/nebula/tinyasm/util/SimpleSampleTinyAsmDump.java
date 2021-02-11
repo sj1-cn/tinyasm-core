@@ -3,6 +3,7 @@ import org.objectweb.asm.Label;
 import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import nebula.tinyasm.Clazz;
 @SuppressWarnings("unused")
@@ -13,7 +14,7 @@ public static byte[] dump () throws Exception {
 ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.SimpleSample").body();
 
 classWriter.field("i", int.class);
-classWriter.method("<init>").code(code -> {
+classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 
 	code.LINE(6);
 	code.LOAD("this");
@@ -27,7 +28,7 @@ classWriter.method("<init>").code(code -> {
 	code.LINE(8);
 	code.RETURN();
 });
-classWriter.method("dd").code(code -> {
+classWriter.method(ACC_PUBLIC, "dd").code(code -> {
 
 	code.LINE(11);
 	code.LOADConst(1);
@@ -55,7 +56,7 @@ classWriter.method("dd").code(code -> {
 	code.LINE(15);
 	code.RETURN();
 });
-classWriter.method("methodWith1Param").parameter("i",int.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "methodWith1Param").parameter("i",int.class).code(code -> {
 
 	code.LINE(18);
 	code.LOAD("this");

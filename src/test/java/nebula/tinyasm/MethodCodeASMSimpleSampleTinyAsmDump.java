@@ -3,6 +3,7 @@ import org.objectweb.asm.Label;
 import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import nebula.tinyasm.Clazz;
 @SuppressWarnings("unused")
@@ -20,14 +21,14 @@ classWriter.field("l", long.class);
 classWriter.field("f", float.class);
 classWriter.field("d", double.class);
 classWriter.field("str", java.lang.String.class);
-classWriter.method("<init>").code(code -> {
+classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 
 	code.LINE(3);
 	code.LOAD("this");
 	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
 	code.RETURN();
 });
-classWriter.method(int.class, "getField").code(code -> {
+classWriter.method(ACC_PUBLIC, int.class, "getField").code(code -> {
 
 	code.LINE(15);
 	code.LOAD("this");
@@ -41,7 +42,7 @@ classWriter.method(int.class, "getField").code(code -> {
 	code.LOAD("x");
 	code.RETURNTop();
 });
-classWriter.method(int.class, "getFieldAll").code(code -> {
+classWriter.method(ACC_PUBLIC, int.class, "getFieldAll").code(code -> {
 
 	code.LINE(20);
 	code.LOAD("this");
@@ -74,7 +75,7 @@ classWriter.method(int.class, "getFieldAll").code(code -> {
 	code.LOAD("x");
 	code.RETURNTop();
 });
-classWriter.method(int.class, "getFieldConst").code(code -> {
+classWriter.method(ACC_PUBLIC, int.class, "getFieldConst").code(code -> {
 
 	code.LINE(25);
 	code.LOAD("this");
@@ -143,7 +144,7 @@ classWriter.method(int.class, "getFieldConst").code(code -> {
 	code.CONVERTTO(int.class);
 	code.RETURNTop();
 });
-classWriter.method(int.class, "getFieldIConst").code(code -> {
+classWriter.method(ACC_PUBLIC, int.class, "getFieldIConst").code(code -> {
 
 	code.LINE(37);
 	code.LOAD("this");
@@ -215,7 +216,7 @@ classWriter.method(int.class, "getFieldIConst").code(code -> {
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(byte.class, "retByte").code(code -> {
+classWriter.method(ACC_PUBLIC, byte.class, "retByte").code(code -> {
 
 	code.LINE(54);
 	code.LOADConst(1);

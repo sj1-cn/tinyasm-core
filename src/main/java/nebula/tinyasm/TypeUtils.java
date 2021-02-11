@@ -11,7 +11,7 @@ import org.objectweb.asm.Type;
 
 //import nebula.tinyasm.api.Field;
 
-public class TypeUtils {
+class TypeUtils {
 
 	/**
 	 * The stack size variation corresponding to each JVM instruction. This stack
@@ -330,15 +330,15 @@ public class TypeUtils {
 		return names;
 	}
 
-	static String concat(String... strs) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(strs[0]);
-		for (int i = 1; i < strs.length; i++) {
-			String name = strs[i];
-			sb.append(Character.toUpperCase(name.charAt(0)) + name.substring(1));
-		}
-		return sb.toString();
-	}
+//	static String concat(String... strs) {
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(strs[0]);
+//		for (int i = 1; i < strs.length; i++) {
+//			String name = strs[i];
+//			sb.append(Character.toUpperCase(name.charAt(0)) + name.substring(1));
+//		}
+//		return sb.toString();
+//	}
 
 	static boolean in(Type type, Type... types) {
 		for (Type type2 : types) {
@@ -423,13 +423,13 @@ public class TypeUtils {
 		return every(Type.class, classes, c -> typeOf(c));
 	}
 
-	static Type typeOf(Class<?> clz, boolean isarray) {
-		return arrayOf(Type.getType(clz), isarray);
-	}
-
-	static Type[] typeOf(Field... fields) {
-		return every(Type.class, fields, c -> c.clazz.getType());
-	}
+//	static Type typeOf(Class<?> clz, boolean isarray) {
+//		return arrayOf(Type.getType(clz), isarray);
+//	}
+//
+//	static Type[] typeOf(Field... fields) {
+//		return every(Type.class, fields, c -> c.clazz.getType());
+//	}
 
 	static Type typeOf(Clazz clazz) {
 		if (clazz == null) return Type.VOID_TYPE;
@@ -445,13 +445,13 @@ public class TypeUtils {
 //		return Type.getType(name.replace('.', '/'));
 //	}
 
-	static Type[] typeOf(Clazz... clazzes) {
-		return every(Type.class, clazzes, c -> c.getType());
-	}
-
-	static Type[] typeOf(List<Field> fields) {
-		return every(Type.class, fields, f -> f.clazz.getType());
-	}
+//	static Type[] typeOf(Clazz... clazzes) {
+//		return every(Type.class, clazzes, c -> c.getType());
+//	}
+//
+//	static Type[] typeOf(List<Field> fields) {
+//		return every(Type.class, fields, f -> f.clazz.getType());
+//	}
 
 	static Type[] typesOf(List<Clazz> clazzes) {
 		return every(Type.class, clazzes, c -> typeOf(c));
@@ -467,9 +467,9 @@ public class TypeUtils {
 		return every(Type.class, classes, c -> typeOf(c));
 	}
 
-	static Type typeOf(String name, boolean isarray) {
-		return arrayOf(typeOf(name), isarray);
-	}
+//	static Type typeOf(String name, boolean isarray) {
+//		return arrayOf(typeOf(name), isarray);
+//	}
 
 //	static   GenericClazz generic(GenericClazz originclazzName) {
 //		return originclazzName;

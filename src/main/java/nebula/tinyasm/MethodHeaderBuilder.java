@@ -17,9 +17,9 @@ import org.objectweb.asm.Type;
 class MethodHeaderBuilder implements MethodHeader {
 	class ThisMethod {
 
-		String name;
+		String methodName;
 
-		Type type;
+		Type clazzType;
 		boolean hasEnded = false;
 		boolean instanceMethod = true;
 	}
@@ -46,17 +46,17 @@ class MethodHeaderBuilder implements MethodHeader {
 	final List<Clazz> exceptions = new ArrayList<>();
 	Clazz returnClazz = null;
 
-	public MethodHeaderBuilder(ClassBodyImpl cv, String className, int access, Clazz returnType, String methodName) {
-		this(cv, className, access, methodName);
+	public MethodHeaderBuilder(ClassBodyImpl cv, Type clazzType, int access, Clazz returnType, String methodName) {
+		this(cv, clazzType, access, methodName);
 		this.returnClazz = returnType;
 	}
 
-	public MethodHeaderBuilder(ClassBodyImpl cv, String className, int access, String methodName) {
+	public MethodHeaderBuilder(ClassBodyImpl cv, Type clazzType, int access, String methodName) {
 		this.classVisitor = cv;
 		thisMethod = new ThisMethod();
-		thisMethod.name = methodName;
+		thisMethod.methodName = methodName;
+		thisMethod.clazzType = clazzType;
 		this.methodAccess = access;
-		thisMethod.type = typeOf(className);
 		this.fields = cv.fields;
 		this.staticFields = cv.staticFields;
 	}
@@ -181,7 +181,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	protected void prapareMethodDefination() {
 		{
 			int access = this.methodAccess;
-			String name = thisMethod.name;
+			String name = thisMethod.methodName;
 
 			thisMethod.instanceMethod = (access & Opcodes.ACC_STATIC) == 0;
 
@@ -250,7 +250,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void preapareMethodWithThis() {
 		if (thisMethod.instanceMethod) {
-			mhLocals.pushParameter("this", thisMethod.type, labelCurrent);
+			mhLocals.pushParameter("this", thisMethod.clazzType, labelCurrent);
 		}
 	}
 

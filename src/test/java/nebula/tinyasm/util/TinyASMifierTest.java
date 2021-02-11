@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import nebula.tinyasm.MethodASMArraySample;
 import nebula.tinyasm.MethodCodeASMLogicSample;
 import nebula.tinyasm.MethodCodeASMSimpleSample;
 import nebula.tinyasm.sample.ClassBody.MakeReadOnlyPojo;
@@ -21,9 +20,9 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
-			
+
 			System.out.println(codeExpected);
-			
+
 		}
 
 	}
@@ -53,11 +52,12 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
-			
+
 			System.out.println(codeExpected);
-			
+
 		}
 	}
+
 	@Test
 	public void testMethodCodeASMSimpleSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMSimpleSample.class;
@@ -67,6 +67,7 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
+
 	@Test
 	public void testMethodASMArraySample() throws Exception {
 		Class<?> expectedClazz = MethodASMArraySample.class;
@@ -76,6 +77,7 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
+
 	@Test
 	public void test_MakeReadOnlyPojo() throws Exception {
 		Class<?> expectedClazz = MakeReadOnlyPojo.class;
@@ -95,7 +97,6 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
-
 
 	@Test
 	public void test_Pojo() throws Exception {
@@ -126,6 +127,16 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
+
+	@Test
+	public void test_MethodCodeASMMathStaticSample() throws Exception {
+		Class<?> expectedClazz = MethodCodeASMMathStaticSample.class;
+
+		String codeActual = toString(makeAndDump(expectedClazz));
+		String codeExpected = toString(expectedClazz);
+
+		assertEquals("Code", codeExpected, codeActual);
+	}
 	
 	@Test
 	public void test_MethodCodeASMControlSample() throws Exception {
@@ -136,6 +147,21 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
-	
-	
+
+	@Test
+	public void test_EnumSample() throws Exception {
+		Class<?> expectedClazz = EnumSample.class;
+		String codeExpected = toString(expectedClazz);
+		String codeActual;
+		try {
+			codeActual = toString(makeAndDump(expectedClazz));
+		} catch (Exception e) {
+//			System.out.println(codeExpected);
+			throw e;
+		}
+//		codeActual = toString(makeAndDump(expectedClazz));
+//		codeActual = "";
+		assertEquals("Code", codeExpected, codeActual);
+	}
+
 }

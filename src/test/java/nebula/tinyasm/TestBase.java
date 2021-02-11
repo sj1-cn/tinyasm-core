@@ -34,6 +34,7 @@ public class TestBase {
 			PrintWriter pw = new PrintWriter(sw);
 			ClassVisitor visitor = new TraceClassVisitor(null, new ASMifier(), pw);
 			cr.accept(visitor, ClassReader.EXPAND_FRAMES);
+			System.out.println(sw.toString());
 			return skipToString(excludeLineNumber(sw.toString()));
 		} catch (Exception e) {
 			throw new RuntimeException(e);

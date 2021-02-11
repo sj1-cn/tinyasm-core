@@ -1,4 +1,4 @@
-package nebula.tinyasm;
+package nebula.tinyasm.util;
 
 public class MethodASMArraySample {
 	private byte[] ba;

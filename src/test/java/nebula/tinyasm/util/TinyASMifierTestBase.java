@@ -70,8 +70,8 @@ public class TinyASMifierTestBase extends TestBase {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		StandardJavaFileManager fileMgr = compiler.getStandardFileManager(null, null, null);
 		Iterable<? extends JavaFileObject> units = fileMgr.getJavaFileObjects(file);
-		List<String> optionList =Arrays.asList("-d","target/test-classes");
-		
+		List<String> optionList = Arrays.asList("-d", "target/test-classes");
+
 		JavaCompiler.CompilationTask t = compiler.getTask(null, fileMgr, null, optionList, null, units);
 		t.call();
 		try {
@@ -89,7 +89,7 @@ public class TinyASMifierTestBase extends TestBase {
 
 	protected byte[] makeAndDump(Class<?> expectedClazz) throws FileNotFoundException, IOException, UnsupportedEncodingException, ClassNotFoundException,
 			IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-	
+
 		String expectClazzName = expectedClazz.getName();
 		String tingasmCreatedDumpCode = tinyasmToString(expectedClazz);
 		System.out.println(tingasmCreatedDumpCode);

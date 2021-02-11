@@ -277,7 +277,7 @@ public class MethodCodeBuilder extends MethodCode {
 //			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz), typeOf(returnClazz), methodName,
 //					typesOf(params));
 
-			Type thisClazzInternalName = mh.thisMethod.type;
+			Type clazzType = mh.thisMethod.clazzType;
 
 			String originDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(originMethod.params));
 			String originSignature = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(originMethod.params));
@@ -298,7 +298,7 @@ public class MethodCodeBuilder extends MethodCode {
 					"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
 					false),
 					new Object[] { Type.getType(originDescriptor),
-							new Handle(Opcodes.H_INVOKESTATIC, thisClazzInternalName.getInternalName(), originMethod.methodName, resultDescriptor, false),
+							new Handle(Opcodes.H_INVOKESTATIC, clazzType.getInternalName(), originMethod.methodName, resultDescriptor, false),
 							Type.getType(originSignature) });
 			/*
 			 * mv.visitInvokeDynamicInsn("withHandle",
@@ -354,6 +354,11 @@ public class MethodCodeBuilder extends MethodCode {
 			return new LAMBDAImpl(this.opcode, this, Clazz.of(targetClazz, genericParameterClazz), targetMethodName);
 		}
 
+	}
+
+	@Override
+	protected Type typeOfThis() {
+		return this.mh.thisMethod.clazzType;
 	}
 
 }

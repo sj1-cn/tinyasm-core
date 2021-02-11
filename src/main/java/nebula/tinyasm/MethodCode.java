@@ -114,7 +114,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	abstract void visitLabel(Label label, int line);
 
-	abstract void visitInsn(int opcode);
+	public abstract void visitInsn(int opcode);
 
 	abstract void visitVarInsn(int opcode, int index);
 
@@ -135,6 +135,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	abstract void visitJumpInsn(int opcode, Label label);
 
 	abstract void visitIincInsn(final int var, final int increment);
+	
+	protected abstract Type typeOfThis();
 
 	protected abstract Type codeThisFieldType(String name);
 
@@ -234,7 +236,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		if (local >= 0) {
 			STORE(local);
 		} else {
-			define(varname, stackTypeOf(0).getClassName());
+			define(varname, Clazz.of(stackTypeOf(0)));
 			local = codeLocalGetLocals(varname);
 			STORE(local);
 		}
@@ -271,7 +273,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 		switch (valueType.getSort()) {
 		case Type.ARRAY:
-			assert valueType.getSort() == localType.getSort() : "type don't match! local: " + localType + "  stack:" + valueType;
+//			assert valueType.getSort() == localType.getSort() : "type don't match! local: " + localType + "  stack:" + valueType;
 			stackPop();
 			visitVarInsn(ASTORE, index);
 			// ASTORE (objectref →) : store a reference into a local variable #index
@@ -422,6 +424,19 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 			int sort = ((Type) cstType).getSort();
 			if (sort == Type.OBJECT) {
 				visitLdcInsn(cstType);
+				stackPush(Type.getType(String.class));
+			} else if (sort == Type.ARRAY) {
+				throw new UnsupportedOperationException();
+			} else if (sort == Type.METHOD) {
+				throw new UnsupportedOperationException();
+			} else {
+				throw new UnsupportedOperationException();
+			}
+		} else if (cst instanceof Clazz) {
+			Type cstType = ((Clazz) cst).getType();
+			int sort = cstType.getSort();
+			if (sort == Type.OBJECT) {
+				visitLdcInsn(cst);
 				stackPush(Type.getType(String.class));
 			} else if (sort == Type.ARRAY) {
 				throw new UnsupportedOperationException();
@@ -898,22 +913,33 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		// ARRAYLENGTH (arrayref → length) : get the length of an array
 	}
 
+//	@Override
+//	@SuppressWarnings("unused")
+//	public void ARRAYLOAD(Class<?> elementClazz) {
+//		Type elementType= typeOf(elementClazz);
+//		Type index = stackPop();
+//		Type arrayref = stackPop();
+//		visitInsn(elementType.getOpcode(IALOAD));
+//		stackPush(elementType);
+//	}
+//
+//	@Override
+//	@SuppressWarnings("unused")
+//	public void ARRAYLOAD(String elementClazz) {
+//		Type elementType= typeOf(elementClazz);
+//		Type index = stackPop();
+//		Type arrayref = stackPop();
+//		visitInsn(elementType.getOpcode(IALOAD));
+//		stackPush(elementType);
+//	}
 	@Override
-	public void ARRAYLOAD(Class<?> value) {
-		ARRAYLOAD(typeOf(value));
-	}
-
-	@Override
-	public void ARRAYLOAD(String elementClazz) {
-		ARRAYLOAD(typeOf(elementClazz));
-	}
-
 	@SuppressWarnings("unused")
-	public void ARRAYLOAD(Type elementClazz) {
+	public void ARRAYLOAD() {
 		Type index = stackPop();
 		Type arrayref = stackPop();
-		visitInsn(elementClazz.getOpcode(IALOAD));
-		stackPush(elementClazz);
+		Type elementType=arrayref.getElementType();
+		visitInsn(elementType.getOpcode(IALOAD));
+		stackPush(elementType);
 	}
 
 	@SuppressWarnings("unused")
@@ -922,45 +948,47 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		Type value = stackPop();
 		Type index = stackPop();
 		Type arrayref = stackPop();
-		Type itemType = arrayref.getElementType();
+		Type elementType = arrayref.getElementType();
 
-		switch (itemType.getSort()) {
-		// BASTORE (arrayref, index, value →) : store a byte or Boolean value into an
-		// array
-		case Type.BYTE:
-			visitInsn(itemType.getOpcode(IASTORE));
-			break;
-		// CASTORE (arrayref, index, value →) : store a char into an array
-		case Type.CHAR:
-			visitInsn(itemType.getOpcode(IASTORE));
-			break;
-		// DASTORE (arrayref, index, value →) : store a double into an array
-		case Type.DOUBLE:
-			visitInsn(itemType.getOpcode(IASTORE));
-			break;
-		// FASTORE (arrayref, index, value →) : store a float in an array
-		case Type.FLOAT:
-			visitInsn(itemType.getOpcode(IASTORE));
-			break;
-		// IASTORE (arrayref, index, value →) : store an int into an array
-		case Type.INT:
-			visitInsn(itemType.getOpcode(IASTORE));
-			break;
-		// LASTORE (arrayref, index, value →) : store a long to an array
-		case Type.LONG:
-			visitInsn(itemType.getOpcode(IASTORE));
-			break;
-		// SASTORE (arrayref, index, value →) : store short to array
-		case Type.SHORT:
-			visitInsn(itemType.getOpcode(IASTORE));
-			break;
-		// AASTORE (arrayref, index, value →) : store into a reference in an array
-		case Type.OBJECT:
-			visitInsn(AASTORE);
-			break;
-		default:
-			throw new UnsupportedOperationException();
-		}
+		visitInsn(elementType.getOpcode(IASTORE));
+		
+//		switch (itemType.getSort()) {
+//		// BASTORE (arrayref, index, value →) : store a byte or Boolean value into an
+//		// array
+//		case Type.BYTE:
+//			visitInsn(itemType.getOpcode(IASTORE));
+//			break;
+//		// CASTORE (arrayref, index, value →) : store a char into an array
+//		case Type.CHAR:
+//			visitInsn(itemType.getOpcode(IASTORE));
+//			break;
+//		// DASTORE (arrayref, index, value →) : store a double into an array
+//		case Type.DOUBLE:
+//			visitInsn(itemType.getOpcode(IASTORE));
+//			break;
+//		// FASTORE (arrayref, index, value →) : store a float in an array
+//		case Type.FLOAT:
+//			visitInsn(itemType.getOpcode(IASTORE));
+//			break;
+//		// IASTORE (arrayref, index, value →) : store an int into an array
+//		case Type.INT:
+//			visitInsn(itemType.getOpcode(IASTORE));
+//			break;
+//		// LASTORE (arrayref, index, value →) : store a long to an array
+//		case Type.LONG:
+//			visitInsn(itemType.getOpcode(IASTORE));
+//			break;
+//		// SASTORE (arrayref, index, value →) : store short to array
+//		case Type.SHORT:
+//			visitInsn(itemType.getOpcode(IASTORE));
+//			break;
+//		// AASTORE (arrayref, index, value →) : store into a reference in an array
+//		case Type.OBJECT:
+//			visitInsn(AASTORE);
+//			break;
+//		default:
+//			throw new UnsupportedOperationException();
+//		}
 	}
 
 	@Override
@@ -1340,8 +1368,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
-	public void GET_THIS_STATIC(String objectType, String fieldName) {
-		GETSTATIC(typeOf(objectType), fieldName, codeThisClassFieldType(fieldName));
+	public void GET_THIS_STATIC(String fieldName) {
+		Type objectRef = typeOfThis();
+		Type valueType = codeThisClassFieldType(fieldName);
+		visitFieldInsn(GETSTATIC, objectRef, fieldName, valueType);
+		stackPush(valueType);
 	}
 
 	@Override
@@ -1363,8 +1394,12 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
-	public void PUT_THIS_STATIC(String objectType, String fieldName) {
-		PUTSTATIC(typeOf(objectType), fieldName, codeThisClassFieldType(fieldName));
+	@SuppressWarnings("unused")
+	public void PUT_THIS_STATIC(String fieldName) {
+		Type objectRef = typeOfThis();
+		Type value = stackPop();
+		Type valueType = codeThisClassFieldType(fieldName);
+		visitFieldInsn(PUTSTATIC, objectRef, fieldName, valueType);
 	}
 
 	@Override

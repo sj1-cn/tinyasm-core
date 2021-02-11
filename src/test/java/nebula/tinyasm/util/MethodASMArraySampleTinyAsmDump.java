@@ -1,4 +1,4 @@
-package nebula.tinyasm;
+package nebula.tinyasm.util;
 import org.objectweb.asm.Label;
 import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
@@ -11,7 +11,7 @@ public class MethodASMArraySampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.MethodASMArraySample").body();
+ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.MethodASMArraySample").body();
 
 classWriter.field("ba", byte[].class);
 classWriter.field("ca", char[].class);
@@ -151,7 +151,7 @@ classWriter.method(ACC_PUBLIC, "getArrayValue").code(code -> {
 	code.LOAD("this");
 	code.GETFIELD("ba", byte[].class);
 	code.LOADConst(0);
-	code.visitInsn(BALOAD);
+	code.ARRAYLOAD();
 	code.ARRAYSTORE();
 
 	code.LINE(37);
@@ -161,7 +161,7 @@ classWriter.method(ACC_PUBLIC, "getArrayValue").code(code -> {
 	code.LOAD("this");
 	code.GETFIELD("ca", char[].class);
 	code.LOADConst(0);
-	code.visitInsn(CALOAD);
+	code.ARRAYLOAD();
 	code.ARRAYSTORE();
 
 	code.LINE(38);
@@ -171,7 +171,7 @@ classWriter.method(ACC_PUBLIC, "getArrayValue").code(code -> {
 	code.LOAD("this");
 	code.GETFIELD("sa", short[].class);
 	code.LOADConst(0);
-	code.visitInsn(SALOAD);
+	code.ARRAYLOAD();
 	code.ARRAYSTORE();
 
 	code.LINE(39);
@@ -181,7 +181,7 @@ classWriter.method(ACC_PUBLIC, "getArrayValue").code(code -> {
 	code.LOAD("this");
 	code.GETFIELD("ia", int[].class);
 	code.LOADConst(0);
-	code.visitInsn(IALOAD);
+	code.ARRAYLOAD();
 	code.ARRAYSTORE();
 
 	code.LINE(40);
@@ -191,7 +191,7 @@ classWriter.method(ACC_PUBLIC, "getArrayValue").code(code -> {
 	code.LOAD("this");
 	code.GETFIELD("la", long[].class);
 	code.LOADConst(0);
-	code.visitInsn(LALOAD);
+	code.ARRAYLOAD();
 	code.ARRAYSTORE();
 
 	code.LINE(41);
@@ -201,7 +201,7 @@ classWriter.method(ACC_PUBLIC, "getArrayValue").code(code -> {
 	code.LOAD("this");
 	code.GETFIELD("fa", float[].class);
 	code.LOADConst(0);
-	code.visitInsn(FALOAD);
+	code.ARRAYLOAD();
 	code.ARRAYSTORE();
 
 	code.LINE(42);
@@ -211,7 +211,7 @@ classWriter.method(ACC_PUBLIC, "getArrayValue").code(code -> {
 	code.LOAD("this");
 	code.GETFIELD("da", double[].class);
 	code.LOADConst(0);
-	code.visitInsn(DALOAD);
+	code.ARRAYLOAD();
 	code.ARRAYSTORE();
 
 	code.LINE(43);
@@ -221,7 +221,7 @@ classWriter.method(ACC_PUBLIC, "getArrayValue").code(code -> {
 	code.LOAD("this");
 	code.GETFIELD("stra", java.lang.String[].class);
 	code.LOADConst(0);
-	code.visitInsn(AALOAD);
+	code.ARRAYLOAD();
 	code.ARRAYSTORE();
 
 	code.LINE(44);

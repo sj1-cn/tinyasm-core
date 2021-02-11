@@ -3,6 +3,7 @@ import org.objectweb.asm.Label;
 import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import nebula.tinyasm.Clazz;
 @SuppressWarnings("unused")
@@ -20,7 +21,7 @@ classWriter.field("l", long.class);
 classWriter.field("f", float.class);
 classWriter.field("d", double.class);
 classWriter.field("str", java.lang.String.class);
-classWriter.method("<init>").parameter("b",byte.class)
+classWriter.method(ACC_PUBLIC, "<init>").parameter("b",byte.class)
 	.parameter("c",char.class)
 	.parameter("s",short.class)
 	.parameter("i",int.class)
@@ -76,63 +77,63 @@ classWriter.method("<init>").parameter("b",byte.class)
 	code.LINE(22);
 	code.RETURN();
 });
-classWriter.method(byte.class, "getB").code(code -> {
+classWriter.method(ACC_PUBLIC, byte.class, "getB").code(code -> {
 
 	code.LINE(25);
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(char.class, "getC").code(code -> {
+classWriter.method(ACC_PUBLIC, char.class, "getC").code(code -> {
 
 	code.LINE(29);
 	code.LOAD("this");
 	code.GETFIELD("c", char.class);
 	code.RETURNTop();
 });
-classWriter.method(short.class, "getS").code(code -> {
+classWriter.method(ACC_PUBLIC, short.class, "getS").code(code -> {
 
 	code.LINE(33);
 	code.LOAD("this");
 	code.GETFIELD("s", short.class);
 	code.RETURNTop();
 });
-classWriter.method(int.class, "getI").code(code -> {
+classWriter.method(ACC_PUBLIC, int.class, "getI").code(code -> {
 
 	code.LINE(37);
 	code.LOAD("this");
 	code.GETFIELD("i", int.class);
 	code.RETURNTop();
 });
-classWriter.method(long.class, "getL").code(code -> {
+classWriter.method(ACC_PUBLIC, long.class, "getL").code(code -> {
 
 	code.LINE(41);
 	code.LOAD("this");
 	code.GETFIELD("l", long.class);
 	code.RETURNTop();
 });
-classWriter.method(float.class, "getF").code(code -> {
+classWriter.method(ACC_PUBLIC, float.class, "getF").code(code -> {
 
 	code.LINE(45);
 	code.LOAD("this");
 	code.GETFIELD("f", float.class);
 	code.RETURNTop();
 });
-classWriter.method(double.class, "getD").code(code -> {
+classWriter.method(ACC_PUBLIC, double.class, "getD").code(code -> {
 
 	code.LINE(49);
 	code.LOAD("this");
 	code.GETFIELD("d", double.class);
 	code.RETURNTop();
 });
-classWriter.method(java.lang.String.class, "getStr").code(code -> {
+classWriter.method(ACC_PUBLIC, java.lang.String.class, "getStr").code(code -> {
 
 	code.LINE(53);
 	code.LOAD("this");
 	code.GETFIELD("str", java.lang.String.class);
 	code.RETURNTop();
 });
-classWriter.method(java.lang.String.class, "toString").code(code -> {
+classWriter.method(ACC_PUBLIC, java.lang.String.class, "toString").code(code -> {
 
 	code.LINE(58);
 	code.NEW(java.lang.StringBuilder.class);

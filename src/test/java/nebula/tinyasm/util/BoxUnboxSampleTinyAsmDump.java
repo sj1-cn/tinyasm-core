@@ -3,6 +3,7 @@ import org.objectweb.asm.Label;
 import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import nebula.tinyasm.Clazz;
 @SuppressWarnings("unused")
@@ -12,14 +13,14 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.BoxUnboxSample").body();
 
-classWriter.method("<init>").code(code -> {
+classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 
 	code.LINE(3);
 	code.LOAD("this");
 	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
 	code.RETURN();
 });
-classWriter.method("funcLong").parameter("l",java.lang.Long.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "funcLong").parameter("l",java.lang.Long.class).code(code -> {
 
 	code.LINE(5);
 	code.LOAD("l");
@@ -39,7 +40,7 @@ classWriter.method("funcLong").parameter("l",java.lang.Long.class).code(code -> 
 	code.LINE(7);
 	code.RETURN();
 });
-classWriter.method("funclong").parameter("l",long.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "funclong").parameter("l",long.class).code(code -> {
 
 	code.LINE(10);
 	code.LOAD("l");
@@ -59,7 +60,7 @@ classWriter.method("funclong").parameter("l",long.class).code(code -> {
 	code.LINE(12);
 	code.RETURN();
 });
-classWriter.method("init").code(code -> {
+classWriter.method(ACC_PUBLIC, "init").code(code -> {
 
 	code.LINE(15);
 	code.LOADConst(Long.valueOf(10L));

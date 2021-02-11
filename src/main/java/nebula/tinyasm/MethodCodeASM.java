@@ -191,10 +191,8 @@ public interface MethodCodeASM {
 
 	void ARRAYLENGTH();
 
-	void ARRAYLOAD(Class<?> value);
 
-	void ARRAYLOAD(String value);
-
+	void ARRAYLOAD();
 	void ARRAYSTORE();
 
 	/* Check properties of class instances or arrays: instanceof, checkcast. */
@@ -293,7 +291,7 @@ public interface MethodCodeASM {
 
 	void GETSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
 
-	void GET_THIS_STATIC(String objectType, String fieldName);
+	void GET_THIS_STATIC(String fieldName);
 
 	void GETSTATIC(String objectType, String fieldName, String fieldType);
 
@@ -301,7 +299,7 @@ public interface MethodCodeASM {
 
 	void PUTSTATIC(String objectType, String fieldName, String fieldType);
 
-	void PUT_THIS_STATIC(String objectType, String fieldName);
+	void PUT_THIS_STATIC(String fieldName);
 
 	void ATHROW();
 
@@ -327,5 +325,7 @@ public interface MethodCodeASM {
 	void INVOKEVIRTUAL(String objectType, String returnType, String methodName, String... paramTypes);
 
 	void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
+
+
 
 }

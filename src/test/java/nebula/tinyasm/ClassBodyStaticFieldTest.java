@@ -92,16 +92,16 @@ public class ClassBodyStaticFieldTest extends TestBase {
 				.code(mv -> {
 					mv.LINE();
 					mv.LOADConst("annotation");
-					mv.PUT_THIS_STATIC(clazz, "annotation");
+					mv.PUT_THIS_STATIC("annotation");
 					mv.LINE();
 					mv.LOADConst("annotationWithDefaultValue");
-					mv.PUT_THIS_STATIC(clazz, "annotationWithDefaultValue");
+					mv.PUT_THIS_STATIC("annotationWithDefaultValue");
 					mv.LINE();
 					mv.LOADConst("annotationWithDefaultValueAndNamedValue");
-					mv.PUT_THIS_STATIC(clazz, "annotationWithDefaultValueAndNamedValue");
+					mv.PUT_THIS_STATIC("annotationWithDefaultValueAndNamedValue");
 					mv.LINE();
 					mv.LOADConst("annotationWithDefaultValueAndNamedValue2");
-					mv.PUT_THIS_STATIC(clazz, "annotationWithDefaultValueAndNamedValue2");
+					mv.PUT_THIS_STATIC("annotationWithDefaultValueAndNamedValue2");
 					mv.LINE();
 					mv.RETURN();
 				});

@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.objectweb.asm.Label;
 
+import nebula.tinyasm.util.MethodASMArraySample;
+
 public class MethodASMArrayTest extends TestBase {
 
 	@Before
@@ -206,7 +208,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.LOAD(0);
 			mv.GET_THIS_FIELD("ba");
 			mv.LOADConstByte(0);
-			mv.ARRAYLOAD(byte.class);
+			mv.ARRAYLOAD();
 			mv.ARRAYSTORE();
 			Label l1 = mv.codeNewLabel();
 			mv.visitLabel(l1);
@@ -217,7 +219,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.LOAD(0);
 			mv.GET_THIS_FIELD("ca");
 			mv.LOADConstByte(0);
-			mv.ARRAYLOAD(char.class);
+			mv.ARRAYLOAD();
 			mv.ARRAYSTORE();
 			Label l2 = mv.codeNewLabel();
 			mv.visitLabel(l2);
@@ -228,7 +230,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.LOAD(0);
 			mv.GET_THIS_FIELD("sa");
 			mv.LOADConstByte(0);
-			mv.ARRAYLOAD(short.class);
+			mv.ARRAYLOAD();
 			mv.ARRAYSTORE();
 			Label l3 = mv.codeNewLabel();
 			mv.visitLabel(l3);
@@ -239,7 +241,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.LOAD(0);
 			mv.GET_THIS_FIELD("ia");
 			mv.LOADConstByte(0);
-			mv.ARRAYLOAD(int.class);
+			mv.ARRAYLOAD();
 			mv.ARRAYSTORE();
 			Label l4 = mv.codeNewLabel();
 			mv.visitLabel(l4);
@@ -250,7 +252,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.LOAD(0);
 			mv.GET_THIS_FIELD("la");
 			mv.LOADConstByte(0);
-			mv.ARRAYLOAD(long.class);
+			mv.ARRAYLOAD();
 			mv.ARRAYSTORE();
 			Label l5 = mv.codeNewLabel();
 			mv.visitLabel(l5);
@@ -261,7 +263,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.LOAD(0);
 			mv.GET_THIS_FIELD("fa");
 			mv.LOADConstByte(0);
-			mv.ARRAYLOAD(float.class);
+			mv.ARRAYLOAD();
 			mv.ARRAYSTORE();
 			Label l6 = mv.codeNewLabel();
 			mv.visitLabel(l6);
@@ -272,7 +274,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.LOAD(0);
 			mv.GET_THIS_FIELD("da");
 			mv.LOADConstByte(0);
-			mv.ARRAYLOAD(double.class);
+			mv.ARRAYLOAD();
 			mv.ARRAYSTORE();
 			Label l7 = mv.codeNewLabel();
 			mv.visitLabel(l7);
@@ -283,7 +285,7 @@ public class MethodASMArrayTest extends TestBase {
 			mv.LOAD(0);
 			mv.GET_THIS_FIELD("stra");
 			mv.LOADConstByte(0);
-			mv.ARRAYLOAD(String.class);
+			mv.ARRAYLOAD();
 			mv.ARRAYSTORE();
 			Label l8 = mv.codeNewLabel();
 			mv.visitLabel(l8);

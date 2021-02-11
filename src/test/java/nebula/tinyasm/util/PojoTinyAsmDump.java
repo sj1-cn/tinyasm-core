@@ -3,6 +3,7 @@ import org.objectweb.asm.Label;
 import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import nebula.tinyasm.Clazz;
 @SuppressWarnings("unused")
@@ -17,7 +18,7 @@ classWriter.field("i2", int.class);
 classWriter.field("i3", int.class);
 classWriter.field("i4", int.class);
 classWriter.field("str", java.lang.String.class);
-classWriter.method("<init>").parameter("i1",int.class)
+classWriter.method(ACC_PUBLIC, "<init>").parameter("i1",int.class)
 	.parameter("i2",int.class)
 	.parameter("i3",int.class)
 	.parameter("i4",int.class)
@@ -55,14 +56,14 @@ classWriter.method("<init>").parameter("i1",int.class)
 	code.LINE(16);
 	code.RETURN();
 });
-classWriter.method(int.class, "getI1").code(code -> {
+classWriter.method(ACC_PUBLIC, int.class, "getI1").code(code -> {
 
 	code.LINE(18);
 	code.LOAD("this");
 	code.GETFIELD("i1", int.class);
 	code.RETURNTop();
 });
-classWriter.method("setI1").parameter("i1",int.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "setI1").parameter("i1",int.class).code(code -> {
 
 	code.LINE(21);
 	code.LOAD("this");
@@ -72,14 +73,14 @@ classWriter.method("setI1").parameter("i1",int.class).code(code -> {
 	code.LINE(22);
 	code.RETURN();
 });
-classWriter.method(int.class, "getI2").code(code -> {
+classWriter.method(ACC_PUBLIC, int.class, "getI2").code(code -> {
 
 	code.LINE(24);
 	code.LOAD("this");
 	code.GETFIELD("i2", int.class);
 	code.RETURNTop();
 });
-classWriter.method("setI2").parameter("i2",int.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "setI2").parameter("i2",int.class).code(code -> {
 
 	code.LINE(27);
 	code.LOAD("this");
@@ -89,14 +90,14 @@ classWriter.method("setI2").parameter("i2",int.class).code(code -> {
 	code.LINE(28);
 	code.RETURN();
 });
-classWriter.method(int.class, "getI3").code(code -> {
+classWriter.method(ACC_PUBLIC, int.class, "getI3").code(code -> {
 
 	code.LINE(30);
 	code.LOAD("this");
 	code.GETFIELD("i3", int.class);
 	code.RETURNTop();
 });
-classWriter.method("setI3").parameter("i3",int.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "setI3").parameter("i3",int.class).code(code -> {
 
 	code.LINE(33);
 	code.LOAD("this");
@@ -106,14 +107,14 @@ classWriter.method("setI3").parameter("i3",int.class).code(code -> {
 	code.LINE(34);
 	code.RETURN();
 });
-classWriter.method(int.class, "getI4").code(code -> {
+classWriter.method(ACC_PUBLIC, int.class, "getI4").code(code -> {
 
 	code.LINE(36);
 	code.LOAD("this");
 	code.GETFIELD("i4", int.class);
 	code.RETURNTop();
 });
-classWriter.method("setI4").parameter("i4",int.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "setI4").parameter("i4",int.class).code(code -> {
 
 	code.LINE(39);
 	code.LOAD("this");
@@ -123,14 +124,14 @@ classWriter.method("setI4").parameter("i4",int.class).code(code -> {
 	code.LINE(40);
 	code.RETURN();
 });
-classWriter.method(java.lang.String.class, "getStr").code(code -> {
+classWriter.method(ACC_PUBLIC, java.lang.String.class, "getStr").code(code -> {
 
 	code.LINE(42);
 	code.LOAD("this");
 	code.GETFIELD("str", java.lang.String.class);
 	code.RETURNTop();
 });
-classWriter.method("setStr").parameter("str",java.lang.String.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "setStr").parameter("str",java.lang.String.class).code(code -> {
 
 	code.LINE(45);
 	code.LOAD("this");
@@ -140,7 +141,7 @@ classWriter.method("setStr").parameter("str",java.lang.String.class).code(code -
 	code.LINE(46);
 	code.RETURN();
 });
-classWriter.method(java.lang.String.class, "toString").code(code -> {
+classWriter.method(ACC_PUBLIC, java.lang.String.class, "toString").code(code -> {
 
 	code.LINE(49);
 	code.NEW(java.lang.StringBuilder.class);
