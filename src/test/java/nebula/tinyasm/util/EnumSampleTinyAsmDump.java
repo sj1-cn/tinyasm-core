@@ -16,7 +16,7 @@ ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.EnumSample").body
 classWriter.staticField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM, "FIRST", Clazz.of(nebula.tinyasm.util.EnumSample.class));
 classWriter.staticField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM, "SECOND", Clazz.of(nebula.tinyasm.util.EnumSample.class));
 classWriter.staticField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM, "THIRD", Clazz.of(nebula.tinyasm.util.EnumSample.class));
-classWriter.staticField("ENUM$VALUES", nebula.tinyasm.util.EnumSample[].class);
+classWriter.staticField(ACC_PRIVATE | ACC_FINAL | ACC_STATIC | ACC_SYNTHETIC, "ENUM$VALUES", Clazz.of(nebula.tinyasm.util.EnumSample[].class));
 classWriter.staticMethod(ACC_STATIC, "<clinit>").code(code -> {
 
 	code.LINE(4);
