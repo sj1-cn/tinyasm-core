@@ -10,7 +10,7 @@ public class MyBankAccountBuilder {
 		ClassBody cb = ClassBuilder.make("com.nebula.cqrs.core.asm.MyBankAccount").annotation("com/nebula/cqrs/core/CqrsEntity")
 				.annotation("org/axonframework/spring/stereotype/Aggregate").body();
 
-		cb.field(ACC_PRIVATE,Annotation.annotation("org/axonframework/commandhandling/model/AggregateIdentifier"), "axonBankAccountId", Clazz.of(String.class));
+		cb.field(ACC_PRIVATE,Annotation.of("org/axonframework/commandhandling/model/AggregateIdentifier"), "axonBankAccountId", Clazz.of(String.class));
 		cb.field("overdraftLimit", long.class);
 		cb.field("balance", long.class);
 

@@ -7,7 +7,7 @@ public class Field {
 	}
 	public Field(String name, Class<?> generic) {
 		this.name = name;
-		this.clazz = TypeUtils.generic(generic);
+		this.clazz = Clazz.of(generic);
 	}
 
 	@Override

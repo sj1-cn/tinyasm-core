@@ -1,9 +1,11 @@
 package nebula.tinyasm.sample.ClassHeader;
 
 public class InnerClassSample {
-	int outer;
+	@SuppressWarnings("unused")
+	private int outer;
 
 	class Test {
-		int inner;
+		@SuppressWarnings("unused")
+		private int inner;
 	}
 }

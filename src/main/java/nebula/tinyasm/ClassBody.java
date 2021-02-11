@@ -340,4 +340,5 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 		return this;
 	}
+
 }

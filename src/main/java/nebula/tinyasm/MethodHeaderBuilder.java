@@ -25,7 +25,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	ThisMethod thisMethod;
-	int access;
+	int methodAccess;
 
 	final private ClassBodyImpl classVisitor;
 
@@ -55,7 +55,7 @@ class MethodHeaderBuilder implements MethodHeader {
 		this.classVisitor = cv;
 		thisMethod = new ThisMethod();
 		thisMethod.name = methodName;
-		this.access = access;
+		this.methodAccess = access;
 		thisMethod.type = typeOf(className);
 		this.fields = cv.fields;
 		this.staticFields = cv.staticFields;
@@ -119,7 +119,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void finishMethod() {
 		if (thisMethod.hasEnded) return;
-		if (!((this.access & ACC_SYNTHETIC) > 0)) {
+		if (!((this.methodAccess & ACC_SYNTHETIC) > 0)) {
 			Label endLabel = this.labelWithoutLineNumber();
 			for (LocalsStack.Var var : mhLocals) {
 				if (!((var.access & ACC_SYNTHETIC) > 0)) {
@@ -133,7 +133,7 @@ class MethodHeaderBuilder implements MethodHeader {
 					mv.visitLocalVariable(varname, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
 				}
 			}
-		} else if ((this.access & ACC_SYNTHETIC) > 0 && (this.access & ACC_BRIDGE) > 0) {
+		} else if ((this.methodAccess & ACC_SYNTHETIC) > 0 && (this.methodAccess & ACC_BRIDGE) > 0) {
 			Label endLabel = this.labelWithoutLineNumber();
 			LocalsStack.Var var = mhLocals.getByLocal(0);
 			assert mv != null;
@@ -172,7 +172,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	@Override
-	public MethodHeader parameter(Annotation annotation, String name, Clazz clazz) {
+	public MethodHeader parameter(int access, Annotation annotation, String name, Clazz clazz) {
 		LocalsVariable param = new LocalsVariable(annotation, name, clazz);
 		params.add(param);
 		return this;
@@ -180,7 +180,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void prapareMethodDefination() {
 		{
-			int access = this.access;
+			int access = this.methodAccess;
 			String name = thisMethod.name;
 
 			thisMethod.instanceMethod = (access & Opcodes.ACC_STATIC) == 0;
@@ -262,7 +262,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	@Override
 	public MethodHeader access(int access) {
-		this.access |= access;
+		this.methodAccess |= access;
 		return this;
 	}
 

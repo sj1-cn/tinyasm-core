@@ -3,7 +3,7 @@ package nebula.tinyasm;
 import org.objectweb.asm.Type;
 import static nebula.tinyasm.TypeUtils.*;
 
-interface Clazz {
+public interface Clazz {
 	Type getType();
 
 	String signatureAnyway();
@@ -36,6 +36,18 @@ interface Clazz {
 
 	static Clazz of(Type classname, boolean isarray) {
 		return new ClazzType(arrayOf(classname, isarray));
+	}
+	
+	static Clazz of(String originclazzName, String... genericParameterClazz) {
+		return new ClazzComplex(originclazzName, genericParameterClazz);
+	}
+
+	public static Clazz of(Class<?> originclazzName, String... genericParameterClazz) {
+		return new ClazzComplex(originclazzName.getName(), genericParameterClazz);
+	}
+
+	static Clazz of(Class<?> originclazzName, Class<?>... genericParameterClazz) {
+		return new ClazzComplex(originclazzName.getName(), classnamesOf(genericParameterClazz));
 	}
 
 	static Type typeOf(String name) {

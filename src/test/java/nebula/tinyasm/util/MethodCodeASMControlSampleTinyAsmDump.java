@@ -4,13 +4,15 @@ import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
 import static org.objectweb.asm.Opcodes.*;
+import nebula.tinyasm.Clazz;
+@SuppressWarnings("unused")
 public class MethodCodeASMControlSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.MethodCodeASMControlSample").body();
 
-classWriter.field(0, "b", byte.class);
+classWriter.field(0, "b", Clazz.of(byte.class));
 classWriter.method("<init>").code(code -> {
 
 	code.LINE(3);

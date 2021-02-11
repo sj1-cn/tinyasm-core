@@ -4,13 +4,15 @@ import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
 import static org.objectweb.asm.Opcodes.*;
+import nebula.tinyasm.Clazz;
+@SuppressWarnings("unused")
 public class SimpleSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.SimpleSample").body();
 
-classWriter.field(0, "i", int.class);
+classWriter.field("i", int.class);
 classWriter.method("<init>").code(code -> {
 
 	code.LINE(6);
@@ -37,16 +39,30 @@ classWriter.method("dd").code(code -> {
 	code.PUTFIELD("i", int.class);
 
 	code.LINE(13);
+	code.LOAD("this");
+	code.LOAD("j");
+	code.LOADConst(10);
+	code.ADD();
+	code.PUTFIELD("i", int.class);
+
+	code.LINE(14);
+	code.LOAD("this");
+	code.GETFIELD("i", int.class);
+	code.LOADConst(10);
+	code.ADD();
+	code.STORE("j");
+
+	code.LINE(15);
 	code.RETURN();
 });
 classWriter.method("methodWith1Param").parameter("i",int.class).code(code -> {
 
-	code.LINE(16);
+	code.LINE(18);
 	code.LOAD("this");
 	code.LOAD("i");
 	code.PUTFIELD("i", int.class);
 
-	code.LINE(17);
+	code.LINE(19);
 	code.RETURN();
 });
 return classWriter.end().toByteArray();

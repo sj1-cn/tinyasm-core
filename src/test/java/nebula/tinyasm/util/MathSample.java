@@ -1,6 +1,7 @@
 package nebula.tinyasm.util;
 
 public class MathSample {
+	@SuppressWarnings("unused")
 	public void math() {
 		int i=10;
 		int j=2;

@@ -4,6 +4,8 @@ import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
 import static org.objectweb.asm.Opcodes.*;
+import nebula.tinyasm.Clazz;
+@SuppressWarnings("unused")
 public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
@@ -91,22 +93,22 @@ classWriter.method(int.class, "getFieldConst").code(code -> {
 
 	code.LINE(28);
 	code.LOAD("this");
-	code.LOADConst(new Integer(100000));
+	code.LOADConst(Integer.valueOf(100000));
 	code.PUTFIELD("i", int.class);
 
 	code.LINE(29);
 	code.LOAD("this");
-	code.LOADConst(new Long(1000000L));
+	code.LOADConst(Long.valueOf(1000000L));
 	code.PUTFIELD("l", long.class);
 
 	code.LINE(30);
 	code.LOAD("this");
-	code.LOADConst(new Float("1.0E7"));
+	code.LOADConst(Float.valueOf("1.0E7"));
 	code.PUTFIELD("f", float.class);
 
 	code.LINE(31);
 	code.LOAD("this");
-	code.LOADConst(new Double("1.0E8"));
+	code.LOADConst(Double.valueOf("1.0E8"));
 	code.PUTFIELD("d", double.class);
 
 	code.LINE(32);

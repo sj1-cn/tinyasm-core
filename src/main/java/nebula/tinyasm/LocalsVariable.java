@@ -9,15 +9,6 @@ public class LocalsVariable extends ClassField {
 
 	public Annotation annotation;
 
-	public LocalsVariable(ClassField field, Label startFrom) {
-		super(field.access, field.name, field.clazz, null);
-		this.startFrom = startFrom;
-	}
-
-	public LocalsVariable(String name, Clazz clazz) {
-		super(0, name, clazz, null);
-	}
-
 	public LocalsVariable(int access, String name, Clazz clazz) {
 		super(access, name, clazz, null);
 	}

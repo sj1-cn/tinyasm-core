@@ -19,7 +19,7 @@ public interface WithAnnotation<B> {
 	}
 
 	default B annotation(String clazz, Object value, String[] names, Object[] values) {
-		return annotation(Annotation.annotation(clazz, value, names, values));
+		return annotation(Annotation.of(clazz, value, names, values));
 	}
 
 	B annotation(Annotation annotation);

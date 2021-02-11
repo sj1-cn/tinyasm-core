@@ -4,41 +4,43 @@ import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
 import static org.objectweb.asm.Opcodes.*;
+import nebula.tinyasm.Clazz;
+@SuppressWarnings("unused")
 public class MethodCodeASMMathSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.MethodCodeASMMathSample").body();
 
-classWriter.field(0, "b", byte.class);
-classWriter.field(0, "c", char.class);
-classWriter.field(0, "s", short.class);
-classWriter.field(0, "i", int.class);
-classWriter.field(0, "l", long.class);
-classWriter.field(0, "f", float.class);
-classWriter.field(0, "d", double.class);
-classWriter.field(0, "b3", byte.class);
-classWriter.field(0, "c3", char.class);
-classWriter.field(0, "s3", short.class);
-classWriter.field(0, "i3", int.class);
-classWriter.field(0, "l3", long.class);
-classWriter.field(0, "f3", float.class);
-classWriter.field(0, "d3", double.class);
-classWriter.field(0, "f31", float.class);
-classWriter.field(0, "d31", double.class);
-classWriter.field(0, "b0", byte.class);
-classWriter.field(0, "c0", char.class);
-classWriter.field(0, "s0", short.class);
-classWriter.field(0, "i0", int.class);
-classWriter.field(0, "l1", long.class);
-classWriter.field(0, "f1", float.class);
-classWriter.field(0, "d1", double.class);
-classWriter.field(0, "bn1", byte.class);
-classWriter.field(0, "sn1", short.class);
-classWriter.field(0, "in1", int.class);
-classWriter.field(0, "ln1", long.class);
-classWriter.field(0, "fn1", float.class);
-classWriter.field(0, "dn1", double.class);
+classWriter.field(0, "b", Clazz.of(byte.class));
+classWriter.field(0, "c", Clazz.of(char.class));
+classWriter.field(0, "s", Clazz.of(short.class));
+classWriter.field(0, "i", Clazz.of(int.class));
+classWriter.field(0, "l", Clazz.of(long.class));
+classWriter.field(0, "f", Clazz.of(float.class));
+classWriter.field(0, "d", Clazz.of(double.class));
+classWriter.field(0, "b3", Clazz.of(byte.class));
+classWriter.field(0, "c3", Clazz.of(char.class));
+classWriter.field(0, "s3", Clazz.of(short.class));
+classWriter.field(0, "i3", Clazz.of(int.class));
+classWriter.field(0, "l3", Clazz.of(long.class));
+classWriter.field(0, "f3", Clazz.of(float.class));
+classWriter.field(0, "d3", Clazz.of(double.class));
+classWriter.field(0, "f31", Clazz.of(float.class));
+classWriter.field(0, "d31", Clazz.of(double.class));
+classWriter.field(0, "b0", Clazz.of(byte.class));
+classWriter.field(0, "c0", Clazz.of(char.class));
+classWriter.field(0, "s0", Clazz.of(short.class));
+classWriter.field(0, "i0", Clazz.of(int.class));
+classWriter.field(0, "l1", Clazz.of(long.class));
+classWriter.field(0, "f1", Clazz.of(float.class));
+classWriter.field(0, "d1", Clazz.of(double.class));
+classWriter.field(0, "bn1", Clazz.of(byte.class));
+classWriter.field(0, "sn1", Clazz.of(short.class));
+classWriter.field(0, "in1", Clazz.of(int.class));
+classWriter.field(0, "ln1", Clazz.of(long.class));
+classWriter.field(0, "fn1", Clazz.of(float.class));
+classWriter.field(0, "dn1", Clazz.of(double.class));
 classWriter.method("<init>").code(code -> {
 
 	code.LINE(3);
@@ -102,27 +104,27 @@ classWriter.method("<init>").code(code -> {
 
 	code.LINE(16);
 	code.LOAD("this");
-	code.LOADConst(new Long(3L));
+	code.LOADConst(Long.valueOf(3L));
 	code.PUTFIELD("l3", long.class);
 
 	code.LINE(17);
 	code.LOAD("this");
-	code.LOADConst(new Float("3.0"));
+	code.LOADConst(Float.valueOf("3.0"));
 	code.PUTFIELD("f3", float.class);
 
 	code.LINE(18);
 	code.LOAD("this");
-	code.LOADConst(new Double("3.0"));
+	code.LOADConst(Double.valueOf("3.0"));
 	code.PUTFIELD("d3", double.class);
 
 	code.LINE(20);
 	code.LOAD("this");
-	code.LOADConst(new Float("3.1"));
+	code.LOADConst(Float.valueOf("3.1"));
 	code.PUTFIELD("f31", float.class);
 
 	code.LINE(21);
 	code.LOAD("this");
-	code.LOADConst(new Double("3.1"));
+	code.LOADConst(Double.valueOf("3.1"));
 	code.PUTFIELD("d31", double.class);
 
 	code.LINE(23);
@@ -177,17 +179,17 @@ classWriter.method("<init>").code(code -> {
 
 	code.LINE(35);
 	code.LOAD("this");
-	code.LOADConst(new Long(-1L));
+	code.LOADConst(Long.valueOf(-1L));
 	code.PUTFIELD("ln1", long.class);
 
 	code.LINE(36);
 	code.LOAD("this");
-	code.LOADConst(new Float("-1.0"));
+	code.LOADConst(Float.valueOf("-1.0"));
 	code.PUTFIELD("fn1", float.class);
 
 	code.LINE(37);
 	code.LOAD("this");
-	code.LOADConst(new Double("-1.0"));
+	code.LOADConst(Double.valueOf("-1.0"));
 	code.PUTFIELD("dn1", double.class);
 	code.RETURN();
 });

@@ -35,36 +35,36 @@ public class Annotation {
 		return annotation;
 	}
 
-	static public Annotation annotation(Class<?> clazz) {
-		return annotation(clazz.getName(), null);
+	static public Annotation of(Class<?> clazz) {
+		return of(clazz.getName(), null);
 	}
 
-	static public Annotation annotation(String clazz) {
-		return annotation(clazz, null);
+	static public Annotation of(String clazz) {
+		return of(clazz, null);
 	}
 
-	static public Annotation annotation(Class<?> clazz, Object value) {
-		return annotation(clazz.getName(), value);
+	static public Annotation of(Class<?> clazz, Object value) {
+		return of(clazz.getName(), value);
 	}
 
-	static public Annotation annotation(String clazz, Object value) {
+	static public Annotation of(String clazz, Object value) {
 		return new Annotation(clazz, value);
 	}
 
-	static public Annotation annotation(String clazz, Object value, String[] names, Object[] values) {
+	static public Annotation of(String clazz, Object value, String[] names, Object[] values) {
 		return new Annotation(clazz, value, names, values);
 	}
 
-	static public Annotation annotation(String clazz, String[] names, Object[] values) {
-		return annotation(clazz, null, names, values);
+	static public Annotation of(String clazz, String[] names, Object[] values) {
+		return of(clazz, null, names, values);
 	}
 
-	static public Annotation annotation(Class<?> clazz, String[] names, Object[] values) {
-		return annotation(clazz.getName(), names, values);
+	static public Annotation of(Class<?> clazz, String[] names, Object[] values) {
+		return of(clazz.getName(), names, values);
 	}
 
-	static public Annotation annotation(Class<?> clazz, Object value, String[] names, Object[] values) {
-		return annotation(clazz.getName(), value, names, values);
+	static public Annotation of(Class<?> clazz, Object value, String[] names, Object[] values) {
+		return of(clazz.getName(), value, names, values);
 	}
 
 	public String getDescriptor() {

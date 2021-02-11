@@ -475,30 +475,6 @@ public class TypeUtils {
 //		return originclazzName;
 //	}
 
-	static Clazz generic(Class<?> originclazzName) {
-		return new ClazzType(Type.getType(originclazzName));
-	}
-
-	static Clazz generic(String originclazzName, String... genericParameterClazz) {
-		return new ClazzComplex(originclazzName, genericParameterClazz);
-	}
-
-	public static Clazz generic(Class<?> originclazzName, String... genericParameterClazz) {
-		return new ClazzComplex(originclazzName.getName(), genericParameterClazz);
-	}
-
-	static Clazz generic(Class<?> originclazzName, Class<?>... genericParameterClazz) {
-		return new ClazzComplex(originclazzName.getName(), classnamesOf(genericParameterClazz));
-	}
-
-	static Clazz generic(Class<?> originclazzName, boolean isarray) {
-		return new ClazzType(arrayOf(Type.getType(originclazzName), isarray));
-	}
-
-	static Clazz generic(String originclazzName, boolean isarray) {
-		return new ClazzType(arrayOf(typeOf(originclazzName), isarray));
-	}
-
 	public static <T, R> R[] every(Class<R> clazz, List<T> list, Function<T, R> func) {
 		@SuppressWarnings("unchecked")
 		R[] results = (R[]) Array.newInstance(clazz, list.size());

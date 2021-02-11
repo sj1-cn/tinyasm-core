@@ -28,7 +28,7 @@ public class ClassHeaderInnerClassTest extends TestBase {
 
 		cw.referInnerClass("Test");
 
-		cw.field(0, "outer", int.class);
+		cw.field("outer", int.class);
 		cw.constructerEmpty();
 
 		String codeActual = toString(cw.end().toByteArray());
@@ -43,10 +43,10 @@ public class ClassHeaderInnerClassTest extends TestBase {
 
 		cw.referInnerClass("Test");
 
-		cw.field(0, "inner", int.class);
-		cw.field(Opcodes.ACC_FINAL + Opcodes.ACC_SYNTHETIC, "this$0", clazz);
+		cw.field("inner", Clazz.of(int.class));
+		cw.field(Opcodes.ACC_FINAL + Opcodes.ACC_SYNTHETIC, "this$0", Clazz.of(clazz));
 
-		cw.method(0, "<init>").parameter(Opcodes.ACC_SYNTHETIC,"this$0", clazz).code(mv -> {
+		cw.method(0, "<init>").parameter(Opcodes.ACC_SYNTHETIC, "this$0", Clazz.of(clazz)).code(mv -> {
 			mv.LINE();
 			mv.LOAD(0);
 			mv.LOAD(1);

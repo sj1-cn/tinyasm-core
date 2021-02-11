@@ -4,6 +4,8 @@ import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
 import static org.objectweb.asm.Opcodes.*;
+import nebula.tinyasm.Clazz;
+@SuppressWarnings("unused")
 public class BoxUnboxSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
@@ -60,11 +62,11 @@ classWriter.method("funclong").parameter("l",long.class).code(code -> {
 classWriter.method("init").code(code -> {
 
 	code.LINE(15);
-	code.LOADConst(new Long(10L));
+	code.LOADConst(Long.valueOf(10L));
 	code.STORE("l",long.class);
 
 	code.LINE(16);
-	code.LOADConst(new Long(100L));
+	code.LOADConst(Long.valueOf(100L));
 	code.STATIC(java.lang.Long.class, "valueOf")
 		.reTurn(java.lang.Long.class)
 		.parameter(long.class).INVOKE();
@@ -90,7 +92,7 @@ classWriter.method("init").code(code -> {
 
 	code.LINE(20);
 	code.LOAD("this");
-	code.LOADConst(new Long(2L));
+	code.LOADConst(Long.valueOf(2L));
 	code.STATIC(java.lang.Long.class, "valueOf")
 		.reTurn(java.lang.Long.class)
 		.parameter(long.class).INVOKE();

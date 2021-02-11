@@ -1,51 +1,34 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.TypeUtils.classnamesOf;
-
 import java.util.function.Consumer;
-
 
 public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<ClassHeader> {
 
-	default ClassHeader eXtend(Class<?> clazz, Class<?>... genericClazz) {
-		return eXtend(clazz.getName(), classnamesOf(genericClazz));
-	}
+//	ClassHeader subclass(String clazz);
 
-	default ClassHeader eXtend(Class<?> clazz, String... genericClazz) {
-		return eXtend(clazz.getName(), genericClazz);
-	}
+//	ClassHeader eXtend(String clazz, String... genericClazz);
 
-	default ClassHeader eXtend(String clazz, Class<?>... genericClazz) {
-		return eXtend(clazz, classnamesOf(genericClazz));
-	}
-
-	default ClassHeader eXtend(Class<?> clazz) {
-		return subclass(clazz.getName());
-	}
-
-	ClassHeader subclass(String clazz);
 	
-	ClassHeader eXtend(String clazz, String... genericClazz);
-
-	default ClassHeader implement(Class<?> clazz, Class<?>... genericClazz) {
-		return implement(clazz.getName(), classnamesOf(genericClazz));
+	default ClassHeader eXtend(Class<?> clazz) {
+		return eXtend(Clazz.of(clazz));
 	}
 
-	default ClassHeader implement(Class<?> clazz, String... genericClazz) {
-		return implement(clazz.getName(), genericClazz);
+	default ClassHeader eXtend(String clazz) {
+		return eXtend(Clazz.of(clazz));
 	}
 
-	default ClassHeader implement(String clazz, Class<?>... genericClazz) {
-		return implement(clazz, classnamesOf(genericClazz));
-	}
-
+	ClassHeader eXtend(Clazz clazz);
+	
+	
 	default ClassHeader implement(Class<?> clazz) {
-		return implement(clazz.getName());
+		return implement(Clazz.of(clazz));
 	}
 
-	ClassHeader implement(String clazz);
+	default ClassHeader implement(String clazz) {
+		return implement(Clazz.of(clazz));
+	}
 
-	ClassHeader implement(String clazz, String... genericClazz);
+	ClassHeader implement(Clazz clazz);
 
 	ClassBody body();
 

@@ -28,11 +28,11 @@ public class ClassBodyAnnotationTest extends TestBase {
 		ClassBody cw = ClassBuilder.make(clazz).annotation(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" })
 				.body();
 
-		cw.field(TestAnnotation.class, "annotation", String.class);
-		cw.field(ACC_PRIVATE, Annotation.annotation(TestAnnotation.class, "value"), "annotationWithDefaultValue", Clazz.of(String.class));
-		cw.field(ACC_PRIVATE, Annotation.annotation(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
+		cw.field(ACC_PRIVATE, Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class));
+		cw.field(ACC_PRIVATE, Annotation.of(TestAnnotation.class, "value"), "annotationWithDefaultValue", Clazz.of(String.class));
+		cw.field(ACC_PRIVATE, Annotation.of(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
 				"annotationWithDefaultValueAndNamedValue", Clazz.of(String.class));
-		cw.field(ACC_PRIVATE, Annotation.annotation(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
+		cw.field(ACC_PRIVATE, Annotation.of(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
 				"annotationWithDefaultValueAndNamedValue2", Clazz.of(String.class));
 
 		cw.constructerEmpty();
@@ -76,12 +76,12 @@ public class ClassBodyAnnotationTest extends TestBase {
 					mv.visitLabel(l1);
 				});
 
-		cw.method("method").parameter(TestAnnotation.class, "annotation", String.class)
-				.parameter(Annotation.annotation(TestAnnotation.class, "value"), "annotationWithDefaultValue", String.class)
-				.parameter(Annotation.annotation(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
-						"annotationWithDefaultValueAndNamedValue", String.class)
-				.parameter(Annotation.annotation(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
-						"annotationWithDefaultValueAndNamedValue2", String.class)
+		cw.method("method").parameter(Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class))
+				.parameter(Annotation.of(TestAnnotation.class, "value"), "annotationWithDefaultValue", Clazz.of(String.class))
+				.parameter(Annotation.of(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
+						"annotationWithDefaultValueAndNamedValue", Clazz.of(String.class))
+				.parameter(Annotation.of(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
+						"annotationWithDefaultValueAndNamedValue2", Clazz.of(String.class))
 				.code(mv -> {
 					mv.LINE();
 

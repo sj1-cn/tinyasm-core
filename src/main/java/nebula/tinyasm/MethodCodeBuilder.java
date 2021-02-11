@@ -221,22 +221,26 @@ public class MethodCodeBuilder extends MethodCode {
 	@Override
 	public MethodCaller<MethodCode> STATIC(String objectType, String methodName) {
 
-		return new MethodCallerImpl(Opcodes.INVOKESTATIC, TypeUtils.generic(objectType), methodName);
+		String[] genericParameterClazz = {};
+		return new MethodCallerImpl(Opcodes.INVOKESTATIC, Clazz.of(objectType, genericParameterClazz), methodName);
 	}
 
 	@Override
 	public MethodCaller<MethodCode> INTERFACE(String objectType, String methodName) {
-		return new MethodCallerImpl(Opcodes.INVOKEINTERFACE, TypeUtils.generic(objectType), methodName);
+		String[] genericParameterClazz = {};
+		return new MethodCallerImpl(Opcodes.INVOKEINTERFACE, Clazz.of(objectType, genericParameterClazz), methodName);
 	}
 
 	@Override
 	public MethodCaller<MethodCode> SPECIAL(String objectType, String methodName) {
-		return new MethodCallerImpl(Opcodes.INVOKESPECIAL, TypeUtils.generic(objectType), methodName);
+		String[] genericParameterClazz = {};
+		return new MethodCallerImpl(Opcodes.INVOKESPECIAL, Clazz.of(objectType, genericParameterClazz), methodName);
 	}
 
 	@Override
 	public MethodCaller<MethodCode> VIRTUAL(String objectType, String methodName) {
-		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, TypeUtils.generic(objectType), methodName);
+		String[] genericParameterClazz = {};
+		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, Clazz.of(objectType, genericParameterClazz), methodName);
 	}
 
 	class LAMBDAImpl extends MethodCallerImpl implements MethodCaller<MethodCode> {
@@ -346,7 +350,8 @@ public class MethodCodeBuilder extends MethodCode {
 
 		@Override
 		public MethodCaller<MethodCode> LAMBDA(String targetClazz, String targetMethodName) {
-			return new LAMBDAImpl(this.opcode, this, TypeUtils.generic(targetClazz), targetMethodName);
+			String[] genericParameterClazz = {};
+			return new LAMBDAImpl(this.opcode, this, Clazz.of(targetClazz, genericParameterClazz), targetMethodName);
 		}
 
 	}

@@ -14,11 +14,11 @@ public class EnumBuilder implements Opcodes {
 
 	public static ClassBody build(String clazz, String... names) {
 
-		ClassBody cb = ClassBuilder.make(clazz).eXtend(Enum.class, clazz).ACC_PUBLIC().ACC_FINAL().ACC_SUPER().ACC_ENUM().body();
+		ClassBody cb = ClassBuilder.make(clazz).eXtend(Clazz.of(Enum.class, clazz)).ACC_PUBLIC().ACC_FINAL().ACC_SUPER().ACC_ENUM().body();
 		for (String name : names) {
-			cb.field(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, clazz);
+			cb.field(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, Clazz.of(clazz));
 		}
-		cb.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", Clazz.of(clazz,true));
+		cb.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", Clazz.of(clazz, true));
 
 		cb.staticMethod("<clinit>").code(mc -> {
 			{

@@ -4,6 +4,8 @@ import nebula.tinyasm.ClassBody;
 import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
 import static org.objectweb.asm.Opcodes.*;
+import nebula.tinyasm.Clazz;
+@SuppressWarnings("unused")
 public class MethodASMArraySampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
@@ -105,28 +107,28 @@ classWriter.method("setArrayValue").code(code -> {
 	code.LOAD("this");
 	code.GETFIELD("ia", int[].class);
 	code.LOADConst(0);
-	code.LOADConst(new Integer(100000));
+	code.LOADConst(Integer.valueOf(100000));
 	code.visitInsn(IASTORE);
 
 	code.LINE(29);
 	code.LOAD("this");
 	code.GETFIELD("la", long[].class);
 	code.LOADConst(0);
-	code.LOADConst(new Long(1000000L));
+	code.LOADConst(Long.valueOf(1000000L));
 	code.visitInsn(LASTORE);
 
 	code.LINE(30);
 	code.LOAD("this");
 	code.GETFIELD("fa", float[].class);
 	code.LOADConst(0);
-	code.LOADConst(new Float("1.0E7"));
+	code.LOADConst(Float.valueOf("1.0E7"));
 	code.visitInsn(FASTORE);
 
 	code.LINE(31);
 	code.LOAD("this");
 	code.GETFIELD("da", double[].class);
 	code.LOADConst(0);
-	code.LOADConst(new Double("1.0E8"));
+	code.LOADConst(Double.valueOf("1.0E8"));
 	code.visitInsn(DASTORE);
 
 	code.LINE(32);

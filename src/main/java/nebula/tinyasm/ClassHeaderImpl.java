@@ -30,14 +30,15 @@ class ClassHeaderImpl implements ClassHeader {
 		super();
 		this.cv = cv;
 		this.name = name;
-		this.superClazz = TypeUtils.generic(superClazz);
+		this.superClazz = Clazz.of(superClazz);
 	}
 
 	public ClassHeaderImpl(ClassVisitor cv, String name, String superClazz) {
 		super();
 		this.cv = cv;
 		this.name = name;
-		this.superClazz = TypeUtils.generic(superClazz);
+		String[] genericParameterClazz = {};
+		this.superClazz = Clazz.of(superClazz, genericParameterClazz);
 	}
 
 	@Override
@@ -65,29 +66,29 @@ class ClassHeaderImpl implements ClassHeader {
 		return classBuilderImpl;
 	}
 
+//	@Override
+//	public ClassHeader subclass(String clazz) {
+//		this.superClazz = new ClazzType(clazz);
+//		return this;
+//	}
+
 	@Override
-	public ClassHeader subclass(String clazz) {
-		this.superClazz = new ClazzType(clazz);
+	public ClassHeader eXtend(Clazz clazz) {
+		this.superClazz = clazz;
 		return this;
 	}
 
 	@Override
-	public ClassHeader eXtend(String clazz, String... genericClazz) {
-		this.superClazz = new ClazzComplex(clazz, genericClazz);
+	public ClassHeader implement(Clazz clazz) {
+		interfaces.add(clazz);
 		return this;
 	}
 
-	@Override
-	public ClassHeader implement(String clazz) {
-		interfaces.add(new ClazzType(clazz));
-		return this;
-	}
-
-	@Override
-	public ClassHeader implement(String clazz, String... genericClazz) {
-		interfaces.add(new ClazzComplex(clazz, genericClazz));
-		return this;
-	}
+//	@Override
+//	public ClassHeader implement(String clazz, String... genericClazz) {
+//		interfaces.add(new ClazzComplex(clazz, genericClazz));
+//		return this;
+//	}
 
 	ClassBuilder makeClassBuilder() {
 
