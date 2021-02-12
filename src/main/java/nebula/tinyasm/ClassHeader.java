@@ -8,7 +8,6 @@ public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<Cla
 
 //	ClassHeader eXtend(String clazz, String... genericClazz);
 
-	
 	default ClassHeader eXtend(Class<?> clazz) {
 		return eXtend(Clazz.of(clazz));
 	}
@@ -18,8 +17,7 @@ public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<Cla
 	}
 
 	ClassHeader eXtend(Clazz clazz);
-	
-	
+
 	default ClassHeader implement(Class<?> clazz) {
 		return implement(Clazz.of(clazz));
 	}
@@ -33,5 +31,13 @@ public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<Cla
 	ClassBody body();
 
 	ClassBuilder body(Consumer<ClassBody> mb);
+
+	default ClassHeader implement(Class<?> clazz, Class<?>... genericClazz) {
+		return implement(Clazz.of(clazz, genericClazz));
+	}
+
+	default ClassHeader implement(Class<?> clazz, String... genericClazz) {
+		return implement(Clazz.of(clazz, genericClazz));
+	}
 
 }

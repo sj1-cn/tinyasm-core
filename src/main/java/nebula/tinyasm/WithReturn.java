@@ -11,6 +11,12 @@ public interface WithReturn<T> {
 		return reTurn(Clazz.of(clazz, genericParameterClazz));
 	}
 
+	default MethodHeader reTurn(Class<?> class1, String clazzTarget){
+		return reTurn(Clazz.of(class1,clazzTarget));
+	}
+	default MethodHeader reTurn(Class<?> class1, Class<?> clazzTarget){
+		return reTurn(Clazz.of(class1,clazzTarget));
+	}
 	default MethodHeader reTurn(Class<?> clazz, boolean isarray) {
 		return reTurn(Clazz.of(clazz, isarray));
 	}
