@@ -11,7 +11,7 @@ public class SimpleSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.SimpleSample").body();
+ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.SimpleSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
 classWriter.field(ACC_PRIVATE, "i", Clazz.of(int.class));
 classWriter.method(ACC_PUBLIC, "<init>").code(code -> {

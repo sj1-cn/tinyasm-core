@@ -11,7 +11,7 @@ public class PojoTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.Pojo").body();
+ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.Pojo").access(ACC_PUBLIC | ACC_SUPER).body();
 
 classWriter.field(ACC_PRIVATE, "i1", Clazz.of(int.class));
 classWriter.field(ACC_PRIVATE, "i2", Clazz.of(int.class));

@@ -57,6 +57,15 @@ interface WithMakeInstanceMethod {
 	MethodHeader method(int access, String name);
 
 	MethodHeader method(int access, Clazz returnType, String name);
+	
+//	MethodHeader method(int access, Clazz returnType, String name,Clazz... params) {
+//		MethodHeader mh = method(access, returnType, name);
+//		for (int i = 0; i < params.length; i++) {
+//			mh.parameter(null)
+//			
+//		}
+//		return method(access, returnType, name).pa
+//	}
 
 	default MethodHeader method(String name) {
 		return method(ACC_PUBLIC, name);

@@ -11,7 +11,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.sample.ClassBody.MakeReadOnlyPojo").body();
+ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.sample.ClassBody.MakeReadOnlyPojo").access(ACC_PUBLIC | ACC_SUPER).body();
 
 classWriter.field(ACC_PRIVATE, "b", Clazz.of(byte.class));
 classWriter.field(ACC_PRIVATE, "c", Clazz.of(char.class));

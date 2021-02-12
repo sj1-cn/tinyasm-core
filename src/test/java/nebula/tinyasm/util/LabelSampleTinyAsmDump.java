@@ -11,7 +11,7 @@ public class LabelSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.LabelSample").body();
+ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.LabelSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
 classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 

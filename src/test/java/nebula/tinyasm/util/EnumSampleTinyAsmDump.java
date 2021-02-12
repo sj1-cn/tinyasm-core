@@ -11,7 +11,7 @@ public class EnumSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.EnumSample", Clazz.of(java.lang.Enum.class,Clazz.of(nebula.tinyasm.util.EnumSample.class))).body();
+ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.EnumSample", Clazz.of(java.lang.Enum.class,Clazz.of(nebula.tinyasm.util.EnumSample.class))).access(ACC_PUBLIC | ACC_FINAL | ACC_SUPER | ACC_ENUM).body();
 
 classWriter.staticField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM, "FIRST", Clazz.of(nebula.tinyasm.util.EnumSample.class));
 classWriter.staticField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM, "SECOND", Clazz.of(nebula.tinyasm.util.EnumSample.class));

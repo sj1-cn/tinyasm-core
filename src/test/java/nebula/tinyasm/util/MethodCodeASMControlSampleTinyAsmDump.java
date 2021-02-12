@@ -11,7 +11,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.MethodCodeASMControlSample").body();
+ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.MethodCodeASMControlSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
 classWriter.field(0, "b", Clazz.of(byte.class));
 classWriter.method(ACC_PUBLIC, "<init>").code(code -> {

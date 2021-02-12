@@ -11,7 +11,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.MethodCodeASMMathStaticSample").body();
+ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.MethodCodeASMMathStaticSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
 classWriter.staticField(ACC_STATIC, "b", Clazz.of(byte.class));
 classWriter.staticField(ACC_STATIC, "c", Clazz.of(char.class));
