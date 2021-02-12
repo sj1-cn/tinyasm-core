@@ -26,6 +26,13 @@ public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<Cla
 		return implement(Clazz.of(clazz));
 	}
 
+	default ClassHeader implement(Clazz... clazz) {
+		ClassHeader ch =null;
+		for (Clazz clazz2 : clazz) {
+			ch = implement(clazz2);
+		}
+		return ch;
+	}
 	ClassHeader implement(Clazz clazz);
 
 	ClassBody body();

@@ -13,11 +13,11 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.Pojo").body();
 
-classWriter.field("i1", int.class);
-classWriter.field("i2", int.class);
-classWriter.field("i3", int.class);
-classWriter.field("i4", int.class);
-classWriter.field("str", java.lang.String.class);
+classWriter.field(ACC_PRIVATE, "i1", Clazz.of(int.class));
+classWriter.field(ACC_PRIVATE, "i2", Clazz.of(int.class));
+classWriter.field(ACC_PRIVATE, "i3", Clazz.of(int.class));
+classWriter.field(ACC_PRIVATE, "i4", Clazz.of(int.class));
+classWriter.field(ACC_PRIVATE, "str", Clazz.of(java.lang.String.class));
 classWriter.method(ACC_PUBLIC, "<init>").parameter("i1",int.class)
 	.parameter("i2",int.class)
 	.parameter("i3",int.class)

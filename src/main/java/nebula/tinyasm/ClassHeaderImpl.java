@@ -26,19 +26,11 @@ class ClassHeaderImpl implements ClassHeader {
 		this.name = name;
 	}
 
-	public ClassHeaderImpl(ClassVisitor cv, String name, Class<?> superClazz) {
+	public ClassHeaderImpl(ClassVisitor cv, String name, Clazz superClazz) {
 		super();
 		this.cv = cv;
 		this.name = name;
-		this.superClazz = Clazz.of(superClazz);
-	}
-
-	public ClassHeaderImpl(ClassVisitor cv, String name, String superClazz) {
-		super();
-		this.cv = cv;
-		this.name = name;
-		String[] genericParameterClazz = {};
-		this.superClazz = Clazz.of(superClazz, genericParameterClazz);
+		this.superClazz = superClazz;
 	}
 
 	@Override

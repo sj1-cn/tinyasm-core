@@ -37,17 +37,41 @@ public interface Clazz {
 	static Clazz of(Type classname, boolean isarray) {
 		return new ClazzType(arrayOf(classname, isarray));
 	}
-	
+
 	static Clazz of(String originclazzName, String... genericParameterClazz) {
-		return new ClazzComplex(originclazzName, genericParameterClazz);
+		ClazzType baseType = new ClazzType(originclazzName);
+		Clazz[] gClazz = new Clazz[genericParameterClazz.length];
+		for (int i = 0; i < genericParameterClazz.length; i++) {
+			gClazz[i] = Clazz.of(genericParameterClazz[i]);
+
+		}
+		return new ClazzComplex(baseType, gClazz);
 	}
 
 	public static Clazz of(Class<?> originclazzName, String... genericParameterClazz) {
-		return new ClazzComplex(originclazzName.getName(), genericParameterClazz);
+		ClazzType baseType = new ClazzType(originclazzName);
+		Clazz[] gClazz = new Clazz[genericParameterClazz.length];
+		for (int i = 0; i < genericParameterClazz.length; i++) {
+			gClazz[i] = Clazz.of(genericParameterClazz[i]);
+
+		}
+		return new ClazzComplex(baseType, gClazz);
 	}
 
 	static Clazz of(Class<?> originclazzName, Class<?>... genericParameterClazz) {
-		return new ClazzComplex(originclazzName.getName(), classnamesOf(genericParameterClazz));
+		ClazzType baseType = new ClazzType(originclazzName);
+		Clazz[] gClazz = new Clazz[genericParameterClazz.length];
+		for (int i = 0; i < genericParameterClazz.length; i++) {
+			gClazz[i] = Clazz.of(genericParameterClazz[i]);
+
+		}
+		return new ClazzComplex(baseType, gClazz);
+	}
+
+	static Clazz of(Class<?> originclazzName, Clazz... genericParameterClazz) {
+		ClazzType  baseType = new ClazzType(originclazzName);
+
+		return new ClazzComplex(baseType, genericParameterClazz);
 	}
 
 	static Type typeOf(String name) {
@@ -61,4 +85,6 @@ public interface Clazz {
 	static Type typeOf(Class<?> clazz) {
 		return Type.getType(clazz);
 	}
+
+	String signatureOf();
 }

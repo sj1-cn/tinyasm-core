@@ -378,22 +378,7 @@ class TypeUtils {
 		return signature;
 	};
 
-	static String signatureOf(Type type, Type... signatureTypes) {
-		String signature = null;
-		if (signatureTypes != null && signatureTypes.length > 0) {
-			StringBuilder sb = new StringBuilder();
-			sb.append("L");
-			sb.append(type.getInternalName());
-			sb.append("<");
-			for (Type signatureType : signatureTypes) {
-				sb.append(signatureType.getDescriptor());
-			}
-			sb.append(">;");
-			signature = sb.toString();
-		}
-		return signature;
-	};
-
+	
 	static Type stringInnerUserType(Type type) {
 		switch (type.getSort()) {
 		case Type.BOOLEAN:
@@ -420,6 +405,10 @@ class TypeUtils {
 	}
 
 	static Type[] typeOf(Class<?>... classes) {
+		return every(Type.class, classes, c -> typeOf(c));
+	}
+	
+	static Type[] typeOf(Clazz... classes) {
 		return every(Type.class, classes, c -> typeOf(c));
 	}
 

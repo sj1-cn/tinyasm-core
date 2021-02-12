@@ -13,14 +13,14 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.sample.ClassBody.MakeReadOnlyPojo").body();
 
-classWriter.field("b", byte.class);
-classWriter.field("c", char.class);
-classWriter.field("s", short.class);
-classWriter.field("i", int.class);
-classWriter.field("l", long.class);
-classWriter.field("f", float.class);
-classWriter.field("d", double.class);
-classWriter.field("str", java.lang.String.class);
+classWriter.field(ACC_PRIVATE, "b", Clazz.of(byte.class));
+classWriter.field(ACC_PRIVATE, "c", Clazz.of(char.class));
+classWriter.field(ACC_PRIVATE, "s", Clazz.of(short.class));
+classWriter.field(ACC_PRIVATE, "i", Clazz.of(int.class));
+classWriter.field(ACC_PRIVATE, "l", Clazz.of(long.class));
+classWriter.field(ACC_PRIVATE, "f", Clazz.of(float.class));
+classWriter.field(ACC_PRIVATE, "d", Clazz.of(double.class));
+classWriter.field(ACC_PRIVATE, "str", Clazz.of(java.lang.String.class));
 classWriter.method(ACC_PUBLIC, "<init>").parameter("b",byte.class)
 	.parameter("c",char.class)
 	.parameter("s",short.class)

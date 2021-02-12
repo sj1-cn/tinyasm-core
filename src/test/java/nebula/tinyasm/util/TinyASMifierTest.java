@@ -26,6 +26,24 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 		}
 
 	}
+
+	@Test
+	public void testSignatureSample() throws Exception {
+		Class<?> expectedClazz = SignatureSample.class;
+		String codeExpected = toString(expectedClazz);
+
+		try {
+			String codeActual = toString(makeAndDump(expectedClazz));
+
+			assertEquals("Code", codeExpected, codeActual);
+		} finally {
+
+			System.out.println(codeExpected);
+
+		}
+
+	}
+	
 //	
 //	@Test
 //	public void testDDDD() throws Exception {

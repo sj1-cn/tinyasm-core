@@ -5,10 +5,10 @@ import org.objectweb.asm.Type;
 public class ClazzType implements Clazz {
 	Type type;
 
-	 ClazzType(Type type) {
+	ClazzType(Type type) {
 		this.type = type;
 	}
-	
+
 	public ClazzType(Class<?> type) {
 		this.type = Type.getType(type);
 	}
@@ -42,6 +42,21 @@ public class ClazzType implements Clazz {
 	@Override
 	public String getDescriptor() {
 		return this.type.getDescriptor();
+	}
+
+	@Override
+	public String signatureOf() {
+//		StringBuilder sb = new StringBuilder();
+//
+//		if (this.type.getSort() == Type.ARRAY) sb.append("[" + type.getInternalName());
+//		else sb.append(type.getInternalName());
+//		return sb.toString();
+		return type.getDescriptor();
+	}
+
+	@Override
+	public String toString() {
+		return type.getDescriptor();
 	}
 
 }

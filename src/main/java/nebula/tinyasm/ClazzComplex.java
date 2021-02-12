@@ -1,63 +1,30 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.TypeUtils.arrayOf;
-import static nebula.tinyasm.TypeUtils.signatureOf;
-import static nebula.tinyasm.TypeUtils.typeOf;
-
 import org.objectweb.asm.Type;
 
 public class ClazzComplex implements Clazz {
-	private String originclazzName;
-	private String[] genericParameterClazz;
-	private String genericClazz;
-	private boolean isarray;
+	private ClazzType baseClazz;
+	private Clazz[] genericParameterClazz;
 
 	public Type getType() {
-		String name = this.originclazzName;
-		if (this.isarray) {
-			return Type.getType("[" + Type.getObjectType(name.replace('.', '/')).getDescriptor());
-		} else if (TypeUtils.primaryTypeMaps.containsKey(name)) return TypeUtils.primaryTypeMaps.get(name);
-		return Type.getObjectType(name.replace('.', '/'));
+		return baseClazz.getType();
 	}
 
-	ClazzComplex(String originclazzName, boolean isarray, String[] genericClazz) {
+	ClazzComplex(ClazzType originclazzName, Clazz... genericClazz) {
 		super();
-		this.originclazzName = originclazzName;
+		this.baseClazz = originclazzName;
 		this.genericParameterClazz = genericClazz;
-		this.isarray = isarray;
-	}
-
-	ClazzComplex(String originclazzName, String[] genericClazz) {
-		super();
-		this.originclazzName = originclazzName;
-		this.genericParameterClazz = genericClazz;
-	}
-
-	ClazzComplex(String originclazzName, String genericBase) {
-		super();
-		this.originclazzName = originclazzName;
-		this.genericClazz = genericBase;
 	}
 
 	@Override
 	public String signatureAnyway() {
-		String signature;
-		if (genericParameterClazz != null && genericParameterClazz.length > 0) {
-			signature = signatureOf(arrayOf(typeOf(originclazzName), isarray), typeOf(genericParameterClazz));
-		} else if (genericClazz != null) {
-			return typeOf(genericClazz).getDescriptor();
-		} else {
-			signature = typeOf(originclazzName).getDescriptor();
-		}
-		return signature;
+		return signatureOf();
 	}
 
 	@Override
 	public String signatureWhenNeed() {
 		if (genericParameterClazz != null && genericParameterClazz.length > 0) {
-			return signatureOf(arrayOf(typeOf(originclazzName), isarray), typeOf(genericParameterClazz));
-		} else if (genericClazz != null) {
-			return typeOf(genericClazz).getDescriptor();
+			return signatureOf();
 		} else {
 			return null;
 		}
@@ -65,11 +32,32 @@ public class ClazzComplex implements Clazz {
 
 	@Override
 	public boolean needSignature() {
-		return (genericParameterClazz != null && genericParameterClazz.length > 0) || genericClazz != null;
+		return (genericParameterClazz != null && genericParameterClazz.length > 0);
 	}
 
 	@Override
 	public String getDescriptor() {
-		return arrayOf(typeOf(originclazzName), isarray).getDescriptor();
+		return baseClazz.getDescriptor();
 	}
+
+	@Override
+	public String signatureOf() {
+		String signature = null;
+		if (this.genericParameterClazz != null && genericParameterClazz.length > 0) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("L");
+
+			if (baseClazz.getType().getSort() == Type.ARRAY) sb.append("[");
+
+			sb.append(baseClazz.getType().getInternalName());
+
+			sb.append("<");
+			for (Clazz signatureType : genericParameterClazz) {
+				sb.append(signatureType.signatureOf());
+			}
+			sb.append(">;");
+			signature = sb.toString();
+		}
+		return signature;
+	};
 }
