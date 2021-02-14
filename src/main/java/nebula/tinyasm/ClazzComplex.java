@@ -3,14 +3,14 @@ package nebula.tinyasm;
 import org.objectweb.asm.Type;
 
 public class ClazzComplex implements Clazz {
-	private ClazzType baseClazz;
+	private Clazz baseClazz;
 	private Clazz[] genericParameterClazz;
 
 	public Type getType() {
 		return baseClazz.getType();
 	}
 
-	ClazzComplex(ClazzType originclazzName, Clazz... genericClazz) {
+	ClazzComplex(Clazz originclazzName, Clazz... genericClazz) {
 		super();
 		this.baseClazz = originclazzName;
 		this.genericParameterClazz = genericClazz;

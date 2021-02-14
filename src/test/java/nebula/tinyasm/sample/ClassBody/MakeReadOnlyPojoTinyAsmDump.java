@@ -21,7 +21,8 @@ classWriter.field(ACC_PRIVATE, "l", Clazz.of(long.class));
 classWriter.field(ACC_PRIVATE, "f", Clazz.of(float.class));
 classWriter.field(ACC_PRIVATE, "d", Clazz.of(double.class));
 classWriter.field(ACC_PRIVATE, "str", Clazz.of(java.lang.String.class));
-classWriter.method(ACC_PUBLIC, "<init>").parameter("b",byte.class)
+classWriter.method(ACC_PUBLIC, "<init>")
+	.parameter("b",byte.class)
 	.parameter("c",char.class)
 	.parameter("s",short.class)
 	.parameter("i",int.class)

@@ -44,9 +44,9 @@ public class ClassHeaderInnerClassTest extends TestBase {
 		cw.referInnerClass("Test");
 
 		cw.field("inner", Clazz.of(int.class));
-		cw.field(Opcodes.ACC_FINAL + Opcodes.ACC_SYNTHETIC, "this$0", Clazz.of(clazz));
+		cw.field(Opcodes.ACC_FINAL | Opcodes.ACC_SYNTHETIC, "this$0", Clazz.of(clazz));
 
-		cw.method(0, "<init>").parameter(Opcodes.ACC_SYNTHETIC, "this$0", Clazz.of(clazz)).code(mv -> {
+		cw.method(0, "<init>").parameter(Opcodes.ACC_FINAL | Opcodes.ACC_MANDATED, "this$0", Clazz.of(clazz)).code(mv -> {
 			mv.LINE();
 			mv.LOAD(0);
 			mv.LOAD(1);

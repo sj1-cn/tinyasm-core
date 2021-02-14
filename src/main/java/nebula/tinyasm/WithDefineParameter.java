@@ -31,7 +31,10 @@ public interface WithDefineParameter<T> {
 	default T parameter(String name, Clazz clazz) {
 		return parameter(0, name, clazz);
 	}
-	
+
+	default T parameter(int access, String name, Class<?> clazz) {
+		return parameter(access, name, Clazz.of(clazz));
+	}
 	T parameter(int access, String name, Clazz clazz);
 
 	default T parameter(Annotation annotation, String name, Clazz clazz) {

@@ -201,21 +201,21 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
-
-	@Test
-	public void test_EnumSample() throws Exception {
-		Class<?> expectedClazz = EnumSample.class;
-		String codeExpected = toString(expectedClazz);
-		String codeActual;
-		try {
-			codeActual = toString(makeAndDump(expectedClazz));
-		} catch (Exception e) {
-//			System.out.println(codeExpected);
-			throw e;
-		}
-//		codeActual = toString(makeAndDump(expectedClazz));
-//		codeActual = "";
-		assertEquals("Code", codeExpected, codeActual);
-	}
+//
+//	@Test
+//	public void test_EnumSample() throws Exception {
+//		Class<?> expectedClazz = EnumSample.class;
+//		String codeExpected = toString(expectedClazz);
+//		String codeActual;
+//		try {
+//			codeActual = toString(makeAndDump(expectedClazz));
+//		} catch (Exception e) {
+////			System.out.println(codeExpected);
+//			throw e;
+//		}
+////		codeActual = toString(makeAndDump(expectedClazz));
+////		codeActual = "";
+//		assertEquals("Code", codeExpected, codeActual);
+//	}
 
 }

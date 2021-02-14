@@ -56,7 +56,8 @@ classWriter.method(ACC_PUBLIC, "dd").code(code -> {
 	code.LINE(15);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, "methodWith1Param").parameter("i",int.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "methodWith1Param")
+	.parameter("i",int.class).code(code -> {
 
 	code.LINE(18);
 	code.LOAD("this");

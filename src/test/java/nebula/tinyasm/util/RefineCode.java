@@ -60,7 +60,7 @@ public class RefineCode {
 	}
 	public static String excludeLineNumber(String input) {
 		input = input.replaceAll("methodVisitor.visitParameter[^\\n]*;\\n", "");
-//		input = input.replaceAll("methodVisitor.visitLocalVariable[^\\n]*;\\n", "");
+		input = input.replaceAll("methodVisitor.visitLocalVariable[^\\n]*;\\n", "");
 		input = input.replaceAll("LineNumber\\([0-9]*\\,", "LineNumber(1,");
 
 //		input = input.replaceAll("Label l1 = new Label\\(\\)[^\\n]*;\\n", "");

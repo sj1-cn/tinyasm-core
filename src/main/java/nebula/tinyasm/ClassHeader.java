@@ -8,6 +8,8 @@ public interface ClassHeader extends WithAnnotation<ClassHeader>, WithAccess<Cla
 
 //	ClassHeader eXtend(String clazz, String... genericClazz);
 
+	ClassHeader formalTypeParameter(String name,Clazz clazz);
+	
 	default ClassHeader eXtend(Class<?> clazz) {
 		return eXtend(Clazz.of(clazz));
 	}

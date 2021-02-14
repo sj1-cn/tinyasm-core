@@ -18,22 +18,35 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	boolean hadEnd = false;
 
-	final private Type superType;
+	final private Clazz superType;
 
-	final private Type thisType;
+	final private Clazz thisType;
+//	private String name;
 
 	ClassBodyImpl(ClassVisitor cv, ClassHeaderImpl header) {
 		super(Opcodes.ASM5, cv);
 
-		this.thisType = typeOf(header.name);
-		this.superType = typeOf(header.superClazz);
+//		this.name = header.name;
+		this.thisType = header.clazz;
+		this.superType = header.superClazz;
 		{
 			int version = 53;
 			int access = header.access;
-			String name = this.thisType.getInternalName();
+			String name = this.thisType.getType().getInternalName();
 			String signature = null;
-			boolean needSignature = header.superClazz.needSignature();
-			String superSignature = header.superClazz.signatureAnyway();
+			boolean needSignature = false;
+			String superSignature = "";
+			if (header.formalTypeParameters.size() > 0) {
+				superSignature +="<";
+				for (Clazz inTerface : header.formalTypeParameters) {
+					needSignature |= inTerface.needSignature();
+					superSignature += inTerface.signatureAnyway();
+				}
+				superSignature +=">";
+			}
+			needSignature = needSignature |= header.superClazz.needSignature();
+			superSignature += header.superClazz.signatureAnyway();
+
 			for (Clazz inTerface : header.interfaces) {
 				needSignature |= inTerface.needSignature();
 				superSignature += inTerface.signatureAnyway();
@@ -41,7 +54,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 			if (needSignature) signature = superSignature;
 
-			String superName = this.superType.getInternalName();
+			String superName = this.superType.getType().getInternalName();
 			String[] interfaces = new String[header.interfaces.size()];
 			for (int i = 0; i < header.interfaces.size(); i++) {
 				interfaces[i] = header.interfaces.get(i).getType().getInternalName();
@@ -50,7 +63,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 			cv.visit(version, access, name, signature, superName, interfaces);
 		}
 
-		String fileName = this.thisType.getClassName();
+		String fileName = this.thisType.getType().getClassName();
 		int i = fileName.indexOf("$");
 		if (i >= 0) {
 			fileName = fileName.substring(0, fileName.indexOf("$"));
@@ -83,7 +96,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	@Override
 	public String getName() {
-		return this.thisType.getClassName();
+		return this.thisType.getType().getClassName();
 	}
 
 	@Override
@@ -94,7 +107,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	@Override
 	public String getSuperClass() {
-		return superType.getClassName();
+		return superType.getType().getClassName();
 	}
 
 	@Override
@@ -174,14 +187,14 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	@Override
 	public String referInnerClass(String innerName) {
-		if (thisType.getInternalName().indexOf("$") < 0) {
-			String outerName = thisType.getInternalName();
+		if (thisType.getType().getInternalName().indexOf("$") < 0) {
+			String outerName = thisType.getType().getInternalName();
 			String fullName = outerName + "$" + innerName;
 			cv.visitInnerClass(fullName, outerName, innerName, 0);
 
 			return Type.getType("L" + fullName + ";").getClassName();
 		} else {
-			String fullName = thisType.getInternalName();
+			String fullName = thisType.getType().getInternalName();
 			String outerName = fullName.substring(0, fullName.indexOf("$"));
 			cv.visitInnerClass(fullName, outerName, innerName, 0);
 			return Type.getType("L" + fullName + ";").getClassName();

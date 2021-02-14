@@ -75,18 +75,18 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 		return var.type;
 	}
 
-	// Method Parameter
-	public void pushParameter(String name, Type type, Label label) {
-		Var var = new Var(type);
-		var.name = name;
-		var.startFrom = label;
-
-		var.locals = locals.size();
-		for (int i = 0; i < var.type.getSize(); i++) {
-			locals.push(stack.size());
-		}
-		stack.push(var);
-	}
+//	// Method Parameter
+//	public void pushParameter(String name, Type type, Label label) {
+//		Var var = new Var(type);
+//		var.name = name;
+//		var.startFrom = label;
+//
+//		var.locals = locals.size();
+//		for (int i = 0; i < var.type.getSize(); i++) {
+//			locals.push(stack.size());
+//		}
+//		stack.push(var);
+//	}
 
 	// Method Parameter
 	public void pushParameter(String name, Clazz clazz, Label label) {

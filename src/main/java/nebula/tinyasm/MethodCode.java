@@ -690,6 +690,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void CONVERTTO(Class<?> typeTo) {
 		CONVERTTO(typeOf(typeTo));
 	}
+	
+	@Override
+	public void CONVERTTO(Clazz typeTo) {
+		CONVERTTO(typeOf(typeTo));
+	}
 
 	@Override
 	public void CONVERTTO(String typeTo) {
@@ -848,10 +853,15 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
+	public void NEW(Clazz objectclazz) {
+		NEW(objectclazz.getType());
+	}
+	
+	@Override
 	public void NEW(String objectclazz) {
 		NEW(typeOf(objectclazz));
 	}
-
+	
 	public void NEW(Type objectclazz) {
 		stackPush(objectclazz);
 		visitTypeInsn(NEW, objectclazz);
@@ -864,7 +874,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void NEWARRAY(Class<?> type) {
 		NEWARRAY(typeOf(type));
 	}
-
+	@Override
+	public void NEWARRAY(Clazz type) {
+		NEWARRAY(typeOf(type));
+	}
+	
 	@Override
 	public void NEWARRAY(String type) {
 		NEWARRAY(typeOf(type));
@@ -995,6 +1009,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void INSTANCEOF(Class<?> type) {
 		INSTANCEOF(typeOf(type));
 	}
+	
+	@Override
+	public void INSTANCEOF(Clazz type) {
+		INSTANCEOF(typeOf(type));
+	}
 
 	@Override
 	public void INSTANCEOF(String type) {
@@ -1015,6 +1034,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	@Override
 	public void CHECKCAST(Class<?> type) {
+		CHECKCAST(typeOf(type));
+	}
+	
+	@Override
+	public void CHECKCAST(Clazz type) {
 		CHECKCAST(typeOf(type));
 	}
 
@@ -1325,6 +1349,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		GETFIELD(fieldname, typeOf(fieldType));
 	}
 
+	@Override
+	public void GETFIELD(String fieldname, Clazz fieldType) {
+		GETFIELD(fieldname, typeOf(fieldType));
+	}
+	
 	public void GETFIELD(String fieldname, Type fieldType) {
 		Type objectref = stackPop();
 		stackPush(fieldType);

@@ -1,10 +1,11 @@
 package nebula.tinyasm.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignatureGenericSample<T> extends ArrayList<T> {
+public class SignatureGenericSample<S,D> extends HashMap<S,D> implements Serializable {
 
 //public class SignatureSample  extends ArrayList<String[]>{
 

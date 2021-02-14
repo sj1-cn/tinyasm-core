@@ -277,7 +277,7 @@ public class MethodCodeBuilder extends MethodCode {
 //			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz), typeOf(returnClazz), methodName,
 //					typesOf(params));
 
-			Type clazzType = mh.thisMethod.clazzType;
+			Type clazzType = mh.thisMethod.clazzType.getType();
 
 			String originDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(originMethod.params));
 			String originSignature = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(originMethod.params));
@@ -358,7 +358,7 @@ public class MethodCodeBuilder extends MethodCode {
 
 	@Override
 	protected Type typeOfThis() {
-		return this.mh.thisMethod.clazzType;
+		return this.mh.thisMethod.clazzType.getType();
 	}
 
 }

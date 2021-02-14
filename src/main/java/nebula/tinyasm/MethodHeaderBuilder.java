@@ -19,7 +19,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 		String methodName;
 
-		Type clazzType;
+		Clazz clazzType;
 		boolean hasEnded = false;
 		boolean instanceMethod = true;
 	}
@@ -46,12 +46,12 @@ class MethodHeaderBuilder implements MethodHeader {
 	final List<Clazz> exceptions = new ArrayList<>();
 	Clazz returnClazz = null;
 
-	public MethodHeaderBuilder(ClassBodyImpl cv, Type clazzType, int access, Clazz returnType, String methodName) {
+	public MethodHeaderBuilder(ClassBodyImpl cv, Clazz clazzType, int access, Clazz returnType, String methodName) {
 		this(cv, clazzType, access, methodName);
 		this.returnClazz = returnType;
 	}
 
-	public MethodHeaderBuilder(ClassBodyImpl cv, Type clazzType, int access, String methodName) {
+	public MethodHeaderBuilder(ClassBodyImpl cv, Clazz clazzType, int access, String methodName) {
 		this.classVisitor = cv;
 		thisMethod = new ThisMethod();
 		thisMethod.methodName = methodName;

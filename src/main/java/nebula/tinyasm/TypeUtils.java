@@ -392,6 +392,19 @@ class TypeUtils {
 		return type;
 	}
 
+	static Clazz stringInnerUserType(Clazz clazz) {
+		switch (clazz.getType().getSort()) {
+		case Type.BOOLEAN:
+		case Type.BYTE:
+//		case Type.CHAR:
+		case Type.SHORT:
+			return Clazz.of(Type.INT_TYPE);
+		default:
+			break;
+		}
+		return clazz;
+	}
+	
 	static String toSimpleName(String name) {
 		int index = name.lastIndexOf('.');
 		if (index < 0) index = name.lastIndexOf('/');

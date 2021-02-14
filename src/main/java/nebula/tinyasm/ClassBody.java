@@ -305,9 +305,9 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 				code.LOADConst(getSimpleName() + " [" + fields.get(i).name + "=");
 				code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class).parameter(java.lang.String.class).INVOKE();
 				code.LOAD("this");
-				code.GETFIELD(fields.get(i).name, fields.get(i).clazz.getType());
+				code.GET_THIS_FIELD(fields.get(i).name);
 				code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class)
-						.parameter(stringInnerUserType(fields.get(i).clazz.getType()).getClassName()).INVOKE();
+						.parameter(stringInnerUserType(fields.get(i).clazz)).INVOKE();
 
 				for (i = 1; i < fields.size(); i++) {
 
@@ -318,7 +318,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 					code.LOAD("this");
 					code.GETFIELD(fields.get(i).name, fields.get(i).clazz.getType());
 					code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class)
-							.parameter(stringInnerUserType(fields.get(i).clazz.getType()).getClassName()).INVOKE();
+							.parameter(stringInnerUserType(fields.get(i).clazz)).INVOKE();
 				}
 				code.LOADConst("]");
 				code.LINE(67);
@@ -340,5 +340,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 		return this;
 	}
+
+//	Class<?> stringInnerUserType(Clazz clazz);
 
 }

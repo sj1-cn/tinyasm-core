@@ -42,125 +42,6 @@ classWriter.staticField(ACC_STATIC, "in1", Clazz.of(int.class));
 classWriter.staticField(ACC_STATIC, "ln1", Clazz.of(long.class));
 classWriter.staticField(ACC_STATIC, "fn1", Clazz.of(float.class));
 classWriter.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
-classWriter.staticMethod(ACC_STATIC, "<clinit>").code(code -> {
-
-	code.LINE(4);
-	code.LOADConst(1);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "b", byte.class);
-
-	code.LINE(5);
-	code.LOADConst(1);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "c", char.class);
-
-	code.LINE(6);
-	code.LOADConst(1);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "s", short.class);
-
-	code.LINE(7);
-	code.LOADConst(1);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "i", int.class);
-
-	code.LINE(8);
-	code.LOADConst(1L);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "l", long.class);
-
-	code.LINE(9);
-	code.LOADConst(1F);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "f", float.class);
-
-	code.LINE(10);
-	code.LOADConst(1D);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "d", double.class);
-
-	code.LINE(12);
-	code.LOADConst(3);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "b3", byte.class);
-
-	code.LINE(13);
-	code.LOADConst(3);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "c3", char.class);
-
-	code.LINE(14);
-	code.LOADConst(3);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "s3", short.class);
-
-	code.LINE(15);
-	code.LOADConst(3);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "i3", int.class);
-
-	code.LINE(16);
-	code.LOADConst(Long.valueOf(3L));
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "l3", long.class);
-
-	code.LINE(17);
-	code.LOADConst(Float.valueOf("3.0"));
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "f3", float.class);
-
-	code.LINE(18);
-	code.LOADConst(Double.valueOf("3.0"));
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "d3", double.class);
-
-	code.LINE(20);
-	code.LOADConst(Float.valueOf("3.1"));
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "f31", float.class);
-
-	code.LINE(21);
-	code.LOADConst(Double.valueOf("3.1"));
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "d31", double.class);
-
-	code.LINE(23);
-	code.LOADConst(0);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "b0", byte.class);
-
-	code.LINE(24);
-	code.LOADConst(0);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "c0", char.class);
-
-	code.LINE(25);
-	code.LOADConst(0);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "s0", short.class);
-
-	code.LINE(26);
-	code.LOADConst(0);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "i0", int.class);
-
-	code.LINE(27);
-	code.LOADConst(0L);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "l1", long.class);
-
-	code.LINE(28);
-	code.LOADConst(0F);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "f1", float.class);
-
-	code.LINE(29);
-	code.LOADConst(0D);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "d1", double.class);
-
-	code.LINE(31);
-	code.LOADConst(-1);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "bn1", byte.class);
-
-	code.LINE(33);
-	code.LOADConst(-1);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "sn1", short.class);
-
-	code.LINE(34);
-	code.LOADConst(-1);
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "in1", int.class);
-
-	code.LINE(35);
-	code.LOADConst(Long.valueOf(-1L));
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "ln1", long.class);
-
-	code.LINE(36);
-	code.LOADConst(Float.valueOf("-1.0"));
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "fn1", float.class);
-
-	code.LINE(37);
-	code.LOADConst(Double.valueOf("-1.0"));
-	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "dn1", double.class);
-	code.RETURN();
-});
 classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 
 	code.LINE(3);
@@ -168,7 +49,8 @@ classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
 	code.RETURN();
 });
-classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, int.class, "addInt").parameter("x",int.class)
+classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, int.class, "addInt")
+	.parameter("x",int.class)
 	.parameter("y",int.class).code(code -> {
 
 	code.LINE(41);
@@ -293,7 +175,8 @@ classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, int.class, "addInt").parameter
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, byte.class, "addByte").parameter("x",byte.class)
+classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, byte.class, "addByte")
+	.parameter("x",byte.class)
 	.parameter("y",byte.class).code(code -> {
 
 	code.LINE(70);
@@ -387,7 +270,8 @@ classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, byte.class, "addByte").paramet
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, short.class, "addShort").parameter("x",short.class)
+classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, short.class, "addShort")
+	.parameter("x",short.class)
 	.parameter("y",short.class).code(code -> {
 
 	code.LINE(91);
@@ -481,7 +365,8 @@ classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, short.class, "addShort").param
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, long.class, "addLong").parameter("x",long.class)
+classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, long.class, "addLong")
+	.parameter("x",long.class)
 	.parameter("y",long.class).code(code -> {
 
 	code.LINE(111);
@@ -566,7 +451,8 @@ classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, long.class, "addLong").paramet
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, char.class, "mathChar").parameter("x",char.class)
+classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, char.class, "mathChar")
+	.parameter("x",char.class)
 	.parameter("y",char.class).code(code -> {
 
 	code.LINE(131);
@@ -660,7 +546,8 @@ classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, char.class, "mathChar").parame
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, float.class, "mathFloat").parameter("x",float.class)
+classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, float.class, "mathFloat")
+	.parameter("x",float.class)
 	.parameter("y",float.class).code(code -> {
 
 	code.LINE(151);
@@ -726,7 +613,8 @@ classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, float.class, "mathFloat").para
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, double.class, "mathDouble").parameter("x",double.class)
+classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, double.class, "mathDouble")
+	.parameter("x",double.class)
 	.parameter("y",double.class).code(code -> {
 
 	code.LINE(171);
@@ -791,6 +679,125 @@ classWriter.staticMethod(ACC_PUBLIC | ACC_STATIC, double.class, "mathDouble").pa
 	code.LINE(186);
 	code.LOAD("z");
 	code.RETURNTop();
+});
+classWriter.staticMethod(ACC_STATIC, "<clinit>").code(code -> {
+
+	code.LINE(4);
+	code.LOADConst(1);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "b", byte.class);
+
+	code.LINE(5);
+	code.LOADConst(1);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "c", char.class);
+
+	code.LINE(6);
+	code.LOADConst(1);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "s", short.class);
+
+	code.LINE(7);
+	code.LOADConst(1);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "i", int.class);
+
+	code.LINE(8);
+	code.LOADConst(1L);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "l", long.class);
+
+	code.LINE(9);
+	code.LOADConst(1F);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "f", float.class);
+
+	code.LINE(10);
+	code.LOADConst(1D);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "d", double.class);
+
+	code.LINE(12);
+	code.LOADConst(3);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "b3", byte.class);
+
+	code.LINE(13);
+	code.LOADConst(3);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "c3", char.class);
+
+	code.LINE(14);
+	code.LOADConst(3);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "s3", short.class);
+
+	code.LINE(15);
+	code.LOADConst(3);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "i3", int.class);
+
+	code.LINE(16);
+	code.LOADConst(Long.valueOf(3L));
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "l3", long.class);
+
+	code.LINE(17);
+	code.LOADConst(Float.valueOf("3.0"));
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "f3", float.class);
+
+	code.LINE(18);
+	code.LOADConst(Double.valueOf("3.0"));
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "d3", double.class);
+
+	code.LINE(20);
+	code.LOADConst(Float.valueOf("3.1"));
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "f31", float.class);
+
+	code.LINE(21);
+	code.LOADConst(Double.valueOf("3.1"));
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "d31", double.class);
+
+	code.LINE(23);
+	code.LOADConst(0);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "b0", byte.class);
+
+	code.LINE(24);
+	code.LOADConst(0);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "c0", char.class);
+
+	code.LINE(25);
+	code.LOADConst(0);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "s0", short.class);
+
+	code.LINE(26);
+	code.LOADConst(0);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "i0", int.class);
+
+	code.LINE(27);
+	code.LOADConst(0L);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "l1", long.class);
+
+	code.LINE(28);
+	code.LOADConst(0F);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "f1", float.class);
+
+	code.LINE(29);
+	code.LOADConst(0D);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "d1", double.class);
+
+	code.LINE(31);
+	code.LOADConst(-1);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "bn1", byte.class);
+
+	code.LINE(33);
+	code.LOADConst(-1);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "sn1", short.class);
+
+	code.LINE(34);
+	code.LOADConst(-1);
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "in1", int.class);
+
+	code.LINE(35);
+	code.LOADConst(Long.valueOf(-1L));
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "ln1", long.class);
+
+	code.LINE(36);
+	code.LOADConst(Float.valueOf("-1.0"));
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "fn1", float.class);
+
+	code.LINE(37);
+	code.LOADConst(Double.valueOf("-1.0"));
+	code.PUTSTATIC(nebula.tinyasm.util.MethodCodeASMMathStaticSample.class, "dn1", double.class);
+	code.RETURN();
 });
 return classWriter.end().toByteArray();
 }

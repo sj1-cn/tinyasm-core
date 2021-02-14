@@ -18,7 +18,8 @@ classWriter.field(ACC_PRIVATE, "i2", Clazz.of(int.class));
 classWriter.field(ACC_PRIVATE, "i3", Clazz.of(int.class));
 classWriter.field(ACC_PRIVATE, "i4", Clazz.of(int.class));
 classWriter.field(ACC_PRIVATE, "str", Clazz.of(java.lang.String.class));
-classWriter.method(ACC_PUBLIC, "<init>").parameter("i1",int.class)
+classWriter.method(ACC_PUBLIC, "<init>")
+	.parameter("i1",int.class)
 	.parameter("i2",int.class)
 	.parameter("i3",int.class)
 	.parameter("i4",int.class)
@@ -63,7 +64,8 @@ classWriter.method(ACC_PUBLIC, int.class, "getI1").code(code -> {
 	code.GETFIELD("i1", int.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, "setI1").parameter("i1",int.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "setI1")
+	.parameter("i1",int.class).code(code -> {
 
 	code.LINE(21);
 	code.LOAD("this");
@@ -80,7 +82,8 @@ classWriter.method(ACC_PUBLIC, int.class, "getI2").code(code -> {
 	code.GETFIELD("i2", int.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, "setI2").parameter("i2",int.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "setI2")
+	.parameter("i2",int.class).code(code -> {
 
 	code.LINE(27);
 	code.LOAD("this");
@@ -97,7 +100,8 @@ classWriter.method(ACC_PUBLIC, int.class, "getI3").code(code -> {
 	code.GETFIELD("i3", int.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, "setI3").parameter("i3",int.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "setI3")
+	.parameter("i3",int.class).code(code -> {
 
 	code.LINE(33);
 	code.LOAD("this");
@@ -114,7 +118,8 @@ classWriter.method(ACC_PUBLIC, int.class, "getI4").code(code -> {
 	code.GETFIELD("i4", int.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, "setI4").parameter("i4",int.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "setI4")
+	.parameter("i4",int.class).code(code -> {
 
 	code.LINE(39);
 	code.LOAD("this");
@@ -131,7 +136,8 @@ classWriter.method(ACC_PUBLIC, java.lang.String.class, "getStr").code(code -> {
 	code.GETFIELD("str", java.lang.String.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, "setStr").parameter("str",java.lang.String.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "setStr")
+	.parameter("str",java.lang.String.class).code(code -> {
 
 	code.LINE(45);
 	code.LOAD("this");

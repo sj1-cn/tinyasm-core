@@ -1,13 +1,13 @@
 package nebula.tinyasm;
 
 public class Field {
-	public Field(String name, Clazz generic) {
+	public Field(String name, Clazz clazz) {
 		this.name = name;
-		this.clazz = generic;
+		this.clazz = clazz;
 	}
-	public Field(String name, Class<?> generic) {
+	public Field(String name, Class<?> clazz) {
 		this.name = name;
-		this.clazz = Clazz.of(generic);
+		this.clazz = Clazz.of(clazz);
 	}
 
 	@Override

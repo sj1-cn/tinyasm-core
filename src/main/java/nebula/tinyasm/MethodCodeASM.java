@@ -126,6 +126,8 @@ public interface MethodCodeASM {
 	 */
 	void CONVERTTO(Class<?> typeTo);
 
+	void CONVERTTO(Clazz typeTo);
+	
 	void CONVERTTO(String typeTo);
 
 	/*
@@ -178,14 +180,18 @@ public interface MethodCodeASM {
 	 *            classes whose version is 51.0.
 	 */
 	void NEW(Class<?> objectref);
+	
+	void NEW(Clazz objectclazz);
 
 	void NEW(String objectref);
 
 	/* Create a new array: newarray, anewarray, multianewarray. */
 
-	void NEWARRAY(Class<?> type);
+	void NEWARRAY(Class<?> clazz);
+	
+	void NEWARRAY(Clazz objectclazz);
 
-	void NEWARRAY(String type);
+	void NEWARRAY(String clazz);
 
 	void ARRAYLENGTH(String array);
 
@@ -196,13 +202,17 @@ public interface MethodCodeASM {
 	void ARRAYSTORE();
 
 	/* Check properties of class instances or arrays: instanceof, checkcast. */
-	void INSTANCEOF(Class<?> type);
+	void INSTANCEOF(Class<?> clazz);
+	
+	void INSTANCEOF(Clazz clazz);
 
-	void INSTANCEOF(String type);
+	void INSTANCEOF(String clazz);
 
-	void CHECKCAST(Class<?> type);
+	void CHECKCAST(Class<?> clazz);
+	
+	void CHECKCAST(Clazz clazz);
 
-	void CHECKCAST(String type);
+	void CHECKCAST(String clazz);
 
 	/*
 	 * 2.11.6. Operand Stack Management Instructions A number of instructions are
@@ -325,6 +335,9 @@ public interface MethodCodeASM {
 	void INVOKEVIRTUAL(String objectType, String returnType, String methodName, String... paramTypes);
 
 	void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
+
+	void GETFIELD(String fieldname, Clazz fieldType);
+
 
 
 

@@ -194,7 +194,8 @@ classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 	code.PUTFIELD("dn1", double.class);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",int.class)
+classWriter.method(ACC_PUBLIC, int.class, "addInt")
+	.parameter("x",int.class)
 	.parameter("y",int.class).code(code -> {
 
 	code.LINE(41);
@@ -331,7 +332,8 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",int.class)
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, byte.class, "addByte").parameter("x",byte.class)
+classWriter.method(ACC_PUBLIC, byte.class, "addByte")
+	.parameter("x",byte.class)
 	.parameter("y",byte.class).code(code -> {
 
 	code.LINE(70);
@@ -431,7 +433,8 @@ classWriter.method(ACC_PUBLIC, byte.class, "addByte").parameter("x",byte.class)
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, short.class, "addShort").parameter("x",short.class)
+classWriter.method(ACC_PUBLIC, short.class, "addShort")
+	.parameter("x",short.class)
 	.parameter("y",short.class).code(code -> {
 
 	code.LINE(91);
@@ -531,7 +534,8 @@ classWriter.method(ACC_PUBLIC, short.class, "addShort").parameter("x",short.clas
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, long.class, "addLong").parameter("x",long.class)
+classWriter.method(ACC_PUBLIC, long.class, "addLong")
+	.parameter("x",long.class)
 	.parameter("y",long.class).code(code -> {
 
 	code.LINE(111);
@@ -622,7 +626,8 @@ classWriter.method(ACC_PUBLIC, long.class, "addLong").parameter("x",long.class)
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, char.class, "mathChar").parameter("x",char.class)
+classWriter.method(ACC_PUBLIC, char.class, "mathChar")
+	.parameter("x",char.class)
 	.parameter("y",char.class).code(code -> {
 
 	code.LINE(131);
@@ -722,7 +727,8 @@ classWriter.method(ACC_PUBLIC, char.class, "mathChar").parameter("x",char.class)
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, float.class, "mathFloat").parameter("x",float.class)
+classWriter.method(ACC_PUBLIC, float.class, "mathFloat")
+	.parameter("x",float.class)
 	.parameter("y",float.class).code(code -> {
 
 	code.LINE(151);
@@ -794,7 +800,8 @@ classWriter.method(ACC_PUBLIC, float.class, "mathFloat").parameter("x",float.cla
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, double.class, "mathDouble").parameter("x",double.class)
+classWriter.method(ACC_PUBLIC, double.class, "mathDouble")
+	.parameter("x",double.class)
 	.parameter("y",double.class).code(code -> {
 
 	code.LINE(171);

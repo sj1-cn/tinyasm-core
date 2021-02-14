@@ -1,6 +1,5 @@
 package nebula.tinyasm;
 
-import static nebula.tinyasm.TypeUtils.arrayOf;
 import static nebula.tinyasm.TypeUtils.typeOf;
 
 import org.objectweb.asm.Opcodes;
@@ -12,38 +11,39 @@ public class EnumBuilder implements Opcodes {
 		return build(objectType, names).end().toByteArray();
 	}
 
-	public static ClassBody build(String clazz, String... names) {
+	public static ClassBody build(String className, String... names) {
+		Clazz enumClazz = Clazz.of(className);
 
-		ClassBody cb = ClassBuilder.make(clazz).eXtend(Clazz.of(Enum.class, clazz)).ACC_PUBLIC().ACC_FINAL().ACC_SUPER().ACC_ENUM().body();
+		ClassBody cb = ClassBuilder.make(className).eXtend(Clazz.of(Enum.class, className)).ACC_PUBLIC().ACC_FINAL().ACC_SUPER().ACC_ENUM().body();
 		for (String name : names) {
-			cb.field(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, Clazz.of(clazz));
+			cb.staticField(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, enumClazz);
 		}
-		cb.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", Clazz.of(clazz, true));
+		cb.staticField(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", Clazz.of(className, true));
 
 		cb.staticMethod("<clinit>").code(mc -> {
 			{
 				mc.LINE(4);
 
 				for (int i = 0; i < names.length; i++) {
-					mc.NEW(typeOf(clazz));
+					mc.NEW(enumClazz);
 					mc.DUP();
 					mc.LOADConst(names[i]);
 					mc.LOADConstByte(i);
-					mc.INVOKESPECIAL(typeOf(clazz), Type.VOID_TYPE, "<init>", typeOf(String.class), Type.INT_TYPE);
-					mc.PUTSTATIC(typeOf(clazz), names[i], typeOf(clazz));
+					mc.INVOKESPECIAL(typeOf(className), Type.VOID_TYPE, "<init>", typeOf(String.class), Type.INT_TYPE);
+					mc.PUTSTATIC(typeOf(className), names[i], typeOf(className));
 				}
 
 				mc.LINE(3);
 				mc.LOADConstByte(names.length);
-				mc.NEWARRAY(typeOf(clazz));
+				mc.NEWARRAY(typeOf(className));
 
 				for (int i = 0; i < names.length; i++) {
 					mc.DUP();
 					mc.LOADConstByte(i);
-					mc.GETSTATIC(typeOf(clazz), names[i], typeOf(clazz));
+					mc.GETSTATIC(typeOf(className), names[i], typeOf(className));
 					mc.ARRAYSTORE();
 				}
-				mc.PUTSTATIC(typeOf(clazz), "ENUM$VALUES", arrayOf(typeOf(clazz), true));
+				mc.PUT_THIS_STATIC("ENUM$VALUES");
 				mc.RETURN();
 			}
 		});
@@ -56,12 +56,12 @@ public class EnumBuilder implements Opcodes {
 			mc.INVOKESPECIAL(Enum.class, "<init>", String.class, int.class);
 			mc.RETURN();
 		});
-		cb.staticMethod("values").ACC_STATIC().ACC_PUBLIC().reTurn(clazz, true).code(mc -> {
-			mc.define("vs", clazz, true);
+		cb.staticMethod("values").ACC_STATIC().ACC_PUBLIC().reTurn(className, true).code(mc -> {
+			mc.define("vs", className, true);
 			mc.define("length", int.class);
-			mc.define("newvs", clazz, true);
+			mc.define("newvs", className, true);
 			mc.LINE(1);
-			mc.GETSTATIC(typeOf(clazz), "ENUM$VALUES", arrayOf(typeOf(clazz), true));
+			mc.GET_THIS_STATIC("ENUM$VALUES");
 			mc.DUP();
 			mc.STORE("vs");
 
@@ -70,7 +70,7 @@ public class EnumBuilder implements Opcodes {
 			mc.ARRAYLENGTH();
 			mc.DUP();
 			mc.STORE("length");
-			mc.NEWARRAY(typeOf(clazz));
+			mc.NEWARRAY(typeOf(className));
 			mc.DUP();
 			mc.STORE("newvs");
 
@@ -81,12 +81,12 @@ public class EnumBuilder implements Opcodes {
 			mc.RETURN("newvs");
 		});
 
-		cb.staticMethod("valueOf").ACC_STATIC().ACC_PUBLIC().reTurn(clazz).parameter("name", String.class).code(mc -> {
+		cb.staticMethod("valueOf").ACC_STATIC().ACC_PUBLIC().reTurn(className).parameter("name", String.class).code(mc -> {
 			mc.LINE(1);
-			mc.LOADConst(typeOf(clazz));
+			mc.LOADConst(typeOf(className));
 			mc.LOAD("name");
 			mc.INVOKESTATIC(Enum.class, Enum.class, "valueOf", Class.class, String.class);
-			mc.CHECKCAST(clazz);
+			mc.CHECKCAST(className);
 			mc.RETURNTop();
 		});
 		return cb;

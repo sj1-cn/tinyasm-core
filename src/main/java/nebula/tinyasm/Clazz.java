@@ -38,6 +38,14 @@ public interface Clazz {
 		return new ClazzType(arrayOf(classname, isarray));
 	}
 
+	static Clazz typeVariableOf(String name) {
+		return new ClazzVariable(name);
+	}
+
+	static Clazz formalTypeParameterOf(String name, Clazz clazz) {
+		return new ClazzFormalTypeParameter(name, clazz);
+	}
+
 	static Clazz of(String originclazzName, String... genericParameterClazz) {
 		ClazzType baseType = new ClazzType(originclazzName);
 		Clazz[] gClazz = new Clazz[genericParameterClazz.length];
@@ -69,11 +77,14 @@ public interface Clazz {
 	}
 
 	static Clazz of(Class<?> originclazzName, Clazz... genericParameterClazz) {
-		ClazzType  baseType = new ClazzType(originclazzName);
+		ClazzType baseType = new ClazzType(originclazzName);
 
 		return new ClazzComplex(baseType, genericParameterClazz);
 	}
+	static Clazz of(Clazz baseType, Clazz... genericParameterClazz) {
 
+		return new ClazzComplex(baseType, genericParameterClazz);
+	}
 	static Type typeOf(String name) {
 		Type type;
 		if (name == null) type = Type.VOID_TYPE;

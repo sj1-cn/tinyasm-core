@@ -26,7 +26,8 @@ classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 	code.PUTFIELD("b", byte.class);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",long.class)
+classWriter.method(ACC_PUBLIC, int.class, "addInt")
+	.parameter("x",long.class)
 	.parameter("y",long.class).code(code -> {
 
 	code.LINE(7);
@@ -118,7 +119,8 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",long.class)
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",float.class)
+classWriter.method(ACC_PUBLIC, int.class, "addInt")
+	.parameter("x",float.class)
 	.parameter("y",float.class).code(code -> {
 
 	code.LINE(29);
@@ -210,7 +212,8 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",float.class)
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",double.class)
+classWriter.method(ACC_PUBLIC, int.class, "addInt")
+	.parameter("x",double.class)
 	.parameter("y",double.class).code(code -> {
 
 	code.LINE(51);
@@ -302,7 +305,8 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",double.class)
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",int.class)
+classWriter.method(ACC_PUBLIC, int.class, "addInt")
+	.parameter("x",int.class)
 	.parameter("y",int.class).code(code -> {
 
 	code.LINE(73);
@@ -388,7 +392,8 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",int.class)
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",int.class).code(code -> {
+classWriter.method(ACC_PUBLIC, int.class, "addInt")
+	.parameter("x",int.class).code(code -> {
 
 	code.LINE(95);
 	code.LOAD("x");
@@ -467,7 +472,8 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",int.class).cod
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",java.lang.String.class)
+classWriter.method(ACC_PUBLIC, int.class, "addInt")
+	.parameter("x",java.lang.String.class)
 	.parameter("y",java.lang.String.class).code(code -> {
 
 	code.LINE(117);
@@ -501,7 +507,8 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt").parameter("x",java.lang.Stri
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "add_instance").parameter("x",java.lang.String.class)
+classWriter.method(ACC_PUBLIC, int.class, "add_instance")
+	.parameter("x",java.lang.String.class)
 	.parameter("y",java.lang.String.class).code(code -> {
 
 	code.LINE(127);
@@ -522,7 +529,8 @@ classWriter.method(ACC_PUBLIC, int.class, "add_instance").parameter("x",java.lan
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, byte.class, "addByte").parameter("o",java.lang.Object.class).code(code -> {
+classWriter.method(ACC_PUBLIC, byte.class, "addByte")
+	.parameter("o",java.lang.Object.class).code(code -> {
 
 	code.LINE(134);
 	code.LOAD("o");

@@ -20,7 +20,8 @@ classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, "funcLong").parameter("l",java.lang.Long.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "funcLong")
+	.parameter("l",java.lang.Long.class).code(code -> {
 
 	code.LINE(5);
 	code.LOAD("l");
@@ -40,7 +41,8 @@ classWriter.method(ACC_PUBLIC, "funcLong").parameter("l",java.lang.Long.class).c
 	code.LINE(7);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, "funclong").parameter("l",long.class).code(code -> {
+classWriter.method(ACC_PUBLIC, "funclong")
+	.parameter("l",long.class).code(code -> {
 
 	code.LINE(10);
 	code.LOAD("l");
