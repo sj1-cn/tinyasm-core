@@ -5,6 +5,7 @@ import nebula.tinyasm.ClassBuilder;
 import nebula.tinyasm.MethodCode;
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
+import nebula.tinyasm.Annotation;
 import nebula.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class MethodCodeASMLogicSampleTinyAsmDump {

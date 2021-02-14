@@ -8,6 +8,10 @@ public class SignatureSample extends HashMap<String, Map<String, String[]>> impl
 
 //public class SignatureSample  extends ArrayList<String[]>{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Map<String, String[]> mapStrngStringArray;
 	Map<String, String> mapStrngString;
 	HashMap<String, Map<String, String[]>> hashMapStringMapStringStringArray;

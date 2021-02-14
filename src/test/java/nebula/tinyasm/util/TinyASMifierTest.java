@@ -154,7 +154,7 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 
 	@Test
 	public void test_Pojo() throws Exception {
-		Class<?> expectedClazz = Pojo.class;
+		Class<?> expectedClazz = PojoSample.class;
 
 		String codeActual = toString(makeAndDump(expectedClazz));
 		String codeExpected = toString(expectedClazz);
@@ -201,21 +201,5 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
-//
-//	@Test
-//	public void test_EnumSample() throws Exception {
-//		Class<?> expectedClazz = EnumSample.class;
-//		String codeExpected = toString(expectedClazz);
-//		String codeActual;
-//		try {
-//			codeActual = toString(makeAndDump(expectedClazz));
-//		} catch (Exception e) {
-////			System.out.println(codeExpected);
-//			throw e;
-//		}
-////		codeActual = toString(makeAndDump(expectedClazz));
-////		codeActual = "";
-//		assertEquals("Code", codeExpected, codeActual);
-//	}
 
 }

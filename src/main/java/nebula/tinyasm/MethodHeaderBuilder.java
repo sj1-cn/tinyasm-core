@@ -1,7 +1,6 @@
 package nebula.tinyasm;
 
 import static nebula.tinyasm.TypeUtils.every;
-import static nebula.tinyasm.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
