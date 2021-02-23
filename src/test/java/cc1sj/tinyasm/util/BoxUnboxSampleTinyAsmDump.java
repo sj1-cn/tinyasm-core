@@ -79,19 +79,19 @@ classWriter.method("init").code(code -> {
 	code.LINE(17);
 	code.LOAD("this");
 	code.LOAD("l");
-	code.VIRTUAL(cc1sj.tinyasm.util.BoxUnboxSample.class, "funclong")
+	code.VIRTUAL("funclong")
 		.parameter(long.class).INVOKE();
 
 	code.LINE(18);
 	code.LOAD("this");
 	code.LOAD("ll");
-	code.VIRTUAL(cc1sj.tinyasm.util.BoxUnboxSample.class, "funcLong")
+	code.VIRTUAL("funcLong")
 		.parameter(java.lang.Long.class).INVOKE();
 
 	code.LINE(19);
 	code.LOAD("this");
 	code.LOADConst(1L);
-	code.VIRTUAL(cc1sj.tinyasm.util.BoxUnboxSample.class, "funclong")
+	code.VIRTUAL("funclong")
 		.parameter(long.class).INVOKE();
 
 	code.LINE(20);
@@ -100,7 +100,7 @@ classWriter.method("init").code(code -> {
 	code.STATIC(java.lang.Long.class, "valueOf")
 		.reTurn(java.lang.Long.class)
 		.parameter(long.class).INVOKE();
-	code.VIRTUAL(cc1sj.tinyasm.util.BoxUnboxSample.class, "funcLong")
+	code.VIRTUAL("funcLong")
 		.parameter(java.lang.Long.class).INVOKE();
 
 	code.LINE(21);

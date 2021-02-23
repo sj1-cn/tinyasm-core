@@ -179,11 +179,11 @@ public class MethodCodeBuilder extends MethodCode {
 	void visitIincInsn(int var, int increment) {
 		mv.visitIincInsn(var, increment);
 	}
-	
+
 	@Override
 	public void visitMethodInsn(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
-		mv.visitMethodInsn(opcode, objectType.getInternalName(), methodName, Type.getMethodDescriptor(returnType, paramTypes), opcode == INVOKEINTERFACE);
-
+		mv.visitMethodInsn(opcode, objectType.getInternalName(), methodName, Type.getMethodDescriptor(returnType, paramTypes),
+				opcode == INVOKEINTERFACE);
 	}
 
 	@Override
@@ -219,29 +219,29 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
-	public MethodCaller<MethodCode> STATIC(String objectType, String methodName) {
-
-		String[] genericParameterClazz = {};
-		return new MethodCallerImpl(Opcodes.INVOKESTATIC, Clazz.of(objectType, genericParameterClazz), methodName);
+	public MethodCaller<MethodCode> STATIC(Clazz objectType, String methodName) {
+		return new MethodCallerImpl(Opcodes.INVOKESTATIC, objectType, methodName);
 	}
 
 	@Override
-	public MethodCaller<MethodCode> INTERFACE(String objectType, String methodName) {
-		String[] genericParameterClazz = {};
-		return new MethodCallerImpl(Opcodes.INVOKEINTERFACE, Clazz.of(objectType, genericParameterClazz), methodName);
+	public MethodCaller<MethodCode> INTERFACE(Clazz objectType, String methodName) {
+		return new MethodCallerImpl(Opcodes.INVOKEINTERFACE, objectType, methodName);
 	}
 
 	@Override
-	public MethodCaller<MethodCode> SPECIAL(String objectType, String methodName) {
-		String[] genericParameterClazz = {};
-		return new MethodCallerImpl(Opcodes.INVOKESPECIAL, Clazz.of(objectType, genericParameterClazz), methodName);
+	public MethodCaller<MethodCode> SPECIAL(Clazz objectType, String methodName) {
+		return new MethodCallerImpl(Opcodes.INVOKESPECIAL, Clazz.of(objectType), methodName);
 	}
 
 	@Override
-	public MethodCaller<MethodCode> VIRTUAL(String objectType, String methodName) {
-		String[] genericParameterClazz = {};
-		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, Clazz.of(objectType, genericParameterClazz), methodName);
+	public MethodCaller<MethodCode> VIRTUAL(Clazz objectType, String methodName) {
+		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, objectType, methodName);
 	}
+
+//	@Override
+//	public MethodCaller<MethodCode> VIRTUAL(String methodName) {
+//		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, Clazz.of(this.mh.thisMethod.clazzType), methodName);
+//	}
 
 	class LAMBDAImpl extends MethodCallerImpl implements MethodCaller<MethodCode> {
 		List<Clazz> params = new ArrayList<>();
@@ -294,12 +294,12 @@ public class MethodCodeBuilder extends MethodCode {
 
 //			String resultMethodDescriptor ;
 
-			mv.visitInvokeDynamicInsn(methodName, lambdaDescriptor, new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory",
+			mv.visitInvokeDynamicInsn(methodName, lambdaDescriptor, new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory",
+					"metafactory",
 					"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
 					false),
-					new Object[] { Type.getType(originDescriptor),
-							new Handle(Opcodes.H_INVOKESTATIC, clazzType.getInternalName(), originMethod.methodName, resultDescriptor, false),
-							Type.getType(originSignature) });
+					new Object[] { Type.getType(originDescriptor), new Handle(Opcodes.H_INVOKESTATIC, clazzType.getInternalName(),
+							originMethod.methodName, resultDescriptor, false), Type.getType(originSignature) });
 			/*
 			 * mv.visitInvokeDynamicInsn("withHandle",
 			 * "()Lorg/jdbi/v3/core/HandleCallback;", new Handle(Opcodes.H_INVOKESTATIC,

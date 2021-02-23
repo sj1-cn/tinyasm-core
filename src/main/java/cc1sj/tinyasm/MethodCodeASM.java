@@ -338,6 +338,8 @@ public interface MethodCodeASM {
 
 	void GETFIELD(String fieldname, Clazz fieldType);
 
+	void STORE(String varname, Clazz clazz);
+
 
 
 

@@ -115,59 +115,59 @@ classWriter.staticMethod(int.class, "addInt")
 	code.STORE("z");
 
 	code.LINE(52);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "b", byte.class);
+	code.GET_THIS_STATIC("b");
 	code.STORE("z");
 
 	code.LINE(53);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "c", char.class);
+	code.GET_THIS_STATIC("c");
 	code.STORE("z");
 
 	code.LINE(54);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "s", short.class);
+	code.GET_THIS_STATIC("s");
 	code.STORE("z");
 
 	code.LINE(55);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "i", int.class);
+	code.GET_THIS_STATIC("i");
 	code.STORE("z");
 
 	code.LINE(56);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "f", float.class);
+	code.GET_THIS_STATIC("f");
 	code.CONVERTTO(int.class);
 	code.STORE("z");
 
 	code.LINE(57);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "d", double.class);
+	code.GET_THIS_STATIC("d");
 	code.CONVERTTO(int.class);
 	code.STORE("z");
 
 	code.LINE(59);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "b", byte.class);
+	code.GET_THIS_STATIC("b");
 	code.NEG();
 	code.STORE("z");
 
 	code.LINE(60);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "c", char.class);
+	code.GET_THIS_STATIC("c");
 	code.NEG();
 	code.STORE("z");
 
 	code.LINE(61);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "s", short.class);
+	code.GET_THIS_STATIC("s");
 	code.NEG();
 	code.STORE("z");
 
 	code.LINE(62);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "i", int.class);
+	code.GET_THIS_STATIC("i");
 	code.NEG();
 	code.STORE("z");
 
 	code.LINE(63);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "f", float.class);
+	code.GET_THIS_STATIC("f");
 	code.NEG();
 	code.CONVERTTO(int.class);
 	code.STORE("z");
 
 	code.LINE(64);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "d", double.class);
+	code.GET_THIS_STATIC("d");
 	code.NEG();
 	code.CONVERTTO(int.class);
 	code.STORE("z");
@@ -237,32 +237,32 @@ classWriter.staticMethod(byte.class, "addByte")
 	code.STORE("z");
 
 	code.LINE(79);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "b", byte.class);
+	code.GET_THIS_STATIC("b");
 	code.STORE("z");
 
 	code.LINE(80);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "c", char.class);
+	code.GET_THIS_STATIC("c");
 	code.CONVERTTO(byte.class);
 	code.STORE("z");
 
 	code.LINE(81);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "s", short.class);
+	code.GET_THIS_STATIC("s");
 	code.CONVERTTO(byte.class);
 	code.STORE("z");
 
 	code.LINE(82);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "i", int.class);
+	code.GET_THIS_STATIC("i");
 	code.CONVERTTO(byte.class);
 	code.STORE("z");
 
 	code.LINE(83);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "f", float.class);
+	code.GET_THIS_STATIC("f");
 	code.CONVERTTO(int.class);
 	code.CONVERTTO(byte.class);
 	code.STORE("z");
 
 	code.LINE(84);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "d", double.class);
+	code.GET_THIS_STATIC("d");
 	code.CONVERTTO(int.class);
 	code.CONVERTTO(byte.class);
 	code.STORE("z");
@@ -332,32 +332,32 @@ classWriter.staticMethod(short.class, "addShort")
 	code.STORE("z");
 
 	code.LINE(100);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "b", byte.class);
+	code.GET_THIS_STATIC("b");
 	code.CONVERTTO(short.class);
 	code.STORE("z");
 
 	code.LINE(101);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "c", char.class);
+	code.GET_THIS_STATIC("c");
 	code.CONVERTTO(short.class);
 	code.STORE("z");
 
 	code.LINE(102);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "s", short.class);
+	code.GET_THIS_STATIC("s");
 	code.STORE("z");
 
 	code.LINE(103);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "i", int.class);
+	code.GET_THIS_STATIC("i");
 	code.CONVERTTO(short.class);
 	code.STORE("z");
 
 	code.LINE(104);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "f", float.class);
+	code.GET_THIS_STATIC("f");
 	code.CONVERTTO(int.class);
 	code.CONVERTTO(short.class);
 	code.STORE("z");
 
 	code.LINE(105);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "d", double.class);
+	code.GET_THIS_STATIC("d");
 	code.CONVERTTO(int.class);
 	code.CONVERTTO(short.class);
 	code.STORE("z");
@@ -419,32 +419,32 @@ classWriter.staticMethod(long.class, "addLong")
 	code.STORE("z");
 
 	code.LINE(120);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "b", byte.class);
+	code.GET_THIS_STATIC("b");
 	code.CONVERTTO(long.class);
 	code.STORE("z");
 
 	code.LINE(121);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "c", char.class);
+	code.GET_THIS_STATIC("c");
 	code.CONVERTTO(long.class);
 	code.STORE("z");
 
 	code.LINE(122);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "s", short.class);
+	code.GET_THIS_STATIC("s");
 	code.CONVERTTO(long.class);
 	code.STORE("z");
 
 	code.LINE(123);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "i", int.class);
+	code.GET_THIS_STATIC("i");
 	code.CONVERTTO(long.class);
 	code.STORE("z");
 
 	code.LINE(124);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "f", float.class);
+	code.GET_THIS_STATIC("f");
 	code.CONVERTTO(long.class);
 	code.STORE("z");
 
 	code.LINE(125);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "d", double.class);
+	code.GET_THIS_STATIC("d");
 	code.CONVERTTO(long.class);
 	code.STORE("z");
 
@@ -513,32 +513,32 @@ classWriter.staticMethod(char.class, "mathChar")
 	code.STORE("z");
 
 	code.LINE(140);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "b", byte.class);
+	code.GET_THIS_STATIC("b");
 	code.CONVERTTO(char.class);
 	code.STORE("z");
 
 	code.LINE(141);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "c", char.class);
+	code.GET_THIS_STATIC("c");
 	code.STORE("z");
 
 	code.LINE(142);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "s", short.class);
+	code.GET_THIS_STATIC("s");
 	code.CONVERTTO(char.class);
 	code.STORE("z");
 
 	code.LINE(143);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "i", int.class);
+	code.GET_THIS_STATIC("i");
 	code.CONVERTTO(char.class);
 	code.STORE("z");
 
 	code.LINE(144);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "f", float.class);
+	code.GET_THIS_STATIC("f");
 	code.CONVERTTO(int.class);
 	code.CONVERTTO(char.class);
 	code.STORE("z");
 
 	code.LINE(145);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "d", double.class);
+	code.GET_THIS_STATIC("d");
 	code.CONVERTTO(int.class);
 	code.CONVERTTO(char.class);
 	code.STORE("z");
@@ -582,31 +582,31 @@ classWriter.staticMethod(float.class, "mathFloat")
 	code.STORE("z");
 
 	code.LINE(160);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "b", byte.class);
+	code.GET_THIS_STATIC("b");
 	code.CONVERTTO(float.class);
 	code.STORE("z");
 
 	code.LINE(161);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "c", char.class);
+	code.GET_THIS_STATIC("c");
 	code.CONVERTTO(float.class);
 	code.STORE("z");
 
 	code.LINE(162);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "s", short.class);
+	code.GET_THIS_STATIC("s");
 	code.CONVERTTO(float.class);
 	code.STORE("z");
 
 	code.LINE(163);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "i", int.class);
+	code.GET_THIS_STATIC("i");
 	code.CONVERTTO(float.class);
 	code.STORE("z");
 
 	code.LINE(164);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "f", float.class);
+	code.GET_THIS_STATIC("f");
 	code.STORE("z");
 
 	code.LINE(165);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "d", double.class);
+	code.GET_THIS_STATIC("d");
 	code.CONVERTTO(float.class);
 	code.STORE("z");
 
@@ -649,32 +649,32 @@ classWriter.staticMethod(double.class, "mathDouble")
 	code.STORE("z");
 
 	code.LINE(180);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "b", byte.class);
+	code.GET_THIS_STATIC("b");
 	code.CONVERTTO(double.class);
 	code.STORE("z");
 
 	code.LINE(181);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "c", char.class);
+	code.GET_THIS_STATIC("c");
 	code.CONVERTTO(double.class);
 	code.STORE("z");
 
 	code.LINE(182);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "s", short.class);
+	code.GET_THIS_STATIC("s");
 	code.CONVERTTO(double.class);
 	code.STORE("z");
 
 	code.LINE(183);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "i", int.class);
+	code.GET_THIS_STATIC("i");
 	code.CONVERTTO(double.class);
 	code.STORE("z");
 
 	code.LINE(184);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "f", float.class);
+	code.GET_THIS_STATIC("f");
 	code.CONVERTTO(double.class);
 	code.STORE("z");
 
 	code.LINE(185);
-	code.GETSTATIC(cc1sj.tinyasm.util.MethodCodeASMMathStaticSample.class, "d", double.class);
+	code.GET_THIS_STATIC("d");
 	code.STORE("z");
 
 	code.LINE(186);

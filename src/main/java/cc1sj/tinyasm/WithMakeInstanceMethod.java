@@ -50,6 +50,10 @@ interface WithMakeInstanceMethod {
 		return method(ACC_PUBLIC, Clazz.of(returnClass), name);
 	}
 
+	default MethodHeader method(Clazz returnClass, String name) {
+		return method(ACC_PUBLIC, returnClass, name);
+	}
+
 	default MethodHeader method(int access, Class<?> returnClass, String name) {
 		return method(access, Clazz.of(returnClass), name);
 	}

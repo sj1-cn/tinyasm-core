@@ -30,13 +30,13 @@ classWriter.method("t").code(code -> {
 	code.LINE(6);
 	code.LOAD("i");
 	code.LOADConst(1);
-	Label label0OfIF_ICMPNE = new Label();
-	code.IF_ICMPNE(label0OfIF_ICMPNE);
+	Label label2OfIF_ICMPNE = new Label();
+	code.IF_ICMPNE(label2OfIF_ICMPNE);
 
 	code.LINE(7);
 	code.IINC("i", 1);
 
-	code.visitLabel(label0OfIF_ICMPNE);
+	code.visitLabel(label2OfIF_ICMPNE);
 
 	code.LINE(9);
 	code.GETSTATIC(java.lang.System.class, "out", java.io.PrintStream.class);

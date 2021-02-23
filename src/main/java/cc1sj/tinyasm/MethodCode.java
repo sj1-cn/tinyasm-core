@@ -136,7 +136,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	abstract void visitJumpInsn(int opcode, Label label);
 
 	abstract void visitIincInsn(final int var, final int increment);
-	
+
 	protected abstract Type typeOfThis();
 
 	protected abstract Type codeThisFieldType(String name);
@@ -246,16 +246,30 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	@Override
 	public void STORE(String varname, Class<?> clazz) {
 		int local = codeLocalGetLocals(varname);
-		define(varname, clazz);
-		local = codeLocalGetLocals(varname);
+		if (local < 0) {
+			define(varname, clazz);
+			local = codeLocalGetLocals(varname);
+		}
+		STORE(local);
+	}
+
+	@Override
+	public void STORE(String varname, Clazz clazz) {
+		int local = codeLocalGetLocals(varname);
+		if (local < 0) {
+			define(varname, clazz);
+			local = codeLocalGetLocals(varname);
+		}
 		STORE(local);
 	}
 
 	@Override
 	public void STORE(String varname, String clazz) {
 		int local = codeLocalGetLocals(varname);
-		define(varname, clazz);
-		local = codeLocalGetLocals(varname);
+		if (local < 0) {
+			define(varname, clazz);
+			local = codeLocalGetLocals(varname);
+		}
 		STORE(local);
 	}
 
@@ -659,8 +673,10 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void CMPL() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
-		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
-		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
+				: "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
+				: "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
 
 		stackPush(Type.INT_TYPE);
 
@@ -675,8 +691,10 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void CMPG() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
-		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
-		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
+				: "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
+				: "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
 
 		stackPush(Type.INT_TYPE);
 
@@ -691,7 +709,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void CONVERTTO(Class<?> typeTo) {
 		CONVERTTO(typeOf(typeTo));
 	}
-	
+
 	@Override
 	public void CONVERTTO(Clazz typeTo) {
 		CONVERTTO(typeOf(typeTo));
@@ -857,12 +875,12 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void NEW(Clazz objectclazz) {
 		NEW(objectclazz.getType());
 	}
-	
+
 	@Override
 	public void NEW(String objectclazz) {
 		NEW(typeOf(objectclazz));
 	}
-	
+
 	public void NEW(Type objectclazz) {
 		stackPush(objectclazz);
 		visitTypeInsn(NEW, objectclazz);
@@ -875,11 +893,12 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void NEWARRAY(Class<?> type) {
 		NEWARRAY(typeOf(type));
 	}
+
 	@Override
 	public void NEWARRAY(Clazz type) {
 		NEWARRAY(typeOf(type));
 	}
-	
+
 	@Override
 	public void NEWARRAY(String type) {
 		NEWARRAY(typeOf(type));
@@ -896,10 +915,14 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) {
 			int typecode = TypeUtils.arrayTypeMaps.get(type);
 			visitInsn(NEWARRAY, typecode);
-		} else if (type.getSort() == Type.ARRAY) visitTypeInsn(ANEWARRAY, type);
-		else if (type.getSort() == Type.OBJECT) visitTypeInsn(ANEWARRAY, type);
-		else if (type.getSort() == Type.VOID) RETURN();
-		else throw new UnsupportedOperationException();
+		} else if (type.getSort() == Type.ARRAY)
+			visitTypeInsn(ANEWARRAY, type);
+		else if (type.getSort() == Type.OBJECT)
+			visitTypeInsn(ANEWARRAY, type);
+		else if (type.getSort() == Type.VOID)
+			RETURN();
+		else
+			throw new UnsupportedOperationException();
 	}
 
 	/*
@@ -952,7 +975,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void ARRAYLOAD() {
 		Type index = stackPop();
 		Type arrayref = stackPop();
-		Type elementType=arrayref.getElementType();
+		Type elementType = arrayref.getElementType();
 		visitInsn(elementType.getOpcode(IALOAD));
 		stackPush(elementType);
 	}
@@ -966,7 +989,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		Type elementType = arrayref.getElementType();
 
 		visitInsn(elementType.getOpcode(IASTORE));
-		
+
 //		switch (itemType.getSort()) {
 //		// BASTORE (arrayref, index, value →) : store a byte or Boolean value into an
 //		// array
@@ -1010,7 +1033,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void INSTANCEOF(Class<?> type) {
 		INSTANCEOF(typeOf(type));
 	}
-	
+
 	@Override
 	public void INSTANCEOF(Clazz type) {
 		INSTANCEOF(typeOf(type));
@@ -1037,7 +1060,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void CHECKCAST(Class<?> type) {
 		CHECKCAST(typeOf(type));
 	}
-	
+
 	@Override
 	public void CHECKCAST(Clazz type) {
 		CHECKCAST(typeOf(type));
@@ -1299,7 +1322,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 			// ARETURN (objectref → [empty]) : return a reference from a method
 			stackPop();
 			visitInsn(ARETURN);
-		} else throw new UnsupportedOperationException();
+		} else
+			throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -1354,7 +1378,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void GETFIELD(String fieldname, Clazz fieldType) {
 		GETFIELD(fieldname, typeOf(fieldType));
 	}
-	
+
 	public void GETFIELD(String fieldname, Type fieldType) {
 		Type objectref = stackPop();
 		stackPush(fieldType);
@@ -1564,6 +1588,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		visitMethodInsn(opcode, objectType, returnType, methodName, paramTypes);
 		if (returnType != Type.VOID_TYPE) stackPush(returnType);
 
+	}
+
+	@Override
+	public MethodCaller<MethodCode> VIRTUAL(String methodName) {
+		return VIRTUAL(Clazz.of(typeOfThis()), methodName);
 	}
 
 	abstract void END();

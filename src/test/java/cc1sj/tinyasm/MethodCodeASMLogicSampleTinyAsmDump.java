@@ -28,16 +28,16 @@ classWriter.method(boolean.class, "eq")
 	code.LINE(6);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPNE = new Label();
-	code.IF_ICMPNE(label0OfIF_ICMPNE);
+	Label label1OfIF_ICMPNE = new Label();
+	code.IF_ICMPNE(label1OfIF_ICMPNE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPNE);
+	code.visitLabel(label1OfIF_ICMPNE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ne")
@@ -47,16 +47,16 @@ classWriter.method(boolean.class, "ne")
 	code.LINE(10);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPEQ = new Label();
-	code.IF_ICMPEQ(label0OfIF_ICMPEQ);
+	Label label1OfIF_ICMPEQ = new Label();
+	code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPEQ);
+	code.visitLabel(label1OfIF_ICMPEQ);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ge")
@@ -66,16 +66,16 @@ classWriter.method(boolean.class, "ge")
 	code.LINE(14);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPLT = new Label();
-	code.IF_ICMPLT(label0OfIF_ICMPLT);
+	Label label1OfIF_ICMPLT = new Label();
+	code.IF_ICMPLT(label1OfIF_ICMPLT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPLT);
+	code.visitLabel(label1OfIF_ICMPLT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "le")
@@ -85,16 +85,16 @@ classWriter.method(boolean.class, "le")
 	code.LINE(18);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPGT = new Label();
-	code.IF_ICMPGT(label0OfIF_ICMPGT);
+	Label label1OfIF_ICMPGT = new Label();
+	code.IF_ICMPGT(label1OfIF_ICMPGT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPGT);
+	code.visitLabel(label1OfIF_ICMPGT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "gt")
@@ -104,16 +104,16 @@ classWriter.method(boolean.class, "gt")
 	code.LINE(22);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPLE = new Label();
-	code.IF_ICMPLE(label0OfIF_ICMPLE);
+	Label label1OfIF_ICMPLE = new Label();
+	code.IF_ICMPLE(label1OfIF_ICMPLE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPLE);
+	code.visitLabel(label1OfIF_ICMPLE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "lt")
@@ -123,16 +123,16 @@ classWriter.method(boolean.class, "lt")
 	code.LINE(26);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPGE = new Label();
-	code.IF_ICMPGE(label0OfIF_ICMPGE);
+	Label label1OfIF_ICMPGE = new Label();
+	code.IF_ICMPGE(label1OfIF_ICMPGE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPGE);
+	code.visitLabel(label1OfIF_ICMPGE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "eq")
@@ -142,16 +142,16 @@ classWriter.method(boolean.class, "eq")
 	code.LINE(30);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPNE = new Label();
-	code.IF_ICMPNE(label0OfIF_ICMPNE);
+	Label label1OfIF_ICMPNE = new Label();
+	code.IF_ICMPNE(label1OfIF_ICMPNE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPNE);
+	code.visitLabel(label1OfIF_ICMPNE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ne")
@@ -161,16 +161,16 @@ classWriter.method(boolean.class, "ne")
 	code.LINE(34);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPEQ = new Label();
-	code.IF_ICMPEQ(label0OfIF_ICMPEQ);
+	Label label1OfIF_ICMPEQ = new Label();
+	code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPEQ);
+	code.visitLabel(label1OfIF_ICMPEQ);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ge")
@@ -180,16 +180,16 @@ classWriter.method(boolean.class, "ge")
 	code.LINE(38);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPLT = new Label();
-	code.IF_ICMPLT(label0OfIF_ICMPLT);
+	Label label1OfIF_ICMPLT = new Label();
+	code.IF_ICMPLT(label1OfIF_ICMPLT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPLT);
+	code.visitLabel(label1OfIF_ICMPLT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "le")
@@ -199,16 +199,16 @@ classWriter.method(boolean.class, "le")
 	code.LINE(42);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPGT = new Label();
-	code.IF_ICMPGT(label0OfIF_ICMPGT);
+	Label label1OfIF_ICMPGT = new Label();
+	code.IF_ICMPGT(label1OfIF_ICMPGT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPGT);
+	code.visitLabel(label1OfIF_ICMPGT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "gt")
@@ -218,16 +218,16 @@ classWriter.method(boolean.class, "gt")
 	code.LINE(46);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPLE = new Label();
-	code.IF_ICMPLE(label0OfIF_ICMPLE);
+	Label label1OfIF_ICMPLE = new Label();
+	code.IF_ICMPLE(label1OfIF_ICMPLE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPLE);
+	code.visitLabel(label1OfIF_ICMPLE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "lt")
@@ -237,16 +237,16 @@ classWriter.method(boolean.class, "lt")
 	code.LINE(50);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPGE = new Label();
-	code.IF_ICMPGE(label0OfIF_ICMPGE);
+	Label label1OfIF_ICMPGE = new Label();
+	code.IF_ICMPGE(label1OfIF_ICMPGE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPGE);
+	code.visitLabel(label1OfIF_ICMPGE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "eq")
@@ -256,16 +256,16 @@ classWriter.method(boolean.class, "eq")
 	code.LINE(54);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPNE = new Label();
-	code.IF_ICMPNE(label0OfIF_ICMPNE);
+	Label label1OfIF_ICMPNE = new Label();
+	code.IF_ICMPNE(label1OfIF_ICMPNE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPNE);
+	code.visitLabel(label1OfIF_ICMPNE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ne")
@@ -275,16 +275,16 @@ classWriter.method(boolean.class, "ne")
 	code.LINE(58);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPEQ = new Label();
-	code.IF_ICMPEQ(label0OfIF_ICMPEQ);
+	Label label1OfIF_ICMPEQ = new Label();
+	code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPEQ);
+	code.visitLabel(label1OfIF_ICMPEQ);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ge")
@@ -294,16 +294,16 @@ classWriter.method(boolean.class, "ge")
 	code.LINE(62);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPLT = new Label();
-	code.IF_ICMPLT(label0OfIF_ICMPLT);
+	Label label1OfIF_ICMPLT = new Label();
+	code.IF_ICMPLT(label1OfIF_ICMPLT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPLT);
+	code.visitLabel(label1OfIF_ICMPLT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "le")
@@ -313,16 +313,16 @@ classWriter.method(boolean.class, "le")
 	code.LINE(66);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPGT = new Label();
-	code.IF_ICMPGT(label0OfIF_ICMPGT);
+	Label label1OfIF_ICMPGT = new Label();
+	code.IF_ICMPGT(label1OfIF_ICMPGT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPGT);
+	code.visitLabel(label1OfIF_ICMPGT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "gt")
@@ -332,16 +332,16 @@ classWriter.method(boolean.class, "gt")
 	code.LINE(70);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPLE = new Label();
-	code.IF_ICMPLE(label0OfIF_ICMPLE);
+	Label label1OfIF_ICMPLE = new Label();
+	code.IF_ICMPLE(label1OfIF_ICMPLE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPLE);
+	code.visitLabel(label1OfIF_ICMPLE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "lt")
@@ -351,16 +351,16 @@ classWriter.method(boolean.class, "lt")
 	code.LINE(74);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPGE = new Label();
-	code.IF_ICMPGE(label0OfIF_ICMPGE);
+	Label label1OfIF_ICMPGE = new Label();
+	code.IF_ICMPGE(label1OfIF_ICMPGE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPGE);
+	code.visitLabel(label1OfIF_ICMPGE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "eq")
@@ -370,16 +370,16 @@ classWriter.method(boolean.class, "eq")
 	code.LINE(78);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPNE = new Label();
-	code.IF_ICMPNE(label0OfIF_ICMPNE);
+	Label label1OfIF_ICMPNE = new Label();
+	code.IF_ICMPNE(label1OfIF_ICMPNE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPNE);
+	code.visitLabel(label1OfIF_ICMPNE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ne")
@@ -389,16 +389,16 @@ classWriter.method(boolean.class, "ne")
 	code.LINE(82);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPEQ = new Label();
-	code.IF_ICMPEQ(label0OfIF_ICMPEQ);
+	Label label1OfIF_ICMPEQ = new Label();
+	code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPEQ);
+	code.visitLabel(label1OfIF_ICMPEQ);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ge")
@@ -408,16 +408,16 @@ classWriter.method(boolean.class, "ge")
 	code.LINE(86);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPLT = new Label();
-	code.IF_ICMPLT(label0OfIF_ICMPLT);
+	Label label1OfIF_ICMPLT = new Label();
+	code.IF_ICMPLT(label1OfIF_ICMPLT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPLT);
+	code.visitLabel(label1OfIF_ICMPLT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "le")
@@ -427,16 +427,16 @@ classWriter.method(boolean.class, "le")
 	code.LINE(90);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPGT = new Label();
-	code.IF_ICMPGT(label0OfIF_ICMPGT);
+	Label label1OfIF_ICMPGT = new Label();
+	code.IF_ICMPGT(label1OfIF_ICMPGT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPGT);
+	code.visitLabel(label1OfIF_ICMPGT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "gt")
@@ -446,16 +446,16 @@ classWriter.method(boolean.class, "gt")
 	code.LINE(94);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPLE = new Label();
-	code.IF_ICMPLE(label0OfIF_ICMPLE);
+	Label label1OfIF_ICMPLE = new Label();
+	code.IF_ICMPLE(label1OfIF_ICMPLE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPLE);
+	code.visitLabel(label1OfIF_ICMPLE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "lt")
@@ -465,16 +465,16 @@ classWriter.method(boolean.class, "lt")
 	code.LINE(98);
 	code.LOAD("x");
 	code.LOAD("y");
-	Label label0OfIF_ICMPGE = new Label();
-	code.IF_ICMPGE(label0OfIF_ICMPGE);
+	Label label1OfIF_ICMPGE = new Label();
+	code.IF_ICMPGE(label1OfIF_ICMPGE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIF_ICMPGE);
+	code.visitLabel(label1OfIF_ICMPGE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "eq")
@@ -485,16 +485,16 @@ classWriter.method(boolean.class, "eq")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.LCMP();
-	Label label0OfIFNE = new Label();
-	code.IFNE(label0OfIFNE);
+	Label label1OfIFNE = new Label();
+	code.IFNE(label1OfIFNE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFNE);
+	code.visitLabel(label1OfIFNE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ne")
@@ -505,16 +505,16 @@ classWriter.method(boolean.class, "ne")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.LCMP();
-	Label label0OfIFEQ = new Label();
-	code.IFEQ(label0OfIFEQ);
+	Label label1OfIFEQ = new Label();
+	code.IFEQ(label1OfIFEQ);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFEQ);
+	code.visitLabel(label1OfIFEQ);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ge")
@@ -525,16 +525,16 @@ classWriter.method(boolean.class, "ge")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.LCMP();
-	Label label0OfIFLT = new Label();
-	code.IFLT(label0OfIFLT);
+	Label label1OfIFLT = new Label();
+	code.IFLT(label1OfIFLT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFLT);
+	code.visitLabel(label1OfIFLT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "le")
@@ -545,16 +545,16 @@ classWriter.method(boolean.class, "le")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.LCMP();
-	Label label0OfIFGT = new Label();
-	code.IFGT(label0OfIFGT);
+	Label label1OfIFGT = new Label();
+	code.IFGT(label1OfIFGT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFGT);
+	code.visitLabel(label1OfIFGT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "gt")
@@ -565,16 +565,16 @@ classWriter.method(boolean.class, "gt")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.LCMP();
-	Label label0OfIFLE = new Label();
-	code.IFLE(label0OfIFLE);
+	Label label1OfIFLE = new Label();
+	code.IFLE(label1OfIFLE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFLE);
+	code.visitLabel(label1OfIFLE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "lt")
@@ -585,16 +585,16 @@ classWriter.method(boolean.class, "lt")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.LCMP();
-	Label label0OfIFGE = new Label();
-	code.IFGE(label0OfIFGE);
+	Label label1OfIFGE = new Label();
+	code.IFGE(label1OfIFGE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFGE);
+	code.visitLabel(label1OfIFGE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "eq")
@@ -605,16 +605,16 @@ classWriter.method(boolean.class, "eq")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPL();
-	Label label0OfIFNE = new Label();
-	code.IFNE(label0OfIFNE);
+	Label label1OfIFNE = new Label();
+	code.IFNE(label1OfIFNE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFNE);
+	code.visitLabel(label1OfIFNE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ne")
@@ -625,16 +625,16 @@ classWriter.method(boolean.class, "ne")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPL();
-	Label label0OfIFEQ = new Label();
-	code.IFEQ(label0OfIFEQ);
+	Label label1OfIFEQ = new Label();
+	code.IFEQ(label1OfIFEQ);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFEQ);
+	code.visitLabel(label1OfIFEQ);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ge")
@@ -645,16 +645,16 @@ classWriter.method(boolean.class, "ge")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPL();
-	Label label0OfIFLT = new Label();
-	code.IFLT(label0OfIFLT);
+	Label label1OfIFLT = new Label();
+	code.IFLT(label1OfIFLT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFLT);
+	code.visitLabel(label1OfIFLT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "le")
@@ -665,16 +665,16 @@ classWriter.method(boolean.class, "le")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPG();
-	Label label0OfIFGT = new Label();
-	code.IFGT(label0OfIFGT);
+	Label label1OfIFGT = new Label();
+	code.IFGT(label1OfIFGT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFGT);
+	code.visitLabel(label1OfIFGT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "gt")
@@ -685,16 +685,16 @@ classWriter.method(boolean.class, "gt")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPL();
-	Label label0OfIFLE = new Label();
-	code.IFLE(label0OfIFLE);
+	Label label1OfIFLE = new Label();
+	code.IFLE(label1OfIFLE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFLE);
+	code.visitLabel(label1OfIFLE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "lt")
@@ -705,16 +705,16 @@ classWriter.method(boolean.class, "lt")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPG();
-	Label label0OfIFGE = new Label();
-	code.IFGE(label0OfIFGE);
+	Label label1OfIFGE = new Label();
+	code.IFGE(label1OfIFGE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFGE);
+	code.visitLabel(label1OfIFGE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "eq")
@@ -725,16 +725,16 @@ classWriter.method(boolean.class, "eq")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPL();
-	Label label0OfIFNE = new Label();
-	code.IFNE(label0OfIFNE);
+	Label label1OfIFNE = new Label();
+	code.IFNE(label1OfIFNE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFNE);
+	code.visitLabel(label1OfIFNE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ne")
@@ -745,16 +745,16 @@ classWriter.method(boolean.class, "ne")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPL();
-	Label label0OfIFEQ = new Label();
-	code.IFEQ(label0OfIFEQ);
+	Label label1OfIFEQ = new Label();
+	code.IFEQ(label1OfIFEQ);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFEQ);
+	code.visitLabel(label1OfIFEQ);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "ge")
@@ -765,16 +765,16 @@ classWriter.method(boolean.class, "ge")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPL();
-	Label label0OfIFLT = new Label();
-	code.IFLT(label0OfIFLT);
+	Label label1OfIFLT = new Label();
+	code.IFLT(label1OfIFLT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFLT);
+	code.visitLabel(label1OfIFLT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "le")
@@ -785,16 +785,16 @@ classWriter.method(boolean.class, "le")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPG();
-	Label label0OfIFGT = new Label();
-	code.IFGT(label0OfIFGT);
+	Label label1OfIFGT = new Label();
+	code.IFGT(label1OfIFGT);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFGT);
+	code.visitLabel(label1OfIFGT);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "gt")
@@ -805,16 +805,16 @@ classWriter.method(boolean.class, "gt")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPL();
-	Label label0OfIFLE = new Label();
-	code.IFLE(label0OfIFLE);
+	Label label1OfIFLE = new Label();
+	code.IFLE(label1OfIFLE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFLE);
+	code.visitLabel(label1OfIFLE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 classWriter.method(boolean.class, "lt")
@@ -825,16 +825,16 @@ classWriter.method(boolean.class, "lt")
 	code.LOAD("x");
 	code.LOAD("y");
 	code.CMPG();
-	Label label0OfIFGE = new Label();
-	code.IFGE(label0OfIFGE);
+	Label label1OfIFGE = new Label();
+	code.IFGE(label1OfIFGE);
 	code.LOADConst(1);
-	Label label1OfGOTO = new Label();
-	code.GOTO(label1OfGOTO);
+	Label label2OfGOTO = new Label();
+	code.GOTO(label2OfGOTO);
 
-	code.visitLabel(label0OfIFGE);
+	code.visitLabel(label1OfIFGE);
 	code.LOADConst(0);
 
-	code.visitLabel(label1OfGOTO);
+	code.visitLabel(label2OfGOTO);
 	code.RETURNTop();
 });
 return classWriter.end().toByteArray();
