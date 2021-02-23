@@ -7,16 +7,17 @@ import org.junit.Test;
 import cc1sj.tinyasm.MethodCodeASMLogicSample;
 import cc1sj.tinyasm.MethodCodeASMSimpleSample;
 import cc1sj.tinyasm.sample.ClassBody.MakeReadOnlyPojo;
+import static cc1sj.tinyasm.util.TinyAsmTestUtils.*;
 
-public class TinyASMifierTest extends TinyASMifierTestBase {
+public class TinyASMifierTest  {
 
 	@Test
 	public void testSimpleSample() throws Exception {
 		Class<?> expectedClazz = SimpleSample.class;
-		String codeExpected = toString(expectedClazz);
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = toString(makeAndDump(expectedClazz));
+			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -30,10 +31,10 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	@Test
 	public void testSignatureSample() throws Exception {
 		Class<?> expectedClazz = SignatureSample.class;
-		String codeExpected = toString(expectedClazz);
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = toString(makeAndDump(expectedClazz));
+			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -48,10 +49,10 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	@Test
 	public void testSignatureInterfaceSample() throws Exception {
 		Class<?> expectedClazz = SignatureInterfaceSample.class;
-		String codeExpected = toString(expectedClazz);
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = toString(makeAndDump(expectedClazz));
+			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -66,10 +67,10 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	@Test
 	public void testSignatureGenericSample() throws Exception {
 		Class<?> expectedClazz = SignatureGenericSample.class;
-		String codeExpected = toString(expectedClazz);
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = toString(makeAndDump(expectedClazz));
+			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -90,8 +91,8 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	public void testMethodCodeASMLogicSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMLogicSample.class;
 
-		String codeActual = toString(makeAndDump(expectedClazz));
-		String codeExpected = toString(expectedClazz);
+		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -99,10 +100,10 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	@Test
 	public void testMethodCodeASMMathSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMMathSample.class;
-		String codeExpected = toString(expectedClazz);
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = toString(makeAndDump(expectedClazz));
+			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -116,8 +117,8 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	public void testMethodCodeASMSimpleSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMSimpleSample.class;
 
-		String codeActual = toString(makeAndDump(expectedClazz));
-		String codeExpected = toString(expectedClazz);
+		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -126,8 +127,8 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	public void testMethodASMArraySample() throws Exception {
 		Class<?> expectedClazz = MethodASMArraySample.class;
 
-		String codeActual = toString(makeAndDump(expectedClazz));
-		String codeExpected = toString(expectedClazz);
+		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -136,8 +137,8 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	public void test_MakeReadOnlyPojo() throws Exception {
 		Class<?> expectedClazz = MakeReadOnlyPojo.class;
 
-		String codeActual = toString(makeAndDump(expectedClazz));
-		String codeExpected = toString(expectedClazz);
+		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -146,8 +147,8 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	public void test_LabelSample() throws Exception {
 		Class<?> expectedClazz = LabelSample.class;
 
-		String codeActual = toString(makeAndDump(expectedClazz));
-		String codeExpected = toString(expectedClazz);
+		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -156,8 +157,8 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	public void test_Pojo() throws Exception {
 		Class<?> expectedClazz = PojoSample.class;
 
-		String codeActual = toString(makeAndDump(expectedClazz));
-		String codeExpected = toString(expectedClazz);
+		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -166,8 +167,8 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	public void test_BoxUnboxSample() throws Exception {
 		Class<?> expectedClazz = BoxUnboxSample.class;
 
-		String codeActual = toString(makeAndDump(expectedClazz));
-		String codeExpected = toString(expectedClazz);
+		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -176,8 +177,8 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	public void test_MethodCodeASMMathSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMMathSample.class;
 
-		String codeActual = toString(makeAndDump(expectedClazz));
-		String codeExpected = toString(expectedClazz);
+		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -186,8 +187,8 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	public void test_MethodCodeASMMathStaticSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMMathStaticSample.class;
 
-		String codeActual = toString(makeAndDump(expectedClazz));
-		String codeExpected = toString(expectedClazz);
+		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -196,8 +197,8 @@ public class TinyASMifierTest extends TinyASMifierTestBase {
 	public void test_MethodCodeASMControlSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMControlSample.class;
 
-		String codeActual = toString(makeAndDump(expectedClazz));
-		String codeExpected = toString(expectedClazz);
+		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
 	}

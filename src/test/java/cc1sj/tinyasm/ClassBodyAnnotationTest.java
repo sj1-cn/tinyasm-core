@@ -10,8 +10,9 @@ import org.objectweb.asm.Label;
 
 import cc1sj.tinyasm.sample.ClassBody.ParameterAnnotationSample;
 import cc1sj.tinyasm.sample.ClassBody.TestAnnotation;
+import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class ClassBodyAnnotationTest extends TestBase {
+public class ClassBodyAnnotationTest {
 
 	String clazz = ParameterAnnotationSample.class.getName();
 
@@ -102,8 +103,8 @@ public class ClassBodyAnnotationTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 

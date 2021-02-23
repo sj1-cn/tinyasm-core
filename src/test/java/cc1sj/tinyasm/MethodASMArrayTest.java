@@ -8,8 +8,9 @@ import org.junit.Test;
 import org.objectweb.asm.Label;
 
 import cc1sj.tinyasm.util.MethodASMArraySample;
+import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class MethodASMArrayTest extends TestBase {
+public class MethodASMArrayTest {
 
 	@Before
 	public void setUp() throws Exception {
@@ -295,8 +296,8 @@ public class MethodASMArrayTest extends TestBase {
 			mv.visitLabel(l9);
 		});
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 

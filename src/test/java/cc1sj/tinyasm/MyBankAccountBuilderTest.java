@@ -6,7 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MyBankAccountBuilderTest extends TestBase {
+import cc1sj.tinyasm.util.TinyAsmTestUtils;
+
+public class MyBankAccountBuilderTest {
 
 	@Before
 	public void setUp() throws Exception {
@@ -21,8 +23,8 @@ public class MyBankAccountBuilderTest extends TestBase {
 		byte[] code = MyBankAccountBuilder.dump();
 		byte[] codeExpected = MyBankAccountDump.dump();
 
-		String strCode = toString(code);
-		String strCodeExpected = toString(codeExpected);
+		String strCode = TinyAsmTestUtils.toString(code);
+		String strCodeExpected = TinyAsmTestUtils.toString(codeExpected);
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 

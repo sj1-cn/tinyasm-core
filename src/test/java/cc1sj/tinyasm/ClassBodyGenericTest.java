@@ -12,8 +12,9 @@ import org.junit.Test;
 import cc1sj.tinyasm.sample.ClassBody.ParameterGenericSample;
 import cc1sj.tinyasm.sample.ClassBody.TestAnnotation;
 import cc1sj.tinyasm.sample.ClassBody.TestInerface;
+import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class ClassBodyGenericTest extends TestBase {
+public class ClassBodyGenericTest {
 
 	String clazz = ParameterGenericSample.class.getName();
 
@@ -75,8 +76,8 @@ public class ClassBodyGenericTest extends TestBase {
 			mv.RETURN();
 		});
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -130,8 +131,8 @@ public class ClassBodyGenericTest extends TestBase {
 			mv.RETURN();
 		});
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 

@@ -9,8 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cc1sj.tinyasm.sample.ClassBody.MethodCodeMethodCallerSample;
+import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class MethodCodeMethodCallerTest extends TestBase {
+public class MethodCodeMethodCallerTest {
 
 	String clazz = MethodCodeMethodCallerSample.class.getName();
 
@@ -103,8 +104,8 @@ public class MethodCodeMethodCallerTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 

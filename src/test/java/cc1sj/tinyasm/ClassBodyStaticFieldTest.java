@@ -12,8 +12,9 @@ import org.objectweb.asm.Opcodes;
 
 import cc1sj.tinyasm.sample.ClassBody.ParameterStaticSample;
 import cc1sj.tinyasm.sample.ClassBody.TestAnnotation;
+import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class ClassBodyStaticFieldTest extends TestBase {
+public class ClassBodyStaticFieldTest {
 
 	String clazz = ParameterStaticSample.class.getName();
 
@@ -108,8 +109,8 @@ public class ClassBodyStaticFieldTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 

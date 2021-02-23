@@ -77,6 +77,11 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
+	public ClassVisitor getClassWriter() {
+		return this.cv;
+	}
+
+	@Override
 	public Clazz clazzOfField(String name) {
 		return fields.get(name).clazz;
 	}

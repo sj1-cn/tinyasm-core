@@ -97,11 +97,21 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	@Override
-	public MethodHeader code(Consumer<MethodCode> invocation) {
+	public MethodVisitor getMethodVisitor() {
+		return this.mv;
+	}
+
+	@Override
+	public void code(Consumer<MethodCode> invocation) {
 		MethodCode mc = this.begin();
 		invocation.accept(mc);
-		this.codeEnd();
-		return this;
+		this.end();
+	}
+	
+	@Override
+	public MethodCode code() {
+		MethodCode mc = this.begin();
+		return mc;
 	}
 
 //	@Override
@@ -112,7 +122,7 @@ class MethodHeaderBuilder implements MethodHeader {
 //		return this;
 //	}
 
-	void codeEnd() {
+	public void end() {
 		finishMethod();
 	}
 

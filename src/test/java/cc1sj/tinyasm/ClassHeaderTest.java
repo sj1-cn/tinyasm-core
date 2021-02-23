@@ -11,8 +11,9 @@ import cc1sj.tinyasm.sample.ClassBody.TestInerface;
 import cc1sj.tinyasm.sample.ClassHeader.MakeClassSuperInterfaceSample;
 import cc1sj.tinyasm.sample.ClassHeader.MakeClassSuperSample;
 import cc1sj.tinyasm.sample.ClassHeader.TestSuperClass;
+import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class ClassHeaderTest extends TestBase {
+public class ClassHeaderTest  {
 
 	String clazz = MakeClassSuperInterfaceSample.class.getName();
 
@@ -31,8 +32,8 @@ public class ClassHeaderTest extends TestBase {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -43,8 +44,8 @@ public class ClassHeaderTest extends TestBase {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -55,8 +56,8 @@ public class ClassHeaderTest extends TestBase {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -68,8 +69,8 @@ public class ClassHeaderTest extends TestBase {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -82,8 +83,8 @@ public class ClassHeaderTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cb.toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cb.toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 	
@@ -95,8 +96,8 @@ public class ClassHeaderTest extends TestBase {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(TestSuperClass.class.getName());
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(TestSuperClass.class.getName());
 		assertEquals("Code", codeExpected, codeActual);
 	}
 	
@@ -108,8 +109,8 @@ public class ClassHeaderTest extends TestBase {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -123,8 +124,8 @@ public class ClassHeaderTest extends TestBase {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -136,8 +137,8 @@ public class ClassHeaderTest extends TestBase {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -150,8 +151,8 @@ public class ClassHeaderTest extends TestBase {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -165,8 +166,8 @@ public class ClassHeaderTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cb.toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cb.toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 

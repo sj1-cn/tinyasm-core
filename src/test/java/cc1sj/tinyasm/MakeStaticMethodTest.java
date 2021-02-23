@@ -8,8 +8,9 @@ import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 
 import cc1sj.tinyasm.sample.ClassBody.MakeStaticMethod;
+import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class MakeStaticMethodTest extends TestBase {
+public class MakeStaticMethodTest  {
 
 	String clazz = MakeStaticMethod.class.getName();
 
@@ -73,8 +74,8 @@ public class MakeStaticMethodTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -128,8 +129,8 @@ public class MakeStaticMethodTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -184,8 +185,8 @@ public class MakeStaticMethodTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -241,8 +242,8 @@ public class MakeStaticMethodTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -298,8 +299,8 @@ public class MakeStaticMethodTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -355,8 +356,8 @@ public class MakeStaticMethodTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
@@ -412,8 +413,8 @@ public class MakeStaticMethodTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 //	@Test

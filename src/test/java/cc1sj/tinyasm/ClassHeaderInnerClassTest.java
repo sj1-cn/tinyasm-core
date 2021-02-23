@@ -8,8 +8,9 @@ import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 
 import cc1sj.tinyasm.sample.ClassHeader.InnerClassSample;
+import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class ClassHeaderInnerClassTest extends TestBase {
+public class ClassHeaderInnerClassTest {
 
 	String clazz = InnerClassSample.class.getName();
 	String innerclazz = InnerClassSample.class.getName() + "$Test";
@@ -31,8 +32,8 @@ public class ClassHeaderInnerClassTest extends TestBase {
 		cw.field("outer", int.class);
 		cw.constructerEmpty();
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 
 	}
@@ -56,8 +57,8 @@ public class ClassHeaderInnerClassTest extends TestBase {
 			mv.RETURN();
 		});
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(innerclazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(innerclazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 

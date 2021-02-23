@@ -7,7 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.objectweb.asm.Label;
 
-public class MethodCodeASMLogicTest extends TestBase {
+import cc1sj.tinyasm.util.TinyAsmTestUtils;
+
+public class MethodCodeASMLogicTest  {
 
 	@Before
 	public void setUp() throws Exception {
@@ -644,8 +646,8 @@ public class MethodCodeASMLogicTest extends TestBase {
 
 		// @formatter:on
 
-		String codeActual = toString(cw.end().toByteArray());
-		String codeExpected = toString(clazz);
+		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
 

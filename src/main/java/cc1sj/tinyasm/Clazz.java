@@ -24,7 +24,7 @@ public interface Clazz {
 	}
 
 	static Clazz of(Class<?> classname) {
-		return new ClazzType(classname);
+		return classname!=null?new ClazzType(classname):null;
 	}
 
 	static Clazz of(Class<?> classname, boolean isarray) {

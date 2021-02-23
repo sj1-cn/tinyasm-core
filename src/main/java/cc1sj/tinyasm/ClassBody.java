@@ -4,6 +4,7 @@ import static cc1sj.tinyasm.TypeUtils.stringInnerUserType;
 
 import java.util.List;
 
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 
 public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineField<ClassBody>, WithMakeStaticMethod, WithMakeInstanceMethod {
@@ -11,6 +12,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	ClassBuilder end();
 
 	<T extends Field> List<T> getFields();
+	
+	ClassVisitor getClassWriter();
 
 	String getSuperClass();
 

@@ -1,6 +1,6 @@
 package cc1sj.tinyasm;
 
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
+import static org.objectweb.asm.Opcodes.*;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public interface WithDefineStaticField<T> {
 	}
 
 	default T staticField(String name, Clazz clazz) {
-		return staticField(ACC_PRIVATE, name, clazz);
+		return staticField(ACC_PUBLIC, name, clazz);
 	}
 
 	T staticField(int access, String name, Clazz clazz);

@@ -1,11 +1,10 @@
 package cc1sj.tinyasm.util;
-import org.objectweb.asm.Label;
+import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.ACC_SUPER;
+
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
-import cc1sj.tinyasm.MethodCode;
-import org.objectweb.asm.Type;
-import static org.objectweb.asm.Opcodes.*;
-import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class SimpleSampleTinyAsmDump {

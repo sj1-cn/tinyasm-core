@@ -6,7 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class EnumBuilderSampleTest extends TestBase {
+import cc1sj.tinyasm.util.TinyAsmTestUtils;
+
+public class EnumBuilderSampleTest  {
 
 	@Before
 	public void setUp() throws Exception {
@@ -22,8 +24,8 @@ public class EnumBuilderSampleTest extends TestBase {
 		byte[] code = EnumBuilder.dump("com.nebula.dropwizard.core.Status", "STARTED", "FAILED", "COMPLETED");
 		byte[] codeExpected = EnumBuilderSampleDump.dump();
 
-		String strCodeExpected = toString(codeExpected);
-		String strCode = toString(code);
+		String strCodeExpected = TinyAsmTestUtils.toString(codeExpected);
+		String strCode = TinyAsmTestUtils.toString(code);
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 
