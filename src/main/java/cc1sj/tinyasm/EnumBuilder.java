@@ -20,7 +20,7 @@ public class EnumBuilder implements Opcodes {
 		}
 		cb.staticField(ACC_PRIVATE + ACC_FINAL + ACC_STATIC + ACC_SYNTHETIC, "ENUM$VALUES", Clazz.of(className, true));
 
-		cb.staticMethod("<clinit>").code(mc -> {
+		cb.staticMethod(ACC_STATIC,"<clinit>").code(mc -> {
 			{
 				mc.LINE(4);
 

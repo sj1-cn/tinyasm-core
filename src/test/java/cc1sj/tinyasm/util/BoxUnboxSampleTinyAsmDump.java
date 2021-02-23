@@ -1,9 +1,12 @@
 package cc1sj.tinyasm.util;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
+import org.objectweb.asm.Label;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
+import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class BoxUnboxSampleTinyAsmDump {
 
@@ -11,14 +14,14 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.util.BoxUnboxSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
+classWriter.method("<init>").code(code -> {
 
 	code.LINE(3);
 	code.LOAD("this");
 	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, "funcLong")
+classWriter.method("funcLong")
 	.parameter("l",java.lang.Long.class).code(code -> {
 
 	code.LINE(5);
@@ -39,7 +42,7 @@ classWriter.method(ACC_PUBLIC, "funcLong")
 	code.LINE(7);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, "funclong")
+classWriter.method("funclong")
 	.parameter("l",long.class).code(code -> {
 
 	code.LINE(10);
@@ -60,7 +63,7 @@ classWriter.method(ACC_PUBLIC, "funclong")
 	code.LINE(12);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, "init").code(code -> {
+classWriter.method("init").code(code -> {
 
 	code.LINE(15);
 	code.LOADConst(Long.valueOf(10L));

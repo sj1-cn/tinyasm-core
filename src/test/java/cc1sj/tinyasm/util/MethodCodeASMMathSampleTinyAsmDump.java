@@ -1,9 +1,11 @@
 package cc1sj.tinyasm.util;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
+import org.objectweb.asm.Label;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class MethodCodeASMMathSampleTinyAsmDump {
@@ -41,7 +43,7 @@ classWriter.field(0, "in1", Clazz.of(int.class));
 classWriter.field(0, "ln1", Clazz.of(long.class));
 classWriter.field(0, "fn1", Clazz.of(float.class));
 classWriter.field(0, "dn1", Clazz.of(double.class));
-classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
+classWriter.method("<init>").code(code -> {
 
 	code.LINE(3);
 	code.LOAD("this");
@@ -193,7 +195,7 @@ classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 	code.PUTFIELD("dn1", double.class);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt")
+classWriter.method(int.class, "addInt")
 	.parameter("x",int.class)
 	.parameter("y",int.class).code(code -> {
 
@@ -331,7 +333,7 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt")
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, byte.class, "addByte")
+classWriter.method(byte.class, "addByte")
 	.parameter("x",byte.class)
 	.parameter("y",byte.class).code(code -> {
 
@@ -432,7 +434,7 @@ classWriter.method(ACC_PUBLIC, byte.class, "addByte")
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, short.class, "addShort")
+classWriter.method(short.class, "addShort")
 	.parameter("x",short.class)
 	.parameter("y",short.class).code(code -> {
 
@@ -533,7 +535,7 @@ classWriter.method(ACC_PUBLIC, short.class, "addShort")
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, long.class, "addLong")
+classWriter.method(long.class, "addLong")
 	.parameter("x",long.class)
 	.parameter("y",long.class).code(code -> {
 
@@ -625,7 +627,7 @@ classWriter.method(ACC_PUBLIC, long.class, "addLong")
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, char.class, "mathChar")
+classWriter.method(char.class, "mathChar")
 	.parameter("x",char.class)
 	.parameter("y",char.class).code(code -> {
 
@@ -726,7 +728,7 @@ classWriter.method(ACC_PUBLIC, char.class, "mathChar")
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, float.class, "mathFloat")
+classWriter.method(float.class, "mathFloat")
 	.parameter("x",float.class)
 	.parameter("y",float.class).code(code -> {
 
@@ -799,7 +801,7 @@ classWriter.method(ACC_PUBLIC, float.class, "mathFloat")
 	code.LOAD("z");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, double.class, "mathDouble")
+classWriter.method(double.class, "mathDouble")
 	.parameter("x",double.class)
 	.parameter("y",double.class).code(code -> {
 

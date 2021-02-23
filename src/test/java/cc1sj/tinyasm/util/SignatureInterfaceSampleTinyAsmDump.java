@@ -1,10 +1,11 @@
 package cc1sj.tinyasm.util;
-import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
-import static org.objectweb.asm.Opcodes.ACC_INTERFACE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-
+import org.objectweb.asm.Label;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class SignatureInterfaceSampleTinyAsmDump {

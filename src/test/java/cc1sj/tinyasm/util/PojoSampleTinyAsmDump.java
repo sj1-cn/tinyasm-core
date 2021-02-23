@@ -1,10 +1,11 @@
 package cc1sj.tinyasm.util;
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
+import org.objectweb.asm.Label;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class PojoSampleTinyAsmDump {
@@ -13,12 +14,12 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.util.PojoSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.field(ACC_PRIVATE, "i1", Clazz.of(int.class));
-classWriter.field(ACC_PRIVATE, "i2", Clazz.of(int.class));
-classWriter.field(ACC_PRIVATE, "i3", Clazz.of(int.class));
-classWriter.field(ACC_PRIVATE, "i4", Clazz.of(int.class));
-classWriter.field(ACC_PRIVATE, "str", Clazz.of(java.lang.String.class));
-classWriter.method(ACC_PUBLIC, "<init>")
+classWriter.field("i1", Clazz.of(int.class));
+classWriter.field("i2", Clazz.of(int.class));
+classWriter.field("i3", Clazz.of(int.class));
+classWriter.field("i4", Clazz.of(int.class));
+classWriter.field("str", Clazz.of(java.lang.String.class));
+classWriter.method("<init>")
 	.parameter("i1",int.class)
 	.parameter("i2",int.class)
 	.parameter("i3",int.class)
@@ -57,14 +58,14 @@ classWriter.method(ACC_PUBLIC, "<init>")
 	code.LINE(16);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, int.class, "getI1").code(code -> {
+classWriter.method(int.class, "getI1").code(code -> {
 
 	code.LINE(18);
 	code.LOAD("this");
 	code.GETFIELD("i1", int.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, "setI1")
+classWriter.method("setI1")
 	.parameter("i1",int.class).code(code -> {
 
 	code.LINE(21);
@@ -75,14 +76,14 @@ classWriter.method(ACC_PUBLIC, "setI1")
 	code.LINE(22);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, int.class, "getI2").code(code -> {
+classWriter.method(int.class, "getI2").code(code -> {
 
 	code.LINE(24);
 	code.LOAD("this");
 	code.GETFIELD("i2", int.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, "setI2")
+classWriter.method("setI2")
 	.parameter("i2",int.class).code(code -> {
 
 	code.LINE(27);
@@ -93,14 +94,14 @@ classWriter.method(ACC_PUBLIC, "setI2")
 	code.LINE(28);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, int.class, "getI3").code(code -> {
+classWriter.method(int.class, "getI3").code(code -> {
 
 	code.LINE(30);
 	code.LOAD("this");
 	code.GETFIELD("i3", int.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, "setI3")
+classWriter.method("setI3")
 	.parameter("i3",int.class).code(code -> {
 
 	code.LINE(33);
@@ -111,14 +112,14 @@ classWriter.method(ACC_PUBLIC, "setI3")
 	code.LINE(34);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, int.class, "getI4").code(code -> {
+classWriter.method(int.class, "getI4").code(code -> {
 
 	code.LINE(36);
 	code.LOAD("this");
 	code.GETFIELD("i4", int.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, "setI4")
+classWriter.method("setI4")
 	.parameter("i4",int.class).code(code -> {
 
 	code.LINE(39);
@@ -129,14 +130,14 @@ classWriter.method(ACC_PUBLIC, "setI4")
 	code.LINE(40);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, java.lang.String.class, "getStr").code(code -> {
+classWriter.method(java.lang.String.class, "getStr").code(code -> {
 
 	code.LINE(42);
 	code.LOAD("this");
 	code.GETFIELD("str", java.lang.String.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, "setStr")
+classWriter.method("setStr")
 	.parameter("str",java.lang.String.class).code(code -> {
 
 	code.LINE(45);
@@ -147,7 +148,7 @@ classWriter.method(ACC_PUBLIC, "setStr")
 	code.LINE(46);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, java.lang.String.class, "toString").code(code -> {
+classWriter.method(java.lang.String.class, "toString").code(code -> {
 
 	code.LINE(49);
 	code.NEW(java.lang.StringBuilder.class);

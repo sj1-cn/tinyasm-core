@@ -44,7 +44,7 @@ public interface WithMakeStaticMethod {
 	}
 
 	default MethodHeader staticMethod(Class<?> returnClass, String name) {
-		return staticMethod(ACC_STATIC, Clazz.of(returnClass), name);
+		return staticMethod(ACC_STATIC | ACC_PUBLIC, Clazz.of(returnClass), name);
 	}
 
 	default MethodHeader staticMethod(int access, Class<?> returnClass, String name) {
@@ -56,11 +56,11 @@ public interface WithMakeStaticMethod {
 	MethodHeader staticMethod(int access, Clazz returnType, String name);
 
 	default MethodHeader staticMethod(String returnType, String name) {
-		return staticMethod(ACC_STATIC, Clazz.of(returnType), name);
+		return staticMethod(ACC_STATIC| ACC_PUBLIC, Clazz.of(returnType), name);
 	}
 
 	default MethodHeader staticMethod(String name) {
-		return staticMethod(ACC_STATIC, name);
+		return staticMethod(ACC_STATIC| ACC_PUBLIC, name);
 	}
 
 }

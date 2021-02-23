@@ -1,10 +1,11 @@
 package cc1sj.tinyasm.sample.ClassBody;
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
+import org.objectweb.asm.Label;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class MakeReadOnlyPojoTinyAsmDump {
@@ -13,15 +14,15 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.sample.ClassBody.MakeReadOnlyPojo").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.field(ACC_PRIVATE, "b", Clazz.of(byte.class));
-classWriter.field(ACC_PRIVATE, "c", Clazz.of(char.class));
-classWriter.field(ACC_PRIVATE, "s", Clazz.of(short.class));
-classWriter.field(ACC_PRIVATE, "i", Clazz.of(int.class));
-classWriter.field(ACC_PRIVATE, "l", Clazz.of(long.class));
-classWriter.field(ACC_PRIVATE, "f", Clazz.of(float.class));
-classWriter.field(ACC_PRIVATE, "d", Clazz.of(double.class));
-classWriter.field(ACC_PRIVATE, "str", Clazz.of(java.lang.String.class));
-classWriter.method(ACC_PUBLIC, "<init>")
+classWriter.field("b", Clazz.of(byte.class));
+classWriter.field("c", Clazz.of(char.class));
+classWriter.field("s", Clazz.of(short.class));
+classWriter.field("i", Clazz.of(int.class));
+classWriter.field("l", Clazz.of(long.class));
+classWriter.field("f", Clazz.of(float.class));
+classWriter.field("d", Clazz.of(double.class));
+classWriter.field("str", Clazz.of(java.lang.String.class));
+classWriter.method("<init>")
 	.parameter("b",byte.class)
 	.parameter("c",char.class)
 	.parameter("s",short.class)
@@ -78,63 +79,63 @@ classWriter.method(ACC_PUBLIC, "<init>")
 	code.LINE(22);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, byte.class, "getB").code(code -> {
+classWriter.method(byte.class, "getB").code(code -> {
 
 	code.LINE(25);
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, char.class, "getC").code(code -> {
+classWriter.method(char.class, "getC").code(code -> {
 
 	code.LINE(29);
 	code.LOAD("this");
 	code.GETFIELD("c", char.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, short.class, "getS").code(code -> {
+classWriter.method(short.class, "getS").code(code -> {
 
 	code.LINE(33);
 	code.LOAD("this");
 	code.GETFIELD("s", short.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "getI").code(code -> {
+classWriter.method(int.class, "getI").code(code -> {
 
 	code.LINE(37);
 	code.LOAD("this");
 	code.GETFIELD("i", int.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, long.class, "getL").code(code -> {
+classWriter.method(long.class, "getL").code(code -> {
 
 	code.LINE(41);
 	code.LOAD("this");
 	code.GETFIELD("l", long.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, float.class, "getF").code(code -> {
+classWriter.method(float.class, "getF").code(code -> {
 
 	code.LINE(45);
 	code.LOAD("this");
 	code.GETFIELD("f", float.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, double.class, "getD").code(code -> {
+classWriter.method(double.class, "getD").code(code -> {
 
 	code.LINE(49);
 	code.LOAD("this");
 	code.GETFIELD("d", double.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, java.lang.String.class, "getStr").code(code -> {
+classWriter.method(java.lang.String.class, "getStr").code(code -> {
 
 	code.LINE(53);
 	code.LOAD("this");
 	code.GETFIELD("str", java.lang.String.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, java.lang.String.class, "toString").code(code -> {
+classWriter.method(java.lang.String.class, "toString").code(code -> {
 
 	code.LINE(58);
 	code.NEW(java.lang.StringBuilder.class);

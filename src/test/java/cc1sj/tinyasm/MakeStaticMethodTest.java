@@ -253,7 +253,7 @@ public class MakeStaticMethodTest  {
 
 		cw.constructerEmpty();
 
-		cw.staticMethod(Opcodes.ACC_STATIC, "staticMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.staticMethod("staticMethod").reTurn(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -277,7 +277,7 @@ public class MakeStaticMethodTest  {
 			mv.RETURNTop();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC, "staticMethodVoid").code(mv -> {
+		cw.staticMethod("staticMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
@@ -310,7 +310,7 @@ public class MakeStaticMethodTest  {
 
 		cw.constructerEmpty();
 
-		cw.staticMethod(Opcodes.ACC_STATIC, String.class, "staticMethod").code(mv -> {
+		cw.staticMethod(String.class, "staticMethod").code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -334,7 +334,7 @@ public class MakeStaticMethodTest  {
 			mv.RETURNTop();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC, "staticMethodVoid").code(mv -> {
+		cw.staticMethod("staticMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
@@ -367,7 +367,7 @@ public class MakeStaticMethodTest  {
 
 		cw.constructerEmpty();
 
-		cw.staticMethod(Opcodes.ACC_STATIC, String.class, "staticMethod").code(mv -> {
+		cw.staticMethod(String.class, "staticMethod").code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -391,7 +391,7 @@ public class MakeStaticMethodTest  {
 			mv.RETURNTop();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC, "staticMethodVoid").code(mv -> {
+		cw.staticMethod("staticMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});

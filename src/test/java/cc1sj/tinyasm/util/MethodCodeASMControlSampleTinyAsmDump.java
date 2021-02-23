@@ -1,11 +1,11 @@
 package cc1sj.tinyasm.util;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
 import org.objectweb.asm.Label;
-
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class MethodCodeASMControlSampleTinyAsmDump {
@@ -15,7 +15,7 @@ public static byte[] dump () throws Exception {
 ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.util.MethodCodeASMControlSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
 classWriter.field(0, "b", Clazz.of(byte.class));
-classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
+classWriter.method("<init>").code(code -> {
 
 	code.LINE(3);
 	code.LOAD("this");
@@ -27,7 +27,7 @@ classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 	code.PUTFIELD("b", byte.class);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt")
+classWriter.method(int.class, "addInt")
 	.parameter("x",long.class)
 	.parameter("y",long.class).code(code -> {
 
@@ -120,7 +120,7 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt")
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt")
+classWriter.method(int.class, "addInt")
 	.parameter("x",float.class)
 	.parameter("y",float.class).code(code -> {
 
@@ -213,7 +213,7 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt")
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt")
+classWriter.method(int.class, "addInt")
 	.parameter("x",double.class)
 	.parameter("y",double.class).code(code -> {
 
@@ -306,7 +306,7 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt")
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt")
+classWriter.method(int.class, "addInt")
 	.parameter("x",int.class)
 	.parameter("y",int.class).code(code -> {
 
@@ -393,7 +393,7 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt")
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt")
+classWriter.method(int.class, "addInt")
 	.parameter("x",int.class).code(code -> {
 
 	code.LINE(95);
@@ -473,7 +473,7 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt")
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "addInt")
+classWriter.method(int.class, "addInt")
 	.parameter("x",java.lang.String.class)
 	.parameter("y",java.lang.String.class).code(code -> {
 
@@ -508,7 +508,7 @@ classWriter.method(ACC_PUBLIC, int.class, "addInt")
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "add_instance")
+classWriter.method(int.class, "add_instance")
 	.parameter("x",java.lang.String.class)
 	.parameter("y",java.lang.String.class).code(code -> {
 
@@ -530,7 +530,7 @@ classWriter.method(ACC_PUBLIC, int.class, "add_instance")
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, byte.class, "addByte")
+classWriter.method(byte.class, "addByte")
 	.parameter("o",java.lang.Object.class).code(code -> {
 
 	code.LINE(134);

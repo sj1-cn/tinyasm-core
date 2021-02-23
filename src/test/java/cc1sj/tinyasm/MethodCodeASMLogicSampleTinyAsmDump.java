@@ -1,8 +1,12 @@
 package cc1sj.tinyasm;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
 import org.objectweb.asm.Label;
+import cc1sj.tinyasm.ClassBody;
+import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
+import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class MethodCodeASMLogicSampleTinyAsmDump {
 
@@ -10,14 +14,14 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.MethodCodeASMLogicSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
+classWriter.method("<init>").code(code -> {
 
 	code.LINE(3);
 	code.LOAD("this");
 	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "eq")
+classWriter.method(boolean.class, "eq")
 	.parameter("x",byte.class)
 	.parameter("y",byte.class).code(code -> {
 
@@ -36,7 +40,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "eq")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ne")
+classWriter.method(boolean.class, "ne")
 	.parameter("x",byte.class)
 	.parameter("y",byte.class).code(code -> {
 
@@ -55,7 +59,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ne")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ge")
+classWriter.method(boolean.class, "ge")
 	.parameter("x",byte.class)
 	.parameter("y",byte.class).code(code -> {
 
@@ -74,7 +78,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ge")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "le")
+classWriter.method(boolean.class, "le")
 	.parameter("x",byte.class)
 	.parameter("y",byte.class).code(code -> {
 
@@ -93,7 +97,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "le")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "gt")
+classWriter.method(boolean.class, "gt")
 	.parameter("x",byte.class)
 	.parameter("y",byte.class).code(code -> {
 
@@ -112,7 +116,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "gt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "lt")
+classWriter.method(boolean.class, "lt")
 	.parameter("x",byte.class)
 	.parameter("y",byte.class).code(code -> {
 
@@ -131,7 +135,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "lt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "eq")
+classWriter.method(boolean.class, "eq")
 	.parameter("x",char.class)
 	.parameter("y",char.class).code(code -> {
 
@@ -150,7 +154,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "eq")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ne")
+classWriter.method(boolean.class, "ne")
 	.parameter("x",char.class)
 	.parameter("y",char.class).code(code -> {
 
@@ -169,7 +173,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ne")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ge")
+classWriter.method(boolean.class, "ge")
 	.parameter("x",char.class)
 	.parameter("y",char.class).code(code -> {
 
@@ -188,7 +192,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ge")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "le")
+classWriter.method(boolean.class, "le")
 	.parameter("x",char.class)
 	.parameter("y",char.class).code(code -> {
 
@@ -207,7 +211,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "le")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "gt")
+classWriter.method(boolean.class, "gt")
 	.parameter("x",char.class)
 	.parameter("y",char.class).code(code -> {
 
@@ -226,7 +230,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "gt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "lt")
+classWriter.method(boolean.class, "lt")
 	.parameter("x",char.class)
 	.parameter("y",char.class).code(code -> {
 
@@ -245,7 +249,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "lt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "eq")
+classWriter.method(boolean.class, "eq")
 	.parameter("x",short.class)
 	.parameter("y",short.class).code(code -> {
 
@@ -264,7 +268,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "eq")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ne")
+classWriter.method(boolean.class, "ne")
 	.parameter("x",short.class)
 	.parameter("y",short.class).code(code -> {
 
@@ -283,7 +287,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ne")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ge")
+classWriter.method(boolean.class, "ge")
 	.parameter("x",short.class)
 	.parameter("y",short.class).code(code -> {
 
@@ -302,7 +306,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ge")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "le")
+classWriter.method(boolean.class, "le")
 	.parameter("x",short.class)
 	.parameter("y",short.class).code(code -> {
 
@@ -321,7 +325,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "le")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "gt")
+classWriter.method(boolean.class, "gt")
 	.parameter("x",short.class)
 	.parameter("y",short.class).code(code -> {
 
@@ -340,7 +344,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "gt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "lt")
+classWriter.method(boolean.class, "lt")
 	.parameter("x",short.class)
 	.parameter("y",short.class).code(code -> {
 
@@ -359,7 +363,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "lt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "eq")
+classWriter.method(boolean.class, "eq")
 	.parameter("x",int.class)
 	.parameter("y",int.class).code(code -> {
 
@@ -378,7 +382,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "eq")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ne")
+classWriter.method(boolean.class, "ne")
 	.parameter("x",int.class)
 	.parameter("y",int.class).code(code -> {
 
@@ -397,7 +401,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ne")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ge")
+classWriter.method(boolean.class, "ge")
 	.parameter("x",int.class)
 	.parameter("y",int.class).code(code -> {
 
@@ -416,7 +420,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ge")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "le")
+classWriter.method(boolean.class, "le")
 	.parameter("x",int.class)
 	.parameter("y",int.class).code(code -> {
 
@@ -435,7 +439,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "le")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "gt")
+classWriter.method(boolean.class, "gt")
 	.parameter("x",int.class)
 	.parameter("y",int.class).code(code -> {
 
@@ -454,7 +458,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "gt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "lt")
+classWriter.method(boolean.class, "lt")
 	.parameter("x",int.class)
 	.parameter("y",int.class).code(code -> {
 
@@ -473,7 +477,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "lt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "eq")
+classWriter.method(boolean.class, "eq")
 	.parameter("x",long.class)
 	.parameter("y",long.class).code(code -> {
 
@@ -493,7 +497,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "eq")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ne")
+classWriter.method(boolean.class, "ne")
 	.parameter("x",long.class)
 	.parameter("y",long.class).code(code -> {
 
@@ -513,7 +517,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ne")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ge")
+classWriter.method(boolean.class, "ge")
 	.parameter("x",long.class)
 	.parameter("y",long.class).code(code -> {
 
@@ -533,7 +537,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ge")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "le")
+classWriter.method(boolean.class, "le")
 	.parameter("x",long.class)
 	.parameter("y",long.class).code(code -> {
 
@@ -553,7 +557,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "le")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "gt")
+classWriter.method(boolean.class, "gt")
 	.parameter("x",long.class)
 	.parameter("y",long.class).code(code -> {
 
@@ -573,7 +577,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "gt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "lt")
+classWriter.method(boolean.class, "lt")
 	.parameter("x",long.class)
 	.parameter("y",long.class).code(code -> {
 
@@ -593,7 +597,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "lt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "eq")
+classWriter.method(boolean.class, "eq")
 	.parameter("x",float.class)
 	.parameter("y",float.class).code(code -> {
 
@@ -613,7 +617,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "eq")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ne")
+classWriter.method(boolean.class, "ne")
 	.parameter("x",float.class)
 	.parameter("y",float.class).code(code -> {
 
@@ -633,7 +637,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ne")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ge")
+classWriter.method(boolean.class, "ge")
 	.parameter("x",float.class)
 	.parameter("y",float.class).code(code -> {
 
@@ -653,7 +657,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ge")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "le")
+classWriter.method(boolean.class, "le")
 	.parameter("x",float.class)
 	.parameter("y",float.class).code(code -> {
 
@@ -673,7 +677,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "le")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "gt")
+classWriter.method(boolean.class, "gt")
 	.parameter("x",float.class)
 	.parameter("y",float.class).code(code -> {
 
@@ -693,7 +697,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "gt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "lt")
+classWriter.method(boolean.class, "lt")
 	.parameter("x",float.class)
 	.parameter("y",float.class).code(code -> {
 
@@ -713,7 +717,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "lt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "eq")
+classWriter.method(boolean.class, "eq")
 	.parameter("x",double.class)
 	.parameter("y",double.class).code(code -> {
 
@@ -733,7 +737,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "eq")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ne")
+classWriter.method(boolean.class, "ne")
 	.parameter("x",double.class)
 	.parameter("y",double.class).code(code -> {
 
@@ -753,7 +757,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ne")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "ge")
+classWriter.method(boolean.class, "ge")
 	.parameter("x",double.class)
 	.parameter("y",double.class).code(code -> {
 
@@ -773,7 +777,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "ge")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "le")
+classWriter.method(boolean.class, "le")
 	.parameter("x",double.class)
 	.parameter("y",double.class).code(code -> {
 
@@ -793,7 +797,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "le")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "gt")
+classWriter.method(boolean.class, "gt")
 	.parameter("x",double.class)
 	.parameter("y",double.class).code(code -> {
 
@@ -813,7 +817,7 @@ classWriter.method(ACC_PUBLIC, boolean.class, "gt")
 	code.visitLabel(label1OfGOTO);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, boolean.class, "lt")
+classWriter.method(boolean.class, "lt")
 	.parameter("x",double.class)
 	.parameter("y",double.class).code(code -> {
 

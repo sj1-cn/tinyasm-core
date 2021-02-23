@@ -1,10 +1,11 @@
 package cc1sj.tinyasm.util;
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
+import org.objectweb.asm.Label;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class MethodASMArraySampleTinyAsmDump {
@@ -13,22 +14,22 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.util.MethodASMArraySample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.field(ACC_PRIVATE, "ba", Clazz.of(byte[].class));
-classWriter.field(ACC_PRIVATE, "ca", Clazz.of(char[].class));
-classWriter.field(ACC_PRIVATE, "sa", Clazz.of(short[].class));
-classWriter.field(ACC_PRIVATE, "ia", Clazz.of(int[].class));
-classWriter.field(ACC_PRIVATE, "la", Clazz.of(long[].class));
-classWriter.field(ACC_PRIVATE, "fa", Clazz.of(float[].class));
-classWriter.field(ACC_PRIVATE, "da", Clazz.of(double[].class));
-classWriter.field(ACC_PRIVATE, "stra", Clazz.of(java.lang.String[].class));
-classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
+classWriter.field("ba", Clazz.of(byte[].class));
+classWriter.field("ca", Clazz.of(char[].class));
+classWriter.field("sa", Clazz.of(short[].class));
+classWriter.field("ia", Clazz.of(int[].class));
+classWriter.field("la", Clazz.of(long[].class));
+classWriter.field("fa", Clazz.of(float[].class));
+classWriter.field("da", Clazz.of(double[].class));
+classWriter.field("stra", Clazz.of(java.lang.String[].class));
+classWriter.method("<init>").code(code -> {
 
 	code.LINE(3);
 	code.LOAD("this");
 	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, "init").code(code -> {
+classWriter.method("init").code(code -> {
 
 	code.LINE(14);
 	code.LOAD("this");
@@ -81,7 +82,7 @@ classWriter.method(ACC_PUBLIC, "init").code(code -> {
 	code.LINE(22);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, "setArrayValue").code(code -> {
+classWriter.method("setArrayValue").code(code -> {
 
 	code.LINE(25);
 	code.LOAD("this");
@@ -142,7 +143,7 @@ classWriter.method(ACC_PUBLIC, "setArrayValue").code(code -> {
 	code.LINE(33);
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, "getArrayValue").code(code -> {
+classWriter.method("getArrayValue").code(code -> {
 
 	code.LINE(36);
 	code.LOAD("this");

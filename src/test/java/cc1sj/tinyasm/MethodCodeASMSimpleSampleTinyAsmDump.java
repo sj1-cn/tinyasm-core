@@ -1,7 +1,12 @@
 package cc1sj.tinyasm;
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
+import org.objectweb.asm.Label;
+import cc1sj.tinyasm.ClassBody;
+import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
+import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class MethodCodeASMSimpleSampleTinyAsmDump {
 
@@ -9,22 +14,22 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.MethodCodeASMSimpleSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.field(ACC_PRIVATE, "b", Clazz.of(byte.class));
-classWriter.field(ACC_PRIVATE, "c", Clazz.of(char.class));
-classWriter.field(ACC_PRIVATE, "s", Clazz.of(short.class));
-classWriter.field(ACC_PRIVATE, "i", Clazz.of(int.class));
-classWriter.field(ACC_PRIVATE, "l", Clazz.of(long.class));
-classWriter.field(ACC_PRIVATE, "f", Clazz.of(float.class));
-classWriter.field(ACC_PRIVATE, "d", Clazz.of(double.class));
-classWriter.field(ACC_PRIVATE, "str", Clazz.of(java.lang.String.class));
-classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
+classWriter.field("b", Clazz.of(byte.class));
+classWriter.field("c", Clazz.of(char.class));
+classWriter.field("s", Clazz.of(short.class));
+classWriter.field("i", Clazz.of(int.class));
+classWriter.field("l", Clazz.of(long.class));
+classWriter.field("f", Clazz.of(float.class));
+classWriter.field("d", Clazz.of(double.class));
+classWriter.field("str", Clazz.of(java.lang.String.class));
+classWriter.method("<init>").code(code -> {
 
 	code.LINE(3);
 	code.LOAD("this");
 	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
 	code.RETURN();
 });
-classWriter.method(ACC_PUBLIC, int.class, "getField").code(code -> {
+classWriter.method(int.class, "getField").code(code -> {
 
 	code.LINE(15);
 	code.LOAD("this");
@@ -38,7 +43,7 @@ classWriter.method(ACC_PUBLIC, int.class, "getField").code(code -> {
 	code.LOAD("x");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "getFieldAll").code(code -> {
+classWriter.method(int.class, "getFieldAll").code(code -> {
 
 	code.LINE(20);
 	code.LOAD("this");
@@ -71,7 +76,7 @@ classWriter.method(ACC_PUBLIC, int.class, "getFieldAll").code(code -> {
 	code.LOAD("x");
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "getFieldConst").code(code -> {
+classWriter.method(int.class, "getFieldConst").code(code -> {
 
 	code.LINE(25);
 	code.LOAD("this");
@@ -140,7 +145,7 @@ classWriter.method(ACC_PUBLIC, int.class, "getFieldConst").code(code -> {
 	code.CONVERTTO(int.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, int.class, "getFieldIConst").code(code -> {
+classWriter.method(int.class, "getFieldIConst").code(code -> {
 
 	code.LINE(37);
 	code.LOAD("this");
@@ -212,7 +217,7 @@ classWriter.method(ACC_PUBLIC, int.class, "getFieldIConst").code(code -> {
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
 });
-classWriter.method(ACC_PUBLIC, byte.class, "retByte").code(code -> {
+classWriter.method(byte.class, "retByte").code(code -> {
 
 	code.LINE(54);
 	code.LOADConst(1);
