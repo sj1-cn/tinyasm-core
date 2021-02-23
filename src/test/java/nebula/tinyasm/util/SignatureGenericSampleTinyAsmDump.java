@@ -14,7 +14,6 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.util.SignatureGenericSample", Clazz.of(java.util.HashMap.class,Clazz.typeVariableOf("S"),Clazz.typeVariableOf("D")),Clazz.of(java.io.Serializable.class)).formalTypeParameter("S",Clazz.of(java.lang.Object.class)).formalTypeParameter("D",Clazz.of(java.lang.Object.class)).access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.staticField(ACC_PRIVATE | ACC_FINAL | ACC_STATIC, "serialVersionUID", Clazz.of(long.class));
 classWriter.field(0, "mapStrngStringArray",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String[].class)));
 classWriter.field(0, "mapStrngString",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class)));
 classWriter.field(0, "hashMapStringMapStringStringArray",Clazz.of(java.util.HashMap.class,Clazz.of(java.lang.String.class),Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String[].class))));

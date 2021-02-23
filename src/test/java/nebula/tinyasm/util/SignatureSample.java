@@ -11,7 +11,7 @@ public class SignatureSample extends HashMap<String, Map<String, String[]>> impl
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1L;
 	Map<String, String[]> mapStrngStringArray;
 	Map<String, String> mapStrngString;
 	HashMap<String, Map<String, String[]>> hashMapStringMapStringStringArray;
