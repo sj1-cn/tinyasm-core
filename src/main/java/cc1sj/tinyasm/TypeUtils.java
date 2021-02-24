@@ -296,9 +296,9 @@ class TypeUtils {
 
 	static Type checkMathTypes(Type right, Type left) {
 		assert in(right, Type.BOOLEAN_TYPE, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
-				: "right value type";
+				: "right type "+right.getClassName()+" is not basic type";
 		assert in(left, Type.BOOLEAN_TYPE, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE, Type.LONG_TYPE, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
-				: "left value type";
+				: "left type "+left.getClassName()+" is not basic type";
 		right = mathInnerUserType(right);
 		left = mathInnerUserType(left);
 		assert left == right : "left type should equal right type";
