@@ -7,7 +7,7 @@ import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
 import org.objectweb.asm.Type;
 
-import static cc1sj.tinyasm.hero.HeroBuilder.*;
+import static cc1sj.tinyasm.TinyAsmBuilder.*;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;

@@ -1,4 +1,4 @@
-package cc1sj.tinyasm.hero;
+package cc1sj.tinyasm;
 
 import java.lang.reflect.Modifier;
 import java.util.Stack;
@@ -6,15 +6,13 @@ import java.util.Stack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cc1sj.tinyasm.MethodCode;
-
-public class HeroBuilder {
+public class TinyAsmBuilder {
 //	<T> T ctor(Class<T> clz) {
 //		return null;
 //	}
 
-	public static String __TOP__ = "__TOP__";
-	public static String __THIS__ = "__THIS__";
+	static String __TOP__ = "__TOP__";
+	static String __THIS__ = "__THIS__";
 
 //	static public Stack<Consumer<MethodCode>> codes = new Stack<Consumer<MethodCode>>();
 //	static public Map<String, Consumer<MethodCode>> codeBlocks = new HashMap<>();
@@ -22,32 +20,40 @@ public class HeroBuilder {
 	static private MethodCode _code;
 //	static public Context context = new Context(code);
 
-	public static int MAGIC_VALUE = 3412;
-	public static final String MAGICSTRING = "#MAGIC#";
-	public static final byte MAGIC_byte = 107;
-	public static final char MAGIC_char = '%';
-	public static final short MAGIC_short = Short.MAX_VALUE - 107;
-	public static final int MAGIC_int = Integer.MAX_VALUE - 107;
-	public static final long MAGIC_long = Long.MAX_VALUE - 107;
-	public static final float MAGIC_float = Float.MAX_VALUE - 107;
-	public static final double MAGIC_double = Double.MAX_VALUE - 107;
-	public static int locals = 0;
-	static private Stack<MethodCode> codes = new Stack<MethodCode>();
+	static private final String MAGICSTRING = "#MAGIC#";
+	static private final byte MAGIC_byte = 37;
+	static private final char MAGIC_char = '%';
+	static private final short MAGIC_short = Short.MAX_VALUE - 107;
+	static private final int MAGIC_int = Integer.MAX_VALUE - 107;
+	static private final long MAGIC_long = Long.MAX_VALUE - 107;
+	static private final float MAGIC_float = Float.MAX_VALUE - 107;
+	static private final double MAGIC_double = Double.MAX_VALUE - 107;
 
-	static Logger logger = LoggerFactory.getLogger(HeroBuilder.class);
+	// Need Change to ThreadLocal
+	static int _locals = 0;
+	static Stack<MethodCode> codes = new Stack<MethodCode>();
+	static Stack<Integer> localsStack = new Stack<Integer>();
 
-	static public void enterCode1(MethodCode code) {
-		logger.debug("current code {} enter {} {}", _code,code,codes.size());
-		locals = 0;
-		codes.push(code);
-		HeroBuilder._code = code;
+	static Logger logger = LoggerFactory.getLogger(TinyAsmBuilder.class);
+
+	static void enterCode(MethodCode code) {
+		logger.trace("current code {} enter {} {}", _code, code, codes.size());
+		if (TinyAsmBuilder._code != null) {
+			codes.push(_code);
+			localsStack.push(_locals);
+		}
+//		codes.push(code);
+		TinyAsmBuilder._code = code;
+		TinyAsmBuilder._locals = 0;
 	}
 
-	static public void exitCode1() {
-		locals = 0;
-		MethodCode code = codes.pop();
-		HeroBuilder._code = codes.size() > 0 ? codes.peek() : null;
-		logger.debug("exit to {} from {} {}",_code, code,codes.size());
+	static void exitCode() {
+		MethodCode code = _code;
+		if (codes.size() > 0) {
+			TinyAsmBuilder._code = codes.pop();
+			TinyAsmBuilder._locals = localsStack.pop();
+		}
+		logger.trace("exit to {} from {} {}", _code, code, codes.size());
 	}
 
 	static public int cst(int i) {
@@ -93,8 +99,8 @@ public class HeroBuilder {
 	static final private TinyAsmProxyObjenesisBuilder brokerBuilder = new TinyAsmProxyObjenesisBuilder();
 
 	static public <T> T ctor(Class<T> helloclass) {
-		locals++;
-		String key = String.valueOf(MAGICSTRING + locals);
+		_locals++;
+		String key = String.valueOf(MAGICSTRING + _locals);
 		_code.LINE();
 		_code.NEW(helloclass);
 		_code.DUP();
@@ -113,61 +119,61 @@ public class HeroBuilder {
 	@SuppressWarnings("unchecked")
 	public static <T> T refer(MethodCode code, Class<T> t) {
 
-		locals++;
-		String strKey = String.valueOf(MAGICSTRING + locals);
+		_locals++;
+		String strKey = String.valueOf(MAGICSTRING + _locals);
 		code.STORE(strKey, t);
 
 		if (t.isPrimitive()) {
 			if (t == boolean.class) {
 				throw new UnsupportedOperationException();
 			} else if (t == byte.class) {
-				Byte key = (byte) (MAGIC_byte + locals);
+				Byte key = (byte) (MAGIC_byte + _locals);
 				return (T) key;
 			} else if (t == char.class) {
-				Character key = (char) (MAGIC_char + locals);
+				Character key = (char) (MAGIC_char + _locals);
 				return (T) key;
 			} else if (t == short.class) {
-				Short key = (short) (MAGIC_short + locals);
+				Short key = (short) (MAGIC_short + _locals);
 				return (T) key;
 			} else if (t == int.class) {
-				Integer key = (int) (MAGIC_int + locals);
+				Integer key = (int) (MAGIC_int + _locals);
 				return (T) key;
 			} else if (t == long.class) {
-				Long key = (long) (MAGIC_long + locals);
+				Long key = (long) (MAGIC_long + _locals);
 				return (T) key;
 			} else if (t == float.class) {
-				Float key = (float) (MAGIC_float + locals);
+				Float key = (float) (MAGIC_float + _locals);
 				return (T) key;
 			} else if (t == double.class) {
-				Double key = (double) (MAGIC_double + locals);
+				Double key = (double) (MAGIC_double + _locals);
 				return (T) key;
 			}
 		} else {
 			if (t == boolean.class) {
 				throw new UnsupportedOperationException();
 			} else if (t == Byte.class) {
-				Byte key = (byte) (MAGIC_byte + locals);
+				Byte key = (byte) (MAGIC_byte + _locals);
 				return (T) key;
 			} else if (t == Character.class) {
-				Character key = (char) (MAGIC_char + locals);
+				Character key = (char) (MAGIC_char + _locals);
 				return (T) key;
 			} else if (t == Short.class) {
-				Short key = (short) (MAGIC_short + locals);
+				Short key = (short) (MAGIC_short + _locals);
 				return (T) key;
 			} else if (t == Integer.class) {
-				Integer key = (int) (MAGIC_int + locals);
+				Integer key = (int) (MAGIC_int + _locals);
 				return (T) key;
 			} else if (t == Long.class) {
-				Long key = (long) (MAGIC_long + locals);
+				Long key = (long) (MAGIC_long + _locals);
 				return (T) key;
 			} else if (t == Float.class) {
-				Float key = (float) (MAGIC_float + locals);
+				Float key = (float) (MAGIC_float + _locals);
 				return (T) key;
 			} else if (t == Double.class) {
-				Double key = (double) (MAGIC_double + locals);
+				Double key = (double) (MAGIC_double + _locals);
 				return (T) key;
 			} else if (t == String.class) {
-				String key = String.valueOf(MAGICSTRING + locals);
+				String key = String.valueOf(MAGICSTRING + _locals);
 				return (T) key;
 			} else if (t.isInterface()) {
 				T proxy = brokerBuilder.builder(t, strKey, _code);

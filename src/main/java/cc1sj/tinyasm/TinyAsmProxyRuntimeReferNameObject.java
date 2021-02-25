@@ -1,6 +1,4 @@
-package cc1sj.tinyasm.hero;
-
-import cc1sj.tinyasm.MethodCode;
+package cc1sj.tinyasm;
 
 public interface TinyAsmProxyRuntimeReferNameObject {
 

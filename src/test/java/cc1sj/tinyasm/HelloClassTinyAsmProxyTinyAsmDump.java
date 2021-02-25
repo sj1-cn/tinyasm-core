@@ -1,26 +1,23 @@
-package cc1sj.tinyasm.hero.helperclass;
+package cc1sj.tinyasm;
 import org.objectweb.asm.Label;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.TinyAsmProxyRuntimeReferNameObject;
-
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
-import cc1sj.tinyasm.TinyAsmBuilder;
-
 import java.lang.Float;
 import java.lang.Double;
 import java.lang.Integer;
-
+import cc1sj.tinyasm.TinyAsmProxyRuntimeReferNameObject;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodCaller;
 import java.lang.Character;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
 import java.lang.Long;
 import java.lang.Short;
+import cc1sj.tinyasm.TinyAsmBuilder;
 import java.lang.Class;
 import java.lang.Object;
 import java.lang.String;
@@ -30,14 +27,14 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.hero.helperclass.HelloClassTinyAsmProxy", HelloClass.class, TinyAsmProxyRuntimeReferNameObject.class).access(ACC_PUBLIC | ACC_SUPER).body();
+ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.HelloClassTinyAsmProxy", HelloClass.class, TinyAsmProxyRuntimeReferNameObject.class).access(ACC_PUBLIC | ACC_SUPER).body();
 
 classBody.field("_referName", Clazz.of(String.class));
 classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method("<init>").begin();
 
-	code.LINE(9);
+	code.LINE(10);
 	code.LOAD("this");
 	code.SPECIAL(HelloClass.class, "<init>").INVOKE();
 	code.RETURN();
@@ -47,7 +44,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(String.class, "get__ReferName").begin();
 
-	code.LINE(16);
+	code.LINE(17);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
 	code.RETURNTop();
@@ -59,17 +56,17 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	.parameter("code",MethodCode.class)
 	.parameter("name",String.class).begin();
 
-	code.LINE(21);
+	code.LINE(22);
 	code.LOAD("this");
 	code.LOAD("code");
 	code.PUTFIELD("_code", MethodCode.class);
 
-	code.LINE(22);
+	code.LINE(23);
 	code.LOAD("this");
 	code.LOAD("name");
 	code.PUTFIELD("_referName", String.class);
 
-	code.LINE(23);
+	code.LINE(24);
 	code.RETURN();
 	code.END();
 }
@@ -77,12 +74,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(String.class, "getName").begin();
 
-	code.LINE(27);
+	code.LINE(28);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(28);
+	code.LINE(29);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -91,7 +88,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(29);
+	code.LINE(30);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -106,7 +103,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(30);
+	code.LINE(31);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/String;"));
@@ -122,12 +119,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(char.class, "getAgeChar").begin();
 
-	code.LINE(35);
+	code.LINE(36);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(36);
+	code.LINE(37);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -136,7 +133,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(37);
+	code.LINE(38);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -151,7 +148,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(38);
+	code.LINE(39);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Character.class, "TYPE", Class.class);
@@ -169,12 +166,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(byte.class, "getAgeByte").begin();
 
-	code.LINE(43);
+	code.LINE(44);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(44);
+	code.LINE(45);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -183,7 +180,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(45);
+	code.LINE(46);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -198,7 +195,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(46);
+	code.LINE(47);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Byte.class, "TYPE", Class.class);
@@ -216,12 +213,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(short.class, "getAgeShort").begin();
 
-	code.LINE(51);
+	code.LINE(52);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(52);
+	code.LINE(53);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -230,7 +227,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(53);
+	code.LINE(54);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -245,7 +242,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(54);
+	code.LINE(55);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Short.class, "TYPE", Class.class);
@@ -263,12 +260,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(int.class, "getAgeInt").begin();
 
-	code.LINE(59);
+	code.LINE(60);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(60);
+	code.LINE(61);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -277,7 +274,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(61);
+	code.LINE(62);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -292,7 +289,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(62);
+	code.LINE(63);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Integer.class, "TYPE", Class.class);
@@ -310,12 +307,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(long.class, "getAgeLong").begin();
 
-	code.LINE(68);
+	code.LINE(69);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(69);
+	code.LINE(70);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -324,7 +321,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(70);
+	code.LINE(71);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -339,7 +336,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(71);
+	code.LINE(72);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Long.class, "TYPE", Class.class);
@@ -357,12 +354,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(float.class, "getAgeFloat").begin();
 
-	code.LINE(77);
+	code.LINE(78);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(78);
+	code.LINE(79);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -371,7 +368,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(79);
+	code.LINE(80);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -386,7 +383,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(80);
+	code.LINE(81);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Float.class, "TYPE", Class.class);
@@ -404,12 +401,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(double.class, "getAgeDouble").begin();
 
-	code.LINE(86);
+	code.LINE(87);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(87);
+	code.LINE(88);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -418,7 +415,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(88);
+	code.LINE(89);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -433,7 +430,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(89);
+	code.LINE(90);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Double.class, "TYPE", Class.class);
@@ -451,12 +448,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(Character.class, "getAgeCharacter").begin();
 
-	code.LINE(95);
+	code.LINE(96);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(96);
+	code.LINE(97);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -465,7 +462,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(97);
+	code.LINE(98);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -480,7 +477,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(98);
+	code.LINE(99);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Character;"));
@@ -496,12 +493,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(Byte.class, "getAgeByte2").begin();
 
-	code.LINE(104);
+	code.LINE(105);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(105);
+	code.LINE(106);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -510,7 +507,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(106);
+	code.LINE(107);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -525,7 +522,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(107);
+	code.LINE(108);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Byte;"));
@@ -541,12 +538,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(Short.class, "getAgeShort2").begin();
 
-	code.LINE(113);
+	code.LINE(114);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(114);
+	code.LINE(115);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -555,7 +552,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(115);
+	code.LINE(116);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -570,7 +567,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(116);
+	code.LINE(117);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Short;"));
@@ -586,12 +583,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(Integer.class, "getAgeInteger").begin();
 
-	code.LINE(122);
+	code.LINE(123);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(123);
+	code.LINE(124);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -600,7 +597,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(124);
+	code.LINE(125);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -615,7 +612,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(125);
+	code.LINE(126);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Integer;"));
@@ -631,12 +628,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(Long.class, "getAgeLong2").begin();
 
-	code.LINE(131);
+	code.LINE(132);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(132);
+	code.LINE(133);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -645,7 +642,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(133);
+	code.LINE(134);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -660,7 +657,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(134);
+	code.LINE(135);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Long;"));
@@ -676,12 +673,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(Float.class, "getAgeFloat2").begin();
 
-	code.LINE(140);
+	code.LINE(141);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(141);
+	code.LINE(142);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -690,7 +687,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(142);
+	code.LINE(143);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -705,7 +702,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(143);
+	code.LINE(144);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Float;"));
@@ -721,12 +718,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 {
 	MethodCode code = classBody.method(Double.class, "getAgeDouble2").begin();
 
-	code.LINE(149);
+	code.LINE(150);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(150);
+	code.LINE(151);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -735,7 +732,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(151);
+	code.LINE(152);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -750,7 +747,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(152);
+	code.LINE(153);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Double;"));
@@ -767,12 +764,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setName")
 	.parameter("value",String.class).begin();
 
-	code.LINE(157);
+	code.LINE(158);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(158);
+	code.LINE(159);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -781,7 +778,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(159);
+	code.LINE(160);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -789,7 +786,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(160);
+	code.LINE(161);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -804,7 +801,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(161);
+	code.LINE(162);
 	code.RETURN();
 	code.END();
 }
@@ -813,12 +810,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeChar")
 	.parameter("value",char.class).begin();
 
-	code.LINE(165);
+	code.LINE(166);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(166);
+	code.LINE(167);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -827,7 +824,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(167);
+	code.LINE(168);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -835,7 +832,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(char.class).INVOKE();
 
-	code.LINE(168);
+	code.LINE(169);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -850,7 +847,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(169);
+	code.LINE(170);
 	code.RETURN();
 	code.END();
 }
@@ -859,12 +856,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeByte")
 	.parameter("value",byte.class).begin();
 
-	code.LINE(174);
+	code.LINE(175);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(175);
+	code.LINE(176);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -873,7 +870,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(176);
+	code.LINE(177);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -881,7 +878,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(byte.class).INVOKE();
 
-	code.LINE(177);
+	code.LINE(178);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -896,7 +893,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(178);
+	code.LINE(179);
 	code.RETURN();
 	code.END();
 }
@@ -905,12 +902,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeShort")
 	.parameter("value",short.class).begin();
 
-	code.LINE(182);
+	code.LINE(183);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(183);
+	code.LINE(184);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -919,7 +916,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(184);
+	code.LINE(185);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -927,7 +924,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(short.class).INVOKE();
 
-	code.LINE(185);
+	code.LINE(186);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -942,7 +939,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(186);
+	code.LINE(187);
 	code.RETURN();
 	code.END();
 }
@@ -951,12 +948,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeInt")
 	.parameter("value",int.class).begin();
 
-	code.LINE(191);
+	code.LINE(192);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(192);
+	code.LINE(193);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -965,7 +962,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(193);
+	code.LINE(194);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -973,7 +970,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(int.class).INVOKE();
 
-	code.LINE(194);
+	code.LINE(195);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -988,7 +985,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(195);
+	code.LINE(196);
 	code.RETURN();
 	code.END();
 }
@@ -997,12 +994,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeLong")
 	.parameter("value",long.class).begin();
 
-	code.LINE(200);
+	code.LINE(201);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(201);
+	code.LINE(202);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -1011,7 +1008,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(202);
+	code.LINE(203);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -1019,7 +1016,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(long.class).INVOKE();
 
-	code.LINE(203);
+	code.LINE(204);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -1034,7 +1031,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(204);
+	code.LINE(205);
 	code.RETURN();
 	code.END();
 }
@@ -1043,12 +1040,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeFloat")
 	.parameter("value",float.class).begin();
 
-	code.LINE(209);
+	code.LINE(210);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(210);
+	code.LINE(211);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -1057,7 +1054,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(211);
+	code.LINE(212);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -1065,7 +1062,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(float.class).INVOKE();
 
-	code.LINE(212);
+	code.LINE(213);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -1080,7 +1077,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(213);
+	code.LINE(214);
 	code.RETURN();
 	code.END();
 }
@@ -1089,12 +1086,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeDouble")
 	.parameter("value",double.class).begin();
 
-	code.LINE(218);
+	code.LINE(219);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(219);
+	code.LINE(220);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -1103,7 +1100,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(220);
+	code.LINE(221);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -1111,7 +1108,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(double.class).INVOKE();
 
-	code.LINE(221);
+	code.LINE(222);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -1126,7 +1123,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(222);
+	code.LINE(223);
 	code.RETURN();
 	code.END();
 }
@@ -1135,12 +1132,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeCharacter")
 	.parameter("value",Character.class).begin();
 
-	code.LINE(227);
+	code.LINE(228);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(228);
+	code.LINE(229);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -1149,7 +1146,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(229);
+	code.LINE(230);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -1157,7 +1154,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(Character.class).INVOKE();
 
-	code.LINE(230);
+	code.LINE(231);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -1172,7 +1169,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(231);
+	code.LINE(232);
 	code.RETURN();
 	code.END();
 }
@@ -1181,12 +1178,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeByte2")
 	.parameter("value",Byte.class).begin();
 
-	code.LINE(236);
+	code.LINE(237);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(237);
+	code.LINE(238);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -1195,7 +1192,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(238);
+	code.LINE(239);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -1203,7 +1200,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(Byte.class).INVOKE();
 
-	code.LINE(239);
+	code.LINE(240);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -1218,7 +1215,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(240);
+	code.LINE(241);
 	code.RETURN();
 	code.END();
 }
@@ -1227,12 +1224,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeShort2")
 	.parameter("value",Short.class).begin();
 
-	code.LINE(245);
+	code.LINE(246);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(246);
+	code.LINE(247);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -1241,7 +1238,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(247);
+	code.LINE(248);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -1249,7 +1246,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(Short.class).INVOKE();
 
-	code.LINE(248);
+	code.LINE(249);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -1264,7 +1261,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(249);
+	code.LINE(250);
 	code.RETURN();
 	code.END();
 }
@@ -1273,12 +1270,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeInteger")
 	.parameter("value",Integer.class).begin();
 
-	code.LINE(254);
+	code.LINE(255);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(255);
+	code.LINE(256);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -1287,7 +1284,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(256);
+	code.LINE(257);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -1295,7 +1292,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(Integer.class).INVOKE();
 
-	code.LINE(257);
+	code.LINE(258);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -1310,7 +1307,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(258);
+	code.LINE(259);
 	code.RETURN();
 	code.END();
 }
@@ -1319,12 +1316,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeLong2")
 	.parameter("value",Long.class).begin();
 
-	code.LINE(263);
+	code.LINE(264);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(264);
+	code.LINE(265);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -1333,7 +1330,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(265);
+	code.LINE(266);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -1341,7 +1338,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(Long.class).INVOKE();
 
-	code.LINE(266);
+	code.LINE(267);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -1356,7 +1353,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(267);
+	code.LINE(268);
 	code.RETURN();
 	code.END();
 }
@@ -1365,12 +1362,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeFloat2")
 	.parameter("value",Float.class).begin();
 
-	code.LINE(272);
+	code.LINE(273);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(273);
+	code.LINE(274);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -1379,7 +1376,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(274);
+	code.LINE(275);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -1387,7 +1384,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(Float.class).INVOKE();
 
-	code.LINE(275);
+	code.LINE(276);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -1402,7 +1399,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(276);
+	code.LINE(277);
 	code.RETURN();
 	code.END();
 }
@@ -1411,12 +1408,12 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	MethodCode code = classBody.method("setAgeDouble2")
 	.parameter("value",Double.class).begin();
 
-	code.LINE(281);
+	code.LINE(282);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-	code.LINE(282);
+	code.LINE(283);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
@@ -1425,7 +1422,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
-	code.LINE(283);
+	code.LINE(284);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
@@ -1433,7 +1430,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(MethodCode.class)
 		.parameter(Double.class).INVOKE();
 
-	code.LINE(284);
+	code.LINE(285);
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
@@ -1448,7 +1445,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 		.parameter(Class.class).INVOKE();
 	code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-	code.LINE(285);
+	code.LINE(286);
 	code.RETURN();
 	code.END();
 }

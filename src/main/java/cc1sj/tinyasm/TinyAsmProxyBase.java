@@ -1,14 +1,9 @@
-package cc1sj.tinyasm.hero;
+package cc1sj.tinyasm;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.objectweb.asm.Type;
-
-import cc1sj.tinyasm.ClassBody;
-import cc1sj.tinyasm.Clazz;
-import cc1sj.tinyasm.MethodCaller;
-import cc1sj.tinyasm.MethodCode;
 
 public interface TinyAsmProxyBase {
 
@@ -91,7 +86,7 @@ public interface TinyAsmProxyBase {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOAD(param1);
-		code.STATIC(HeroBuilder.class, "resolve").parameter(MethodCode.class).parameter(paramsClass).INVOKE();
+		code.STATIC(TinyAsmBuilder.class, "resolve").parameter(MethodCode.class).parameter(paramsClass).INVOKE();
 	}
 
 	static void _resolveThis(MethodCode code) {
@@ -100,7 +95,7 @@ public interface TinyAsmProxyBase {
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOAD("this");
 		code.GETFIELD("_referName", String.class);
-		code.STATIC(HeroBuilder.class, "resolve").parameter(MethodCode.class).parameter(String.class).INVOKE();
+		code.STATIC(TinyAsmBuilder.class, "resolve").parameter(MethodCode.class).parameter(String.class).INVOKE();
 	}
 
 	static void _line(MethodCode code) {
@@ -133,7 +128,7 @@ public interface TinyAsmProxyBase {
 	static void _refer(MethodCode code, Clazz returnClass) {
 		_code(code);
 		_type(code, returnClass);
-		code.STATIC(HeroBuilder.class, "refer").reTurn(Object.class).parameter(MethodCode.class).parameter(Class.class).INVOKE();
+		code.STATIC(TinyAsmBuilder.class, "refer").reTurn(Object.class).parameter(MethodCode.class).parameter(Class.class).INVOKE();
 		_cast(returnClass, code);
 	}
 

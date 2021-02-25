@@ -3,15 +3,16 @@ import org.objectweb.asm.Label;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
+import cc1sj.tinyasm.TinyAsmProxyRuntimeProxyFactory;
+
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
-import cc1sj.tinyasm.hero.helperclass.HelloClassTinyAsmProxy;
+import cc1sj.tinyasm.HelloClassTinyAsmProxy;
 import cc1sj.tinyasm.MethodCode;
 import java.lang.Object;
 import java.lang.String;
-import cc1sj.tinyasm.hero.TinyAsmProxyRuntimeProxyFactory;
 @SuppressWarnings("unused")
 public class HelloClassTinyAsmProxyFactoryTinyAsmDump {
 

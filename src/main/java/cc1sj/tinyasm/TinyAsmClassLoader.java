@@ -1,4 +1,4 @@
-package cc1sj.tinyasm.hero;
+package cc1sj.tinyasm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

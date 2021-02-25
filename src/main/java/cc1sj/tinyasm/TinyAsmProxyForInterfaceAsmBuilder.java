@@ -1,14 +1,15 @@
-package cc1sj.tinyasm.hero;
+package cc1sj.tinyasm;
 
-import static cc1sj.tinyasm.hero.TinyAsmProxyBase._code;
-import static cc1sj.tinyasm.hero.TinyAsmProxyBase._invoke;
-import static cc1sj.tinyasm.hero.TinyAsmProxyBase._line;
-import static cc1sj.tinyasm.hero.TinyAsmProxyBase._parameter;
-import static cc1sj.tinyasm.hero.TinyAsmProxyBase._refer;
-import static cc1sj.tinyasm.hero.TinyAsmProxyBase._resolveParameter;
-import static cc1sj.tinyasm.hero.TinyAsmProxyBase._resolveThis;
-import static cc1sj.tinyasm.hero.TinyAsmProxyBase._return;
-import static cc1sj.tinyasm.hero.TinyAsmProxyBase._virtual;
+import static cc1sj.tinyasm.TinyAsmProxyBase._code;
+import static cc1sj.tinyasm.TinyAsmProxyBase._interface;
+import static cc1sj.tinyasm.TinyAsmProxyBase._invoke;
+import static cc1sj.tinyasm.TinyAsmProxyBase._line;
+import static cc1sj.tinyasm.TinyAsmProxyBase._parameter;
+import static cc1sj.tinyasm.TinyAsmProxyBase._refer;
+import static cc1sj.tinyasm.TinyAsmProxyBase._resolveParameter;
+import static cc1sj.tinyasm.TinyAsmProxyBase._resolveThis;
+import static cc1sj.tinyasm.TinyAsmProxyBase._return;
+import static cc1sj.tinyasm.TinyAsmProxyBase._virtual;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
@@ -29,14 +30,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.TypePath;
 
-import cc1sj.tinyasm.ClassBody;
-import cc1sj.tinyasm.ClassBuilder;
-import cc1sj.tinyasm.ClassHeader;
-import cc1sj.tinyasm.Clazz;
-import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.MethodHeader;
-
-class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
+class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
 
 	public static byte[] dump(Class<?> targetClass, String suffix) throws Exception {
 		Type targetType = Type.getType(targetClass);
@@ -188,18 +182,17 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 		mh.end();
 	}
 
-	public static byte[] dump2(Class<?> target, String suffix) throws Exception {
+	public static byte[] dump2(Class<?> target, String proxyClassName) throws Exception {
 		ClassReader cr = new ClassReader(target.getName());
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		
 		ClassVisitor bw;
 //		target.getConstructor();
-		bw = new TinyAsmProxyForClassAsmBuilder(Opcodes.ASM5, cw, Type.getType(target).getInternalName(), suffix);
+		bw = new TinyAsmProxyForInterfaceAsmBuilder(Opcodes.ASM5, cw,Type.getType(target).getInternalName(), proxyClassName);
 		cr.accept(bw, ClassReader.SKIP_CODE);
-		
+
 		Class<?> superClass = target.getSuperclass();
-		while(superClass != Object.class) {
+		while(superClass!=null && superClass != Object.class) {
 			cr = new ClassReader(superClass.getName());
 			cr.accept(bw, ClassReader.SKIP_CODE);
 			
@@ -217,30 +210,30 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 	}
 
 	ClassBody classBody;
-	String suffix;
+	String proxyClassName;
 	Type targetType;
 	Type objectType;
 
-	public TinyAsmProxyForClassAsmBuilder(int api, String name, String suffix) {
+	public TinyAsmProxyForInterfaceAsmBuilder(int api, String name, String proxyClassName) {
 		super(api);
-		this.suffix = suffix;
+		this.proxyClassName = proxyClassName;
 		mkProxyClass(name);
 	}
 
-	public TinyAsmProxyForClassAsmBuilder(int api, ClassVisitor classVisitor, String name, String suffix) {
+	public TinyAsmProxyForInterfaceAsmBuilder(int api, ClassVisitor classVisitor, String name, String proxyClassName) {
 		super(api, classVisitor);
-		this.suffix = suffix;
+		this.proxyClassName = proxyClassName;
 
 		mkProxyClass(name);
 	}
 
 	protected void mkProxyClass(String name) {
 		targetType = Type.getObjectType(name);
-		String proxyClassName = targetType.getClassName() + this.suffix;
-		objectType = Type.getObjectType(name + this.suffix);
+		objectType = Type.getObjectType(proxyClassName.replace('.', '/'));
 		ClassHeader ch = ClassBuilder.make(cv, proxyClassName);
 //		if(superName)
-		ch.eXtend(Clazz.of(targetType));
+//		ch.eXtend(Clazz.of(targetType));
+		ch.implement(Clazz.of(targetType));
 		ch.implement(TinyAsmProxyRuntimeReferNameObject.class);
 //		ch.access(access);
 		classBody = ch.body();
@@ -253,7 +246,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 			code1.LINE(14);
 			code1.LOAD("this");
-			code1.SPECIAL(Clazz.of(targetType), "<init>").INVOKE();
+			code1.SPECIAL(Clazz.of(Object.class), "<init>").INVOKE();
 
 			code1.RETURN();
 			code1.END();
@@ -354,7 +347,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 			}
 			// invoke method
 			_code(code);
-			_virtual(code, targetType, name);
+			_interface(code, targetType, name);
 			for (Type type : methodParamTypes) {
 				_parameter(code, Clazz.of(type));
 			}
@@ -414,7 +407,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 	@Override
 	public void visitAttribute(Attribute attribute) {
-//		super.visitAttribute(attribute);
+		super.visitAttribute(attribute);
 	}
 
 	@SuppressWarnings("deprecation")

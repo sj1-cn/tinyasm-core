@@ -1,6 +1,6 @@
 package cc1sj.tinyasm.hero.helperclass;
 
-import static cc1sj.tinyasm.hero.HeroBuilder.*;
+import static cc1sj.tinyasm.TinyAsmBuilder.*;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_SUPER;
 

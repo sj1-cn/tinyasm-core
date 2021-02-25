@@ -13,8 +13,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import cc1sj.tinyasm.hero.HeroBuilder;
-
 class MethodHeaderBuilder implements MethodHeader {
 	class ThisMethod {
 
@@ -98,7 +96,7 @@ class MethodHeaderBuilder implements MethodHeader {
 		preapareMethodWithParams();
 
 		MethodCode code = makeCode(mv);
-		if (!entered) HeroBuilder.enterCode1(code);
+		if (!entered) TinyAsmBuilder.enterCode(code);
 		entered = true;
 		return code;
 	}
@@ -132,7 +130,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	public void end() {
 		finishMethod();
-		if (!exited) HeroBuilder.exitCode1();
+		if (!exited) TinyAsmBuilder.exitCode();
 		exited = true;
 	}
 

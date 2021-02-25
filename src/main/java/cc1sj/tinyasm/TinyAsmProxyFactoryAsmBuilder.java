@@ -1,11 +1,7 @@
-package cc1sj.tinyasm.hero;
+package cc1sj.tinyasm;
 
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
-import cc1sj.tinyasm.ClassBody;
-import cc1sj.tinyasm.ClassBuilder;
-import cc1sj.tinyasm.MethodCode;
 
 class TinyAsmProxyFactoryAsmBuilder {
 

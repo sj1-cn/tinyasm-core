@@ -1,4 +1,4 @@
-package cc1sj.tinyasm.hero;
+package cc1sj.tinyasm;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,8 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableMap;
-
-import cc1sj.tinyasm.MethodCode;
 
 class TinyAsmProxyObjenesisBuilder {
 	Objenesis objenesis = new ObjenesisStd(); // or ObjenesisSerializer
@@ -53,16 +51,16 @@ class TinyAsmProxyObjenesisBuilder {
 			}
 
 			count++;
-			String proxyClassSuffix = "Inner" + count;
-			String proxyClassName = target.getName() + proxyClassSuffix;
+//			String proxyClassSuffix = 
+			String proxyClassName =  this.getClass().getName() + "_" +  target.getName().replace('.', '_')+ count;
 
 			// 构建代理类
 			{
 				byte[] code;
 				if (target.isInterface()) {
-					code = TinyAsmProxyForInterfaceAsmBuilder.dump2(target, proxyClassSuffix);
+					code = TinyAsmProxyForInterfaceAsmBuilder.dump2(target, proxyClassName);
 				} else {
-					code = TinyAsmProxyForClassAsmBuilder.dump2(target, proxyClassSuffix);
+					code = TinyAsmProxyForClassAsmBuilder.dump2(target, proxyClassName);
 				}
 
 				if (log.isDebugEnabled()) {

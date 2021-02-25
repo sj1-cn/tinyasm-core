@@ -29,7 +29,7 @@ ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.hero.helperclass.ContactH
 }
 
 {
-	MethodCode code = classBody.method(0, "say").begin();
+	MethodCode code = classBody.method("say").begin();
 
 	code.LINE(5);
 	code.NEW(HelloClass.class);
