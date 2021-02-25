@@ -4,9 +4,9 @@ import static cc1sj.tinyasm.hero.TinyAsmBuilder.resolve;
 
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.TinyAsmBuilder;
-import cc1sj.tinyasm.hero.HeroObject;
+import cc1sj.tinyasm.hero.TinyAsmProxyRuntimeReferNameObject;
 
-public class HelloInterfaceTinyAsmProxy implements HelloInterface, HeroObject {
+public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyRuntimeReferNameObject {
 
 	final String _referName;
 //	final Context context;

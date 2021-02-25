@@ -39,12 +39,12 @@ import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodHeader;
 
-public class TinyAsmProxyInterfaceAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
+class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
 
 	public static byte[] dump(Class<?> targetClass) throws Exception {
 		Type targetType = Type.getType(targetClass);
 		String clazzName = targetType.getClassName() + "Inner";
-		ClassBody classWriter = ClassBuilder.make(clazzName).eXtend(Clazz.of(targetType)).implement(HeroObject.class)
+		ClassBody classWriter = ClassBuilder.make(clazzName).eXtend(Clazz.of(targetType)).implement(TinyAsmProxyRuntimeReferNameObject.class)
 				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classWriter.field(ACC_FINAL, "_referName", Clazz.of(String.class));
@@ -167,7 +167,7 @@ public class TinyAsmProxyInterfaceAsmBuilder extends ClassVisitor implements Tin
 
 		ClassVisitor bw;
 //		target.getConstructor();
-		bw = new TinyAsmProxyInterfaceAsmBuilder(Opcodes.ASM5, cw, suffix);
+		bw = new TinyAsmProxyForInterfaceAsmBuilder(Opcodes.ASM5, cw, suffix);
 		cr.accept(bw, ClassReader.SKIP_CODE);
 
 		return cw.toByteArray();
@@ -178,12 +178,12 @@ public class TinyAsmProxyInterfaceAsmBuilder extends ClassVisitor implements Tin
 	Type targetType;
 	Type objectType;
 
-	public TinyAsmProxyInterfaceAsmBuilder(int api, String suffix) {
+	public TinyAsmProxyForInterfaceAsmBuilder(int api, String suffix) {
 		super(api);
 		this.suffix = suffix;
 	}
 
-	public TinyAsmProxyInterfaceAsmBuilder(int api, ClassVisitor classVisitor, String suffix) {
+	public TinyAsmProxyForInterfaceAsmBuilder(int api, ClassVisitor classVisitor, String suffix) {
 		super(api, classVisitor);
 		this.suffix = suffix;
 	}
@@ -199,7 +199,7 @@ public class TinyAsmProxyInterfaceAsmBuilder extends ClassVisitor implements Tin
 //		if(superName)
 //		ch.eXtend(Clazz.of(targetType));
 		ch.implement(Clazz.of(targetType));
-		ch.implement(HeroObject.class);
+		ch.implement(TinyAsmProxyRuntimeReferNameObject.class);
 //		ch.access(access);
 		classWriter = ch.body();
 
@@ -349,9 +349,9 @@ public class TinyAsmProxyInterfaceAsmBuilder extends ClassVisitor implements Tin
 		return super.visitModule(name, access, version);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void visitNestHostExperimental(String nestHost) {
-		// TODO Auto-generated method stub
 		super.visitNestHostExperimental(nestHost);
 	}
 
@@ -376,6 +376,7 @@ public class TinyAsmProxyInterfaceAsmBuilder extends ClassVisitor implements Tin
 		super.visitAttribute(attribute);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void visitNestMemberExperimental(String nestMember) {
 		super.visitNestMemberExperimental(nestMember);

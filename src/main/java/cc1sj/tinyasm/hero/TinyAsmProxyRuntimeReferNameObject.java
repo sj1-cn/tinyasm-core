@@ -1,6 +1,6 @@
 package cc1sj.tinyasm.hero;
 
-public interface HeroObject {
+public interface TinyAsmProxyRuntimeReferNameObject {
 
 	String get_______Hero();
 

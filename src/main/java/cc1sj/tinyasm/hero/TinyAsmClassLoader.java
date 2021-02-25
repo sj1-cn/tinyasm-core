@@ -3,7 +3,7 @@ package cc1sj.tinyasm.hero;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TinyAsmClassLoader extends ClassLoader {
+class TinyAsmClassLoader extends ClassLoader {
 	static Logger log = LoggerFactory.getLogger(TinyAsmClassLoader.class);
 
 	public TinyAsmClassLoader() {

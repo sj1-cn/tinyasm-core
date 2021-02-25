@@ -13,10 +13,10 @@ import com.google.common.collect.ImmutableMap;
 
 import cc1sj.tinyasm.MethodCode;
 
-public class TinyAsmProxyBuilder {
+class TinyAsmProxyBuilder {
 	Logger log = LoggerFactory.getLogger(getClass());
 
-	Map<String, TinyAsmProxyFactory> knownBrokeres;
+	Map<String, TinyAsmProxyRuntimeProxyFactory> knownBrokeres;
 //	final BrokerInstanceBuilderClassMaker instanceBuilder;
 
 	ReentrantLock lock = new ReentrantLock();
@@ -35,7 +35,7 @@ public class TinyAsmProxyBuilder {
 	@SuppressWarnings("unchecked")
 	public <T> T builder(Class<T> target, String name, MethodCode methodCode) {
 
-		TinyAsmProxyFactory builder = knownBrokeres.get(target.getName());
+		TinyAsmProxyRuntimeProxyFactory builder = knownBrokeres.get(target.getName());
 
 		if (builder != null) {
 			T broker = (T) builder.build(methodCode, name);
@@ -59,9 +59,9 @@ public class TinyAsmProxyBuilder {
 			{
 				byte[] code;
 				if (target.isInterface()) {
-					code = TinyAsmProxyInterfaceAsmBuilder.dump2(target, proxyClassSuffix);
+					code = TinyAsmProxyForInterfaceAsmBuilder.dump2(target, proxyClassSuffix);
 				} else {
-					code = TinyAsmProxyClassBuilder.dump2(target, proxyClassSuffix);
+					code = TinyAsmProxyForClassBuilder.dump2(target, proxyClassSuffix);
 				}
 
 				if (log.isDebugEnabled()) {
@@ -109,10 +109,10 @@ public class TinyAsmProxyBuilder {
 
 				Class<?> clzBuilder = TinyAsmClassLoader.defineClass(proxyBuilderClassName, codeBuilder);
 
-				builder = (TinyAsmProxyFactory) clzBuilder.getDeclaredConstructor().newInstance();
+				builder = (TinyAsmProxyRuntimeProxyFactory) clzBuilder.getDeclaredConstructor().newInstance();
 			}
 
-			ImmutableMap.Builder<String, TinyAsmProxyFactory> mapBuilder = ImmutableMap.builder();
+			ImmutableMap.Builder<String, TinyAsmProxyRuntimeProxyFactory> mapBuilder = ImmutableMap.builder();
 
 			this.knownBrokeres = mapBuilder.putAll(knownBrokeres).put(target.getName(), builder).build();
 			T broker = (T) builder.build(methodCode, name);

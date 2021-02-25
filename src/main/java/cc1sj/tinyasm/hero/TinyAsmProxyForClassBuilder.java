@@ -38,33 +38,33 @@ import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodHeader;
 
-public class TinyAsmProxyClassBuilder extends ClassVisitor implements TinyAsmProxyBase {
+class TinyAsmProxyForClassBuilder extends ClassVisitor implements TinyAsmProxyBase {
 
 	public static byte[] dump(Class<?> targetClass, String suffix) throws Exception {
 		Type targetType = Type.getType(targetClass);
 		String clazzName = targetType.getClassName() + suffix;
-		ClassBody classWriter = ClassBuilder.make(clazzName).eXtend(Clazz.of(targetType)).implement(HeroObject.class)
-				.access(ACC_PUBLIC | ACC_SUPER).body();
+		ClassBody classWriter = ClassBuilder.make(clazzName).eXtend(Clazz.of(targetType))
+				.implement(TinyAsmProxyRuntimeReferNameObject.class).access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classWriter.field(ACC_FINAL, "_referName", Clazz.of(String.class));
 		classWriter.field(0, "_code", Clazz.of(MethodCode.class));
 
 		classWriter.method("<init>").parameter("code", MethodCode.class).parameter("__referName", String.class).code(code -> {
-		
+
 			code.LINE(14);
 			code.LOAD("this");
 			code.SPECIAL(Clazz.of(targetClass), "<init>").INVOKE();
-		
+
 			code.LINE(15);
 			code.LOAD("this");
 			code.LOAD("__referName");
 			code.PUTFIELD("_referName", String.class);
-		
+
 			code.LINE(17);
 			code.LOAD("this");
 			code.LOAD("code");
 			code.PUTFIELD("_code", MethodCode.class);
-		
+
 			code.LINE(18);
 			code.RETURN();
 		});
@@ -166,7 +166,7 @@ public class TinyAsmProxyClassBuilder extends ClassVisitor implements TinyAsmPro
 
 		ClassVisitor bw;
 //		target.getConstructor();
-		bw = new TinyAsmProxyClassBuilder(Opcodes.ASM5, cw, suffix);
+		bw = new TinyAsmProxyForClassBuilder(Opcodes.ASM5, cw, suffix);
 		cr.accept(bw, ClassReader.SKIP_CODE);
 		return cw.toByteArray();
 	}
@@ -176,12 +176,12 @@ public class TinyAsmProxyClassBuilder extends ClassVisitor implements TinyAsmPro
 	Type targetType;
 	Type objectType;
 
-	public TinyAsmProxyClassBuilder(int api, String suffix) {
+	public TinyAsmProxyForClassBuilder(int api, String suffix) {
 		super(api);
 		this.suffix = suffix;
 	}
 
-	public TinyAsmProxyClassBuilder(int api, ClassVisitor classVisitor, String suffix) {
+	public TinyAsmProxyForClassBuilder(int api, ClassVisitor classVisitor, String suffix) {
 		super(api, classVisitor);
 		this.suffix = suffix;
 	}
@@ -196,7 +196,7 @@ public class TinyAsmProxyClassBuilder extends ClassVisitor implements TinyAsmPro
 		ClassHeader ch = ClassBuilder.make(cv, proxyClassName);
 //		if(superName)
 		ch.eXtend(Clazz.of(targetType));
-		ch.implement(HeroObject.class);
+		ch.implement(TinyAsmProxyRuntimeReferNameObject.class);
 //		ch.access(access);
 		classWriter = ch.body();
 
@@ -204,21 +204,21 @@ public class TinyAsmProxyClassBuilder extends ClassVisitor implements TinyAsmPro
 		classWriter.field(0, "_code", Clazz.of(MethodCode.class));
 
 		classWriter.method("<init>").parameter("code", MethodCode.class).parameter("__referName", String.class).code(code -> {
-		
+
 			code.LINE(14);
 			code.LOAD("this");
 			code.SPECIAL(Clazz.of(targetType), "<init>").INVOKE();
-		
+
 			code.LINE(15);
 			code.LOAD("this");
 			code.LOAD("__referName");
 			code.PUTFIELD("_referName", String.class);
-		
+
 			code.LINE(17);
 			code.LOAD("this");
 			code.LOAD("code");
 			code.PUTFIELD("_code", MethodCode.class);
-		
+
 			code.LINE(18);
 			code.RETURN();
 		});
@@ -342,14 +342,12 @@ public class TinyAsmProxyClassBuilder extends ClassVisitor implements TinyAsmPro
 
 	@Override
 	public ModuleVisitor visitModule(String name, int access, String version) {
-		// TODO Auto-generated method stub
 		return super.visitModule(name, access, version);
 	}
 
 	@Override
 	public void visitNestHostExperimental(String nestHost) {
-		// TODO Auto-generated method stub
-		super.visitNestHostExperimental(nestHost);
+//		super.visitNestHostExperimental(nestHost);
 	}
 
 	@Override
@@ -359,13 +357,14 @@ public class TinyAsmProxyClassBuilder extends ClassVisitor implements TinyAsmPro
 
 	@Override
 	public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-		return super.visitAnnotation(descriptor, visible);
+//		return super.visitAnnotation(descriptor, visible);
+		return null;
 	}
 
 	@Override
 	public AnnotationVisitor visitTypeAnnotation(int typeRef, TypePath typePath, String descriptor, boolean visible) {
-		// TODO Auto-generated method stub
-		return super.visitTypeAnnotation(typeRef, typePath, descriptor, visible);
+//		return super.visitTypeAnnotation(typeRef, typePath, descriptor, visible);
+		return null;
 	}
 
 	@Override
@@ -373,6 +372,7 @@ public class TinyAsmProxyClassBuilder extends ClassVisitor implements TinyAsmPro
 		super.visitAttribute(attribute);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void visitNestMemberExperimental(String nestMember) {
 		super.visitNestMemberExperimental(nestMember);
@@ -380,12 +380,11 @@ public class TinyAsmProxyClassBuilder extends ClassVisitor implements TinyAsmPro
 
 	@Override
 	public void visitInnerClass(String name, String outerName, String innerName, int access) {
-		super.visitInnerClass(name, outerName, innerName, access);
+//		super.visitInnerClass(name, outerName, innerName, access);
 	}
 
 	@Override
 	public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
-		// TODO Auto-generated method stub
 //		return super.visitField(access, name, descriptor, signature, value);
 		return null;
 	}

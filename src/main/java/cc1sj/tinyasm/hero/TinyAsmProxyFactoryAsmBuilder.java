@@ -7,11 +7,11 @@ import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
 
-public class TinyAsmProxyFactoryAsmBuilder {
+class TinyAsmProxyFactoryAsmBuilder {
 
 	public static byte[] dump(String proxyClassName,String suffix) throws Exception {
 		String proxyBuilderClassName = proxyClassName + suffix;
-		ClassBody classBody = ClassBuilder.make(proxyBuilderClassName, null, TinyAsmProxyFactory.class).access(ACC_PUBLIC | ACC_SUPER).body();
+		ClassBody classBody = ClassBuilder.make(proxyBuilderClassName, null, TinyAsmProxyRuntimeProxyFactory.class).access(ACC_PUBLIC | ACC_SUPER).body();
 
 		{
 			MethodCode code = classBody.method("<init>").begin();

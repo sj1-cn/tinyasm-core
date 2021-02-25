@@ -1,13 +1,20 @@
-package cc1sj.tinyasm.hero.helperclass;
+package cc1sj.tinyasm.hero;
 
 import static cc1sj.tinyasm.util.TinyAsmTestUtils.dumpTinyAsm;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import cc1sj.tinyasm.hero.TinyAsmProxyClassBuilder;
+import cc1sj.tinyasm.hero.TinyAsmProxyForClassBuilder;
 import cc1sj.tinyasm.hero.TinyAsmProxyFactoryAsmBuilder;
-import cc1sj.tinyasm.hero.TinyAsmProxyInterfaceAsmBuilder;
+import cc1sj.tinyasm.hero.TinyAsmProxyForInterfaceAsmBuilder;
+import cc1sj.tinyasm.hero.helperclass.ContactHello;
+import cc1sj.tinyasm.hero.helperclass.ContactHelloHeroTinyAsm;
+import cc1sj.tinyasm.hero.helperclass.HelloClass;
+import cc1sj.tinyasm.hero.helperclass.HelloClassTinyAsmProxy;
+import cc1sj.tinyasm.hero.helperclass.HelloClassTinyAsmProxyFactory;
+import cc1sj.tinyasm.hero.helperclass.HelloInterface;
+import cc1sj.tinyasm.hero.helperclass.HelloInterfaceTinyAsmProxy;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
 public class TinyProxyTinyASMifierTest {
@@ -69,7 +76,7 @@ public class TinyProxyTinyASMifierTest {
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyClassBuilder.dump(HelloClass.class, "TinyAsmProxy"));
+			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyForClassBuilder.dump(HelloClass.class, "TinyAsmProxy"));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -86,7 +93,7 @@ public class TinyProxyTinyASMifierTest {
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyClassBuilder.dump2(HelloClass.class,"TinyAsmProxy"));
+			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyForClassBuilder.dump2(HelloClass.class,"TinyAsmProxy"));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -103,7 +110,7 @@ public class TinyProxyTinyASMifierTest {
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyInterfaceAsmBuilder.dump2(HelloInterface.class,"TinyAsmProxy"));
+			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyForInterfaceAsmBuilder.dump2(HelloInterface.class,"TinyAsmProxy"));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
