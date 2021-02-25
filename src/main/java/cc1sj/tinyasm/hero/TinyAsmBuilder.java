@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 import cc1sj.tinyasm.MethodCode;
 
-public class HeroASMBuilder {
+public class TinyAsmBuilder {
 //	<T> T ctor(Class<T> clz) {
 //		return null;
 //	}
@@ -13,11 +13,11 @@ public class HeroASMBuilder {
 	public static String __TOP__ = "__TOP__";
 	public static String __THIS__ = "__THIS__";
 
-//	static Stack<Consumer<MethodCode>> codes = new Stack<Consumer<MethodCode>>();
-//	static Map<String, Consumer<MethodCode>> codeBlocks = new HashMap<>();
-//	static Stack<String> stack = new Stack<>();
-	static MethodCode _code;
-//	static Context context = new Context(code);
+//	static public Stack<Consumer<MethodCode>> codes = new Stack<Consumer<MethodCode>>();
+//	static public Map<String, Consumer<MethodCode>> codeBlocks = new HashMap<>();
+//	static public Stack<String> stack = new Stack<>();
+	static public MethodCode _code;
+//	static public Context context = new Context(code);
 
 	public static int MAGIC_VALUE = 3412;
 	public static final String MAGICSTRING = "#MAGIC#";
@@ -32,10 +32,10 @@ public class HeroASMBuilder {
 
 	static public void attach(MethodCode code) {
 		locals = 0;
-		HeroASMBuilder._code = code;
+		TinyAsmBuilder._code = code;
 	}
 
-	static int add(int l, int r) {
+	static public int add(int l, int r) {
 		_code.LINE();
 		resolve(_code, l);
 		resolve(_code, r);
@@ -43,7 +43,7 @@ public class HeroASMBuilder {
 		return refer(_code, int.class);
 	}
 
-	static short add(short l, short r) {
+	static public short add(short l, short r) {
 		_code.LINE();
 		resolve(_code, l);
 		resolve(_code, r);
@@ -52,7 +52,7 @@ public class HeroASMBuilder {
 		return refer(_code, short.class);
 	}
 
-	static Hello ctor(Class<Hello> helloclass) {
+	static public <T> T ctor(Class<T> helloclass) {
 		locals++;
 		String key = String.valueOf(MAGICSTRING + locals);
 		_code.LINE();
@@ -61,10 +61,12 @@ public class HeroASMBuilder {
 		_code.SPECIAL(helloclass, "<init>").INVOKE();
 //		String key = refer(code, null)
 		_code.STORE(key, helloclass);
-		return new HelloInner(_code, key);
+//		return (T)new HelloClassTinyAsmProxy(_code, key);
+		//TODO 
+		return null;
 	}
 
-//	static <T> T refer(Class<T> clazz) {
+//	static public <T> T refer(Class<T> clazz) {
 //		if (clazz == Hello.class) {
 //			try {
 //				HelloInnerTinyAsmDump.dump(Type.getType("Lcc1sj/tinyasm/hero/Hello;"));
@@ -156,38 +158,38 @@ public class HeroASMBuilder {
 
 		return null;
 	}
-//	static String cst(String cst) {
+//	static public String cst(String cst) {
 //		locals++;
 //		String key = String.valueOf(MAGICSTRING + locals);
 //		return key;
 //	}
 
 //
-//	static String var(Class<String> strClass) {
+//	static public String var(Class<String> strClass) {
 //		locals++;
 //		String key = String.valueOf(MAGICSTRING + locals);
 //		return key;
 //	}
 //	
-//	static int var(Class<Integer> strClass) {
+//	static public int var(Class<Integer> strClass) {
 //		locals++;
 //		String key = String.valueOf(MAGICSTRING + locals);
 //		return key;
 //	}
 //	
 
-//	static void applyTo(MethodCode code) {
+//	static public void applyTo(MethodCode code) {
 //		for (Consumer<MethodCode> consumer : codes) {
 //			consumer.accept(code);
 //		}
 //	}
 //
-//	static void set(String name, String o) {
+//	static public void set(String name, String o) {
 //		codes.add(wi(resolve(o), code -> code.STORE(name)));
 //	}
 //
 //	@SafeVarargs
-//	static Consumer<MethodCode> wi(Consumer<MethodCode>... codes) {
+//	static public Consumer<MethodCode> wi(Consumer<MethodCode>... codes) {
 //		return code -> {
 //			for (Consumer<MethodCode> consumer : codes) {
 //				consumer.accept(code);
@@ -195,7 +197,7 @@ public class HeroASMBuilder {
 //		};
 //	}
 //
-//	static Consumer<MethodCode> resolve(String name) {
+//	static public Consumer<MethodCode> resolve(String name) {
 //		if (name.startsWith(MAGICSTRING)) {
 //			return code -> code.LOAD(name);
 //		} else {
@@ -203,7 +205,7 @@ public class HeroASMBuilder {
 //		}
 //	}
 //
-//	static Consumer<MethodCode> resolve(byte magicIndex) {
+//	static public Consumer<MethodCode> resolve(byte magicIndex) {
 //		if (magicIndex >= MAGIC_byte) {
 //			return code -> code.LOAD(magicIndex - MAGIC_byte);
 //		} else {
@@ -211,7 +213,7 @@ public class HeroASMBuilder {
 //		}
 //	}
 //
-//	static Consumer<MethodCode> resolve(short magicIndex) {
+//	static public Consumer<MethodCode> resolve(short magicIndex) {
 //		if (magicIndex >= MAGIC_short) {
 //			return code -> code.LOAD(magicIndex - MAGIC_short);
 //		} else {
@@ -219,7 +221,7 @@ public class HeroASMBuilder {
 //		}
 //	}
 //
-//	static Consumer<MethodCode> resolve(int magicIndex) {
+//	static public Consumer<MethodCode> resolve(int magicIndex) {
 //		if (magicIndex >= MAGIC_int) {
 //			return code -> code.LOAD(magicIndex - MAGIC_int);
 //		} else {
@@ -227,7 +229,7 @@ public class HeroASMBuilder {
 //		}
 //	}
 //
-//	static Consumer<MethodCode> resolve(long magicIndex) {
+//	static public Consumer<MethodCode> resolve(long magicIndex) {
 //		if (magicIndex >= MAGIC_long) {
 //			return code -> code.LOAD((int) (magicIndex - MAGIC_long));
 //		} else {
@@ -235,7 +237,7 @@ public class HeroASMBuilder {
 //		}
 //	}
 //
-//	static Consumer<MethodCode> resolve(float magicIndex) {
+//	static public Consumer<MethodCode> resolve(float magicIndex) {
 //		if (magicIndex >= MAGIC_float) {
 //			return code -> code.LOAD((int) (magicIndex - MAGIC_float));
 //		} else {
@@ -243,7 +245,7 @@ public class HeroASMBuilder {
 //		}
 //	}
 //
-//	static Consumer<MethodCode> resolve(double magicIndex) {
+//	static public Consumer<MethodCode> resolve(double magicIndex) {
 //		if (magicIndex >= MAGIC_double) {
 //			return code -> code.LOAD((int) (magicIndex - MAGIC_double));
 //		} else {
@@ -251,7 +253,7 @@ public class HeroASMBuilder {
 //		}
 //	}
 
-	static void resolve(MethodCode code, byte magicIndex) {
+	static public void resolve(MethodCode code, byte magicIndex) {
 		if (magicIndex >= MAGIC_byte) {
 			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_byte));
 		} else {
@@ -259,7 +261,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, char magicIndex) {
+	static public void resolve(MethodCode code, char magicIndex) {
 		if (magicIndex >= MAGIC_char) {
 			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_char));
 		} else {
@@ -267,7 +269,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, short magicIndex) {
+	static public void resolve(MethodCode code, short magicIndex) {
 		if (magicIndex >= MAGIC_short) {
 			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_short));
 		} else {
@@ -275,7 +277,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, int magicIndex) {
+	static public void resolve(MethodCode code, int magicIndex) {
 		if (magicIndex >= MAGIC_int) {
 			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_int));
 		} else {
@@ -283,7 +285,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, long magicIndex) {
+	static public void resolve(MethodCode code, long magicIndex) {
 		if (magicIndex >= MAGIC_long) {
 			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_long)));
 		} else {
@@ -291,7 +293,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, float magicIndex) {
+	static public void resolve(MethodCode code, float magicIndex) {
 		if (magicIndex >= MAGIC_float) {
 			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_float)));
 		} else {
@@ -299,7 +301,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, double magicIndex) {
+	static public void resolve(MethodCode code, double magicIndex) {
 		if (magicIndex >= MAGIC_double) {
 			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_double)));
 		} else {
@@ -307,7 +309,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, Character magicIndex) {
+	static public void resolve(MethodCode code, Character magicIndex) {
 		if (magicIndex >= MAGIC_byte) {
 			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_byte));
 		} else {
@@ -316,7 +318,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, Byte magicIndex) {
+	static public void resolve(MethodCode code, Byte magicIndex) {
 		if (magicIndex >= MAGIC_byte) {
 			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_byte));
 		} else {
@@ -325,7 +327,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, Short magicIndex) {
+	static public void resolve(MethodCode code, Short magicIndex) {
 		if (magicIndex >= MAGIC_short) {
 			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_short));
 		} else {
@@ -334,7 +336,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, Integer magicIndex) {
+	static public void resolve(MethodCode code, Integer magicIndex) {
 		if (magicIndex >= MAGIC_int) {
 			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_int));
 		} else {
@@ -343,7 +345,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, Long magicIndex) {
+	static public void resolve(MethodCode code, Long magicIndex) {
 		if (magicIndex >= MAGIC_long) {
 			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_long)));
 		} else {
@@ -352,7 +354,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, Float magicIndex) {
+	static public void resolve(MethodCode code, Float magicIndex) {
 		if (magicIndex >= MAGIC_float) {
 			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_float)));
 		} else {
@@ -361,7 +363,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, Double magicIndex) {
+	static public void resolve(MethodCode code, Double magicIndex) {
 		if (magicIndex >= MAGIC_double) {
 			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_double)));
 		} else {
@@ -370,7 +372,7 @@ public class HeroASMBuilder {
 		}
 	}
 
-	static void resolve(MethodCode code, String name) {
+	static public void resolve(MethodCode code, String name) {
 		if (name.startsWith(MAGICSTRING)) {
 			code.LOAD(name);
 		} else {

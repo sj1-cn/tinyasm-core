@@ -1,6 +1,6 @@
-package cc1sj.tinyasm.hero;
+package cc1sj.tinyasm.hero.helperclass;
 
-public class Hello {
+public class HelloClass {
 	String name;
 	char ageChar;
 	byte ageByte;

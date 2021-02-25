@@ -1,6 +1,6 @@
-package cc1sj.tinyasm.hero;
+package cc1sj.tinyasm.hero.helperclass;
 
-import static cc1sj.tinyasm.hero.HeroASMBuilder.*;
+import static cc1sj.tinyasm.hero.TinyAsmBuilder.*;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_SUPER;
 
@@ -43,7 +43,7 @@ public class ContactHelloHeroTinyAsm {
 	public static void say(MethodCode code) {
 		attach(code);
 
-		Hello hello = ctor(Hello.class);
+		HelloClass hello = ctor(HelloClass.class);
 		hello.setName("wangshilian");
 		String name = hello.getName();
 		hello.setName(name);

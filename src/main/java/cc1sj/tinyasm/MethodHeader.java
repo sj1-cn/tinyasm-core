@@ -10,7 +10,7 @@ public interface MethodHeader extends WithAccess<MethodHeader>, WithReturn<Metho
 	void end();
 
 	void code(Consumer<MethodCode> invocation);
-	MethodCode code();
+//	MethodCode code();
 	
 	MethodVisitor getMethodVisitor();
 

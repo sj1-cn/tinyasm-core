@@ -11,7 +11,7 @@ public class ClazzVariable implements Clazz {
 
 	@Override
 	public Type getType() {
-		return null;
+		return Type.getType(Object.class);
 	}
 
 	@Override

@@ -108,11 +108,11 @@ class MethodHeaderBuilder implements MethodHeader {
 		this.end();
 	}
 	
-	@Override
-	public MethodCode code() {
-		MethodCode mc = this.begin();
-		return mc;
-	}
+//	@Override
+//	public MethodCode code() {
+//		MethodCode mc = this.begin();
+//		return mc;
+//	}
 
 //	@Override
 //	public MethodHeader friendly(Consumer<MethodCodeAdv> invocation) {

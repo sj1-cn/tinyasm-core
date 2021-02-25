@@ -191,7 +191,7 @@ public class MethodCodeHero extends MethodCode {
 	}
 
 	@Override
-	void END() {
+	public void END() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -15,7 +15,7 @@ import org.objectweb.asm.Opcodes;
 
 import com.google.common.collect.ImmutableMap;
 
-import cc1sj.tinyasm.hero.NebulaClassLoader;
+import cc1sj.tinyasm.hero.TinyAsmClassLoader;
 
 public class BrokerBuilder {
 	Logger log = LoggerFactory.getLogger(getClass());
@@ -105,8 +105,8 @@ public class BrokerBuilder {
 					}
 				}
 
-				Class<?> clzBroker = NebulaClassLoader.defineClass(typeName, code);
-				NebulaClassLoader.doResolveClass(clzBroker);
+				Class<?> clzBroker = TinyAsmClassLoader.defineClass(typeName, code);
+				TinyAsmClassLoader.doResolveClass(clzBroker);
 			}
 
 			// 构建代理构建类，主要是为了性能，避免每次都是用Class.newInstance() 来构建代理
@@ -131,7 +131,7 @@ public class BrokerBuilder {
 					}
 				}
 
-				Class<?> clzBuilder = NebulaClassLoader.defineClass(builderTypeName, codeBuilder);
+				Class<?> clzBuilder = TinyAsmClassLoader.defineClass(builderTypeName, codeBuilder);
 
 				builder = (BrokerInstanceBuilder) clzBuilder.getDeclaredConstructor().newInstance();
 			}

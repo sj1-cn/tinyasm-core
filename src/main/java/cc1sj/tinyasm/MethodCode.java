@@ -1071,7 +1071,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		CHECKCAST(typeOf(type));
 	}
 
-	protected void CHECKCAST(Type type) {
+	public void CHECKCAST(Type type) {
 		stackPop();
 		stackPush(type);
 		visitTypeInsn(CHECKCAST, type);
@@ -1595,8 +1595,9 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		return VIRTUAL(Clazz.of(typeOfThis()), methodName);
 	}
 
-	abstract void END();
+	public abstract void END();
 
 	abstract Label codeNewLabel();
+
 
 }

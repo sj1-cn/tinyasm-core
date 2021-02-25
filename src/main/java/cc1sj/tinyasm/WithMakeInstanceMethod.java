@@ -4,7 +4,7 @@ import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
-interface WithMakeInstanceMethod {
+public interface WithMakeInstanceMethod {
 
 	default MethodHeader privateMethod(Class<?> returnClass, String name) {
 		return method(ACC_PRIVATE, Clazz.of(returnClass), name);
