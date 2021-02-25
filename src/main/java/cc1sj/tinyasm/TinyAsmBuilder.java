@@ -30,7 +30,7 @@ public class TinyAsmBuilder {
 	static private final double MAGIC_double = Double.MAX_VALUE - 107;
 
 	// Need Change to ThreadLocal
-	static int _locals = 0;
+	static int _locals;
 	static Stack<MethodCode> codes = new Stack<MethodCode>();
 	static Stack<Integer> localsStack = new Stack<Integer>();
 
@@ -44,7 +44,7 @@ public class TinyAsmBuilder {
 		}
 //		codes.push(code);
 		TinyAsmBuilder._code = code;
-		TinyAsmBuilder._locals = 0;
+		TinyAsmBuilder._locals = 10;
 	}
 
 	static void exitCode() {
@@ -60,6 +60,32 @@ public class TinyAsmBuilder {
 		_code.LINE();
 		_code.LOADConst(i);
 		return refer(_code, int.class);
+	}
+
+//	static public <T> T getField(T obj, String name, Class<T> clazz) {
+//		_code.LINE();
+//		_code.LOAD_THIS();
+//		_code.GET_THIS_FIELD(name);
+//		return refer(clazz);
+//	}
+
+	static public <T> T getField(String name, Class<T> clazz) {
+		_code.LINE();
+		_code.LOAD_THIS();
+		_code.GET_THIS_FIELD(name);
+		return refer(clazz);
+	}
+
+	static public <T> T param(String name, Class<T> clazz) {
+		int locals = _code.codeLocalGetLocals(name);
+		return refer(_code, clazz, locals);
+	}
+
+	static public <T> void setField(String name, T value) {
+		_code.LINE();
+		_code.LOAD_THIS();
+		resolve(_code, value);
+		_code.PUTFIELD_OF_THIS(name);
 	}
 
 	static public int add(int l, int r) {
@@ -116,12 +142,15 @@ public class TinyAsmBuilder {
 		return refer(_code, t);
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <T> T refer(MethodCode code, Class<T> t) {
-
 		_locals++;
 		String strKey = String.valueOf(MAGICSTRING + _locals);
 		code.STORE(strKey, t);
+		return refer(code, t, _locals);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T refer(MethodCode code, Class<T> t, int locals) {
 
 		if (t.isPrimitive()) {
 			if (t == boolean.class) {
@@ -176,9 +205,11 @@ public class TinyAsmBuilder {
 				String key = String.valueOf(MAGICSTRING + _locals);
 				return (T) key;
 			} else if (t.isInterface()) {
+				String strKey = String.valueOf(MAGICSTRING + _locals);
 				T proxy = brokerBuilder.builder(t, strKey, _code);
 				return proxy;
 			} else if (!Modifier.isFinal(t.getModifiers())) {
+				String strKey = String.valueOf(MAGICSTRING + _locals);
 				T proxy = brokerBuilder.builder(t, strKey, _code);
 				return proxy;
 			} else {
