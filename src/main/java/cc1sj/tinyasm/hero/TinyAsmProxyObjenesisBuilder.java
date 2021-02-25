@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.objenesis.Objenesis;
+import org.objenesis.ObjenesisStd;
+import org.objenesis.instantiator.ObjectInstantiator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,15 +16,16 @@ import com.google.common.collect.ImmutableMap;
 
 import cc1sj.tinyasm.MethodCode;
 
-class TinyAsmProxyBuilder {
+class TinyAsmProxyObjenesisBuilder {
+	Objenesis objenesis = new ObjenesisStd(); // or ObjenesisSerializer
 	Logger log = LoggerFactory.getLogger(getClass());
 
-	Map<String, TinyAsmProxyRuntimeProxyFactory> knownBrokeres;
+	Map<String, ObjectInstantiator<?>> knownBrokeres;
 //	final BrokerInstanceBuilderClassMaker instanceBuilder;
 
 	ReentrantLock lock = new ReentrantLock();
 
-	public TinyAsmProxyBuilder() {
+	public TinyAsmProxyObjenesisBuilder() {
 		knownBrokeres = ImmutableMap.of();
 //		instanceBuilder = new BrokerInstanceBuilderClassMaker();
 	}
@@ -32,14 +36,12 @@ class TinyAsmProxyBuilder {
 
 	static int count = 0;
 
-	@SuppressWarnings("unchecked")
 	public <T> T builder(Class<T> target, String name, MethodCode methodCode) {
 
-		TinyAsmProxyRuntimeProxyFactory builder = knownBrokeres.get(target.getName());
+		ObjectInstantiator<?> builder = knownBrokeres.get(target.getName());
 
 		if (builder != null) {
-			T broker = (T) builder.build(methodCode, name);
-			return broker;
+			return make(builder, name, methodCode);
 		}
 
 		lock.lock();
@@ -47,8 +49,7 @@ class TinyAsmProxyBuilder {
 
 			builder = knownBrokeres.get(target.getName());
 			if (builder != null) {
-				T broker = (T) builder.build(methodCode, name);
-				return broker;
+				return make(builder, name, methodCode);
 			}
 
 			count++;
@@ -82,42 +83,16 @@ class TinyAsmProxyBuilder {
 				}
 
 				Class<?> clzBroker = TinyAsmClassLoader.defineClass(proxyClassName, code);
-				
+
 				TinyAsmClassLoader.doResolveClass(clzBroker);
+				builder = objenesis.getInstantiatorOf(clzBroker);
 			}
 
-			// 构建代理构建类，主要是为了性能，避免每次都是用Class.newInstance() 来构建代理
-			{
-				String proxyBuilderClassName = proxyClassName + "_Builder";
-				byte[] codeBuilder = TinyAsmProxyFactoryAsmBuilder.dump(proxyClassName, "_Builder");
-
-				if (log.isDebugEnabled()) {
-					try {
-						String filename = "tmp/" + proxyBuilderClassName + ".class";
-						String path = filename.substring(0, filename.lastIndexOf('/'));
-						File file = new File(path);
-						if (!file.exists()) {
-							file.mkdir();
-						}
-						FileOutputStream fileOutputStream = new FileOutputStream(filename);
-						fileOutputStream.write(codeBuilder);
-						fileOutputStream.close();
-					} catch (FileNotFoundException e) {
-						log.error("", e);
-						throw new RuntimeException(e);
-					}
-				}
-
-				Class<?> clzBuilder = TinyAsmClassLoader.defineClass(proxyBuilderClassName, codeBuilder);
-
-				builder = (TinyAsmProxyRuntimeProxyFactory) clzBuilder.getDeclaredConstructor().newInstance();
-			}
-
-			ImmutableMap.Builder<String, TinyAsmProxyRuntimeProxyFactory> mapBuilder = ImmutableMap.builder();
+			ImmutableMap.Builder<String, ObjectInstantiator<?>> mapBuilder = ImmutableMap.builder();
 
 			this.knownBrokeres = mapBuilder.putAll(knownBrokeres).put(target.getName(), builder).build();
-			T broker = (T) builder.build(methodCode, name);
-			return broker;
+
+			return make(builder, name, methodCode);
 
 		} catch (ClassFormatError e) {
 			log.error("", e);
@@ -128,5 +103,13 @@ class TinyAsmProxyBuilder {
 		} finally {
 			lock.unlock();
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <T> T make(ObjectInstantiator<?> builder, String name, MethodCode methodCode) {
+		T t = (T) builder.newInstance();
+		TinyAsmProxyRuntimeReferNameObject o = (TinyAsmProxyRuntimeReferNameObject) t;
+		o.__init(methodCode, name);
+		return t;
 	}
 }

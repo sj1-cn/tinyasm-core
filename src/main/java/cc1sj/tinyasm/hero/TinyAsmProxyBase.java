@@ -110,8 +110,8 @@ public interface TinyAsmProxyBase {
 		code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 	}
 
-	static void method_getHero(ClassBody classWriter) {
-		classWriter.method(String.class, "get_______Hero").code(code -> {
+	static void get___ReferName(ClassBody classWriter) {
+		classWriter.method(String.class, "get___ReferName").code(code -> {
 
 			code.LINE(38);
 			code.LOAD("this");

@@ -1,27 +1,25 @@
 package cc1sj.tinyasm.hero.helperclass;
 
+import static cc1sj.tinyasm.hero.TinyAsmBuilder.refer;
 import static cc1sj.tinyasm.hero.TinyAsmBuilder.resolve;
 
 import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.hero.TinyAsmBuilder;
 import cc1sj.tinyasm.hero.TinyAsmProxyRuntimeReferNameObject;
 
 public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRuntimeReferNameObject {
 
-	final String _referName;
-//	final Context context;
-	MethodCode _code;
+	private String _referName;
+	private MethodCode _code;
 
-	public HelloClassTinyAsmProxy(MethodCode code, String __referName) {
-		super();
-		this._referName = __referName;
-//		this.context = context;
-		this._code = code;
+	@Override
+	public String get__ReferName() {
+		return this._referName;
 	}
 
 	@Override
-	public String get_______Hero() {
-		return this._referName;
+	public void __init(MethodCode code, String name) {
+		this._code = code;
+		this._referName = name;
 	}
 
 	@Override
@@ -29,16 +27,15 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getName").reTurn(String.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, String.class);
+		return refer(_code, String.class);
 	}
-
 
 	@Override
 	public char getAgeChar() {
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeChar").reTurn(char.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, char.class);
+		return refer(_code, char.class);
 	}
 
 	@Override
@@ -46,7 +43,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeByte").reTurn(byte.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, byte.class);
+		return refer(_code, byte.class);
 	}
 
 	@Override
@@ -54,7 +51,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeShort").reTurn(short.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, short.class);
+		return refer(_code, short.class);
 	}
 
 	@Override
@@ -62,7 +59,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeInt").reTurn(int.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, int.class);
+		return refer(_code, int.class);
 	}
 
 	@Override
@@ -71,7 +68,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeLong").reTurn(long.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, long.class);
+		return refer(_code, long.class);
 	}
 
 	@Override
@@ -80,7 +77,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeFloat").reTurn(float.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, float.class);
+		return refer(_code, float.class);
 	}
 
 	@Override
@@ -89,7 +86,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeDouble").reTurn(double.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, double.class);
+		return refer(_code, double.class);
 	}
 
 	@Override
@@ -98,7 +95,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeCharacter").reTurn(Character.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Character.class);
+		return refer(_code, Character.class);
 	}
 
 	@Override
@@ -107,7 +104,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeByte2").reTurn(Byte.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Byte.class);
+		return refer(_code, Byte.class);
 	}
 
 	@Override
@@ -116,7 +113,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeShort2").reTurn(Short.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Short.class);
+		return refer(_code, Short.class);
 	}
 
 	@Override
@@ -125,7 +122,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeInteger").reTurn(Integer.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Integer.class);
+		return refer(_code, Integer.class);
 	}
 
 	@Override
@@ -134,7 +131,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeLong2").reTurn(Long.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Long.class);
+		return refer(_code, Long.class);
 	}
 
 	@Override
@@ -143,7 +140,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeFloat2").reTurn(Float.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Float.class);
+		return refer(_code, Float.class);
 	}
 
 	@Override
@@ -152,7 +149,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.VIRTUAL(HelloClass.class, "getAgeDouble2").reTurn(Double.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Double.class);
+		return refer(_code, Double.class);
 	}
 
 	@Override
@@ -162,7 +159,7 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 		resolve(_code, value);
 		_code.VIRTUAL(HelloClass.class, "setName").parameter(String.class).INVOKE();
 	}
-	
+
 	@Override
 	public void setAgeChar(char value) {
 		_code.LINE();

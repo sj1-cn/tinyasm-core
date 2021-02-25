@@ -9,9 +9,7 @@ import static cc1sj.tinyasm.hero.TinyAsmProxyBase._resolveParameter;
 import static cc1sj.tinyasm.hero.TinyAsmProxyBase._resolveThis;
 import static cc1sj.tinyasm.hero.TinyAsmProxyBase._return;
 import static cc1sj.tinyasm.hero.TinyAsmProxyBase._virtual;
-import static cc1sj.tinyasm.hero.TinyAsmProxyBase.method_getHero;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
-import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
@@ -38,81 +36,111 @@ import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodHeader;
 
-class TinyAsmProxyForClassBuilder extends ClassVisitor implements TinyAsmProxyBase {
+class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
 
 	public static byte[] dump(Class<?> targetClass, String suffix) throws Exception {
 		Type targetType = Type.getType(targetClass);
 		String clazzName = targetType.getClassName() + suffix;
-		ClassBody classWriter = ClassBuilder.make(clazzName).eXtend(Clazz.of(targetType))
-				.implement(TinyAsmProxyRuntimeReferNameObject.class).access(ACC_PUBLIC | ACC_SUPER).body();
+		ClassBody classBody = ClassBuilder.make(clazzName).eXtend(Clazz.of(targetType)).implement(TinyAsmProxyRuntimeReferNameObject.class)
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
-		classWriter.field(ACC_FINAL, "_referName", Clazz.of(String.class));
-		classWriter.field(0, "_code", Clazz.of(MethodCode.class));
+		classBody.field(ACC_PRIVATE, "_referName", Clazz.of(String.class));
+		classBody.field(ACC_PRIVATE, "_code", Clazz.of(MethodCode.class));
 
-		classWriter.method("<init>").parameter("code", MethodCode.class).parameter("__referName", String.class).code(code -> {
+		init(classBody, targetClass);
+
+		get__ReferName(classBody);
+
+		__init(classBody);
+
+		method_getProperty(classBody, targetType, String.class, "getName");
+
+		method_getProperty(classBody, targetType, char.class, "getAgeChar");
+		method_getProperty(classBody, targetType, byte.class, "getAgeByte");
+		method_getProperty(classBody, targetType, short.class, "getAgeShort");
+		method_getProperty(classBody, targetType, int.class, "getAgeInt");
+		method_getProperty(classBody, targetType, long.class, "getAgeLong");
+		method_getProperty(classBody, targetType, float.class, "getAgeFloat");
+		method_getProperty(classBody, targetType, double.class, "getAgeDouble");
+
+		method_getProperty(classBody, targetType, Character.class, "getAgeCharacter");
+		method_getProperty(classBody, targetType, Byte.class, "getAgeByte2");
+		method_getProperty(classBody, targetType, Short.class, "getAgeShort2");
+		method_getProperty(classBody, targetType, Integer.class, "getAgeInteger");
+		method_getProperty(classBody, targetType, Long.class, "getAgeLong2");
+		method_getProperty(classBody, targetType, Float.class, "getAgeFloat2");
+		method_getProperty(classBody, targetType, Double.class, "getAgeDouble2");
+
+		method_setProperty(targetType, classBody, "setName", String.class);
+
+		method_setProperty(targetType, classBody, "setAgeChar", char.class);
+		method_setProperty(targetType, classBody, "setAgeByte", byte.class);
+		method_setProperty(targetType, classBody, "setAgeShort", short.class);
+		method_setProperty(targetType, classBody, "setAgeInt", int.class);
+		method_setProperty(targetType, classBody, "setAgeLong", long.class);
+		method_setProperty(targetType, classBody, "setAgeFloat", float.class);
+		method_setProperty(targetType, classBody, "setAgeDouble", double.class);
+
+		method_setProperty(targetType, classBody, "setAgeCharacter", Character.class);
+		method_setProperty(targetType, classBody, "setAgeByte2", Byte.class);
+		method_setProperty(targetType, classBody, "setAgeShort2", Short.class);
+		method_setProperty(targetType, classBody, "setAgeInteger", Integer.class);
+		method_setProperty(targetType, classBody, "setAgeLong2", Long.class);
+		method_setProperty(targetType, classBody, "setAgeFloat2", Float.class);
+		method_setProperty(targetType, classBody, "setAgeDouble2", Double.class);
+
+		return classBody.end().toByteArray();
+	}
+
+	protected static void init(ClassBody classBody, Class<?> targetClass) {
+		{
+			MethodCode code = classBody.method("<init>").begin();
 
 			code.LINE(14);
 			code.LOAD("this");
 			code.SPECIAL(Clazz.of(targetClass), "<init>").INVOKE();
 
-			code.LINE(15);
-			code.LOAD("this");
-			code.LOAD("__referName");
-			code.PUTFIELD("_referName", String.class);
+			code.RETURN();
+			code.END();
+		}
+	}
 
-			code.LINE(17);
+	protected static void __init(ClassBody classBody) {
+		{
+			MethodCode code = classBody.method("__init").parameter("code", MethodCode.class).parameter("name", String.class).begin();
+
+			code.LINE(21);
 			code.LOAD("this");
 			code.LOAD("code");
 			code.PUTFIELD("_code", MethodCode.class);
 
-			code.LINE(18);
+			code.LINE(22);
+			code.LOAD("this");
+			code.LOAD("name");
+			code.PUTFIELD("_referName", String.class);
+
+			code.LINE(23);
 			code.RETURN();
-		});
-		method_getHero(classWriter);
-
-		method_getProperty(classWriter, targetType, String.class, "getName");
-
-		method_getProperty(classWriter, targetType, char.class, "getAgeChar");
-		method_getProperty(classWriter, targetType, byte.class, "getAgeByte");
-		method_getProperty(classWriter, targetType, short.class, "getAgeShort");
-		method_getProperty(classWriter, targetType, int.class, "getAgeInt");
-		method_getProperty(classWriter, targetType, long.class, "getAgeLong");
-		method_getProperty(classWriter, targetType, float.class, "getAgeFloat");
-		method_getProperty(classWriter, targetType, double.class, "getAgeDouble");
-
-		method_getProperty(classWriter, targetType, Character.class, "getAgeCharacter");
-		method_getProperty(classWriter, targetType, Byte.class, "getAgeByte2");
-		method_getProperty(classWriter, targetType, Short.class, "getAgeShort2");
-		method_getProperty(classWriter, targetType, Integer.class, "getAgeInteger");
-		method_getProperty(classWriter, targetType, Long.class, "getAgeLong2");
-		method_getProperty(classWriter, targetType, Float.class, "getAgeFloat2");
-		method_getProperty(classWriter, targetType, Double.class, "getAgeDouble2");
-
-		method_setProperty(targetType, classWriter, "setName", String.class);
-
-		method_setProperty(targetType, classWriter, "setAgeChar", char.class);
-		method_setProperty(targetType, classWriter, "setAgeByte", byte.class);
-		method_setProperty(targetType, classWriter, "setAgeShort", short.class);
-		method_setProperty(targetType, classWriter, "setAgeInt", int.class);
-		method_setProperty(targetType, classWriter, "setAgeLong", long.class);
-		method_setProperty(targetType, classWriter, "setAgeFloat", float.class);
-		method_setProperty(targetType, classWriter, "setAgeDouble", double.class);
-
-		method_setProperty(targetType, classWriter, "setAgeCharacter", Character.class);
-		method_setProperty(targetType, classWriter, "setAgeByte2", Byte.class);
-		method_setProperty(targetType, classWriter, "setAgeShort2", Short.class);
-		method_setProperty(targetType, classWriter, "setAgeInteger", Integer.class);
-		method_setProperty(targetType, classWriter, "setAgeLong2", Long.class);
-		method_setProperty(targetType, classWriter, "setAgeFloat2", Float.class);
-		method_setProperty(targetType, classWriter, "setAgeDouble2", Double.class);
-
-		return classWriter.end().toByteArray();
+			code.END();
+		}
 	}
 
-	private static void method_setProperty(Type targetType, ClassBody classWriter, String methodName, Class<?> paramsClass) {
+	protected static void get__ReferName(ClassBody classBody) {
+		{
+			MethodCode code = classBody.method(String.class, "get__ReferName").begin();
+
+			code.LINE(16);
+			code.LOAD("this");
+			code.GETFIELD("_referName", String.class);
+			code.RETURNTop();
+			code.END();
+		}
+	}
+
+	private static void method_setProperty(Type targetType, ClassBody classBody, String methodName, Class<?> paramsClass) {
 		String param1 = "value";
 
-		MethodHeader mh = classWriter.method(methodName).parameter(param1, paramsClass);
+		MethodHeader mh = classBody.method(methodName).parameter(param1, paramsClass);
 
 		MethodCode code = mh.begin();
 
@@ -133,14 +161,14 @@ class TinyAsmProxyForClassBuilder extends ClassVisitor implements TinyAsmProxyBa
 		mh.end();
 	}
 
-	private static void method_getProperty(ClassBody classWriter, Type targetType, Class<?> returnClass, String methodName) {
-		method_getProperty(classWriter, targetType, Clazz.of(returnClass), methodName);
+	private static void method_getProperty(ClassBody classBody, Type targetType, Class<?> returnClass, String methodName) {
+		method_getProperty(classBody, targetType, Clazz.of(returnClass), methodName);
 
 	}
 
-	private static void method_getProperty(ClassBody classWriter, Type targetType, Clazz returnClass, String methodName) {
+	private static void method_getProperty(ClassBody classBody, Type targetType, Clazz returnClass, String methodName) {
 
-		MethodHeader mh = classWriter.method(returnClass, methodName);
+		MethodHeader mh = classBody.method(returnClass, methodName);
 		MethodCode code = mh.begin();
 //		 = mh.code();
 		_line(code);
@@ -166,30 +194,30 @@ class TinyAsmProxyForClassBuilder extends ClassVisitor implements TinyAsmProxyBa
 
 		ClassVisitor bw;
 //		target.getConstructor();
-		bw = new TinyAsmProxyForClassBuilder(Opcodes.ASM5, cw, suffix);
+		bw = new TinyAsmProxyForClassAsmBuilder(Opcodes.ASM5, cw, Type.getType(target).getInternalName(), suffix);
 		cr.accept(bw, ClassReader.SKIP_CODE);
 		return cw.toByteArray();
 	}
 
-	ClassBody classWriter;
+	ClassBody classBody;
 	String suffix;
 	Type targetType;
 	Type objectType;
 
-	public TinyAsmProxyForClassBuilder(int api, String suffix) {
+	public TinyAsmProxyForClassAsmBuilder(int api, String name, String suffix) {
 		super(api);
 		this.suffix = suffix;
+		mkProxyClass(name);
 	}
 
-	public TinyAsmProxyForClassBuilder(int api, ClassVisitor classVisitor, String suffix) {
+	public TinyAsmProxyForClassAsmBuilder(int api, ClassVisitor classVisitor, String name, String suffix) {
 		super(api, classVisitor);
 		this.suffix = suffix;
+
+		mkProxyClass(name);
 	}
 
-	@Override
-	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-//		super.visit(version, access, name, signature, superName, interfaces);
-
+	protected void mkProxyClass(String name) {
 		targetType = Type.getObjectType(name);
 		String proxyClassName = targetType.getClassName() + this.suffix;
 		objectType = Type.getObjectType(name + this.suffix);
@@ -198,31 +226,30 @@ class TinyAsmProxyForClassBuilder extends ClassVisitor implements TinyAsmProxyBa
 		ch.eXtend(Clazz.of(targetType));
 		ch.implement(TinyAsmProxyRuntimeReferNameObject.class);
 //		ch.access(access);
-		classWriter = ch.body();
+		classBody = ch.body();
 
-		classWriter.field(ACC_FINAL, "_referName", Clazz.of(String.class));
-		classWriter.field(0, "_code", Clazz.of(MethodCode.class));
+		classBody.field(ACC_PRIVATE, "_referName", Clazz.of(String.class));
+		classBody.field(ACC_PRIVATE, "_code", Clazz.of(MethodCode.class));
 
-		classWriter.method("<init>").parameter("code", MethodCode.class).parameter("__referName", String.class).code(code -> {
+		{
+			MethodCode code1 = classBody.method("<init>").begin();
 
-			code.LINE(14);
-			code.LOAD("this");
-			code.SPECIAL(Clazz.of(targetType), "<init>").INVOKE();
+			code1.LINE(14);
+			code1.LOAD("this");
+			code1.SPECIAL(Clazz.of(targetType), "<init>").INVOKE();
 
-			code.LINE(15);
-			code.LOAD("this");
-			code.LOAD("__referName");
-			code.PUTFIELD("_referName", String.class);
+			code1.RETURN();
+			code1.END();
+		}
 
-			code.LINE(17);
-			code.LOAD("this");
-			code.LOAD("code");
-			code.PUTFIELD("_code", MethodCode.class);
+		get__ReferName(classBody);
 
-			code.LINE(18);
-			code.RETURN();
-		});
-		method_getHero(classWriter);
+		__init(classBody);
+	}
+
+	@Override
+	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+//		super.visit(version, access, name, signature, superName, interfaces);
 
 	}
 
@@ -232,13 +259,13 @@ class TinyAsmProxyForClassBuilder extends ClassVisitor implements TinyAsmProxyBa
 //		stringBuilder.setLength(0);
 ////		stringBuilder.append("{\n");
 //		if (!methodIsStatic) {
-//			stringBuilder.append("classWriter.method(");
+//			stringBuilder.append("classBody.method(");
 //			if (access != (ACC_PUBLIC)) {
 //				appendAccessFlags(access);
 //				stringBuilder.append(", ");
 //			}
 //		} else {
-//			stringBuilder.append("classWriter.staticMethod(");
+//			stringBuilder.append("classBody.staticMethod(");
 //			if (access != (ACC_PUBLIC | ACC_STATIC)) {
 //				appendAccessFlags(access);
 //				stringBuilder.append(", ");
@@ -293,7 +320,7 @@ class TinyAsmProxyForClassBuilder extends ClassVisitor implements TinyAsmProxyBa
 		if (!!!name.equals("<init>") && !!!name.equals("<clinit>")
 				&& (access & (ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC | ACC_NATIVE | ACC_BRIDGE)) == 0) {
 
-			MethodHeader mh = classWriter.method(returnClazz, name);
+			MethodHeader mh = classBody.method(returnClazz, name);
 //			mh.access(access);
 			for (int i = 0; i < methodParamTypes.length; i++) {
 				mh.parameter("param" + i, Clazz.of(methodParamTypes[i]));

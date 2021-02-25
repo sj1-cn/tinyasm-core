@@ -466,7 +466,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 				visitLdcInsn(cst);
 				stackPush(Type.getType(String.class));
 			} else if (sort == Type.ARRAY) {
-				throw new UnsupportedOperationException();
+				visitLdcInsn(cst);
+				stackPush(Type.getType(String.class));
 			} else if (sort == Type.METHOD) {
 				throw new UnsupportedOperationException();
 			} else {

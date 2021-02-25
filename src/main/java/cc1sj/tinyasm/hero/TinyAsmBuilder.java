@@ -1,7 +1,6 @@
 package cc1sj.tinyasm.hero;
 
-import java.util.Stack;
-import java.util.function.Consumer;
+import java.lang.reflect.Modifier;
 
 import cc1sj.tinyasm.MethodCode;
 
@@ -52,6 +51,8 @@ public class TinyAsmBuilder {
 		return refer(_code, short.class);
 	}
 
+	static final private TinyAsmProxyObjenesisBuilder brokerBuilder = new TinyAsmProxyObjenesisBuilder();
+
 	static public <T> T ctor(Class<T> helloclass) {
 		locals++;
 		String key = String.valueOf(MAGICSTRING + locals);
@@ -61,103 +62,128 @@ public class TinyAsmBuilder {
 		_code.SPECIAL(helloclass, "<init>").INVOKE();
 //		String key = refer(code, null)
 		_code.STORE(key, helloclass);
-//		return (T)new HelloClassTinyAsmProxy(_code, key);
-		//TODO 
-		return null;
+
+		T t = brokerBuilder.builder(helloclass, key, _code);
+		return t;
 	}
 
-//	static public <T> T refer(Class<T> clazz) {
-//		if (clazz == Hello.class) {
-//			try {
-//				HelloInnerTinyAsmDump.dump(Type.getType("Lcc1sj/tinyasm/hero/Hello;"));
-//
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				throw new UnsupportedOperationException();
-//			}
-//		}
-//		return null;
-//	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T refer(Stack<Consumer<MethodCode>> __codes2, Class<T> t) {
-		locals++;
-		String strKey = String.valueOf(MAGICSTRING + locals);
-		__codes2.add(code -> code.STORE(strKey, t));
-
-		if (t == String.class) {
-			String key = String.valueOf(MAGICSTRING + locals);
-			return (T) key;
-		} else if (t == boolean.class) {
-			throw new UnsupportedOperationException();
-		} else if (t == Byte.class) {
-			Byte key = (byte) (MAGIC_byte + locals);
-			return (T) key;
-		} else if (t == Character.class) {
-			Character key = (char) (MAGIC_char + locals);
-			return (T) key;
-		} else if (t == Short.class || t == short.class) {
-			Short key = (short) (MAGIC_short + locals);
-			return (T) key;
-		} else if (t == Integer.class) {
-			Integer key = (int) (MAGIC_int + locals);
-			return (T) key;
-		} else if (t == Long.class) {
-			Long key = (long) (MAGIC_long + locals);
-			return (T) key;
-		} else if (t == Float.class) {
-			Float key = (float) (MAGIC_float + locals);
-			return (T) key;
-		} else if (t == Double.class) {
-			Double key = (double) (MAGIC_double + locals);
-			return (T) key;
-		}
-		if (t == int.class) {
-
-		}
-
-		return null;
+	public static <T> T refer(Class<T> t) {
+		return refer(_code, t);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T> T refer(MethodCode code, Class<T> t) {
+
 		locals++;
 		String strKey = String.valueOf(MAGICSTRING + locals);
 		code.STORE(strKey, t);
 
-		if (t == String.class) {
-			String key = String.valueOf(MAGICSTRING + locals);
-			return (T) key;
-		} else if (t == boolean.class) {
-			throw new UnsupportedOperationException();
-		} else if (t == Byte.class) {
-			Byte key = (byte) (MAGIC_byte + locals);
-			return (T) key;
-		} else if (t == Character.class) {
-			Character key = (char) (MAGIC_char + locals);
-			return (T) key;
-		} else if (t == Short.class || t == short.class) {
-			Short key = (short) (MAGIC_short + locals);
-			return (T) key;
-		} else if (t == Integer.class) {
-			Integer key = (int) (MAGIC_int + locals);
-			return (T) key;
-		} else if (t == Long.class) {
-			Long key = (long) (MAGIC_long + locals);
-			return (T) key;
-		} else if (t == Float.class) {
-			Float key = (float) (MAGIC_float + locals);
-			return (T) key;
-		} else if (t == Double.class) {
-			Double key = (double) (MAGIC_double + locals);
-			return (T) key;
-		}
-		if (t == int.class) {
+		if (t.isPrimitive()) {
+			if (t == boolean.class) {
+				throw new UnsupportedOperationException();
+			} else if (t == byte.class) {
+				Byte key = (byte) (MAGIC_byte + locals);
+				return (T) key;
+			} else if (t == char.class) {
+				Character key = (char) (MAGIC_char + locals);
+				return (T) key;
+			} else if (t == short.class) {
+				Short key = (short) (MAGIC_short + locals);
+				return (T) key;
+			} else if (t == int.class) {
+				Integer key = (int) (MAGIC_int + locals);
+				return (T) key;
+			} else if (t == long.class) {
+				Long key = (long) (MAGIC_long + locals);
+				return (T) key;
+			} else if (t == float.class) {
+				Float key = (float) (MAGIC_float + locals);
+				return (T) key;
+			} else if (t == double.class) {
+				Double key = (double) (MAGIC_double + locals);
+				return (T) key;
+			}
+		} else {
+			if (t == boolean.class) {
+				throw new UnsupportedOperationException();
+			} else if (t == Byte.class) {
+				Byte key = (byte) (MAGIC_byte + locals);
+				return (T) key;
+			} else if (t == Character.class) {
+				Character key = (char) (MAGIC_char + locals);
+				return (T) key;
+			} else if (t == Short.class) {
+				Short key = (short) (MAGIC_short + locals);
+				return (T) key;
+			} else if (t == Integer.class) {
+				Integer key = (int) (MAGIC_int + locals);
+				return (T) key;
+			} else if (t == Long.class) {
+				Long key = (long) (MAGIC_long + locals);
+				return (T) key;
+			} else if (t == Float.class) {
+				Float key = (float) (MAGIC_float + locals);
+				return (T) key;
+			} else if (t == Double.class) {
+				Double key = (double) (MAGIC_double + locals);
+				return (T) key;
+			} else if (t == String.class) {
+				String key = String.valueOf(MAGICSTRING + locals);
+				return (T) key;
+			} else if (t.isInterface()) {
+				T proxy = brokerBuilder.builder(t, strKey, _code);
+				return proxy;
+			} else if (!Modifier.isFinal(t.getModifiers())) {
+				T proxy = brokerBuilder.builder(t, strKey, _code);
+				return proxy;
+			} else {
+				return null;
+			}
 
 		}
 
 		return null;
 	}
+//
+//	@SuppressWarnings("unchecked")
+//	public static <T> T refer(MethodCode code, Class<T> t) {
+//		locals++;
+//		String strKey = String.valueOf(MAGICSTRING + locals);
+//		code.STORE(strKey, t);
+//
+//		if (t == String.class) {
+//			String key = String.valueOf(MAGICSTRING + locals);
+//			return (T) key;
+//		} else if (t == boolean.class) {
+//			throw new UnsupportedOperationException();
+//		} else if (t == Byte.class) {
+//			Byte key = (byte) (MAGIC_byte + locals);
+//			return (T) key;
+//		} else if (t == Character.class) {
+//			Character key = (char) (MAGIC_char + locals);
+//			return (T) key;
+//		} else if (t == Short.class || t == short.class) {
+//			Short key = (short) (MAGIC_short + locals);
+//			return (T) key;
+//		} else if (t == Integer.class) {
+//			Integer key = (int) (MAGIC_int + locals);
+//			return (T) key;
+//		} else if (t == Long.class) {
+//			Long key = (long) (MAGIC_long + locals);
+//			return (T) key;
+//		} else if (t == Float.class) {
+//			Float key = (float) (MAGIC_float + locals);
+//			return (T) key;
+//		} else if (t == Double.class) {
+//			Double key = (double) (MAGIC_double + locals);
+//			return (T) key;
+//		}
+//		if (t == int.class) {
+//
+//		}
+//
+//		return null;
+//	}
 //	static public String cst(String cst) {
 //		locals++;
 //		String key = String.valueOf(MAGICSTRING + locals);
@@ -377,6 +403,15 @@ public class TinyAsmBuilder {
 			code.LOAD(name);
 		} else {
 			code.LOADConst(name);
+		}
+	}
+
+	static public void resolve(MethodCode code, Object obj) {
+		if (obj instanceof TinyAsmProxyRuntimeReferNameObject) {
+			String name = ((TinyAsmProxyRuntimeReferNameObject) obj).get__ReferName();
+			code.LOAD(name);
+		} else {
+			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
 		}
 	}
 }

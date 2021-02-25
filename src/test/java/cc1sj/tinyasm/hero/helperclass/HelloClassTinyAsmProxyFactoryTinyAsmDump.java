@@ -9,15 +9,15 @@ import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.hero.helperclass.HelloClassTinyAsmProxy;
 import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.hero.TinyAsmProxyFactory;
 import java.lang.Object;
 import java.lang.String;
+import cc1sj.tinyasm.hero.TinyAsmProxyRuntimeProxyFactory;
 @SuppressWarnings("unused")
 public class HelloClassTinyAsmProxyFactoryTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.hero.helperclass.HelloClassTinyAsmProxyFactory", null, TinyAsmProxyFactory.class).access(ACC_PUBLIC | ACC_SUPER).body();
+ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.hero.helperclass.HelloClassTinyAsmProxyFactory", null, TinyAsmProxyRuntimeProxyFactory.class).access(ACC_PUBLIC | ACC_SUPER).body();
 
 {
 	MethodCode code = classBody.method("<init>").begin();
@@ -37,11 +37,19 @@ ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.hero.helperclass.HelloCla
 	code.LINE(9);
 	code.NEW(HelloClassTinyAsmProxy.class);
 	code.DUP();
+	code.SPECIAL(HelloClassTinyAsmProxy.class, "<init>").INVOKE();
+	code.STORE("proxy",HelloClassTinyAsmProxy.class);
+
+	code.LINE(10);
+	code.LOAD("proxy");
 	code.LOAD("code");
 	code.LOAD("__referName");
-	code.SPECIAL(HelloClassTinyAsmProxy.class, "<init>")
+	code.VIRTUAL(HelloClassTinyAsmProxy.class, "__init")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
+
+	code.LINE(11);
+	code.LOAD("proxy");
 	code.RETURNTop();
 	code.END();
 }

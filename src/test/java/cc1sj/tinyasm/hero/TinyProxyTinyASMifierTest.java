@@ -5,11 +5,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import cc1sj.tinyasm.hero.TinyAsmProxyForClassBuilder;
-import cc1sj.tinyasm.hero.TinyAsmProxyFactoryAsmBuilder;
-import cc1sj.tinyasm.hero.TinyAsmProxyForInterfaceAsmBuilder;
 import cc1sj.tinyasm.hero.helperclass.ContactHello;
-import cc1sj.tinyasm.hero.helperclass.ContactHelloHeroTinyAsm;
+import cc1sj.tinyasm.hero.helperclass.ContactHelloWithTinyAsmProxy;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
 import cc1sj.tinyasm.hero.helperclass.HelloClassTinyAsmProxy;
 import cc1sj.tinyasm.hero.helperclass.HelloClassTinyAsmProxyFactory;
@@ -20,7 +17,7 @@ import cc1sj.tinyasm.util.TinyAsmTestUtils;
 public class TinyProxyTinyASMifierTest {
 
 	@Test
-	public void testContactHello() throws Exception {
+	public void test_ContactHello_Dump() throws Exception {
 		Class<?> expectedClazz = ContactHello.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
@@ -37,12 +34,12 @@ public class TinyProxyTinyASMifierTest {
 	}
 
 	@Test
-	public void testContactHelloHeroTinyAsm() throws Exception {
+	public void test_ContactHello_AsmProxy() throws Exception {
 		Class<?> expectedClazz = ContactHello.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(ContactHelloHeroTinyAsm.dump());
+			String codeActual = TinyAsmTestUtils.toString(ContactHelloWithTinyAsmProxy.dump());
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -54,7 +51,7 @@ public class TinyProxyTinyASMifierTest {
 	}
 
 	@Test
-	public void testHelloInner() throws Exception {
+	public void test_HelloClassTinyAsmProxy_dump() throws Exception {
 		Class<?> expectedClazz = HelloClassTinyAsmProxy.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
@@ -71,12 +68,12 @@ public class TinyProxyTinyASMifierTest {
 	}
 
 	@Test
-	public void test_HelloInnerTinyAsmBuilder() throws Exception {
+	public void test_HelloClassTinyAsmProxy_Dump1() throws Exception {
 		Class<?> expectedClazz = HelloClassTinyAsmProxy.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyForClassBuilder.dump(HelloClass.class, "TinyAsmProxy"));
+			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyForClassAsmBuilder.dump(HelloClass.class, "TinyAsmProxy"));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -88,12 +85,12 @@ public class TinyProxyTinyASMifierTest {
 	}
 
 	@Test
-	public void test_HelloInnerTinyAsmBuilderdump2() throws Exception {
+	public void test_HelloClassTinyAsmProxy_Builder() throws Exception {
 		Class<?> expectedClazz = HelloClassTinyAsmProxy.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyForClassBuilder.dump2(HelloClass.class,"TinyAsmProxy"));
+			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyForClassAsmBuilder.dump2(HelloClass.class, "TinyAsmProxy"));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -105,12 +102,12 @@ public class TinyProxyTinyASMifierTest {
 	}
 
 	@Test
-	public void test_HelloInterfaceInner_TinyAsmBuilder() throws Exception {
+	public void test_HelloInterfaceTinyAsmProxy_Builder() throws Exception {
 		Class<?> expectedClazz = HelloInterfaceTinyAsmProxy.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyForInterfaceAsmBuilder.dump2(HelloInterface.class,"TinyAsmProxy"));
+			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyForInterfaceAsmBuilder.dump2(HelloInterface.class, "TinyAsmProxy"));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -121,38 +118,39 @@ public class TinyProxyTinyASMifierTest {
 
 	}
 
-	@Test
-	public void testHelloTinyAsmBuilderProxyFactory() throws Exception {
-		Class<?> expectedClazz = HelloClassTinyAsmProxyFactory.class;
-		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+//	@Test
+//	public void test_HelloClassTinyAsmProxyFactory_dump() throws Exception {
+//		Class<?> expectedClazz = HelloClassTinyAsmProxyFactory.class;
+//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+//
+//		try {
+//			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+//
+//			assertEquals("Code", codeExpected, codeActual);
+//		} finally {
+//
+//			System.out.println(codeExpected);
+//
+//		}
+//
+//	}
 
-		try {
-			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
-
-			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-
-			System.out.println(codeExpected);
-
-		}
-
-	}
-
-	@Test
-	public void testTinyAsmBuilderProxyFactoryTinyAsmBuilder() throws Exception {
-		Class<?> expectedClazz = HelloClassTinyAsmProxyFactory.class;
-		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-
-		try {
-			String codeActual = TinyAsmTestUtils.toString(TinyAsmProxyFactoryAsmBuilder.dump(HelloClassTinyAsmProxy.class.getName(), "Factory"));
-
-			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-
-			System.out.println(codeExpected);
-
-		}
-
-	}
+//	@Test
+//	public void test_HelloClassTinyAsmProxyFactory_Builder() throws Exception {
+//		Class<?> expectedClazz = HelloClassTinyAsmProxyFactory.class;
+//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+//
+//		try {
+//			String codeActual = TinyAsmTestUtils
+//					.toString(TinyAsmProxyFactoryAsmBuilder.dump(HelloClassTinyAsmProxy.class.getName(), "Factory"));
+//
+//			assertEquals("Code", codeExpected, codeActual);
+//		} finally {
+//
+//			System.out.println(codeExpected);
+//
+//		}
+//
+//	}
 
 }

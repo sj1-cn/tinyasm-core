@@ -1,35 +1,33 @@
 package cc1sj.tinyasm.hero.helperclass;
 
+import static cc1sj.tinyasm.hero.TinyAsmBuilder.refer;
 import static cc1sj.tinyasm.hero.TinyAsmBuilder.resolve;
 
 import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.hero.TinyAsmBuilder;
 import cc1sj.tinyasm.hero.TinyAsmProxyRuntimeReferNameObject;
 
 public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyRuntimeReferNameObject {
 
-	final String _referName;
-//	final Context context;
-	MethodCode _code;
-
-	public HelloInterfaceTinyAsmProxy(MethodCode code, String __referName) {
-		super();
-		this._referName = __referName;
-//		this.context = context;
-		this._code = code;
-	}
+	private String _referName;
+	private MethodCode _code;
 
 	@Override
-	public String get_______Hero() {
+	public String get__ReferName() {
 		return this._referName;
 	}
 
+	@Override
+	public void __init(MethodCode code, String name) {
+		this._code = code;
+		this._referName = name;
+	}
+	
 	@Override
 	public String getName() {
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getName").reTurn(String.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, String.class);
+		return refer(_code, String.class);
 	}
 
 	@Override
@@ -37,7 +35,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeChar").reTurn(char.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, char.class);
+		return refer(_code, char.class);
 	}
 
 	@Override
@@ -45,7 +43,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeByte").reTurn(byte.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, byte.class);
+		return refer(_code, byte.class);
 	}
 
 	@Override
@@ -53,7 +51,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeShort").reTurn(short.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, short.class);
+		return refer(_code, short.class);
 	}
 
 	@Override
@@ -61,7 +59,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeInt").reTurn(int.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, int.class);
+		return refer(_code, int.class);
 	}
 
 	@Override
@@ -70,7 +68,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeLong").reTurn(long.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, long.class);
+		return refer(_code, long.class);
 	}
 
 	@Override
@@ -79,7 +77,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeFloat").reTurn(float.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, float.class);
+		return refer(_code, float.class);
 	}
 
 	@Override
@@ -88,7 +86,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeDouble").reTurn(double.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, double.class);
+		return refer(_code, double.class);
 	}
 
 	@Override
@@ -97,7 +95,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeCharacter").reTurn(Character.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Character.class);
+		return refer(_code, Character.class);
 	}
 
 	@Override
@@ -106,7 +104,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeByte2").reTurn(Byte.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Byte.class);
+		return refer(_code, Byte.class);
 	}
 
 	@Override
@@ -115,7 +113,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeShort2").reTurn(Short.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Short.class);
+		return refer(_code, Short.class);
 	}
 
 	@Override
@@ -124,7 +122,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeInteger").reTurn(Integer.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Integer.class);
+		return refer(_code, Integer.class);
 	}
 
 	@Override
@@ -133,7 +131,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeLong2").reTurn(Long.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Long.class);
+		return refer(_code, Long.class);
 	}
 
 	@Override
@@ -142,7 +140,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeFloat2").reTurn(Float.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Float.class);
+		return refer(_code, Float.class);
 	}
 
 	@Override
@@ -151,7 +149,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 		_code.LINE();
 		resolve(_code, this._referName);
 		_code.INTERFACE(HelloInterface.class, "getAgeDouble2").reTurn(Double.class).INVOKE();
-		return TinyAsmBuilder.refer(_code, Double.class);
+		return refer(_code, Double.class);
 	}
 
 	@Override
