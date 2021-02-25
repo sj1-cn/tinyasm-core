@@ -91,7 +91,7 @@ public interface TinyAsmProxyBase {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOAD(param1);
-		code.STATIC(TinyAsmBuilder.class, "resolve").parameter(MethodCode.class).parameter(paramsClass).INVOKE();
+		code.STATIC(HeroBuilder.class, "resolve").parameter(MethodCode.class).parameter(paramsClass).INVOKE();
 	}
 
 	static void _resolveThis(MethodCode code) {
@@ -100,7 +100,7 @@ public interface TinyAsmProxyBase {
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOAD("this");
 		code.GETFIELD("_referName", String.class);
-		code.STATIC(TinyAsmBuilder.class, "resolve").parameter(MethodCode.class).parameter(String.class).INVOKE();
+		code.STATIC(HeroBuilder.class, "resolve").parameter(MethodCode.class).parameter(String.class).INVOKE();
 	}
 
 	static void _line(MethodCode code) {
@@ -133,7 +133,7 @@ public interface TinyAsmProxyBase {
 	static void _refer(MethodCode code, Clazz returnClass) {
 		_code(code);
 		_type(code, returnClass);
-		code.STATIC(TinyAsmBuilder.class, "refer").reTurn(Object.class).parameter(MethodCode.class).parameter(Class.class).INVOKE();
+		code.STATIC(HeroBuilder.class, "refer").reTurn(Object.class).parameter(MethodCode.class).parameter(Class.class).INVOKE();
 		_cast(returnClass, code);
 	}
 

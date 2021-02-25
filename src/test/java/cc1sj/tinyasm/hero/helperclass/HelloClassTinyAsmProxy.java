@@ -1,7 +1,7 @@
 package cc1sj.tinyasm.hero.helperclass;
 
-import static cc1sj.tinyasm.hero.TinyAsmBuilder.refer;
-import static cc1sj.tinyasm.hero.TinyAsmBuilder.resolve;
+import static cc1sj.tinyasm.hero.HeroBuilder.refer;
+import static cc1sj.tinyasm.hero.HeroBuilder.resolve;
 
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.TinyAsmProxyRuntimeReferNameObject;

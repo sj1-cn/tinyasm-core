@@ -36,6 +36,11 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
+	public String toString() {
+		return "code" + mh.thisMethod.methodName;
+	}
+
+	@Override
 	public void BLOCK(Consumer<MethodCode> invocation) {
 		invocation.accept(this);
 	}
@@ -122,7 +127,7 @@ public class MethodCodeBuilder extends MethodCode {
 
 	@Override
 	public void END() {
-		mh.finishMethod();
+		mh.end();
 	}
 
 	public void LINE() {

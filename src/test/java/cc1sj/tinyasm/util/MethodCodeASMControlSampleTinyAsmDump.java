@@ -7,29 +7,37 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+import java.lang.Object;
+import java.lang.String;
 @SuppressWarnings("unused")
 public class MethodCodeASMControlSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.util.MethodCodeASMControlSample").access(ACC_PUBLIC | ACC_SUPER).body();
+ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.MethodCodeASMControlSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.field(0, "b", Clazz.of(byte.class));
-classWriter.method("<init>").code(code -> {
+classBody.field(0, "b", Clazz.of(byte.class));
+{
+	MethodCode code = classBody.method("<init>").begin();
 
 	code.LINE(3);
 	code.LOAD("this");
-	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
+	code.SPECIAL(Object.class, "<init>").INVOKE();
 
 	code.LINE(4);
 	code.LOAD("this");
 	code.LOADConst(1);
 	code.PUTFIELD("b", byte.class);
+
+	code.LINE(3);
 	code.RETURN();
-});
-classWriter.method(int.class, "addInt")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "addInt")
 	.parameter("x",long.class)
-	.parameter("y",long.class).code(code -> {
+	.parameter("y",long.class).begin();
 
 	code.LINE(7);
 	code.LOAD("x");
@@ -119,10 +127,13 @@ classWriter.method(int.class, "addInt")
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
-});
-classWriter.method(int.class, "addInt")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "addInt")
 	.parameter("x",float.class)
-	.parameter("y",float.class).code(code -> {
+	.parameter("y",float.class).begin();
 
 	code.LINE(29);
 	code.LOAD("x");
@@ -212,10 +223,13 @@ classWriter.method(int.class, "addInt")
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
-});
-classWriter.method(int.class, "addInt")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "addInt")
 	.parameter("x",double.class)
-	.parameter("y",double.class).code(code -> {
+	.parameter("y",double.class).begin();
 
 	code.LINE(51);
 	code.LOAD("x");
@@ -305,10 +319,13 @@ classWriter.method(int.class, "addInt")
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
-});
-classWriter.method(int.class, "addInt")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "addInt")
 	.parameter("x",int.class)
-	.parameter("y",int.class).code(code -> {
+	.parameter("y",int.class).begin();
 
 	code.LINE(73);
 	code.LOAD("x");
@@ -392,9 +409,12 @@ classWriter.method(int.class, "addInt")
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
-});
-classWriter.method(int.class, "addInt")
-	.parameter("x",int.class).code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "addInt")
+	.parameter("x",int.class).begin();
 
 	code.LINE(95);
 	code.LOAD("x");
@@ -472,10 +492,13 @@ classWriter.method(int.class, "addInt")
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
-});
-classWriter.method(int.class, "addInt")
-	.parameter("x",java.lang.String.class)
-	.parameter("y",java.lang.String.class).code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "addInt")
+	.parameter("x",String.class)
+	.parameter("y",String.class).begin();
 
 	code.LINE(117);
 	code.LOAD("x");
@@ -507,14 +530,17 @@ classWriter.method(int.class, "addInt")
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
-});
-classWriter.method(int.class, "add_instance")
-	.parameter("x",java.lang.String.class)
-	.parameter("y",java.lang.String.class).code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "add_instance")
+	.parameter("x",String.class)
+	.parameter("y",String.class).begin();
 
 	code.LINE(127);
 	code.LOAD("x");
-	code.INSTANCEOF(java.lang.String.class);
+	code.INSTANCEOF(String.class);
 	Label label1OfIFEQ = new Label();
 	code.IFEQ(label1OfIFEQ);
 
@@ -529,9 +555,12 @@ classWriter.method(int.class, "add_instance")
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
-});
-classWriter.method(byte.class, "addByte")
-	.parameter("o",java.lang.Object.class).code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(byte.class, "addByte")
+	.parameter("o",Object.class).begin();
 
 	code.LINE(134);
 	code.LOAD("o");
@@ -606,7 +635,9 @@ classWriter.method(byte.class, "addByte")
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
-});
-return classWriter.end().toByteArray();
+	code.END();
+}
+
+return classBody.end().toByteArray();
 }
 }

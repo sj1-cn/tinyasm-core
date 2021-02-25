@@ -121,7 +121,6 @@ public class TinyProxyTinyASMifierTest {
 
 	}
 
-
 	@Test
 	public void test_HelloClassChildTinyAsmProxy_Builder() throws Exception {
 		Class<?> expectedClazz = HelloClassChildTinyAsmProxy.class;
@@ -138,7 +137,7 @@ public class TinyProxyTinyASMifierTest {
 		}
 
 	}
-	
+
 	@Test
 	public void test_HelloInterfaceClassChild_Dump() throws Exception {
 		Class<?> expectedClazz = HelloInterfaceClassChild.class;
@@ -172,9 +171,7 @@ public class TinyProxyTinyASMifierTest {
 		}
 
 	}
-	
-	
-	
+
 //	@Test
 //	public void test_HelloClassTinyAsmProxyFactory_dump() throws Exception {
 //		Class<?> expectedClazz = HelloClassTinyAsmProxyFactory.class;

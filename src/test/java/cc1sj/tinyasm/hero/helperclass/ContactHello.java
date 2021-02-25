@@ -1,7 +1,7 @@
 package cc1sj.tinyasm.hero.helperclass;
 
 public class ContactHello {
-	void say() {
+	public void say() {
 		HelloClass hello = new HelloClass();
 
 		hello.setName("wangshilian");

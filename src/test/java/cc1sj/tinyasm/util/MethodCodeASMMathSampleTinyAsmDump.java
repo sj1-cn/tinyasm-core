@@ -7,47 +7,49 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+import java.lang.Object;
 @SuppressWarnings("unused")
 public class MethodCodeASMMathSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.util.MethodCodeASMMathSample").access(ACC_PUBLIC | ACC_SUPER).body();
+ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.MethodCodeASMMathSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.field(0, "b", Clazz.of(byte.class));
-classWriter.field(0, "c", Clazz.of(char.class));
-classWriter.field(0, "s", Clazz.of(short.class));
-classWriter.field(0, "i", Clazz.of(int.class));
-classWriter.field(0, "l", Clazz.of(long.class));
-classWriter.field(0, "f", Clazz.of(float.class));
-classWriter.field(0, "d", Clazz.of(double.class));
-classWriter.field(0, "b3", Clazz.of(byte.class));
-classWriter.field(0, "c3", Clazz.of(char.class));
-classWriter.field(0, "s3", Clazz.of(short.class));
-classWriter.field(0, "i3", Clazz.of(int.class));
-classWriter.field(0, "l3", Clazz.of(long.class));
-classWriter.field(0, "f3", Clazz.of(float.class));
-classWriter.field(0, "d3", Clazz.of(double.class));
-classWriter.field(0, "f31", Clazz.of(float.class));
-classWriter.field(0, "d31", Clazz.of(double.class));
-classWriter.field(0, "b0", Clazz.of(byte.class));
-classWriter.field(0, "c0", Clazz.of(char.class));
-classWriter.field(0, "s0", Clazz.of(short.class));
-classWriter.field(0, "i0", Clazz.of(int.class));
-classWriter.field(0, "l1", Clazz.of(long.class));
-classWriter.field(0, "f1", Clazz.of(float.class));
-classWriter.field(0, "d1", Clazz.of(double.class));
-classWriter.field(0, "bn1", Clazz.of(byte.class));
-classWriter.field(0, "sn1", Clazz.of(short.class));
-classWriter.field(0, "in1", Clazz.of(int.class));
-classWriter.field(0, "ln1", Clazz.of(long.class));
-classWriter.field(0, "fn1", Clazz.of(float.class));
-classWriter.field(0, "dn1", Clazz.of(double.class));
-classWriter.method("<init>").code(code -> {
+classBody.field(0, "b", Clazz.of(byte.class));
+classBody.field(0, "c", Clazz.of(char.class));
+classBody.field(0, "s", Clazz.of(short.class));
+classBody.field(0, "i", Clazz.of(int.class));
+classBody.field(0, "l", Clazz.of(long.class));
+classBody.field(0, "f", Clazz.of(float.class));
+classBody.field(0, "d", Clazz.of(double.class));
+classBody.field(0, "b3", Clazz.of(byte.class));
+classBody.field(0, "c3", Clazz.of(char.class));
+classBody.field(0, "s3", Clazz.of(short.class));
+classBody.field(0, "i3", Clazz.of(int.class));
+classBody.field(0, "l3", Clazz.of(long.class));
+classBody.field(0, "f3", Clazz.of(float.class));
+classBody.field(0, "d3", Clazz.of(double.class));
+classBody.field(0, "f31", Clazz.of(float.class));
+classBody.field(0, "d31", Clazz.of(double.class));
+classBody.field(0, "b0", Clazz.of(byte.class));
+classBody.field(0, "c0", Clazz.of(char.class));
+classBody.field(0, "s0", Clazz.of(short.class));
+classBody.field(0, "i0", Clazz.of(int.class));
+classBody.field(0, "l1", Clazz.of(long.class));
+classBody.field(0, "f1", Clazz.of(float.class));
+classBody.field(0, "d1", Clazz.of(double.class));
+classBody.field(0, "bn1", Clazz.of(byte.class));
+classBody.field(0, "sn1", Clazz.of(short.class));
+classBody.field(0, "in1", Clazz.of(int.class));
+classBody.field(0, "ln1", Clazz.of(long.class));
+classBody.field(0, "fn1", Clazz.of(float.class));
+classBody.field(0, "dn1", Clazz.of(double.class));
+{
+	MethodCode code = classBody.method("<init>").begin();
 
 	code.LINE(3);
 	code.LOAD("this");
-	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
+	code.SPECIAL(Object.class, "<init>").INVOKE();
 
 	code.LINE(4);
 	code.LOAD("this");
@@ -193,11 +195,16 @@ classWriter.method("<init>").code(code -> {
 	code.LOAD("this");
 	code.LOADConst(Double.valueOf("-1.0"));
 	code.PUTFIELD("dn1", double.class);
+
+	code.LINE(3);
 	code.RETURN();
-});
-classWriter.method(int.class, "addInt")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "addInt")
 	.parameter("x",int.class)
-	.parameter("y",int.class).code(code -> {
+	.parameter("y",int.class).begin();
 
 	code.LINE(41);
 	code.LOAD("x");
@@ -332,10 +339,13 @@ classWriter.method(int.class, "addInt")
 	code.LINE(65);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.method(byte.class, "addByte")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(byte.class, "addByte")
 	.parameter("x",byte.class)
-	.parameter("y",byte.class).code(code -> {
+	.parameter("y",byte.class).begin();
 
 	code.LINE(70);
 	code.LOAD("x");
@@ -433,10 +443,13 @@ classWriter.method(byte.class, "addByte")
 	code.LINE(86);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.method(short.class, "addShort")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(short.class, "addShort")
 	.parameter("x",short.class)
-	.parameter("y",short.class).code(code -> {
+	.parameter("y",short.class).begin();
 
 	code.LINE(91);
 	code.LOAD("x");
@@ -534,10 +547,13 @@ classWriter.method(short.class, "addShort")
 	code.LINE(106);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.method(long.class, "addLong")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(long.class, "addLong")
 	.parameter("x",long.class)
-	.parameter("y",long.class).code(code -> {
+	.parameter("y",long.class).begin();
 
 	code.LINE(111);
 	code.LOAD("x");
@@ -626,10 +642,13 @@ classWriter.method(long.class, "addLong")
 	code.LINE(126);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.method(char.class, "mathChar")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(char.class, "mathChar")
 	.parameter("x",char.class)
-	.parameter("y",char.class).code(code -> {
+	.parameter("y",char.class).begin();
 
 	code.LINE(131);
 	code.LOAD("x");
@@ -727,10 +746,13 @@ classWriter.method(char.class, "mathChar")
 	code.LINE(146);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.method(float.class, "mathFloat")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(float.class, "mathFloat")
 	.parameter("x",float.class)
-	.parameter("y",float.class).code(code -> {
+	.parameter("y",float.class).begin();
 
 	code.LINE(151);
 	code.LOAD("x");
@@ -800,10 +822,13 @@ classWriter.method(float.class, "mathFloat")
 	code.LINE(166);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.method(double.class, "mathDouble")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(double.class, "mathDouble")
 	.parameter("x",double.class)
-	.parameter("y",double.class).code(code -> {
+	.parameter("y",double.class).begin();
 
 	code.LINE(171);
 	code.LOAD("x");
@@ -873,7 +898,9 @@ classWriter.method(double.class, "mathDouble")
 	code.LINE(186);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-return classWriter.end().toByteArray();
+	code.END();
+}
+
+return classBody.end().toByteArray();
 }
 }

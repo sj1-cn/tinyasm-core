@@ -7,54 +7,63 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+import java.lang.Long;
+import java.lang.Object;
 @SuppressWarnings("unused")
 public class BoxUnboxSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.util.BoxUnboxSample").access(ACC_PUBLIC | ACC_SUPER).body();
+ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.BoxUnboxSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.method("<init>").code(code -> {
+{
+	MethodCode code = classBody.method("<init>").begin();
 
 	code.LINE(3);
 	code.LOAD("this");
-	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
+	code.SPECIAL(Object.class, "<init>").INVOKE();
 	code.RETURN();
-});
-classWriter.method("funcLong")
-	.parameter("l",java.lang.Long.class).code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method("funcLong")
+	.parameter("l",Long.class).begin();
 
 	code.LINE(5);
 	code.LOAD("l");
-	code.STORE("ll",java.lang.Long.class);
+	code.STORE("ll",Long.class);
 
 	code.LINE(6);
 	code.LOAD("ll");
-	code.VIRTUAL(java.lang.Long.class, "longValue")
+	code.VIRTUAL(Long.class, "longValue")
 		.reTurn(long.class).INVOKE();
 	code.LOADConst(1L);
 	code.ADD();
-	code.STATIC(java.lang.Long.class, "valueOf")
-		.reTurn(java.lang.Long.class)
+	code.STATIC(Long.class, "valueOf")
+		.reTurn(Long.class)
 		.parameter(long.class).INVOKE();
 	code.STORE("l");
 
 	code.LINE(7);
 	code.RETURN();
-});
-classWriter.method("funclong")
-	.parameter("l",long.class).code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method("funclong")
+	.parameter("l",long.class).begin();
 
 	code.LINE(10);
 	code.LOAD("l");
-	code.STATIC(java.lang.Long.class, "valueOf")
-		.reTurn(java.lang.Long.class)
+	code.STATIC(Long.class, "valueOf")
+		.reTurn(Long.class)
 		.parameter(long.class).INVOKE();
-	code.STORE("ll",java.lang.Long.class);
+	code.STORE("ll",Long.class);
 
 	code.LINE(11);
 	code.LOAD("ll");
-	code.VIRTUAL(java.lang.Long.class, "longValue")
+	code.VIRTUAL(Long.class, "longValue")
 		.reTurn(long.class).INVOKE();
 	code.LOADConst(1L);
 	code.ADD();
@@ -62,8 +71,11 @@ classWriter.method("funclong")
 
 	code.LINE(12);
 	code.RETURN();
-});
-classWriter.method("init").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method("init").begin();
 
 	code.LINE(15);
 	code.LOADConst(Long.valueOf(10L));
@@ -71,10 +83,10 @@ classWriter.method("init").code(code -> {
 
 	code.LINE(16);
 	code.LOADConst(Long.valueOf(100L));
-	code.STATIC(java.lang.Long.class, "valueOf")
-		.reTurn(java.lang.Long.class)
+	code.STATIC(Long.class, "valueOf")
+		.reTurn(Long.class)
 		.parameter(long.class).INVOKE();
-	code.STORE("ll",java.lang.Long.class);
+	code.STORE("ll",Long.class);
 
 	code.LINE(17);
 	code.LOAD("this");
@@ -86,7 +98,7 @@ classWriter.method("init").code(code -> {
 	code.LOAD("this");
 	code.LOAD("ll");
 	code.VIRTUAL("funcLong")
-		.parameter(java.lang.Long.class).INVOKE();
+		.parameter(Long.class).INVOKE();
 
 	code.LINE(19);
 	code.LOAD("this");
@@ -97,15 +109,17 @@ classWriter.method("init").code(code -> {
 	code.LINE(20);
 	code.LOAD("this");
 	code.LOADConst(Long.valueOf(2L));
-	code.STATIC(java.lang.Long.class, "valueOf")
-		.reTurn(java.lang.Long.class)
+	code.STATIC(Long.class, "valueOf")
+		.reTurn(Long.class)
 		.parameter(long.class).INVOKE();
 	code.VIRTUAL("funcLong")
-		.parameter(java.lang.Long.class).INVOKE();
+		.parameter(Long.class).INVOKE();
 
 	code.LINE(21);
 	code.RETURN();
-});
-return classWriter.end().toByteArray();
+	code.END();
+}
+
+return classBody.end().toByteArray();
 }
 }

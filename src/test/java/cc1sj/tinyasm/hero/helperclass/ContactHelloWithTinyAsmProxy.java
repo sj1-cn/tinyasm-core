@@ -1,6 +1,6 @@
 package cc1sj.tinyasm.hero.helperclass;
 
-import static cc1sj.tinyasm.hero.TinyAsmBuilder.*;
+import static cc1sj.tinyasm.hero.HeroBuilder.*;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_SUPER;
 
@@ -20,15 +20,15 @@ public class ContactHelloWithTinyAsmProxy {
 			code.SPECIAL(Object.class, "<init>").INVOKE();
 			code.RETURN();
 		});
-		classWriter.method(0, "say").code(code -> {
-
-			attach(code);
+		{
+			MethodCode code = classWriter.method("say").begin();
 
 			HelloClass hello = ctor(HelloClass.class);
 			hello.setName("wangshilian");
 			String name = hello.getName();
 			hello.setName(name);
 			hello.setAgeShort((short) 10);
+
 			short age = hello.getAgeShort();
 			hello.setAgeShort(age);
 			short age2 = add(age, (short) 10);
@@ -40,7 +40,9 @@ public class ContactHelloWithTinyAsmProxy {
 
 			code.LINE(7);
 			code.RETURN();
-		});
+
+			code.END();
+		}
 		return classWriter.end().toByteArray();
 	}
 

@@ -13,6 +13,8 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import cc1sj.tinyasm.hero.HeroBuilder;
+
 class MethodHeaderBuilder implements MethodHeader {
 	class ThisMethod {
 
@@ -84,6 +86,8 @@ class MethodHeaderBuilder implements MethodHeader {
 //		return this;
 //	}
 
+	boolean entered = false;
+
 	@Override
 	public MethodCode begin() {
 		prapareMethodDefination();
@@ -93,7 +97,10 @@ class MethodHeaderBuilder implements MethodHeader {
 		preapareMethodWithThis();
 		preapareMethodWithParams();
 
-		return makeCode(mv);
+		MethodCode code = makeCode(mv);
+		if (!entered) HeroBuilder.enterCode1(code);
+		entered = true;
+		return code;
 	}
 
 	@Override
@@ -107,7 +114,7 @@ class MethodHeaderBuilder implements MethodHeader {
 		invocation.accept(mc);
 		this.end();
 	}
-	
+
 //	@Override
 //	public MethodCode code() {
 //		MethodCode mc = this.begin();
@@ -121,9 +128,12 @@ class MethodHeaderBuilder implements MethodHeader {
 //		this.codeEnd();
 //		return this;
 //	}
+	boolean exited = false;
 
 	public void end() {
 		finishMethod();
+		if (!exited) HeroBuilder.exitCode1();
+		exited = true;
 	}
 
 	protected void finishMethod() {
@@ -139,7 +149,8 @@ class MethodHeaderBuilder implements MethodHeader {
 
 					String varname = var.name != null ? var.name : "var" + var.locals;
 
-					mv.visitLocalVariable(varname, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
+					mv.visitLocalVariable(varname, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel,
+							var.locals);
 				}
 			}
 		} else if ((this.methodAccess & ACC_SYNTHETIC) > 0 && (this.methodAccess & ACC_BRIDGE) > 0) {
@@ -232,7 +243,8 @@ class MethodHeaderBuilder implements MethodHeader {
 				}
 			}
 
-			this.mv = classVisitor.visitMethod(access, name, desc, signature, every(String.class, exceptions, e -> e.getType().getInternalName()));
+			this.mv = classVisitor.visitMethod(access, name, desc, signature,
+					every(String.class, exceptions, e -> e.getType().getInternalName()));
 		}
 
 		assert this.mv != null;

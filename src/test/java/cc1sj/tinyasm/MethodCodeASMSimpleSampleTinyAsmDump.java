@@ -7,29 +7,35 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+import java.lang.Object;
+import java.lang.String;
 @SuppressWarnings("unused")
 public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.MethodCodeASMSimpleSample").access(ACC_PUBLIC | ACC_SUPER).body();
+ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.MethodCodeASMSimpleSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.field("b", Clazz.of(byte.class));
-classWriter.field("c", Clazz.of(char.class));
-classWriter.field("s", Clazz.of(short.class));
-classWriter.field("i", Clazz.of(int.class));
-classWriter.field("l", Clazz.of(long.class));
-classWriter.field("f", Clazz.of(float.class));
-classWriter.field("d", Clazz.of(double.class));
-classWriter.field("str", Clazz.of(java.lang.String.class));
-classWriter.method("<init>").code(code -> {
+classBody.field("b", Clazz.of(byte.class));
+classBody.field("c", Clazz.of(char.class));
+classBody.field("s", Clazz.of(short.class));
+classBody.field("i", Clazz.of(int.class));
+classBody.field("l", Clazz.of(long.class));
+classBody.field("f", Clazz.of(float.class));
+classBody.field("d", Clazz.of(double.class));
+classBody.field("str", Clazz.of(String.class));
+{
+	MethodCode code = classBody.method("<init>").begin();
 
 	code.LINE(3);
 	code.LOAD("this");
-	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
+	code.SPECIAL(Object.class, "<init>").INVOKE();
 	code.RETURN();
-});
-classWriter.method(int.class, "getField").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "getField").begin();
 
 	code.LINE(15);
 	code.LOAD("this");
@@ -42,8 +48,11 @@ classWriter.method(int.class, "getField").code(code -> {
 	code.LINE(16);
 	code.LOAD("x");
 	code.RETURNTop();
-});
-classWriter.method(int.class, "getFieldAll").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "getFieldAll").begin();
 
 	code.LINE(20);
 	code.LOAD("this");
@@ -75,8 +84,11 @@ classWriter.method(int.class, "getFieldAll").code(code -> {
 	code.LINE(21);
 	code.LOAD("x");
 	code.RETURNTop();
-});
-classWriter.method(int.class, "getFieldConst").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "getFieldConst").begin();
 
 	code.LINE(25);
 	code.LOAD("this");
@@ -116,7 +128,7 @@ classWriter.method(int.class, "getFieldConst").code(code -> {
 	code.LINE(32);
 	code.LOAD("this");
 	code.LOADConst("1000000000s");
-	code.PUTFIELD("str", java.lang.String.class);
+	code.PUTFIELD("str", String.class);
 
 	code.LINE(33);
 	code.LOAD("this");
@@ -144,8 +156,11 @@ classWriter.method(int.class, "getFieldConst").code(code -> {
 	code.ADD();
 	code.CONVERTTO(int.class);
 	code.RETURNTop();
-});
-classWriter.method(int.class, "getFieldIConst").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "getFieldIConst").begin();
 
 	code.LINE(37);
 	code.LOAD("this");
@@ -216,8 +231,11 @@ classWriter.method(int.class, "getFieldIConst").code(code -> {
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
-});
-classWriter.method(byte.class, "retByte").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(byte.class, "retByte").begin();
 
 	code.LINE(54);
 	code.LOADConst(1);
@@ -251,7 +269,9 @@ classWriter.method(byte.class, "retByte").code(code -> {
 	code.LINE(59);
 	code.LOAD("y");
 	code.RETURNTop();
-});
-return classWriter.end().toByteArray();
+	code.END();
+}
+
+return classBody.end().toByteArray();
 }
 }

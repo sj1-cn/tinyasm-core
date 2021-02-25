@@ -1,10 +1,14 @@
 package cc1sj.tinyasm.hero;
 
 import java.lang.reflect.Modifier;
+import java.util.Stack;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cc1sj.tinyasm.MethodCode;
 
-public class TinyAsmBuilder {
+public class HeroBuilder {
 //	<T> T ctor(Class<T> clz) {
 //		return null;
 //	}
@@ -15,7 +19,7 @@ public class TinyAsmBuilder {
 //	static public Stack<Consumer<MethodCode>> codes = new Stack<Consumer<MethodCode>>();
 //	static public Map<String, Consumer<MethodCode>> codeBlocks = new HashMap<>();
 //	static public Stack<String> stack = new Stack<>();
-	static public MethodCode _code;
+	static private MethodCode _code;
 //	static public Context context = new Context(code);
 
 	public static int MAGIC_VALUE = 3412;
@@ -28,10 +32,28 @@ public class TinyAsmBuilder {
 	public static final float MAGIC_float = Float.MAX_VALUE - 107;
 	public static final double MAGIC_double = Double.MAX_VALUE - 107;
 	public static int locals = 0;
+	static private Stack<MethodCode> codes = new Stack<MethodCode>();
 
-	static public void attach(MethodCode code) {
+	static Logger logger = LoggerFactory.getLogger(HeroBuilder.class);
+
+	static public void enterCode1(MethodCode code) {
+		logger.debug("current code {} enter {} {}", _code,code,codes.size());
 		locals = 0;
-		TinyAsmBuilder._code = code;
+		codes.push(code);
+		HeroBuilder._code = code;
+	}
+
+	static public void exitCode1() {
+		locals = 0;
+		MethodCode code = codes.pop();
+		HeroBuilder._code = codes.size() > 0 ? codes.peek() : null;
+		logger.debug("exit to {} from {} {}",_code, code,codes.size());
+	}
+
+	static public int cst(int i) {
+		_code.LINE();
+		_code.LOADConst(i);
+		return refer(_code, int.class);
 	}
 
 	static public int add(int l, int r) {
@@ -40,6 +62,23 @@ public class TinyAsmBuilder {
 		resolve(_code, r);
 		_code.ADD();
 		return refer(_code, int.class);
+	}
+
+	static public long add(long l, long r) {
+		_code.LINE();
+		resolve(_code, l);
+		resolve(_code, r);
+		_code.ADD();
+		return refer(_code, long.class);
+	}
+
+	@SuppressWarnings("unchecked")
+	static public <T> T add(T l, T r) {
+		_code.LINE();
+		resolve(_code, l);
+		resolve(_code, r);
+		_code.ADD();
+		return (T) refer(_code, l.getClass());
 	}
 
 	static public short add(short l, short r) {
@@ -144,140 +183,6 @@ public class TinyAsmBuilder {
 
 		return null;
 	}
-//
-//	@SuppressWarnings("unchecked")
-//	public static <T> T refer(MethodCode code, Class<T> t) {
-//		locals++;
-//		String strKey = String.valueOf(MAGICSTRING + locals);
-//		code.STORE(strKey, t);
-//
-//		if (t == String.class) {
-//			String key = String.valueOf(MAGICSTRING + locals);
-//			return (T) key;
-//		} else if (t == boolean.class) {
-//			throw new UnsupportedOperationException();
-//		} else if (t == Byte.class) {
-//			Byte key = (byte) (MAGIC_byte + locals);
-//			return (T) key;
-//		} else if (t == Character.class) {
-//			Character key = (char) (MAGIC_char + locals);
-//			return (T) key;
-//		} else if (t == Short.class || t == short.class) {
-//			Short key = (short) (MAGIC_short + locals);
-//			return (T) key;
-//		} else if (t == Integer.class) {
-//			Integer key = (int) (MAGIC_int + locals);
-//			return (T) key;
-//		} else if (t == Long.class) {
-//			Long key = (long) (MAGIC_long + locals);
-//			return (T) key;
-//		} else if (t == Float.class) {
-//			Float key = (float) (MAGIC_float + locals);
-//			return (T) key;
-//		} else if (t == Double.class) {
-//			Double key = (double) (MAGIC_double + locals);
-//			return (T) key;
-//		}
-//		if (t == int.class) {
-//
-//		}
-//
-//		return null;
-//	}
-//	static public String cst(String cst) {
-//		locals++;
-//		String key = String.valueOf(MAGICSTRING + locals);
-//		return key;
-//	}
-
-//
-//	static public String var(Class<String> strClass) {
-//		locals++;
-//		String key = String.valueOf(MAGICSTRING + locals);
-//		return key;
-//	}
-//	
-//	static public int var(Class<Integer> strClass) {
-//		locals++;
-//		String key = String.valueOf(MAGICSTRING + locals);
-//		return key;
-//	}
-//	
-
-//	static public void applyTo(MethodCode code) {
-//		for (Consumer<MethodCode> consumer : codes) {
-//			consumer.accept(code);
-//		}
-//	}
-//
-//	static public void set(String name, String o) {
-//		codes.add(wi(resolve(o), code -> code.STORE(name)));
-//	}
-//
-//	@SafeVarargs
-//	static public Consumer<MethodCode> wi(Consumer<MethodCode>... codes) {
-//		return code -> {
-//			for (Consumer<MethodCode> consumer : codes) {
-//				consumer.accept(code);
-//			}
-//		};
-//	}
-//
-//	static public Consumer<MethodCode> resolve(String name) {
-//		if (name.startsWith(MAGICSTRING)) {
-//			return code -> code.LOAD(name);
-//		} else {
-//			return code -> code.LOADConst(name);
-//		}
-//	}
-//
-//	static public Consumer<MethodCode> resolve(byte magicIndex) {
-//		if (magicIndex >= MAGIC_byte) {
-//			return code -> code.LOAD(magicIndex - MAGIC_byte);
-//		} else {
-//			return code -> code.LOADConst(magicIndex);
-//		}
-//	}
-//
-//	static public Consumer<MethodCode> resolve(short magicIndex) {
-//		if (magicIndex >= MAGIC_short) {
-//			return code -> code.LOAD(magicIndex - MAGIC_short);
-//		} else {
-//			return code -> code.LOADConst(magicIndex);
-//		}
-//	}
-//
-//	static public Consumer<MethodCode> resolve(int magicIndex) {
-//		if (magicIndex >= MAGIC_int) {
-//			return code -> code.LOAD(magicIndex - MAGIC_int);
-//		} else {
-//			return code -> code.LOADConst(magicIndex);
-//		}
-//	}
-//
-//	static public Consumer<MethodCode> resolve(long magicIndex) {
-//		if (magicIndex >= MAGIC_long) {
-//			return code -> code.LOAD((int) (magicIndex - MAGIC_long));
-//		} else {
-//			return code -> code.LOADConst(magicIndex);
-//		}
-//	}
-//
-//	static public Consumer<MethodCode> resolve(float magicIndex) {
-//		if (magicIndex >= MAGIC_float) {
-//			return code -> code.LOAD((int) (magicIndex - MAGIC_float));
-//		} else {
-//			return code -> code.LOADConst(magicIndex);
-//		}
-//	}
-//
-//	static public Consumer<MethodCode> resolve(double magicIndex) {
-//		if (magicIndex >= MAGIC_double) {
-//			return code -> code.LOAD((int) (magicIndex - MAGIC_double));
-//		} else {
-//			return code -> code.LOADConst(magicIndex);
-//		}
-//	}
 
 	static public void resolve(MethodCode code, byte magicIndex) {
 		if (magicIndex >= MAGIC_byte) {

@@ -199,7 +199,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 		cr.accept(bw, ClassReader.SKIP_CODE);
 
 		Class<?> superClass = target.getSuperclass();
-		while(superClass != Object.class) {
+		while(superClass!=null && superClass != Object.class) {
 			cr = new ClassReader(superClass.getName());
 			cr.accept(bw, ClassReader.SKIP_CODE);
 			

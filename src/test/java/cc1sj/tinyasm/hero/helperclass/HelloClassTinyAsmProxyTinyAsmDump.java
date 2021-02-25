@@ -7,10 +7,12 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+
 import java.lang.Float;
 import java.lang.Double;
-import cc1sj.tinyasm.hero.TinyAsmBuilder;
 import java.lang.Integer;
+
+import cc1sj.tinyasm.hero.HeroBuilder;
 import cc1sj.tinyasm.hero.TinyAsmProxyRuntimeReferNameObject;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodCaller;
@@ -84,7 +86,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -107,7 +109,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/String;"));
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -129,7 +131,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -152,7 +154,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Character.class, "TYPE", Class.class);
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -176,7 +178,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -199,7 +201,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Byte.class, "TYPE", Class.class);
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -223,7 +225,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -246,7 +248,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Short.class, "TYPE", Class.class);
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -270,7 +272,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -293,7 +295,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Integer.class, "TYPE", Class.class);
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -317,7 +319,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -340,7 +342,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Long.class, "TYPE", Class.class);
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -364,7 +366,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -387,7 +389,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Float.class, "TYPE", Class.class);
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -411,7 +413,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -434,7 +436,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.GETSTATIC(Double.class, "TYPE", Class.class);
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -458,7 +460,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -481,7 +483,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Character;"));
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -503,7 +505,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -526,7 +528,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Byte;"));
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -548,7 +550,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -571,7 +573,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Short;"));
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -593,7 +595,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -616,7 +618,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Integer;"));
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -638,7 +640,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -661,7 +663,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Long;"));
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -683,7 +685,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -706,7 +708,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Float;"));
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -728,7 +730,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -751,7 +753,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOADConst(Type.getType("Ljava/lang/Double;"));
-	code.STATIC(TinyAsmBuilder.class, "refer")
+	code.STATIC(HeroBuilder.class, "refer")
 		.reTurn(Object.class)
 		.parameter(MethodCode.class)
 		.parameter(Class.class).INVOKE();
@@ -774,7 +776,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -782,7 +784,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -820,7 +822,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -828,7 +830,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(char.class).INVOKE();
 
@@ -866,7 +868,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -874,7 +876,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(byte.class).INVOKE();
 
@@ -912,7 +914,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -920,7 +922,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(short.class).INVOKE();
 
@@ -958,7 +960,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -966,7 +968,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(int.class).INVOKE();
 
@@ -1004,7 +1006,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -1012,7 +1014,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(long.class).INVOKE();
 
@@ -1050,7 +1052,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -1058,7 +1060,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(float.class).INVOKE();
 
@@ -1096,7 +1098,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -1104,7 +1106,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(double.class).INVOKE();
 
@@ -1142,7 +1144,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -1150,7 +1152,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(Character.class).INVOKE();
 
@@ -1188,7 +1190,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -1196,7 +1198,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(Byte.class).INVOKE();
 
@@ -1234,7 +1236,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -1242,7 +1244,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(Short.class).INVOKE();
 
@@ -1280,7 +1282,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -1288,7 +1290,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(Integer.class).INVOKE();
 
@@ -1326,7 +1328,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -1334,7 +1336,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(Long.class).INVOKE();
 
@@ -1372,7 +1374,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -1380,7 +1382,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(Float.class).INVOKE();
 
@@ -1418,7 +1420,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("this");
 	code.GETFIELD("_referName", String.class);
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(String.class).INVOKE();
 
@@ -1426,7 +1428,7 @@ classBody.field("_code", Clazz.of(MethodCode.class));
 	code.LOAD("this");
 	code.GETFIELD("_code", MethodCode.class);
 	code.LOAD("value");
-	code.STATIC(TinyAsmBuilder.class, "resolve")
+	code.STATIC(HeroBuilder.class, "resolve")
 		.parameter(MethodCode.class)
 		.parameter(Double.class).INVOKE();
 

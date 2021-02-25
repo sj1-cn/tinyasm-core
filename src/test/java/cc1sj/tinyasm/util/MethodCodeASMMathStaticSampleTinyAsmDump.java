@@ -7,52 +7,179 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+import java.lang.Object;
 @SuppressWarnings("unused")
 public class MethodCodeASMMathStaticSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.util.MethodCodeASMMathStaticSample").access(ACC_PUBLIC | ACC_SUPER).body();
+ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.MethodCodeASMMathStaticSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.staticField(ACC_STATIC, "b", Clazz.of(byte.class));
-classWriter.staticField(ACC_STATIC, "c", Clazz.of(char.class));
-classWriter.staticField(ACC_STATIC, "s", Clazz.of(short.class));
-classWriter.staticField(ACC_STATIC, "i", Clazz.of(int.class));
-classWriter.staticField(ACC_STATIC, "l", Clazz.of(long.class));
-classWriter.staticField(ACC_STATIC, "f", Clazz.of(float.class));
-classWriter.staticField(ACC_STATIC, "d", Clazz.of(double.class));
-classWriter.staticField(ACC_STATIC, "b3", Clazz.of(byte.class));
-classWriter.staticField(ACC_STATIC, "c3", Clazz.of(char.class));
-classWriter.staticField(ACC_STATIC, "s3", Clazz.of(short.class));
-classWriter.staticField(ACC_STATIC, "i3", Clazz.of(int.class));
-classWriter.staticField(ACC_STATIC, "l3", Clazz.of(long.class));
-classWriter.staticField(ACC_STATIC, "f3", Clazz.of(float.class));
-classWriter.staticField(ACC_STATIC, "d3", Clazz.of(double.class));
-classWriter.staticField(ACC_STATIC, "f31", Clazz.of(float.class));
-classWriter.staticField(ACC_STATIC, "d31", Clazz.of(double.class));
-classWriter.staticField(ACC_STATIC, "b0", Clazz.of(byte.class));
-classWriter.staticField(ACC_STATIC, "c0", Clazz.of(char.class));
-classWriter.staticField(ACC_STATIC, "s0", Clazz.of(short.class));
-classWriter.staticField(ACC_STATIC, "i0", Clazz.of(int.class));
-classWriter.staticField(ACC_STATIC, "l1", Clazz.of(long.class));
-classWriter.staticField(ACC_STATIC, "f1", Clazz.of(float.class));
-classWriter.staticField(ACC_STATIC, "d1", Clazz.of(double.class));
-classWriter.staticField(ACC_STATIC, "bn1", Clazz.of(byte.class));
-classWriter.staticField(ACC_STATIC, "sn1", Clazz.of(short.class));
-classWriter.staticField(ACC_STATIC, "in1", Clazz.of(int.class));
-classWriter.staticField(ACC_STATIC, "ln1", Clazz.of(long.class));
-classWriter.staticField(ACC_STATIC, "fn1", Clazz.of(float.class));
-classWriter.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
-classWriter.method("<init>").code(code -> {
+classBody.staticField(ACC_STATIC, "b", Clazz.of(byte.class));
+classBody.staticField(ACC_STATIC, "c", Clazz.of(char.class));
+classBody.staticField(ACC_STATIC, "s", Clazz.of(short.class));
+classBody.staticField(ACC_STATIC, "i", Clazz.of(int.class));
+classBody.staticField(ACC_STATIC, "l", Clazz.of(long.class));
+classBody.staticField(ACC_STATIC, "f", Clazz.of(float.class));
+classBody.staticField(ACC_STATIC, "d", Clazz.of(double.class));
+classBody.staticField(ACC_STATIC, "b3", Clazz.of(byte.class));
+classBody.staticField(ACC_STATIC, "c3", Clazz.of(char.class));
+classBody.staticField(ACC_STATIC, "s3", Clazz.of(short.class));
+classBody.staticField(ACC_STATIC, "i3", Clazz.of(int.class));
+classBody.staticField(ACC_STATIC, "l3", Clazz.of(long.class));
+classBody.staticField(ACC_STATIC, "f3", Clazz.of(float.class));
+classBody.staticField(ACC_STATIC, "d3", Clazz.of(double.class));
+classBody.staticField(ACC_STATIC, "f31", Clazz.of(float.class));
+classBody.staticField(ACC_STATIC, "d31", Clazz.of(double.class));
+classBody.staticField(ACC_STATIC, "b0", Clazz.of(byte.class));
+classBody.staticField(ACC_STATIC, "c0", Clazz.of(char.class));
+classBody.staticField(ACC_STATIC, "s0", Clazz.of(short.class));
+classBody.staticField(ACC_STATIC, "i0", Clazz.of(int.class));
+classBody.staticField(ACC_STATIC, "l1", Clazz.of(long.class));
+classBody.staticField(ACC_STATIC, "f1", Clazz.of(float.class));
+classBody.staticField(ACC_STATIC, "d1", Clazz.of(double.class));
+classBody.staticField(ACC_STATIC, "bn1", Clazz.of(byte.class));
+classBody.staticField(ACC_STATIC, "sn1", Clazz.of(short.class));
+classBody.staticField(ACC_STATIC, "in1", Clazz.of(int.class));
+classBody.staticField(ACC_STATIC, "ln1", Clazz.of(long.class));
+classBody.staticField(ACC_STATIC, "fn1", Clazz.of(float.class));
+classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
+{
+	MethodCode code = classBody.staticMethod(ACC_STATIC, "<clinit>").begin();
+
+	code.LINE(4);
+	code.LOADConst(1);
+	code.PUT_THIS_STATIC("b");
+
+	code.LINE(5);
+	code.LOADConst(1);
+	code.PUT_THIS_STATIC("c");
+
+	code.LINE(6);
+	code.LOADConst(1);
+	code.PUT_THIS_STATIC("s");
+
+	code.LINE(7);
+	code.LOADConst(1);
+	code.PUT_THIS_STATIC("i");
+
+	code.LINE(8);
+	code.LOADConst(1L);
+	code.PUT_THIS_STATIC("l");
+
+	code.LINE(9);
+	code.LOADConst(1F);
+	code.PUT_THIS_STATIC("f");
+
+	code.LINE(10);
+	code.LOADConst(1D);
+	code.PUT_THIS_STATIC("d");
+
+	code.LINE(12);
+	code.LOADConst(3);
+	code.PUT_THIS_STATIC("b3");
+
+	code.LINE(13);
+	code.LOADConst(3);
+	code.PUT_THIS_STATIC("c3");
+
+	code.LINE(14);
+	code.LOADConst(3);
+	code.PUT_THIS_STATIC("s3");
+
+	code.LINE(15);
+	code.LOADConst(3);
+	code.PUT_THIS_STATIC("i3");
+
+	code.LINE(16);
+	code.LOADConst(Long.valueOf(3L));
+	code.PUT_THIS_STATIC("l3");
+
+	code.LINE(17);
+	code.LOADConst(Float.valueOf("3.0"));
+	code.PUT_THIS_STATIC("f3");
+
+	code.LINE(18);
+	code.LOADConst(Double.valueOf("3.0"));
+	code.PUT_THIS_STATIC("d3");
+
+	code.LINE(20);
+	code.LOADConst(Float.valueOf("3.1"));
+	code.PUT_THIS_STATIC("f31");
+
+	code.LINE(21);
+	code.LOADConst(Double.valueOf("3.1"));
+	code.PUT_THIS_STATIC("d31");
+
+	code.LINE(23);
+	code.LOADConst(0);
+	code.PUT_THIS_STATIC("b0");
+
+	code.LINE(24);
+	code.LOADConst(0);
+	code.PUT_THIS_STATIC("c0");
+
+	code.LINE(25);
+	code.LOADConst(0);
+	code.PUT_THIS_STATIC("s0");
+
+	code.LINE(26);
+	code.LOADConst(0);
+	code.PUT_THIS_STATIC("i0");
+
+	code.LINE(27);
+	code.LOADConst(0L);
+	code.PUT_THIS_STATIC("l1");
+
+	code.LINE(28);
+	code.LOADConst(0F);
+	code.PUT_THIS_STATIC("f1");
+
+	code.LINE(29);
+	code.LOADConst(0D);
+	code.PUT_THIS_STATIC("d1");
+
+	code.LINE(31);
+	code.LOADConst(-1);
+	code.PUT_THIS_STATIC("bn1");
+
+	code.LINE(33);
+	code.LOADConst(-1);
+	code.PUT_THIS_STATIC("sn1");
+
+	code.LINE(34);
+	code.LOADConst(-1);
+	code.PUT_THIS_STATIC("in1");
+
+	code.LINE(35);
+	code.LOADConst(Long.valueOf(-1L));
+	code.PUT_THIS_STATIC("ln1");
+
+	code.LINE(36);
+	code.LOADConst(Float.valueOf("-1.0"));
+	code.PUT_THIS_STATIC("fn1");
+
+	code.LINE(37);
+	code.LOADConst(Double.valueOf("-1.0"));
+	code.PUT_THIS_STATIC("dn1");
+	code.RETURN();
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method("<init>").begin();
 
 	code.LINE(3);
 	code.LOAD("this");
-	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
+	code.SPECIAL(Object.class, "<init>").INVOKE();
 	code.RETURN();
-});
-classWriter.staticMethod(int.class, "addInt")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.staticMethod(int.class, "addInt")
 	.parameter("x",int.class)
-	.parameter("y",int.class).code(code -> {
+	.parameter("y",int.class).begin();
 
 	code.LINE(41);
 	code.LOAD("x");
@@ -175,10 +302,13 @@ classWriter.staticMethod(int.class, "addInt")
 	code.LINE(65);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.staticMethod(byte.class, "addByte")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.staticMethod(byte.class, "addByte")
 	.parameter("x",byte.class)
-	.parameter("y",byte.class).code(code -> {
+	.parameter("y",byte.class).begin();
 
 	code.LINE(70);
 	code.LOAD("x");
@@ -270,10 +400,13 @@ classWriter.staticMethod(byte.class, "addByte")
 	code.LINE(86);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.staticMethod(short.class, "addShort")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.staticMethod(short.class, "addShort")
 	.parameter("x",short.class)
-	.parameter("y",short.class).code(code -> {
+	.parameter("y",short.class).begin();
 
 	code.LINE(91);
 	code.LOAD("x");
@@ -365,10 +498,13 @@ classWriter.staticMethod(short.class, "addShort")
 	code.LINE(106);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.staticMethod(long.class, "addLong")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.staticMethod(long.class, "addLong")
 	.parameter("x",long.class)
-	.parameter("y",long.class).code(code -> {
+	.parameter("y",long.class).begin();
 
 	code.LINE(111);
 	code.LOAD("x");
@@ -451,10 +587,13 @@ classWriter.staticMethod(long.class, "addLong")
 	code.LINE(126);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.staticMethod(char.class, "mathChar")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.staticMethod(char.class, "mathChar")
 	.parameter("x",char.class)
-	.parameter("y",char.class).code(code -> {
+	.parameter("y",char.class).begin();
 
 	code.LINE(131);
 	code.LOAD("x");
@@ -546,10 +685,13 @@ classWriter.staticMethod(char.class, "mathChar")
 	code.LINE(146);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.staticMethod(float.class, "mathFloat")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.staticMethod(float.class, "mathFloat")
 	.parameter("x",float.class)
-	.parameter("y",float.class).code(code -> {
+	.parameter("y",float.class).begin();
 
 	code.LINE(151);
 	code.LOAD("x");
@@ -613,10 +755,13 @@ classWriter.staticMethod(float.class, "mathFloat")
 	code.LINE(166);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.staticMethod(double.class, "mathDouble")
+	code.END();
+}
+
+{
+	MethodCode code = classBody.staticMethod(double.class, "mathDouble")
 	.parameter("x",double.class)
-	.parameter("y",double.class).code(code -> {
+	.parameter("y",double.class).begin();
 
 	code.LINE(171);
 	code.LOAD("x");
@@ -680,126 +825,9 @@ classWriter.staticMethod(double.class, "mathDouble")
 	code.LINE(186);
 	code.LOAD("z");
 	code.RETURNTop();
-});
-classWriter.staticMethod(ACC_STATIC, "<clinit>").code(code -> {
+	code.END();
+}
 
-	code.LINE(4);
-	code.LOADConst(1);
-	code.PUT_THIS_STATIC("b");
-
-	code.LINE(5);
-	code.LOADConst(1);
-	code.PUT_THIS_STATIC("c");
-
-	code.LINE(6);
-	code.LOADConst(1);
-	code.PUT_THIS_STATIC("s");
-
-	code.LINE(7);
-	code.LOADConst(1);
-	code.PUT_THIS_STATIC("i");
-
-	code.LINE(8);
-	code.LOADConst(1L);
-	code.PUT_THIS_STATIC("l");
-
-	code.LINE(9);
-	code.LOADConst(1F);
-	code.PUT_THIS_STATIC("f");
-
-	code.LINE(10);
-	code.LOADConst(1D);
-	code.PUT_THIS_STATIC("d");
-
-	code.LINE(12);
-	code.LOADConst(3);
-	code.PUT_THIS_STATIC("b3");
-
-	code.LINE(13);
-	code.LOADConst(3);
-	code.PUT_THIS_STATIC("c3");
-
-	code.LINE(14);
-	code.LOADConst(3);
-	code.PUT_THIS_STATIC("s3");
-
-	code.LINE(15);
-	code.LOADConst(3);
-	code.PUT_THIS_STATIC("i3");
-
-	code.LINE(16);
-	code.LOADConst(Long.valueOf(3L));
-	code.PUT_THIS_STATIC("l3");
-
-	code.LINE(17);
-	code.LOADConst(Float.valueOf("3.0"));
-	code.PUT_THIS_STATIC("f3");
-
-	code.LINE(18);
-	code.LOADConst(Double.valueOf("3.0"));
-	code.PUT_THIS_STATIC("d3");
-
-	code.LINE(20);
-	code.LOADConst(Float.valueOf("3.1"));
-	code.PUT_THIS_STATIC("f31");
-
-	code.LINE(21);
-	code.LOADConst(Double.valueOf("3.1"));
-	code.PUT_THIS_STATIC("d31");
-
-	code.LINE(23);
-	code.LOADConst(0);
-	code.PUT_THIS_STATIC("b0");
-
-	code.LINE(24);
-	code.LOADConst(0);
-	code.PUT_THIS_STATIC("c0");
-
-	code.LINE(25);
-	code.LOADConst(0);
-	code.PUT_THIS_STATIC("s0");
-
-	code.LINE(26);
-	code.LOADConst(0);
-	code.PUT_THIS_STATIC("i0");
-
-	code.LINE(27);
-	code.LOADConst(0L);
-	code.PUT_THIS_STATIC("l1");
-
-	code.LINE(28);
-	code.LOADConst(0F);
-	code.PUT_THIS_STATIC("f1");
-
-	code.LINE(29);
-	code.LOADConst(0D);
-	code.PUT_THIS_STATIC("d1");
-
-	code.LINE(31);
-	code.LOADConst(-1);
-	code.PUT_THIS_STATIC("bn1");
-
-	code.LINE(33);
-	code.LOADConst(-1);
-	code.PUT_THIS_STATIC("sn1");
-
-	code.LINE(34);
-	code.LOADConst(-1);
-	code.PUT_THIS_STATIC("in1");
-
-	code.LINE(35);
-	code.LOADConst(Long.valueOf(-1L));
-	code.PUT_THIS_STATIC("ln1");
-
-	code.LINE(36);
-	code.LOADConst(Float.valueOf("-1.0"));
-	code.PUT_THIS_STATIC("fn1");
-
-	code.LINE(37);
-	code.LOADConst(Double.valueOf("-1.0"));
-	code.PUT_THIS_STATIC("dn1");
-	code.RETURN();
-});
-return classWriter.end().toByteArray();
+return classBody.end().toByteArray();
 }
 }

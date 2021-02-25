@@ -7,21 +7,29 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+import java.io.PrintStream;
+import java.lang.System;
+import java.lang.Object;
+import java.lang.String;
 @SuppressWarnings("unused")
 public class LabelSampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.util.LabelSample").access(ACC_PUBLIC | ACC_SUPER).body();
+ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.LabelSample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.method("<init>").code(code -> {
+{
+	MethodCode code = classBody.method("<init>").begin();
 
 	code.LINE(3);
 	code.LOAD("this");
-	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
+	code.SPECIAL(Object.class, "<init>").INVOKE();
 	code.RETURN();
-});
-classWriter.method("t").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method("t").begin();
 
 	code.LINE(5);
 	code.LOADConst(10);
@@ -39,14 +47,16 @@ classWriter.method("t").code(code -> {
 	code.visitLabel(label2OfIF_ICMPNE);
 
 	code.LINE(9);
-	code.GETSTATIC(java.lang.System.class, "out", java.io.PrintStream.class);
+	code.GETSTATIC(System.class, "out", PrintStream.class);
 	code.LOADConst("ddd");
-	code.VIRTUAL(java.io.PrintStream.class, "println")
-		.parameter(java.lang.String.class).INVOKE();
+	code.VIRTUAL(PrintStream.class, "println")
+		.parameter(String.class).INVOKE();
 
 	code.LINE(10);
 	code.RETURN();
-});
-return classWriter.end().toByteArray();
+	code.END();
+}
+
+return classBody.end().toByteArray();
 }
 }

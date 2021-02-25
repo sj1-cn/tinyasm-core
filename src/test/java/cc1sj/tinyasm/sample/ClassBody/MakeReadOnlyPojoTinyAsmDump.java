@@ -7,22 +7,26 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+import java.lang.Object;
+import java.lang.StringBuilder;
+import java.lang.String;
 @SuppressWarnings("unused")
 public class MakeReadOnlyPojoTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.sample.ClassBody.MakeReadOnlyPojo").access(ACC_PUBLIC | ACC_SUPER).body();
+ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.sample.ClassBody.MakeReadOnlyPojo").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.field("b", Clazz.of(byte.class));
-classWriter.field("c", Clazz.of(char.class));
-classWriter.field("s", Clazz.of(short.class));
-classWriter.field("i", Clazz.of(int.class));
-classWriter.field("l", Clazz.of(long.class));
-classWriter.field("f", Clazz.of(float.class));
-classWriter.field("d", Clazz.of(double.class));
-classWriter.field("str", Clazz.of(java.lang.String.class));
-classWriter.method("<init>")
+classBody.field("b", Clazz.of(byte.class));
+classBody.field("c", Clazz.of(char.class));
+classBody.field("s", Clazz.of(short.class));
+classBody.field("i", Clazz.of(int.class));
+classBody.field("l", Clazz.of(long.class));
+classBody.field("f", Clazz.of(float.class));
+classBody.field("d", Clazz.of(double.class));
+classBody.field("str", Clazz.of(String.class));
+{
+	MethodCode code = classBody.method("<init>")
 	.parameter("b",byte.class)
 	.parameter("c",char.class)
 	.parameter("s",short.class)
@@ -30,11 +34,11 @@ classWriter.method("<init>")
 	.parameter("l",long.class)
 	.parameter("f",float.class)
 	.parameter("d",double.class)
-	.parameter("str",java.lang.String.class).code(code -> {
+	.parameter("str",String.class).begin();
 
 	code.LINE(13);
 	code.LOAD("this");
-	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
+	code.SPECIAL(Object.class, "<init>").INVOKE();
 
 	code.LINE(14);
 	code.LOAD("this");
@@ -74,177 +78,206 @@ classWriter.method("<init>")
 	code.LINE(21);
 	code.LOAD("this");
 	code.LOAD("str");
-	code.PUTFIELD("str", java.lang.String.class);
+	code.PUTFIELD("str", String.class);
 
 	code.LINE(22);
 	code.RETURN();
-});
-classWriter.method(byte.class, "getB").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(byte.class, "getB").begin();
 
 	code.LINE(25);
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
 	code.RETURNTop();
-});
-classWriter.method(char.class, "getC").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(char.class, "getC").begin();
 
 	code.LINE(29);
 	code.LOAD("this");
 	code.GETFIELD("c", char.class);
 	code.RETURNTop();
-});
-classWriter.method(short.class, "getS").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(short.class, "getS").begin();
 
 	code.LINE(33);
 	code.LOAD("this");
 	code.GETFIELD("s", short.class);
 	code.RETURNTop();
-});
-classWriter.method(int.class, "getI").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(int.class, "getI").begin();
 
 	code.LINE(37);
 	code.LOAD("this");
 	code.GETFIELD("i", int.class);
 	code.RETURNTop();
-});
-classWriter.method(long.class, "getL").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(long.class, "getL").begin();
 
 	code.LINE(41);
 	code.LOAD("this");
 	code.GETFIELD("l", long.class);
 	code.RETURNTop();
-});
-classWriter.method(float.class, "getF").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(float.class, "getF").begin();
 
 	code.LINE(45);
 	code.LOAD("this");
 	code.GETFIELD("f", float.class);
 	code.RETURNTop();
-});
-classWriter.method(double.class, "getD").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(double.class, "getD").begin();
 
 	code.LINE(49);
 	code.LOAD("this");
 	code.GETFIELD("d", double.class);
 	code.RETURNTop();
-});
-classWriter.method(java.lang.String.class, "getStr").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(String.class, "getStr").begin();
 
 	code.LINE(53);
 	code.LOAD("this");
-	code.GETFIELD("str", java.lang.String.class);
+	code.GETFIELD("str", String.class);
 	code.RETURNTop();
-});
-classWriter.method(java.lang.String.class, "toString").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method(String.class, "toString").begin();
 
 	code.LINE(58);
-	code.NEW(java.lang.StringBuilder.class);
+	code.NEW(StringBuilder.class);
 	code.DUP();
-	code.SPECIAL(java.lang.StringBuilder.class, "<init>").INVOKE();
-	code.STORE("builder",java.lang.StringBuilder.class);
+	code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
+	code.STORE("builder",StringBuilder.class);
 
 	code.LINE(59);
 	code.LOAD("builder");
 	code.LOADConst("MakeReadOnlyPojo [b=");
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
-		.parameter(java.lang.String.class).INVOKE();
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
+		.parameter(String.class).INVOKE();
 	code.LOAD("this");
 	code.GETFIELD("b", byte.class);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
 		.parameter(int.class).INVOKE();
-	code.LOADConst(", c=");
 
 	code.LINE(60);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
-		.parameter(java.lang.String.class).INVOKE();
+	code.LOADConst(", c=");
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
+		.parameter(String.class).INVOKE();
 	code.LOAD("this");
 	code.GETFIELD("c", char.class);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
 		.parameter(char.class).INVOKE();
-	code.LOADConst(", s=");
 
 	code.LINE(61);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
-		.parameter(java.lang.String.class).INVOKE();
+	code.LOADConst(", s=");
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
+		.parameter(String.class).INVOKE();
 	code.LOAD("this");
 	code.GETFIELD("s", short.class);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
 		.parameter(int.class).INVOKE();
-	code.LOADConst(", i=");
 
 	code.LINE(62);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
-		.parameter(java.lang.String.class).INVOKE();
+	code.LOADConst(", i=");
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
+		.parameter(String.class).INVOKE();
 	code.LOAD("this");
 	code.GETFIELD("i", int.class);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
 		.parameter(int.class).INVOKE();
-	code.LOADConst(", l=");
 
 	code.LINE(63);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
-		.parameter(java.lang.String.class).INVOKE();
+	code.LOADConst(", l=");
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
+		.parameter(String.class).INVOKE();
 	code.LOAD("this");
 	code.GETFIELD("l", long.class);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
 		.parameter(long.class).INVOKE();
-	code.LOADConst(", f=");
 
 	code.LINE(64);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
-		.parameter(java.lang.String.class).INVOKE();
+	code.LOADConst(", f=");
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
+		.parameter(String.class).INVOKE();
 	code.LOAD("this");
 	code.GETFIELD("f", float.class);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
 		.parameter(float.class).INVOKE();
-	code.LOADConst(", d=");
 
 	code.LINE(65);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
-		.parameter(java.lang.String.class).INVOKE();
+	code.LOADConst(", d=");
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
+		.parameter(String.class).INVOKE();
 	code.LOAD("this");
 	code.GETFIELD("d", double.class);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
 		.parameter(double.class).INVOKE();
-	code.LOADConst(", str=");
 
 	code.LINE(66);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
-		.parameter(java.lang.String.class).INVOKE();
+	code.LOADConst(", str=");
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
+		.parameter(String.class).INVOKE();
 	code.LOAD("this");
-	code.GETFIELD("str", java.lang.String.class);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
-		.parameter(java.lang.String.class).INVOKE();
-	code.LOADConst("]");
+	code.GETFIELD("str", String.class);
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
+		.parameter(String.class).INVOKE();
 
 	code.LINE(67);
-	code.VIRTUAL(java.lang.StringBuilder.class, "append")
-		.reTurn(java.lang.StringBuilder.class)
-		.parameter(java.lang.String.class).INVOKE();
+	code.LOADConst("]");
+	code.VIRTUAL(StringBuilder.class, "append")
+		.reTurn(StringBuilder.class)
+		.parameter(String.class).INVOKE();
 	code.POP();
 
 	code.LINE(68);
 	code.LOAD("builder");
-	code.VIRTUAL(java.lang.StringBuilder.class, "toString")
-		.reTurn(java.lang.String.class).INVOKE();
+	code.VIRTUAL(StringBuilder.class, "toString")
+		.reTurn(String.class).INVOKE();
 	code.RETURNTop();
-});
-return classWriter.end().toByteArray();
+	code.END();
+}
+
+return classBody.end().toByteArray();
 }
 }

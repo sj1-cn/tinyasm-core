@@ -7,29 +7,35 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+import java.lang.Object;
+import java.lang.String;
 @SuppressWarnings("unused")
 public class MethodASMArraySampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("cc1sj.tinyasm.util.MethodASMArraySample").access(ACC_PUBLIC | ACC_SUPER).body();
+ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.MethodASMArraySample").access(ACC_PUBLIC | ACC_SUPER).body();
 
-classWriter.field("ba", Clazz.of(byte[].class));
-classWriter.field("ca", Clazz.of(char[].class));
-classWriter.field("sa", Clazz.of(short[].class));
-classWriter.field("ia", Clazz.of(int[].class));
-classWriter.field("la", Clazz.of(long[].class));
-classWriter.field("fa", Clazz.of(float[].class));
-classWriter.field("da", Clazz.of(double[].class));
-classWriter.field("stra", Clazz.of(java.lang.String[].class));
-classWriter.method("<init>").code(code -> {
+classBody.field("ba", Clazz.of(byte[].class));
+classBody.field("ca", Clazz.of(char[].class));
+classBody.field("sa", Clazz.of(short[].class));
+classBody.field("ia", Clazz.of(int[].class));
+classBody.field("la", Clazz.of(long[].class));
+classBody.field("fa", Clazz.of(float[].class));
+classBody.field("da", Clazz.of(double[].class));
+classBody.field("stra", Clazz.of(String[].class));
+{
+	MethodCode code = classBody.method("<init>").begin();
 
 	code.LINE(3);
 	code.LOAD("this");
-	code.SPECIAL(java.lang.Object.class, "<init>").INVOKE();
+	code.SPECIAL(Object.class, "<init>").INVOKE();
 	code.RETURN();
-});
-classWriter.method("init").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method("init").begin();
 
 	code.LINE(14);
 	code.LOAD("this");
@@ -76,13 +82,16 @@ classWriter.method("init").code(code -> {
 	code.LINE(21);
 	code.LOAD("this");
 	code.LOADConst(10);
-	code.NEWARRAY(java.lang.String.class);
-	code.PUTFIELD("stra", java.lang.String[].class);
+	code.NEWARRAY(String.class);
+	code.PUTFIELD("stra", String[].class);
 
 	code.LINE(22);
 	code.RETURN();
-});
-classWriter.method("setArrayValue").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method("setArrayValue").begin();
 
 	code.LINE(25);
 	code.LOAD("this");
@@ -135,15 +144,18 @@ classWriter.method("setArrayValue").code(code -> {
 
 	code.LINE(32);
 	code.LOAD("this");
-	code.GETFIELD("stra", java.lang.String[].class);
+	code.GETFIELD("stra", String[].class);
 	code.LOADConst(0);
 	code.LOADConst("1000000000s");
 	code.ARRAYSTORE();
 
 	code.LINE(33);
 	code.RETURN();
-});
-classWriter.method("getArrayValue").code(code -> {
+	code.END();
+}
+
+{
+	MethodCode code = classBody.method("getArrayValue").begin();
 
 	code.LINE(36);
 	code.LOAD("this");
@@ -217,17 +229,19 @@ classWriter.method("getArrayValue").code(code -> {
 
 	code.LINE(43);
 	code.LOAD("this");
-	code.GETFIELD("stra", java.lang.String[].class);
+	code.GETFIELD("stra", String[].class);
 	code.LOADConst(1);
 	code.LOAD("this");
-	code.GETFIELD("stra", java.lang.String[].class);
+	code.GETFIELD("stra", String[].class);
 	code.LOADConst(0);
 	code.ARRAYLOAD();
 	code.ARRAYSTORE();
 
 	code.LINE(44);
 	code.RETURN();
-});
-return classWriter.end().toByteArray();
+	code.END();
+}
+
+return classBody.end().toByteArray();
 }
 }
