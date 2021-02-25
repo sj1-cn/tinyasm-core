@@ -192,10 +192,27 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 		ClassReader cr = new ClassReader(target.getName());
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
+		
 		ClassVisitor bw;
 //		target.getConstructor();
 		bw = new TinyAsmProxyForClassAsmBuilder(Opcodes.ASM5, cw, Type.getType(target).getInternalName(), suffix);
 		cr.accept(bw, ClassReader.SKIP_CODE);
+		
+		Class<?> superClass = target.getSuperclass();
+		while(superClass != Object.class) {
+			cr = new ClassReader(superClass.getName());
+			cr.accept(bw, ClassReader.SKIP_CODE);
+			
+			superClass = superClass.getSuperclass();
+		}
+		
+//		String[] is = cr.getInterfaces();
+//		for (String s : is) {
+//			cr = new ClassReader(s);
+//			cr.accept(bw, ClassReader.SKIP_CODE);
+//		}
+//		
+		
 		return cw.toByteArray();
 	}
 
@@ -364,12 +381,13 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 	@Override
 	public void visitSource(String source, String debug) {
-		super.visitSource(source.replaceAll("[.]java", this.suffix + ".java"), debug);
+//		super.visitSource(source.replaceAll("[.]java", this.suffix + ".java"), debug);
 	}
 
 	@Override
 	public ModuleVisitor visitModule(String name, int access, String version) {
-		return super.visitModule(name, access, version);
+//		return super.visitModule(name, access, version);
+		return null;
 	}
 
 	@Override
@@ -396,7 +414,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 	@Override
 	public void visitAttribute(Attribute attribute) {
-		super.visitAttribute(attribute);
+//		super.visitAttribute(attribute);
 	}
 
 	@SuppressWarnings("deprecation")
