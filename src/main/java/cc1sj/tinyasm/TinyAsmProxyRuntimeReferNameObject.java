@@ -4,6 +4,6 @@ public interface TinyAsmProxyRuntimeReferNameObject {
 
 	String get__ReferName();
 
-	void __init(MethodCode code, String name);
+	void __init(TinyAsmBuilderContext _context, String name);
 
 }

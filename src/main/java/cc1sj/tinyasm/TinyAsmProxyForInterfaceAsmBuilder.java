@@ -18,6 +18,9 @@ import static org.objectweb.asm.Opcodes.ACC_STATIC;
 import static org.objectweb.asm.Opcodes.ACC_SUPER;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassReader;
@@ -32,9 +35,9 @@ import org.objectweb.asm.TypePath;
 
 class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
 
-	public static byte[] dump(Class<?> targetClass, String suffix) throws Exception {
+	public static byte[] dump(Class<?> targetClass, String proxyClassName) throws Exception {
 		Type targetType = Type.getType(targetClass);
-		String clazzName = targetType.getClassName() + suffix;
+		String clazzName = proxyClassName;
 		ClassBody classBody = ClassBuilder.make(clazzName).eXtend(Clazz.of(targetType)).implement(TinyAsmProxyRuntimeReferNameObject.class)
 				.access(ACC_PUBLIC | ACC_SUPER).body();
 
@@ -101,11 +104,18 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 
 	protected static void __init(ClassBody classBody) {
 		{
-			MethodCode code = classBody.method("__init").parameter("code", MethodCode.class).parameter("name", String.class).begin();
+			MethodCode code = classBody.method("__init").parameter("context", TinyAsmBuilderContext.class).parameter("name", String.class)
+					.begin();
 
 			code.LINE(21);
 			code.LOAD("this");
-			code.LOAD("code");
+			code.LOAD("context");
+			code.PUTFIELD("_context", TinyAsmBuilderContext.class);
+
+			code.LINE(21);
+			code.LOAD("this");
+			code.LOAD("context");
+			code.GETFIELD("code", MethodCode.class);
 			code.PUTFIELD("_code", MethodCode.class);
 
 			code.LINE(22);
@@ -214,31 +224,31 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 	Type targetType;
 	Type objectType;
 
-	public TinyAsmProxyForInterfaceAsmBuilder(int api, String name, String proxyClassName) {
+	public TinyAsmProxyForInterfaceAsmBuilder(int api, String targetName, String proxyClassName) {
 		super(api);
 		this.proxyClassName = proxyClassName;
-		mkProxyClass(name);
+		mkProxyClass(targetName, proxyClassName);
 	}
 
-	public TinyAsmProxyForInterfaceAsmBuilder(int api, ClassVisitor classVisitor, String name, String proxyClassName) {
+	public TinyAsmProxyForInterfaceAsmBuilder(int api, ClassVisitor classVisitor, String targetName, String proxyClassName) {
 		super(api, classVisitor);
 		this.proxyClassName = proxyClassName;
 
-		mkProxyClass(name);
+		mkProxyClass(targetName, proxyClassName);
 	}
 
-	protected void mkProxyClass(String name) {
-		targetType = Type.getObjectType(name);
+	protected void mkProxyClass(String targetName, String proxyClassName) {
+		targetType = Type.getObjectType(targetName);
 		objectType = Type.getObjectType(proxyClassName.replace('.', '/'));
 		ClassHeader ch = ClassBuilder.make(cv, proxyClassName);
 //		if(superName)
-//		ch.eXtend(Clazz.of(targetType));
 		ch.implement(Clazz.of(targetType));
 		ch.implement(TinyAsmProxyRuntimeReferNameObject.class);
 //		ch.access(access);
 		classBody = ch.body();
 
 		classBody.field(ACC_PRIVATE, "_referName", Clazz.of(String.class));
+		classBody.field(ACC_PRIVATE, "_context", Clazz.of(TinyAsmBuilderContext.class));
 		classBody.field(ACC_PRIVATE, "_code", Clazz.of(MethodCode.class));
 
 		{
@@ -263,33 +273,17 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 
 	}
 
+	Map<String, String> definedMethodes = new HashMap<>();
+
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
 
-//		stringBuilder.setLength(0);
-////		stringBuilder.append("{\n");
-//		if (!methodIsStatic) {
-//			stringBuilder.append("classBody.method(");
-//			if (access != (ACC_PUBLIC)) {
-//				appendAccessFlags(access);
-//				stringBuilder.append(", ");
-//			}
-//		} else {
-//			stringBuilder.append("classBody.staticMethod(");
-//			if (access != (ACC_PUBLIC | ACC_STATIC)) {
-//				appendAccessFlags(access);
-//				stringBuilder.append(", ");
-//			}
-//		}
-
-		// Return Type
-
-		Type returnType = Type.getReturnType(descriptor);
-		Clazz returnClazz = Clazz.of(returnType);
-
-		// ParamType
-		Type[] methodParamTypes = Type.getArgumentTypes(descriptor);
-
+		String referkey = name + descriptor + signature;
+		if (definedMethodes.containsKey(referkey)) {
+			return null;
+		}
+		definedMethodes.put(referkey, referkey);
+		
 //		List<StringBuilder> methodParamClazzes = null;
 //		if (signature == null) {
 //			if (returnType != Type.VOID_TYPE) {
@@ -308,28 +302,18 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 ////			stringBuilder.append(", ");
 ////			stringBuilder.append(signatureVistor.paramsClass.toString());
 //		}
-
-		// Exception
-
-//		if (exceptions != null && exceptions.length > 0) {
-////			stringBuilder.append("new String[] {");
-//			for (int i = 0; i < exceptions.length; ++i) {
-//				stringBuilder.append("\n\t.tHrow(");
-//				stringBuilder.append(clazzOf(Type.getObjectType(exceptions[i])));
-//				stringBuilder.append(" )");
-//			}
-//		}
-
-		// param type
-//		if (methodParamTypes.length > 0) {
-//			for (int i = 0; i < methodParamTypes.length; i++) {
-//				methodLocals.pushDefined("", methodParamTypes[i]);
-//			}
-//		}
-
+		
 		if (!!!name.equals("<init>") && !!!name.equals("<clinit>")
 				&& (access & (ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC | ACC_NATIVE | ACC_BRIDGE)) == 0) {
 
+			// Return Type
+
+			Type returnType = Type.getReturnType(descriptor);
+			Clazz returnClazz = Clazz.of(returnType);
+
+			// ParamType
+			Type[] methodParamTypes = Type.getArgumentTypes(descriptor);
+			
 			MethodHeader mh = classBody.method(returnClazz, name);
 //			mh.access(access);
 			for (int i = 0; i < methodParamTypes.length; i++) {
@@ -402,7 +386,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 
 	@Override
 	public void visitAttribute(Attribute attribute) {
-		super.visitAttribute(attribute);
+//		super.visitAttribute(attribute);
 	}
 
 	@Override

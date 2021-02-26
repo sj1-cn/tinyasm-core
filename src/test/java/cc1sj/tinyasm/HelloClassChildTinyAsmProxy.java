@@ -7,9 +7,10 @@ import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.TinyAsmProxyRuntimeReferNameObject;
 import cc1sj.tinyasm.hero.helperclass.HelloClassChild;
 
-public class HelloClassChildTinyAsmProxy  extends HelloClassChild implements TinyAsmProxyRuntimeReferNameObject {
+public class HelloClassChildTinyAsmProxy extends HelloClassChild implements TinyAsmProxyRuntimeReferNameObject {
 
 	private String _referName;
+	private TinyAsmBuilderContext _context;
 	private MethodCode _code;
 
 	@Override
@@ -18,12 +19,12 @@ public class HelloClassChildTinyAsmProxy  extends HelloClassChild implements Tin
 	}
 
 	@Override
-	public void __init(MethodCode code, String name) {
-		this._code = code;
+	public void __init(TinyAsmBuilderContext context, String name) {
+		this._context = context;
+		this._code = context.code;
 		this._referName = name;
 	}
 
-	
 	@Override
 	public int getIntHelloClassChild() {
 		_code.LINE();

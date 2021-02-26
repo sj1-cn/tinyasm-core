@@ -147,7 +147,7 @@ public class TinyAsmBuilder {
 		code.STORE(locals);
 		String strKey = String.valueOf(MAGICSTRING + locals);
 
-		T t = brokerBuilder.builder(helloclass, strKey, code);
+		T t = brokerBuilder.builder(helloclass, _context, strKey);
 		return t;
 	}
 
@@ -172,7 +172,7 @@ public class TinyAsmBuilder {
 		code.STORE(locals);
 		String strKey = String.valueOf(MAGICSTRING + locals);
 
-		T t = brokerBuilder.builder(helloclass, strKey, code);
+		T t = brokerBuilder.builder(helloclass, _context, strKey);
 		return t;
 	}
 
@@ -276,11 +276,11 @@ public class TinyAsmBuilder {
 				return (T) key;
 			} else if (t.isInterface()) {
 				String strKey = String.valueOf(MAGICSTRING + locals);
-				T proxy = brokerBuilder.builder(t, strKey, code);
+				T proxy = brokerBuilder.builder(t, _context, strKey);
 				return proxy;
 			} else if (!Modifier.isFinal(t.getModifiers())) {
 				String strKey = String.valueOf(MAGICSTRING + locals);
-				T proxy = brokerBuilder.builder(t, strKey, code);
+				T proxy = brokerBuilder.builder(t, _context, strKey);
 				return proxy;
 			} else {
 				return null;

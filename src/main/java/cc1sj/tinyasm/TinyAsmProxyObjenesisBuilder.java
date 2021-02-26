@@ -34,12 +34,12 @@ class TinyAsmProxyObjenesisBuilder {
 
 	static int count = 0;
 
-	public <T> T builder(Class<T> target, String name, MethodCode methodCode) {
+	public <T> T builder(Class<T> target, TinyAsmBuilderContext context, String name) {
 
 		ObjectInstantiator<?> builder = knownBrokeres.get(target.getName());
 
 		if (builder != null) {
-			return make(builder, name, methodCode);
+			return make(builder, name, context);
 		}
 
 		lock.lock();
@@ -47,7 +47,7 @@ class TinyAsmProxyObjenesisBuilder {
 
 			builder = knownBrokeres.get(target.getName());
 			if (builder != null) {
-				return make(builder, name, methodCode);
+				return make(builder, name, context);
 			}
 
 			count++;
@@ -90,7 +90,7 @@ class TinyAsmProxyObjenesisBuilder {
 
 			this.knownBrokeres = mapBuilder.putAll(knownBrokeres).put(target.getName(), builder).build();
 
-			return make(builder, name, methodCode);
+			return make(builder, name, context);
 
 		} catch (ClassFormatError e) {
 			log.error("", e);
@@ -104,10 +104,10 @@ class TinyAsmProxyObjenesisBuilder {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <T> T make(ObjectInstantiator<?> builder, String name, MethodCode methodCode) {
+	protected <T> T make(ObjectInstantiator<?> builder, String name, TinyAsmBuilderContext context) {
 		T t = (T) builder.newInstance();
 		TinyAsmProxyRuntimeReferNameObject o = (TinyAsmProxyRuntimeReferNameObject) t;
-		o.__init(methodCode, name);
+		o.__init(context, name);
 		return t;
 	}
 }

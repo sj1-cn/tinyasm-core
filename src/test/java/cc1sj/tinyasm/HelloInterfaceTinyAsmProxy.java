@@ -10,6 +10,7 @@ import cc1sj.tinyasm.hero.helperclass.HelloInterface;
 public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyRuntimeReferNameObject {
 
 	private String _referName;
+	private TinyAsmBuilderContext _context;
 	private MethodCode _code;
 
 	@Override
@@ -18,8 +19,9 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyR
 	}
 
 	@Override
-	public void __init(MethodCode code, String name) {
-		this._code = code;
+	public void __init(TinyAsmBuilderContext context, String name) {
+		this._context = context;
+		this._code = context.code;
 		this._referName = name;
 	}
 	

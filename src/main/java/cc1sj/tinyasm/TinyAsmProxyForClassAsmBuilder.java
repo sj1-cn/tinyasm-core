@@ -41,6 +41,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field(ACC_PRIVATE, "_referName", Clazz.of(String.class));
+		classBody.field(ACC_PRIVATE, "_context", Clazz.of(TinyAsmBuilderContext.class));
 		classBody.field(ACC_PRIVATE, "_code", Clazz.of(MethodCode.class));
 
 		init(classBody, targetClass);
@@ -103,11 +104,18 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 	protected static void __init(ClassBody classBody) {
 		{
-			MethodCode code = classBody.method("__init").parameter("code", MethodCode.class).parameter("name", String.class).begin();
+			MethodCode code = classBody.method("__init").parameter("context", TinyAsmBuilderContext.class).parameter("name", String.class)
+					.begin();
 
 			code.LINE(21);
 			code.LOAD("this");
-			code.LOAD("code");
+			code.LOAD("context");
+			code.PUTFIELD("_context", TinyAsmBuilderContext.class);
+
+			code.LINE(21);
+			code.LOAD("this");
+			code.LOAD("context");
+			code.GETFIELD("code", MethodCode.class);
 			code.PUTFIELD("_code", MethodCode.class);
 
 			code.LINE(22);
@@ -240,6 +248,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 		classBody = ch.body();
 
 		classBody.field(ACC_PRIVATE, "_referName", Clazz.of(String.class));
+		classBody.field(ACC_PRIVATE, "_context", Clazz.of(TinyAsmBuilderContext.class));
 		classBody.field(ACC_PRIVATE, "_code", Clazz.of(MethodCode.class));
 
 		{
@@ -352,8 +361,8 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 	@Override
 	public ModuleVisitor visitModule(String name, int access, String version) {
-		return super.visitModule(name, access, version);
-//		return null;
+//		return super.visitModule(name, access, version);
+		return null;
 	}
 
 	@Override
