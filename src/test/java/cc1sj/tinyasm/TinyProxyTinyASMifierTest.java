@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import cc1sj.tinyasm.hero.helperclass.ContactHello;
-import cc1sj.tinyasm.hero.helperclass.ContactHelloWithTinyAsmProxy;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
 import cc1sj.tinyasm.hero.helperclass.HelloClassChild;
 import cc1sj.tinyasm.hero.helperclass.HelloInterface;
@@ -30,23 +29,6 @@ public class TinyProxyTinyASMifierTest {
 		} finally {
 			System.out.println(codeExpected);
 		}
-	}
-
-	@Test
-	public void test_ContactHello_AsmProxy() throws Exception {
-		Class<?> expectedClazz = ContactHello.class;
-		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-
-		try {
-			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), ContactHelloWithTinyAsmProxy.dump());
-
-			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-
-			System.out.println(codeExpected);
-
-		}
-
 	}
 
 	@Test
