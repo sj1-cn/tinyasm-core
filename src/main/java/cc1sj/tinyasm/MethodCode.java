@@ -282,7 +282,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		visitVarInsn(ASTORE, local);
 	}
 
-	private void STORE(int index) {
+	void STORE(int index) {
 		Type valueType = stackTypeOf(0);
 		Type localType = localsStoreAccess(index, valueType);
 

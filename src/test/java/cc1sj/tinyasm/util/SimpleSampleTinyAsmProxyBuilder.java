@@ -34,16 +34,7 @@ public class SimpleSampleTinyAsmProxyBuilder {
 			code.LINE(8);
 			code.RETURN();
 		});
-		classWriter.method("dd").code(code -> {
-
-			int j = cst(1);
-			int k = cst(1);
-			int k1 = add(j, 10);
-			int j1 = add(k1, 10);
-
-			code.LINE(15);
-			code.RETURN();
-		});
+		dd(classWriter);
 		classWriter.method("methodWith1Param").parameter("i", int.class).code(code -> {
 
 			code.LINE(18);
@@ -55,5 +46,18 @@ public class SimpleSampleTinyAsmProxyBuilder {
 			code.RETURN();
 		});
 		return classWriter.end().toByteArray();
+	}
+
+	protected static void dd(ClassBody classWriter) {
+		MethodCode code = classWriter.method("dd").begin();
+
+		int j = cst(1);
+		int k = cst(1);
+		int k1 = add(j, 10);
+		int j1 = add(k1, 10);
+
+		code.LINE(15);
+		code.RETURN();
+		code.END();
 	}
 }

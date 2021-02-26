@@ -97,13 +97,13 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
-	public void define(String name, Clazz clazz) {
-		locals.define(name, clazz);
+	public int define(String name, Clazz clazz) {
+		return locals.define(name, clazz);
 	}
 
 	@Override
-	public void define(Annotation annotation, String name, Clazz clazz) {
-		locals.define(annotation, name, clazz);
+	public int define(Annotation annotation, String name, Clazz clazz) {
+		return locals.define(annotation, name, clazz);
 	}
 
 	@Override

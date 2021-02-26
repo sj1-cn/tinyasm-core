@@ -10,24 +10,23 @@ public interface WithDefineVar {
 		}
 	}
 
-	default void define(String name, String clazz) {
-		 define(name, Clazz.of(clazz));
+	default int define(String name, String clazz) {
+		return define(name, Clazz.of(clazz));
 	}
 
-	default void define(String name, Class<?> clazz) {
-		 define(name, Clazz.of(clazz));
+	default int define(String name, Class<?> clazz) {
+		return define(name, Clazz.of(clazz));
 	}
 
-	default void define(String name, String clazz, boolean isarray) {
-		 define(name, Clazz.of(clazz, isarray));
+	default int define(String name, String clazz, boolean isarray) {
+		return define(name, Clazz.of(clazz, isarray));
 	}
 
-	default void define(String name, Class<?> clazz, boolean isarray) {
-		 define(name, Clazz.of(clazz, isarray));
+	default int define(String name, Class<?> clazz, boolean isarray) {
+		return define(name, Clazz.of(clazz, isarray));
 	}
 
-	void define( String name, Clazz clazz);
+	int define(String name, Clazz clazz);
 
-
-	void define(Annotation annotation, String name, Clazz clazz);
+	int define(Annotation annotation, String name, Clazz clazz);
 }

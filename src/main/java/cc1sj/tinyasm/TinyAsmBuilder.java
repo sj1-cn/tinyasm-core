@@ -32,7 +32,7 @@ public class TinyAsmBuilder {
 	static private final double MAGIC_double = Double.MAX_VALUE - 107;
 
 	// Need Change to ThreadLocal
-	static int _locals;
+	static int _localsLast;
 	static Stack<MethodCode> codes = new Stack<MethodCode>();
 	static Stack<Integer> localsStack = new Stack<Integer>();
 
@@ -42,18 +42,18 @@ public class TinyAsmBuilder {
 		logger.trace("current code {} enter {} {}", _code, code, codes.size());
 		if (TinyAsmBuilder._code != null) {
 			codes.push(_code);
-			localsStack.push(_locals);
+//			localsStack.push(_locals);
 		}
 //		codes.push(code);
 		TinyAsmBuilder._code = code;
-		TinyAsmBuilder._locals = 10;
+//		TinyAsmBuilder._locals = 10;
 	}
 
 	static void exitCode() {
 		MethodCode code = _code;
 		if (codes.size() > 0) {
 			TinyAsmBuilder._code = codes.pop();
-			TinyAsmBuilder._locals = localsStack.pop();
+//			TinyAsmBuilder._locals = localsStack.pop();
 		}
 		logger.trace("exit to {} from {} {}", _code, code, codes.size());
 	}
@@ -127,16 +127,18 @@ public class TinyAsmBuilder {
 	static final private TinyAsmProxyObjenesisBuilder brokerBuilder = new TinyAsmProxyObjenesisBuilder();
 
 	static public <T> T ctor(Class<T> helloclass) {
-		_locals++;
-		String key = String.valueOf(MAGICSTRING + _locals);
+//		_locals++;
+//		String key = String.valueOf(MAGICSTRING + _locals);
 		_code.LINE();
 		_code.NEW(helloclass);
 		_code.DUP();
 		_code.SPECIAL(helloclass, "<init>").INVOKE();
-//		String key = refer(code, null)
-		_code.STORE(key, helloclass);
 
-		T t = brokerBuilder.builder(helloclass, key, _code);
+		int locals = _code.define(String.valueOf("V" + (_localsLast + 1)), helloclass);
+		_code.STORE(locals);
+		String strKey = String.valueOf(MAGICSTRING + locals);
+
+		T t = brokerBuilder.builder(helloclass, strKey, _code);
 		return t;
 	}
 
@@ -144,8 +146,6 @@ public class TinyAsmBuilder {
 		Constructor<?> c = matchConstruct(helloclass, params);
 		if (c == null) throw new UnsupportedOperationException();
 
-		_locals++;
-		String key = String.valueOf(MAGICSTRING + _locals);
 		_code.LINE();
 		_code.NEW(helloclass);
 		_code.DUP();
@@ -158,10 +158,11 @@ public class TinyAsmBuilder {
 
 		_code.SPECIAL(helloclass, "<init>").parameter(c.getParameterTypes()).INVOKE();
 
-//		String key = refer(code, null)
-		_code.STORE(key, helloclass);
+		int locals = _code.define(String.valueOf("V" + (_localsLast + 1)), helloclass);
+		_code.STORE(locals);
+		String strKey = String.valueOf(MAGICSTRING + locals);
 
-		T t = brokerBuilder.builder(helloclass, key, _code);
+		T t = brokerBuilder.builder(helloclass, strKey, _code);
 		return t;
 	}
 
@@ -202,10 +203,9 @@ public class TinyAsmBuilder {
 	}
 
 	public static <T> T refer(MethodCode code, Class<T> t) {
-		_locals++;
-		String strKey = String.valueOf(MAGICSTRING + _locals);
-		code.STORE(strKey, t);
-		return refer(code, t, _locals);
+		int locals = code.define(String.valueOf("V" + (_localsLast + 1)), t);
+		code.STORE(locals);
+		return refer(code, t, locals);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -215,60 +215,60 @@ public class TinyAsmBuilder {
 			if (t == boolean.class) {
 				throw new UnsupportedOperationException();
 			} else if (t == byte.class) {
-				Byte key = (byte) (MAGIC_byte + _locals);
+				Byte key = (byte) (MAGIC_byte + locals);
 				return (T) key;
 			} else if (t == char.class) {
-				Character key = (char) (MAGIC_char + _locals);
+				Character key = (char) (MAGIC_char + locals);
 				return (T) key;
 			} else if (t == short.class) {
-				Short key = (short) (MAGIC_short + _locals);
+				Short key = (short) (MAGIC_short + locals);
 				return (T) key;
 			} else if (t == int.class) {
-				Integer key = (int) (MAGIC_int + _locals);
+				Integer key = (int) (MAGIC_int + locals);
 				return (T) key;
 			} else if (t == long.class) {
-				Long key = (long) (MAGIC_long + _locals);
+				Long key = (long) (MAGIC_long + locals);
 				return (T) key;
 			} else if (t == float.class) {
-				Float key = (float) (MAGIC_float + _locals);
+				Float key = (float) (MAGIC_float + locals);
 				return (T) key;
 			} else if (t == double.class) {
-				Double key = (double) (MAGIC_double + _locals);
+				Double key = (double) (MAGIC_double + locals);
 				return (T) key;
 			}
 		} else {
 			if (t == boolean.class) {
 				throw new UnsupportedOperationException();
 			} else if (t == Byte.class) {
-				Byte key = (byte) (MAGIC_byte + _locals);
+				Byte key = (byte) (MAGIC_byte + locals);
 				return (T) key;
 			} else if (t == Character.class) {
-				Character key = (char) (MAGIC_char + _locals);
+				Character key = (char) (MAGIC_char + locals);
 				return (T) key;
 			} else if (t == Short.class) {
-				Short key = (short) (MAGIC_short + _locals);
+				Short key = (short) (MAGIC_short + locals);
 				return (T) key;
 			} else if (t == Integer.class) {
-				Integer key = (int) (MAGIC_int + _locals);
+				Integer key = (int) (MAGIC_int + locals);
 				return (T) key;
 			} else if (t == Long.class) {
-				Long key = (long) (MAGIC_long + _locals);
+				Long key = (long) (MAGIC_long + locals);
 				return (T) key;
 			} else if (t == Float.class) {
-				Float key = (float) (MAGIC_float + _locals);
+				Float key = (float) (MAGIC_float + locals);
 				return (T) key;
 			} else if (t == Double.class) {
-				Double key = (double) (MAGIC_double + _locals);
+				Double key = (double) (MAGIC_double + locals);
 				return (T) key;
 			} else if (t == String.class) {
-				String key = String.valueOf(MAGICSTRING + _locals);
+				String key = String.valueOf(MAGICSTRING + locals);
 				return (T) key;
 			} else if (t.isInterface()) {
-				String strKey = String.valueOf(MAGICSTRING + _locals);
+				String strKey = String.valueOf(MAGICSTRING + locals);
 				T proxy = brokerBuilder.builder(t, strKey, _code);
 				return proxy;
 			} else if (!Modifier.isFinal(t.getModifiers())) {
-				String strKey = String.valueOf(MAGICSTRING + _locals);
+				String strKey = String.valueOf(MAGICSTRING + locals);
 				T proxy = brokerBuilder.builder(t, strKey, _code);
 				return proxy;
 			} else {
@@ -282,7 +282,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, byte magicIndex) {
 		if (magicIndex >= MAGIC_byte) {
-			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_byte));
+			code.LOAD((magicIndex - MAGIC_byte));
 		} else {
 			code.LOADConst(magicIndex);
 		}
@@ -290,7 +290,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, char magicIndex) {
 		if (magicIndex >= MAGIC_char) {
-			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_char));
+			code.LOAD((magicIndex - MAGIC_char));
 		} else {
 			code.LOADConst(magicIndex);
 		}
@@ -298,7 +298,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, short magicIndex) {
 		if (magicIndex >= MAGIC_short) {
-			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_short));
+			code.LOAD((magicIndex - MAGIC_short));
 		} else {
 			code.LOADConst(magicIndex);
 		}
@@ -306,7 +306,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, int magicIndex) {
 		if (magicIndex >= MAGIC_int) {
-			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_int));
+			code.LOAD((magicIndex - MAGIC_int));
 		} else {
 			code.LOADConst(magicIndex);
 		}
@@ -314,7 +314,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, long magicIndex) {
 		if (magicIndex >= MAGIC_long) {
-			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_long)));
+			code.LOAD(((int) (magicIndex - MAGIC_long)));
 		} else {
 			code.LOADConst(magicIndex);
 		}
@@ -322,7 +322,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, float magicIndex) {
 		if (magicIndex >= MAGIC_float) {
-			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_float)));
+			code.LOAD(((int) (magicIndex - MAGIC_float)));
 		} else {
 			code.LOADConst(magicIndex);
 		}
@@ -330,7 +330,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, double magicIndex) {
 		if (magicIndex >= MAGIC_double) {
-			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_double)));
+			code.LOAD(((int) (magicIndex - MAGIC_double)));
 		} else {
 			code.LOADConst(magicIndex);
 		}
@@ -338,7 +338,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, Character magicIndex) {
 		if (magicIndex >= MAGIC_byte) {
-			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_byte));
+			code.LOAD((magicIndex - MAGIC_byte));
 		} else {
 			code.LOADConst(magicIndex);
 			code.STATIC(Character.class, "valueOf").reTurn(Character.class).parameter(char.class).INVOKE();
@@ -347,7 +347,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, Byte magicIndex) {
 		if (magicIndex >= MAGIC_byte) {
-			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_byte));
+			code.LOAD((magicIndex - MAGIC_byte));
 		} else {
 			code.LOADConst((byte) magicIndex);
 			code.STATIC(Byte.class, "valueOf").reTurn(Byte.class).parameter(byte.class).INVOKE();
@@ -356,7 +356,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, Short magicIndex) {
 		if (magicIndex >= MAGIC_short) {
-			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_short));
+			code.LOAD((magicIndex - MAGIC_short));
 		} else {
 			code.LOADConst((short) magicIndex);
 			code.STATIC(Short.class, "valueOf").reTurn(Short.class).parameter(short.class).INVOKE();
@@ -365,7 +365,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, Integer magicIndex) {
 		if (magicIndex >= MAGIC_int) {
-			code.LOAD(MAGICSTRING + (magicIndex - MAGIC_int));
+			code.LOAD((magicIndex - MAGIC_int));
 		} else {
 			code.LOADConst((int) magicIndex);
 			code.STATIC(Integer.class, "valueOf").reTurn(Integer.class).parameter(int.class).INVOKE();
@@ -374,7 +374,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, Long magicIndex) {
 		if (magicIndex >= MAGIC_long) {
-			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_long)));
+			code.LOAD(((int) (magicIndex - MAGIC_long)));
 		} else {
 			code.LOADConst((long) magicIndex);
 			code.STATIC(Long.class, "valueOf").reTurn(Long.class).parameter(long.class).INVOKE();
@@ -383,7 +383,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, Float magicIndex) {
 		if (magicIndex >= MAGIC_float) {
-			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_float)));
+			code.LOAD(((int) (magicIndex - MAGIC_float)));
 		} else {
 			code.LOADConst((float) magicIndex);
 			code.STATIC(Float.class, "valueOf").reTurn(Float.class).parameter(float.class).INVOKE();
@@ -392,7 +392,7 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, Double magicIndex) {
 		if (magicIndex >= MAGIC_double) {
-			code.LOAD(MAGICSTRING + ((int) (magicIndex - MAGIC_double)));
+			code.LOAD(((int) (magicIndex - MAGIC_double)));
 		} else {
 			code.LOADConst((double) magicIndex);
 			code.STATIC(Double.class, "valueOf").reTurn(Double.class).parameter(double.class).INVOKE();
@@ -401,7 +401,8 @@ public class TinyAsmBuilder {
 
 	static public void resolve(MethodCode code, String name) {
 		if (name.startsWith(MAGICSTRING)) {
-			code.LOAD(name);
+			int locals = Integer.valueOf(name.substring(MAGICSTRING.length()));
+			code.LOAD(locals);
 		} else {
 			code.LOADConst(name);
 		}
@@ -485,7 +486,8 @@ public class TinyAsmBuilder {
 			resolve(code, ((Byte) obj));
 		} else if (obj instanceof TinyAsmProxyRuntimeReferNameObject) {
 			String name = ((TinyAsmProxyRuntimeReferNameObject) obj).get__ReferName();
-			code.LOAD(name);
+			int locals = Integer.valueOf(name.substring(MAGICSTRING.length()));
+			code.LOAD(locals);
 		} else {
 			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
 		}

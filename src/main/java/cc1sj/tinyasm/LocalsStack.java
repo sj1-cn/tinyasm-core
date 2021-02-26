@@ -102,12 +102,12 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 	}
 
 	// 定义局部变量
-	public void define(String name, Clazz clazz) {
-		define(null, name, clazz);
+	public int define(String name, Clazz clazz) {
+		return define(null, name, clazz);
 	}
 
 	// 定义局部变量
-	public void define(Annotation annotation, String name, Clazz clazz) {
+	public int define(Annotation annotation, String name, Clazz clazz) {
 		Var var = new Var(clazz);
 		var.annotation = annotation;
 		var.name = name;
@@ -117,6 +117,7 @@ public class LocalsStack implements Iterable<LocalsStack.Var> {
 			locals.push(stack.size());
 		}
 		stack.push(var);
+		return var.locals;
 	}
 
 }
