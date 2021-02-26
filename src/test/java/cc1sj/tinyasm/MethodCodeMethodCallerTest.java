@@ -104,7 +104,7 @@ public class MethodCodeMethodCallerTest {
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}

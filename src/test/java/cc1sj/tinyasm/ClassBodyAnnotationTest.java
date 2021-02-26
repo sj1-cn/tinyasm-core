@@ -26,14 +26,15 @@ public class ClassBodyAnnotationTest {
 
 	@Test
 	public void testMath() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).annotation(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" })
-				.body();
+		ClassBody cw = ClassBuilder.make(clazz)
+				.annotation(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }).body();
 
 		cw.field(ACC_PRIVATE, Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class));
 		cw.field(ACC_PRIVATE, Annotation.of(TestAnnotation.class, "value"), "annotationWithDefaultValue", Clazz.of(String.class));
 		cw.field(ACC_PRIVATE, Annotation.of(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
 				"annotationWithDefaultValueAndNamedValue", Clazz.of(String.class));
-		cw.field(ACC_PRIVATE, Annotation.of(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
+		cw.field(ACC_PRIVATE,
+				Annotation.of(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
 				"annotationWithDefaultValueAndNamedValue2", Clazz.of(String.class));
 
 		cw.constructerEmpty();
@@ -81,7 +82,8 @@ public class ClassBodyAnnotationTest {
 				.parameter(Annotation.of(TestAnnotation.class, "value"), "annotationWithDefaultValue", Clazz.of(String.class))
 				.parameter(Annotation.of(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
 						"annotationWithDefaultValueAndNamedValue", Clazz.of(String.class))
-				.parameter(Annotation.of(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
+				.parameter(
+						Annotation.of(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
 						"annotationWithDefaultValueAndNamedValue2", Clazz.of(String.class))
 				.code(mv -> {
 					mv.LINE();
@@ -103,7 +105,7 @@ public class ClassBodyAnnotationTest {
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}

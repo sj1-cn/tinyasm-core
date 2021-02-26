@@ -23,8 +23,8 @@ public class MyBankAccountBuilderTest {
 		byte[] code = MyBankAccountBuilder.dump();
 		byte[] codeExpected = MyBankAccountDump.dump();
 
-		String strCode = TinyAsmTestUtils.toString(code);
-		String strCodeExpected = TinyAsmTestUtils.toString(codeExpected);
+		String strCode = TinyAsmTestUtils.toString("com.nebula.cqrs.core.asm.MyBankAccount",code);
+		String strCodeExpected = TinyAsmTestUtils.toString("com.nebula.cqrs.core.asm.MyBankAccount",codeExpected);
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 

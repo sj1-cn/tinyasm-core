@@ -188,7 +188,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 
 		ClassVisitor bw;
 //		target.getConstructor();
-		bw = new TinyAsmProxyForInterfaceAsmBuilder(Opcodes.ASM5, cw,Type.getType(target).getInternalName(), proxyClassName);
+		bw = new TinyAsmProxyForInterfaceAsmBuilder(Opcodes.ASM9, cw,Type.getType(target).getInternalName(), proxyClassName);
 		cr.accept(bw, ClassReader.SKIP_CODE);
 
 		Class<?> superClass = target.getSuperclass();

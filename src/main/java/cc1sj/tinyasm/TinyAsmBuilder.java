@@ -213,7 +213,7 @@ public class TinyAsmBuilder {
 
 		if (t.isPrimitive()) {
 			if (t == boolean.class) {
-				throw new UnsupportedOperationException();
+				return (T)Boolean.valueOf(false);
 			} else if (t == byte.class) {
 				Byte key = (byte) (MAGIC_byte + locals);
 				return (T) key;

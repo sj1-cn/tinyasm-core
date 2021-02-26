@@ -13,7 +13,7 @@ import cc1sj.tinyasm.sample.ClassHeader.MakeClassSuperSample;
 import cc1sj.tinyasm.sample.ClassHeader.TestSuperClass;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class ClassHeaderTest  {
+public class ClassHeaderTest {
 
 	String clazz = MakeClassSuperInterfaceSample.class.getName();
 
@@ -32,7 +32,7 @@ public class ClassHeaderTest  {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -44,7 +44,7 @@ public class ClassHeaderTest  {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -56,7 +56,7 @@ public class ClassHeaderTest  {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -69,7 +69,7 @@ public class ClassHeaderTest  {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -83,11 +83,11 @@ public class ClassHeaderTest  {
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cb.toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cb.toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
-	
+
 	@Test
 	public void testMathTestSuperClassclassWriter() throws Exception {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
@@ -96,11 +96,11 @@ public class ClassHeaderTest  {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(TestSuperClass.class.getName());
 		assertEquals("Code", codeExpected, codeActual);
 	}
-	
+
 	@Test
 	public void testMathclassWriter() throws Exception {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
@@ -109,7 +109,7 @@ public class ClassHeaderTest  {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -117,14 +117,12 @@ public class ClassHeaderTest  {
 	@Test
 	public void testMathGEtnameclassWriter() throws Exception {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
-		ClassBody cw = ClassBuilder
-			.make(classWriter, clazz, TestSuperClass.class.getName(), TestInerface.class.getName())
-			.body();
+		ClassBody cw = ClassBuilder.make(classWriter, clazz, TestSuperClass.class.getName(), TestInerface.class.getName()).body();
 
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -137,7 +135,7 @@ public class ClassHeaderTest  {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -151,7 +149,7 @@ public class ClassHeaderTest  {
 		cw.constructerEmpty();
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -166,7 +164,7 @@ public class ClassHeaderTest  {
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(cb.toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cb.toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}

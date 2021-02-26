@@ -17,6 +17,9 @@ import static org.objectweb.asm.Opcodes.ACC_STATIC;
 import static org.objectweb.asm.Opcodes.ACC_SUPER;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassReader;
@@ -187,7 +190,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 		ClassVisitor bw;
 //		target.getConstructor();
-		bw = new TinyAsmProxyForClassAsmBuilder(Opcodes.ASM5, cw, Type.getType(target).getInternalName(), proxyClassName);
+		bw = new TinyAsmProxyForClassAsmBuilder(Opcodes.ASM9, cw, Type.getType(target).getInternalName(), proxyClassName);
 		cr.accept(bw, ClassReader.SKIP_CODE);
 
 		Class<?> superClass = target.getSuperclass();
@@ -261,8 +264,16 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 	}
 
+	Map<String, String> definedMethodes = new HashMap<>();
+
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+
+		String referkey = name + descriptor + signature;
+		if (definedMethodes.containsKey(referkey)) {
+			return null;
+		}
+		definedMethodes.put(referkey, referkey);
 
 //		List<StringBuilder> methodParamClazzes = null;
 //		if (signature == null) {

@@ -17,7 +17,7 @@ public class TinyASMifierTest  {
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -34,7 +34,7 @@ public class TinyASMifierTest  {
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -52,7 +52,7 @@ public class TinyASMifierTest  {
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -70,7 +70,7 @@ public class TinyASMifierTest  {
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -91,7 +91,7 @@ public class TinyASMifierTest  {
 	public void testMethodCodeASMLogicSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMLogicSample.class;
 
-		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
@@ -103,7 +103,7 @@ public class TinyASMifierTest  {
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -117,7 +117,7 @@ public class TinyASMifierTest  {
 	public void testMethodCodeASMSimpleSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMSimpleSample.class;
 
-		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
@@ -127,7 +127,7 @@ public class TinyASMifierTest  {
 	public void testMethodASMArraySample() throws Exception {
 		Class<?> expectedClazz = MethodASMArraySample.class;
 
-		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
@@ -137,7 +137,7 @@ public class TinyASMifierTest  {
 	public void test_MakeReadOnlyPojo() throws Exception {
 		Class<?> expectedClazz = MakeReadOnlyPojo.class;
 
-		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
@@ -147,7 +147,7 @@ public class TinyASMifierTest  {
 	public void test_LabelSample() throws Exception {
 		Class<?> expectedClazz = LabelSample.class;
 
-		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
@@ -157,7 +157,7 @@ public class TinyASMifierTest  {
 	public void test_Pojo() throws Exception {
 		Class<?> expectedClazz = PojoSample.class;
 
-		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
@@ -167,7 +167,7 @@ public class TinyASMifierTest  {
 	public void test_BoxUnboxSample() throws Exception {
 		Class<?> expectedClazz = BoxUnboxSample.class;
 
-		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
@@ -177,7 +177,7 @@ public class TinyASMifierTest  {
 	public void test_MethodCodeASMMathSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMMathSample.class;
 
-		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
@@ -187,7 +187,7 @@ public class TinyASMifierTest  {
 	public void test_MethodCodeASMMathStaticSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMMathStaticSample.class;
 
-		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);
@@ -197,7 +197,7 @@ public class TinyASMifierTest  {
 	public void test_MethodCodeASMControlSample() throws Exception {
 		Class<?> expectedClazz = MethodCodeASMControlSample.class;
 
-		String codeActual = TinyAsmTestUtils.toString(dumpTinyAsm(expectedClazz));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		assertEquals("Code", codeExpected, codeActual);

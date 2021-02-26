@@ -16,7 +16,7 @@ import cc1sj.tinyasm.sample.ClassBody.MakeStringPropertyGetSet;
 import cc1sj.tinyasm.sample.ClassBody.TestAnnotation;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class ClassBodyTest  {
+public class ClassBodyTest {
 
 	@Test
 	public void testGetName() throws IOException {
@@ -34,7 +34,7 @@ public class ClassBodyTest  {
 		cw.constructerEmpty();
 		cw.toStringWithAllFields();
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -55,7 +55,7 @@ public class ClassBodyTest  {
 		cw.constructerWithAllFields();
 		cw.makeAllPropertyGet();
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -107,10 +107,8 @@ public class ClassBodyTest  {
 		cw.makePropertyGet(TestAnnotation.class.getName(), "nameWithAnnotationString");
 		cw.makePropertySet(TestAnnotation.class.getName(), "nameWithAnnotationString");
 
-		cw.makePropertyGet(TestAnnotation.class, "@TestAnnotation>nameWithAnnotationClazzValue",
-				"nameWithAnnotationClazzValue");
-		cw.makePropertySet(TestAnnotation.class, "@TestAnnotation>nameWithAnnotationClazzValue",
-				"nameWithAnnotationClazzValue");
+		cw.makePropertyGet(TestAnnotation.class, "@TestAnnotation>nameWithAnnotationClazzValue", "nameWithAnnotationClazzValue");
+		cw.makePropertySet(TestAnnotation.class, "@TestAnnotation>nameWithAnnotationClazzValue", "nameWithAnnotationClazzValue");
 
 		cw.makePropertyGet(TestAnnotation.class.getName(), "@TestAnnotation>nameWithAnnotationStringValue",
 				"nameWithAnnotationStringValue");
@@ -127,7 +125,7 @@ public class ClassBodyTest  {
 		cw.makePropertySet(TestAnnotation.class.getName(), "name", "@TestAnnotation>nameWithAnnotationStringNameValue",
 				"nameWithAnnotationStringNameValue");
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -154,10 +152,8 @@ public class ClassBodyTest  {
 		cw.makePropertyGet(TestAnnotation.class.getName(), "nameWithAnnotationString");
 		cw.makePropertySet(TestAnnotation.class.getName(), "nameWithAnnotationString");
 
-		cw.makePropertyGet(TestAnnotation.class, "@TestAnnotation>nameWithAnnotationClazzValue",
-				"nameWithAnnotationClazzValue");
-		cw.makePropertySet(TestAnnotation.class, "@TestAnnotation>nameWithAnnotationClazzValue",
-				"nameWithAnnotationClazzValue");
+		cw.makePropertyGet(TestAnnotation.class, "@TestAnnotation>nameWithAnnotationClazzValue", "nameWithAnnotationClazzValue");
+		cw.makePropertySet(TestAnnotation.class, "@TestAnnotation>nameWithAnnotationClazzValue", "nameWithAnnotationClazzValue");
 
 		cw.makePropertyGet(TestAnnotation.class.getName(), "@TestAnnotation>nameWithAnnotationStringValue",
 				"nameWithAnnotationStringValue");
@@ -174,7 +170,7 @@ public class ClassBodyTest  {
 		cw.makePropertySet(TestAnnotation.class.getName(), "name", "@TestAnnotation>nameWithAnnotationStringNameValue",
 				"nameWithAnnotationStringNameValue");
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -196,7 +192,7 @@ public class ClassBodyTest  {
 		cw.makeAllPropertyGet();
 		cw.makeAllPropertySet();
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -216,7 +212,7 @@ public class ClassBodyTest  {
 
 		cw.makePojo();
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -236,7 +232,7 @@ public class ClassBodyTest  {
 
 		cw.makeReadonlyPojo();
 
-		String codeActual = TinyAsmTestUtils.toString(cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
