@@ -1,6 +1,8 @@
 package cc1sj.tinyasm;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.Stack;
 
 import org.slf4j.Logger;
@@ -136,6 +138,63 @@ public class TinyAsmBuilder {
 
 		T t = brokerBuilder.builder(helloclass, key, _code);
 		return t;
+	}
+
+	static public <T> T ctor(Class<T> helloclass, Object... params) {
+		Constructor<?> c = matchConstruct(helloclass, params);
+		if (c == null) throw new UnsupportedOperationException();
+
+		_locals++;
+		String key = String.valueOf(MAGICSTRING + _locals);
+		_code.LINE();
+		_code.NEW(helloclass);
+		_code.DUP();
+
+		Class<?>[] paramTypes = c.getParameterTypes();
+
+		for (int i = 0; i < params.length; i++) {
+			resolve(_code, paramTypes[i], params[i]);
+		}
+
+		_code.SPECIAL(helloclass, "<init>").parameter(c.getParameterTypes()).INVOKE();
+
+//		String key = refer(code, null)
+		_code.STORE(key, helloclass);
+
+		T t = brokerBuilder.builder(helloclass, key, _code);
+		return t;
+	}
+
+	protected static Constructor<?> matchConstruct(Class<?> helloclass, Object... params) {
+		Constructor<?> c = null;
+		for (Constructor<?> init : helloclass.getConstructors()) {
+			if (init.getParameterCount() == params.length) {
+				boolean matched = true;
+				Class<?>[] definedParams = init.getParameterTypes();
+				for (int i = 0; i < params.length; i++) {
+					if (definedParams[i].getClass() == params[i].getClass()) {
+
+					} else if (match(definedParams[i], params[i].getClass())) {
+
+					} else {
+						matched = false;
+						break;
+					}
+				}
+				if (matched) c = init;
+			}
+		}
+		return c;
+	}
+
+	private static boolean match(Class<?> l, Class<?> r) {
+		if (l.isPrimitive()) {
+			return (l == byte.class && r == Byte.class) || (l == char.class && r == Character.class)
+					|| (l == short.class && r == Short.class) || (l == int.class && r == Integer.class)
+					|| (l == long.class && r == Long.class) || (l == float.class && r == Float.class)
+					|| (l == double.class && r == Double.class);
+		}
+		return false;
 	}
 
 	public static <T> T refer(Class<T> t) {
@@ -348,8 +407,83 @@ public class TinyAsmBuilder {
 		}
 	}
 
+	static public void resolve(MethodCode code, Class<?> vc, Object obj) {
+//		Class<?> vc = obj.getClass();
+		if (vc == byte.class) {
+			resolve(code, ((Byte) obj).byteValue());
+		} else if (vc == char.class) {
+			resolve(code, ((Character) obj).charValue());
+		} else if (vc == short.class) {
+			resolve(code, ((Short) obj).shortValue());
+		} else if (vc == int.class) {
+			resolve(code, ((Integer) obj).intValue());
+		} else if (vc == long.class) {
+			resolve(code, ((Long) obj).longValue());
+		} else if (vc == float.class) {
+			resolve(code, ((Float) obj).floatValue());
+		} else if (vc == double.class) {
+			resolve(code, ((Double) obj).doubleValue());
+		} else if (vc == Byte.class) {
+			resolve(code, ((Byte) obj));
+		} else if (vc == Character.class) {
+			resolve(code, ((Character) obj));
+		} else if (vc == Short.class) {
+			resolve(code, ((Short) obj));
+		} else if (vc == Integer.class) {
+			resolve(code, ((Integer) obj));
+		} else if (vc == Long.class) {
+			resolve(code, ((Long) obj));
+		} else if (vc == Float.class) {
+			resolve(code, ((Float) obj));
+		} else if (vc == Double.class) {
+			resolve(code, ((Double) obj));
+		} else if (vc == Byte.class) {
+			resolve(code, ((Byte) obj));
+		} else if (vc == Byte.class) {
+			resolve(code, ((Byte) obj));
+		} else if (obj instanceof TinyAsmProxyRuntimeReferNameObject) {
+			String name = ((TinyAsmProxyRuntimeReferNameObject) obj).get__ReferName();
+			code.LOAD(name);
+		} else {
+			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+		}
+	}
+
 	static public void resolve(MethodCode code, Object obj) {
-		if (obj instanceof TinyAsmProxyRuntimeReferNameObject) {
+		Class<?> vc = obj.getClass();
+		if (vc == byte.class) {
+			resolve(code, ((Byte) obj).byteValue());
+		} else if (vc == char.class) {
+			resolve(code, ((Character) obj).charValue());
+		} else if (vc == short.class) {
+			resolve(code, ((Short) obj).shortValue());
+		} else if (vc == int.class) {
+			resolve(code, ((Integer) obj).intValue());
+		} else if (vc == long.class) {
+			resolve(code, ((Long) obj).longValue());
+		} else if (vc == float.class) {
+			resolve(code, ((Float) obj).floatValue());
+		} else if (vc == double.class) {
+			resolve(code, ((Double) obj).doubleValue());
+		} else if (vc == Byte.class) {
+			resolve(code, ((Byte) obj));
+		} else if (vc == Character.class) {
+			resolve(code, ((Character) obj));
+		} else if (vc == Short.class) {
+			resolve(code, ((Short) obj));
+		} else if (vc == Integer.class) {
+			resolve(code, ((Integer) obj));
+		} else if (vc == Long.class) {
+			resolve(code, ((Long) obj));
+		} else if (vc == Float.class) {
+			resolve(code, ((Float) obj));
+		} else if (vc == Double.class) {
+			resolve(code, ((Double) obj));
+		} else if (vc == Byte.class) {
+			resolve(code, ((Byte) obj));
+		} else if (vc == Byte.class) {
+			resolve(code, ((Byte) obj));
+		} else if (obj instanceof TinyAsmProxyRuntimeReferNameObject) {
 			String name = ((TinyAsmProxyRuntimeReferNameObject) obj).get__ReferName();
 			code.LOAD(name);
 		} else {

@@ -16,7 +16,7 @@ import cc1sj.tinyasm.hero.helperclass.PageWithParametersSample;
 import cc1sj.tinyasm.hero.helperclass.PageWithParametersSampleTinyAsmBuilder;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class TinyProxyTinyASMifierTest {
+public class TinyProxyTinyASMifierTest2 {
 
 	@Test
 	public void test_ContactHello_Dump() throws Exception {
@@ -32,22 +32,6 @@ public class TinyProxyTinyASMifierTest {
 		}
 	}
 
-	@Test
-	public void test_ContactHello_AsmProxy() throws Exception {
-		Class<?> expectedClazz = ContactHello.class;
-		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-
-		try {
-			String codeActual = TinyAsmTestUtils.toString(ContactHelloWithTinyAsmProxy.dump());
-
-			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-
-			System.out.println(codeExpected);
-
-		}
-
-	}
 
 	@Test
 	public void test_HelloClassTinyAsmProxy_dump() throws Exception {
