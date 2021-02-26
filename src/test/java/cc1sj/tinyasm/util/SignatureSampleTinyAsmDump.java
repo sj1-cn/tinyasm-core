@@ -11,34 +11,43 @@ import java.util.HashMap;
 @SuppressWarnings("unused")
 public class SignatureSampleTinyAsmDump {
 
-public static byte[] dump () throws Exception {
+	public static byte[] dump () throws Exception {
+		return new SignatureSampleTinyAsmDump().__dump__("cc1sj.tinyasm.util.SignatureSample");
+	}
 
+	public byte[] __dump__(String className) throws Exception {
 ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.SignatureSample", Clazz.of(java.util.HashMap.class,Clazz.of(java.lang.String.class),Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String[].class))),Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String[].class))),Clazz.of(java.io.Serializable.class)).access(ACC_PUBLIC | ACC_SUPER).body();
 
 classBody.field(0, "mapStrngStringArray",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String[].class)));
 classBody.field(0, "mapStrngString",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class)));
 classBody.field(0, "hashMapStringMapStringStringArray",Clazz.of(java.util.HashMap.class,Clazz.of(java.lang.String.class),Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String[].class))));
-{
-	MethodCode code = classBody.method("<init>").begin();
+		__init_(classBody);
+		_mapStrngString(classBody);
 
-	code.LINE(7);
-	code.LOAD("this");
-	code.SPECIAL(HashMap.class, "<init>").INVOKE();
-	code.RETURN();
-	code.END();
-}
+		return classBody.end().toByteArray();
+	}
 
-{
-	MethodCode code = classBody.method(0, Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class)), "mapStrngString")
-	.parameter("mapStrngString",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class)))
-	.parameter("mapStrngString2",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class))).begin();
+	protected void __init_(ClassBody classBody) {
+		MethodCode code = classBody.method("<init>").begin();
 
-	code.LINE(22);
-	code.LOADConstNULL();
-	code.RETURNTop();
-	code.END();
-}
+		code.LINE(7);
+		code.LOAD("this");
+		code.SPECIAL(HashMap.class, "<init>").INVOKE();
+		code.RETURN();
 
-return classBody.end().toByteArray();
-}
+		code.END();
+	}
+
+	protected void _mapStrngString(ClassBody classBody) {
+		MethodCode code = classBody.method(0, Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class)), "mapStrngString")
+		.parameter("mapStrngString",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class)))
+		.parameter("mapStrngString2",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class))).begin();
+
+		code.LINE(22);
+		code.LOADConstNULL();
+		code.RETURNTop();
+
+		code.END();
+	}
+
 }

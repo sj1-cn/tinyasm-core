@@ -11,70 +11,81 @@ import java.lang.Object;
 @SuppressWarnings("unused")
 public class SimpleSampleTinyAsmDump {
 
-public static byte[] dump () throws Exception {
+	public static byte[] dump () throws Exception {
+		return new SimpleSampleTinyAsmDump().__dump__("cc1sj.tinyasm.util.SimpleSample");
+	}
 
-ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.SimpleSample").access(ACC_PUBLIC | ACC_SUPER).body();
+	public byte[] __dump__(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className).access(ACC_PUBLIC | ACC_SUPER).body();
 
 classBody.field("i", Clazz.of(int.class));
-{
-	MethodCode code = classBody.method("<init>").begin();
+		__init_(classBody);
+		_dd(classBody);
+		_methodWith1Param(classBody);
 
-	code.LINE(6);
-	code.LOAD("this");
-	code.SPECIAL(Object.class, "<init>").INVOKE();
+		return classBody.end().toByteArray();
+	}
 
-	code.LINE(4);
-	code.LOAD("this");
-	code.LOADConst(0);
-	code.PUTFIELD("i", int.class);
+	protected void __init_(ClassBody classBody) {
+		MethodCode code = classBody.method("<init>").begin();
 
-	code.LINE(8);
-	code.RETURN();
-	code.END();
-}
+		code.LINE(6);
+		code.LOAD("this");
+		code.SPECIAL(Object.class, "<init>").INVOKE();
 
-{
-	MethodCode code = classBody.method("dd").begin();
+		code.LINE(4);
+		code.LOAD("this");
+		code.LOADConst(0);
+		code.PUTFIELD("i", int.class);
 
-	code.LINE(11);
-	code.LOADConst(1);
-	code.STORE("j",int.class);
+		code.LINE(8);
+		code.RETURN();
 
-	code.LINE(12);
-	code.LOADConst(1);
-	code.STORE("k",int.class);
+		code.END();
+	}
 
-	code.LINE(13);
-	code.LOAD("j");
-	code.LOADConst(10);
-	code.ADD();
-	code.STORE("k1",int.class);
+	protected void _dd(ClassBody classBody) {
+		MethodCode code = classBody.method("dd").begin();
 
-	code.LINE(14);
-	code.LOAD("k1");
-	code.LOADConst(10);
-	code.ADD();
-	code.STORE("j1",int.class);
+		code.LINE(11);
+		code.LOADConst(1);
+		code.STORE("j",int.class);
 
-	code.LINE(15);
-	code.RETURN();
-	code.END();
-}
+		code.LINE(12);
+		code.LOADConst(1);
+		code.STORE("k",int.class);
 
-{
-	MethodCode code = classBody.method("methodWith1Param")
-	.parameter("i",int.class).begin();
+		code.LINE(13);
+		code.LOAD("j");
+		code.LOADConst(10);
+		code.ADD();
+		code.STORE("k1",int.class);
 
-	code.LINE(18);
-	code.LOAD("this");
-	code.LOAD("i");
-	code.PUTFIELD("i", int.class);
+		code.LINE(14);
+		code.LOAD("k1");
+		code.LOADConst(10);
+		code.ADD();
+		code.STORE("j1",int.class);
 
-	code.LINE(19);
-	code.RETURN();
-	code.END();
-}
+		code.LINE(15);
+		code.RETURN();
 
-return classBody.end().toByteArray();
-}
+		code.END();
+	}
+
+	protected void _methodWith1Param(ClassBody classBody) {
+		MethodCode code = classBody.method("methodWith1Param")
+		.parameter("i",int.class).begin();
+
+		code.LINE(18);
+		code.LOAD("this");
+		code.LOAD("i");
+		code.PUTFIELD("i", int.class);
+
+		code.LINE(19);
+		code.RETURN();
+
+		code.END();
+	}
+
 }

@@ -14,49 +14,58 @@ import java.lang.String;
 @SuppressWarnings("unused")
 public class LabelSampleTinyAsmDump {
 
-public static byte[] dump () throws Exception {
+	public static byte[] dump () throws Exception {
+		return new LabelSampleTinyAsmDump().__dump__("cc1sj.tinyasm.util.LabelSample");
+	}
 
-ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.LabelSample").access(ACC_PUBLIC | ACC_SUPER).body();
+	public byte[] __dump__(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className).access(ACC_PUBLIC | ACC_SUPER).body();
 
-{
-	MethodCode code = classBody.method("<init>").begin();
+		__init_(classBody);
+		_t(classBody);
 
-	code.LINE(3);
-	code.LOAD("this");
-	code.SPECIAL(Object.class, "<init>").INVOKE();
-	code.RETURN();
-	code.END();
-}
+		return classBody.end().toByteArray();
+	}
 
-{
-	MethodCode code = classBody.method("t").begin();
+	protected void __init_(ClassBody classBody) {
+		MethodCode code = classBody.method("<init>").begin();
 
-	code.LINE(5);
-	code.LOADConst(10);
-	code.STORE("i",int.class);
+		code.LINE(3);
+		code.LOAD("this");
+		code.SPECIAL(Object.class, "<init>").INVOKE();
+		code.RETURN();
 
-	code.LINE(6);
-	code.LOAD("i");
-	code.LOADConst(1);
-	Label label2OfIF_ICMPNE = new Label();
-	code.IF_ICMPNE(label2OfIF_ICMPNE);
+		code.END();
+	}
 
-	code.LINE(7);
-	code.IINC("i", 1);
+	protected void _t(ClassBody classBody) {
+		MethodCode code = classBody.method("t").begin();
 
-	code.visitLabel(label2OfIF_ICMPNE);
+		code.LINE(5);
+		code.LOADConst(10);
+		code.STORE("i",int.class);
 
-	code.LINE(9);
-	code.GETSTATIC(System.class, "out", PrintStream.class);
-	code.LOADConst("ddd");
-	code.VIRTUAL(PrintStream.class, "println")
-		.parameter(String.class).INVOKE();
+		code.LINE(6);
+		code.LOAD("i");
+		code.LOADConst(1);
+		Label label2OfIF_ICMPNE = new Label();
+		code.IF_ICMPNE(label2OfIF_ICMPNE);
 
-	code.LINE(10);
-	code.RETURN();
-	code.END();
-}
+		code.LINE(7);
+		code.IINC("i", 1);
 
-return classBody.end().toByteArray();
-}
+		code.visitLabel(label2OfIF_ICMPNE);
+
+		code.LINE(9);
+		code.GETSTATIC(System.class, "out", PrintStream.class);
+		code.LOADConst("ddd");
+		code.VIRTUAL(PrintStream.class, "println")
+				.parameter(String.class).INVOKE();
+
+		code.LINE(10);
+		code.RETURN();
+
+		code.END();
+	}
+
 }
