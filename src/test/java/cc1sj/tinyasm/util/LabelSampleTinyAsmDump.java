@@ -15,11 +15,12 @@ import java.lang.String;
 public class LabelSampleTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new LabelSampleTinyAsmDump().__dump__("cc1sj.tinyasm.util.LabelSample");
+		return new LabelSampleTinyAsmDump().dump("cc1sj.tinyasm.util.LabelSample");
 	}
 
-	public byte[] __dump__(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className).access(ACC_PUBLIC | ACC_SUPER).body();
+	public byte[] dump(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className)
+			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
 		_t(classBody);
@@ -60,7 +61,7 @@ public class LabelSampleTinyAsmDump {
 		code.GETSTATIC(System.class, "out", PrintStream.class);
 		code.LOADConst("ddd");
 		code.VIRTUAL(PrintStream.class, "println")
-				.parameter(String.class).INVOKE();
+			.parameter(String.class).INVOKE();
 
 		code.LINE(10);
 		code.RETURN();

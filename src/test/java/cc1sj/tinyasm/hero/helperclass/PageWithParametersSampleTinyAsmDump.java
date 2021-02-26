@@ -13,11 +13,12 @@ import java.lang.Object;
 public class PageWithParametersSampleTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new PageWithParametersSampleTinyAsmDump().__dump__("cc1sj.tinyasm.hero.helperclass.PageWithParametersSample");
+		return new PageWithParametersSampleTinyAsmDump().dump("cc1sj.tinyasm.hero.helperclass.PageWithParametersSample");
 	}
 
-	public byte[] __dump__(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className).access(ACC_PUBLIC | ACC_SUPER).body();
+	public byte[] dump(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className)
+			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
 		_test(classBody);
@@ -45,8 +46,8 @@ public class PageWithParametersSampleTinyAsmDump {
 		code.LOADConst(3);
 		code.LOADConst(3);
 		code.SPECIAL(PageWithParameters.class, "<init>")
-				.parameter(int.class)
-				.parameter(int.class).INVOKE();
+			.parameter(int.class)
+			.parameter(int.class).INVOKE();
 		code.STORE("p1",PageWithParameters.class);
 
 		code.LINE(7);
@@ -63,8 +64,8 @@ public class PageWithParametersSampleTinyAsmDump {
 		code.LOAD("i");
 		code.LOAD("j");
 		code.SPECIAL(PageWithParameters.class, "<init>")
-				.parameter(int.class)
-				.parameter(int.class).INVOKE();
+			.parameter(int.class)
+			.parameter(int.class).INVOKE();
 		code.STORE("p2",PageWithParameters.class);
 
 		code.LINE(11);

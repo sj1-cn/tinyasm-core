@@ -7,20 +7,24 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+import java.util.Map;
 import java.util.HashMap;
+import java.lang.String;
+import java.io.Serializable;
 @SuppressWarnings("unused")
 public class SignatureSampleTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new SignatureSampleTinyAsmDump().__dump__("cc1sj.tinyasm.util.SignatureSample");
+		return new SignatureSampleTinyAsmDump().dump("cc1sj.tinyasm.util.SignatureSample");
 	}
 
-	public byte[] __dump__(String className) throws Exception {
-ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.SignatureSample", Clazz.of(java.util.HashMap.class,Clazz.of(java.lang.String.class),Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String[].class))),Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String[].class))),Clazz.of(java.io.Serializable.class)).access(ACC_PUBLIC | ACC_SUPER).body();
+	public byte[] dump(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className, Clazz.of(HashMap.class,Clazz.of(String.class),Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String[].class))),Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String[].class))),Clazz.of(Serializable.class))
+			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.field(0, "mapStrngStringArray",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String[].class)));
-classBody.field(0, "mapStrngString",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class)));
-classBody.field(0, "hashMapStringMapStringStringArray",Clazz.of(java.util.HashMap.class,Clazz.of(java.lang.String.class),Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String[].class))));
+		classBody.field(0, "mapStrngStringArray",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String[].class)));
+		classBody.field(0, "mapStrngString",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)));
+		classBody.field(0, "hashMapStringMapStringStringArray",Clazz.of(HashMap.class,Clazz.of(String.class),Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String[].class))));
 		__init_(classBody);
 		_mapStrngString(classBody);
 
@@ -39,9 +43,9 @@ classBody.field(0, "hashMapStringMapStringStringArray",Clazz.of(java.util.HashMa
 	}
 
 	protected void _mapStrngString(ClassBody classBody) {
-		MethodCode code = classBody.method(0, Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class)), "mapStrngString")
-		.parameter("mapStrngString",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class)))
-		.parameter("mapStrngString2",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class))).begin();
+		MethodCode code = classBody.method(0, Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)), "mapStrngString")
+			.parameter("mapStrngString",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)))
+			.parameter("mapStrngString2",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class))).begin();
 
 		code.LINE(22);
 		code.LOADConstNULL();

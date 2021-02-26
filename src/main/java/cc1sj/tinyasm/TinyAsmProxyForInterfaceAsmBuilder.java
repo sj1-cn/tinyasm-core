@@ -384,11 +384,6 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 	}
 
 	@Override
-	public void visitNestHostExperimental(String nestHost) {
-//		super.visitNestHostExperimental(nestHost);
-	}
-
-	@Override
 	public void visitOuterClass(String owner, String name, String descriptor) {
 //		super.visitOuterClass(owner, name, descriptor);
 	}
@@ -408,12 +403,6 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 	@Override
 	public void visitAttribute(Attribute attribute) {
 		super.visitAttribute(attribute);
-	}
-
-	@SuppressWarnings("deprecation")
-	@Override
-	public void visitNestMemberExperimental(String nestMember) {
-		super.visitNestMemberExperimental(nestMember);
 	}
 
 	@Override

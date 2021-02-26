@@ -13,20 +13,21 @@ import java.lang.String;
 public class MethodASMArraySampleTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new MethodASMArraySampleTinyAsmDump().__dump__("cc1sj.tinyasm.util.MethodASMArraySample");
+		return new MethodASMArraySampleTinyAsmDump().dump("cc1sj.tinyasm.util.MethodASMArraySample");
 	}
 
-	public byte[] __dump__(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className).access(ACC_PUBLIC | ACC_SUPER).body();
+	public byte[] dump(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className)
+			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.field("ba", Clazz.of(byte[].class));
-classBody.field("ca", Clazz.of(char[].class));
-classBody.field("sa", Clazz.of(short[].class));
-classBody.field("ia", Clazz.of(int[].class));
-classBody.field("la", Clazz.of(long[].class));
-classBody.field("fa", Clazz.of(float[].class));
-classBody.field("da", Clazz.of(double[].class));
-classBody.field("stra", Clazz.of(String[].class));
+		classBody.field("ba", Clazz.of(byte[].class));
+		classBody.field("ca", Clazz.of(char[].class));
+		classBody.field("sa", Clazz.of(short[].class));
+		classBody.field("ia", Clazz.of(int[].class));
+		classBody.field("la", Clazz.of(long[].class));
+		classBody.field("fa", Clazz.of(float[].class));
+		classBody.field("da", Clazz.of(double[].class));
+		classBody.field("stra", Clazz.of(String[].class));
 		__init_(classBody);
 		_init(classBody);
 		_setArrayValue(classBody);
@@ -131,28 +132,28 @@ classBody.field("stra", Clazz.of(String[].class));
 		code.LOAD("this");
 		code.GETFIELD("ia", int[].class);
 		code.LOADConst(0);
-		code.LOADConst(Integer.valueOf(100000));
+		code.LOADConst(new Integer(100000));
 		code.ARRAYSTORE();
 
 		code.LINE(29);
 		code.LOAD("this");
 		code.GETFIELD("la", long[].class);
 		code.LOADConst(0);
-		code.LOADConst(Long.valueOf(1000000L));
+		code.LOADConst(new Long(1000000L));
 		code.ARRAYSTORE();
 
 		code.LINE(30);
 		code.LOAD("this");
 		code.GETFIELD("fa", float[].class);
 		code.LOADConst(0);
-		code.LOADConst(Float.valueOf("1.0E7"));
+		code.LOADConst(new Float("1.0E7"));
 		code.ARRAYSTORE();
 
 		code.LINE(31);
 		code.LOAD("this");
 		code.GETFIELD("da", double[].class);
 		code.LOADConst(0);
-		code.LOADConst(Double.valueOf("1.0E8"));
+		code.LOADConst(new Double("1.0E8"));
 		code.ARRAYSTORE();
 
 		code.LINE(32);

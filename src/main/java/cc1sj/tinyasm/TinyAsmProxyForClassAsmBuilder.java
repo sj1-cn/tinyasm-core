@@ -185,27 +185,26 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 		ClassReader cr = new ClassReader(target.getName());
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		
 		ClassVisitor bw;
 //		target.getConstructor();
 		bw = new TinyAsmProxyForClassAsmBuilder(Opcodes.ASM5, cw, Type.getType(target).getInternalName(), proxyClassName);
 		cr.accept(bw, ClassReader.SKIP_CODE);
-		
+
 		Class<?> superClass = target.getSuperclass();
-		while(superClass!=null && superClass != Object.class) {
+		while (superClass != null && superClass != Object.class) {
 			cr = new ClassReader(superClass.getName());
 			cr.accept(bw, ClassReader.SKIP_CODE);
-			
+
 			superClass = superClass.getSuperclass();
 		}
-		
+
 //		String[] is = cr.getInterfaces();
 //		for (String s : is) {
 //			cr = new ClassReader(s);
 //			cr.accept(bw, ClassReader.SKIP_CODE);
 //		}
 //		
-		
+
 		return cw.toByteArray();
 	}
 
@@ -217,14 +216,14 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 	public TinyAsmProxyForClassAsmBuilder(int api, String targetName, String proxyClassName) {
 		super(api);
 		this.proxyClassName = proxyClassName;
-		mkProxyClass(targetName,proxyClassName);
+		mkProxyClass(targetName, proxyClassName);
 	}
 
 	public TinyAsmProxyForClassAsmBuilder(int api, ClassVisitor classVisitor, String targetName, String proxyClassName) {
 		super(api, classVisitor);
 		this.proxyClassName = proxyClassName;
 
-		mkProxyClass(targetName,proxyClassName);
+		mkProxyClass(targetName, proxyClassName);
 	}
 
 	protected void mkProxyClass(String targetName, String proxyClassName) {
@@ -265,7 +264,6 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
 
-
 //		List<StringBuilder> methodParamClazzes = null;
 //		if (signature == null) {
 //			if (returnType != Type.VOID_TYPE) {
@@ -285,7 +283,6 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 ////			stringBuilder.append(signatureVistor.paramsClass.toString());
 //		}
 
-
 		if (!!!name.equals("<init>") && !!!name.equals("<clinit>")
 				&& (access & (ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC | ACC_NATIVE | ACC_BRIDGE)) == 0) {
 
@@ -294,8 +291,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 			Clazz returnClazz = Clazz.of(returnType);
 			// ParamType
 			Type[] methodParamTypes = Type.getArgumentTypes(descriptor);
-			
-			
+
 			MethodHeader mh = classBody.method(returnClazz, name);
 //			mh.access(access);
 			for (int i = 0; i < methodParamTypes.length; i++) {
@@ -350,11 +346,6 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 	}
 
 	@Override
-	public void visitNestHostExperimental(String nestHost) {
-//		super.visitNestHostExperimental(nestHost);
-	}
-
-	@Override
 	public void visitOuterClass(String owner, String name, String descriptor) {
 //		super.visitOuterClass(owner, name, descriptor);
 	}
@@ -374,12 +365,6 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 	@Override
 	public void visitAttribute(Attribute attribute) {
 //		super.visitAttribute(attribute);
-	}
-
-	@SuppressWarnings("deprecation")
-	@Override
-	public void visitNestMemberExperimental(String nestMember) {
-		super.visitNestMemberExperimental(nestMember);
 	}
 
 	@Override

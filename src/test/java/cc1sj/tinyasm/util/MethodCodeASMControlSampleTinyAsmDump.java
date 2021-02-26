@@ -13,13 +13,14 @@ import java.lang.String;
 public class MethodCodeASMControlSampleTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new MethodCodeASMControlSampleTinyAsmDump().__dump__("cc1sj.tinyasm.util.MethodCodeASMControlSample");
+		return new MethodCodeASMControlSampleTinyAsmDump().dump("cc1sj.tinyasm.util.MethodCodeASMControlSample");
 	}
 
-	public byte[] __dump__(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className).access(ACC_PUBLIC | ACC_SUPER).body();
+	public byte[] dump(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className)
+			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.field(0, "b", Clazz.of(byte.class));
+		classBody.field(0, "b", Clazz.of(byte.class));
 		__init_(classBody);
 		_addInt(classBody);
 		_addInt_float_float(classBody);
@@ -51,8 +52,8 @@ classBody.field(0, "b", Clazz.of(byte.class));
 
 	protected void _addInt(ClassBody classBody) {
 		MethodCode code = classBody.method(int.class, "addInt")
-		.parameter("x",long.class)
-		.parameter("y",long.class).begin();
+			.parameter("x",long.class)
+			.parameter("y",long.class).begin();
 
 		code.LINE(7);
 		code.LOAD("x");
@@ -148,8 +149,8 @@ classBody.field(0, "b", Clazz.of(byte.class));
 
 	protected void _addInt_float_float(ClassBody classBody) {
 		MethodCode code = classBody.method(int.class, "addInt")
-		.parameter("x",float.class)
-		.parameter("y",float.class).begin();
+			.parameter("x",float.class)
+			.parameter("y",float.class).begin();
 
 		code.LINE(29);
 		code.LOAD("x");
@@ -245,8 +246,8 @@ classBody.field(0, "b", Clazz.of(byte.class));
 
 	protected void _addInt_double_double(ClassBody classBody) {
 		MethodCode code = classBody.method(int.class, "addInt")
-		.parameter("x",double.class)
-		.parameter("y",double.class).begin();
+			.parameter("x",double.class)
+			.parameter("y",double.class).begin();
 
 		code.LINE(51);
 		code.LOAD("x");
@@ -342,8 +343,8 @@ classBody.field(0, "b", Clazz.of(byte.class));
 
 	protected void _addInt_int_int(ClassBody classBody) {
 		MethodCode code = classBody.method(int.class, "addInt")
-		.parameter("x",int.class)
-		.parameter("y",int.class).begin();
+			.parameter("x",int.class)
+			.parameter("y",int.class).begin();
 
 		code.LINE(73);
 		code.LOAD("x");
@@ -433,7 +434,7 @@ classBody.field(0, "b", Clazz.of(byte.class));
 
 	protected void _addInt_int(ClassBody classBody) {
 		MethodCode code = classBody.method(int.class, "addInt")
-		.parameter("x",int.class).begin();
+			.parameter("x",int.class).begin();
 
 		code.LINE(95);
 		code.LOAD("x");
@@ -517,8 +518,8 @@ classBody.field(0, "b", Clazz.of(byte.class));
 
 	protected void _addInt_String_String(ClassBody classBody) {
 		MethodCode code = classBody.method(int.class, "addInt")
-		.parameter("x",String.class)
-		.parameter("y",String.class).begin();
+			.parameter("x",String.class)
+			.parameter("y",String.class).begin();
 
 		code.LINE(117);
 		code.LOAD("x");
@@ -556,8 +557,8 @@ classBody.field(0, "b", Clazz.of(byte.class));
 
 	protected void _add_instance(ClassBody classBody) {
 		MethodCode code = classBody.method(int.class, "add_instance")
-		.parameter("x",String.class)
-		.parameter("y",String.class).begin();
+			.parameter("x",String.class)
+			.parameter("y",String.class).begin();
 
 		code.LINE(127);
 		code.LOAD("x");
@@ -582,7 +583,7 @@ classBody.field(0, "b", Clazz.of(byte.class));
 
 	protected void _addByte(ClassBody classBody) {
 		MethodCode code = classBody.method(byte.class, "addByte")
-		.parameter("o",Object.class).begin();
+			.parameter("o",Object.class).begin();
 
 		code.LINE(134);
 		code.LOAD("o");

@@ -12,13 +12,14 @@ import java.lang.Object;
 public class SimpleSampleTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new SimpleSampleTinyAsmDump().__dump__("cc1sj.tinyasm.util.SimpleSample");
+		return new SimpleSampleTinyAsmDump().dump("cc1sj.tinyasm.util.SimpleSample");
 	}
 
-	public byte[] __dump__(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className).access(ACC_PUBLIC | ACC_SUPER).body();
+	public byte[] dump(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className)
+			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.field("i", Clazz.of(int.class));
+		classBody.field("i", Clazz.of(int.class));
 		__init_(classBody);
 		_dd(classBody);
 		_methodWith1Param(classBody);
@@ -75,7 +76,7 @@ classBody.field("i", Clazz.of(int.class));
 
 	protected void _methodWith1Param(ClassBody classBody) {
 		MethodCode code = classBody.method("methodWith1Param")
-		.parameter("i",int.class).begin();
+			.parameter("i",int.class).begin();
 
 		code.LINE(18);
 		code.LOAD("this");

@@ -12,41 +12,42 @@ import java.lang.Object;
 public class MethodCodeASMMathStaticSampleTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new MethodCodeASMMathStaticSampleTinyAsmDump().__dump__("cc1sj.tinyasm.util.MethodCodeASMMathStaticSample");
+		return new MethodCodeASMMathStaticSampleTinyAsmDump().dump("cc1sj.tinyasm.util.MethodCodeASMMathStaticSample");
 	}
 
-	public byte[] __dump__(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className).access(ACC_PUBLIC | ACC_SUPER).body();
+	public byte[] dump(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className)
+			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.staticField(ACC_STATIC, "b", Clazz.of(byte.class));
-classBody.staticField(ACC_STATIC, "c", Clazz.of(char.class));
-classBody.staticField(ACC_STATIC, "s", Clazz.of(short.class));
-classBody.staticField(ACC_STATIC, "i", Clazz.of(int.class));
-classBody.staticField(ACC_STATIC, "l", Clazz.of(long.class));
-classBody.staticField(ACC_STATIC, "f", Clazz.of(float.class));
-classBody.staticField(ACC_STATIC, "d", Clazz.of(double.class));
-classBody.staticField(ACC_STATIC, "b3", Clazz.of(byte.class));
-classBody.staticField(ACC_STATIC, "c3", Clazz.of(char.class));
-classBody.staticField(ACC_STATIC, "s3", Clazz.of(short.class));
-classBody.staticField(ACC_STATIC, "i3", Clazz.of(int.class));
-classBody.staticField(ACC_STATIC, "l3", Clazz.of(long.class));
-classBody.staticField(ACC_STATIC, "f3", Clazz.of(float.class));
-classBody.staticField(ACC_STATIC, "d3", Clazz.of(double.class));
-classBody.staticField(ACC_STATIC, "f31", Clazz.of(float.class));
-classBody.staticField(ACC_STATIC, "d31", Clazz.of(double.class));
-classBody.staticField(ACC_STATIC, "b0", Clazz.of(byte.class));
-classBody.staticField(ACC_STATIC, "c0", Clazz.of(char.class));
-classBody.staticField(ACC_STATIC, "s0", Clazz.of(short.class));
-classBody.staticField(ACC_STATIC, "i0", Clazz.of(int.class));
-classBody.staticField(ACC_STATIC, "l1", Clazz.of(long.class));
-classBody.staticField(ACC_STATIC, "f1", Clazz.of(float.class));
-classBody.staticField(ACC_STATIC, "d1", Clazz.of(double.class));
-classBody.staticField(ACC_STATIC, "bn1", Clazz.of(byte.class));
-classBody.staticField(ACC_STATIC, "sn1", Clazz.of(short.class));
-classBody.staticField(ACC_STATIC, "in1", Clazz.of(int.class));
-classBody.staticField(ACC_STATIC, "ln1", Clazz.of(long.class));
-classBody.staticField(ACC_STATIC, "fn1", Clazz.of(float.class));
-classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
+		classBody.staticField(ACC_STATIC, "b", Clazz.of(byte.class));
+		classBody.staticField(ACC_STATIC, "c", Clazz.of(char.class));
+		classBody.staticField(ACC_STATIC, "s", Clazz.of(short.class));
+		classBody.staticField(ACC_STATIC, "i", Clazz.of(int.class));
+		classBody.staticField(ACC_STATIC, "l", Clazz.of(long.class));
+		classBody.staticField(ACC_STATIC, "f", Clazz.of(float.class));
+		classBody.staticField(ACC_STATIC, "d", Clazz.of(double.class));
+		classBody.staticField(ACC_STATIC, "b3", Clazz.of(byte.class));
+		classBody.staticField(ACC_STATIC, "c3", Clazz.of(char.class));
+		classBody.staticField(ACC_STATIC, "s3", Clazz.of(short.class));
+		classBody.staticField(ACC_STATIC, "i3", Clazz.of(int.class));
+		classBody.staticField(ACC_STATIC, "l3", Clazz.of(long.class));
+		classBody.staticField(ACC_STATIC, "f3", Clazz.of(float.class));
+		classBody.staticField(ACC_STATIC, "d3", Clazz.of(double.class));
+		classBody.staticField(ACC_STATIC, "f31", Clazz.of(float.class));
+		classBody.staticField(ACC_STATIC, "d31", Clazz.of(double.class));
+		classBody.staticField(ACC_STATIC, "b0", Clazz.of(byte.class));
+		classBody.staticField(ACC_STATIC, "c0", Clazz.of(char.class));
+		classBody.staticField(ACC_STATIC, "s0", Clazz.of(short.class));
+		classBody.staticField(ACC_STATIC, "i0", Clazz.of(int.class));
+		classBody.staticField(ACC_STATIC, "l1", Clazz.of(long.class));
+		classBody.staticField(ACC_STATIC, "f1", Clazz.of(float.class));
+		classBody.staticField(ACC_STATIC, "d1", Clazz.of(double.class));
+		classBody.staticField(ACC_STATIC, "bn1", Clazz.of(byte.class));
+		classBody.staticField(ACC_STATIC, "sn1", Clazz.of(short.class));
+		classBody.staticField(ACC_STATIC, "in1", Clazz.of(int.class));
+		classBody.staticField(ACC_STATIC, "ln1", Clazz.of(long.class));
+		classBody.staticField(ACC_STATIC, "fn1", Clazz.of(float.class));
+		classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
 		__init_(classBody);
 		_addInt(classBody);
 		_addByte(classBody);
@@ -73,8 +74,8 @@ classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
 
 	protected void _addInt(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(int.class, "addInt")
-		.parameter("x",int.class)
-		.parameter("y",int.class).begin();
+			.parameter("x",int.class)
+			.parameter("y",int.class).begin();
 
 		code.LINE(41);
 		code.LOAD("x");
@@ -203,8 +204,8 @@ classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
 
 	protected void _addByte(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(byte.class, "addByte")
-		.parameter("x",byte.class)
-		.parameter("y",byte.class).begin();
+			.parameter("x",byte.class)
+			.parameter("y",byte.class).begin();
 
 		code.LINE(70);
 		code.LOAD("x");
@@ -302,8 +303,8 @@ classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
 
 	protected void _addShort(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(short.class, "addShort")
-		.parameter("x",short.class)
-		.parameter("y",short.class).begin();
+			.parameter("x",short.class)
+			.parameter("y",short.class).begin();
 
 		code.LINE(91);
 		code.LOAD("x");
@@ -401,8 +402,8 @@ classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
 
 	protected void _addLong(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(long.class, "addLong")
-		.parameter("x",long.class)
-		.parameter("y",long.class).begin();
+			.parameter("x",long.class)
+			.parameter("y",long.class).begin();
 
 		code.LINE(111);
 		code.LOAD("x");
@@ -491,8 +492,8 @@ classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
 
 	protected void _mathChar(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(char.class, "mathChar")
-		.parameter("x",char.class)
-		.parameter("y",char.class).begin();
+			.parameter("x",char.class)
+			.parameter("y",char.class).begin();
 
 		code.LINE(131);
 		code.LOAD("x");
@@ -590,8 +591,8 @@ classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
 
 	protected void _mathFloat(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(float.class, "mathFloat")
-		.parameter("x",float.class)
-		.parameter("y",float.class).begin();
+			.parameter("x",float.class)
+			.parameter("y",float.class).begin();
 
 		code.LINE(151);
 		code.LOAD("x");
@@ -661,8 +662,8 @@ classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
 
 	protected void _mathDouble(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(double.class, "mathDouble")
-		.parameter("x",double.class)
-		.parameter("y",double.class).begin();
+			.parameter("x",double.class)
+			.parameter("y",double.class).begin();
 
 		code.LINE(171);
 		code.LOAD("x");
@@ -778,23 +779,23 @@ classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
 		code.PUT_THIS_STATIC("i3");
 
 		code.LINE(16);
-		code.LOADConst(Long.valueOf(3L));
+		code.LOADConst(new Long(3L));
 		code.PUT_THIS_STATIC("l3");
 
 		code.LINE(17);
-		code.LOADConst(Float.valueOf("3.0"));
+		code.LOADConst(new Float("3.0"));
 		code.PUT_THIS_STATIC("f3");
 
 		code.LINE(18);
-		code.LOADConst(Double.valueOf("3.0"));
+		code.LOADConst(new Double("3.0"));
 		code.PUT_THIS_STATIC("d3");
 
 		code.LINE(20);
-		code.LOADConst(Float.valueOf("3.1"));
+		code.LOADConst(new Float("3.1"));
 		code.PUT_THIS_STATIC("f31");
 
 		code.LINE(21);
-		code.LOADConst(Double.valueOf("3.1"));
+		code.LOADConst(new Double("3.1"));
 		code.PUT_THIS_STATIC("d31");
 
 		code.LINE(23);
@@ -838,15 +839,15 @@ classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
 		code.PUT_THIS_STATIC("in1");
 
 		code.LINE(35);
-		code.LOADConst(Long.valueOf(-1L));
+		code.LOADConst(new Long(-1L));
 		code.PUT_THIS_STATIC("ln1");
 
 		code.LINE(36);
-		code.LOADConst(Float.valueOf("-1.0"));
+		code.LOADConst(new Float("-1.0"));
 		code.PUT_THIS_STATIC("fn1");
 
 		code.LINE(37);
-		code.LOADConst(Double.valueOf("-1.0"));
+		code.LOADConst(new Double("-1.0"));
 		code.PUT_THIS_STATIC("dn1");
 		code.RETURN();
 

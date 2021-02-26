@@ -13,20 +13,21 @@ import java.lang.String;
 public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new MethodCodeASMSimpleSampleTinyAsmDump().__dump__("cc1sj.tinyasm.MethodCodeASMSimpleSample");
+		return new MethodCodeASMSimpleSampleTinyAsmDump().dump("cc1sj.tinyasm.MethodCodeASMSimpleSample");
 	}
 
-	public byte[] __dump__(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className).access(ACC_PUBLIC | ACC_SUPER).body();
+	public byte[] dump(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className)
+			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.field("b", Clazz.of(byte.class));
-classBody.field("c", Clazz.of(char.class));
-classBody.field("s", Clazz.of(short.class));
-classBody.field("i", Clazz.of(int.class));
-classBody.field("l", Clazz.of(long.class));
-classBody.field("f", Clazz.of(float.class));
-classBody.field("d", Clazz.of(double.class));
-classBody.field("str", Clazz.of(String.class));
+		classBody.field("b", Clazz.of(byte.class));
+		classBody.field("c", Clazz.of(char.class));
+		classBody.field("s", Clazz.of(short.class));
+		classBody.field("i", Clazz.of(int.class));
+		classBody.field("l", Clazz.of(long.class));
+		classBody.field("f", Clazz.of(float.class));
+		classBody.field("d", Clazz.of(double.class));
+		classBody.field("str", Clazz.of(String.class));
 		__init_(classBody);
 		_getField(classBody);
 		_getFieldAll(classBody);
@@ -123,22 +124,22 @@ classBody.field("str", Clazz.of(String.class));
 
 		code.LINE(28);
 		code.LOAD("this");
-		code.LOADConst(Integer.valueOf(100000));
+		code.LOADConst(new Integer(100000));
 		code.PUTFIELD("i", int.class);
 
 		code.LINE(29);
 		code.LOAD("this");
-		code.LOADConst(Long.valueOf(1000000L));
+		code.LOADConst(new Long(1000000L));
 		code.PUTFIELD("l", long.class);
 
 		code.LINE(30);
 		code.LOAD("this");
-		code.LOADConst(Float.valueOf("1.0E7"));
+		code.LOADConst(new Float("1.0E7"));
 		code.PUTFIELD("f", float.class);
 
 		code.LINE(31);
 		code.LOAD("this");
-		code.LOADConst(Double.valueOf("1.0E8"));
+		code.LOADConst(new Double("1.0E8"));
 		code.PUTFIELD("d", double.class);
 
 		code.LINE(32);

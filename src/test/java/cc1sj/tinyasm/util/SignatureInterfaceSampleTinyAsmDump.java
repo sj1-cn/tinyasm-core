@@ -7,15 +7,20 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+import java.util.Map;
+import java.lang.Object;
+import java.lang.String;
+import java.io.Serializable;
 @SuppressWarnings("unused")
 public class SignatureInterfaceSampleTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new SignatureInterfaceSampleTinyAsmDump().__dump__("cc1sj.tinyasm.util.SignatureInterfaceSample");
+		return new SignatureInterfaceSampleTinyAsmDump().dump("cc1sj.tinyasm.util.SignatureInterfaceSample");
 	}
 
-	public byte[] __dump__(String className) throws Exception {
-ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.SignatureInterfaceSample", Clazz.of(java.lang.Object.class),Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String[].class))),Clazz.of(java.io.Serializable.class)).access(ACC_PUBLIC | ACC_ABSTRACT | ACC_INTERFACE).body();
+	public byte[] dump(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className, Clazz.of(Object.class),Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String[].class))),Clazz.of(Serializable.class))
+			.access(ACC_PUBLIC | ACC_ABSTRACT | ACC_INTERFACE).body();
 
 		_mapStrngString(classBody);
 
@@ -23,9 +28,9 @@ ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.util.SignatureInterfaceSa
 	}
 
 	protected void _mapStrngString(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC | ACC_ABSTRACT, Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class)), "mapStrngString")
-		.parameter("var1",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class)))
-		.parameter("var2",Clazz.of(java.util.Map.class,Clazz.of(java.lang.String.class),Clazz.of(java.lang.String.class))).begin();
+		MethodCode code = classBody.method(ACC_PUBLIC | ACC_ABSTRACT, Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)), "mapStrngString")
+			.parameter("var1",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)))
+			.parameter("var2",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class))).begin();
 
 		code.END();
 	}

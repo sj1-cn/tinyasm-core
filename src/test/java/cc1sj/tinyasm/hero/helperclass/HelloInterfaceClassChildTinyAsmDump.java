@@ -21,14 +21,15 @@ import java.lang.Integer;
 public class HelloInterfaceClassChildTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new HelloInterfaceClassChildTinyAsmDump().__dump__("cc1sj.tinyasm.hero.helperclass.HelloInterfaceClassChild");
+		return new HelloInterfaceClassChildTinyAsmDump().dump("cc1sj.tinyasm.hero.helperclass.HelloInterfaceClassChild");
 	}
 
-	public byte[] __dump__(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className, null, HelloInterface.class).access(ACC_PUBLIC | ACC_SUPER).body();
+	public byte[] dump(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className, null, HelloInterface.class)
+			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.field(0, "intHelloClassChild", Clazz.of(int.class));
-classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
+		classBody.field(0, "intHelloClassChild", Clazz.of(int.class));
+		classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 		__init_(classBody);
 		_getIntHelloClassChild(classBody);
 		_setIntHelloClassChild(classBody);
@@ -92,7 +93,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setIntHelloClassChild(ClassBody classBody) {
 		MethodCode code = classBody.method("setIntHelloClassChild")
-		.parameter("intHelloClassChild",int.class).begin();
+			.parameter("intHelloClassChild",int.class).begin();
 
 		code.LINE(13);
 		code.LOAD("this");
@@ -118,7 +119,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setStringHelloClassChild(ClassBody classBody) {
 		MethodCode code = classBody.method("setStringHelloClassChild")
-		.parameter("stringHelloClassChild",String.class).begin();
+			.parameter("stringHelloClassChild",String.class).begin();
 
 		code.LINE(21);
 		code.LOAD("this");
@@ -283,7 +284,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setName(ClassBody classBody) {
 		MethodCode code = classBody.method("setName")
-		.parameter("name",String.class).begin();
+			.parameter("name",String.class).begin();
 
 		code.LINE(118);
 		code.RETURN();
@@ -293,7 +294,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeChar(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeChar")
-		.parameter("ageChar",char.class).begin();
+			.parameter("ageChar",char.class).begin();
 
 		code.LINE(124);
 		code.RETURN();
@@ -303,7 +304,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeByte(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeByte")
-		.parameter("ageByte",byte.class).begin();
+			.parameter("ageByte",byte.class).begin();
 
 		code.LINE(130);
 		code.RETURN();
@@ -313,7 +314,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeShort(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeShort")
-		.parameter("ageShort",short.class).begin();
+			.parameter("ageShort",short.class).begin();
 
 		code.LINE(136);
 		code.RETURN();
@@ -323,7 +324,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeInt(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeInt")
-		.parameter("ageInt",int.class).begin();
+			.parameter("ageInt",int.class).begin();
 
 		code.LINE(142);
 		code.RETURN();
@@ -333,7 +334,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeLong(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeLong")
-		.parameter("ageLong",long.class).begin();
+			.parameter("ageLong",long.class).begin();
 
 		code.LINE(148);
 		code.RETURN();
@@ -343,7 +344,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeFloat(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeFloat")
-		.parameter("ageFloat",float.class).begin();
+			.parameter("ageFloat",float.class).begin();
 
 		code.LINE(154);
 		code.RETURN();
@@ -353,7 +354,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeDouble(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeDouble")
-		.parameter("ageDouble",double.class).begin();
+			.parameter("ageDouble",double.class).begin();
 
 		code.LINE(160);
 		code.RETURN();
@@ -363,7 +364,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeCharacter(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeCharacter")
-		.parameter("ageCharacter",Character.class).begin();
+			.parameter("ageCharacter",Character.class).begin();
 
 		code.LINE(166);
 		code.RETURN();
@@ -373,7 +374,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeByte2(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeByte2")
-		.parameter("ageByte2",Byte.class).begin();
+			.parameter("ageByte2",Byte.class).begin();
 
 		code.LINE(172);
 		code.RETURN();
@@ -383,7 +384,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeShort2(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeShort2")
-		.parameter("ageShort2",Short.class).begin();
+			.parameter("ageShort2",Short.class).begin();
 
 		code.LINE(178);
 		code.RETURN();
@@ -393,7 +394,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeInteger(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeInteger")
-		.parameter("ageInteger",Integer.class).begin();
+			.parameter("ageInteger",Integer.class).begin();
 
 		code.LINE(184);
 		code.RETURN();
@@ -403,7 +404,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeLong2(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeLong2")
-		.parameter("ageLong2",Long.class).begin();
+			.parameter("ageLong2",Long.class).begin();
 
 		code.LINE(190);
 		code.RETURN();
@@ -413,7 +414,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeFloat2(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeFloat2")
-		.parameter("agefFloat",Float.class).begin();
+			.parameter("agefFloat",Float.class).begin();
 
 		code.LINE(196);
 		code.RETURN();
@@ -423,7 +424,7 @@ classBody.field(0, "stringHelloClassChild", Clazz.of(String.class));
 
 	protected void _setAgeDouble2(ClassBody classBody) {
 		MethodCode code = classBody.method("setAgeDouble2")
-		.parameter("ageDouble2",Double.class).begin();
+			.parameter("ageDouble2",Double.class).begin();
 
 		code.LINE(202);
 		code.RETURN();
