@@ -30,23 +30,18 @@ public class TinyAsmBuilder {
 	static private final double MAGIC_double = Double.MAX_VALUE - 107;
 
 	// Need Change to ThreadLocal
-	static int _localsLast;
+//	static int _localsLast;
 	static Stack<TinyAsmBuilderContext> _contextStack = new Stack<>();
 	static private TinyAsmBuilderContext _context;
 
 	static Logger logger = LoggerFactory.getLogger(TinyAsmBuilder.class);
 
 	static void enterCode(MethodCode code) {
-//		logger.trace("current code {} enter {} {}", code, code, codes.size());
-
 		TinyAsmBuilderContext context = new TinyAsmBuilderContext(code);
 		if (TinyAsmBuilder._context != null) {
 			_contextStack.push(_context);
-//			localsStack.push(_locals);
 		}
-//		codes.push(code);
 		TinyAsmBuilder._context = context;
-//		TinyAsmBuilder._locals = 10;
 	}
 
 	static void exitCode() {
@@ -64,13 +59,6 @@ public class TinyAsmBuilder {
 		code.LOADConst(i);
 		return refer(_context.code, int.class);
 	}
-
-//	static public <T> T getField(T obj, String name, Class<T> clazz) {
-//		code.LINE();
-//		code.LOAD_THIS();
-//		code.GET_THIS_FIELD(name);
-//		return refer(clazz);
-//	}
 
 	static public <T> T getField(String name, Class<T> clazz) {
 		MethodCode code = _context.code;
@@ -143,7 +131,8 @@ public class TinyAsmBuilder {
 		code.DUP();
 		code.SPECIAL(helloclass, "<init>").INVOKE();
 
-		int locals = code.define(String.valueOf("V" + (_localsLast + 1)), helloclass);
+		int locals = code.define(String.valueOf("V" + (_context._localsLast + 1)), helloclass);
+		_context._localsLast = locals;
 		code.STORE(locals);
 		String strKey = String.valueOf(MAGICSTRING + locals);
 
@@ -168,7 +157,8 @@ public class TinyAsmBuilder {
 
 		code.SPECIAL(helloclass, "<init>").parameter(c.getParameterTypes()).INVOKE();
 
-		int locals = code.define(String.valueOf("V" + (_localsLast + 1)), helloclass);
+		int locals = code.define(String.valueOf("V" + (_context._localsLast + 1)), helloclass);
+		_context._localsLast = locals;
 		code.STORE(locals);
 		String strKey = String.valueOf(MAGICSTRING + locals);
 
@@ -214,7 +204,8 @@ public class TinyAsmBuilder {
 	}
 
 	public static <T> T refer(MethodCode code, Class<T> t) {
-		int locals = code.define(String.valueOf("V" + (_localsLast + 1)), t);
+		int locals = code.define(String.valueOf("V" + (_context._localsLast + 1)), t);
+		_context._localsLast = locals;
 		code.STORE(locals);
 		return refer(code, t, locals);
 	}
