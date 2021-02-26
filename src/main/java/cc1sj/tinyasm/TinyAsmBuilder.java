@@ -2,7 +2,6 @@ package cc1sj.tinyasm;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Parameter;
 import java.util.Stack;
 
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ public class TinyAsmBuilder {
 //	static public Stack<Consumer<MethodCode>> codes = new Stack<Consumer<MethodCode>>();
 //	static public Map<String, Consumer<MethodCode>> codeBlocks = new HashMap<>();
 //	static public Stack<String> stack = new Stack<>();
-	static private MethodCode _code;
 //	static public Context context = new Context(code);
 
 	static private final String MAGICSTRING = "#MAGIC#";
@@ -33,136 +31,158 @@ public class TinyAsmBuilder {
 
 	// Need Change to ThreadLocal
 	static int _localsLast;
-	static Stack<MethodCode> codes = new Stack<MethodCode>();
-	static Stack<Integer> localsStack = new Stack<Integer>();
+	static Stack<Context> _contextStack = new Stack<>();
+	static private Context _context;
 
 	static Logger logger = LoggerFactory.getLogger(TinyAsmBuilder.class);
 
 	static void enterCode(MethodCode code) {
-		logger.trace("current code {} enter {} {}", _code, code, codes.size());
-		if (TinyAsmBuilder._code != null) {
-			codes.push(_code);
+//		logger.trace("current code {} enter {} {}", code, code, codes.size());
+
+		Context context = new Context(code);
+		if (TinyAsmBuilder._context != null) {
+			_contextStack.push(_context);
 //			localsStack.push(_locals);
 		}
 //		codes.push(code);
-		TinyAsmBuilder._code = code;
+		TinyAsmBuilder._context = context;
 //		TinyAsmBuilder._locals = 10;
 	}
 
-	static void exitCode() {
-		MethodCode code = _code;
-		if (codes.size() > 0) {
-			TinyAsmBuilder._code = codes.pop();
-//			TinyAsmBuilder._locals = localsStack.pop();
+	static class Context {
+		MethodCode code;
+		Object topObject;
+
+		public Context(MethodCode code) {
+			super();
+			this.code = code;
 		}
-		logger.trace("exit to {} from {} {}", _code, code, codes.size());
+	}
+
+	static void exitCode() {
+		Context context = _context;
+//		MethodCode code = _code;
+		if (_contextStack.size() > 0) {
+			TinyAsmBuilder._context = _contextStack.pop();
+		}
+//		logger.trace("exit to {} from {} {}", code, code, codes.size());
 	}
 
 	static public int cst(int i) {
-		_code.LINE();
-		_code.LOADConst(i);
-		return refer(_code, int.class);
+		MethodCode code = _context.code;
+		code.LINE();
+		code.LOADConst(i);
+		return refer(_context.code, int.class);
 	}
 
 //	static public <T> T getField(T obj, String name, Class<T> clazz) {
-//		_code.LINE();
-//		_code.LOAD_THIS();
-//		_code.GET_THIS_FIELD(name);
+//		code.LINE();
+//		code.LOAD_THIS();
+//		code.GET_THIS_FIELD(name);
 //		return refer(clazz);
 //	}
 
 	static public <T> T getField(String name, Class<T> clazz) {
-		_code.LINE();
-		_code.LOAD_THIS();
-		_code.GET_THIS_FIELD(name);
+		MethodCode code = _context.code;
+		code.LINE();
+		code.LOAD_THIS();
+		code.GET_THIS_FIELD(name);
 		return refer(clazz);
 	}
 
 	static public <T> T param(String name, Class<T> clazz) {
-		int locals = _code.codeLocalGetLocals(name);
-		return refer(_code, clazz, locals);
+		MethodCode code = _context.code;
+		int locals = code.codeLocalGetLocals(name);
+		return refer(_context.code, clazz, locals);
 	}
 
 	static public <T> void setField(String name, T value) {
-		_code.LINE();
-		_code.LOAD_THIS();
-		resolve(_code, value);
-		_code.PUTFIELD_OF_THIS(name);
+		MethodCode code = _context.code;
+		code.LINE();
+		code.LOAD_THIS();
+		resolve(code, value);
+		code.PUTFIELD_OF_THIS(name);
 	}
 
 	static public int add(int l, int r) {
-		_code.LINE();
-		resolve(_code, l);
-		resolve(_code, r);
-		_code.ADD();
-		return refer(_code, int.class);
+		MethodCode code = _context.code;
+		code.LINE();
+		resolve(code, l);
+		resolve(code, r);
+		code.ADD();
+		return refer(code, int.class);
 	}
 
 	static public long add(long l, long r) {
-		_code.LINE();
-		resolve(_code, l);
-		resolve(_code, r);
-		_code.ADD();
-		return refer(_code, long.class);
+		MethodCode code = _context.code;
+		code.LINE();
+		resolve(code, l);
+		resolve(code, r);
+		code.ADD();
+		return refer(code, long.class);
 	}
 
 	@SuppressWarnings("unchecked")
 	static public <T> T add(T l, T r) {
-		_code.LINE();
-		resolve(_code, l);
-		resolve(_code, r);
-		_code.ADD();
-		return (T) refer(_code, l.getClass());
+		MethodCode code = _context.code;
+		code.LINE();
+		resolve(code, l);
+		resolve(code, r);
+		code.ADD();
+		return (T) refer(code, l.getClass());
 	}
 
 	static public short add(short l, short r) {
-		_code.LINE();
-		resolve(_code, l);
-		resolve(_code, r);
-		_code.ADD();
-		_code.CONVERTTO(short.class);
-		return refer(_code, short.class);
+		MethodCode code = _context.code;
+		code.LINE();
+		resolve(code, l);
+		resolve(code, r);
+		code.ADD();
+		code.CONVERTTO(short.class);
+		return refer(code, short.class);
 	}
 
 	static final private TinyAsmProxyObjenesisBuilder brokerBuilder = new TinyAsmProxyObjenesisBuilder();
 
 	static public <T> T ctor(Class<T> helloclass) {
+		MethodCode code = _context.code;
 //		_locals++;
 //		String key = String.valueOf(MAGICSTRING + _locals);
-		_code.LINE();
-		_code.NEW(helloclass);
-		_code.DUP();
-		_code.SPECIAL(helloclass, "<init>").INVOKE();
+		code.LINE();
+		code.NEW(helloclass);
+		code.DUP();
+		code.SPECIAL(helloclass, "<init>").INVOKE();
 
-		int locals = _code.define(String.valueOf("V" + (_localsLast + 1)), helloclass);
-		_code.STORE(locals);
+		int locals = code.define(String.valueOf("V" + (_localsLast + 1)), helloclass);
+		code.STORE(locals);
 		String strKey = String.valueOf(MAGICSTRING + locals);
 
-		T t = brokerBuilder.builder(helloclass, strKey, _code);
+		T t = brokerBuilder.builder(helloclass, strKey, code);
 		return t;
 	}
 
 	static public <T> T ctor(Class<T> helloclass, Object... params) {
+		MethodCode code = _context.code;
 		Constructor<?> c = matchConstruct(helloclass, params);
 		if (c == null) throw new UnsupportedOperationException();
 
-		_code.LINE();
-		_code.NEW(helloclass);
-		_code.DUP();
+		code.LINE();
+		code.NEW(helloclass);
+		code.DUP();
 
 		Class<?>[] paramTypes = c.getParameterTypes();
 
 		for (int i = 0; i < params.length; i++) {
-			resolve(_code, paramTypes[i], params[i]);
+			resolve(code, paramTypes[i], params[i]);
 		}
 
-		_code.SPECIAL(helloclass, "<init>").parameter(c.getParameterTypes()).INVOKE();
+		code.SPECIAL(helloclass, "<init>").parameter(c.getParameterTypes()).INVOKE();
 
-		int locals = _code.define(String.valueOf("V" + (_localsLast + 1)), helloclass);
-		_code.STORE(locals);
+		int locals = code.define(String.valueOf("V" + (_localsLast + 1)), helloclass);
+		code.STORE(locals);
 		String strKey = String.valueOf(MAGICSTRING + locals);
 
-		T t = brokerBuilder.builder(helloclass, strKey, _code);
+		T t = brokerBuilder.builder(helloclass, strKey, code);
 		return t;
 	}
 
@@ -199,7 +219,8 @@ public class TinyAsmBuilder {
 	}
 
 	public static <T> T refer(Class<T> t) {
-		return refer(_code, t);
+		MethodCode code = _context.code;
+		return refer(code, t);
 	}
 
 	public static <T> T refer(MethodCode code, Class<T> t) {
@@ -213,7 +234,7 @@ public class TinyAsmBuilder {
 
 		if (t.isPrimitive()) {
 			if (t == boolean.class) {
-				return (T)Boolean.valueOf(false);
+				return (T) Boolean.valueOf(false);
 			} else if (t == byte.class) {
 				Byte key = (byte) (MAGIC_byte + locals);
 				return (T) key;
@@ -265,11 +286,11 @@ public class TinyAsmBuilder {
 				return (T) key;
 			} else if (t.isInterface()) {
 				String strKey = String.valueOf(MAGICSTRING + locals);
-				T proxy = brokerBuilder.builder(t, strKey, _code);
+				T proxy = brokerBuilder.builder(t, strKey, code);
 				return proxy;
 			} else if (!Modifier.isFinal(t.getModifiers())) {
 				String strKey = String.valueOf(MAGICSTRING + locals);
-				T proxy = brokerBuilder.builder(t, strKey, _code);
+				T proxy = brokerBuilder.builder(t, strKey, code);
 				return proxy;
 			} else {
 				return null;
