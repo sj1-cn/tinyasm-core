@@ -31,15 +31,15 @@ public class TinyAsmBuilder {
 
 	// Need Change to ThreadLocal
 	static int _localsLast;
-	static Stack<Context> _contextStack = new Stack<>();
-	static private Context _context;
+	static Stack<TinyAsmBuilderContext> _contextStack = new Stack<>();
+	static private TinyAsmBuilderContext _context;
 
 	static Logger logger = LoggerFactory.getLogger(TinyAsmBuilder.class);
 
 	static void enterCode(MethodCode code) {
 //		logger.trace("current code {} enter {} {}", code, code, codes.size());
 
-		Context context = new Context(code);
+		TinyAsmBuilderContext context = new TinyAsmBuilderContext(code);
 		if (TinyAsmBuilder._context != null) {
 			_contextStack.push(_context);
 //			localsStack.push(_locals);
@@ -49,18 +49,8 @@ public class TinyAsmBuilder {
 //		TinyAsmBuilder._locals = 10;
 	}
 
-	static class Context {
-		MethodCode code;
-		Object topObject;
-
-		public Context(MethodCode code) {
-			super();
-			this.code = code;
-		}
-	}
-
 	static void exitCode() {
-		Context context = _context;
+		TinyAsmBuilderContext context = _context;
 //		MethodCode code = _code;
 		if (_contextStack.size() > 0) {
 			TinyAsmBuilder._context = _contextStack.pop();
