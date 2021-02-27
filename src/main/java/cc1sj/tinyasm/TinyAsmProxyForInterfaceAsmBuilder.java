@@ -5,7 +5,7 @@ import static cc1sj.tinyasm.TinyAsmProxyBase._interface;
 import static cc1sj.tinyasm.TinyAsmProxyBase._invoke;
 import static cc1sj.tinyasm.TinyAsmProxyBase._line;
 import static cc1sj.tinyasm.TinyAsmProxyBase._parameter;
-import static cc1sj.tinyasm.TinyAsmProxyBase._refer;
+import static cc1sj.tinyasm.TinyAsmProxyBase._storeTopAndRefer;
 import static cc1sj.tinyasm.TinyAsmProxyBase._resolveParameter;
 import static cc1sj.tinyasm.TinyAsmProxyBase._resolveThis;
 import static cc1sj.tinyasm.TinyAsmProxyBase._return;
@@ -186,7 +186,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 		_invoke(code);
 
 		// Refer
-		_refer(code, returnClass);
+		_storeTopAndRefer(code, returnClass);
 
 		code.RETURNTop();
 		mh.end();
@@ -342,7 +342,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 
 			// Refer
 			if (returnType != Type.VOID_TYPE) {
-				_refer(code, returnClazz);
+				_storeTopAndRefer(code, returnClazz);
 				code.RETURNTop();
 			} else {
 				code.LINE();

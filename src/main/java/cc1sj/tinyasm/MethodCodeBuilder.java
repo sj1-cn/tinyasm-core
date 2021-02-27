@@ -125,8 +125,24 @@ public class MethodCodeBuilder extends MethodCode {
 		return label;
 	}
 
+	boolean hasReturnVoid = false;
+
+	@Override
+	public void RETURN() {
+		hasReturnVoid = true;
+		super.RETURN();
+	}
+
 	@Override
 	public void END() {
+		if (!hasReturnVoid && this.mh.returnClazz == null) {
+			if (mh.thisMethod.methodName.startsWith("<")) {
+				super.RETURN();
+			} else {
+				this.LINE();
+				super.RETURN();
+			}
+		}
 		mh.end();
 	}
 

@@ -20,28 +20,16 @@ public class PageWithParametersSampleTinyAsmBuilder {
 		ClassBody classBody = ClassBuilder.make("cc1sj.tinyasm.hero.helperclass.PageWithParametersSample").access(ACC_PUBLIC | ACC_SUPER)
 				.body();
 
-		{
-			MethodCode code = classBody.method("<init>").begin();
+		classBody.method("<init>").code(code -> {
+			initThis();
+		});
 
-			code.LINE(3);
-			code.LOAD("this");
-			code.SPECIAL(Object.class, "<init>").INVOKE();
-			code.RETURN();
-			code.END();
-		}
-
-		{
-			MethodCode code = classBody.method("test").begin();
-
+		classBody.method("test").code(code -> {
 			PageWithParameters p1 = ctor(PageWithParameters.class, 3, 3);
 			int i = cst(10);
 			int j = cst(20);
 			PageWithParameters p2 = ctor(PageWithParameters.class, i, j);
-
-			code.LINE(11);
-			code.RETURN();
-			code.END();
-		}
+		});
 
 		return classBody.end().toByteArray();
 	}

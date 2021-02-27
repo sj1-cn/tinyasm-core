@@ -125,10 +125,10 @@ public interface TinyAsmProxyBase {
 		code.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
 	}
 
-	static void _refer(MethodCode code, Clazz returnClass) {
+	static void _storeTopAndRefer(MethodCode code, Clazz returnClass) {
 		_code(code);
 		_type(code, returnClass);
-		code.STATIC(TinyAsmBuilder.class, "refer").reTurn(Object.class).parameter(MethodCode.class).parameter(Class.class).INVOKE();
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer").reTurn(Object.class).parameter(MethodCode.class).parameter(Class.class).INVOKE();
 		_cast(returnClass, code);
 	}
 

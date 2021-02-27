@@ -660,6 +660,10 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		visitIincInsn(local, increment);
 	}
 
+	public void IINC(int local, int increment) {
+//		int local = codeLocalGetLocals(varname);
+		visitIincInsn(local, increment);
+	}
 	@Override
 	public void LCMP() {
 		Type typeRightValue = stackPop();

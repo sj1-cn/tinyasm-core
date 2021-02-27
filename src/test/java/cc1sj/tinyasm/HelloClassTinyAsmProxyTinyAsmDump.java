@@ -159,7 +159,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOADConst(Type.getType("Ljava/lang/String;"));
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -205,7 +205,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.GETSTATIC(Character.class, "TYPE", Class.class);
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -253,7 +253,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.GETSTATIC(Byte.class, "TYPE", Class.class);
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -301,7 +301,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.GETSTATIC(Short.class, "TYPE", Class.class);
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -349,7 +349,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.GETSTATIC(Integer.class, "TYPE", Class.class);
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -397,7 +397,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.GETSTATIC(Long.class, "TYPE", Class.class);
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -445,7 +445,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.GETSTATIC(Float.class, "TYPE", Class.class);
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -493,7 +493,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.GETSTATIC(Double.class, "TYPE", Class.class);
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -541,7 +541,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOADConst(Type.getType("Ljava/lang/Character;"));
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -587,7 +587,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOADConst(Type.getType("Ljava/lang/Byte;"));
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -633,7 +633,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOADConst(Type.getType("Ljava/lang/Short;"));
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -679,7 +679,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOADConst(Type.getType("Ljava/lang/Integer;"));
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -725,7 +725,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOADConst(Type.getType("Ljava/lang/Long;"));
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -771,7 +771,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOADConst(Type.getType("Ljava/lang/Float;"));
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
@@ -817,7 +817,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOADConst(Type.getType("Ljava/lang/Double;"));
-		code.STATIC(TinyAsmBuilder.class, "refer")
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
 			.parameter(MethodCode.class)
 			.parameter(Class.class).INVOKE();
