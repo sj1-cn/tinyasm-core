@@ -151,17 +151,15 @@ public class TinyAsmBuilder_ifTinyAsmDump {
 
 		code.LINE(40);
 		code.IINC("iGT", -1);
-
-		code.LINE(41);
-		Label label5OfGOTO = new Label();
-		code.GOTO(label5OfGOTO);
+		Label label4OfGOTO = new Label();
+		code.GOTO(label4OfGOTO);
 
 		code.visitLabel(label2OfIF_ICMPLE);
 
 		code.LINE(42);
 		code.IINC("iGT", 1);
 
-		code.visitLabel(label5OfGOTO);
+		code.visitLabel(label4OfGOTO);
 
 		code.LINE(45);
 		code.LOADConst(20);
@@ -170,22 +168,20 @@ public class TinyAsmBuilder_ifTinyAsmDump {
 		code.LINE(46);
 		code.LOAD("iGE");
 		code.LOADConst(10);
-		Label label7OfIF_ICMPLT = new Label();
-		code.IF_ICMPLT(label7OfIF_ICMPLT);
+		Label label6OfIF_ICMPLT = new Label();
+		code.IF_ICMPLT(label6OfIF_ICMPLT);
 
 		code.LINE(47);
 		code.IINC("iGE", -1);
+		Label label8OfGOTO = new Label();
+		code.GOTO(label8OfGOTO);
 
-		code.LINE(48);
-		Label label10OfGOTO = new Label();
-		code.GOTO(label10OfGOTO);
-
-		code.visitLabel(label7OfIF_ICMPLT);
+		code.visitLabel(label6OfIF_ICMPLT);
 
 		code.LINE(49);
 		code.IINC("iGE", 1);
 
-		code.visitLabel(label10OfGOTO);
+		code.visitLabel(label8OfGOTO);
 
 		code.LINE(52);
 		code.LOADConst(10);
@@ -194,22 +190,20 @@ public class TinyAsmBuilder_ifTinyAsmDump {
 		code.LINE(53);
 		code.LOAD("iEQ");
 		code.LOADConst(10);
-		Label label12OfIF_ICMPNE = new Label();
-		code.IF_ICMPNE(label12OfIF_ICMPNE);
+		Label label10OfIF_ICMPNE = new Label();
+		code.IF_ICMPNE(label10OfIF_ICMPNE);
 
 		code.LINE(54);
 		code.IINC("iEQ", 1);
+		Label label12OfGOTO = new Label();
+		code.GOTO(label12OfGOTO);
 
-		code.LINE(55);
-		Label label15OfGOTO = new Label();
-		code.GOTO(label15OfGOTO);
-
-		code.visitLabel(label12OfIF_ICMPNE);
+		code.visitLabel(label10OfIF_ICMPNE);
 
 		code.LINE(56);
 		code.IINC("iEQ", 1);
 
-		code.visitLabel(label15OfGOTO);
+		code.visitLabel(label12OfGOTO);
 
 		code.LINE(59);
 		code.LOADConst(10);
@@ -218,22 +212,20 @@ public class TinyAsmBuilder_ifTinyAsmDump {
 		code.LINE(60);
 		code.LOAD("iNE");
 		code.LOADConst(10);
-		Label label17OfIF_ICMPEQ = new Label();
-		code.IF_ICMPEQ(label17OfIF_ICMPEQ);
+		Label label14OfIF_ICMPEQ = new Label();
+		code.IF_ICMPEQ(label14OfIF_ICMPEQ);
 
 		code.LINE(61);
 		code.IINC("iNE", 1);
+		Label label16OfGOTO = new Label();
+		code.GOTO(label16OfGOTO);
 
-		code.LINE(62);
-		Label label20OfGOTO = new Label();
-		code.GOTO(label20OfGOTO);
-
-		code.visitLabel(label17OfIF_ICMPEQ);
+		code.visitLabel(label14OfIF_ICMPEQ);
 
 		code.LINE(63);
 		code.IINC("iNE", -1);
 
-		code.visitLabel(label20OfGOTO);
+		code.visitLabel(label16OfGOTO);
 
 		code.LINE(66);
 		code.LOADConst(0);
@@ -242,22 +234,20 @@ public class TinyAsmBuilder_ifTinyAsmDump {
 		code.LINE(67);
 		code.LOAD("iLE");
 		code.LOADConst(10);
-		Label label22OfIF_ICMPGT = new Label();
-		code.IF_ICMPGT(label22OfIF_ICMPGT);
+		Label label18OfIF_ICMPGT = new Label();
+		code.IF_ICMPGT(label18OfIF_ICMPGT);
 
 		code.LINE(68);
 		code.IINC("iLE", 1);
+		Label label20OfGOTO = new Label();
+		code.GOTO(label20OfGOTO);
 
-		code.LINE(69);
-		Label label25OfGOTO = new Label();
-		code.GOTO(label25OfGOTO);
-
-		code.visitLabel(label22OfIF_ICMPGT);
+		code.visitLabel(label18OfIF_ICMPGT);
 
 		code.LINE(70);
 		code.IINC("iLE", 1);
 
-		code.visitLabel(label25OfGOTO);
+		code.visitLabel(label20OfGOTO);
 
 		code.LINE(73);
 		code.LOADConst(0);
@@ -266,22 +256,20 @@ public class TinyAsmBuilder_ifTinyAsmDump {
 		code.LINE(74);
 		code.LOAD("iLT");
 		code.LOADConst(10);
-		Label label27OfIF_ICMPGE = new Label();
-		code.IF_ICMPGE(label27OfIF_ICMPGE);
+		Label label22OfIF_ICMPGE = new Label();
+		code.IF_ICMPGE(label22OfIF_ICMPGE);
 
 		code.LINE(75);
 		code.IINC("iLT", 1);
+		Label label24OfGOTO = new Label();
+		code.GOTO(label24OfGOTO);
 
-		code.LINE(76);
-		Label label30OfGOTO = new Label();
-		code.GOTO(label30OfGOTO);
-
-		code.visitLabel(label27OfIF_ICMPGE);
+		code.visitLabel(label22OfIF_ICMPGE);
 
 		code.LINE(77);
 		code.IINC("iLT", 1);
 
-		code.visitLabel(label30OfGOTO);
+		code.visitLabel(label24OfGOTO);
 
 		code.LINE(79);
 		code.RETURN();

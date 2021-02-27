@@ -7,7 +7,7 @@ import org.objectweb.asm.MethodVisitor;
 public interface MethodHeader extends WithAccess<MethodHeader>, WithReturn<MethodHeader>, WithThrow<MethodHeader>,
 		WithDefineParameter<MethodHeader>, WithAnnotation<MethodHeader> {
 	MethodCode begin();
-	void end();
+//	void end();
 
 	void code(Consumer<MethodCode> invocation);
 //	MethodCode code();

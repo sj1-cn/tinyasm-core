@@ -62,7 +62,7 @@ public interface TinyAsmProxyBase {
 		code.LOADConst(methodName);
 		code.VIRTUAL(MethodCode.class, "INTERFACE").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
 	}
-	
+
 	static void _return(MethodCode code) {
 		code.INTERFACE(MethodCaller.class, "reTurn").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
 		code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
@@ -81,12 +81,45 @@ public interface TinyAsmProxyBase {
 		code.GETFIELD("_code", MethodCode.class);
 	}
 
-	static void _resolveParameter(MethodCode code, String param1, Clazz paramsClass) {
+	static Map<String, String> mps = asMap(
+			new String[] { Boolean.class.getName(), Character.class.getName(), Byte.class.getName(), Short.class.getName(),
+					Integer.class.getName(), Long.class.getName(), Float.class.getName(), Double.class.getName(), String.class.getName() },
+			new String[] { Boolean.class.getName(), Character.class.getName(), Byte.class.getName(), Short.class.getName(),
+					Integer.class.getName(), Long.class.getName(), Float.class.getName(), Double.class.getName(), String.class.getName() });
+
+	static void _resolveParameter(MethodCode code, String param1, Type paramsType) {
+
 		code.LINE(184);
 		code.LOAD("this");
 		code.GETFIELD("_code", MethodCode.class);
 		code.LOAD(param1);
-		code.STATIC(TinyAsmBuilder.class, "resolve").parameter(MethodCode.class).parameter(paramsClass).INVOKE();
+		Type resolveParameterType = null;
+
+		switch (paramsType.getSort()) {
+		case Type.VOID:
+			throw new UnsupportedOperationException();
+		case Type.METHOD:
+		case Type.ARRAY:
+			// TODO Type.METHOD Type.ARRAY
+			resolveParameterType = Type.getType(Object.class);
+			break;
+		case Type.OBJECT:
+			if (mps.containsKey(paramsType.getClassName())) {
+				resolveParameterType = paramsType;
+			} else {
+				resolveParameterType = Type.getType(Object.class);
+			}
+			break;
+		default:// primative
+			resolveParameterType = paramsType;
+			break;
+		}
+
+		code.STATIC(TinyAsmBuilder.class, "resolve").parameter(MethodCode.class).parameter(Clazz.of(resolveParameterType)).INVOKE();
+	}
+
+	static void _resolveParameter(MethodCode code, String param1, Class<?> paramsClass) {
+		_resolveParameter(code, param1, Type.getType(paramsClass));
 	}
 
 	static void _resolveThis(MethodCode code) {
@@ -128,7 +161,8 @@ public interface TinyAsmProxyBase {
 	static void _storeTopAndRefer(MethodCode code, Clazz returnClass) {
 		_code(code);
 		_type(code, returnClass);
-		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer").reTurn(Object.class).parameter(MethodCode.class).parameter(Class.class).INVOKE();
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer").reTurn(Object.class).parameter(MethodCode.class).parameter(Class.class)
+				.INVOKE();
 		_cast(returnClass, code);
 	}
 

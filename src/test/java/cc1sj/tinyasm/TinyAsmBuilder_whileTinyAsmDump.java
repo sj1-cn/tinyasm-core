@@ -42,107 +42,97 @@ public class TinyAsmBuilder_whileTinyAsmDump {
 		code.LINE(5);
 		code.LOADConst(20);
 		code.STORE("iGT",int.class);
+		Label label4OfGOTO = new Label();
 
-		code.LINE(6);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
-		Label label4OfIF_ICMPGT = new Label();
-
-		code.visitLabel(label4OfIF_ICMPGT);
-
-		code.LINE(7);
-		code.IINC("iGT", -1);
-
-		code.visitLabel(label2OfGOTO);
+		code.visitLabel(label4OfGOTO);
 
 		code.LINE(6);
 		code.LOAD("iGT");
 		code.LOADConst(10);
-		code.IF_ICMPGT(label4OfIF_ICMPGT);
+		Label label2OfIF_ICMPLE = new Label();
+		code.IF_ICMPLE(label2OfIF_ICMPLE);
+
+		code.LINE(7);
+		code.IINC("iGT", -1);
+		code.GOTO(label4OfGOTO);
+
+		code.visitLabel(label2OfIF_ICMPLE);
 
 		code.LINE(10);
 		code.LOADConst(20);
 		code.STORE("iGE",int.class);
+		Label label7OfGOTO = new Label();
 
-		code.LINE(11);
-		Label label6OfGOTO = new Label();
-		code.GOTO(label6OfGOTO);
-		Label label8OfIF_ICMPGE = new Label();
-
-		code.visitLabel(label8OfIF_ICMPGE);
-
-		code.LINE(12);
-		code.IINC("iGE", -1);
-
-		code.visitLabel(label6OfGOTO);
+		code.visitLabel(label7OfGOTO);
 
 		code.LINE(11);
 		code.LOAD("iGE");
 		code.LOADConst(10);
-		code.IF_ICMPGE(label8OfIF_ICMPGE);
+		Label label5OfIF_ICMPLT = new Label();
+		code.IF_ICMPLT(label5OfIF_ICMPLT);
+
+		code.LINE(12);
+		code.IINC("iGE", -1);
+		code.GOTO(label7OfGOTO);
+
+		code.visitLabel(label5OfIF_ICMPLT);
 
 		code.LINE(15);
 		code.LOADConst(10);
 		code.STORE("iEQ",int.class);
-
-		code.LINE(16);
 		Label label10OfGOTO = new Label();
-		code.GOTO(label10OfGOTO);
-		Label label12OfIF_ICMPEQ = new Label();
-
-		code.visitLabel(label12OfIF_ICMPEQ);
-
-		code.LINE(17);
-		code.IINC("iEQ", 1);
 
 		code.visitLabel(label10OfGOTO);
 
 		code.LINE(16);
 		code.LOAD("iEQ");
 		code.LOADConst(10);
-		code.IF_ICMPEQ(label12OfIF_ICMPEQ);
+		Label label8OfIF_ICMPNE = new Label();
+		code.IF_ICMPNE(label8OfIF_ICMPNE);
+
+		code.LINE(17);
+		code.IINC("iEQ", 1);
+		code.GOTO(label10OfGOTO);
+
+		code.visitLabel(label8OfIF_ICMPNE);
 
 		code.LINE(20);
 		code.LOADConst(0);
 		code.STORE("iLE",int.class);
+		Label label13OfGOTO = new Label();
 
-		code.LINE(21);
-		Label label14OfGOTO = new Label();
-		code.GOTO(label14OfGOTO);
-		Label label16OfIF_ICMPLE = new Label();
-
-		code.visitLabel(label16OfIF_ICMPLE);
-
-		code.LINE(22);
-		code.IINC("iLE", 1);
-
-		code.visitLabel(label14OfGOTO);
+		code.visitLabel(label13OfGOTO);
 
 		code.LINE(21);
 		code.LOAD("iLE");
 		code.LOADConst(10);
-		code.IF_ICMPLE(label16OfIF_ICMPLE);
+		Label label11OfIF_ICMPGT = new Label();
+		code.IF_ICMPGT(label11OfIF_ICMPGT);
+
+		code.LINE(22);
+		code.IINC("iLE", 1);
+		code.GOTO(label13OfGOTO);
+
+		code.visitLabel(label11OfIF_ICMPGT);
 
 		code.LINE(25);
 		code.LOADConst(0);
 		code.STORE("iLT",int.class);
+		Label label16OfGOTO = new Label();
 
-		code.LINE(26);
-		Label label18OfGOTO = new Label();
-		code.GOTO(label18OfGOTO);
-		Label label20OfIF_ICMPLT = new Label();
-
-		code.visitLabel(label20OfIF_ICMPLT);
-
-		code.LINE(27);
-		code.IINC("iLT", 1);
-
-		code.visitLabel(label18OfGOTO);
+		code.visitLabel(label16OfGOTO);
 
 		code.LINE(26);
 		code.LOAD("iLT");
 		code.LOADConst(10);
-		code.IF_ICMPLT(label20OfIF_ICMPLT);
+		Label label14OfIF_ICMPGE = new Label();
+		code.IF_ICMPGE(label14OfIF_ICMPGE);
+
+		code.LINE(27);
+		code.IINC("iLT", 1);
+		code.GOTO(label16OfGOTO);
+
+		code.visitLabel(label14OfIF_ICMPGE);
 
 		code.LINE(29);
 		code.RETURN();

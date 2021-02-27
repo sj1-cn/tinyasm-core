@@ -144,15 +144,13 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 	private static void method_setProperty(Type targetType, ClassBody classBody, String methodName, Class<?> paramsClass) {
 		String param1 = "value";
 
-		MethodHeader mh = classBody.method(methodName).parameter(param1, paramsClass);
-
-		MethodCode code = mh.begin();
+		MethodCode code = classBody.method(methodName).parameter(param1, paramsClass).begin();
 
 		_line(code);
 
 		_resolveThis(code);
 
-		_resolveParameter(code, param1, Clazz.of(paramsClass));
+		_resolveParameter(code, param1, paramsClass);
 
 		_code(code);
 		_virtual(code, targetType, methodName);
@@ -162,7 +160,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 		code.LINE();
 		code.RETURN();
 
-		mh.end();
+		code.END();
 	}
 
 	private static void method_getProperty(ClassBody classBody, Type targetType, Class<?> returnClass, String methodName) {
@@ -172,8 +170,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 	private static void method_getProperty(ClassBody classBody, Type targetType, Clazz returnClass, String methodName) {
 
-		MethodHeader mh = classBody.method(returnClass, methodName);
-		MethodCode code = mh.begin();
+		MethodCode code = classBody.method(returnClass, methodName).begin();
 //		 = mh.code();
 		_line(code);
 		// prepare this
@@ -189,7 +186,8 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 		_storeTopAndRefer(code, returnClass);
 
 		code.RETURNTop();
-		mh.end();
+
+		code.END();
 	}
 
 	public static byte[] dump2(Class<?> target, String proxyClassName) throws Exception {
@@ -325,7 +323,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 			// prepare this
 			_resolveThis(code);
 			for (int i = 0; i < methodParamTypes.length; i++) {
-				_resolveParameter(code, "param" + i, Clazz.of(methodParamTypes[i]));
+				_resolveParameter(code, "param" + i, methodParamTypes[i]);
 			}
 			// invoke method
 			_code(code);
@@ -347,7 +345,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 				code.RETURN();
 			}
 
-			mh.end();
+			code.END();
 
 		}
 		// TODO Auto-generated method stub

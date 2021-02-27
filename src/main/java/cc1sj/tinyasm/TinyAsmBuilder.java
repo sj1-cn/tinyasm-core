@@ -3,7 +3,6 @@ package cc1sj.tinyasm;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.Stack;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 import org.objectweb.asm.Label;
@@ -54,7 +53,7 @@ public class TinyAsmBuilder {
 	static void exitCode() {
 //		TinyAsmBuilderContext context = _context;
 //		MethodCode code = _code;
-		if (_contextStackThreadLocal.get() !=null && _contextStackThreadLocal.get().size() > 0) {
+		if (_contextStackThreadLocal.get() != null && _contextStackThreadLocal.get().size() > 0) {
 			TinyAsmBuilder._contextThreadLocal.set(_contextStackThreadLocal.get().pop());
 		}
 //		logger.trace("exit to {} from {} {}", code, code, codes.size());
@@ -110,6 +109,13 @@ public class TinyAsmBuilder {
 		return refer(_context.code, clazz, locals);
 	}
 
+	static public <T> void ret(T value) {
+		TinyAsmBuilderContext _context = _contextThreadLocal.get();
+		MethodCode code = _context.code;
+		resolve(code, value);
+		code.RETURNTop();
+	}
+
 	static public <T> void setField(String name, T value) {
 		TinyAsmBuilderContext _context = _contextThreadLocal.get();
 		MethodCode code = _context.code;
@@ -163,57 +169,36 @@ public class TinyAsmBuilder {
 		return storeTopAndRefer(code, short.class);
 	}
 
-//	static public Cmp eq(int left, int right) {
-//		return new Cmp() {
-//
-//			@Override
-//			public boolean gotoWhenSucceed(MethodCode code, Label label) {
-//
-//				code.LINE();
-//				resolve(code, left);
-//				resolve(code, right);
-//				code.IF_ICMPEQ(label);
-//				return false;
-//
-//			}
-//
-//			@Override
-//			public boolean gotoWhenFail(MethodCode code, Label label) {
-//
-//				code.LINE();
-//				resolve(code, left);
-//				resolve(code, right);
-//				code.IF_ICMPNE(label);
-//				return false;
-//			}
-//		};
-//	}
-//
-//	static public Cmp gt(int left, int right) {
-//		return new Cmp() {
-//
-//			@Override
-//			public boolean gotoWhenSucceed(MethodCode code, Label label) {
-//
-//				code.LINE();
-//				resolve(code, left);
-//				resolve(code, right);
-//				code.IF_ICMPGT(label);
-//				return false;
-//
-//			}
-//
-//			@Override
-//			public boolean gotoWhenFail(MethodCode code, Label label) {
-//
-//				code.LINE();
-//				resolve(code, left);
-//				resolve(code, right);
-//				code.IF_ICMPLE(label);
-//				return false;
-//			}
-//		};
-//	}
+	static public CompareEval cmpTrue(EvalBoolean<MethodCode, Boolean> eval) {
+		return new CompareEval() {
+
+			@Override
+			public boolean gotoWhenSucceed(MethodCode code, Label label) {
+				try {
+					eval.apply(code);
+					code.IFNE(label);
+					return false;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return false;
+				}
+
+			}
+
+			@Override
+			public boolean gotoWhenFail(MethodCode code, Label label) {
+				try {
+					eval.apply(code);
+					code.IFEQ(label);
+					return false;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
+		};
+	}
 
 	static public CompareEval cmpLt(int left, int right) {
 		return new CompareEval() {
@@ -368,6 +353,14 @@ public class TinyAsmBuilder {
 		boolean gotoWhenFail(MethodCode code, Label label);
 	}
 
+	public interface EvalBoolean<T, R> {
+		R apply(T t) throws Exception;
+	}
+
+	public interface BlockConsumer<T> {
+		void accept(T t) throws Exception;
+	}
+
 	static final private TinyAsmProxyObjenesisBuilder brokerBuilder = new TinyAsmProxyObjenesisBuilder();
 
 	static public void ifEval(CompareEval compareEval, Consumer<MethodCode> blockThen) {
@@ -385,43 +378,107 @@ public class TinyAsmBuilder {
 
 	}
 
-	static public void ifEval(CompareEval compareEval, Consumer<MethodCode> blockThen, Consumer<MethodCode> blockElse) {
+	static public void ifEval(CompareEval compareEval, BlockConsumer<MethodCode> blockThen, BlockConsumer<MethodCode> blockElse) {
 
-		TinyAsmBuilderContext _context = _contextThreadLocal.get();
-		MethodCode code = _context.code;
+		try {
+			TinyAsmBuilderContext _context = _contextThreadLocal.get();
+			MethodCode code = _context.code;
 
-		code.LINE();
-		Label labelThenEnd = new Label();
-		compareEval.gotoWhenFail(code, labelThenEnd);
+//			code.LINE();
+//			Label labelThenEnd = new Label();
+//			compareEval.gotoWhenFail(code, labelThenEnd);
+//
+//			blockThen.accept(code);
+//
+//			code.LINE();
+//			Label labelElseEnd = new Label();
+//			code.GOTO(labelElseEnd);
+//
+//			code.visitLabel(labelThenEnd);
+//
+//			blockElse.accept(code);
+//
+//			code.visitLabel(labelElseEnd);
 
-		blockThen.accept(code);
+			code.LINE(39);
+			Label labelElse = new Label();
 
-		code.LINE();
-		Label labelElseEnd = new Label();
-		code.GOTO(labelElseEnd);
+			compareEval.gotoWhenFail(code, labelElse);
 
-		code.visitLabel(labelThenEnd);
+			{
+				int lastStackSize = code.stackSize();
+				blockThen.accept(code);
+				while (code.stackSize() > lastStackSize) {
+					code.POP();
+				}
+			}
 
-		blockElse.accept(code);
+			Label label4OfGOTO = new Label();
+			code.GOTO(label4OfGOTO);
 
-		code.visitLabel(labelElseEnd);
+			code.visitLabel(labelElse);
+
+			{
+				int lastStackSize = code.stackSize();
+				blockElse.accept(code);
+				while (code.stackSize() > lastStackSize) {
+					code.POP();
+				}
+			}
+
+			code.visitLabel(label4OfGOTO);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	static public void whileEval(CompareEval compareEval, Consumer<MethodCode> block) {
+	static public void whileEval(CompareEval compareEval, BlockConsumer<MethodCode> block) {
 
-		TinyAsmBuilderContext _context = _contextThreadLocal.get();
-		MethodCode code = _context.code;
-		code.LINE();
-		Label labelEvalCause = new Label();
-		code.GOTO(labelEvalCause);
-		Label labelBlockBegin = new Label();
-		code.visitLabel(labelBlockBegin);
+		try {
+			TinyAsmBuilderContext _context = _contextThreadLocal.get();
+			MethodCode code = _context.code;
 
-		block.accept(code);
+//			
+//			code.LINE();
+//			Label labelEvalCause = new Label();
+//			code.GOTO(labelEvalCause);
+//			Label labelBlockBegin = new Label();
+//			code.visitLabel(labelBlockBegin);
+//			int lastStackSize = code.stackSize();
+//			block.accept(code);
+//			while (code.stackSize() > lastStackSize) {
+//				code.POP();
+//			}
+//			code.LINE();
+//			code.visitLabel(labelEvalCause);
+//			compareEval.gotoWhenSucceed(code, labelBlockBegin);
 
-		code.LINE();
-		code.visitLabel(labelEvalCause);
-		compareEval.gotoWhenSucceed(code, labelBlockBegin);
+			Label firtGtFirst = new Label();
+
+			code.visitLabel(firtGtFirst);
+
+			Label firstGtEnd = new Label();
+			code.LINE();
+			compareEval.gotoWhenFail(code, firstGtEnd);
+			{
+				int lastStackSize = code.stackSize();
+				block.accept(code);
+				while (code.stackSize() > lastStackSize) {
+					code.POP();
+				}
+			}
+			code.GOTO(firtGtFirst);
+			code.visitLabel(firstGtEnd);
+
+//			methodVisitor.visitJumpInsn(IF_ICMPLE, label2);
+//			methodVisitor.visitIincInsn(1, -1);
+//			methodVisitor.visitJumpInsn(GOTO, label1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 //	static public void whileLt(int left, int right, Consumer<MethodCode> block) {
@@ -531,11 +588,15 @@ public class TinyAsmBuilder {
 	}
 
 	public static <T> T storeTopAndRefer(MethodCode code, Class<T> t) {
-		TinyAsmBuilderContext _context = _contextThreadLocal.get();
-		int locals = code.define(String.valueOf("V" + (_context._localsLast + 1)), t);
-		_context._localsLast = locals;
-		code.STORE(locals);
-		return refer(code, t, locals);
+		if (t == boolean.class) {
+			return (T) Boolean.valueOf(false);
+		} else {
+			TinyAsmBuilderContext _context = _contextThreadLocal.get();
+			int locals = code.define(String.valueOf("V" + (_context._localsLast + 1)), t);
+			_context._localsLast = locals;
+			code.STORE(locals);
+			return refer(code, t, locals);
+		}
 	}
 
 	@SuppressWarnings("unchecked")

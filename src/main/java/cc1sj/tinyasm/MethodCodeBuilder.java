@@ -78,6 +78,11 @@ public class MethodCodeBuilder extends MethodCode {
 		printStack(stack);
 	}
 
+	@Override
+	int stackSize() {
+		return stack.size();
+	}
+
 	final protected LocalsStack locals;
 
 	@Override

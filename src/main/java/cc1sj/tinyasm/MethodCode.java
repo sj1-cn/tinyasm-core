@@ -152,6 +152,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	protected abstract Type stackTypeOf(int i);
 
 	protected abstract Type stackPop();
+	
+	abstract int stackSize();
 
 	protected abstract void stackPush(Type type);
 
@@ -1603,6 +1605,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public abstract void END();
 
 	abstract Label codeNewLabel();
+
 
 
 }

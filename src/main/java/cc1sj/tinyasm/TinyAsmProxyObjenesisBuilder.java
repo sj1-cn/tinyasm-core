@@ -51,11 +51,23 @@ class TinyAsmProxyObjenesisBuilder {
 			}
 
 			count++;
-//			String proxyClassSuffix = 
-			String proxyClassName =  this.getClass().getName() + "_" +  target.getName().replace('.', '_')+ count;
+			
+			{
+				String standardProxyClassName = target.getName() + "TinyAsmProxy";
+				
+				
+		        try {
+		        	Class<?> clzBroker =Class.forName(standardProxyClassName);
+					builder = objenesis.getInstantiatorOf(clzBroker);
+		        } catch (ClassNotFoundException e) {
+		        }
+			}
+			
 
 			// 构建代理类
-			{
+			if (builder == null) {
+//				String proxyClassSuffix = 
+				String proxyClassName =  this.getClass().getName() + "_" +  target.getName().replace('.', '_')+ count;
 				byte[] code;
 				if (target.isInterface()) {
 					code = TinyAsmProxyForInterfaceAsmBuilder.dump2(target, proxyClassName);
@@ -102,7 +114,14 @@ class TinyAsmProxyObjenesisBuilder {
 			lock.unlock();
 		}
 	}
-
+    public static boolean isPresent(String name) {
+        try {
+            Thread.currentThread().getContextClassLoader().loadClass(name);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
 	@SuppressWarnings("unchecked")
 	protected <T> T make(ObjectInstantiator<?> builder, String name, TinyAsmBuilderContext context) {
 		T t = (T) builder.newInstance();
