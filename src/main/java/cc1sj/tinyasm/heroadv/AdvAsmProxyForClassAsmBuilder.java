@@ -39,15 +39,15 @@ import cc1sj.tinyasm.MethodCaller;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodHeader;
 
-class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
+class AdvAsmProxyForClassAsmBuilder extends ClassVisitor  {
 
 	public static byte[] dump2(Class<?> target, String proxyClassName) throws Exception {
 		ClassReader cr = new ClassReader(target.getName());
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		TinyAsmProxyForInterfaceAsmBuilder bw;
+		AdvAsmProxyForClassAsmBuilder bw;
 //		target.getConstructor();
-		bw = new TinyAsmProxyForInterfaceAsmBuilder(Opcodes.ASM9, cw, Type.getType(target).getInternalName(), proxyClassName);
+		bw = new AdvAsmProxyForClassAsmBuilder(Opcodes.ASM9, cw, Type.getType(target).getInternalName(), proxyClassName);
 		cr.accept(bw, ClassReader.SKIP_CODE);
 
 		Class<?> superClass = target.getSuperclass();
@@ -58,12 +58,6 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 			superClass = superClass.getSuperclass();
 		}
 
-//		String[] is = cr.getInterfaces();
-//		for (String s : is) {
-//			cr = new ClassReader(s);
-//			cr.accept(bw, ClassReader.SKIP_CODE);
-//		}
-//		
 		bw.finish();
 
 		return cw.toByteArray();
@@ -74,13 +68,13 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 	Type targetType;
 	Type objectType;
 
-	public TinyAsmProxyForInterfaceAsmBuilder(int api, String targetName, String proxyClassName) {
+	public AdvAsmProxyForClassAsmBuilder(int api, String targetName, String proxyClassName) {
 		super(api);
 		this.proxyClassName = proxyClassName;
 		dump(targetName, proxyClassName);
 	}
 
-	public TinyAsmProxyForInterfaceAsmBuilder(int api, ClassVisitor classVisitor, String targetName, String proxyClassName) {
+	public AdvAsmProxyForClassAsmBuilder(int api, ClassVisitor classVisitor, String targetName, String proxyClassName) {
 		super(api, classVisitor);
 		this.proxyClassName = proxyClassName;
 		this.targetType = Clazz.of(targetName).getType();
@@ -93,7 +87,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 		objectType = Type.getObjectType(proxyClassName.replace('.', '/'));
 		ClassHeader ch = ClassBuilder.make(cv, proxyClassName);
 //		if(superName)
-		ch.implement(Clazz.of(targetType));
+		ch.eXtend(Clazz.of(targetType));
 		ch.implement(AdvRuntimeReferNameObject.class);
 //		ch.access(access);
 		classBody = ch.body();
@@ -121,7 +115,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 
 		code.LINE();
 		code.LOAD("this");
-		code.SPECIAL(Clazz.of(Object.class), "<init>").INVOKE();
+		code.SPECIAL(Clazz.of(targetType), "<init>").INVOKE();
 		code.RETURN();
 
 		code.END();
@@ -212,10 +206,8 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 				&& (access & (ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC | ACC_NATIVE | ACC_BRIDGE)) == 0) {
 
 			// Return Type
-
 			Type returnType = Type.getReturnType(descriptor);
 			Clazz returnClazz = Clazz.of(returnType);
-
 			// ParamType
 			Type[] methodParamTypes = Type.getArgumentTypes(descriptor);
 
@@ -234,7 +226,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 			// resolve parameters
 			for (int i = 0; i < methodParamTypes.length; i++) {
 				code_resolve("eval_param" + i, code, "param" + i, methodParamTypes[i]);
-				}
+			}
 
 			// LOAD All Parameter
 			code.LINE();
@@ -243,31 +235,32 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 			for (int i = 0; i < methodParamTypes.length; i++) {
 				code.LOAD("eval_param" + i);
 			}
+
 			// invoke method
 			String lambdaName = push(1 + methodParamTypes.length, c -> {
-			c.LINE();
-			c.LOAD("c");
-			c.LOADConst(targetType);
-			c.LOADConst(methodName);
-			c.VIRTUAL(MethodCode.class, "INTERFACE").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
-			for (Type type : methodParamTypes) {
-				_type(c, Clazz.of(type));
-				c.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
-			}
+				c.LINE();
+				c.LOAD("c");
+				c.LOADConst(targetType);
+				c.LOADConst(methodName);
+				c.VIRTUAL(MethodCode.class, "VIRTUAL").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
+				for (Type type : methodParamTypes) {
+					_type(c, Clazz.of(type));
+					c.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
+				}
 
-			if (returnType != Type.VOID_TYPE) {
-				_type(c, returnClazz);
-				c.INTERFACE(MethodCaller.class, "reTurn").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
-			}
+				if (returnType != Type.VOID_TYPE) {
+					_type(c, returnClazz);
+					c.INTERFACE(MethodCaller.class, "reTurn").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
+				}
 
-			c.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
-		});
+				c.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
+			});
 
-		dynamicInvoke(code, methodParamTypes.length, proxyClassName.replace('.', '/'), lambdaName);
+			dynamicInvoke(code, methodParamTypes.length, proxyClassName.replace('.', '/'), lambdaName);
 
-		code.stackPush(Type.getType(ConsumerWithException.class));
+			code.stackPush(Type.getType(ConsumerWithException.class));
 
-		code.VIRTUAL(AdvContext.class, "push").reTurn(byte.class).parameter(ConsumerWithException.class).INVOKE();
+			code.VIRTUAL(AdvContext.class, "push").reTurn(byte.class).parameter(ConsumerWithException.class).INVOKE();
 
 			// Refer
 			if (returnType != Type.VOID_TYPE) {
@@ -284,7 +277,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 					Type primitiveType = BoxUnbox.ClazzObjectToPrimitive.get(returnType);
 					code.CONVERTTO(primitiveType);
 					BoxUnbox.PrimaryToBoxFunc.get(primitiveType).accept(code);
-				code.RETURNTop();
+					code.RETURNTop();
 				}else if(BoxUnbox.PrimativeToClazzObject.containsKey(returnType)) {
 					code.LINE();
 					code.LOADConst(MAGIC_CODES_NUMBER);
@@ -323,9 +316,8 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 			code.END();
 
 		}
-	// TODO Auto-generated method stub
-	return null;
-
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

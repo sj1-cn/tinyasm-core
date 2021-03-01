@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.objectweb.asm.Opcodes.*;
+
+import cc1sj.tinyasm.ClassHeader;
 import cc1sj.tinyasm.Clazz;
 
 public class AdvClassBuilder
@@ -42,7 +44,7 @@ public class AdvClassBuilder
 
 	@Override
 	public AdvClassBody enterClassBody() {
-		// TODO Auto-generated method stub
+//		ClassHeader ch = new 
 		return this;
 	}
 

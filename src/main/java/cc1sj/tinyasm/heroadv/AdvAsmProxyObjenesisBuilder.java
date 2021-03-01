@@ -16,7 +16,7 @@ import com.google.common.collect.ImmutableMap;
 
 import cc1sj.tinyasm.TinyAsmClassLoader;
 
-class TinyAsmProxyObjenesisBuilder {
+class AdvAsmProxyObjenesisBuilder {
 	Objenesis objenesis = new ObjenesisStd(); // or ObjenesisSerializer
 	Logger log = LoggerFactory.getLogger(getClass());
 
@@ -25,7 +25,7 @@ class TinyAsmProxyObjenesisBuilder {
 
 	ReentrantLock lock = new ReentrantLock();
 
-	public TinyAsmProxyObjenesisBuilder() {
+	public AdvAsmProxyObjenesisBuilder() {
 		knownBrokeres = ImmutableMap.of();
 //		instanceBuilder = new BrokerInstanceBuilderClassMaker();
 	}
@@ -70,9 +70,9 @@ class TinyAsmProxyObjenesisBuilder {
 				String proxyClassName = this.getClass().getName() + "_" + target.getName().replace('.', '_') + count;
 				byte[] code;
 				if (target.isInterface()) {
-					code = TinyAsmProxyForInterfaceAsmBuilder.dump2(target, proxyClassName);
+					code = AdvAsmProxyForInterfaceAsmBuilder.dump2(target, proxyClassName);
 				} else {
-					code = TinyAsmProxyForClassAsmBuilder.dump2(target, proxyClassName);
+					code = AdvAsmProxyForClassAsmBuilder.dump2(target, proxyClassName);
 				}
 
 				if (log.isDebugEnabled()) {

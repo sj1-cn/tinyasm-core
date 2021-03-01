@@ -1,5 +1,7 @@
 package cc1sj.tinyasm.heroadv;
 
+import static cc1sj.tinyasm.heroadv.Adv.MAGIC_CODES_NUMBER;
+import static cc1sj.tinyasm.heroadv.Adv.MAGIC_CODES_String;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;
@@ -37,17 +39,15 @@ import cc1sj.tinyasm.MethodCaller;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodHeader;
 
-import static cc1sj.tinyasm.heroadv.Adv.*;
-
-class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
+class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 
 	public static byte[] dump2(Class<?> target, String proxyClassName) throws Exception {
 		ClassReader cr = new ClassReader(target.getName());
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		TinyAsmProxyForClassAsmBuilder bw;
+		AdvAsmProxyForInterfaceAsmBuilder bw;
 //		target.getConstructor();
-		bw = new TinyAsmProxyForClassAsmBuilder(Opcodes.ASM9, cw, Type.getType(target).getInternalName(), proxyClassName);
+		bw = new AdvAsmProxyForInterfaceAsmBuilder(Opcodes.ASM9, cw, Type.getType(target).getInternalName(), proxyClassName);
 		cr.accept(bw, ClassReader.SKIP_CODE);
 
 		Class<?> superClass = target.getSuperclass();
@@ -58,6 +58,12 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 			superClass = superClass.getSuperclass();
 		}
 
+//		String[] is = cr.getInterfaces();
+//		for (String s : is) {
+//			cr = new ClassReader(s);
+//			cr.accept(bw, ClassReader.SKIP_CODE);
+//		}
+//		
 		bw.finish();
 
 		return cw.toByteArray();
@@ -68,13 +74,13 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 	Type targetType;
 	Type objectType;
 
-	public TinyAsmProxyForClassAsmBuilder(int api, String targetName, String proxyClassName) {
+	public AdvAsmProxyForInterfaceAsmBuilder(int api, String targetName, String proxyClassName) {
 		super(api);
 		this.proxyClassName = proxyClassName;
 		dump(targetName, proxyClassName);
 	}
 
-	public TinyAsmProxyForClassAsmBuilder(int api, ClassVisitor classVisitor, String targetName, String proxyClassName) {
+	public AdvAsmProxyForInterfaceAsmBuilder(int api, ClassVisitor classVisitor, String targetName, String proxyClassName) {
 		super(api, classVisitor);
 		this.proxyClassName = proxyClassName;
 		this.targetType = Clazz.of(targetName).getType();
@@ -87,7 +93,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 		objectType = Type.getObjectType(proxyClassName.replace('.', '/'));
 		ClassHeader ch = ClassBuilder.make(cv, proxyClassName);
 //		if(superName)
-		ch.eXtend(Clazz.of(targetType));
+		ch.implement(Clazz.of(targetType));
 		ch.implement(AdvRuntimeReferNameObject.class);
 //		ch.access(access);
 		classBody = ch.body();
@@ -115,7 +121,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 		code.LINE();
 		code.LOAD("this");
-		code.SPECIAL(Clazz.of(targetType), "<init>").INVOKE();
+		code.SPECIAL(Clazz.of(Object.class), "<init>").INVOKE();
 		code.RETURN();
 
 		code.END();
@@ -206,8 +212,10 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 				&& (access & (ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC | ACC_NATIVE | ACC_BRIDGE)) == 0) {
 
 			// Return Type
+
 			Type returnType = Type.getReturnType(descriptor);
 			Clazz returnClazz = Clazz.of(returnType);
+
 			// ParamType
 			Type[] methodParamTypes = Type.getArgumentTypes(descriptor);
 
@@ -235,14 +243,13 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 			for (int i = 0; i < methodParamTypes.length; i++) {
 				code.LOAD("eval_param" + i);
 			}
-
 			// invoke method
 			String lambdaName = push(1 + methodParamTypes.length, c -> {
 				c.LINE();
 				c.LOAD("c");
 				c.LOADConst(targetType);
 				c.LOADConst(methodName);
-				c.VIRTUAL(MethodCode.class, "VIRTUAL").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
+				c.VIRTUAL(MethodCode.class, "INTERFACE").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
 				for (Type type : methodParamTypes) {
 					_type(c, Clazz.of(type));
 					c.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
@@ -278,26 +285,22 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 					code.CONVERTTO(primitiveType);
 					BoxUnbox.PrimaryToBoxFunc.get(primitiveType).accept(code);
 					code.RETURNTop();
-				}else if(BoxUnbox.PrimativeToClazzObject.containsKey(returnType)) {
+				} else if (BoxUnbox.PrimativeToClazzObject.containsKey(returnType)) {
 					code.LINE();
 					code.LOADConst(MAGIC_CODES_NUMBER);
 					code.LOAD("codeIndex");
 					code.ADD();
 					code.CONVERTTO(returnType);
 					code.RETURNTop();
-				}else if(returnType.getSort() == Type.OBJECT && returnType.equals(Type.getType(String.class))) {
+				} else if (returnType.getSort() == Type.OBJECT && returnType.equals(Type.getType(String.class))) {
 					code.LINE();
 					code.NEW(StringBuilder.class);
 					code.DUP();
 					code.LOADConst(MAGIC_CODES_String);
-					code.SPECIAL(StringBuilder.class, "<init>")
-						.parameter(String.class).INVOKE();
+					code.SPECIAL(StringBuilder.class, "<init>").parameter(String.class).INVOKE();
 					code.LOAD("codeIndex");
-					code.VIRTUAL(StringBuilder.class, "append")
-						.reTurn(StringBuilder.class)
-						.parameter(int.class).INVOKE();
-					code.VIRTUAL(StringBuilder.class, "toString")
-						.reTurn(String.class).INVOKE();
+					code.VIRTUAL(StringBuilder.class, "append").reTurn(StringBuilder.class).parameter(int.class).INVOKE();
+					code.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
 					code.RETURNTop();
 				}
 //				BoxUnbox.unboxToWhenNeed(getClass())
@@ -318,6 +321,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 		}
 		// TODO Auto-generated method stub
 		return null;
+
 	}
 
 	@Override

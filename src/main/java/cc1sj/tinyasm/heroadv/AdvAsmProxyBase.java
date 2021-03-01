@@ -11,7 +11,7 @@ import cc1sj.tinyasm.MethodCaller;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.TinyAsmBuilder;
 
-public interface TinyAsmProxyBase {
+public interface AdvAsmProxyBase {
 
 	static Map<Type, Type> primativeToBoxedClazzMaps = asMap(
 			new Type[] { Type.BOOLEAN_TYPE/* Boolean.class */, Type.BYTE_TYPE/* Byte.class */, Type.CHAR_TYPE/* Character.class */,
