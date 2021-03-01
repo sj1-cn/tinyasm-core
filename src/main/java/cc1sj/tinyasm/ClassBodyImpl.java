@@ -186,6 +186,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		String outerName = typeOf(objectclazz).getInternalName();
 		String fullName = outerName + "$" + innerName;
 		cv.visitInnerClass(fullName, outerName, innerName, access);
+//		classWriter.visitInnerClass("java/lang/invoke/MethodHandles$Lookup", "java/lang/invoke/MethodHandles", "Lookup", ACC_PUBLIC | ACC_FINAL | ACC_STATIC);
 
 		return Type.getType("L" + fullName + ";").getClassName();
 	}

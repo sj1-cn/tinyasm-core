@@ -172,7 +172,7 @@ public class Adv {
 		AdvContext context = _context.get();
 		context.clear();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		context.pop();
 	}
 
@@ -182,7 +182,7 @@ public class Adv {
 		byte magicReferIndex = booleanMagicReferIndex.getReferIndex();
 		assert MAGIC_LOCALS_NUMBER <= magicReferIndex && magicReferIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		context.store(magicReferIndex - MAGIC_LOCALS_NUMBER);
 	}
 
@@ -192,7 +192,7 @@ public class Adv {
 		byte magicReferIndex = booleanMagicReferIndex.getReferIndex();
 		assert MAGIC_LOCALS_NUMBER <= magicReferIndex && magicReferIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		context.store(magicReferIndex - MAGIC_LOCALS_NUMBER);
 	}
 
@@ -201,7 +201,7 @@ public class Adv {
 		context.clear();
 		assert MAGIC_LOCALS_NUMBER <= magicReferIndex && magicReferIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		context.store(magicReferIndex - MAGIC_LOCALS_NUMBER);
 	}
 
@@ -210,7 +210,7 @@ public class Adv {
 		context.clear();
 		assert MAGIC_LOCALS_NUMBER <= magicReferIndex && magicReferIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		context.store(magicReferIndex - MAGIC_LOCALS_NUMBER);
 
 	}
@@ -220,7 +220,7 @@ public class Adv {
 		context.clear();
 		assert MAGIC_LOCALS_NUMBER <= magicReferIndex && magicReferIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		context.store(magicReferIndex - MAGIC_LOCALS_NUMBER);
 
 	}
@@ -230,7 +230,7 @@ public class Adv {
 		context.clear();
 		assert MAGIC_LOCALS_NUMBER <= magicReferIndex && magicReferIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		context.store((byte) magicReferIndex - MAGIC_LOCALS_NUMBER);
 
 	}
@@ -240,7 +240,7 @@ public class Adv {
 		context.clear();
 		assert MAGIC_LOCALS_NUMBER <= magicReferIndex && magicReferIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		context.store((byte) magicReferIndex - MAGIC_LOCALS_NUMBER);
 
 	}
@@ -251,7 +251,7 @@ public class Adv {
 		assert MAGIC_LOCALS_NUMBER <= magicReferIndex && magicReferIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		context.store((byte) magicReferIndex - MAGIC_LOCALS_NUMBER);
 
 	}
@@ -260,7 +260,7 @@ public class Adv {
 		AdvContext context = _context.get();
 		context.clear();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		int referIndex = context.store();
 
 		return new boolean_Holder(context, (byte) (MAGIC_LOCALS_NUMBER + referIndex));
@@ -270,7 +270,7 @@ public class Adv {
 		AdvContext context = _context.get();
 		context.clear();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		int referIndex = context.store();
 
 		return new Boolean__Holder(context, (byte) (MAGIC_LOCALS_NUMBER + referIndex));
@@ -280,7 +280,7 @@ public class Adv {
 		AdvContext context = _context.get();
 		context.clear();
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		int referIndex = context.store();
 
 		return (byte) (MAGIC_LOCALS_NUMBER + referIndex);
@@ -290,7 +290,7 @@ public class Adv {
 		AdvContext context = _context.get();
 		context.clear();
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		int referIndex = context.store();
 
 		return (short) (MAGIC_LOCALS_NUMBER + referIndex);
@@ -300,7 +300,7 @@ public class Adv {
 		AdvContext context = _context.get();
 		context.clear();
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		int referIndex = context.store();
 
 		return (int) (MAGIC_LOCALS_NUMBER + referIndex);
@@ -310,7 +310,7 @@ public class Adv {
 		AdvContext context = _context.get();
 		context.clear();
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		int referIndex = context.store();
 
 		return (long) (MAGIC_LOCALS_NUMBER + referIndex);
@@ -320,7 +320,7 @@ public class Adv {
 		AdvContext context = _context.get();
 		context.clear();
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		int referIndex = context.store();
 
 		return (float) (MAGIC_LOCALS_NUMBER + referIndex);
@@ -330,7 +330,7 @@ public class Adv {
 		AdvContext context = _context.get();
 		context.clear();
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
+		context.execAndPop();
 		int referIndex = context.store();
 
 		return (double) (MAGIC_LOCALS_NUMBER + referIndex);
@@ -347,7 +347,7 @@ public class Adv {
 	static public <T> T refer_(T value) {
 		AdvContext context = _context.get();
 		context.clear();
-		context.popAndExec();
+		context.execAndPop();
 		int locals = context.store();
 
 		Class<?> t = value.getClass();
@@ -401,15 +401,12 @@ public class Adv {
 			return (T) key;
 		} else if (value instanceof TinyAsmProxyRuntimeReferNameObject) {
 			AdvRuntimeReferNameObject obj = ((AdvRuntimeReferNameObject) value);
-			String name = obj.get__ReferName();
+			byte codeIndex = obj.get__MagicNumber();
 
-			assert name.startsWith(MAGIC_CODES_String) : "这里必须返回代码索引";
-
-			int codeIndex = Integer.valueOf(name.substring(MAGIC_CODES_String.length()));
 			assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
 
-			String key = String.valueOf(MAGIC_LOCALS_String + locals);
-			obj.set__ReferName(key);
+			byte localsIndex = (byte) (MAGIC_LOCALS_NUMBER + locals);
+			obj.set__MagicNumber(localsIndex);
 			return (T) obj;
 		} else {
 			throw new UnsupportedOperationException("Only accept tinyasm proxy object");

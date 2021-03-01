@@ -1,30 +1,55 @@
-package cc1sj.tinyasm;
+package cc1sj.tinyasm.heroadv;
 
-import static cc1sj.tinyasm.TinyAsmBuilder.storeTopAndRefer;
-import static cc1sj.tinyasm.TinyAsmBuilder.resolve;
+import static cc1sj.tinyasm.heroadv.Adv.MAGIC_CODES_NUMBER;
 
 import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.TinyAsmProxyRuntimeReferNameObject;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
+import cc1sj.tinyasm.hero.helperclass.HelloClassChild;
 
-public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRuntimeReferNameObject {
-
-	private String _referName;
-	private TinyAsmBuilderContext _context;
-	private MethodCode _code;
+public class HelloClassTinyAsmProxy extends HelloClass implements AdvRuntimeReferNameObject {
+	private byte magicNumber;
+	private ThreadLocal<AdvContext> _context;
 
 	@Override
-	public String get__ReferName() {
-		return this._referName;
+	public byte get__MagicNumber() {
+		return this.magicNumber;
 	}
 
 	@Override
-	public void __init(TinyAsmBuilderContext context, String name) {
+	public void set__MagicNumber(byte magicNumber) {
+		this.magicNumber = magicNumber;
+	}
+
+	@Override
+	public void __init(ThreadLocal<AdvContext> context, byte magicNumber) {
 		this._context = context;
-		this._code = context.code;
-		this._referName = name;
+		this.magicNumber = magicNumber;
 	}
-//
+
+	@Override
+	public int getAgeInt() {
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+
+		return MAGIC_CODES_NUMBER + context.push(c -> {
+			objEval.accept(c);
+			c.VIRTUAL(HelloClassChild.class, "getAgeInt").reTurn(int.class).INVOKE();
+		});
+	}
+
+	@Override
+	public void setAgeInt(int value) {
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+			c.VIRTUAL(HelloClassChild.class, "setAgeInt").parameter(int.class).INVOKE();
+		});
+		context.execAndPop();
+	}
+
 //	@Override
 //	public String getName() {
 //		_code.LINE();
@@ -56,14 +81,14 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 //		_code.VIRTUAL(HelloClass.class, "getAgeShort").reTurn(short.class).INVOKE();
 //		return storeTopAndRefer(_code, short.class);
 //	}
-
-	@Override
-	public int getAgeInt() {
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.VIRTUAL(HelloClass.class, "getAgeInt").reTurn(int.class).INVOKE();
-		return storeTopAndRefer(_code, int.class);
-	}
+//
+//	@Override
+//	public int getAgeInt() {
+//		_code.LINE();
+//		resolve(_code, this._referName);
+//		_code.VIRTUAL(HelloClass.class, "getAgeInt").reTurn(int.class).INVOKE();
+//		return storeTopAndRefer(_code, int.class);
+//	}
 //
 //	@Override
 //	public long getAgeLong() {
@@ -187,16 +212,16 @@ public class HelloClassTinyAsmProxy extends HelloClass implements TinyAsmProxyRu
 //		resolve(_code, value);
 //		_code.VIRTUAL(HelloClass.class, "setAgeShort").parameter(short.class).INVOKE();
 //	}
-
-	@Override
-	public void setAgeInt(int value) {
-
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.VIRTUAL(HelloClass.class, "setAgeInt").parameter(int.class).INVOKE();
-	}
-
+//
+//	@Override
+//	public void setAgeInt(int value) {
+//
+//		_code.LINE();
+//		resolve(_code, this._referName);
+//		resolve(_code, value);
+//		_code.VIRTUAL(HelloClass.class, "setAgeInt").parameter(int.class).INVOKE();
+//	}
+//
 //	@Override
 //	public void setAgeLong(long value) {
 //

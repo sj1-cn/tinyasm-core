@@ -137,6 +137,15 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	abstract void visitIincInsn(final int var, final int increment);
 
+	public abstract void visitInvokeDynamicInsn(final String name, final String descriptor, final Handle bootstrapMethodHandle,
+			final Object... bootstrapMethodArguments);
+
+	public void InvokeDynamicInsn(final String name, final String descriptor, final Handle bootstrapMethodHandle,
+			final Object... bootstrapMethodArguments) {
+		stackPop();
+		stackPop();
+	}
+	
 	protected abstract Type typeOfThis();
 
 	protected abstract Type codeThisFieldType(String name);
@@ -151,16 +160,16 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	protected abstract Type stackTypeOf(int i);
 
-	protected abstract Type stackPop();
-	
+	public abstract Type stackPop();
+
 	abstract int stackSize();
-	
-	//TODO need to delete
+
+	// TODO need to delete
 	public int advStackSize() {
 		return stackSize();
 	}
 
-	protected abstract void stackPush(Type type);
+	public abstract void stackPush(Type type);
 
 	/*
 	 * 2.11.2. Load and Store Instructions The load and store instructions transfer
@@ -671,6 +680,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 //		int local = codeLocalGetLocals(varname);
 		visitIincInsn(local, increment);
 	}
+
 	@Override
 	public void LCMP() {
 		Type typeRightValue = stackPop();
@@ -927,14 +937,10 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) {
 			int typecode = TypeUtils.arrayTypeMaps.get(type);
 			visitInsn(NEWARRAY, typecode);
-		} else if (type.getSort() == Type.ARRAY)
-			visitTypeInsn(ANEWARRAY, type);
-		else if (type.getSort() == Type.OBJECT)
-			visitTypeInsn(ANEWARRAY, type);
-		else if (type.getSort() == Type.VOID)
-			RETURN();
-		else
-			throw new UnsupportedOperationException();
+		} else if (type.getSort() == Type.ARRAY) visitTypeInsn(ANEWARRAY, type);
+		else if (type.getSort() == Type.OBJECT) visitTypeInsn(ANEWARRAY, type);
+		else if (type.getSort() == Type.VOID) RETURN();
+		else throw new UnsupportedOperationException();
 	}
 
 	/*
@@ -1334,8 +1340,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 			// ARETURN (objectref → [empty]) : return a reference from a method
 			stackPop();
 			visitInsn(ARETURN);
-		} else
-			throw new UnsupportedOperationException();
+		} else throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -1610,7 +1615,5 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public abstract void END();
 
 	abstract Label codeNewLabel();
-
-
 
 }

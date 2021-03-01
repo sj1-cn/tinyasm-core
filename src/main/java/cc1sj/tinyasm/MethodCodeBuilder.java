@@ -224,6 +224,11 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
+	public void visitInvokeDynamicInsn(String name, String descriptor, Handle bootstrapMethodHandle, Object... bootstrapMethodArguments) {
+		mv.visitInvokeDynamicInsn(name, descriptor, bootstrapMethodHandle, bootstrapMethodArguments);
+	}
+
+	@Override
 	public void visitLdcInsn(Object cst) {
 		mv.visitLdcInsn(cst);
 	}

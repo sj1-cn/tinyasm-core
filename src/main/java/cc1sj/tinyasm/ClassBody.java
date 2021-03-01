@@ -7,12 +7,13 @@ import java.util.List;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 
-public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineField<ClassBody>, WithMakeStaticMethod, WithMakeInstanceMethod {
+public interface ClassBody
+		extends WithDefineStaticField<ClassBody>, WithDefineField<ClassBody>, WithMakeStaticMethod, WithMakeInstanceMethod {
 
 	ClassBuilder end();
 
 	<T extends Field> List<T> getFields();
-	
+
 	ClassVisitor getClassWriter();
 
 	String getSuperClass();
@@ -21,6 +22,14 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default String referInnerClass(String objectclazz, String innerClass) {
 		return referInnerClass(0, objectclazz, innerClass);
+	}
+
+	default String referInnerClass(Class<?> objectclazz, Class<?> innerClass) {
+		return referInnerClass(0, objectclazz.getName(), innerClass.getName());
+	}
+
+	default String referInnerClass(int access, Class<?> objectclazz, Class<?> innerClass) {
+		return referInnerClass(access, objectclazz.getName(), innerClass.getName());
 	}
 
 	String referInnerClass(int access, String objectclazz, String innerClass);
@@ -149,21 +158,22 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertySet(final String fieldName) {
 		Clazz fieldClass = clazzOfField(fieldName);
-		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).parameter(fieldName, fieldClass).code(code -> {
-			code.LINE();
-			code.LOAD("this");
-			code.LOAD(fieldName);
-			code.PUTFIELD(fieldName, fieldClass.getType().getClassName());
-			code.LINE();
-			code.RETURN();
-		});
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).parameter(fieldName, fieldClass)
+				.code(code -> {
+					code.LINE();
+					code.LOAD("this");
+					code.LOAD(fieldName);
+					code.PUTFIELD(fieldName, fieldClass.getType().getClassName());
+					code.LINE();
+					code.RETURN();
+				});
 		return this;
 	}
 
 	default ClassBody makePropertySet(final Class<?> annotationClazz, final String fieldName) {
 		Clazz fieldClass = clazzOfField(fieldName);
-		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz).parameter(fieldName, fieldClass)
-				.code(code -> {
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz)
+				.parameter(fieldName, fieldClass).code(code -> {
 					code.LINE();
 					code.LOAD("this");
 					code.LOAD(fieldName);
@@ -176,8 +186,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertySet(final String annotationClazz, final String fieldName) {
 		Clazz fieldClass = clazzOfField(fieldName);
-		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz).parameter(fieldName, fieldClass)
-				.code(code -> {
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz)
+				.parameter(fieldName, fieldClass).code(code -> {
 					code.LINE();
 					code.LOAD("this");
 					code.LOAD(fieldName);
@@ -192,8 +202,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertySet(final Class<?> annotationClazz, Object annotationValue, final String fieldName) {
 		Clazz fieldClass = clazzOfField(fieldName);
-		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz, annotationValue)
-				.parameter(fieldName, fieldClass).code(code -> {
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1))
+				.annotation(annotationClazz, annotationValue).parameter(fieldName, fieldClass).code(code -> {
 					code.LINE();
 					code.LOAD("this");
 					code.LOAD(fieldName);
@@ -208,8 +218,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertySet(final String annotationClazz, Object annotationValue, final String fieldName) {
 		Clazz fieldClass = clazzOfField(fieldName);
-		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz, annotationValue)
-				.parameter(fieldName, fieldClass).code(code -> {
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1))
+				.annotation(annotationClazz, annotationValue).parameter(fieldName, fieldClass).code(code -> {
 					code.LINE();
 					code.LOAD("this");
 					code.LOAD(fieldName);
@@ -221,10 +231,11 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 	}
 //
 
-	default ClassBody makePropertySet(final Class<?> annotationClazz, String annotationName, Object annotationValue, final String fieldName) {
+	default ClassBody makePropertySet(final Class<?> annotationClazz, String annotationName, Object annotationValue,
+			final String fieldName) {
 		Clazz fieldClass = clazzOfField(fieldName);
-		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz, annotationName, annotationValue)
-				.parameter(fieldName, fieldClass).code(code -> {
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1))
+				.annotation(annotationClazz, annotationName, annotationValue).parameter(fieldName, fieldClass).code(code -> {
 					code.LINE();
 					code.LOAD("this");
 					code.LOAD(fieldName);
@@ -238,8 +249,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 	default ClassBody makePropertySet(final String annotationClazz, String annotationName, Object annotationValue, final String fieldName) {
 		Clazz fieldClass = clazzOfField(fieldName);
-		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).annotation(annotationClazz, annotationName, annotationValue)
-				.parameter(fieldName, fieldClass).code(code -> {
+		publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1))
+				.annotation(annotationClazz, annotationName, annotationValue).parameter(fieldName, fieldClass).code(code -> {
 					code.LINE();
 					code.LOAD("this");
 					code.LOAD(fieldName);
@@ -263,14 +274,15 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 			final Field field = param;
 			Clazz fieldClass = clazzOfField(field.name);
 			String fieldName = field.name;
-			publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).parameter(field.name, field.clazz).code(code -> {
-				code.LINE();
-				code.LOAD("this");
-				code.LOAD(fieldName);
-				code.PUTFIELD(fieldName, fieldClass.getType().getClassName());
-				code.LINE();
-				code.RETURN();
-			});
+			publicMethod("set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1)).parameter(field.name, field.clazz)
+					.code(code -> {
+						code.LINE();
+						code.LOAD("this");
+						code.LOAD(fieldName);
+						code.PUTFIELD(fieldName, fieldClass.getType().getClassName());
+						code.LINE();
+						code.RETURN();
+					});
 		}
 		return this;
 	}
@@ -306,7 +318,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 				code.LINE(59);
 				code.LOAD("builder");
 				code.LOADConst(getSimpleName() + " [" + fields.get(i).name + "=");
-				code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class).parameter(java.lang.String.class).INVOKE();
+				code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class)
+						.parameter(java.lang.String.class).INVOKE();
 				code.LOAD("this");
 				code.GETFIELD_OF_THIS(fields.get(i).name);
 				code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class)
@@ -317,7 +330,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 					code.LOADConst(", " + fields.get(i).name + "=");
 
 					code.LINE(60);
-					code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class).parameter(java.lang.String.class).INVOKE();
+					code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class)
+							.parameter(java.lang.String.class).INVOKE();
 					code.LOAD("this");
 					code.GETFIELD(fields.get(i).name, fields.get(i).clazz.getType());
 					code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class)
@@ -325,13 +339,15 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 				}
 				code.LOADConst("]");
 				code.LINE(67);
-				code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class).parameter(java.lang.String.class).INVOKE();
+				code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class)
+						.parameter(java.lang.String.class).INVOKE();
 				code.POP();
 			} else {
 				code.LINE(59);
 				code.LOAD("builder");
 				code.LOADConst(getSimpleName() + " []");
-				code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class).parameter(java.lang.String.class).INVOKE();
+				code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class)
+						.parameter(java.lang.String.class).INVOKE();
 				code.POP();
 			}
 			code.LINE(68);
@@ -343,6 +359,8 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 
 		return this;
 	}
+
+	public void visitInnerClass(String string, String string2, String string3, int i);
 
 //	Class<?> stringInnerUserType(Clazz clazz);
 
