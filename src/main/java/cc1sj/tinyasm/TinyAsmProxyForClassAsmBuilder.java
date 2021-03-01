@@ -146,16 +146,56 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 		MethodCode code = classBody.method(methodName).parameter(param1, paramsClass).begin();
 
-		_line(code);
+		code.LINE(182);
+		code.LOAD("this");
+		code.GETFIELD("_code", MethodCode.class);
+		code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-		_resolveThis(code);
+		code.LINE(183);
+		code.LOAD("this");
+		code.GETFIELD("_code", MethodCode.class);
+		code.LOAD("this");
+		code.GETFIELD("_referName", String.class);
+		code.STATIC(TinyAsmBuilder.class, "resolve").parameter(MethodCode.class).parameter(String.class).INVOKE();
+		Type paramsType = Type.getType(paramsClass);
 
-		_resolveParameter(code, param1, paramsClass);
+		code.LINE(184);
+		code.LOAD("this");
+		code.GETFIELD("_code", MethodCode.class);
+		code.LOAD(param1);
+		Type resolveParameterType = null;
+		
+		switch (paramsType.getSort()) {
+		case Type.VOID:
+			throw new UnsupportedOperationException();
+		case Type.METHOD:
+		case Type.ARRAY:
+			// TODO Type.METHOD Type.ARRAY
+			resolveParameterType = Type.getType(Object.class);
+			break;
+		case Type.OBJECT:
+			if (mps.containsKey(paramsType.getClassName())) {
+				resolveParameterType = paramsType;
+			} else {
+				resolveParameterType = Type.getType(Object.class);
+			}
+			break;
+		default:// primative
+			resolveParameterType = paramsType;
+			break;
+		}
+		
+		code.STATIC(TinyAsmBuilder.class, "resolve").parameter(MethodCode.class).parameter(Clazz.of(resolveParameterType)).INVOKE();
 
-		_code(code);
-		_virtual(code, targetType, methodName);
-		_parameter(code, Clazz.of(paramsClass));
-		_invoke(code);
+		code.LINE(61);
+		code.LOAD("this");
+		code.GETFIELD("_code", MethodCode.class);
+		code.LOADConst(targetType);
+		code.LOADConst(methodName);
+		code.VIRTUAL(MethodCode.class, "VIRTUAL").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
+		_type(code, Clazz.of(paramsClass));
+		code.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
+		code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
 		code.LINE();
 		code.RETURN();
@@ -172,18 +212,37 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 		MethodCode code = classBody.method(returnClass, methodName).begin();
 //		 = mh.code();
-		_line(code);
+		code.LINE(182);
+		code.LOAD("this");
+		code.GETFIELD("_code", MethodCode.class);
+		code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 		// prepare this
-		_resolveThis(code);
+		code.LINE(183);
+		code.LOAD("this");
+		code.GETFIELD("_code", MethodCode.class);
+		code.LOAD("this");
+		code.GETFIELD("_referName", String.class);
+		code.STATIC(TinyAsmBuilder.class, "resolve").parameter(MethodCode.class).parameter(String.class).INVOKE();
 
 		// invoke method
-		_code(code);
-		_virtual(code, targetType, methodName);
-		_return(code, returnClass);
-		_invoke(code);
+		code.LINE(61);
+		code.LOAD("this");
+		code.GETFIELD("_code", MethodCode.class);
+		code.LOADConst(targetType);
+		code.LOADConst(methodName);
+		code.VIRTUAL(MethodCode.class, "VIRTUAL").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
+		_type(code, returnClass);
+		code.INTERFACE(MethodCaller.class, "reTurn").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
+		code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
 		// Refer
-		_storeTopAndRefer(code, returnClass);
+		code.LINE(61);
+		code.LOAD("this");
+		code.GETFIELD("_code", MethodCode.class);
+		_type(code, returnClass);
+		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer").reTurn(Object.class).parameter(MethodCode.class).parameter(Class.class)
+				.INVOKE();
+		_cast(code, returnClass);
 
 		code.RETURNTop();
 
@@ -319,26 +378,75 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 
 			MethodCode code = mh.begin();
 			// = mh.code();
-			_line(code);
+			code.LINE(182);
+			code.LOAD("this");
+			code.GETFIELD("_code", MethodCode.class);
+			code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 			// prepare this
-			_resolveThis(code);
+			code.LINE(183);
+			code.LOAD("this");
+			code.GETFIELD("_code", MethodCode.class);
+			code.LOAD("this");
+			code.GETFIELD("_referName", String.class);
+			code.STATIC(TinyAsmBuilder.class, "resolve").parameter(MethodCode.class).parameter(String.class).INVOKE();
 			for (int i = 0; i < methodParamTypes.length; i++) {
-				_resolveParameter(code, "param" + i, methodParamTypes[i]);
+				Type paramsType = methodParamTypes[i];
+				code.LINE(184);
+				code.LOAD("this");
+				code.GETFIELD("_code", MethodCode.class);
+				code.LOAD("param" + i);
+				Type resolveParameterType = null;
+				
+				switch (paramsType.getSort()) {
+				case Type.VOID:
+					throw new UnsupportedOperationException();
+				case Type.METHOD:
+				case Type.ARRAY:
+					// TODO Type.METHOD Type.ARRAY
+					resolveParameterType = Type.getType(Object.class);
+					break;
+				case Type.OBJECT:
+					if (mps.containsKey(paramsType.getClassName())) {
+						resolveParameterType = paramsType;
+					} else {
+						resolveParameterType = Type.getType(Object.class);
+					}
+					break;
+				default:// primative
+					resolveParameterType = paramsType;
+					break;
+				}
+				
+				code.STATIC(TinyAsmBuilder.class, "resolve").parameter(MethodCode.class).parameter(Clazz.of(resolveParameterType)).INVOKE();
 			}
 			// invoke method
-			_code(code);
-			_virtual(code, targetType, name);
+			code.LINE(61);
+			code.LOAD("this");
+			code.GETFIELD("_code", MethodCode.class);
+			code.LOADConst(targetType);
+			code.LOADConst(name);
+			code.VIRTUAL(MethodCode.class, "VIRTUAL").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
 			for (Type type : methodParamTypes) {
-				_parameter(code, Clazz.of(type));
+				_type(code, Clazz.of(type));
+				code.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
 			}
 
-			if (returnType != Type.VOID_TYPE) _return(code, returnClazz);
+			if (returnType != Type.VOID_TYPE) {
+				_type(code, returnClazz);
+				code.INTERFACE(MethodCaller.class, "reTurn").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
+			}
 
-			_invoke(code);
+			code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
 			// Refer
 			if (returnType != Type.VOID_TYPE) {
-				_storeTopAndRefer(code, returnClazz);
+				code.LINE(61);
+				code.LOAD("this");
+				code.GETFIELD("_code", MethodCode.class);
+				_type(code, returnClazz);
+				code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer").reTurn(Object.class).parameter(MethodCode.class).parameter(Class.class)
+						.INVOKE();
+				_cast(code, returnClazz);
 				code.RETURNTop();
 			} else {
 				code.LINE();

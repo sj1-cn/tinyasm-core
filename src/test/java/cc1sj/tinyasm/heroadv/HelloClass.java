@@ -1,4 +1,4 @@
-package cc1sj.tinyasm.hero.helperclass;
+package cc1sj.tinyasm.heroadv;
 
 public class HelloClass {
 

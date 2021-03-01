@@ -1,288 +1,439 @@
 package cc1sj.tinyasm.heroadv;
 
-import static cc1sj.tinyasm.TinyAsmBuilder.resolve;
-import static cc1sj.tinyasm.TinyAsmBuilder.storeTopAndRefer;
+import static cc1sj.tinyasm.heroadv.Adv.MAGIC_CODES_NUMBER;
+import static cc1sj.tinyasm.heroadv.Adv.MAGIC_CODES_String;
 
+import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.HelloInterface;
 
-public class HelloInterfaceTinyAsmProxy implements HelloInterface, TinyAsmProxyRuntimeReferNameObject {
-
-	private String _referName;
-	private TinyAsmBuilderContext _context;
-	private MethodCode _code;
+public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeReferNameObject {
+	private byte _magicNumber;
+	private ThreadLocal<AdvContext> _context;
 
 	@Override
-	public String get__MagicNumber() {
-		return this._referName;
+	public byte get__MagicNumber() {
+		return this._magicNumber;
 	}
 
 	@Override
-	public void __init(TinyAsmBuilderContext context, String name) {
+	public void set__MagicNumber(byte magicNumber) {
+		this._magicNumber = magicNumber;
+	}
+
+	@Override
+	public void set__Context(ThreadLocal<AdvContext> context, byte magicNumber) {
 		this._context = context;
-		this._code = context.code;
-		this._referName = name;
+		this._magicNumber = magicNumber;
 	}
-	
+
 	@Override
 	public String getName() {
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getName").reTurn(String.class).INVOKE();
-		return storeTopAndRefer(_code, String.class);
+
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getName").reTurn(String.class).INVOKE();
+		});
+		return MAGIC_CODES_String + codeIndex; // String.class);
 	}
 
 	@Override
 	public char getAgeChar() {
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeChar").reTurn(char.class).INVOKE();
-		return storeTopAndRefer(_code, char.class);
+
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeChar").reTurn(char.class).INVOKE();
+		});
+		return (char) (MAGIC_CODES_NUMBER + codeIndex);// char.class);
 	}
 
 	@Override
 	public byte getAgeByte() {
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeByte").reTurn(byte.class).INVOKE();
-		return storeTopAndRefer(_code, byte.class);
+
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeByte").reTurn(byte.class).INVOKE();
+		});
+		return (byte) (MAGIC_CODES_NUMBER + codeIndex); // byte.class);
 	}
 
 	@Override
 	public short getAgeShort() {
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeShort").reTurn(short.class).INVOKE();
-		return storeTopAndRefer(_code, short.class);
+
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeShort").reTurn(short.class).INVOKE();
+		});
+		return (short) (MAGIC_CODES_NUMBER + codeIndex); // short.class);
 	}
 
 	@Override
 	public int getAgeInt() {
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeInt").reTurn(int.class).INVOKE();
-		return storeTopAndRefer(_code, int.class);
+
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeInt").reTurn(int.class).INVOKE();
+		});
+		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
 
 	@Override
 	public long getAgeLong() {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeLong").reTurn(long.class).INVOKE();
-		return storeTopAndRefer(_code, long.class);
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeLong").reTurn(long.class).INVOKE();
+		});
+		return MAGIC_CODES_NUMBER + codeIndex; // long.class);
 	}
 
 	@Override
 	public float getAgeFloat() {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeFloat").reTurn(float.class).INVOKE();
-		return storeTopAndRefer(_code, float.class);
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeFloat").reTurn(float.class).INVOKE();
+		});
+		return MAGIC_CODES_NUMBER + codeIndex; // float.class);
 	}
 
 	@Override
 	public double getAgeDouble() {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeDouble").reTurn(double.class).INVOKE();
-		return storeTopAndRefer(_code, double.class);
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeDouble").reTurn(double.class).INVOKE();
+		});
+		return MAGIC_CODES_NUMBER + codeIndex; // double.class);
 	}
 
 	@Override
 	public Character getAgeCharacter() {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeCharacter").reTurn(Character.class).INVOKE();
-		return storeTopAndRefer(_code, Character.class);
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeCharacter").reTurn(Character.class).INVOKE();
+		});
+		return (char) (MAGIC_CODES_NUMBER + codeIndex); // Character.class);
 	}
 
 	@Override
 	public Byte getAgeByte2() {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeByte2").reTurn(Byte.class).INVOKE();
-		return storeTopAndRefer(_code, Byte.class);
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeByte2").reTurn(Byte.class).INVOKE();
+		});
+		return (byte) (MAGIC_CODES_NUMBER + codeIndex); // Byte.class);
 	}
 
 	@Override
 	public Short getAgeShort2() {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeShort2").reTurn(Short.class).INVOKE();
-		return storeTopAndRefer(_code, Short.class);
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeShort2").reTurn(Short.class).INVOKE();
+		});
+		return (short) (MAGIC_CODES_NUMBER + codeIndex);// Short.class);
 	}
 
 	@Override
 	public Integer getAgeInteger() {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeInteger").reTurn(Integer.class).INVOKE();
-		return storeTopAndRefer(_code, Integer.class);
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeInteger").reTurn(Integer.class).INVOKE();
+		});
+		return MAGIC_CODES_NUMBER + codeIndex; // Integer.class);
 	}
 
 	@Override
 	public Long getAgeLong2() {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeLong2").reTurn(Long.class).INVOKE();
-		return storeTopAndRefer(_code, Long.class);
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeLong2").reTurn(Long.class).INVOKE();
+		});
+		return (long) (MAGIC_CODES_NUMBER + codeIndex);// Long.class);
 	}
 
 	@Override
 	public Float getAgeFloat2() {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeFloat2").reTurn(Float.class).INVOKE();
-		return storeTopAndRefer(_code, Float.class);
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeFloat2").reTurn(Float.class).INVOKE();
+		});
+		return (float) (MAGIC_CODES_NUMBER + codeIndex); // Float.class);
 	}
 
 	@Override
 	public Double getAgeDouble2() {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		_code.INTERFACE(HelloInterface.class, "getAgeDouble2").reTurn(Double.class).INVOKE();
-		return storeTopAndRefer(_code, Double.class);
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(c -> {
+			objEval.accept(c);
+			c.INTERFACE(HelloInterface.class, "getAgeDouble2").reTurn(Double.class).INVOKE();
+		});
+		return (double) (MAGIC_CODES_NUMBER + codeIndex); // Double.class);
 	}
 
 	@Override
 	public void setName(String value) {
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setName").parameter(String.class).INVOKE();
+
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setName").parameter(String.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeChar(char value) {
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeChar").parameter(char.class).INVOKE();
+
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeChar").parameter(char.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeByte(byte value) {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeByte").parameter(byte.class).INVOKE();
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeByte").parameter(byte.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeShort(short value) {
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeShort").parameter(short.class).INVOKE();
+
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeShort").parameter(short.class).INVOKE();
+		});
+		context.execAndPop();
 	}
+
+//	@Override
+//	public void setAgeInt(int value) {
+//		AdvContext context = _context.get();ConsumerWithException<MethodCode> objEval = context.resolve(this);ConsumerWithException<MethodCode> objValue = context.resolve(value);context.push(c -> {objEval.accept(c);objValue.accept(c);
+//			c.INTERFACE(HelloInterface.class, "setAgeInt").parameter(int.class).INVOKE();});context.execAndPop();
+//
+//	}
 
 	@Override
 	public void setAgeInt(int value) {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeInt").parameter(int.class).INVOKE();
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeInt").parameter(int.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeLong(long value) {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeLong").parameter(long.class).INVOKE();
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeLong").parameter(long.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeFloat(float value) {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeFloat").parameter(float.class).INVOKE();
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeFloat").parameter(float.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeDouble(double value) {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeDouble").parameter(double.class).INVOKE();
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeDouble").parameter(double.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeCharacter(Character value) {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeCharacter").parameter(Character.class).INVOKE();
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeCharacter").parameter(Character.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeByte2(Byte value) {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeByte2").parameter(Byte.class).INVOKE();
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeByte2").parameter(Byte.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeShort2(Short value) {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeShort2").parameter(Short.class).INVOKE();
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeShort2").parameter(Short.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeInteger(Integer value) {
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeInteger").parameter(Integer.class).INVOKE();
+			c.INTERFACE(HelloInterface.class, "setAgeInteger").parameter(Integer.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeLong2(Long value) {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeLong2").parameter(Long.class).INVOKE();
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeLong2").parameter(Long.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeFloat2(Float value) {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeFloat2").parameter(Float.class).INVOKE();
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+
+			c.INTERFACE(HelloInterface.class, "setAgeFloat2").parameter(Float.class).INVOKE();
+		});
+		context.execAndPop();
 	}
 
 	@Override
 	public void setAgeDouble2(Double value) {
 
-		_code.LINE();
-		resolve(_code, this._referName);
-		resolve(_code, value);
-		_code.INTERFACE(HelloInterface.class, "setAgeDouble2").parameter(Double.class).INVOKE();
-	}
+		AdvContext context = _context.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		context.push(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
 
+			c.INTERFACE(HelloInterface.class, "setAgeDouble2").parameter(Double.class).INVOKE();
+		});
+		context.execAndPop();
+	}
 }

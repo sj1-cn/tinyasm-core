@@ -10,36 +10,36 @@ import org.objectweb.asm.Type;
 
 public class BoxUnbox {
 
-	private static Map<Type, Consumer<MethodCode>> box = new HashMap<>();
-	private static Map<Type, Consumer<MethodCode>> unbox = new HashMap<>();
-	private static Map<Type, Type> boxClazz = new HashMap<>();
-	private static Map<Type, Type> unboxClazz = new HashMap<>();
-	private static Consumer<MethodCode> doNothing = f -> {
+	public static Map<Type, Consumer<MethodCode>> PrimaryToBoxFunc = new HashMap<>();
+	public static Map<Type, Consumer<MethodCode>> ClassObjectToUnboxFunc = new HashMap<>();
+	public static Map<Type, Type> PrimativeToClazzObject = new HashMap<>();
+	public static Map<Type, Type> ClazzObjectToPrimitive = new HashMap<>();
+	public static Consumer<MethodCode> doNothing = f -> {
 	};
 
 	private static void register(Class<?> objectClazz, Class<?> primaryClazz, Consumer<MethodCode> convert, Consumer<MethodCode> revert) {
-		unboxClazz.put(typeOf(objectClazz), typeOf(primaryClazz));
-		boxClazz.put(typeOf(primaryClazz), typeOf(objectClazz));
-		unbox.put(typeOf(objectClazz), convert);
-		box.put(typeOf(primaryClazz), revert);
+		ClazzObjectToPrimitive.put(typeOf(objectClazz), typeOf(primaryClazz));
+		PrimativeToClazzObject.put(typeOf(primaryClazz), typeOf(objectClazz));
+		ClassObjectToUnboxFunc.put(typeOf(objectClazz), convert);
+		PrimaryToBoxFunc.put(typeOf(primaryClazz), revert);
 	}
 
 	static Consumer<MethodCode> box(Type primaryClazz) {
-		if (!box.containsKey(primaryClazz)) return doNothing;
-		return box.get(primaryClazz);
+		if (!PrimaryToBoxFunc.containsKey(primaryClazz)) return doNothing;
+		return PrimaryToBoxFunc.get(primaryClazz);
 	}
 
 	static Consumer<MethodCode> unbox(Type primaryClazz) {
-		if (!unbox.containsKey(primaryClazz)) return doNothing;
-		return unbox.get(primaryClazz);
+		if (!ClassObjectToUnboxFunc.containsKey(primaryClazz)) return doNothing;
+		return ClassObjectToUnboxFunc.get(primaryClazz);
 	}
 
 	static Consumer<MethodCode> checkcastAndUnbox(final Type objectClazz) {
-		final Type primaryClazz = unboxClazz.get(objectClazz);
+		final Type primaryClazz = ClazzObjectToPrimitive.get(objectClazz);
 		if (primaryClazz != null) {
 			return m -> {
 				m.CHECKCAST(objectClazz);
-				unbox.get(objectClazz).accept(m);
+				ClassObjectToUnboxFunc.get(objectClazz).accept(m);
 			};
 		} else {
 			return m -> {
@@ -52,11 +52,11 @@ public class BoxUnbox {
 		return unboxToWhenNeed(typeOf(primaryClazz));
 	}
 	public static Consumer<MethodCode> unboxToWhenNeed(final Type primaryClazz) {
-		final Type objectClazz = boxClazz.get(primaryClazz);
+		final Type objectClazz = PrimativeToClazzObject.get(primaryClazz);
 		if (objectClazz != null) {
 			return m -> {
 				m.CHECKCAST(objectClazz);
-				unbox.get(objectClazz).accept(m);
+				ClassObjectToUnboxFunc.get(objectClazz).accept(m);
 			};
 		} else {
 			return m -> {

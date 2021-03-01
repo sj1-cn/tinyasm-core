@@ -69,7 +69,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void __init_(ClassBody classBody) {
 		MethodCode code = classBody.method("<init>").begin();
 
-		code.LINE(3);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "<init>").INVOKE();
 		code.RETURN();
@@ -80,7 +80,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getIntHelloClassChild(ClassBody classBody) {
 		MethodCode code = classBody.method(int.class, "getIntHelloClassChild").begin();
 
-		code.LINE(8);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getIntHelloClassChild")
 			.reTurn(int.class).INVOKE();
@@ -93,13 +93,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setIntHelloClassChild")
 			.parameter("intHelloClassChild",int.class).begin();
 
-		code.LINE(14);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("intHelloClassChild");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setIntHelloClassChild")
 			.parameter(int.class).INVOKE();
 
-		code.LINE(15);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -108,7 +108,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getStringHelloClassChild(ClassBody classBody) {
 		MethodCode code = classBody.method(String.class, "getStringHelloClassChild").begin();
 
-		code.LINE(20);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getStringHelloClassChild")
 			.reTurn(String.class).INVOKE();
@@ -121,13 +121,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setStringHelloClassChild")
 			.parameter("stringHelloClassChild",String.class).begin();
 
-		code.LINE(26);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("stringHelloClassChild");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setStringHelloClassChild")
 			.parameter(String.class).INVOKE();
 
-		code.LINE(27);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -136,7 +136,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getName(ClassBody classBody) {
 		MethodCode code = classBody.method(String.class, "getName").begin();
 
-		code.LINE(32);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getName")
 			.reTurn(String.class).INVOKE();
@@ -148,7 +148,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeChar(ClassBody classBody) {
 		MethodCode code = classBody.method(char.class, "getAgeChar").begin();
 
-		code.LINE(38);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeChar")
 			.reTurn(char.class).INVOKE();
@@ -160,7 +160,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeByte(ClassBody classBody) {
 		MethodCode code = classBody.method(byte.class, "getAgeByte").begin();
 
-		code.LINE(44);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeByte")
 			.reTurn(byte.class).INVOKE();
@@ -172,7 +172,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeShort(ClassBody classBody) {
 		MethodCode code = classBody.method(short.class, "getAgeShort").begin();
 
-		code.LINE(50);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeShort")
 			.reTurn(short.class).INVOKE();
@@ -184,7 +184,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeInt(ClassBody classBody) {
 		MethodCode code = classBody.method(int.class, "getAgeInt").begin();
 
-		code.LINE(56);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeInt")
 			.reTurn(int.class).INVOKE();
@@ -196,7 +196,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeLong(ClassBody classBody) {
 		MethodCode code = classBody.method(long.class, "getAgeLong").begin();
 
-		code.LINE(62);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeLong")
 			.reTurn(long.class).INVOKE();
@@ -208,7 +208,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeFloat(ClassBody classBody) {
 		MethodCode code = classBody.method(float.class, "getAgeFloat").begin();
 
-		code.LINE(68);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeFloat")
 			.reTurn(float.class).INVOKE();
@@ -220,7 +220,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeDouble(ClassBody classBody) {
 		MethodCode code = classBody.method(double.class, "getAgeDouble").begin();
 
-		code.LINE(74);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeDouble")
 			.reTurn(double.class).INVOKE();
@@ -232,7 +232,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeCharacter(ClassBody classBody) {
 		MethodCode code = classBody.method(Character.class, "getAgeCharacter").begin();
 
-		code.LINE(80);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeCharacter")
 			.reTurn(Character.class).INVOKE();
@@ -244,7 +244,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeByte2(ClassBody classBody) {
 		MethodCode code = classBody.method(Byte.class, "getAgeByte2").begin();
 
-		code.LINE(86);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeByte2")
 			.reTurn(Byte.class).INVOKE();
@@ -256,7 +256,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeShort2(ClassBody classBody) {
 		MethodCode code = classBody.method(Short.class, "getAgeShort2").begin();
 
-		code.LINE(92);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeShort2")
 			.reTurn(Short.class).INVOKE();
@@ -268,7 +268,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeInteger(ClassBody classBody) {
 		MethodCode code = classBody.method(Integer.class, "getAgeInteger").begin();
 
-		code.LINE(98);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeInteger")
 			.reTurn(Integer.class).INVOKE();
@@ -280,7 +280,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeLong2(ClassBody classBody) {
 		MethodCode code = classBody.method(Long.class, "getAgeLong2").begin();
 
-		code.LINE(104);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeLong2")
 			.reTurn(Long.class).INVOKE();
@@ -292,7 +292,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeFloat2(ClassBody classBody) {
 		MethodCode code = classBody.method(Float.class, "getAgeFloat2").begin();
 
-		code.LINE(110);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeFloat2")
 			.reTurn(Float.class).INVOKE();
@@ -304,7 +304,7 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 	protected void _getAgeDouble2(ClassBody classBody) {
 		MethodCode code = classBody.method(Double.class, "getAgeDouble2").begin();
 
-		code.LINE(116);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloInterfaceClassChild.class, "getAgeDouble2")
 			.reTurn(Double.class).INVOKE();
@@ -317,13 +317,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setName")
 			.parameter("name",String.class).begin();
 
-		code.LINE(122);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("name");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setName")
 			.parameter(String.class).INVOKE();
 
-		code.LINE(123);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -333,13 +333,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeChar")
 			.parameter("ageChar",char.class).begin();
 
-		code.LINE(128);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageChar");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeChar")
 			.parameter(char.class).INVOKE();
 
-		code.LINE(129);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -349,13 +349,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeByte")
 			.parameter("ageByte",byte.class).begin();
 
-		code.LINE(134);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageByte");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeByte")
 			.parameter(byte.class).INVOKE();
 
-		code.LINE(135);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -365,13 +365,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeShort")
 			.parameter("ageShort",short.class).begin();
 
-		code.LINE(140);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageShort");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeShort")
 			.parameter(short.class).INVOKE();
 
-		code.LINE(141);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -381,13 +381,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeInt")
 			.parameter("ageInt",int.class).begin();
 
-		code.LINE(146);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageInt");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeInt")
 			.parameter(int.class).INVOKE();
 
-		code.LINE(147);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -397,13 +397,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeLong")
 			.parameter("ageLong",long.class).begin();
 
-		code.LINE(152);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageLong");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeLong")
 			.parameter(long.class).INVOKE();
 
-		code.LINE(153);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -413,13 +413,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeFloat")
 			.parameter("ageFloat",float.class).begin();
 
-		code.LINE(158);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageFloat");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeFloat")
 			.parameter(float.class).INVOKE();
 
-		code.LINE(159);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -429,13 +429,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeDouble")
 			.parameter("ageDouble",double.class).begin();
 
-		code.LINE(164);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageDouble");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeDouble")
 			.parameter(double.class).INVOKE();
 
-		code.LINE(165);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -445,13 +445,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeCharacter")
 			.parameter("ageCharacter",Character.class).begin();
 
-		code.LINE(170);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageCharacter");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeCharacter")
 			.parameter(Character.class).INVOKE();
 
-		code.LINE(171);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -461,13 +461,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeByte2")
 			.parameter("ageByte2",Byte.class).begin();
 
-		code.LINE(176);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageByte2");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeByte2")
 			.parameter(Byte.class).INVOKE();
 
-		code.LINE(177);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -477,13 +477,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeShort2")
 			.parameter("ageShort2",Short.class).begin();
 
-		code.LINE(182);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageShort2");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeShort2")
 			.parameter(Short.class).INVOKE();
 
-		code.LINE(183);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -493,13 +493,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeInteger")
 			.parameter("ageInteger",Integer.class).begin();
 
-		code.LINE(188);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageInteger");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeInteger")
 			.parameter(Integer.class).INVOKE();
 
-		code.LINE(189);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -509,13 +509,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeLong2")
 			.parameter("ageLong2",Long.class).begin();
 
-		code.LINE(194);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageLong2");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeLong2")
 			.parameter(Long.class).INVOKE();
 
-		code.LINE(195);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -525,13 +525,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeFloat2")
 			.parameter("agefFloat",Float.class).begin();
 
-		code.LINE(200);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("agefFloat");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeFloat2")
 			.parameter(Float.class).INVOKE();
 
-		code.LINE(201);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -541,13 +541,13 @@ public class HelloInterfaceClassChildProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeDouble2")
 			.parameter("ageDouble2",Double.class).begin();
 
-		code.LINE(206);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ageDouble2");
 		code.SPECIAL(HelloInterfaceClassChild.class, "setAgeDouble2")
 			.parameter(Double.class).INVOKE();
 
-		code.LINE(207);
+		code.LINE();
 		code.RETURN();
 
 		code.END();

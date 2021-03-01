@@ -797,7 +797,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 				break;
 
 			default:
-				throw new UnsupportedOperationException();
+//				throw new UnsupportedOperationException();
 			}
 			break;
 		case Type.FLOAT:
@@ -814,7 +814,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 				break;
 
 			default:
-				throw new UnsupportedOperationException();
+//				throw new UnsupportedOperationException();
 			}
 			break;
 		case Type.DOUBLE:
@@ -830,11 +830,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 				break;
 
 			default:
-				throw new UnsupportedOperationException();
+//				throw new UnsupportedOperationException();
 			}
 			break;
 		default:
-			throw new UnsupportedOperationException("Cannot " + typeFrom.getClassName() + " - " + typeTo.getClassName());
+//			throw new UnsupportedOperationException("Cannot " + typeFrom.getClassName() + " - " + typeTo.getClassName());
 
 		}
 	}

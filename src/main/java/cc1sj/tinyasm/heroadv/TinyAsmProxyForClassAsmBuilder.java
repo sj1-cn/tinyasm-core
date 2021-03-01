@@ -1,24 +1,19 @@
 package cc1sj.tinyasm.heroadv;
 
-import static cc1sj.tinyasm.TinyAsmProxyBase._code;
-import static cc1sj.tinyasm.TinyAsmProxyBase._invoke;
-import static cc1sj.tinyasm.TinyAsmProxyBase._line;
-import static cc1sj.tinyasm.TinyAsmProxyBase._parameter;
-import static cc1sj.tinyasm.TinyAsmProxyBase._resolveParameter;
-import static cc1sj.tinyasm.TinyAsmProxyBase._resolveThis;
-import static cc1sj.tinyasm.TinyAsmProxyBase._return;
-import static cc1sj.tinyasm.TinyAsmProxyBase._storeTopAndRefer;
-import static cc1sj.tinyasm.TinyAsmProxyBase._virtual;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
+import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -26,184 +21,31 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.Handle;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.ModuleVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.TypePath;
 
+import cc1sj.tinyasm.BoxUnbox;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.ClassHeader;
 import cc1sj.tinyasm.Clazz;
+import cc1sj.tinyasm.MethodCaller;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodHeader;
-import cc1sj.tinyasm.TinyAsmBuilderContext;
-import cc1sj.tinyasm.TinyAsmProxyRuntimeReferNameObject;
+
+import static cc1sj.tinyasm.heroadv.Adv.*;
 
 class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
-
-	public static byte[] dump(Class<?> targetClass, String proxyClassName) throws Exception {
-		Type targetType = Type.getType(targetClass);
-		String clazzName = proxyClassName;
-		ClassBody classBody = ClassBuilder.make(clazzName).eXtend(Clazz.of(targetType)).implement(TinyAsmProxyRuntimeReferNameObject.class)
-				.access(ACC_PUBLIC | ACC_SUPER).body();
-
-		classBody.field(ACC_PRIVATE, "_referName", Clazz.of(String.class));
-		classBody.field(ACC_PRIVATE, "_context", Clazz.of(TinyAsmBuilderContext.class));
-		classBody.field(ACC_PRIVATE, "_code", Clazz.of(MethodCode.class));
-
-		init(classBody, targetClass);
-
-		get__ReferName(classBody);
-
-		__init(classBody);
-
-		method_getProperty(classBody, targetType, String.class, "getName");
-
-		method_getProperty(classBody, targetType, char.class, "getAgeChar");
-		method_getProperty(classBody, targetType, byte.class, "getAgeByte");
-		method_getProperty(classBody, targetType, short.class, "getAgeShort");
-		method_getProperty(classBody, targetType, int.class, "getAgeInt");
-		method_getProperty(classBody, targetType, long.class, "getAgeLong");
-		method_getProperty(classBody, targetType, float.class, "getAgeFloat");
-		method_getProperty(classBody, targetType, double.class, "getAgeDouble");
-
-		method_getProperty(classBody, targetType, Character.class, "getAgeCharacter");
-		method_getProperty(classBody, targetType, Byte.class, "getAgeByte2");
-		method_getProperty(classBody, targetType, Short.class, "getAgeShort2");
-		method_getProperty(classBody, targetType, Integer.class, "getAgeInteger");
-		method_getProperty(classBody, targetType, Long.class, "getAgeLong2");
-		method_getProperty(classBody, targetType, Float.class, "getAgeFloat2");
-		method_getProperty(classBody, targetType, Double.class, "getAgeDouble2");
-
-		method_setProperty(targetType, classBody, "setName", String.class);
-
-		method_setProperty(targetType, classBody, "setAgeChar", char.class);
-		method_setProperty(targetType, classBody, "setAgeByte", byte.class);
-		method_setProperty(targetType, classBody, "setAgeShort", short.class);
-		method_setProperty(targetType, classBody, "setAgeInt", int.class);
-		method_setProperty(targetType, classBody, "setAgeLong", long.class);
-		method_setProperty(targetType, classBody, "setAgeFloat", float.class);
-		method_setProperty(targetType, classBody, "setAgeDouble", double.class);
-
-		method_setProperty(targetType, classBody, "setAgeCharacter", Character.class);
-		method_setProperty(targetType, classBody, "setAgeByte2", Byte.class);
-		method_setProperty(targetType, classBody, "setAgeShort2", Short.class);
-		method_setProperty(targetType, classBody, "setAgeInteger", Integer.class);
-		method_setProperty(targetType, classBody, "setAgeLong2", Long.class);
-		method_setProperty(targetType, classBody, "setAgeFloat2", Float.class);
-		method_setProperty(targetType, classBody, "setAgeDouble2", Double.class);
-
-		return classBody.end().toByteArray();
-	}
-
-	protected static void init(ClassBody classBody, Class<?> targetClass) {
-		{
-			MethodCode code = classBody.method("<init>").begin();
-
-			code.LINE(14);
-			code.LOAD("this");
-			code.SPECIAL(Clazz.of(targetClass), "<init>").INVOKE();
-
-			code.RETURN();
-			code.END();
-		}
-	}
-
-	protected static void __init(ClassBody classBody) {
-		{
-			MethodCode code = classBody.method("__init").parameter("context", TinyAsmBuilderContext.class).parameter("name", String.class)
-					.begin();
-
-			code.LINE(21);
-			code.LOAD("this");
-			code.LOAD("context");
-			code.PUTFIELD("_context", TinyAsmBuilderContext.class);
-
-			code.LINE(21);
-			code.LOAD("this");
-			code.LOAD("context");
-			code.GETFIELD("code", MethodCode.class);
-			code.PUTFIELD("_code", MethodCode.class);
-
-			code.LINE(22);
-			code.LOAD("this");
-			code.LOAD("name");
-			code.PUTFIELD("_referName", String.class);
-
-			code.LINE(23);
-			code.RETURN();
-			code.END();
-		}
-	}
-
-	protected static void get__ReferName(ClassBody classBody) {
-		{
-			MethodCode code = classBody.method(String.class, "get__ReferName").begin();
-
-			code.LINE(16);
-			code.LOAD("this");
-			code.GETFIELD("_referName", String.class);
-			code.RETURNTop();
-			code.END();
-		}
-	}
-
-	private static void method_setProperty(Type targetType, ClassBody classBody, String methodName, Class<?> paramsClass) {
-		String param1 = "value";
-
-		MethodCode code = classBody.method(methodName).parameter(param1, paramsClass).begin();
-
-		_line(code);
-
-		_resolveThis(code);
-
-		_resolveParameter(code, param1, paramsClass);
-
-		_code(code);
-		_virtual(code, targetType, methodName);
-		_parameter(code, Clazz.of(paramsClass));
-		_invoke(code);
-
-		code.LINE();
-		code.RETURN();
-
-		code.END();
-	}
-
-	private static void method_getProperty(ClassBody classBody, Type targetType, Class<?> returnClass, String methodName) {
-		method_getProperty(classBody, targetType, Clazz.of(returnClass), methodName);
-
-	}
-
-	private static void method_getProperty(ClassBody classBody, Type targetType, Clazz returnClass, String methodName) {
-
-		MethodCode code = classBody.method(returnClass, methodName).begin();
-//		 = mh.code();
-		_line(code);
-		// prepare this
-		_resolveThis(code);
-
-		// invoke method
-		_code(code);
-		_virtual(code, targetType, methodName);
-		_return(code, returnClass);
-		_invoke(code);
-
-		// Refer
-		_storeTopAndRefer(code, returnClass);
-
-		code.RETURNTop();
-
-		code.END();
-	}
 
 	public static byte[] dump2(Class<?> target, String proxyClassName) throws Exception {
 		ClassReader cr = new ClassReader(target.getName());
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		ClassVisitor bw;
+		TinyAsmProxyForClassAsmBuilder bw;
 //		target.getConstructor();
 		bw = new TinyAsmProxyForClassAsmBuilder(Opcodes.ASM9, cw, Type.getType(target).getInternalName(), proxyClassName);
 		cr.accept(bw, ClassReader.SKIP_CODE);
@@ -216,12 +58,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 			superClass = superClass.getSuperclass();
 		}
 
-//		String[] is = cr.getInterfaces();
-//		for (String s : is) {
-//			cr = new ClassReader(s);
-//			cr.accept(bw, ClassReader.SKIP_CODE);
-//		}
-//		
+		bw.finish();
 
 		return cw.toByteArray();
 	}
@@ -234,44 +71,99 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 	public TinyAsmProxyForClassAsmBuilder(int api, String targetName, String proxyClassName) {
 		super(api);
 		this.proxyClassName = proxyClassName;
-		mkProxyClass(targetName, proxyClassName);
+		dump(targetName, proxyClassName);
 	}
 
 	public TinyAsmProxyForClassAsmBuilder(int api, ClassVisitor classVisitor, String targetName, String proxyClassName) {
 		super(api, classVisitor);
 		this.proxyClassName = proxyClassName;
+		this.targetType = Clazz.of(targetName).getType();
 
-		mkProxyClass(targetName, proxyClassName);
+		dump(targetName, proxyClassName);
 	}
 
-	protected void mkProxyClass(String targetName, String proxyClassName) {
+	protected void dump(String targetName, String proxyClassName) {
 		targetType = Type.getObjectType(targetName);
 		objectType = Type.getObjectType(proxyClassName.replace('.', '/'));
 		ClassHeader ch = ClassBuilder.make(cv, proxyClassName);
 //		if(superName)
 		ch.eXtend(Clazz.of(targetType));
-		ch.implement(TinyAsmProxyRuntimeReferNameObject.class);
+		ch.implement(AdvRuntimeReferNameObject.class);
 //		ch.access(access);
 		classBody = ch.body();
 
-		classBody.field(ACC_PRIVATE, "_referName", Clazz.of(String.class));
-		classBody.field(ACC_PRIVATE, "_context", Clazz.of(TinyAsmBuilderContext.class));
-		classBody.field(ACC_PRIVATE, "_code", Clazz.of(MethodCode.class));
+		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, MethodHandles.class.getName(), "Lookup");
 
-		{
-			MethodCode code1 = classBody.method("<init>").begin();
+		classBody.field("_magicNumber", Clazz.of(byte.class));
+		classBody.field("_context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
 
-			code1.LINE(14);
-			code1.LOAD("this");
-			code1.SPECIAL(Clazz.of(targetType), "<init>").INVOKE();
+		__init_(classBody);
+		_get__MagicNumber(classBody);
+		_set__MagicNumber(classBody);
+		_set__Context(classBody);
 
-			code1.RETURN();
-			code1.END();
+	}
+
+	public void finish() {
+		for (LambdaBuilder lambdaBuilder : lambdas) {
+			lambdaBuilder.exec(classBody);
 		}
+	}
 
-		get__ReferName(classBody);
+	protected void __init_(ClassBody classBody) {
+		MethodCode code = classBody.method("<init>").begin();
 
-		__init(classBody);
+		code.LINE();
+		code.LOAD("this");
+		code.SPECIAL(Clazz.of(targetType), "<init>").INVOKE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _get__MagicNumber(ClassBody classBody) {
+		MethodCode code = classBody.method(byte.class, "get__MagicNumber").begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.GETFIELD_OF_THIS("_magicNumber");
+		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void _set__MagicNumber(ClassBody classBody) {
+		MethodCode code = classBody.method("set__MagicNumber").parameter("_magicNumber", byte.class).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("_magicNumber");
+		code.PUTFIELD_OF_THIS("_magicNumber");
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _set__Context(ClassBody classBody) {
+		MethodCode code = classBody.method("set__Context").parameter("context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)))
+				.parameter("_magicNumber", byte.class).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("context");
+		code.PUTFIELD_OF_THIS("_context");
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("_magicNumber");
+		code.PUTFIELD_OF_THIS("_magicNumber");
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
 	}
 
 	@Override
@@ -283,9 +175,9 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 	Map<String, String> definedMethodes = new HashMap<>();
 
 	@Override
-	public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+	public MethodVisitor visitMethod(int access, String methodName, String descriptor, String signature, String[] exceptions) {
 
-		String referkey = name + descriptor + signature;
+		String referkey = methodName + descriptor + signature;
 		if (definedMethodes.containsKey(referkey)) {
 			return null;
 		}
@@ -310,7 +202,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 ////			stringBuilder.append(signatureVistor.paramsClass.toString());
 //		}
 
-		if (!!!name.equals("<init>") && !!!name.equals("<clinit>")
+		if (!!!methodName.equals("<init>") && !!!methodName.equals("<clinit>")
 				&& (access & (ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC | ACC_NATIVE | ACC_BRIDGE)) == 0) {
 
 			// Return Type
@@ -319,7 +211,7 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 			// ParamType
 			Type[] methodParamTypes = Type.getArgumentTypes(descriptor);
 
-			MethodHeader mh = classBody.method(returnClazz, name);
+			MethodHeader mh = classBody.method(returnClazz, methodName);
 //			mh.access(access);
 			for (int i = 0; i < methodParamTypes.length; i++) {
 				mh.parameter("param" + i, Clazz.of(methodParamTypes[i]));
@@ -327,29 +219,96 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 			if (exceptions != null) for (String e : exceptions) mh.tHrow(Clazz.of(Type.getObjectType(e)));
 
 			MethodCode code = mh.begin();
-			// = mh.code();
-			_line(code);
-			// prepare this
-			_resolveThis(code);
+
+			code_getContext(code);
+			// resolve this
+			code_resolve_this("objEval", code);
+			// resolve parameters
 			for (int i = 0; i < methodParamTypes.length; i++) {
-				_resolveParameter(code, "param" + i, methodParamTypes[i]);
+				code_resolve("eval_param" + i, code, "param" + i, methodParamTypes[i]);
 			}
+
+			// LOAD All Parameter
+			code.LINE();
+			code.LOAD("context");
+			code.LOAD("objEval");
+			for (int i = 0; i < methodParamTypes.length; i++) {
+				code.LOAD("eval_param" + i);
+			}
+
 			// invoke method
-			_code(code);
-			_virtual(code, targetType, name);
-			for (Type type : methodParamTypes) {
-				_parameter(code, Clazz.of(type));
-			}
+			String lambdaName = push(1 + methodParamTypes.length, c -> {
+				c.LINE();
+				c.LOAD("c");
+				c.LOADConst(targetType);
+				c.LOADConst(methodName);
+				c.VIRTUAL(MethodCode.class, "VIRTUAL").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
+				for (Type type : methodParamTypes) {
+					_type(c, Clazz.of(type));
+					c.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
+				}
 
-			if (returnType != Type.VOID_TYPE) _return(code, returnClazz);
+				if (returnType != Type.VOID_TYPE) {
+					_type(c, returnClazz);
+					c.INTERFACE(MethodCaller.class, "reTurn").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
+				}
 
-			_invoke(code);
+				c.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
+			});
+
+			dynamicInvoke(code, methodParamTypes.length, proxyClassName.replace('.', '/'), lambdaName);
+
+			code.stackPush(Type.getType(ConsumerWithException.class));
+
+			code.VIRTUAL(AdvContext.class, "push").reTurn(byte.class).parameter(ConsumerWithException.class).INVOKE();
 
 			// Refer
 			if (returnType != Type.VOID_TYPE) {
-				_storeTopAndRefer(code, returnClazz);
-				code.RETURNTop();
+				code.STORE("codeIndex", byte.class);
+
+//				code.CONVERTTO(returnClazz);
+
+				if (BoxUnbox.ClazzObjectToPrimitive.containsKey(returnType)) {
+
+					code.LINE();
+					code.LOADConst(MAGIC_CODES_NUMBER);
+					code.LOAD("codeIndex");
+					code.ADD();
+					Type primitiveType = BoxUnbox.ClazzObjectToPrimitive.get(returnType);
+					code.CONVERTTO(primitiveType);
+					BoxUnbox.PrimaryToBoxFunc.get(primitiveType).accept(code);
+					code.RETURNTop();
+				}else if(BoxUnbox.PrimativeToClazzObject.containsKey(returnType)) {
+					code.LINE();
+					code.LOADConst(MAGIC_CODES_NUMBER);
+					code.LOAD("codeIndex");
+					code.ADD();
+					code.CONVERTTO(returnType);
+					code.RETURNTop();
+				}else if(returnType.getSort() == Type.OBJECT && returnType.equals(Type.getType(String.class))) {
+					code.LINE();
+					code.NEW(StringBuilder.class);
+					code.DUP();
+					code.LOADConst(MAGIC_CODES_String);
+					code.SPECIAL(StringBuilder.class, "<init>")
+						.parameter(String.class).INVOKE();
+					code.LOAD("codeIndex");
+					code.VIRTUAL(StringBuilder.class, "append")
+						.reTurn(StringBuilder.class)
+						.parameter(int.class).INVOKE();
+					code.VIRTUAL(StringBuilder.class, "toString")
+						.reTurn(String.class).INVOKE();
+					code.RETURNTop();
+				}
+//				BoxUnbox.unboxToWhenNeed(getClass())
+
 			} else {
+				code.POP();
+
+				code.LINE();
+				code.LOAD("context");
+				code.VIRTUAL(AdvContext.class, "execAndPop").INVOKE();
+
 				code.LINE();
 				code.RETURN();
 			}
@@ -408,6 +367,194 @@ class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProx
 	@Override
 	public void visitEnd() {
 //		super.visitEnd();
+//		int.class.isPrimitive()
 	}
 
+	/********************************************************************************************************************************************
+	 * 
+	 * 
+	 * 共同部分代码，简化主函数逻辑
+	 * 
+	 * 
+	 * 
+	 ********************************************************************************************************************************************/
+
+	static Map<Type, Type> primitive_BoxedClazz_Maps = asMap(
+			new Type[] { Type.BOOLEAN_TYPE/* Boolean.class */, Type.BYTE_TYPE/* Byte.class */, Type.CHAR_TYPE/* Character.class */,
+					Type.SHORT_TYPE/* Short.class */, Type.INT_TYPE/* Integer.class */, Type.LONG_TYPE/* Long.class */,
+					Type.FLOAT_TYPE/* Float.class */, Type.DOUBLE_TYPE/* Double.class */
+			},
+			new Type[] { /* boolean.class */Type.getType(Boolean.class), /* byte.class */Type.getType(Byte.class),
+					/* char.class */Type.getType(Character.class), /* short.class */Type.getType(Short.class),
+					/* int.class */Type.getType(Integer.class), /* long.class */Type.getType(Long.class),
+					/* float.class */Type.getType(Float.class), /* double.class */Type.getType(Double.class) });
+
+	static Map<Type, String> primitive_BoxedClassIntValue_Maps = asMap(
+			new Type[] { Type.BOOLEAN_TYPE/* Boolean.class */, Type.BYTE_TYPE/* Byte.class */, Type.CHAR_TYPE/* Character.class */,
+					Type.SHORT_TYPE/* Short.class */, Type.INT_TYPE/* Integer.class */, Type.LONG_TYPE/* Long.class */,
+					Type.FLOAT_TYPE/* Float.class */, Type.DOUBLE_TYPE/* Double.class */
+			},
+			new String[] { /* boolean.class" */"booleanValue", /* byte.class */ "byteValue", /* char.class */ "charValue",
+					/* short.class */ "shortValue", /* int.class */ "intValue", /* long.class */ "longValue",
+					/* float.class */ "floatValue", /* double.class */ "doubleValue" });
+
+//	static Map<Type, Class<?>> primitive_ToValueClassMaps = asMap(
+//			new Type[] { Type.BOOLEAN_TYPE/* Boolean.class */, Type.BYTE_TYPE/* Byte.class */, Type.CHAR_TYPE/* Character.class */,
+//					Type.SHORT_TYPE/* Short.class */, Type.INT_TYPE/* Integer.class */, Type.LONG_TYPE/* Long.class */,
+//					Type.FLOAT_TYPE/* Float.class */, Type.DOUBLE_TYPE/* Double.class */
+//			},
+//			new Class<?>[] { boolean.class /* "booleanValue" */, byte.class /* "byteValue" */, char.class /* "charValue" */,
+//					short.class /* "shortValue" */, int.class /* "intValue" */, long.class /* "longValue" */,
+//					float.class /* "floatValue" */, double.class /* "doubleValue" */ });
+
+	static <K, V> Map<K, V> asMap(K[] keys, V[] values) {
+		Map<K, V> maps = new HashMap<>();
+		for (int i = 0; i < keys.length; i++) {
+			maps.put(keys[i], values[i]);
+		}
+		return maps;
+	}
+
+	static void _cast(MethodCode code, Clazz returnType) {
+		Clazz returnClazz = Clazz.of(returnType);
+		final boolean returnValueNeedBoxing = primitive_BoxedClazz_Maps.containsKey(returnType.getType());
+		Type returnValueboxedClazz = returnValueNeedBoxing ? primitive_BoxedClazz_Maps.get(returnType.getType()) : null;
+		String returnValueUnboxValueMethodName = returnValueNeedBoxing ? primitive_BoxedClassIntValue_Maps.get(returnType.getType()) : null;
+		if (returnValueNeedBoxing) {
+			code.CHECKCAST(returnValueboxedClazz);
+			code.VIRTUAL(Clazz.of(returnValueboxedClazz), returnValueUnboxValueMethodName).reTurn(returnClazz).INVOKE();
+		} else {
+			code.CHECKCAST(returnClazz);
+		}
+	}
+
+	static void _type(MethodCode code, Clazz returnClass) {
+		final boolean returnValueNeedBoxing = primitive_BoxedClazz_Maps.containsKey(returnClass.getType());
+		Type returnValueboxedClazz = returnValueNeedBoxing ? primitive_BoxedClazz_Maps.get(returnClass.getType()) : null;
+		if (returnValueNeedBoxing) code.GETSTATIC(returnValueboxedClazz, "TYPE", Type.getType(Class.class));
+		else code.LOADConst(returnClass.getType());
+	}
+
+	static Map<String, String> mps = asMap(
+			new String[] { Boolean.class.getName(), Character.class.getName(), Byte.class.getName(), Short.class.getName(),
+					Integer.class.getName(), Long.class.getName(), Float.class.getName(), Double.class.getName(), String.class.getName() },
+			new String[] { Boolean.class.getName(), Character.class.getName(), Byte.class.getName(), Short.class.getName(),
+					Integer.class.getName(), Long.class.getName(), Float.class.getName(), Double.class.getName(), String.class.getName() });
+
+	protected void code_context_execAndPop(MethodCode code) {
+		code.LINE();
+		code.LOAD("context");
+		code.VIRTUAL(AdvContext.class, "execAndPop").INVOKE();
+	}
+
+	protected Type[] codeTypes(int paramSize, Class<?>... classes) {
+		Type[] typesLambda = new Type[paramSize + classes.length];
+		for (int i = 0; i < paramSize; i++) {
+			typesLambda[i] = Type.getType(ConsumerWithException.class);
+		}
+		for (int i = 0; i < classes.length; i++) {
+			typesLambda[paramSize + i] = Type.getType(classes[i]);
+		}
+		return typesLambda;
+	}
+
+	protected void dynamicInvoke(MethodCode code, int paramSize, String proxyClassName, String lambdaName) {
+		String lambdaRealMethodDesriptor = Type.getMethodDescriptor(Type.VOID_TYPE,
+				codeTypes(paramSize, ConsumerWithException.class, MethodCode.class));
+
+		String dontKnowByNowMethodDesriptor = Type.getMethodDescriptor(Type.getType(ConsumerWithException.class),
+				codeTypes(paramSize, ConsumerWithException.class));
+		dynamicInvokeLambda(code, proxyClassName, lambdaName, dontKnowByNowMethodDesriptor, lambdaRealMethodDesriptor);
+
+		code.stackPop();
+		for (int i = 0; i < paramSize; i++) {
+			code.stackPop();
+		}
+	}
+
+	protected void code_getContext(MethodCode code) {
+		code.LINE();
+		code.LOAD("this");
+		code.GETFIELD_OF_THIS("_context");
+		code.VIRTUAL(ThreadLocal.class, "get").reTurn(Object.class).INVOKE();
+		code.CHECKCAST(AdvContext.class);
+		code.STORE("context", AdvContext.class);
+	}
+
+	protected void code_resolve_this(String thisBlockName, MethodCode code) {
+		code.LINE();
+		code.LOAD("context");
+		code.LOAD("this");
+		code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Object.class).INVOKE();
+		code.STORE(thisBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+	}
+
+	protected void code_resolve(String codeBlockName, MethodCode code, String paramName, Type paramClass) {
+		code.LINE();
+		code.LOAD("context");
+		code.LOAD(paramName);
+		code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Clazz.of(paramClass)).INVOKE();
+		code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+	}
+
+	protected void dynamicInvokeLambda(MethodCode code, String objClass, String lambdaName, String dontKnowByNowMethodDesriptor,
+			String lambdaRealMethodDesriptor) {
+
+		Type lambdaDefinedMethodDescriptor = Type.getType(Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(MethodCode.class)));
+		code.visitInvokeDynamicInsn("accept", dontKnowByNowMethodDesriptor, new Handle(Opcodes.H_INVOKESTATIC,
+				"java/lang/invoke/LambdaMetafactory", "metafactory",
+				"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
+				false),
+				new Object[] { Type.getType("(Ljava/lang/Object;)V"),
+						new Handle(Opcodes.H_INVOKESTATIC, objClass, lambdaName, lambdaRealMethodDesriptor, false),
+						lambdaDefinedMethodDescriptor });
+	}
+
+	List<LambdaBuilder> lambdas = new ArrayList<>();
+
+	public String push(int params, Consumer<MethodCode> lambdaInvokeSuperMethod) {
+		String name = "lambda$" + this.lambdas.size();
+		lambdas.add(new LambdaBuilder(name, params, lambdaInvokeSuperMethod));
+		return name;
+	}
+
+	class LambdaBuilder {
+		String name;// "lambda$0""lambda$0",
+		int params;
+		Consumer<MethodCode> lambdaInvokeSuperMethod;
+
+		public void exec(ClassBody classBody) {
+
+			MethodHeader methodHeader = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, name).tHrow(Exception.class);
+			for (int i = 0; i < params; i++) {
+				methodHeader.parameter("var" + i, ConsumerWithException.class);
+			}
+			methodHeader.parameter("c", MethodCode.class);
+			MethodCode code = methodHeader.begin();
+
+			for (int i = 0; i < params; i++) {
+				code_param_eval_accept("var" + i, "c", code);
+			}
+
+			lambdaInvokeSuperMethod.accept(code);
+
+			code.LINE();
+			code.RETURN();
+			code.END();
+		}
+
+		public LambdaBuilder(String name, int params, Consumer<MethodCode> lambdaInvokeSuperMethod) {
+			super();
+			this.name = name;
+			this.params = params;
+			this.lambdaInvokeSuperMethod = lambdaInvokeSuperMethod;
+		}
+	}
+
+	protected void code_param_eval_accept(String var1, String c, MethodCode code) {
+		code.LINE();
+		code.LOAD(var1);
+		code.LOAD(c);
+		code.INTERFACE(ConsumerWithException.class, "accept").parameter(Object.class).INVOKE();
+	}
 }

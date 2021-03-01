@@ -128,7 +128,7 @@ class TinyAsmProxyObjenesisBuilder {
 	protected <T> T make(ObjectInstantiator<?> builder, ThreadLocal<AdvContext> context, byte name) {
 		T t = (T) builder.newInstance();
 		AdvRuntimeReferNameObject o = (AdvRuntimeReferNameObject) t;
-		o.__init(context, name);
+		o.set__Context(context, name);
 		return t;
 	}
 }
