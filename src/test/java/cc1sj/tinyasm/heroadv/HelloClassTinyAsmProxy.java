@@ -1,7 +1,10 @@
 package cc1sj.tinyasm.heroadv;
 
-import static cc1sj.tinyasm.heroadv.Adv.*;
+import static cc1sj.tinyasm.Adv.*;
 
+import cc1sj.tinyasm.AdvContext;
+import cc1sj.tinyasm.AdvRuntimeReferNameObject;
+import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
 

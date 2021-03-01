@@ -1,11 +1,11 @@
 package cc1sj.tinyasm.heroadv;
 
-import static cc1sj.tinyasm.heroadv.Adv.*;
+import static cc1sj.tinyasm.Adv.*;
 
 import java.io.Serializable;
 
-import cc1sj.tinyasm.heroadv.AdvClassBody;
-import cc1sj.tinyasm.heroadv.AfterEnterBody;
+import cc1sj.tinyasm.AdvClassBody;
+import cc1sj.tinyasm.AfterEnterBody;
 import junit.framework.TestCase;
 
 public class AdvSampleBuilder extends TestCase implements Serializable {

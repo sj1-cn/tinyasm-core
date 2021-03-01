@@ -18,10 +18,13 @@ import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import cc1sj.tinyasm.AdvContext;
+import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.ClassHeader;
 import cc1sj.tinyasm.Clazz;
+import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCaller;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodHeader;

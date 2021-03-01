@@ -1,13 +1,16 @@
 package cc1sj.tinyasm.heroadv;
 
+import static cc1sj.tinyasm.Adv.MAGIC_CODES_MAX;
+import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
+import static cc1sj.tinyasm.Adv.MAGIC_CODES_String;
+import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_MAX;
+import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_NUMBER;
 import static cc1sj.tinyasm.TinyAsmBuilder.*;
 import static cc1sj.tinyasm.TinyAsmBuilder.storeTopAndRefer;
-import static cc1sj.tinyasm.heroadv.Adv.MAGIC_CODES_MAX;
-import static cc1sj.tinyasm.heroadv.Adv.MAGIC_CODES_NUMBER;
-import static cc1sj.tinyasm.heroadv.Adv.MAGIC_CODES_String;
-import static cc1sj.tinyasm.heroadv.Adv.MAGIC_LOCALS_MAX;
-import static cc1sj.tinyasm.heroadv.Adv.MAGIC_LOCALS_NUMBER;
 
+import cc1sj.tinyasm.AdvContext;
+import cc1sj.tinyasm.AdvRuntimeReferNameObject;
+import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.TinyAsmBuilderContext;
 import cc1sj.tinyasm.TinyAsmProxyRuntimeReferNameObject;
