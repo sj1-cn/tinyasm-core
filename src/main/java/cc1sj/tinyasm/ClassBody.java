@@ -308,7 +308,7 @@ public interface ClassBody extends WithDefineStaticField<ClassBody>, WithDefineF
 				code.LOADConst(getSimpleName() + " [" + fields.get(i).name + "=");
 				code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class).parameter(java.lang.String.class).INVOKE();
 				code.LOAD("this");
-				code.GET_THIS_FIELD(fields.get(i).name);
+				code.GETFIELD_OF_THIS(fields.get(i).name);
 				code.VIRTUAL(java.lang.StringBuilder.class, "append").reTurn(java.lang.StringBuilder.class)
 						.parameter(stringInnerUserType(fields.get(i).clazz)).INVOKE();
 

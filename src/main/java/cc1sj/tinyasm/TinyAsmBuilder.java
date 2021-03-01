@@ -98,7 +98,7 @@ public class TinyAsmBuilder {
 		MethodCode code = _context.code;
 		code.LINE();
 		code.LOAD_THIS();
-		code.GET_THIS_FIELD(name);
+		code.GETFIELD_OF_THIS(name);
 		return storeTopAndRefer(clazz);
 	}
 

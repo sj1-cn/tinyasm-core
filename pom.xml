@@ -35,10 +35,10 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.objenesis/objenesis -->
 		<dependency>
-		    <groupId>org.objenesis</groupId>
-		    <artifactId>objenesis</artifactId>
-		    <version>3.1</version>
-	<!-- 	    <scope>test</scope> -->
+			<groupId>org.objenesis</groupId>
+			<artifactId>objenesis</artifactId>
+			<version>3.1</version>
+			<!-- <scope>test</scope> -->
 		</dependency>
 		<!-- LOG -->
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
@@ -53,10 +53,18 @@
 			<version>${guava.version}</version>
 		</dependency>
 		<!-- test -->
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy</artifactId>
+			<version>LATEST</version>
+			<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
@@ -84,8 +92,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
 			<version>${log4j.version}</version>
 			<scope>test</scope>
 		</dependency>

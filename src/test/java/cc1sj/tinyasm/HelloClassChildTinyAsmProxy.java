@@ -1,10 +1,8 @@
 package cc1sj.tinyasm;
 
-import static cc1sj.tinyasm.TinyAsmBuilder.refer;
-import static cc1sj.tinyasm.TinyAsmBuilder.*;
+import static cc1sj.tinyasm.TinyAsmBuilder.resolve;
+import static cc1sj.tinyasm.TinyAsmBuilder.storeTopAndRefer;
 
-import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.TinyAsmProxyRuntimeReferNameObject;
 import cc1sj.tinyasm.hero.helperclass.HelloClassChild;
 
 public class HelloClassChildTinyAsmProxy extends HelloClassChild implements TinyAsmProxyRuntimeReferNameObject {

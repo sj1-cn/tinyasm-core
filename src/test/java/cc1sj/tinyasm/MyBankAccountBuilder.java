@@ -59,9 +59,9 @@ public class MyBankAccountBuilder {
 				mc.LOAD("amount");
 
 				mc.LOAD("this");
-				mc.GET_THIS_FIELD("balance");
+				mc.GETFIELD_OF_THIS("balance");
 				mc.LOAD("this");
-				mc.GET_THIS_FIELD("overdraftLimit");
+				mc.GETFIELD_OF_THIS("overdraftLimit");
 				mc.ADD();
 
 				mc.LCMP();
@@ -109,7 +109,7 @@ public class MyBankAccountBuilder {
 			mc.define("newbalance", long.class);
 			mc.LINE(107);
 			mc.LOAD("this");
-			mc.GET_THIS_FIELD("balance");
+			mc.GETFIELD_OF_THIS("balance");
 			mc.LOAD("amount");
 			mc.ADD();
 			mc.STORE("newbalance");
@@ -127,7 +127,7 @@ public class MyBankAccountBuilder {
 			mc.LINE(113);
 			mc.LOAD_THIS();
 			mc.DUP();
-			mc.GET_THIS_FIELD("balance");
+			mc.GETFIELD_OF_THIS("balance");
 			mc.LOAD("amount");
 			mc.SUB();
 			mc.PUTFIELD_OF_THIS("balance");

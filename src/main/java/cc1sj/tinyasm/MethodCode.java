@@ -154,6 +154,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	protected abstract Type stackPop();
 	
 	abstract int stackSize();
+	
+	//TODO need to delete
+	public int advStackSize() {
+		return stackSize();
+	}
 
 	protected abstract void stackPush(Type type);
 
@@ -1367,7 +1372,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	int _THIS = 0;
 
 	@Override
-	public void GET_THIS_FIELD(String fieldname) {
+	public void GETFIELD_OF_THIS(String fieldname) {
 		GETFIELD(fieldname, codeThisFieldType(fieldname));
 	}
 
