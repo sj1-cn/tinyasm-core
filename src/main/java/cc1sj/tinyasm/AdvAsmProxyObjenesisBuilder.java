@@ -34,12 +34,12 @@ class AdvAsmProxyObjenesisBuilder {
 
 	static int count = 0;
 
-	public <T> T builder(Class<T> target, ThreadLocal<AdvContext> context, byte name) {
+	public <T> T builder(Class<T> target, ThreadLocal<AdvContext> context, int magicNumber) {
 
 		ObjectInstantiator<?> builder = knownBrokeres.get(target.getName());
 
 		if (builder != null) {
-			return make(builder, context, name);
+			return make(builder, context, magicNumber);
 		}
 
 		lock.lock();
@@ -47,7 +47,7 @@ class AdvAsmProxyObjenesisBuilder {
 
 			builder = knownBrokeres.get(target.getName());
 			if (builder != null) {
-				return make(builder, context, name);
+				return make(builder, context, magicNumber);
 			}
 
 			count++;
@@ -100,7 +100,7 @@ class AdvAsmProxyObjenesisBuilder {
 
 			this.knownBrokeres = mapBuilder.putAll(knownBrokeres).put(target.getName(), builder).build();
 
-			return make(builder, context, name);
+			return make(builder, context, magicNumber);
 
 		} catch (ClassFormatError e) {
 			log.error("", e);
@@ -123,10 +123,10 @@ class AdvAsmProxyObjenesisBuilder {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <T> T make(ObjectInstantiator<?> builder, ThreadLocal<AdvContext> context, byte name) {
+	protected <T> T make(ObjectInstantiator<?> builder, ThreadLocal<AdvContext> context, int magicNumber) {
 		T t = (T) builder.newInstance();
 		AdvRuntimeReferNameObject o = (AdvRuntimeReferNameObject) t;
-		o.set__Context(context, name);
+		o.set__Context(context, (byte) magicNumber);
 		return t;
 	}
 }

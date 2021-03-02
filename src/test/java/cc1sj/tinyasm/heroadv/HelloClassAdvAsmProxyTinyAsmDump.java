@@ -17,7 +17,7 @@ import cc1sj.tinyasm.MethodCaller;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
 @SuppressWarnings("unused")
-public class HelloClassTinyAsmProxyTinyAsmDump {
+public class HelloClassAdvAsmProxyTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
 		return new HelloClassTinyAsmProxyTinyAsmDump().dump("cc1sj.tinyasm.heroadv.HelloClassTinyAsmProxy");

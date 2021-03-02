@@ -8,7 +8,7 @@ import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
 
-public class HelloClassTinyAsmProxy extends HelloClass implements AdvRuntimeReferNameObject {
+public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeReferNameObject {
 	private byte _magicNumber;
 	private ThreadLocal<AdvContext> _context;
 

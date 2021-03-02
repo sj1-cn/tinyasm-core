@@ -30,11 +30,11 @@ import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodHeader;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
 
-public class HelloClassTinyAsmProxyTinyAsmBuilder {
+public class HelloClassAdvAsmProxyTinyAsmBuilder {
 	ClassBody classBody;
 
 	public static byte[] dump() throws Exception {
-		return new HelloClassTinyAsmProxyTinyAsmBuilder().dump("cc1sj.tinyasm.heroadv.HelloClassTinyAsmProxy");
+		return new HelloClassAdvAsmProxyTinyAsmBuilder().dump("cc1sj.tinyasm.heroadv.HelloClassTinyAsmProxy");
 	}
 
 	Type targetType;

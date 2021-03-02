@@ -2,6 +2,7 @@ package cc1sj.tinyasm;
 
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
+import java.lang.reflect.Constructor;
 import java.util.Stack;
 
 import org.objectweb.asm.Label;
@@ -152,6 +153,7 @@ public class Adv {
 		}));
 	}
 
+	static final private AdvAsmProxyObjenesisBuilder brokerBuilder = new AdvAsmProxyObjenesisBuilder();
 //
 //	static public byte cstNull(byte value) {
 //		AdvContext context = _context.get();
@@ -161,7 +163,86 @@ public class Adv {
 //	}
 
 	static public <T> T ctor(Class<T> clz) {
-		return null;
+		AdvContext context = _context.get();
+
+		int codeIndex = context.push(c -> {
+			c.LINE();
+			c.NEW(clz);
+			c.DUP();
+			c.SPECIAL(clz, "<init>").INVOKE();
+		});
+
+		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
+
+		T t = brokerBuilder.builder(clz, _context, magicNumber);
+		return t;
+	}
+
+	static public <T> T ctor(Class<T> clz, Object... params) {
+
+		AdvContext context = _context.get();
+
+		Constructor<?> constructor = matchConstruct(clz, params);
+		if (constructor == null) throw new UnsupportedOperationException();
+		Class<?>[] paramTypes = constructor.getParameterTypes();
+
+		for (int i = 0; i < params.length; i++) {
+			context.resolve(params[i], paramTypes[i]);
+		}
+
+		int codeIndex = context.push(c -> {
+			c.LINE();
+			c.NEW(clz);
+			c.DUP();
+
+			c.SPECIAL(clz, "<init>").INVOKE();
+		});
+
+		code.LINE();
+		code.NEW(helloclass);
+		code.DUP();
+
+		code.SPECIAL(helloclass, "<init>").parameter(constructor.getParameterTypes()).INVOKE();
+
+		int locals = code.define(String.valueOf("V" + (_context._localsLast + 1)), helloclass);
+		_context._localsLast = locals;
+		code.STORE(locals);
+		String strKey = String.valueOf(MAGICSTRING + locals);
+
+		T t = brokerBuilder.builder(helloclass, _context, strKey);
+		return t;
+	}
+
+	protected static Constructor<?> matchConstruct(Class<?> helloclass, Object... params) {
+		Constructor<?> c = null;
+		for (Constructor<?> init : helloclass.getConstructors()) {
+			if (init.getParameterCount() == params.length) {
+				boolean matched = true;
+				Class<?>[] definedParams = init.getParameterTypes();
+				for (int i = 0; i < params.length; i++) {
+					if (definedParams[i].getClass() == params[i].getClass()) {
+
+					} else if (match(definedParams[i], params[i].getClass())) {
+
+					} else {
+						matched = false;
+						break;
+					}
+				}
+				if (matched) c = init;
+			}
+		}
+		return c;
+	}
+
+	private static boolean match(Class<?> l, Class<?> r) {
+		if (l.isPrimitive()) {
+			return (l == byte.class && r == Byte.class) || (l == char.class && r == Character.class)
+					|| (l == short.class && r == Short.class) || (l == int.class && r == Integer.class)
+					|| (l == long.class && r == Long.class) || (l == float.class && r == Float.class)
+					|| (l == double.class && r == Double.class);
+		}
+		return false;
 	}
 
 	static public ConsumerWithException<MethodCode> nop() {

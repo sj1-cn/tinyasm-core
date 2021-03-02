@@ -315,6 +315,48 @@ public class AdvContext {
 		}
 	}
 
+	
+	 public <T> void resolve(T obj, Class<?> vc) {
+//		Class<?> vc = obj.getClass();
+		if (vc == byte.class) {
+			resolve(((Byte) obj).byteValue());
+		} else if (vc == char.class) {
+			resolve(((Character) obj).charValue());
+		} else if (vc == short.class) {
+			resolve(((Short) obj).shortValue());
+		} else if (vc == int.class) {
+			resolve(((Integer) obj).intValue());
+		} else if (vc == long.class) {
+			resolve(((Long) obj).longValue());
+		} else if (vc == float.class) {
+			resolve(((Float) obj).floatValue());
+		} else if (vc == double.class) {
+			resolve(((Double) obj).doubleValue());
+		} else if (vc == Byte.class) {
+			resolve(((Byte) obj));
+		} else if (vc == Character.class) {
+			resolve(((Character) obj));
+		} else if (vc == Short.class) {
+			resolve(((Short) obj));
+		} else if (vc == Integer.class) {
+			resolve(((Integer) obj));
+		} else if (vc == Long.class) {
+			resolve(((Long) obj));
+		} else if (vc == Float.class) {
+			resolve(((Float) obj));
+		} else if (vc == Double.class) {
+			resolve(((Double) obj));
+		} else if (vc == Byte.class) {
+			resolve(((Byte) obj));
+		} else if (vc == Byte.class) {
+			resolve(((Byte) obj));
+		} else if (obj instanceof TinyAsmProxyRuntimeReferNameObject) {
+			String name = ((TinyAsmProxyRuntimeReferNameObject) obj).get__ReferName();
+			code.LOAD(name);
+		} else {
+			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+		}
+	}
 	public void line() {
 		code.LINE();
 	}
