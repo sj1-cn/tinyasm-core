@@ -36,20 +36,20 @@ public class AdvSampleBuilder extends TestCase implements Serializable {
 				final int i = __(cst(10));
 				final int j = __(cst(20));
 				__(j, add(i, j));
-//				AdvSampleReferObject advSampleReferObject = refer_(ctor(AdvSampleReferObject.class));
-//				advSampleReferObject.sayHello();
-//				String helloString = advSampleReferObject.getHelloString();
-//				advSampleReferObject.setHelloString("sayNothing");
-//				advSampleReferObject.setHelloString(helloString);
-//				if_(isTrue(advSampleReferObject.beGood())).then_(c -> {
-//				}).else_(c -> {
-//				});
-//				if_(isTrue(advSampleReferObject.beGood())).then_(c -> {
-//				}).else_if(isTrue(advSampleReferObject.beGood())).then_(c -> {
-//				});
-//				while_(isTrue(advSampleReferObject.beGood())).block(c -> {
-//				});
-//				do_(nop()).while_(isTrue(advSampleReferObject.beGood()));
+				AdvSampleReferObject advSampleReferObject = __(ctor(AdvSampleReferObject.class));
+				advSampleReferObject.sayHello();
+				String helloString = __(advSampleReferObject.getHelloString());
+				advSampleReferObject.setHelloString("sayNothing");
+				advSampleReferObject.setHelloString(helloString);
+				if_(isTrue(advSampleReferObject.beGood())).then_(c -> {
+				}).else_(c -> {
+				});
+				if_(isTrue(advSampleReferObject.beGood())).then_(c -> {
+				}).else_if(isTrue(advSampleReferObject.beGood())).then_(c -> {
+				});
+				while_(isTrue(advSampleReferObject.beGood())).block(c -> {
+				});
+				do_(nop()).while_(isTrue(advSampleReferObject.beGood()));
 			});
 		}
 

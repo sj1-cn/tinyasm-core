@@ -71,6 +71,7 @@ public class AdvContext {
 		if (stack.size() > 0) {
 			ConsumerWithException<MethodCode> c = stack.pop();
 			try {
+				code.LINE();
 				c.accept(code);
 			} catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -106,7 +107,7 @@ public class AdvContext {
 	}
 
 	public ConsumerWithException<MethodCode> resolve(boolean_ magicBooleanNumber) {
-		byte magicNumber = magicBooleanNumber.getReferIndex();
+		byte magicNumber = magicBooleanNumber.getLocalsIndex();
 		// Locals
 		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_LOCALS_NUMBER) {
 			return getCodeAndPop(magicNumber - MAGIC_CODES_NUMBER);
@@ -118,7 +119,7 @@ public class AdvContext {
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Boolean__ magicBooleanNumber) {
-		byte magicNumber = magicBooleanNumber.getReferIndex();
+		byte magicNumber = magicBooleanNumber.getLocalsIndex();
 		// Locals
 		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_LOCALS_NUMBER) {
 			return getCodeAndPop(magicNumber - MAGIC_CODES_NUMBER);
@@ -290,10 +291,10 @@ public class AdvContext {
 	public ConsumerWithException<MethodCode> resolve(String magicString) {
 		// Locals
 		if (magicString.startsWith(MAGIC_CODES_String)) {
-			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length()));
+			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length()+1));
 			return getCodeAndPop(magicNumber);
 		} else if (magicString.startsWith(MAGIC_LOCALS_String)) {
-			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length()));
+			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length()+1));
 			return c -> c.LOAD(magicNumber);
 		} else {
 			return c -> c.LOADConst(magicString);
@@ -304,9 +305,11 @@ public class AdvContext {
 		if (t instanceof AdvRuntimeReferNameObject) {
 			byte magicNumber = ((AdvRuntimeReferNameObject) t).get__MagicNumber();
 			if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-				return getCodeAndPop(magicNumber);
+				int codeIndex = magicNumber - MAGIC_CODES_NUMBER;
+				return getCodeAndPop(codeIndex);
 			} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-				return c -> c.LOAD(magicNumber);
+				int localsIndex = magicNumber - MAGIC_LOCALS_NUMBER;
+				return c -> c.LOAD(localsIndex);
 			} else {
 				throw new UnsupportedOperationException();
 			}
@@ -315,48 +318,47 @@ public class AdvContext {
 		}
 	}
 
-	
-	 public <T> void resolve(T obj, Class<?> vc) {
+	public <T> ConsumerWithException<MethodCode> resolve(Object obj, Class<T> vc) {
 //		Class<?> vc = obj.getClass();
 		if (vc == byte.class) {
-			resolve(((Byte) obj).byteValue());
+			return resolve(((Byte) obj).byteValue());
 		} else if (vc == char.class) {
-			resolve(((Character) obj).charValue());
+			return resolve(((Character) obj).charValue());
 		} else if (vc == short.class) {
-			resolve(((Short) obj).shortValue());
+			return resolve(((Short) obj).shortValue());
 		} else if (vc == int.class) {
-			resolve(((Integer) obj).intValue());
+			return resolve(((Integer) obj).intValue());
 		} else if (vc == long.class) {
-			resolve(((Long) obj).longValue());
+			return resolve(((Long) obj).longValue());
 		} else if (vc == float.class) {
-			resolve(((Float) obj).floatValue());
+			return resolve(((Float) obj).floatValue());
 		} else if (vc == double.class) {
-			resolve(((Double) obj).doubleValue());
+			return resolve(((Double) obj).doubleValue());
 		} else if (vc == Byte.class) {
-			resolve(((Byte) obj));
+			return resolve(((Byte) obj));
 		} else if (vc == Character.class) {
-			resolve(((Character) obj));
+			return resolve(((Character) obj));
 		} else if (vc == Short.class) {
-			resolve(((Short) obj));
+			return resolve(((Short) obj));
 		} else if (vc == Integer.class) {
-			resolve(((Integer) obj));
+			return resolve(((Integer) obj));
 		} else if (vc == Long.class) {
-			resolve(((Long) obj));
+			return resolve(((Long) obj));
 		} else if (vc == Float.class) {
-			resolve(((Float) obj));
+			return resolve(((Float) obj));
 		} else if (vc == Double.class) {
-			resolve(((Double) obj));
+			return resolve(((Double) obj));
 		} else if (vc == Byte.class) {
-			resolve(((Byte) obj));
+			return resolve(((Byte) obj));
 		} else if (vc == Byte.class) {
-			resolve(((Byte) obj));
+			return resolve(((Byte) obj));
 		} else if (obj instanceof TinyAsmProxyRuntimeReferNameObject) {
-			String name = ((TinyAsmProxyRuntimeReferNameObject) obj).get__ReferName();
-			code.LOAD(name);
+			return resolve(((TinyAsmProxyRuntimeReferNameObject) obj));
 		} else {
 			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
 		}
 	}
+
 	public void line() {
 		code.LINE();
 	}

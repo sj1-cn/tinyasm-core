@@ -3,6 +3,8 @@ package cc1sj.tinyasm;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import org.objectweb.asm.Label;
@@ -166,7 +168,6 @@ public class Adv {
 		AdvContext context = _context.get();
 
 		int codeIndex = context.push(c -> {
-			c.LINE();
 			c.NEW(clz);
 			c.DUP();
 			c.SPECIAL(clz, "<init>").INVOKE();
@@ -186,30 +187,24 @@ public class Adv {
 		if (constructor == null) throw new UnsupportedOperationException();
 		Class<?>[] paramTypes = constructor.getParameterTypes();
 
+		List<ConsumerWithException<MethodCode>> valueEvals = new ArrayList<>();
 		for (int i = 0; i < params.length; i++) {
-			context.resolve(params[i], paramTypes[i]);
+			valueEvals.add(context.resolve(params[i], paramTypes[i]));
 		}
 
 		int codeIndex = context.push(c -> {
 			c.LINE();
 			c.NEW(clz);
 			c.DUP();
-
-			c.SPECIAL(clz, "<init>").INVOKE();
+			for (ConsumerWithException<MethodCode> valueEval : valueEvals) {
+				valueEval.accept(c);
+			}
+			c.SPECIAL(clz, "<init>").parameter(constructor.getParameterTypes()).INVOKE();
 		});
 
-		code.LINE();
-		code.NEW(helloclass);
-		code.DUP();
+		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
 
-		code.SPECIAL(helloclass, "<init>").parameter(constructor.getParameterTypes()).INVOKE();
-
-		int locals = code.define(String.valueOf("V" + (_context._localsLast + 1)), helloclass);
-		_context._localsLast = locals;
-		code.STORE(locals);
-		String strKey = String.valueOf(MAGICSTRING + locals);
-
-		T t = brokerBuilder.builder(helloclass, _context, strKey);
+		T t = brokerBuilder.builder(clz, _context, magicNumber);
 		return t;
 	}
 
@@ -258,75 +253,97 @@ public class Adv {
 		context.pop();
 	}
 
-	static public void set_(boolean_ booleanMagicReferIndex, boolean magixIndex) {
+	/**
+	 * Refer 把当前堆栈顶的值保存在指定的local位置中并返回记录local位置的值。
+	 * 
+	 * @param magicIndex
+	 * @return
+	 */
+	/**
+	 * set
+	 * 
+	 * @param booleanMagicLocalsIndex
+	 * @param magicIndex
+	 */
+	static public void __(boolean_ booleanMagicLocalsIndex, boolean magicIndex) {
 		AdvContext context = _context.get();
 
-		byte magicReferIndex = booleanMagicReferIndex.getReferIndex();
-		assert MAGIC_LOCALS_NUMBER <= magicReferIndex && magicReferIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
-		assert /* (magixIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.line();
+		byte magicLocalsIndex = booleanMagicLocalsIndex.getLocalsIndex();
+		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
+		assert /* (magicIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
+		// context.line();
 		context.execAndPop();
-		context.store(magicReferIndex - MAGIC_LOCALS_NUMBER);
+		context.store(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
 	}
 
-	static public void set_(Boolean__ booleanMagicReferIndex, Boolean v) {
+	static public void __(Boolean__ booleanMagicLocalsIndex, Boolean v) {
 		AdvContext context = _context.get();
 
-		byte magicReferIndex = booleanMagicReferIndex.getReferIndex();
-		assert MAGIC_LOCALS_NUMBER <= magicReferIndex && magicReferIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
-		assert /* (magixIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.line();
+		byte magicLocalsIndex = booleanMagicLocalsIndex.getLocalsIndex();
+		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
+		assert /* (magicIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
+//		//context.line();
 		context.execAndPop();
-		context.store(magicReferIndex - MAGIC_LOCALS_NUMBER);
+		context.store(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
 
 		context.clear();
+	}
+
+	static public void __(byte magicLocalsIndex, byte magicIndex) {
+		doSet_(magicLocalsIndex, magicIndex);
+	}
+
+	static public void __(short magicLocalsIndex, short magicIndex) {
+		doSet_(magicLocalsIndex, magicIndex);
 
 	}
 
-	static public void set_(byte magicReferIndex, byte magicIndex) {
-		doSet_(magicReferIndex, magicIndex);
+	static public void __(int magicLocalsIndex, int magicIndex) {
+		doSet_(magicLocalsIndex, magicIndex);
 	}
 
-	static public void set_(short magicReferIndex, short magicIndex) {
-		doSet_(magicReferIndex, magicIndex);
-
-	}
-
-	static public void __(int magicReferIndex, int magicIndex) {
-		doSet_(magicReferIndex, magicIndex);
-	}
-
-	protected static void doSet_(int magicReferIndex, int magicIndex) {
+	protected static void doSet_(int magicLocalsIndex, int magicIndex) {
 		AdvContext context = _context.get();
 
-		assert MAGIC_LOCALS_NUMBER <= magicReferIndex && magicReferIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
+		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
 
-		int codeIndex = magicIndex - MAGIC_CODES_NUMBER;
-		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.line();
+//		int codeIndex = magicIndex - MAGIC_CODES_NUMBER;
+//		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
+		ConsumerWithException<MethodCode> ref = context.resolve(magicIndex);
+//		//context.line();
+		context.push(c -> {
+			ref.accept(c);
+			c.STORE(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
+		});
 		context.execAndPop();
-		context.store(magicReferIndex - MAGIC_LOCALS_NUMBER);
+//		context.store(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
 
 		context.clear();
 	}
 
-	static public void set_(long magicReferIndex, long magicIndex) {
-		doSet_((int) magicReferIndex, (int) magicIndex);
+	static public void __(long magicLocalsIndex, long magicIndex) {
+		doSet_((int) magicLocalsIndex, (int) magicIndex);
 	}
 
-	static public void set_(float magicReferIndex, float magicIndex) {
-		doSet_((int) magicReferIndex, (int) magicIndex);
+	static public void __(float magicLocalsIndex, float magicIndex) {
+		doSet_((int) magicLocalsIndex, (int) magicIndex);
 	}
 
-	static public void set_(double magicReferIndex, double magicIndex) {
-		doSet_((int) magicReferIndex, (int) magicIndex);
+	static public void __(double magicLocalsIndex, double magicIndex) {
+		doSet_((int) magicLocalsIndex, (int) magicIndex);
 	}
 
-	static public boolean_ refer_(boolean magicIndex) {
+	/**
+	 * Refer 把当前堆栈顶的值保存在新的local位置中并返回记录local位置的值。
+	 * 
+	 * @param magicIndex
+	 * @return
+	 */
+	static public boolean_ __(boolean magicIndex) {
 		AdvContext context = _context.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.line();
+//		//context.line();
 		context.execAndPop();
 		int referIndex = context.store();
 		context.clear();
@@ -334,10 +351,10 @@ public class Adv {
 		return new boolean_Holder(context, (byte) (MAGIC_LOCALS_NUMBER + referIndex));
 	}
 
-	static public Boolean__ refer_(Boolean v) {
+	static public Boolean__ __(Boolean v) {
 		AdvContext context = _context.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.line();
+//		//context.line();
 		context.execAndPop();
 		int referIndex = context.store();
 		context.clear();
@@ -345,12 +362,12 @@ public class Adv {
 		return new Boolean__Holder(context, (byte) (MAGIC_LOCALS_NUMBER + referIndex));
 	}
 
-	static public byte refer_(byte magicIndex) {
+	static public byte __(byte magicIndex) {
 		int referIndex = doReferByte((int) magicIndex);
 		return (byte) (MAGIC_LOCALS_NUMBER + referIndex);
 	}
 
-	static public short refer_(short magicIndex) {
+	static public short __(short magicIndex) {
 		int referIndex = doReferByte((int) magicIndex);
 		return (short) (MAGIC_LOCALS_NUMBER + referIndex);
 	}
@@ -360,17 +377,17 @@ public class Adv {
 		return (int) (MAGIC_LOCALS_NUMBER + referIndex);
 	}
 
-	static public long refer_(long magicIndex) {
+	static public long __(long magicIndex) {
 		int referIndex = doReferByte((int) magicIndex);
 		return (long) (MAGIC_LOCALS_NUMBER + referIndex);
 	}
 
-	static public float refer_(float magicIndex) {
+	static public float __(float magicIndex) {
 		int referIndex = doReferByte((int) magicIndex);
 		return (float) (MAGIC_LOCALS_NUMBER + referIndex);
 	}
 
-	static public double refer_(double magicIndex) {
+	static public double __(double magicIndex) {
 		int referIndex = doReferByte((int) magicIndex);
 		return (double) (MAGIC_LOCALS_NUMBER + referIndex);
 	}
@@ -380,7 +397,7 @@ public class Adv {
 		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
 		int codeIndex = (int) magicIndex - MAGIC_CODES_NUMBER;
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.line();
+		// context.line();
 		context.execAndPop();
 		int referIndex = context.store();
 		context.clear();
@@ -395,7 +412,7 @@ public class Adv {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	static public <T> T refer_(T value) {
+	static public <T> T __(T value) {
 		AdvContext context = _context.get();
 		context.execAndPop();
 		int locals = context.store();
@@ -441,15 +458,11 @@ public class Adv {
 			return (T) key;
 		} else if (t == String.class) {
 
-			String name = (String) value;
-			assert name.startsWith(MAGIC_CODES_String) : "这里必须返回代码索引";
-
-			int codeIndex = Integer.valueOf(name.substring(MAGIC_CODES_String.length()));
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+//			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
 
 			String key = String.valueOf(MAGIC_LOCALS_String + locals);
 			return (T) key;
-		} else if (value instanceof TinyAsmProxyRuntimeReferNameObject) {
+		} else if (value instanceof AdvRuntimeReferNameObject) {
 			AdvRuntimeReferNameObject obj = ((AdvRuntimeReferNameObject) value);
 			byte codeIndex = obj.get__MagicNumber();
 
@@ -475,13 +488,10 @@ public class Adv {
 	}
 
 	static public AfterIf ifTrue_(boolean beGood) {
-		AdvContext context = _context.get();
 		return if_(isTrue(beGood));
 	}
 
 	static public AfterIf ifFalse_(boolean beGood) {
-		AdvContext context = _context.get();
-		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 		return if_(isFalse(beGood));
 	}
 
@@ -504,16 +514,16 @@ public class Adv {
 	static public AfterWhile while_(CompareEval eval) {
 		AdvContext context = _context.get();
 		context.clear();
-		WhileBuilder builder = new WhileBuilder(context, eval);
-		context.push(builder);
+		WhileBuilder builder = new WhileBuilder(_context, eval);
+//		context.push(builder);
 		return builder;
 	}
 
 	static public AfterDo do_(ConsumerWithException<MethodCode> block) {
 		AdvContext context = _context.get();
 		context.clear();
-		DoWhileBuilder builder = new DoWhileBuilder(context, block);
-		context.push(builder);
+		DoWhileBuilder builder = new DoWhileBuilder(_context, block);
+//		context.push(builder);
 		return builder;
 	}
 

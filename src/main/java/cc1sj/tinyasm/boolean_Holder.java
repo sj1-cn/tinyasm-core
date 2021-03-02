@@ -28,7 +28,7 @@ public class boolean_Holder implements boolean_ {
 	}
 
 	@Override
-	public byte getReferIndex() {
+	public byte getLocalsIndex() {
 		return this.magicNumber;
 	}
 }

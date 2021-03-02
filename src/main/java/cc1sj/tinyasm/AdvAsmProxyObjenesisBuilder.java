@@ -53,7 +53,7 @@ class AdvAsmProxyObjenesisBuilder {
 			count++;
 
 			{
-				String standardProxyClassName = target.getName() + "TinyAsmProxy";
+				String standardProxyClassName = target.getName() + "ObjenesisAdvAsmProxy";
 
 				try {
 					Class<?> clzBroker = Class.forName(standardProxyClassName);

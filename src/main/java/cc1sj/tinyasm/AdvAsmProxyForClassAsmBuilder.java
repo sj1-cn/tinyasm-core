@@ -30,7 +30,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.TypePath;
 
-class AdvAsmProxyForClassAsmBuilder extends ClassVisitor  {
+class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 
 	public static byte[] dump2(Class<?> target, String proxyClassName) throws Exception {
 		ClassReader cr = new ClassReader(target.getName());
@@ -168,6 +168,10 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor  {
 	@Override
 	public MethodVisitor visitMethod(int access, String methodName, String descriptor, String signature, String[] exceptions) {
 
+		if (methodName.equals("<init>") || methodName.equals("<clinit>") 
+				|| (access & (ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC | ACC_NATIVE | ACC_BRIDGE)) != 0) {
+			return null;
+		}
 		String referkey = methodName + descriptor + signature;
 		if (definedMethodes.containsKey(referkey)) {
 			return null;
@@ -193,122 +197,117 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor  {
 ////			stringBuilder.append(signatureVistor.paramsClass.toString());
 //		}
 
-		if (!!!methodName.equals("<init>") && !!!methodName.equals("<clinit>")
-				&& (access & (ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC | ACC_NATIVE | ACC_BRIDGE)) == 0) {
+		// Return Type
+		Type returnType = Type.getReturnType(descriptor);
+		Clazz returnClazz = Clazz.of(returnType);
+		// ParamType
+		Type[] methodParamTypes = Type.getArgumentTypes(descriptor);
 
-			// Return Type
-			Type returnType = Type.getReturnType(descriptor);
-			Clazz returnClazz = Clazz.of(returnType);
-			// ParamType
-			Type[] methodParamTypes = Type.getArgumentTypes(descriptor);
-
-			MethodHeader mh = classBody.method(returnClazz, methodName);
+		MethodHeader mh = classBody.method(returnClazz, methodName);
 //			mh.access(access);
-			for (int i = 0; i < methodParamTypes.length; i++) {
-				mh.parameter("param" + i, Clazz.of(methodParamTypes[i]));
+		for (int i = 0; i < methodParamTypes.length; i++) {
+			mh.parameter("param" + i, Clazz.of(methodParamTypes[i]));
+		}
+		if (exceptions != null) for (String e : exceptions) mh.tHrow(Clazz.of(Type.getObjectType(e)));
+
+		MethodCode code = mh.begin();
+
+		code_getContext(code);
+		// resolve this
+		code_resolve_this("objEval", code);
+		// resolve parameters
+		for (int i = 0; i < methodParamTypes.length; i++) {
+			code_resolve("eval_param" + i, code, "param" + i, methodParamTypes[i]);
+		}
+
+		// LOAD All Parameter
+		code.LINE();
+		code.LOAD("context");
+		code.LOAD("objEval");
+		for (int i = 0; i < methodParamTypes.length; i++) {
+			code.LOAD("eval_param" + i);
+		}
+
+		// invoke method
+		String lambdaName = push(1 + methodParamTypes.length, c -> {
+			c.LINE();
+			c.LOAD("c");
+			c.LOADConst(targetType);
+			c.LOADConst(methodName);
+			c.VIRTUAL(MethodCode.class, "VIRTUAL").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
+			for (Type type : methodParamTypes) {
+				_type(c, Clazz.of(type));
+				c.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
 			}
-			if (exceptions != null) for (String e : exceptions) mh.tHrow(Clazz.of(Type.getObjectType(e)));
 
-			MethodCode code = mh.begin();
-
-			code_getContext(code);
-			// resolve this
-			code_resolve_this("objEval", code);
-			// resolve parameters
-			for (int i = 0; i < methodParamTypes.length; i++) {
-				code_resolve("eval_param" + i, code, "param" + i, methodParamTypes[i]);
-			}
-
-			// LOAD All Parameter
-			code.LINE();
-			code.LOAD("context");
-			code.LOAD("objEval");
-			for (int i = 0; i < methodParamTypes.length; i++) {
-				code.LOAD("eval_param" + i);
-			}
-
-			// invoke method
-			String lambdaName = push(1 + methodParamTypes.length, c -> {
-				c.LINE();
-				c.LOAD("c");
-				c.LOADConst(targetType);
-				c.LOADConst(methodName);
-				c.VIRTUAL(MethodCode.class, "VIRTUAL").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
-				for (Type type : methodParamTypes) {
-					_type(c, Clazz.of(type));
-					c.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
-				}
-
-				if (returnType != Type.VOID_TYPE) {
-					_type(c, returnClazz);
-					c.INTERFACE(MethodCaller.class, "reTurn").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
-				}
-
-				c.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
-			});
-
-			dynamicInvoke(code, methodParamTypes.length, proxyClassName.replace('.', '/'), lambdaName);
-
-			code.stackPush(Type.getType(ConsumerWithException.class));
-
-			code.VIRTUAL(AdvContext.class, "push").reTurn(byte.class).parameter(ConsumerWithException.class).INVOKE();
-
-			// Refer
 			if (returnType != Type.VOID_TYPE) {
-				code.STORE("codeIndex", byte.class);
+				_type(c, returnClazz);
+				c.INTERFACE(MethodCaller.class, "reTurn").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
+			}
+
+			c.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
+		});
+
+		dynamicInvoke(code, methodParamTypes.length, proxyClassName.replace('.', '/'), lambdaName);
+
+		code.stackPush(Type.getType(ConsumerWithException.class));
+
+		code.VIRTUAL(AdvContext.class, "push").reTurn(byte.class).parameter(ConsumerWithException.class).INVOKE();
+
+		// Refer
+		if (returnType != Type.VOID_TYPE) {
+			code.STORE("codeIndex", byte.class);
 
 //				code.CONVERTTO(returnClazz);
 
-				if (BoxUnbox.ClazzObjectToPrimitive.containsKey(returnType)) {
-
-					code.LINE();
-					code.LOADConst(MAGIC_CODES_NUMBER);
-					code.LOAD("codeIndex");
-					code.ADD();
-					Type primitiveType = BoxUnbox.ClazzObjectToPrimitive.get(returnType);
-					code.CONVERTTO(primitiveType);
-					BoxUnbox.PrimaryToBoxFunc.get(primitiveType).accept(code);
-					code.RETURNTop();
-				}else if(BoxUnbox.PrimativeToClazzObject.containsKey(returnType)) {
-					code.LINE();
-					code.LOADConst(MAGIC_CODES_NUMBER);
-					code.LOAD("codeIndex");
-					code.ADD();
-					code.CONVERTTO(returnType);
-					code.RETURNTop();
-				}else if(returnType.getSort() == Type.OBJECT && returnType.equals(Type.getType(String.class))) {
-					code.LINE();
-					code.NEW(StringBuilder.class);
-					code.DUP();
-					code.LOADConst(MAGIC_CODES_String);
-					code.SPECIAL(StringBuilder.class, "<init>")
-						.parameter(String.class).INVOKE();
-					code.LOAD("codeIndex");
-					code.VIRTUAL(StringBuilder.class, "append")
-						.reTurn(StringBuilder.class)
-						.parameter(int.class).INVOKE();
-					code.VIRTUAL(StringBuilder.class, "toString")
-						.reTurn(String.class).INVOKE();
-					code.RETURNTop();
-				}
-//				BoxUnbox.unboxToWhenNeed(getClass())
-
-			} else {
-				code.POP();
+			if (BoxUnbox.ClazzObjectToPrimitive.containsKey(returnType)) {
 
 				code.LINE();
-				code.LOAD("context");
-				code.VIRTUAL(AdvContext.class, "execAndPop").INVOKE();
-
+				code.LOADConst(MAGIC_CODES_NUMBER);
+				code.LOAD("codeIndex");
+				code.ADD();
+				Type primitiveType = BoxUnbox.ClazzObjectToPrimitive.get(returnType);
+				code.CONVERTTO(primitiveType);
+				BoxUnbox.PrimaryToBoxFunc.get(primitiveType).accept(code);
+				code.RETURNTop();
+			} else if (BoxUnbox.PrimativeToClazzObject.containsKey(returnType)) {
 				code.LINE();
-				code.RETURN();
+				code.LOADConst(MAGIC_CODES_NUMBER);
+				code.LOAD("codeIndex");
+				code.ADD();
+				code.CONVERTTO(returnType);
+				code.RETURNTop();
+			} else if (returnType.getSort() == Type.OBJECT && returnType.equals(Type.getType(String.class))) {
+				code.LINE();
+				code.NEW(StringBuilder.class);
+				code.DUP();
+				code.LOADConst(MAGIC_CODES_String);
+				code.SPECIAL(StringBuilder.class, "<init>").parameter(String.class).INVOKE();
+				code.LOAD("codeIndex");
+				code.VIRTUAL(StringBuilder.class, "append").reTurn(StringBuilder.class).parameter(int.class).INVOKE();
+				code.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
+				code.RETURNTop();
 			}
+			code.LINE();
+			code.LOAD("context");
+			code.VIRTUAL(AdvContext.class, "execAndPop").INVOKE();
 
-			code.END();
+		} else {
+			code.POP();
 
+			code.LINE();
+			code.LOAD("context");
+			code.VIRTUAL(AdvContext.class, "execAndPop").INVOKE();
+
+			code.LINE();
+			code.RETURN();
 		}
+
+		code.END();
+
 		// TODO Auto-generated method stub
 		return null;
+
 	}
 
 	@Override

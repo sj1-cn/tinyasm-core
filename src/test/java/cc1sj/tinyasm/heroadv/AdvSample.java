@@ -8,6 +8,8 @@ public class AdvSample extends AdvSampleExtendsClass implements AdvSampleImplmen
 		
 		AdvSampleReferObject advSampleReferObject = new AdvSampleReferObject();
 		advSampleReferObject.sayHello();
-		String helloString =  advSampleReferObject.getHelloString();
+		String helloString = advSampleReferObject.getHelloString();
+		advSampleReferObject.setHelloString("sayNothing");
+		advSampleReferObject.setHelloString(helloString);
 	}
 }
