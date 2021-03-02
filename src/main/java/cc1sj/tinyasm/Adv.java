@@ -249,7 +249,7 @@ public class Adv {
 		AdvContext context = _context.get();
 
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.execAndPop();
+		context.popAndExec();
 		context.pop();
 	}
 
@@ -271,8 +271,8 @@ public class Adv {
 		byte magicLocalsIndex = booleanMagicLocalsIndex.getLocalsIndex();
 		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert /* (magicIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		// context.line();
-		context.execAndPop();
+
+		context.popAndExec();
 		context.store(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
 	}
 
@@ -282,11 +282,9 @@ public class Adv {
 		byte magicLocalsIndex = booleanMagicLocalsIndex.getLocalsIndex();
 		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert /* (magicIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-//		//context.line();
-		context.execAndPop();
-		context.store(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
 
-		context.clear();
+		context.popAndExec();
+		context.store(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
 	}
 
 	static public void __(byte magicLocalsIndex, byte magicIndex) {
@@ -308,18 +306,14 @@ public class Adv {
 		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
 
-//		int codeIndex = magicIndex - MAGIC_CODES_NUMBER;
-//		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
 		ConsumerWithException<MethodCode> ref = context.resolve(magicIndex);
-//		//context.line();
+
 		context.push(c -> {
 			ref.accept(c);
 			c.STORE(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
 		});
-		context.execAndPop();
-//		context.store(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
+		context.popAndExec();
 
-		context.clear();
 	}
 
 	static public void __(long magicLocalsIndex, long magicIndex) {
@@ -344,9 +338,8 @@ public class Adv {
 		AdvContext context = _context.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 //		//context.line();
-		context.execAndPop();
+		context.popAndExec();
 		int referIndex = context.store();
-		context.clear();
 
 		return new boolean_Holder(context, (byte) (MAGIC_LOCALS_NUMBER + referIndex));
 	}
@@ -355,9 +348,8 @@ public class Adv {
 		AdvContext context = _context.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 //		//context.line();
-		context.execAndPop();
+		context.popAndExec();
 		int referIndex = context.store();
-		context.clear();
 
 		return new Boolean__Holder(context, (byte) (MAGIC_LOCALS_NUMBER + referIndex));
 	}
@@ -397,10 +389,10 @@ public class Adv {
 		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
 		int codeIndex = (int) magicIndex - MAGIC_CODES_NUMBER;
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
-		// context.line();
-		context.execAndPop();
+
+		context.popAndExec();
 		int referIndex = context.store();
-		context.clear();
+
 		return referIndex;
 	}
 
@@ -414,7 +406,7 @@ public class Adv {
 	@SuppressWarnings("unchecked")
 	static public <T> T __(T value) {
 		AdvContext context = _context.get();
-		context.execAndPop();
+		context.popAndExec();
 		int locals = context.store();
 
 		Class<?> t = value.getClass();
@@ -457,9 +449,6 @@ public class Adv {
 			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == String.class) {
-
-//			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-
 			String key = String.valueOf(MAGIC_LOCALS_String + locals);
 			return (T) key;
 		} else if (value instanceof AdvRuntimeReferNameObject) {
@@ -497,7 +486,7 @@ public class Adv {
 
 	static public AfterIf if_(CompareEval eval) {
 		AdvContext context = _context.get();
-		context.clear();
+
 		IfBuilder builder = new IfBuilder(context, eval);
 		context.push(builder);
 		return builder;
@@ -512,18 +501,13 @@ public class Adv {
 	}
 
 	static public AfterWhile while_(CompareEval eval) {
-		AdvContext context = _context.get();
-		context.clear();
 		WhileBuilder builder = new WhileBuilder(_context, eval);
 //		context.push(builder);
 		return builder;
 	}
 
 	static public AfterDo do_(ConsumerWithException<MethodCode> block) {
-		AdvContext context = _context.get();
-		context.clear();
 		DoWhileBuilder builder = new DoWhileBuilder(_context, block);
-//		context.push(builder);
 		return builder;
 	}
 
@@ -532,7 +516,6 @@ public class Adv {
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
-
 			@Override
 			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				leftEval.accept(code);
@@ -554,13 +537,11 @@ public class Adv {
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
-
 			@Override
 			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				leftEval.accept(code);
 				rightEval.accept(code);
 				code.IF_ICMPGT(label);
-
 			}
 
 			@Override
@@ -568,7 +549,6 @@ public class Adv {
 				leftEval.accept(code);
 				rightEval.accept(code);
 				code.IF_ICMPLE(label);
-
 			}
 		};
 	}
@@ -584,7 +564,6 @@ public class Adv {
 				leftEval.accept(code);
 				rightEval.accept(code);
 				code.IF_ICMPEQ(label);
-
 			}
 
 			@Override
@@ -592,7 +571,6 @@ public class Adv {
 				leftEval.accept(code);
 				rightEval.accept(code);
 				code.IF_ICMPNE(label);
-
 			}
 		};
 	}
@@ -602,13 +580,11 @@ public class Adv {
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
-
 			@Override
 			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				leftEval.accept(code);
 				rightEval.accept(code);
 				code.IF_ICMPNE(label);
-
 			}
 
 			@Override
@@ -616,7 +592,6 @@ public class Adv {
 				leftEval.accept(code);
 				rightEval.accept(code);
 				code.IF_ICMPEQ(label);
-
 			}
 		};
 	}
@@ -632,7 +607,6 @@ public class Adv {
 				leftEval.accept(code);
 				rightEval.accept(code);
 				code.IF_ICMPGE(label);
-
 			}
 
 			@Override
@@ -640,7 +614,6 @@ public class Adv {
 				leftEval.accept(code);
 				rightEval.accept(code);
 				code.IF_ICMPLT(label);
-
 			}
 		};
 	}
@@ -650,13 +623,11 @@ public class Adv {
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
-
 			@Override
 			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				leftEval.accept(code);
 				rightEval.accept(code);
 				code.IF_ICMPLE(label);
-
 			}
 
 			@Override
@@ -664,7 +635,6 @@ public class Adv {
 				leftEval.accept(code);
 				rightEval.accept(code);
 				code.IF_ICMPGT(label);
-
 			}
 		};
 
@@ -674,7 +644,6 @@ public class Adv {
 		AdvContext context = _context.get();
 		ConsumerWithException<MethodCode> leftEval = context.getCodeAndPopTop();
 		return new CompareEval() {
-
 			@Override
 			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				leftEval.accept(code);
@@ -685,7 +654,6 @@ public class Adv {
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
 				leftEval.accept(code);
 				code.IFEQ(label);
-
 			}
 		};
 	}
@@ -695,7 +663,6 @@ public class Adv {
 		ConsumerWithException<MethodCode> leftEval = context.getCodeAndPopTop();
 
 		return new CompareEval() {
-
 			@Override
 			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				leftEval.accept(code);
@@ -714,7 +681,6 @@ public class Adv {
 		AdvContext context = _context.get();
 		ConsumerWithException<MethodCode> leftEval = context.resolve(eval);
 		return new CompareEval() {
-
 			@Override
 			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				leftEval.accept(code);
@@ -725,7 +691,6 @@ public class Adv {
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
 				leftEval.accept(code);
 				code.IFEQ(label);
-
 			}
 		};
 	}
@@ -734,7 +699,6 @@ public class Adv {
 		AdvContext context = _context.get();
 		ConsumerWithException<MethodCode> leftEval = context.resolve(eval);
 		return new CompareEval() {
-
 			@Override
 			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				leftEval.accept(code);

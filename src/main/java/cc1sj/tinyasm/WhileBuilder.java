@@ -15,14 +15,20 @@ public class WhileBuilder implements AfterWhile {
 	public void block(ConsumerWithException<MethodCode> block) {
 		AdvContext context = _context.get();
 		context.push(code -> {
-			code.LINE();
-			Label labelThenEnd = new Label();
-			eval.gotoWhenFail(code, labelThenEnd);
+			Label labelWhileEval = new Label();
+			code.GOTO(labelWhileEval);
+			Label labelWhileBegin = new Label();
+
+			code.visitLabel(labelWhileBegin);
 
 			context.execBlock(block);
 
-			code.visitLabel(labelThenEnd);
+			code.LINE();
+			code.visitLabel(labelWhileEval);
+
+			eval.gotoWhenSucceed(code, labelWhileBegin);
+
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 }

@@ -22,6 +22,7 @@ public class AdvSampleTinyAsmDump {
 		ClassBody classBody = ClassBuilder.make(className, AdvSampleExtendsClass.class, AdvSampleImplmentInterface.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
+		classBody.field("name", Clazz.of(String.class));
 		__init_(classBody);
 		_sayHello(classBody);
 
@@ -61,16 +62,21 @@ public class AdvSampleTinyAsmDump {
 		code.DUP();
 		code.SPECIAL(AdvSampleReferObject.class, "<init>").INVOKE();
 		code.STORE("advSampleReferObject",AdvSampleReferObject.class);
+		Label label6OfIFNE = new Label();
+
+		code.visitLabel(label6OfIFNE);
+
+		code.LINE();
+		code.LOAD("i");
+		code.LOAD("j");
+		code.ADD();
+		code.STORE("i");
 
 		code.LINE();
 		code.LOAD("advSampleReferObject");
-		code.VIRTUAL(AdvSampleReferObject.class, "sayHello").INVOKE();
-
-		code.LINE();
-		code.LOAD("advSampleReferObject");
-		code.VIRTUAL(AdvSampleReferObject.class, "getHelloString")
-			.reTurn(String.class).INVOKE();
-		code.STORE("helloString",String.class);
+		code.VIRTUAL(AdvSampleReferObject.class, "beGood")
+			.reTurn(boolean.class).INVOKE();
+		code.IFNE(label6OfIFNE);
 
 		code.LINE();
 		code.RETURN();

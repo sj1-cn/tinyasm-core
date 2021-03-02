@@ -51,7 +51,7 @@ public class AdvContext {
 
 	public void clear() {
 		assert stack.size() <= 1 : "应该最多缓存一个执行语句。如果大于一个，一定是哪里出错了";
-		if (stack.size() > 0) execAndPop();
+		if (stack.size() > 0) popAndExec();
 	}
 
 	protected void execBlock(ConsumerWithException<MethodCode> block) throws Exception {
@@ -62,14 +62,15 @@ public class AdvContext {
 			code.POP();
 		}
 		while (this.stackSize() > lastContextStack) {
-			this.execAndPop();
+			this.popAndExec();
 		}
 	}
 
-	public void execAndPop() {
+	public void popAndExec() {
 		assert stack.size() > 0 : "堆栈中必须有东西可以执行";
 		if (stack.size() > 0) {
 			ConsumerWithException<MethodCode> c = stack.pop();
+			clear();
 			try {
 				code.LINE();
 				c.accept(code);

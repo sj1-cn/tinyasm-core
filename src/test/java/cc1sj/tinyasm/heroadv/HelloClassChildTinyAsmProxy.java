@@ -60,7 +60,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 			objValue.accept(c);
 			c.VIRTUAL(HelloClassChild.class, "setIntHelloClassChild").parameter(int.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setStringHelloClassChild").parameter(String.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 			eval_2.accept(c);
 			c.VIRTUAL(HelloClassChild.class, "setTwoParameter").parameter(int.class).parameter(byte.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -296,7 +296,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setName").parameter(String.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -311,7 +311,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeChar").parameter(char.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -326,7 +326,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeByte").parameter(byte.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -341,7 +341,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeShort").parameter(short.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 //	@Override
@@ -363,7 +363,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeInt").parameter(int.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -378,7 +378,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeLong").parameter(long.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -393,7 +393,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeFloat").parameter(float.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -408,7 +408,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeDouble").parameter(double.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -423,7 +423,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeCharacter").parameter(Character.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -438,7 +438,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeByte2").parameter(Byte.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -453,7 +453,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeShort2").parameter(Short.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -467,7 +467,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeInteger").parameter(Integer.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -482,7 +482,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeLong2").parameter(Long.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -497,7 +497,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeFloat2").parameter(Float.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -512,7 +512,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 			c.VIRTUAL(HelloClassChild.class, "setAgeDouble2").parameter(Double.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 }

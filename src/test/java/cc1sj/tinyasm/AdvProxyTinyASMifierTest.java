@@ -5,14 +5,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import cc1sj.tinyasm.hero.helperclass.ContactHello;
-import cc1sj.tinyasm.hero.helperclass.HelloClass;
-import cc1sj.tinyasm.hero.helperclass.HelloClassChild;
-import cc1sj.tinyasm.hero.helperclass.HelloInterface;
-import cc1sj.tinyasm.hero.helperclass.HelloInterfaceClassChild;
-import cc1sj.tinyasm.hero.helperclass.HelloInterfaceClassChildProxy;
-import cc1sj.tinyasm.hero.helperclass.PageWithParametersSample;
-import cc1sj.tinyasm.hero.helperclass.PageWithParametersSampleTinyAsmBuilder;
 import cc1sj.tinyasm.heroadv.AdvSample;
 import cc1sj.tinyasm.heroadv.AdvSampleBuilder;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;

@@ -16,15 +16,16 @@ public class DoWhileBuilder implements AfterDo {
 		AdvContext context = _context.get();
 		context.push(code -> {
 
-			code.LINE();
-			Label labelThenEnd = new Label();
-			eval.gotoWhenFail(code, labelThenEnd);
+			Label label11OfIFNE = new Label();
+
+			code.visitLabel(label11OfIFNE);
 
 			context.execBlock(block);
 
-			code.visitLabel(labelThenEnd);
+			code.LINE();
+			eval.gotoWhenSucceed(code, label11OfIFNE);
 		});
-		context.execAndPop();
+		context.popAndExec();
 
 	}
 }

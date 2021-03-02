@@ -31,7 +31,7 @@ public class AdvSampleReferObjectObjenesisAdvAsmProxy extends AdvSampleReferObje
 			objEval.accept(paramMethodCode);
 			paramMethodCode.VIRTUAL(AdvSampleReferObject.class, "sayHello").INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	public String getHelloString() {
@@ -53,7 +53,7 @@ public class AdvSampleReferObjectObjenesisAdvAsmProxy extends AdvSampleReferObje
 			eval_param0.accept(paramMethodCode);
 			paramMethodCode.VIRTUAL(AdvSampleReferObject.class, "setHelloString").parameter(String.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	public boolean beGood() {

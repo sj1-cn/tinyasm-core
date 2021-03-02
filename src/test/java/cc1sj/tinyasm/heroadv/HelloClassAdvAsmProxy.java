@@ -40,7 +40,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 			eval_2.accept(c);
 			c.VIRTUAL(HelloClass.class, "setTwoParameter").parameter(int.class).parameter(byte.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -235,7 +235,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setName").parameter(String.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -250,7 +250,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeChar").parameter(char.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -265,7 +265,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeByte").parameter(byte.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -280,7 +280,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeShort").parameter(short.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 //	@Override
@@ -302,7 +302,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeInt").parameter(int.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -317,7 +317,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeLong").parameter(long.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -332,7 +332,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeFloat").parameter(float.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -347,7 +347,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeDouble").parameter(double.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -362,7 +362,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeCharacter").parameter(Character.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -377,7 +377,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeByte2").parameter(Byte.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -392,7 +392,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeShort2").parameter(Short.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -406,7 +406,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeInteger").parameter(Integer.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -421,7 +421,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeLong2").parameter(Long.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -436,7 +436,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeFloat2").parameter(Float.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -451,7 +451,7 @@ public class HelloClassAdvAsmProxy extends HelloClass implements AdvRuntimeRefer
 
 			c.VIRTUAL(HelloClass.class, "setAgeDouble2").parameter(Double.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 }

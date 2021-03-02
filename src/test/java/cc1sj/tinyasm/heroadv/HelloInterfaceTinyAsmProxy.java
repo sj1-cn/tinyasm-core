@@ -221,7 +221,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setName").parameter(String.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -236,7 +236,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeChar").parameter(char.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -251,7 +251,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeByte").parameter(byte.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -266,7 +266,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeShort").parameter(short.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 //	@Override
@@ -288,7 +288,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeInt").parameter(int.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -303,7 +303,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeLong").parameter(long.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -318,7 +318,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeFloat").parameter(float.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -333,7 +333,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeDouble").parameter(double.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -348,7 +348,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeCharacter").parameter(Character.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -363,7 +363,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeByte2").parameter(Byte.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -378,7 +378,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeShort2").parameter(Short.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -392,7 +392,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeInteger").parameter(Integer.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -407,7 +407,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeLong2").parameter(Long.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -422,7 +422,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeFloat2").parameter(Float.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 
 	@Override
@@ -437,6 +437,6 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 
 			c.INTERFACE(HelloInterface.class, "setAgeDouble2").parameter(Double.class).INVOKE();
 		});
-		context.execAndPop();
+		context.popAndExec();
 	}
 }

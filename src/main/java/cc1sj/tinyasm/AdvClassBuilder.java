@@ -44,9 +44,9 @@ public class AdvClassBuilder
 	public AdvClassBody enterClassBody() {
 		ClassHeader ch;
 		if (_extends != null) {
-			ch = ClassBuilder.make(className);
-		} else {
 			ch = ClassBuilder.make(className, _extends);
+		} else {
+			ch = ClassBuilder.make(className);
 		}
 
 		if (_implements != null && _implements.size() > 0) {
