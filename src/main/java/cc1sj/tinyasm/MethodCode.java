@@ -153,6 +153,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	protected abstract Type codeThisClassFieldType(String name);
 
 	protected abstract int codeLocalGetLocals(String name);
+	
+	public abstract int codeLocalsNextLocal();
 
 	protected abstract Type localsLoadAccess(int index);
 

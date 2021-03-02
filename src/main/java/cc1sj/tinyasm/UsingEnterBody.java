@@ -1,5 +1,7 @@
 package cc1sj.tinyasm;
 
 public interface UsingEnterBody {
-	AfterEnterBody enterBody();
+//	MethodCode enterBody();
+
+	AfterCode code(ConsumerWithException<MethodCode> code);
 }

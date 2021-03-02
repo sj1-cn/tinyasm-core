@@ -86,6 +86,11 @@ public class MethodCodeBuilder extends MethodCode {
 	final protected LocalsStack locals;
 
 	@Override
+	public int codeLocalsNextLocal() {
+		return locals.locals.size();
+	}
+
+	@Override
 	public int codeLocalGetLocals(String name) {
 		LocalsStack.Var var = locals.get(name);
 		return var != null ? locals.get(name).locals : -1;

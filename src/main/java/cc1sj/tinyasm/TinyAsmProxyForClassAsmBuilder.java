@@ -1,5 +1,15 @@
 package cc1sj.tinyasm;
 
+import static cc1sj.tinyasm.TinyAsmProxyBase._code;
+import static cc1sj.tinyasm.TinyAsmProxyBase._interface;
+import static cc1sj.tinyasm.TinyAsmProxyBase._invoke;
+import static cc1sj.tinyasm.TinyAsmProxyBase._line;
+import static cc1sj.tinyasm.TinyAsmProxyBase._parameter;
+import static cc1sj.tinyasm.TinyAsmProxyBase._storeTopAndRefer;
+import static cc1sj.tinyasm.TinyAsmProxyBase._resolveParameter;
+import static cc1sj.tinyasm.TinyAsmProxyBase._resolveThis;
+import static cc1sj.tinyasm.TinyAsmProxyBase._return;
+import static cc1sj.tinyasm.TinyAsmProxyBase._virtual;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
@@ -22,6 +32,7 @@ import org.objectweb.asm.ModuleVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.TypePath;
+import static cc1sj.tinyasm.TinyAsmProxyBase.*;
 
 class TinyAsmProxyForClassAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
 

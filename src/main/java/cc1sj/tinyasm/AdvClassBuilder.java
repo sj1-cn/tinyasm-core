@@ -14,7 +14,8 @@ public class AdvClassBuilder
 	Clazz _extends;
 	List<Clazz> _implements = new ArrayList<>();
 	Map<String, Clazz> maps = new HashMap<>();
-	
+	ClassBody classBody;
+
 	int memberAccess = 0;
 
 	public void access(int accPublic) {
@@ -41,14 +42,28 @@ public class AdvClassBuilder
 
 	@Override
 	public AdvClassBody enterClassBody() {
-//		ClassHeader ch = new 
+		ClassHeader ch;
+		if (_extends != null) {
+			ch = ClassBuilder.make(className);
+		} else {
+			ch = ClassBuilder.make(className, _extends);
+		}
+
+		if (_implements != null && _implements.size() > 0) {
+			for (Clazz clazz : _implements) {
+				ch.implement(clazz);
+			}
+		}
+
+		classBody = ch.body();
+
 		return this;
 	}
 
 	@Override
-	public AfterMethodName method(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public AfterMethodName method(String methodName) {
+		AdvMethodBuilder methodBuilder = new AdvMethodBuilder(classBody, memberAccess, methodName);
+		return methodBuilder;
 	}
 
 	@Override
@@ -71,13 +86,14 @@ public class AdvClassBuilder
 
 	@Override
 	public byte[] end() {
-		// TODO Auto-generated method stub
-		return null;
+		return classBody.end().toByteArray();
 	}
 
+	// TODO
 	@Override
 	public <T> T field(String string, Class<T> class1) {
-		
+
+		classBody.field(string, Clazz.of(class1));
 		return null;
 	}
 

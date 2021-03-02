@@ -5,8 +5,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import cc1sj.tinyasm.AdvAsmProxyForClassAsmBuilder;
-import cc1sj.tinyasm.AdvAsmProxyForInterfaceAsmBuilder;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
 import cc1sj.tinyasm.hero.helperclass.HelloClassChild;
 import cc1sj.tinyasm.hero.helperclass.HelloInterface;

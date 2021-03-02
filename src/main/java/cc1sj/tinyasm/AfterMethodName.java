@@ -1,5 +1,5 @@
 package cc1sj.tinyasm;
 
-public interface AfterMethodName extends UsingParameter, UsingThrows, UsingEnterBody {
+public interface AfterMethodName extends UsingParameter,UsingReturn, UsingThrows, UsingEnterBody {
 
 }

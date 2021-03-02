@@ -15,7 +15,7 @@ public class AdvContext {
 	Stack<ConsumerWithException<MethodCode>> stack = new Stack<>();
 
 	public AdvContext(MethodCode code) {
-
+		this.code = code;
 	}
 
 	public byte push(ConsumerWithException<MethodCode> c) {
@@ -50,8 +50,8 @@ public class AdvContext {
 	}
 
 	public void clear() {
-		assert stack.size() == 1 : "应该最多缓存一个执行语句。如果大于一个，一定是哪里出错了";
-		execAndPop();
+		assert stack.size() <= 1 : "应该最多缓存一个执行语句。如果大于一个，一定是哪里出错了";
+		if (stack.size() > 0) execAndPop();
 	}
 
 	protected void execBlock(ConsumerWithException<MethodCode> block) throws Exception {
@@ -67,11 +67,14 @@ public class AdvContext {
 	}
 
 	public void execAndPop() {
-		ConsumerWithException<MethodCode> c = stack.pop();
-		try {
-			c.accept(code);
-		} catch (Exception e) {
-			throw new UnsupportedOperationException(e);
+		assert stack.size() > 0 : "堆栈中必须有东西可以执行";
+		if (stack.size() > 0) {
+			ConsumerWithException<MethodCode> c = stack.pop();
+			try {
+				c.accept(code);
+			} catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
 		}
 	}
 
@@ -80,12 +83,14 @@ public class AdvContext {
 	}
 
 	public int store() {
-//		code?
-		return 10;
+		int localsIndex = code.codeLocalsNextLocal();
+		code.STORE(localsIndex);
+		return localsIndex;
 
 	}
 
 	public void store(int referIndex) {
+		code.STORE(referIndex);
 	}
 
 	public void popCodeStack() {
@@ -308,5 +313,9 @@ public class AdvContext {
 		} else {
 			throw new UnsupportedOperationException();
 		}
+	}
+
+	public void line() {
+		code.LINE();
 	}
 }

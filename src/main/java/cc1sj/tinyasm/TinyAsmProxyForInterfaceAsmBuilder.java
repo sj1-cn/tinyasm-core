@@ -32,6 +32,7 @@ import org.objectweb.asm.ModuleVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.TypePath;
+import static cc1sj.tinyasm.TinyAsmProxyBase.*;
 
 class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
 
@@ -42,6 +43,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field(ACC_PRIVATE, "_referName", Clazz.of(String.class));
+		classBody.field(ACC_PRIVATE, "_context", Clazz.of(TinyAsmBuilderContext.class));
 		classBody.field(ACC_PRIVATE, "_code", Clazz.of(MethodCode.class));
 
 		init(classBody, targetClass);

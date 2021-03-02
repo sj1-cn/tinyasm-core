@@ -33,7 +33,7 @@ public interface TinyAsmProxyBase {
 		return maps;
 	}
 
-	static void _cast(Clazz returnType, MethodCode code) {
+	static void _cast(MethodCode code, Clazz returnType) {
 		Clazz returnClazz = Clazz.of(returnType);
 		final boolean returnValueNeedBoxing = primativeToBoxedClazzMaps.containsKey(returnType.getType());
 		Type returnValueboxedClazz = returnValueNeedBoxing ? primativeToBoxedClazzMaps.get(returnType.getType()) : null;
@@ -163,7 +163,7 @@ public interface TinyAsmProxyBase {
 		_type(code, returnClass);
 		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer").reTurn(Object.class).parameter(MethodCode.class).parameter(Class.class)
 				.INVOKE();
-		_cast(returnClass, code);
+		_cast(code, returnClass);
 	}
 
 	static void _invoke(MethodCode code) {

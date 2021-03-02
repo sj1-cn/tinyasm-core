@@ -1,34 +1,21 @@
 package cc1sj.tinyasm.heroadv;
-import org.objectweb.asm.Label;
-import cc1sj.tinyasm.ClassBody;
-import cc1sj.tinyasm.ClassBuilder;
-import cc1sj.tinyasm.MethodCode;
+import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.ACC_STATIC;
+import static org.objectweb.asm.Opcodes.ACC_SUPER;
+import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
+
 import org.objectweb.asm.Type;
-import static org.objectweb.asm.Opcodes.*;
 
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
-import cc1sj.tinyasm.Annotation;
+import cc1sj.tinyasm.ClassBody;
+import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
-
-import java.lang.Float;
-import java.lang.ThreadLocal;
-import java.lang.Double;
-import java.lang.Integer;
-import java.lang.Exception;
-
-import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodCaller;
-import java.lang.Character;
+import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
-import java.lang.Long;
-import java.lang.Short;
-import java.lang.Object;
-import java.lang.StringBuilder;
-import java.lang.Class;
-import java.lang.String;
-import java.lang.Byte;
 @SuppressWarnings("unused")
 public class HelloClassTinyAsmProxyTinyAsmDump {
 
