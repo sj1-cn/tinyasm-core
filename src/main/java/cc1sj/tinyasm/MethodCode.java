@@ -134,6 +134,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	abstract void visitTypeInsn(int opcode, Type type);
 
 	abstract void visitJumpInsn(int opcode, Label label);
+	  abstract void visitLineNumber(final int line, final Label start) ;
+	  abstract void visitLineNumber(final Label start) ;
 
 	abstract void visitIincInsn(final int var, final int increment);
 

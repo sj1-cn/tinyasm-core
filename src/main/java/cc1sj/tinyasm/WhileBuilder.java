@@ -26,6 +26,7 @@ public class WhileBuilder implements AfterWhile {
 			code.LINE();
 			code.visitLabel(labelWhileEval);
 
+			eval.prepareData(code);
 			eval.gotoWhenSucceed(code, labelWhileBegin);
 
 		});

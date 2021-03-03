@@ -14,7 +14,7 @@ public class DoWhileBuilder implements AfterDo {
 	@Override
 	public void while_(CompareEval eval) {
 		AdvContext context = _context.get();
-		context.push(code -> {
+		ConsumerWithException<MethodCode> c = code -> {
 
 			Label label11OfIFNE = new Label();
 
@@ -23,9 +23,11 @@ public class DoWhileBuilder implements AfterDo {
 			context.execBlock(block);
 
 			code.LINE();
+			eval.prepareData(code);
+			code.LINE();
 			eval.gotoWhenSucceed(code, label11OfIFNE);
-		});
-		context.popAndExec();
+		};
+		context.exec(c);
 
 	}
 }

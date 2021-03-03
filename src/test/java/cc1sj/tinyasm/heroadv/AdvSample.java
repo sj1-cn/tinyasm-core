@@ -4,40 +4,39 @@ import static cc1sj.tinyasm.Adv.do_;
 import static cc1sj.tinyasm.Adv.if_;
 import static cc1sj.tinyasm.Adv.isTrue;
 import static cc1sj.tinyasm.Adv.nop;
-import static cc1sj.tinyasm.Adv.while_;
+import static cc1sj.tinyasm.Adv.*;
 
 public class AdvSample extends AdvSampleExtendsClass implements AdvSampleImplmentInterface {
 	private String name;
+
 	public void sayHello() {
 		int i = 10;
 		int j = 20;
 		j = i + j;
 
 		AdvSampleReferObject advSampleReferObject = new AdvSampleReferObject();
-//		advSampleReferObject.sayHello();
-//		String helloString = advSampleReferObject.getHelloString();
-//		advSampleReferObject.setHelloString("sayNothing");
-//		advSampleReferObject.setHelloString(helloString);
-
-//		if ((advSampleReferObject.beGood())) {
-//			i += j;
-//		} else {
-//			i += j;
-//		}
+		advSampleReferObject.sayHello();
+		String helloString = advSampleReferObject.getHelloString();
+		advSampleReferObject.setHelloString("sayNothing");
+		advSampleReferObject.setHelloString(helloString);
 //
-//		if ((advSampleReferObject.beGood())) {
-//			i += j;
-//		} else if ((advSampleReferObject.beGood())) {
-//			i += j;
-//		}
-
-//		while ((advSampleReferObject.beGood())) {
-//			i += j;
-//		}
-
+		if (j > 10) {
+			j = i + j;
+		} else {
+			j = i + j;
+		}
+//
+		j = i + j;
+		
+		
+		while (j > 10) {
+			j = i + j;
+		}
+//
 //		advSampleReferObject.setHelloString(helloString);
+		
 		do {
-			i += j;
-		} while ((advSampleReferObject.beGood()));
+			j = i + j;
+		} while (j > 10);
 	}
 }

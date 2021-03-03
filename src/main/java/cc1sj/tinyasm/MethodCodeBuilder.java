@@ -16,8 +16,11 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MethodCodeBuilder extends MethodCode {
+	Logger logger = LoggerFactory.getLogger(getClass());
 	private final MethodVisitor mv;
 
 	final MethodHeaderBuilder mh;
@@ -43,19 +46,6 @@ public class MethodCodeBuilder extends MethodCode {
 	@Override
 	public void BLOCK(Consumer<MethodCode> invocation) {
 		invocation.accept(this);
-	}
-
-	@Override
-	public void visitLabel(Label label) {
-		labelCurrent = label;
-		mv.visitLabel(label);
-	}
-
-	@Override
-	public void visitLabel(Label label, int line) {
-		labelCurrent = label;
-		mv.visitLabel(label);
-		mv.visitLineNumber(line, label);
 	}
 
 	final Stack<Type> stack = new Stack<>();
@@ -129,12 +119,6 @@ public class MethodCodeBuilder extends MethodCode {
 		return mh.fields.get(name).clazz.getType();
 	}
 
-	@Override
-	public Label codeNewLabel() {
-		Label label = new Label();
-		return label;
-	}
-
 	boolean hasReturnVoid = false;
 
 	@Override
@@ -156,30 +140,77 @@ public class MethodCodeBuilder extends MethodCode {
 		mh.end();
 	}
 
+	@Override
+	public Label codeNewLabel() {
+		Label label = new Label();
+		return label;
+	}
+
+	@Override
+	public void visitLabel(Label label) {
+		labelCurrent = label;
+		mv.visitLabel(label);
+		logger.debug("mv.visitLabel({}; in visitLabel(Label label)", label);
+	}
+
+	@Override
+	public void visitLabel(Label label, int line) {
+		labelCurrent = label;
+		mv.visitLabel(label);
+		logger.debug("mv.visitLabel({},{}); in visitLabel(Label label, int line)", label, line);
+//		labelHasDefineBegin = true;
+//		mv.visitLineNumber(line, label);
+	}
+
+	public void LINEONLY() {
+		Label label;
+		label = new Label();
+		mv.visitLabel(label);
+		logger.debug("mv.visitLabel({});in LINE()", label);
+		lastLineNumber = lastLineNumber + 1;
+		logger.debug("mv.visitLineNumber({}, {}); in LINE()", lastLineNumber, label);
+		mv.visitLineNumber(lastLineNumber, label);
+		labelCurrent = null;
+	}
+
 	public void LINE() {
 		Label label;
 		if (!labelHasDefineBegin) {
 			label = new Label();
-			labelCurrent = label;
+			labelCurrent = null;
 			mv.visitLabel(label);
+			logger.debug("mv.visitLabel({});in LINE()", label);
+			
 		} else {
 			label = labelCurrent;
+			labelHasDefineBegin=false;
 		}
 		lastLineNumber = lastLineNumber + 1;
+		logger.debug("mv.visitLineNumber({}, {}); in LINE()", lastLineNumber, label);
 		mv.visitLineNumber(lastLineNumber, label);
+	}
+
+	public void visitLineNumber(final int line, final Label start) {
+		mv.visitLineNumber(line, start);
+	}
+
+	public void visitLineNumber(final Label start) {
+		lastLineNumber = lastLineNumber + 1;
+		mv.visitLineNumber(lastLineNumber, start);
 	}
 
 	public void LINE(int line) {
 		Label label;
-		if (!labelHasDefineBegin) {
+		if (labelCurrent == null) {
 			label = new Label();
-			labelCurrent = label;
 			mv.visitLabel(label);
 		} else {
 			label = labelCurrent;
 		}
 		lastLineNumber = line;
-		mv.visitLineNumber(line, label);
+		logger.debug("mv.visitLineNumber({}, {}); in LINE()", lastLineNumber, label);
+		mv.visitLineNumber(lastLineNumber, label);
+		labelCurrent = null;
 	}
 
 	@Override

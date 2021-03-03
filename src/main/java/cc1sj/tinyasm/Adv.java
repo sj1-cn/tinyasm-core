@@ -59,7 +59,7 @@ public class Adv {
 	static ThreadLocal<Stack<AdvContext>> _contextStack = new ThreadLocal<>();
 	static private ThreadLocal<AdvContext> _context = new ThreadLocal<>();
 
-	static void enterCode(MethodCode code) {
+	static AdvContext enterCode(MethodCode code) {
 		AdvContext newContext = new AdvContext(code);
 		if (_context.get() != null) {
 			if (_contextStack.get() == null) {
@@ -68,9 +68,12 @@ public class Adv {
 			_contextStack.get().push(_context.get());
 		}
 		_context.set(newContext);
+		return newContext;
 	}
 
 	static void exitCode() {
+		AdvContext currentContext = _context.get();
+		currentContext.clear();
 		if (_contextStack.get() != null) {
 			_context.set(_contextStack.get().pop());
 		} else {
@@ -517,16 +520,18 @@ public class Adv {
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
 			@Override
-			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+			public void prepareData(MethodCode code) throws Exception {
 				leftEval.accept(code);
 				rightEval.accept(code);
+			}
+
+			@Override
+			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				code.IF_ICMPLT(label);
 			}
 
 			@Override
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
-				rightEval.accept(code);
 				code.IF_ICMPGE(label);
 			}
 		};
@@ -538,16 +543,18 @@ public class Adv {
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
 			@Override
-			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+			public void prepareData(MethodCode code) throws Exception {
 				leftEval.accept(code);
 				rightEval.accept(code);
+			}
+
+			@Override
+			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				code.IF_ICMPGT(label);
 			}
 
 			@Override
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
-				rightEval.accept(code);
 				code.IF_ICMPLE(label);
 			}
 		};
@@ -558,18 +565,19 @@ public class Adv {
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
+			@Override
+			public void prepareData(MethodCode code) throws Exception {
+				leftEval.accept(code);
+				rightEval.accept(code);
+			}
 
 			@Override
 			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
-				rightEval.accept(code);
 				code.IF_ICMPEQ(label);
 			}
 
 			@Override
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
-				rightEval.accept(code);
 				code.IF_ICMPNE(label);
 			}
 		};
@@ -581,16 +589,18 @@ public class Adv {
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
 			@Override
-			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+			public void prepareData(MethodCode code) throws Exception {
 				leftEval.accept(code);
 				rightEval.accept(code);
+			}
+
+			@Override
+			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				code.IF_ICMPNE(label);
 			}
 
 			@Override
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
-				rightEval.accept(code);
 				code.IF_ICMPEQ(label);
 			}
 		};
@@ -601,18 +611,19 @@ public class Adv {
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
+			@Override
+			public void prepareData(MethodCode code) throws Exception {
+				leftEval.accept(code);
+				rightEval.accept(code);
+			}
 
 			@Override
 			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
-				rightEval.accept(code);
 				code.IF_ICMPGE(label);
 			}
 
 			@Override
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
-				rightEval.accept(code);
 				code.IF_ICMPLT(label);
 			}
 		};
@@ -624,16 +635,18 @@ public class Adv {
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
 			@Override
-			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+			public void prepareData(MethodCode code) throws Exception {
 				leftEval.accept(code);
 				rightEval.accept(code);
+			}
+
+			@Override
+			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				code.IF_ICMPLE(label);
 			}
 
 			@Override
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
-				rightEval.accept(code);
 				code.IF_ICMPGT(label);
 			}
 		};
@@ -645,14 +658,17 @@ public class Adv {
 		ConsumerWithException<MethodCode> leftEval = context.getCodeAndPopTop();
 		return new CompareEval() {
 			@Override
-			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+			public void prepareData(MethodCode code) throws Exception {
 				leftEval.accept(code);
+			}
+
+			@Override
+			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				code.IFNE(label);
 			}
 
 			@Override
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
 				code.IFEQ(label);
 			}
 		};
@@ -664,14 +680,17 @@ public class Adv {
 
 		return new CompareEval() {
 			@Override
-			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+			public void prepareData(MethodCode code) throws Exception {
 				leftEval.accept(code);
+			}
+
+			@Override
+			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				code.IFEQ(label);
 			}
 
 			@Override
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
 				code.IFNE(label);
 			}
 		};
@@ -682,14 +701,17 @@ public class Adv {
 		ConsumerWithException<MethodCode> leftEval = context.resolve(eval);
 		return new CompareEval() {
 			@Override
-			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+			public void prepareData(MethodCode code) throws Exception {
 				leftEval.accept(code);
+			}
+
+			@Override
+			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				code.IFNE(label);
 			}
 
 			@Override
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
 				code.IFEQ(label);
 			}
 		};
@@ -700,14 +722,17 @@ public class Adv {
 		ConsumerWithException<MethodCode> leftEval = context.resolve(eval);
 		return new CompareEval() {
 			@Override
-			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+			public void prepareData(MethodCode code) throws Exception {
 				leftEval.accept(code);
+			}
+
+			@Override
+			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
 				code.IFEQ(label);
 			}
 
 			@Override
 			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
-				leftEval.accept(code);
 				code.IFNE(label);
 			}
 		};

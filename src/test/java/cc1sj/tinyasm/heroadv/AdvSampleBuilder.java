@@ -5,6 +5,7 @@ import static cc1sj.tinyasm.Adv.cst;
 import static cc1sj.tinyasm.Adv.ctor;
 import static cc1sj.tinyasm.Adv.do_;
 import static cc1sj.tinyasm.Adv.if_;
+import static cc1sj.tinyasm.Adv.isGreaterThan;
 import static cc1sj.tinyasm.Adv.isTrue;
 import static cc1sj.tinyasm.Adv.nop;
 import static cc1sj.tinyasm.Adv.public_;
@@ -39,35 +40,33 @@ public class AdvSampleBuilder extends TestCase implements Serializable {
 		});
 
 		clazz.public_().method("sayHello").code(code -> {
-			final int i = __(cst(10));
-			final int j = __(cst(20));
-			__(j, add(i, j));
+			final int i = __(cst(10));//int i = 10;
+			final int j = __(cst(20));//int j = 20;
+			__(j, add(i, j));//j = i + j;
 			AdvSampleReferObject advSampleReferObject = __(ctor(AdvSampleReferObject.class));
-//			advSampleReferObject.sayHello();
-//			String helloString = __(advSampleReferObject.getHelloString());
-//			advSampleReferObject.setHelloString("sayNothing");
+			advSampleReferObject.sayHello();
+			String helloString = __(advSampleReferObject.getHelloString());
+			advSampleReferObject.setHelloString("sayNothing");
+			advSampleReferObject.setHelloString(helloString);
+//			
+			if_(isGreaterThan(j, 10)).then_(c -> {/*if (j > 10) {*/
+				__(j, add(i, j));/*j = i + j;*/
+			}).else_(c -> {
+				__(j, add(i, j));/*j = i + j;*/
+			});
+//
+			__(j, add(i, j));/*j = i + j;*/
+
+
+			while_(isGreaterThan(j, 10)).block(c -> {/*while (j > 10) {*/
+				__(j, add(i, j));/*j = i + j;*/
+			});
+//
 //			advSampleReferObject.setHelloString(helloString);
-//				if_(isTrue(advSampleReferObject.beGood())).then_(c -> {
-//					__(i, add(i, j));
-//				}).else_(c -> {
-//					__(i, add(i, j));
-//				});
-//				
-//				if_(isTrue(advSampleReferObject.beGood())).then_(c -> {
-//					__(i, add(i, j));
-//				}).else_if(isTrue(advSampleReferObject.beGood())).then_(c -> {
-//					__(i, add(i, j));
-//				});
-
-//			while_(isTrue(advSampleReferObject.beGood())).block(c -> {
-//				__(i, add(i, j));
-//			});
-
-//				advSampleReferObject.setHelloString(helloString);
-//				
-				do_(c -> {
-					__(i, add(i, j));
-				}).while_(isTrue(advSampleReferObject.beGood()));
+////				
+			do_(c -> {
+				__(j, add(i, j));/*j = i + j;*/
+			}).while_(isGreaterThan(j, 10));//} while (j > 10);
 		});
 
 		return clazz.end();
