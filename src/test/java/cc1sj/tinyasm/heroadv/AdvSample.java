@@ -1,12 +1,6 @@
 package cc1sj.tinyasm.heroadv;
 
-import static cc1sj.tinyasm.Adv.do_;
-import static cc1sj.tinyasm.Adv.if_;
-import static cc1sj.tinyasm.Adv.isTrue;
-import static cc1sj.tinyasm.Adv.nop;
-import static cc1sj.tinyasm.Adv.*;
-
-public class AdvSample extends AdvSampleExtendsClass implements AdvSampleImplmentInterface {
+public class AdvSample extends AdvSampleExtendsClass {
 	private String name;
 
 	public void sayHello() {
@@ -27,14 +21,13 @@ public class AdvSample extends AdvSampleExtendsClass implements AdvSampleImplmen
 		}
 //
 		j = i + j;
-		
-		
+
 		while (j > 10) {
 			j = i + j;
 		}
 //
 //		advSampleReferObject.setHelloString(helloString);
-		
+
 		do {
 			j = i + j;
 		} while (j > 10);

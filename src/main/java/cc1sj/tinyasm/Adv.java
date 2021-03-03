@@ -25,25 +25,25 @@ public class Adv {
 	 ***********************************************/
 
 	static public AfterClassModifier public_() {
-		AdvClassBuilder builder = new AdvClassBuilder();
+		AdvClassBuilderImpl builder = new AdvClassBuilderImpl();
 		builder.access(ACC_PUBLIC);
 		return builder;
 	}
 
 	static public AfterClassModifier private_() {
-		AdvClassBuilder builder = new AdvClassBuilder();
+		AdvClassBuilderImpl builder = new AdvClassBuilderImpl();
 		builder.access(ACC_PUBLIC);
 		return builder;
 	}
 
 	static public AfterClassModifier protected_() {
-		AdvClassBuilder builder = new AdvClassBuilder();
+		AdvClassBuilderImpl builder = new AdvClassBuilderImpl();
 		builder.access(ACC_PUBLIC);
 		return builder;
 	}
 
 	static public AfterClassModifier package_() {
-		AdvClassBuilder builder = new AdvClassBuilder();
+		AdvClassBuilderImpl builder = new AdvClassBuilderImpl();
 		builder.access(0);
 		return builder;
 	}
@@ -514,7 +514,7 @@ public class Adv {
 		return builder;
 	}
 
-	static public CompareEval isLessThan(int left, int right) {
+	static public CompareEval isLessThen(int left, int right) {
 		AdvContext context = _context.get();
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
@@ -537,7 +537,7 @@ public class Adv {
 		};
 	}
 
-	static public CompareEval isGreaterThan(int left, int right) {
+	static public CompareEval isGreaterThen(int left, int right) {
 		AdvContext context = _context.get();
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
