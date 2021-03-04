@@ -4,7 +4,7 @@ public interface AdvRuntimeReferNameObject {
 
 	byte get__MagicNumber();
 
-	void set__Context(ThreadLocal<AdvContext> _context, byte name);
+	void set__Context(ThreadLocal<AdvContext> _contextThreadLocal, byte name);
 
 	void set__MagicNumber(byte magicNumber);
 

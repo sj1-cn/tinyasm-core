@@ -1,9 +1,14 @@
-package cc1sj.tinyasm;
+package cc1sj.tinyasm.tinyasmproxy;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.objectweb.asm.Type;
+
+import cc1sj.tinyasm.ClassBody;
+import cc1sj.tinyasm.Clazz;
+import cc1sj.tinyasm.MethodCaller;
+import cc1sj.tinyasm.MethodCode;
 
 public interface TinyAsmProxyBase {
 

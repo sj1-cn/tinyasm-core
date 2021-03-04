@@ -7,10 +7,10 @@ public class IfBuilder implements AfterIf, AfterThen, ConsumerWithException<Meth
 	ConsumerWithException<MethodCode> thenBlock;
 	ConsumerWithException<MethodCode> elseBlock;
 	AfterIf elseIf;
-	AdvContext context;
+	ThreadLocal<AdvContext> _contextThreadLocal;
 
-	public IfBuilder(AdvContext context, CompareEval eval) {
-		this.context = context;
+	public IfBuilder(ThreadLocal<AdvContext> _contextThreadLocal, CompareEval eval) {
+		this._contextThreadLocal = _contextThreadLocal;
 		this.ifEval = eval;
 	}
 
@@ -27,7 +27,7 @@ public class IfBuilder implements AfterIf, AfterThen, ConsumerWithException<Meth
 
 	@Override
 	public AfterIf else_if(CompareEval beGood) {
-		IfBuilder elseIfBuilder = new IfBuilder(context, beGood);
+		IfBuilder elseIfBuilder = new IfBuilder(_contextThreadLocal, beGood);
 		this.elseIf = elseIfBuilder;
 		return elseIfBuilder;
 
@@ -35,6 +35,7 @@ public class IfBuilder implements AfterIf, AfterThen, ConsumerWithException<Meth
 
 	@Override
 	public void accept(MethodCode code) throws Exception {
+		AdvContext context = _contextThreadLocal.get();
 		if (elseIf != null) {
 
 		} else if (elseBlock != null) {
@@ -50,7 +51,7 @@ public class IfBuilder implements AfterIf, AfterThen, ConsumerWithException<Meth
 			Label line = new Label();
 			code.visitLabel(line);
 			code.visitLineNumber(line);
-			
+
 			code.GOTO(label4OfGOTO);
 
 			code.visitLabel(labelElse);

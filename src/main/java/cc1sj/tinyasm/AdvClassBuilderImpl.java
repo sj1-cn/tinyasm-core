@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static cc1sj.tinyasm.Adv.*;
+
 import static org.objectweb.asm.Opcodes.*;
 
-public class AdvClassBuilderImpl
-		implements AfterClassModifier, AfterClassName, AfterClassExtends, AfterClassImplements, AdvClassBuilder, AfterModifier, AfterClassEnd {
+public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, AfterClassExtends, AfterClassImplements, AdvClassBuilder,
+		AfterModifier, AfterClassEnd {
+
 	int access = 0;
 	String className;
 	Clazz _extends;
@@ -17,6 +20,11 @@ public class AdvClassBuilderImpl
 	ClassBody classBody;
 
 	int memberAccess = 0;
+	ThreadLocal<AdvContext> _contextThreadLocal;
+
+	public AdvClassBuilderImpl(ThreadLocal<AdvContext> _contextThreadLocal) {
+		this._contextThreadLocal = _contextThreadLocal;
+	}
 
 	public void access(int accPublic) {
 		this.access |= accPublic;
@@ -85,6 +93,7 @@ public class AdvClassBuilderImpl
 	}
 
 	ClassBuilder classBuilder;
+
 	@Override
 	public AfterClassEnd end() {
 		classBuilder = classBody.end();
@@ -96,12 +105,85 @@ public class AdvClassBuilderImpl
 		return classBuilder.toByteArray();
 	}
 
-	// TODO
-	@Override
-	public <T> T field(String string, Class<T> class1) {
+	public boolean_ field_boolean(String name) {
+		int localsIndex = classBody.field(name, boolean.class);
+		return new boolean_Holder(_contextThreadLocal, (byte) (MAGIC_FIELD_NUMBER + localsIndex));
+	}
 
-		classBody.field(string, Clazz.of(class1));
-		return null;
+	public Boolean__ field_Boolean(String name) {
+		int localsIndex = classBody.field(name, boolean.class);
+		return new Boolean__Holder(_contextThreadLocal, (byte) (MAGIC_FIELD_NUMBER + localsIndex));
+	}
+
+	public byte field_byte(String name) {
+		int localsIndex = classBody.field(name, byte.class);
+		return (byte) (MAGIC_FIELD_NUMBER + localsIndex);
+	}
+
+	public short field_short(String name) {
+		int localsIndex = classBody.field(name, short.class);
+		return (short) (MAGIC_FIELD_NUMBER + localsIndex);
+	}
+
+	public int field_int(String name) {
+		int localsIndex = classBody.field(name, int.class);
+		return (int) (MAGIC_FIELD_NUMBER + localsIndex);
+	}
+
+	public long field_long(String name) {
+		int localsIndex = classBody.field(name, long.class);
+		return (long) (MAGIC_FIELD_NUMBER + localsIndex);
+	}
+
+	public float field_float(String name) {
+		int localsIndex = classBody.field(name, float.class);
+		return (float) (MAGIC_FIELD_NUMBER + localsIndex);
+	}
+
+	public double field_double(String name) {
+		int localsIndex = classBody.field(name, double.class);
+		return (double) (MAGIC_FIELD_NUMBER + localsIndex);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T field(String name, Class<T> clazz) {
+
+		int localsIndex = classBody.field(name, clazz);
+
+		if (clazz == Boolean.class) {
+			throw new UnsupportedOperationException("请使用 field_boolean");
+		} else if (clazz == Byte.class) {
+			Byte key = (byte) (MAGIC_FIELD_NUMBER + localsIndex);
+			return (T) key;
+		} else if (clazz == Character.class) {
+			Character key = (char) (MAGIC_FIELD_NUMBER + localsIndex);
+			return (T) key;
+		} else if (clazz == Short.class) {
+			Short key = (short) (MAGIC_FIELD_NUMBER + localsIndex);
+			return (T) key;
+		} else if (clazz == Integer.class) {
+			Integer key = (int) (MAGIC_FIELD_NUMBER + localsIndex);
+			return (T) key;
+		} else if (clazz == Long.class) {
+			Long key = (long) (MAGIC_FIELD_NUMBER + localsIndex);
+			return (T) key;
+		} else if (clazz == Float.class) {
+			Double key = (double) (MAGIC_FIELD_NUMBER + localsIndex);
+			return (T) key;
+		} else if (clazz == Double.class) {
+			Double key = (double) (MAGIC_FIELD_NUMBER + localsIndex);
+			return (T) key;
+		} else if (clazz == String.class) {
+			String key = String.valueOf(MAGIC_LOCALS_String + localsIndex);
+			return (T) key;
+		} else {
+			byte magicNumber = (byte) (MAGIC_FIELD_NUMBER + localsIndex);
+			T obj = Adv.buildProxyClass(clazz, magicNumber);
+			return (T) obj;
+//			return null;
+//		} else {
+//			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+		}
 	}
 
 }

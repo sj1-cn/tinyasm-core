@@ -5,12 +5,13 @@ import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
 import org.objectweb.asm.Type;
+
+import static cc1sj.tinyasm.tinyasmproxy.TinyAsmBuilder.*;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.hero.helperclass.PageWithParameters;
 import java.lang.Object;
-import static cc1sj.tinyasm.TinyAsmBuilder.*;
 
 @SuppressWarnings("unused")
 public class PageWithParametersSampleTinyAsmBuilder {

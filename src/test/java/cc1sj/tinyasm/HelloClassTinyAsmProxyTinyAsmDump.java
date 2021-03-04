@@ -1,11 +1,24 @@
 package cc1sj.tinyasm;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
+import org.objectweb.asm.Label;
+import cc1sj.tinyasm.ClassBody;
+import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.MethodCode;
 import org.objectweb.asm.Type;
-
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
+import cc1sj.tinyasm.Clazz;
+import cc1sj.tinyasm.MethodCode;
+import cc1sj.tinyasm.MethodCaller;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
+import cc1sj.tinyasm.tinyasmproxy.TinyAsmBuilder;
+import cc1sj.tinyasm.tinyasmproxy.TinyAsmBuilderContext;
+import cc1sj.tinyasm.tinyasmproxy.TinyAsmProxyRuntimeReferNameObject;
 
+import java.lang.Class;
+import java.lang.Object;
+import java.lang.String;
+import java.lang.Integer;
+@SuppressWarnings("unused")
 public class HelloClassTinyAsmProxyTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
@@ -17,7 +30,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("_referName", Clazz.of(String.class));
-		classBody.field("_context", Clazz.of(TinyAsmBuilderContext.class));
+		classBody.field("_contextThreadLocal", Clazz.of(TinyAsmBuilderContext.class));
 		classBody.field("_code", Clazz.of(MethodCode.class));
 		__init_(classBody);
 		_get__ReferName(classBody);
@@ -31,7 +44,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 	protected void __init_(ClassBody classBody) {
 		MethodCode code = classBody.method("<init>").begin();
 
-		code.LINE(10);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HelloClass.class, "<init>").INVOKE();
 		code.RETURN();
@@ -42,9 +55,9 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 	protected void _get__ReferName(ClassBody classBody) {
 		MethodCode code = classBody.method(String.class, "get__ReferName").begin();
 
-		code.LINE(18);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("_referName", String.class);
+		code.GETFIELD_OF_THIS("_referName");
 		code.RETURNTop();
 
 		code.END();
@@ -55,23 +68,23 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 			.parameter("context",TinyAsmBuilderContext.class)
 			.parameter("name",String.class).begin();
 
-		code.LINE(23);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("context");
-		code.PUTFIELD("_context", TinyAsmBuilderContext.class);
+		code.PUTFIELD_OF_THIS("_contextThreadLocal");
 
-		code.LINE(24);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("context");
 		code.GETFIELD("code", MethodCode.class);
-		code.PUTFIELD("_code", MethodCode.class);
+		code.PUTFIELD_OF_THIS("_code");
 
-		code.LINE(25);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("name");
-		code.PUTFIELD("_referName", String.class);
+		code.PUTFIELD_OF_THIS("_referName");
 
-		code.LINE(26);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -80,23 +93,23 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 	protected void _getAgeInt(ClassBody classBody) {
 		MethodCode code = classBody.method(int.class, "getAgeInt").begin();
 
-		code.LINE(62);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("_code", MethodCode.class);
+		code.GETFIELD_OF_THIS("_code");
 		code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-		code.LINE(63);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("_code", MethodCode.class);
+		code.GETFIELD_OF_THIS("_code");
 		code.LOAD("this");
-		code.GETFIELD("_referName", String.class);
+		code.GETFIELD_OF_THIS("_referName");
 		code.STATIC(TinyAsmBuilder.class, "resolve")
 			.parameter(MethodCode.class)
 			.parameter(String.class).INVOKE();
 
-		code.LINE(64);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("_code", MethodCode.class);
+		code.GETFIELD_OF_THIS("_code");
 		code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
 		code.LOADConst("getAgeInt");
 		code.VIRTUAL(MethodCode.class, "VIRTUAL")
@@ -109,9 +122,9 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 			.parameter(Class.class).INVOKE();
 		code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-		code.LINE(65);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("_code", MethodCode.class);
+		code.GETFIELD_OF_THIS("_code");
 		code.GETSTATIC(Integer.class, "TYPE", Class.class);
 		code.STATIC(TinyAsmBuilder.class, "storeTopAndRefer")
 			.reTurn(Object.class)
@@ -129,31 +142,31 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 		MethodCode code = classBody.method("setAgeInt")
 			.parameter("value",int.class).begin();
 
-		code.LINE(194);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("_code", MethodCode.class);
+		code.GETFIELD_OF_THIS("_code");
 		code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 
-		code.LINE(195);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("_code", MethodCode.class);
+		code.GETFIELD_OF_THIS("_code");
 		code.LOAD("this");
-		code.GETFIELD("_referName", String.class);
+		code.GETFIELD_OF_THIS("_referName");
 		code.STATIC(TinyAsmBuilder.class, "resolve")
 			.parameter(MethodCode.class)
 			.parameter(String.class).INVOKE();
 
-		code.LINE(196);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("_code", MethodCode.class);
+		code.GETFIELD_OF_THIS("_code");
 		code.LOAD("value");
 		code.STATIC(TinyAsmBuilder.class, "resolve")
 			.parameter(MethodCode.class)
 			.parameter(int.class).INVOKE();
 
-		code.LINE(197);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("_code", MethodCode.class);
+		code.GETFIELD_OF_THIS("_code");
 		code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClass;"));
 		code.LOADConst("setAgeInt");
 		code.VIRTUAL(MethodCode.class, "VIRTUAL")
@@ -166,7 +179,7 @@ public class HelloClassTinyAsmProxyTinyAsmDump {
 			.parameter(Class.class).INVOKE();
 		code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 
-		code.LINE(198);
+		code.LINE();
 		code.RETURN();
 
 		code.END();

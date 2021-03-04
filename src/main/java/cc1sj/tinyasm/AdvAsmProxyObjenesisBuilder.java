@@ -3,6 +3,7 @@ package cc1sj.tinyasm;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -11,8 +12,6 @@ import org.objenesis.ObjenesisStd;
 import org.objenesis.instantiator.ObjectInstantiator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.ImmutableMap;
 
 class AdvAsmProxyObjenesisBuilder {
 	Objenesis objenesis = new ObjenesisStd(); // or ObjenesisSerializer
@@ -24,22 +23,22 @@ class AdvAsmProxyObjenesisBuilder {
 	ReentrantLock lock = new ReentrantLock();
 
 	public AdvAsmProxyObjenesisBuilder() {
-		knownBrokeres = ImmutableMap.of();
+		knownBrokeres = new HashMap<String, ObjectInstantiator<?>>();
 //		instanceBuilder = new BrokerInstanceBuilderClassMaker();
 	}
 
 	public void clear() {
-		knownBrokeres = ImmutableMap.of();
+		knownBrokeres = new HashMap<String, ObjectInstantiator<?>>();
 	}
 
 	static int count = 0;
 
-	public <T> T builder(Class<T> target, ThreadLocal<AdvContext> context, int magicNumber) {
+	public <T> T buildProxyClass(Class<T> target, ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber) {
 
 		ObjectInstantiator<?> builder = knownBrokeres.get(target.getName());
 
 		if (builder != null) {
-			return make(builder, context, magicNumber);
+			return make(builder, _contextThreadLocal, magicNumber);
 		}
 
 		lock.lock();
@@ -47,7 +46,7 @@ class AdvAsmProxyObjenesisBuilder {
 
 			builder = knownBrokeres.get(target.getName());
 			if (builder != null) {
-				return make(builder, context, magicNumber);
+				return make(builder, _contextThreadLocal, magicNumber);
 			}
 
 			count++;
@@ -96,11 +95,9 @@ class AdvAsmProxyObjenesisBuilder {
 				builder = objenesis.getInstantiatorOf(clzBroker);
 			}
 
-			ImmutableMap.Builder<String, ObjectInstantiator<?>> mapBuilder = ImmutableMap.builder();
+			this.knownBrokeres.put(target.getName(), builder);
 
-			this.knownBrokeres = mapBuilder.putAll(knownBrokeres).put(target.getName(), builder).build();
-
-			return make(builder, context, magicNumber);
+			return make(builder, _contextThreadLocal, magicNumber);
 
 		} catch (ClassFormatError e) {
 			log.error("", e);
@@ -123,10 +120,10 @@ class AdvAsmProxyObjenesisBuilder {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <T> T make(ObjectInstantiator<?> builder, ThreadLocal<AdvContext> context, int magicNumber) {
+	protected <T> T make(ObjectInstantiator<?> builder, ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber) {
 		T t = (T) builder.newInstance();
 		AdvRuntimeReferNameObject o = (AdvRuntimeReferNameObject) t;
-		o.set__Context(context, (byte) magicNumber);
+		o.set__Context(_contextThreadLocal, (byte) magicNumber);
 		return t;
 	}
 }

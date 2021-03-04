@@ -54,51 +54,51 @@ public class MakeReadOnlyPojoTinyAsmDump {
 			.parameter("d",double.class)
 			.parameter("str",String.class).begin();
 
-		code.LINE(13);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(Object.class, "<init>").INVOKE();
 
-		code.LINE(14);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("b");
-		code.PUTFIELD("b", byte.class);
+		code.PUTFIELD_OF_THIS("b");
 
-		code.LINE(15);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("c");
-		code.PUTFIELD("c", char.class);
+		code.PUTFIELD_OF_THIS("c");
 
-		code.LINE(16);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("s");
-		code.PUTFIELD("s", short.class);
+		code.PUTFIELD_OF_THIS("s");
 
-		code.LINE(17);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i");
-		code.PUTFIELD("i", int.class);
+		code.PUTFIELD_OF_THIS("i");
 
-		code.LINE(18);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("l");
-		code.PUTFIELD("l", long.class);
+		code.PUTFIELD_OF_THIS("l");
 
-		code.LINE(19);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("f");
-		code.PUTFIELD("f", float.class);
+		code.PUTFIELD_OF_THIS("f");
 
-		code.LINE(20);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("d");
-		code.PUTFIELD("d", double.class);
+		code.PUTFIELD_OF_THIS("d");
 
-		code.LINE(21);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("str");
-		code.PUTFIELD("str", String.class);
+		code.PUTFIELD_OF_THIS("str");
 
-		code.LINE(22);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -107,9 +107,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	protected void _getB(ClassBody classBody) {
 		MethodCode code = classBody.method(byte.class, "getB").begin();
 
-		code.LINE(25);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("b", byte.class);
+		code.GETFIELD_OF_THIS("b");
 		code.RETURNTop();
 
 		code.END();
@@ -118,9 +118,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	protected void _getC(ClassBody classBody) {
 		MethodCode code = classBody.method(char.class, "getC").begin();
 
-		code.LINE(29);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("c", char.class);
+		code.GETFIELD_OF_THIS("c");
 		code.RETURNTop();
 
 		code.END();
@@ -129,9 +129,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	protected void _getS(ClassBody classBody) {
 		MethodCode code = classBody.method(short.class, "getS").begin();
 
-		code.LINE(33);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("s", short.class);
+		code.GETFIELD_OF_THIS("s");
 		code.RETURNTop();
 
 		code.END();
@@ -140,9 +140,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	protected void _getI(ClassBody classBody) {
 		MethodCode code = classBody.method(int.class, "getI").begin();
 
-		code.LINE(37);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("i", int.class);
+		code.GETFIELD_OF_THIS("i");
 		code.RETURNTop();
 
 		code.END();
@@ -151,9 +151,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	protected void _getL(ClassBody classBody) {
 		MethodCode code = classBody.method(long.class, "getL").begin();
 
-		code.LINE(41);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("l", long.class);
+		code.GETFIELD_OF_THIS("l");
 		code.RETURNTop();
 
 		code.END();
@@ -162,9 +162,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	protected void _getF(ClassBody classBody) {
 		MethodCode code = classBody.method(float.class, "getF").begin();
 
-		code.LINE(45);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("f", float.class);
+		code.GETFIELD_OF_THIS("f");
 		code.RETURNTop();
 
 		code.END();
@@ -173,9 +173,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	protected void _getD(ClassBody classBody) {
 		MethodCode code = classBody.method(double.class, "getD").begin();
 
-		code.LINE(49);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("d", double.class);
+		code.GETFIELD_OF_THIS("d");
 		code.RETURNTop();
 
 		code.END();
@@ -184,9 +184,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	protected void _getStr(ClassBody classBody) {
 		MethodCode code = classBody.method(String.class, "getStr").begin();
 
-		code.LINE(53);
+		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD("str", String.class);
+		code.GETFIELD_OF_THIS("str");
 		code.RETURNTop();
 
 		code.END();
@@ -195,109 +195,109 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	protected void _toString(ClassBody classBody) {
 		MethodCode code = classBody.method(String.class, "toString").begin();
 
-		code.LINE(58);
+		code.LINE();
 		code.NEW(StringBuilder.class);
 		code.DUP();
 		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
 		code.STORE("builder",StringBuilder.class);
 
-		code.LINE(59);
+		code.LINE();
 		code.LOAD("builder");
 		code.LOADConst("MakeReadOnlyPojo [b=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD("b", byte.class);
+		code.GETFIELD_OF_THIS("b");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(int.class).INVOKE();
-		code.LOADConst(", c=");
 
-		code.LINE(60);
+		code.LINE();
+		code.LOADConst(", c=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD("c", char.class);
+		code.GETFIELD_OF_THIS("c");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(char.class).INVOKE();
+
+		code.LINE();
 		code.LOADConst(", s=");
-
-		code.LINE(61);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD("s", short.class);
+		code.GETFIELD_OF_THIS("s");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(int.class).INVOKE();
+
+		code.LINE();
 		code.LOADConst(", i=");
-
-		code.LINE(62);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD("i", int.class);
+		code.GETFIELD_OF_THIS("i");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(int.class).INVOKE();
-		code.LOADConst(", l=");
 
-		code.LINE(63);
+		code.LINE();
+		code.LOADConst(", l=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD("l", long.class);
+		code.GETFIELD_OF_THIS("l");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(long.class).INVOKE();
-		code.LOADConst(", f=");
 
-		code.LINE(64);
+		code.LINE();
+		code.LOADConst(", f=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD("f", float.class);
+		code.GETFIELD_OF_THIS("f");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(float.class).INVOKE();
-		code.LOADConst(", d=");
 
-		code.LINE(65);
+		code.LINE();
+		code.LOADConst(", d=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD("d", double.class);
+		code.GETFIELD_OF_THIS("d");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(double.class).INVOKE();
-		code.LOADConst(", str=");
 
-		code.LINE(66);
+		code.LINE();
+		code.LOADConst(", str=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD("str", String.class);
+		code.GETFIELD_OF_THIS("str");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(String.class).INVOKE();
-		code.LOADConst("]");
 
-		code.LINE(67);
+		code.LINE();
+		code.LOADConst("]");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.reTurn(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.POP();
 
-		code.LINE(68);
+		code.LINE();
 		code.LOAD("builder");
 		code.VIRTUAL(StringBuilder.class, "toString")
 			.reTurn(String.class).INVOKE();

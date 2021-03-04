@@ -183,7 +183,7 @@ class MethodHeaderBuilder implements MethodHeader {
 		if (!enteredMethodCode) {
 			enteredMethodCode = true;
 			methodCode = new MethodCodeBuilder(mv, this, mhLocals);
-			TinyAsmBuilder.enterCode(methodCode);
+//			TinyAsmBuilder.enterCode(methodCode);
 			return methodCode;
 		}
 		return null;
@@ -216,7 +216,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	void end() {
 		exitMethod();
-		if (!exited) TinyAsmBuilder.exitCode();
+//		if (!exited) TinyAsmBuilder.exitCode();
 		exited = true;
 	}
 

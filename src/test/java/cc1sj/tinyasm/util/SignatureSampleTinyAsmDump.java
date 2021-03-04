@@ -34,7 +34,7 @@ public class SignatureSampleTinyAsmDump {
 	protected void __init_(ClassBody classBody) {
 		MethodCode code = classBody.method("<init>").begin();
 
-		code.LINE(7);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(HashMap.class, "<init>").INVOKE();
 		code.RETURN();
@@ -47,7 +47,7 @@ public class SignatureSampleTinyAsmDump {
 			.parameter("mapStrngString",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)))
 			.parameter("mapStrngString2",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class))).begin();
 
-		code.LINE(22);
+		code.LINE();
 		code.LOADConstNULL();
 		code.RETURNTop();
 

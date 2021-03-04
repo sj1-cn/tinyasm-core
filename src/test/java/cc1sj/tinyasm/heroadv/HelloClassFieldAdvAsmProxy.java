@@ -1,15 +1,14 @@
 package cc1sj.tinyasm.heroadv;
 
-import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
-import static cc1sj.tinyasm.Adv.MAGIC_CODES_String;
+import static cc1sj.tinyasm.Adv.*;
 
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.hero.helperclass.HelloInterface;
+import cc1sj.tinyasm.hero.helperclass.HelloClass;
 
-public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeReferNameObject {
+public class HelloClassFieldAdvAsmProxy extends HelloClass implements AdvRuntimeReferNameObject {
 	private byte _magicNumber;
 	private ThreadLocal<AdvContext> _contextThreadLocal;
 
@@ -31,13 +30,28 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 	}
 
 	@Override
+	public void setTwoParameter(int param1, byte param2) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		ConsumerWithException<MethodCode> eval_1 = context.resolve(param1);
+		ConsumerWithException<MethodCode> eval_2 = context.resolve(param2);
+		context.push(c -> {
+			objEval.accept(c);
+			eval_1.accept(c);
+			eval_2.accept(c);
+			c.VIRTUAL(HelloClass.class, "setTwoParameter").parameter(int.class).parameter(byte.class).INVOKE();
+		});
+		context.popAndExec();
+	}
+
+	@Override
 	public String getName() {
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getName").reTurn(String.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getName").reTurn(String.class).INVOKE();
 		});
 		return MAGIC_CODES_String + codeIndex; // String.class);
 	}
@@ -49,7 +63,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeChar").reTurn(char.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeChar").reTurn(char.class).INVOKE();
 		});
 		return (char) (MAGIC_CODES_NUMBER + codeIndex);// char.class);
 	}
@@ -61,7 +75,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeByte").reTurn(byte.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeByte").reTurn(byte.class).INVOKE();
 		});
 		return (byte) (MAGIC_CODES_NUMBER + codeIndex); // byte.class);
 	}
@@ -73,7 +87,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeShort").reTurn(short.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeShort").reTurn(short.class).INVOKE();
 		});
 		return (short) (MAGIC_CODES_NUMBER + codeIndex); // short.class);
 	}
@@ -85,7 +99,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeInt").reTurn(int.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeInt").reTurn(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
@@ -97,7 +111,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeLong").reTurn(long.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeLong").reTurn(long.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // long.class);
 	}
@@ -109,7 +123,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeFloat").reTurn(float.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeFloat").reTurn(float.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // float.class);
 	}
@@ -121,7 +135,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeDouble").reTurn(double.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeDouble").reTurn(double.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // double.class);
 	}
@@ -133,7 +147,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeCharacter").reTurn(Character.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeCharacter").reTurn(Character.class).INVOKE();
 		});
 		return (char) (MAGIC_CODES_NUMBER + codeIndex); // Character.class);
 	}
@@ -145,7 +159,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeByte2").reTurn(Byte.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeByte2").reTurn(Byte.class).INVOKE();
 		});
 		return (byte) (MAGIC_CODES_NUMBER + codeIndex); // Byte.class);
 	}
@@ -157,7 +171,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeShort2").reTurn(Short.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeShort2").reTurn(Short.class).INVOKE();
 		});
 		return (short) (MAGIC_CODES_NUMBER + codeIndex);// Short.class);
 	}
@@ -169,7 +183,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeInteger").reTurn(Integer.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeInteger").reTurn(Integer.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // Integer.class);
 	}
@@ -181,7 +195,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeLong2").reTurn(Long.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeLong2").reTurn(Long.class).INVOKE();
 		});
 		return (long) (MAGIC_CODES_NUMBER + codeIndex);// Long.class);
 	}
@@ -193,7 +207,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeFloat2").reTurn(Float.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeFloat2").reTurn(Float.class).INVOKE();
 		});
 		return (float) (MAGIC_CODES_NUMBER + codeIndex); // Float.class);
 	}
@@ -205,7 +219,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
-			c.INTERFACE(HelloInterface.class, "getAgeDouble2").reTurn(Double.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "getAgeDouble2").reTurn(Double.class).INVOKE();
 		});
 		return (double) (MAGIC_CODES_NUMBER + codeIndex); // Double.class);
 	}
@@ -220,7 +234,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setName").parameter(String.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setName").parameter(String.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -235,7 +249,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeChar").parameter(char.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeChar").parameter(char.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -250,7 +264,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeByte").parameter(byte.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeByte").parameter(byte.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -265,7 +279,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeShort").parameter(short.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeShort").parameter(short.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -273,7 +287,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 //	@Override
 //	public void setAgeInt(int value) {
 //		AdvContext context = _contextThreadLocal.get();ConsumerWithException<MethodCode> objEval = context.resolve(this);ConsumerWithException<MethodCode> objValue = context.resolve(value);context.push(c -> {objEval.accept(c);objValue.accept(c);
-//			c.INTERFACE(HelloInterface.class, "setAgeInt").parameter(int.class).INVOKE();});context.execAndPop();
+//			c.VIRTUAL(HelloClass.class, "setAgeInt").parameter(int.class).INVOKE();});context.execAndPop();
 //
 //	}
 
@@ -287,7 +301,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeInt").parameter(int.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeInt").parameter(int.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -302,7 +316,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeLong").parameter(long.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeLong").parameter(long.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -317,7 +331,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeFloat").parameter(float.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeFloat").parameter(float.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -332,7 +346,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeDouble").parameter(double.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeDouble").parameter(double.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -347,7 +361,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeCharacter").parameter(Character.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeCharacter").parameter(Character.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -362,7 +376,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeByte2").parameter(Byte.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeByte2").parameter(Byte.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -377,7 +391,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeShort2").parameter(Short.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeShort2").parameter(Short.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -391,7 +405,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeInteger").parameter(Integer.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeInteger").parameter(Integer.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -406,7 +420,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeLong2").parameter(Long.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeLong2").parameter(Long.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -421,7 +435,7 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeFloat2").parameter(Float.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeFloat2").parameter(Float.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -436,8 +450,9 @@ public class HelloInterfaceTinyAsmProxy implements HelloInterface, AdvRuntimeRef
 			objEval.accept(c);
 			objValue.accept(c);
 
-			c.INTERFACE(HelloInterface.class, "setAgeDouble2").parameter(Double.class).INVOKE();
+			c.VIRTUAL(HelloClass.class, "setAgeDouble2").parameter(Double.class).INVOKE();
 		});
 		context.popAndExec();
 	}
+
 }

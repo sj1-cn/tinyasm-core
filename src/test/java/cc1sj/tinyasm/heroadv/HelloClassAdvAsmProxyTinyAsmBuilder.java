@@ -49,7 +49,7 @@ public class HelloClassAdvAsmProxyTinyAsmBuilder {
 		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, MethodHandles.class.getName(), "Lookup");
 
 		classBody.field("_magicNumber", Clazz.of(byte.class));
-		classBody.field("_context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
+		classBody.field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
 		__init_(classBody);
 		_get__MagicNumber(classBody);
 		_set__MagicNumber(classBody);
@@ -107,7 +107,7 @@ public class HelloClassAdvAsmProxyTinyAsmBuilder {
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("context");
-		code.PUTFIELD_OF_THIS("_context");
+		code.PUTFIELD_OF_THIS("_contextThreadLocal");
 
 		code.LINE();
 		code.LOAD("this");
@@ -318,7 +318,7 @@ public class HelloClassAdvAsmProxyTinyAsmBuilder {
 			new String[] { Boolean.class.getName(), Character.class.getName(), Byte.class.getName(), Short.class.getName(),
 					Integer.class.getName(), Long.class.getName(), Float.class.getName(), Double.class.getName(), String.class.getName() });
 
-	protected void code_context_execAndPop(MethodCode code) {
+	protected void code_contextThreadLocal_execAndPop(MethodCode code) {
 		code.LINE();
 		code.LOAD("context");
 		code.VIRTUAL(AdvContext.class, "execAndPop").INVOKE();
@@ -352,7 +352,7 @@ public class HelloClassAdvAsmProxyTinyAsmBuilder {
 	protected void code_getContext(MethodCode code) {
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("_context");
+		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get").reTurn(Object.class).INVOKE();
 		code.CHECKCAST(AdvContext.class);
 		code.STORE("context", AdvContext.class);

@@ -25,25 +25,25 @@ public class Adv {
 	 ***********************************************/
 
 	static public AfterClassModifier public_() {
-		AdvClassBuilderImpl builder = new AdvClassBuilderImpl();
+		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(ACC_PUBLIC);
 		return builder;
 	}
 
 	static public AfterClassModifier private_() {
-		AdvClassBuilderImpl builder = new AdvClassBuilderImpl();
+		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(ACC_PUBLIC);
 		return builder;
 	}
 
 	static public AfterClassModifier protected_() {
-		AdvClassBuilderImpl builder = new AdvClassBuilderImpl();
+		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(ACC_PUBLIC);
 		return builder;
 	}
 
 	static public AfterClassModifier package_() {
-		AdvClassBuilderImpl builder = new AdvClassBuilderImpl();
+		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(0);
 		return builder;
 	}
@@ -56,28 +56,28 @@ public class Adv {
 	 * 
 	 * 
 	 ***********************************************/
-	static ThreadLocal<Stack<AdvContext>> _contextStack = new ThreadLocal<>();
-	static private ThreadLocal<AdvContext> _context = new ThreadLocal<>();
+	static private ThreadLocal<Stack<AdvContext>> _contextThreadLocalStack = new ThreadLocal<>();
+	static private ThreadLocal<AdvContext> _contextThreadLocal = new ThreadLocal<>();
 
 	static AdvContext enterCode(MethodCode code) {
 		AdvContext newContext = new AdvContext(code);
-		if (_context.get() != null) {
-			if (_contextStack.get() == null) {
-				_contextStack.set(new Stack<>());
+		if (_contextThreadLocal.get() != null) {
+			if (_contextThreadLocalStack.get() == null) {
+				_contextThreadLocalStack.set(new Stack<>());
 			}
-			_contextStack.get().push(_context.get());
+			_contextThreadLocalStack.get().push(_contextThreadLocal.get());
 		}
-		_context.set(newContext);
+		_contextThreadLocal.set(newContext);
 		return newContext;
 	}
 
 	static void exitCode() {
-		AdvContext currentContext = _context.get();
+		AdvContext currentContext = _contextThreadLocal.get();
 		currentContext.clear();
-		if (_contextStack.get() != null) {
-			_context.set(_contextStack.get().pop());
+		if (_contextThreadLocalStack.get() != null) {
+			_contextThreadLocal.set(_contextThreadLocalStack.get().pop());
 		} else {
-			_context.set(null);
+			_contextThreadLocal.set(null);
 		}
 	}
 
@@ -98,77 +98,207 @@ public class Adv {
 	public static final byte MAGIC_CODES_NUMBER = 80;
 	public static final byte MAGIC_CODES_MAX = 99;
 
-	public static final byte MAGIC_FIELD_NUMBER = 40;
+	public static final byte MAGIC_FIELD_NUMBER = 60;
 	public static final byte MAGIC_FIELD_MAX = 79;
 
+	public static final byte MAGIC_STATIC_FIELD_NUMBER = 40;
+	public static final byte MAGIC_STATIC_FIELD_MAX = 59;
+
 	static public boolean_ cst(boolean value) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		int magicNUmber = MAGIC_CODES_NUMBER + context.push(c -> {
 			c.LOADConst(value);
 		});
-		return new boolean_Holder(context, (byte) magicNUmber);
+		return new boolean_Holder(_contextThreadLocal, (byte) magicNUmber);
 	}
 
 	static public byte cst(byte value) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		return (byte) (MAGIC_CODES_NUMBER + context.push(c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public char cst(char value) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		return (char) (MAGIC_CODES_NUMBER + context.push(c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public short cst(short value) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		return (short) (MAGIC_CODES_NUMBER + context.push(c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public int cst(int value) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		return (int) (MAGIC_CODES_NUMBER + context.push(c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public long cst(long value) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		return (long) (MAGIC_CODES_NUMBER + context.push(c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public float cst(float value) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		return (float) (MAGIC_CODES_NUMBER + context.push(c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public double cst(double value) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		return (double) (MAGIC_CODES_NUMBER + context.push(c -> {
 			c.LOADConst(value);
 		}));
 	}
 
+//	static public int inc(int l, int r) {
+//		TinyAsmBuilderContext _contextThreadLocal = _contextThreadLocalThreadLocal.get();
+//		MethodCode code = _contextThreadLocal.code;
+//		code.LINE();
+//		int locals = l - MAGIC_int;
+//		code.IINC(locals, r);
+//		return l;
+//	}
+//
+//	static public <T> T getField(String name, Class<T> clazz) {
+//		TinyAsmBuilderContext _contextThreadLocal = _contextThreadLocalThreadLocal.get();
+//		MethodCode code = _contextThreadLocal.code;
+//		code.LINE();
+//		code.LOAD_THIS();
+//		code.GETFIELD_OF_THIS(name);
+//		return storeTopAndRefer(clazz);
+//	}
+
+	static public boolean_ param_boolean(String name) {
+		AdvContext context = _contextThreadLocal.get();
+		int locals = context.getCode().codeLocalGetLocals(name);
+
+		return new boolean_Holder(_contextThreadLocal, (byte) (MAGIC_LOCALS_NUMBER + locals));
+	}
+
+	static public Boolean__ param_Boolean(String name) {
+		AdvContext context = _contextThreadLocal.get();
+		int locals = context.getCode().codeLocalGetLocals(name);
+
+		return new Boolean__Holder(_contextThreadLocal, (byte) (MAGIC_LOCALS_NUMBER + locals));
+	}
+
+	static public byte param_byte(String name) {
+		AdvContext context = _contextThreadLocal.get();
+		int localsIndex = context.getCode().codeLocalGetLocals(name);
+		return (byte) (MAGIC_LOCALS_NUMBER + localsIndex);
+	}
+
+	static public short param_short(String name) {
+		AdvContext context = _contextThreadLocal.get();
+		int localsIndex = context.getCode().codeLocalGetLocals(name);
+		return (short) (MAGIC_LOCALS_NUMBER + localsIndex);
+	}
+
+	static public int param_int(String name) {
+		AdvContext context = _contextThreadLocal.get();
+		int localsIndex = context.getCode().codeLocalGetLocals(name);
+		return (int) (MAGIC_LOCALS_NUMBER + localsIndex);
+	}
+
+	static public long param_long(String name) {
+		AdvContext context = _contextThreadLocal.get();
+		int localsIndex = context.getCode().codeLocalGetLocals(name);
+		return (long) (MAGIC_LOCALS_NUMBER + localsIndex);
+	}
+
+	static public float param_float(String name) {
+		AdvContext context = _contextThreadLocal.get();
+		int localsIndex = context.getCode().codeLocalGetLocals(name);
+		return (float) (MAGIC_LOCALS_NUMBER + localsIndex);
+	}
+
+	static public double param_double(String name) {
+		AdvContext context = _contextThreadLocal.get();
+		int localsIndex = context.getCode().codeLocalGetLocals(name);
+		return (double) (MAGIC_LOCALS_NUMBER + localsIndex);
+	}
+
+	@SuppressWarnings("unchecked")
+	static public <T> T param(String name, Class<T> t) {
+		AdvContext context = _contextThreadLocal.get();
+		int localsIndex = context.getCode().codeLocalGetLocals(name);
+
+		if (t == Boolean.class) {
+			throw new UnsupportedOperationException("请使用 param_boolean");
+		} else if (t == Byte.class) {
+			Byte key = (byte) (MAGIC_LOCALS_NUMBER + localsIndex);
+			return (T) key;
+		} else if (t == Character.class) {
+			Character key = (char) (MAGIC_LOCALS_NUMBER + localsIndex);
+			return (T) key;
+		} else if (t == Short.class) {
+			Short key = (short) (MAGIC_LOCALS_NUMBER + localsIndex);
+			return (T) key;
+		} else if (t == Integer.class) {
+			Integer key = (int) (MAGIC_LOCALS_NUMBER + localsIndex);
+			return (T) key;
+		} else if (t == Long.class) {
+			Long key = (long) (MAGIC_LOCALS_NUMBER + localsIndex);
+			return (T) key;
+		} else if (t == Float.class) {
+			Double key = (double) (MAGIC_LOCALS_NUMBER + localsIndex);
+			return (T) key;
+		} else if (t == Double.class) {
+			Double key = (double) (MAGIC_LOCALS_NUMBER + localsIndex);
+			return (T) key;
+		} else if (t == String.class) {
+			String key = String.valueOf(MAGIC_LOCALS_String + localsIndex);
+			return (T) key;
+		} else {
+			byte magicNumber = (byte) (MAGIC_LOCALS_NUMBER + localsIndex);
+			T obj = brokerBuilder.buildProxyClass(t, _contextThreadLocal, magicNumber);
+			return (T) obj;
+//		} else {
+//			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+		}
+	}
+
+	static public <T> void return_(T left) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+		context.push(c -> {
+			leftEval.accept(c);
+			c.RETURNTop();
+		});
+		context.popAndExec();
+	}
+
+//
+//	static public <T> void setField(String name, T value) {
+//		TinyAsmBuilderContext _contextThreadLocal = _contextThreadLocalThreadLocal.get();
+//		MethodCode code = _contextThreadLocal.code;
+//		code.LINE();
+//		code.LOAD_THIS();
+//		resolve(code, value);
+//		code.PUTFIELD_OF_THIS(name);
+//	}
 	static final private AdvAsmProxyObjenesisBuilder brokerBuilder = new AdvAsmProxyObjenesisBuilder();
 //
 //	static public byte cstNull(byte value) {
-//		AdvContext context = _context.get();
+//		AdvContext context = _contextThreadLocal.get();
 //		return (byte)(MAGIC_CODES_NUMBER + context.push(c -> {
 //			c.LOADConst(value);
 //		}));
 //	}
 
-	static public <T> T ctor(Class<T> clz) {
-		AdvContext context = _context.get();
+	static public <T> T new_(Class<T> clz) {
+		AdvContext context = _contextThreadLocal.get();
 
 		int codeIndex = context.push(c -> {
 			c.NEW(clz);
@@ -178,13 +308,13 @@ public class Adv {
 
 		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
 
-		T t = brokerBuilder.builder(clz, _context, magicNumber);
+		T t = brokerBuilder.buildProxyClass(clz, _contextThreadLocal, magicNumber);
 		return t;
 	}
 
-	static public <T> T ctor(Class<T> clz, Object... params) {
+	static public <T> T new_(Class<T> clz, Object... params) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 
 		Constructor<?> constructor = matchConstruct(clz, params);
 		if (constructor == null) throw new UnsupportedOperationException();
@@ -207,7 +337,7 @@ public class Adv {
 
 		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
 
-		T t = brokerBuilder.builder(clz, _context, magicNumber);
+		T t = brokerBuilder.buildProxyClass(clz, _contextThreadLocal, magicNumber);
 		return t;
 	}
 
@@ -249,7 +379,7 @@ public class Adv {
 	}
 
 	static public void referNothing(Object obj) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 		context.popAndExec();
@@ -269,7 +399,7 @@ public class Adv {
 	 * @param magicIndex
 	 */
 	static public void __(boolean_ booleanMagicLocalsIndex, boolean magicIndex) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 
 		byte magicLocalsIndex = booleanMagicLocalsIndex.getLocalsIndex();
 		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
@@ -280,7 +410,7 @@ public class Adv {
 	}
 
 	static public void __(Boolean__ booleanMagicLocalsIndex, Boolean v) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 
 		byte magicLocalsIndex = booleanMagicLocalsIndex.getLocalsIndex();
 		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
@@ -304,7 +434,7 @@ public class Adv {
 	}
 
 	protected static void doSet_(int magicLocalsIndex, int magicIndex) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 
 		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
 		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
@@ -338,65 +468,65 @@ public class Adv {
 	 * @return
 	 */
 	static public boolean_ __(boolean magicIndex) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 //		//context.line();
 		context.popAndExec();
-		int referIndex = context.store();
+		int localsIndex = context.store();
 
-		return new boolean_Holder(context, (byte) (MAGIC_LOCALS_NUMBER + referIndex));
+		return new boolean_Holder(_contextThreadLocal, (byte) (MAGIC_LOCALS_NUMBER + localsIndex));
 	}
 
 	static public Boolean__ __(Boolean v) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 //		//context.line();
 		context.popAndExec();
-		int referIndex = context.store();
+		int localsIndex = context.store();
 
-		return new Boolean__Holder(context, (byte) (MAGIC_LOCALS_NUMBER + referIndex));
+		return new Boolean__Holder(_contextThreadLocal, (byte) (MAGIC_LOCALS_NUMBER + localsIndex));
 	}
 
 	static public byte __(byte magicIndex) {
-		int referIndex = doReferByte((int) magicIndex);
-		return (byte) (MAGIC_LOCALS_NUMBER + referIndex);
+		int localsIndex = doReferByte((int) magicIndex);
+		return (byte) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
 	static public short __(short magicIndex) {
-		int referIndex = doReferByte((int) magicIndex);
-		return (short) (MAGIC_LOCALS_NUMBER + referIndex);
+		int localsIndex = doReferByte((int) magicIndex);
+		return (short) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
 	static public int __(int magicIndex) {
-		int referIndex = doReferByte((int) magicIndex);
-		return (int) (MAGIC_LOCALS_NUMBER + referIndex);
+		int localsIndex = doReferByte((int) magicIndex);
+		return (int) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
 	static public long __(long magicIndex) {
-		int referIndex = doReferByte((int) magicIndex);
-		return (long) (MAGIC_LOCALS_NUMBER + referIndex);
+		int localsIndex = doReferByte((int) magicIndex);
+		return (long) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
 	static public float __(float magicIndex) {
-		int referIndex = doReferByte((int) magicIndex);
-		return (float) (MAGIC_LOCALS_NUMBER + referIndex);
+		int localsIndex = doReferByte((int) magicIndex);
+		return (float) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
 	static public double __(double magicIndex) {
-		int referIndex = doReferByte((int) magicIndex);
-		return (double) (MAGIC_LOCALS_NUMBER + referIndex);
+		int localsIndex = doReferByte((int) magicIndex);
+		return (double) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
 	protected static int doReferByte(int magicIndex) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
 		int codeIndex = (int) magicIndex - MAGIC_CODES_NUMBER;
 		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
 
 		context.popAndExec();
-		int referIndex = context.store();
+		int localsIndex = context.store();
 
-		return referIndex;
+		return localsIndex;
 	}
 
 	/**
@@ -408,7 +538,7 @@ public class Adv {
 	 */
 	@SuppressWarnings("unchecked")
 	static public <T> T __(T value) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		context.popAndExec();
 		int locals = context.store();
 
@@ -469,7 +599,7 @@ public class Adv {
 	}
 
 	static public int add(int left, int right) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return MAGIC_CODES_NUMBER + context.push(c -> {
@@ -477,6 +607,17 @@ public class Adv {
 			rightEval.accept(c);
 			c.ADD();
 		});
+	}
+
+	// TODO
+	static public void inc(int left, int right) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+		context.push(c -> {
+			leftEval.accept(c);
+			c.IINC(left, right);
+		});
+		context.popAndExec();
 	}
 
 	static public AfterIf ifTrue_(boolean beGood) {
@@ -488,9 +629,9 @@ public class Adv {
 	}
 
 	static public AfterIf if_(CompareEval eval) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 
-		IfBuilder builder = new IfBuilder(context, eval);
+		IfBuilder builder = new IfBuilder(_contextThreadLocal, eval);
 		context.push(builder);
 		return builder;
 	}
@@ -504,18 +645,18 @@ public class Adv {
 	}
 
 	static public AfterWhile while_(CompareEval eval) {
-		WhileBuilder builder = new WhileBuilder(_context, eval);
+		WhileBuilder builder = new WhileBuilder(_contextThreadLocal, eval);
 //		context.push(builder);
 		return builder;
 	}
 
 	static public AfterDo do_(ConsumerWithException<MethodCode> block) {
-		DoWhileBuilder builder = new DoWhileBuilder(_context, block);
+		DoWhileBuilder builder = new DoWhileBuilder(_contextThreadLocal, block);
 		return builder;
 	}
 
-	static public CompareEval isLessThen(int left, int right) {
-		AdvContext context = _context.get();
+	static public CompareEval isLessThan(int left, int right) {
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -537,8 +678,8 @@ public class Adv {
 		};
 	}
 
-	static public CompareEval isGreaterThen(int left, int right) {
-		AdvContext context = _context.get();
+	static public CompareEval isGreaterThan(int left, int right) {
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -561,7 +702,7 @@ public class Adv {
 	}
 
 	static public CompareEval isEqual(int left, int right) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -584,7 +725,7 @@ public class Adv {
 	}
 
 	static public CompareEval isNotEqual(int left, int right) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -606,8 +747,8 @@ public class Adv {
 		};
 	}
 
-	static public CompareEval isGreaterAndEqual(int left, int right) {
-		AdvContext context = _context.get();
+	static public CompareEval isGreaterEqual(int left, int right) {
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -629,8 +770,8 @@ public class Adv {
 		};
 	}
 
-	static public CompareEval isLessAndEqual(int left, int right) {
-		AdvContext context = _context.get();
+	static public CompareEval isLessEqual(int left, int right) {
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -654,7 +795,7 @@ public class Adv {
 	}
 
 	static public CompareEval isTrue(boolean eval) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> leftEval = context.getCodeAndPopTop();
 		return new CompareEval() {
 			@Override
@@ -675,7 +816,7 @@ public class Adv {
 	}
 
 	static public CompareEval isFalse(boolean eval) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> leftEval = context.getCodeAndPopTop();
 
 		return new CompareEval() {
@@ -697,7 +838,7 @@ public class Adv {
 	}
 
 	static public CompareEval isTrue(Boolean__ eval) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> leftEval = context.resolve(eval);
 		return new CompareEval() {
 			@Override
@@ -718,7 +859,7 @@ public class Adv {
 	}
 
 	static public CompareEval isFalse(Boolean__ eval) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> leftEval = context.resolve(eval);
 		return new CompareEval() {
 			@Override
@@ -748,5 +889,9 @@ public class Adv {
 	static public CompareEval notNull(FunctionWithException<MethodCode, Boolean> beGood) {
 
 		return null;
+	}
+
+	public static <T> T buildProxyClass(Class<T> t, byte magicNumber) {
+		return brokerBuilder.buildProxyClass(t, _contextThreadLocal, magicNumber);
 	}
 }

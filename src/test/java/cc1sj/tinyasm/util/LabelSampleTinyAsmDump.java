@@ -31,7 +31,7 @@ public class LabelSampleTinyAsmDump {
 	protected void __init_(ClassBody classBody) {
 		MethodCode code = classBody.method("<init>").begin();
 
-		code.LINE(3);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(Object.class, "<init>").INVOKE();
 		code.RETURN();
@@ -42,28 +42,28 @@ public class LabelSampleTinyAsmDump {
 	protected void _t(ClassBody classBody) {
 		MethodCode code = classBody.method("t").begin();
 
-		code.LINE(5);
+		code.LINE();
 		code.LOADConst(10);
 		code.STORE("i",int.class);
 
-		code.LINE(6);
+		code.LINE();
 		code.LOAD("i");
 		code.LOADConst(1);
 		Label label2OfIF_ICMPNE = new Label();
 		code.IF_ICMPNE(label2OfIF_ICMPNE);
 
-		code.LINE(7);
+		code.LINE();
 		code.IINC("i", 1);
 
 		code.visitLabel(label2OfIF_ICMPNE);
 
-		code.LINE(9);
+		code.LINE();
 		code.GETSTATIC(System.class, "out", PrintStream.class);
 		code.LOADConst("ddd");
 		code.VIRTUAL(PrintStream.class, "println")
 			.parameter(String.class).INVOKE();
 
-		code.LINE(10);
+		code.LINE();
 		code.RETURN();
 
 		code.END();

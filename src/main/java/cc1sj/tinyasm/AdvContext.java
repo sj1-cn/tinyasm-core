@@ -353,8 +353,8 @@ public class AdvContext {
 			return resolve(((Byte) obj));
 		} else if (vc == Byte.class) {
 			return resolve(((Byte) obj));
-		} else if (obj instanceof TinyAsmProxyRuntimeReferNameObject) {
-			return resolve(((TinyAsmProxyRuntimeReferNameObject) obj));
+		} else if (obj instanceof AdvRuntimeReferNameObject) {
+			return resolve(((AdvRuntimeReferNameObject) obj));
 		} else {
 			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
 		}

@@ -13,9 +13,11 @@ import cc1sj.tinyasm.hero.helperclass.HelloInterfaceClassChild;
 import cc1sj.tinyasm.hero.helperclass.HelloInterfaceClassChildProxy;
 import cc1sj.tinyasm.hero.helperclass.PageWithParametersSample;
 import cc1sj.tinyasm.hero.helperclass.PageWithParametersSampleTinyAsmBuilder;
+import cc1sj.tinyasm.tinyasmproxy.TinyAsmProxyForClassAsmBuilder;
+import cc1sj.tinyasm.tinyasmproxy.TinyAsmProxyForInterfaceAsmBuilder;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class TinyProxyTinyASMifierTest {
+public class AdvTinyProxyTinyASMifierTest {
 
 	@Test
 	public void test_ContactHello_Dump() throws Exception {

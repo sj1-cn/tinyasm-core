@@ -9,7 +9,7 @@ public class AdvSampleCodeBuilder {
 	public static byte[] dump() {
 		//package_("cc1sj.tinyasm.heroadv");
 		
-		AdvClassBuilder clazz = public_().class_("AdvSample").extends_(AdvSampleExtendsClass.class).enterClassBody();
+		AdvClassBuilder clazz = public_().class_("AdvSample").extends_(AdvSampleExtendsClass.class).implements_(AdvSampleImplmentInterface.class).enterClassBody();
 			String name = clazz.private_().field("name",String.class);
 		
 			clazz.public_().method("sayHello").code(code -> {
@@ -23,7 +23,7 @@ public class AdvSampleCodeBuilder {
 				advSampleReferObject.setHelloString("sayNothing");
 				advSampleReferObject.setHelloString(helloString);
 		//
-				if_(isGreaterThen(j,10)) .then_(c->{
+				if_(isGreaterThan(j,10)) .then_(c->{
 					__(j, add(i,j));
 				}).else_(c->{
 					__(j, add(i,j));
@@ -31,7 +31,7 @@ public class AdvSampleCodeBuilder {
 		//
 				__(j, add(i,j));
 		
-				while_(isGreaterThen(j,10)) .block(c->{
+				while_(isGreaterThan(j,10)) .block(c->{
 					__(j, add(i,j));
 				});
 		//
@@ -39,7 +39,7 @@ public class AdvSampleCodeBuilder {
 		
 				do_(c->{
 					__(j, add(i,j));
-				}).while_(isGreaterThen(j,10));
+				}).while_(isGreaterThan(j,10));
 			});
 		return clazz.end().toByteArray();
 	}

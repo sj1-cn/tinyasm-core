@@ -21,13 +21,13 @@ public class AdvSampleBuilder {
 			final int i = __(cst(10));// int i = 10;
 			final int j = __(cst(20));// int j = 20;
 			__(j, add(i, j));// j = i + j;
-			AdvSampleReferObject advSampleReferObject = __(ctor(AdvSampleReferObject.class));
+			AdvSampleReferObject advSampleReferObject = __(new_(AdvSampleReferObject.class));
 			advSampleReferObject.sayHello();
 			String helloString = __(advSampleReferObject.getHelloString());
 			advSampleReferObject.setHelloString("sayNothing");
 			advSampleReferObject.setHelloString(helloString);
 //			
-			if_(isGreaterThen(j, 10)).then_(c -> {/* if (j > 10) { */
+			if_(isGreaterThan(j, 10)).then_(c -> {/* if (j > 10) { */
 				__(j, add(i, j));/* j = i + j; */
 			}).else_(c -> {
 				__(j, add(i, j));/* j = i + j; */
@@ -35,7 +35,7 @@ public class AdvSampleBuilder {
 //
 			__(j, add(i, j));/* j = i + j; */
 
-			while_(isGreaterThen(j, 10)).block(c -> {/* while (j > 10) { */
+			while_(isGreaterThan(j, 10)).block(c -> {/* while (j > 10) { */
 				__(j, add(i, j));/* j = i + j; */
 			});
 //
@@ -43,7 +43,7 @@ public class AdvSampleBuilder {
 ////				
 			do_(c -> {
 				__(j, add(i, j));/* j = i + j; */
-			}).while_(isGreaterThen(j, 10));// } while (j > 10);
+			}).while_(isGreaterThan(j, 10));// } while (j > 10);
 		});
 
 		return clazz.end().toByteArray();

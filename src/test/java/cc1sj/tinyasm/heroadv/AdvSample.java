@@ -1,6 +1,6 @@
 package cc1sj.tinyasm.heroadv;
 
-public class AdvSample extends AdvSampleExtendsClass {
+public class AdvSample extends AdvSampleExtendsClass implements AdvSampleImplmentInterface {
 	private String name;
 
 	public void sayHello() {

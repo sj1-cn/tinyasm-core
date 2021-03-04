@@ -29,7 +29,7 @@ public class PageWithParametersSampleTinyAsmDump {
 	protected void __init_(ClassBody classBody) {
 		MethodCode code = classBody.method("<init>").begin();
 
-		code.LINE(3);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(Object.class, "<init>").INVOKE();
 		code.RETURN();
@@ -40,7 +40,7 @@ public class PageWithParametersSampleTinyAsmDump {
 	protected void _test(ClassBody classBody) {
 		MethodCode code = classBody.method("test").begin();
 
-		code.LINE(6);
+		code.LINE();
 		code.NEW(PageWithParameters.class);
 		code.DUP();
 		code.LOADConst(3);
@@ -50,15 +50,15 @@ public class PageWithParametersSampleTinyAsmDump {
 			.parameter(int.class).INVOKE();
 		code.STORE("p1",PageWithParameters.class);
 
-		code.LINE(7);
+		code.LINE();
 		code.LOADConst(10);
 		code.STORE("i",int.class);
 
-		code.LINE(8);
+		code.LINE();
 		code.LOADConst(20);
 		code.STORE("j",int.class);
 
-		code.LINE(9);
+		code.LINE();
 		code.NEW(PageWithParameters.class);
 		code.DUP();
 		code.LOAD("i");
@@ -68,7 +68,7 @@ public class PageWithParametersSampleTinyAsmDump {
 			.parameter(int.class).INVOKE();
 		code.STORE("p2",PageWithParameters.class);
 
-		code.LINE(11);
+		code.LINE();
 		code.RETURN();
 
 		code.END();

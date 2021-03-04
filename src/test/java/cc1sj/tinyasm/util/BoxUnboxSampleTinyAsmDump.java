@@ -31,7 +31,7 @@ public class BoxUnboxSampleTinyAsmDump {
 	protected void __init_(ClassBody classBody) {
 		MethodCode code = classBody.method("<init>").begin();
 
-		code.LINE(3);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(Object.class, "<init>").INVOKE();
 		code.RETURN();
@@ -43,11 +43,11 @@ public class BoxUnboxSampleTinyAsmDump {
 		MethodCode code = classBody.method("funcLong")
 			.parameter("l",Long.class).begin();
 
-		code.LINE(5);
+		code.LINE();
 		code.LOAD("l");
 		code.STORE("ll",Long.class);
 
-		code.LINE(6);
+		code.LINE();
 		code.LOAD("ll");
 		code.VIRTUAL(Long.class, "longValue")
 			.reTurn(long.class).INVOKE();
@@ -58,7 +58,7 @@ public class BoxUnboxSampleTinyAsmDump {
 			.parameter(long.class).INVOKE();
 		code.STORE("l");
 
-		code.LINE(7);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -68,14 +68,14 @@ public class BoxUnboxSampleTinyAsmDump {
 		MethodCode code = classBody.method("funclong")
 			.parameter("l",long.class).begin();
 
-		code.LINE(10);
+		code.LINE();
 		code.LOAD("l");
 		code.STATIC(Long.class, "valueOf")
 			.reTurn(Long.class)
 			.parameter(long.class).INVOKE();
 		code.STORE("ll",Long.class);
 
-		code.LINE(11);
+		code.LINE();
 		code.LOAD("ll");
 		code.VIRTUAL(Long.class, "longValue")
 			.reTurn(long.class).INVOKE();
@@ -83,7 +83,7 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.ADD();
 		code.STORE("l");
 
-		code.LINE(12);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -92,36 +92,36 @@ public class BoxUnboxSampleTinyAsmDump {
 	protected void _init(ClassBody classBody) {
 		MethodCode code = classBody.method("init").begin();
 
-		code.LINE(15);
+		code.LINE();
 		code.LOADConst(new Long(10L));
 		code.STORE("l",long.class);
 
-		code.LINE(16);
+		code.LINE();
 		code.LOADConst(new Long(100L));
 		code.STATIC(Long.class, "valueOf")
 			.reTurn(Long.class)
 			.parameter(long.class).INVOKE();
 		code.STORE("ll",Long.class);
 
-		code.LINE(17);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("l");
 		code.VIRTUAL("funclong")
 			.parameter(long.class).INVOKE();
 
-		code.LINE(18);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("ll");
 		code.VIRTUAL("funcLong")
 			.parameter(Long.class).INVOKE();
 
-		code.LINE(19);
+		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1L);
 		code.VIRTUAL("funclong")
 			.parameter(long.class).INVOKE();
 
-		code.LINE(20);
+		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(new Long(2L));
 		code.STATIC(Long.class, "valueOf")
@@ -130,7 +130,7 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.VIRTUAL("funcLong")
 			.parameter(Long.class).INVOKE();
 
-		code.LINE(21);
+		code.LINE();
 		code.RETURN();
 
 		code.END();

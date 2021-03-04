@@ -29,8 +29,8 @@ public class SignatureInterfaceSampleTinyAsmDump {
 
 	protected void _mapStrngString(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_ABSTRACT, Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)), "mapStrngString")
-			.parameter("var1",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)))
-			.parameter("var2",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class))).begin();
+			.parameter("mapStrngString",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)))
+			.parameter("mapStrngString2",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class))).begin();
 
 		code.END();
 	}

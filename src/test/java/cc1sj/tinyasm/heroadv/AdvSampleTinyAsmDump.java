@@ -62,21 +62,96 @@ public class AdvSampleTinyAsmDump {
 		code.DUP();
 		code.SPECIAL(AdvSampleReferObject.class, "<init>").INVOKE();
 		code.STORE("advSampleReferObject",AdvSampleReferObject.class);
-		Label label6OfIFNE = new Label();
 
-		code.visitLabel(label6OfIFNE);
+		code.LINE();
+		code.LOAD("advSampleReferObject");
+		code.VIRTUAL(AdvSampleReferObject.class, "sayHello").INVOKE();
+
+		code.LINE();
+		code.LOAD("advSampleReferObject");
+		code.VIRTUAL(AdvSampleReferObject.class, "getHelloString")
+			.reTurn(String.class).INVOKE();
+		code.STORE("helloString",String.class);
+
+		code.LINE();
+		code.LOAD("advSampleReferObject");
+		code.LOADConst("sayNothing");
+		code.VIRTUAL(AdvSampleReferObject.class, "setHelloString")
+			.parameter(String.class).INVOKE();
+
+		code.LINE();
+		code.LOAD("advSampleReferObject");
+		code.LOAD("helloString");
+		code.VIRTUAL(AdvSampleReferObject.class, "setHelloString")
+			.parameter(String.class).INVOKE();
+
+		code.LINE();
+		code.LOAD("j");
+		code.LOADConst(10);
+		Label label9OfIF_ICMPLE = new Label();
+		code.IF_ICMPLE(label9OfIF_ICMPLE);
 
 		code.LINE();
 		code.LOAD("i");
 		code.LOAD("j");
 		code.ADD();
-		code.STORE("i");
+		code.STORE("j");
 
 		code.LINE();
-		code.LOAD("advSampleReferObject");
-		code.VIRTUAL(AdvSampleReferObject.class, "beGood")
-			.reTurn(boolean.class).INVOKE();
-		code.IFNE(label6OfIFNE);
+		Label label12OfGOTO = new Label();
+		code.GOTO(label12OfGOTO);
+
+		code.visitLabel(label9OfIF_ICMPLE);
+
+		code.LINE();
+		code.LOAD("i");
+		code.LOAD("j");
+		code.ADD();
+		code.STORE("j");
+
+		code.visitLabel(label12OfGOTO);
+
+		code.LINE();
+		code.LOAD("i");
+		code.LOAD("j");
+		code.ADD();
+		code.STORE("j");
+
+		code.LINE();
+		Label label14OfGOTO = new Label();
+		code.GOTO(label14OfGOTO);
+		Label label16OfIF_ICMPGT = new Label();
+
+		code.visitLabel(label16OfIF_ICMPGT);
+
+		code.LINE();
+		code.LOAD("i");
+		code.LOAD("j");
+		code.ADD();
+		code.STORE("j");
+
+		code.visitLabel(label14OfGOTO);
+
+		code.LINE();
+		code.LOAD("j");
+		code.LOADConst(10);
+		code.IF_ICMPGT(label16OfIF_ICMPGT);
+		Label label19OfIF_ICMPGT = new Label();
+
+		code.visitLabel(label19OfIF_ICMPGT);
+
+		code.LINE();
+		code.LOAD("i");
+		code.LOAD("j");
+		code.ADD();
+		code.STORE("j");
+
+		code.LINE();
+		code.LOAD("j");
+		code.LOADConst(10);
+
+		code.LINE();
+		code.IF_ICMPGT(label19OfIF_ICMPGT);
 
 		code.LINE();
 		code.RETURN();

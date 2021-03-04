@@ -37,12 +37,12 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 			boolean needSignature = false;
 			String superSignature = "";
 			if (header.formalTypeParameters.size() > 0) {
-				superSignature +="<";
+				superSignature += "<";
 				for (Clazz inTerface : header.formalTypeParameters) {
 					needSignature |= inTerface.needSignature();
 					superSignature += inTerface.signatureAnyway();
 				}
-				superSignature +=">";
+				superSignature += ">";
 			}
 			needSignature = needSignature |= header.superClazz.needSignature();
 			superSignature += header.superClazz.signatureAnyway();
@@ -116,17 +116,17 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public ClassBody staticField(int access, String name, Clazz clazz) {
+	public int staticField(int access, String name, Clazz clazz) {
 		access |= Opcodes.ACC_STATIC;
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		staticFields.push(field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
 		fv.visitEnd();
-		return this;
+		return staticFields.size() - 1;
 	}
 
 	@Override
-	public ClassBody staticField(int access, Annotation annotation, String name, Clazz clazz) {
+	public int staticField(int access, Annotation annotation, String name, Clazz clazz) {
 		access |= Opcodes.ACC_STATIC;
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		staticFields.push(field1);
@@ -136,20 +136,20 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		Annotation.visitAnnotation(fv, annotation);
 
 		fv.visitEnd();
-		return this;
+		return staticFields.size() - 1;
 	}
 
 	@Override
-	public ClassBody field(int access, String name, Clazz clazz) {
+	public int field(int access, String name, Clazz clazz) {
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		fields.push(field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
 		fv.visitEnd();
-		return this;
+		return fields.size() - 1;
 	}
 
 	@Override
-	public ClassBody field(int access, Annotation annotation, String name, Clazz clazz) {
+	public int field(int access, Annotation annotation, String name, Clazz clazz) {
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		fields.push(field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
@@ -158,7 +158,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		Annotation.visitAnnotation(fv, annotation);
 
 		fv.visitEnd();
-		return this;
+		return fields.size() - 1;
 	}
 
 	@Override

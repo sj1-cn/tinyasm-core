@@ -1,14 +1,16 @@
 package cc1sj.tinyasm;
 
-import static cc1sj.tinyasm.TinyAsmBuilder.resolve;
-import static cc1sj.tinyasm.TinyAsmBuilder.storeTopAndRefer;
+import static cc1sj.tinyasm.tinyasmproxy.TinyAsmBuilder.resolve;
+import static cc1sj.tinyasm.tinyasmproxy.TinyAsmBuilder.storeTopAndRefer;
 
 import cc1sj.tinyasm.hero.helperclass.HelloClassChild;
+import cc1sj.tinyasm.tinyasmproxy.TinyAsmBuilderContext;
+import cc1sj.tinyasm.tinyasmproxy.TinyAsmProxyRuntimeReferNameObject;
 
 public class HelloClassChildTinyAsmProxy extends HelloClassChild implements TinyAsmProxyRuntimeReferNameObject {
 
 	private String _referName;
-	private TinyAsmBuilderContext _context;
+	private TinyAsmBuilderContext _contextThreadLocal;
 	private MethodCode _code;
 
 	@Override
@@ -18,7 +20,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements Tiny
 
 	@Override
 	public void __init(TinyAsmBuilderContext context, String name) {
-		this._context = context;
+		this._contextThreadLocal = context;
 		this._code = context.code;
 		this._referName = name;
 	}

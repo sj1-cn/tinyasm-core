@@ -5,22 +5,21 @@ import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
 import static cc1sj.tinyasm.Adv.MAGIC_CODES_String;
 import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_MAX;
 import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_NUMBER;
-import static cc1sj.tinyasm.TinyAsmBuilder.*;
-import static cc1sj.tinyasm.TinyAsmBuilder.storeTopAndRefer;
+import static cc1sj.tinyasm.tinyasmproxy.TinyAsmBuilder.*;
 
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.TinyAsmBuilderContext;
-import cc1sj.tinyasm.TinyAsmProxyRuntimeReferNameObject;
 import cc1sj.tinyasm.hero.helperclass.HelloClass;
 import cc1sj.tinyasm.hero.helperclass.HelloClassChild;
+import cc1sj.tinyasm.tinyasmproxy.TinyAsmBuilderContext;
+import cc1sj.tinyasm.tinyasmproxy.TinyAsmProxyRuntimeReferNameObject;
 
 public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvRuntimeReferNameObject {
 
 	private byte _magicNumber;
-	private ThreadLocal<AdvContext> _context;
+	private ThreadLocal<AdvContext> _contextThreadLocal;
 
 	@Override
 	public byte get__MagicNumber() {
@@ -33,14 +32,15 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	}
 
 	@Override
-	public void set__Context(ThreadLocal<AdvContext> context, byte magicNumber) {
-		this._context = context;
+	public void set__Context(ThreadLocal<AdvContext> 
+ _contextThreadLocal, byte magicNumber) {
+		this._contextThreadLocal = context;
 		this._magicNumber = magicNumber;
 	}
 
 	@Override
 	public int getIntHelloClassChild() {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 
 		byte codeIndex = context.push(c -> {
@@ -52,7 +52,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 	@Override
 	public void setIntHelloClassChild(int value) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -65,7 +65,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 	@Override
 	public String getStringHelloClassChild() {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -77,7 +77,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setStringHelloClassChild(String value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -91,7 +91,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 	@Override
 	public void setTwoParameter(int param1, byte param2) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> eval_1 = context.resolve(param1);
 		ConsumerWithException<MethodCode> eval_2 = context.resolve(param2);
@@ -107,7 +107,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public String getName() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -119,7 +119,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public char getAgeChar() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -131,7 +131,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public byte getAgeByte() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -143,7 +143,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public short getAgeShort() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -155,7 +155,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public int getAgeInt() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -167,7 +167,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public long getAgeLong() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -179,7 +179,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public float getAgeFloat() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -191,7 +191,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public double getAgeDouble() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -203,7 +203,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public Character getAgeCharacter() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -215,7 +215,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public Byte getAgeByte2() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -227,7 +227,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public Short getAgeShort2() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -239,7 +239,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public Integer getAgeInteger() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -251,7 +251,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public Long getAgeLong2() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -263,7 +263,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public Float getAgeFloat2() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -275,7 +275,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public Double getAgeDouble2() {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(c -> {
 			objEval.accept(c);
@@ -287,7 +287,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setName(String value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -302,7 +302,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeChar(char value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -317,7 +317,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeByte(byte value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -332,7 +332,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeShort(short value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -346,7 +346,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 //	@Override
 //	public void setAgeInt(int value) {
-//		AdvContext context = _context.get();ConsumerWithException<MethodCode> objEval = context.resolve(this);ConsumerWithException<MethodCode> objValue = context.resolve(value);context.push(c -> {objEval.accept(c);objValue.accept(c);
+//		AdvContext context = _contextThreadLocal.get();ConsumerWithException<MethodCode> objEval = context.resolve(this);ConsumerWithException<MethodCode> objValue = context.resolve(value);context.push(c -> {objEval.accept(c);objValue.accept(c);
 //			c.VIRTUAL(HelloClassChild.class, "setAgeInt").parameter(int.class).INVOKE();});context.execAndPop();
 //
 //	}
@@ -354,7 +354,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeInt(int value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -369,7 +369,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeLong(long value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -384,7 +384,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeFloat(float value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -399,7 +399,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeDouble(double value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -414,7 +414,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeCharacter(Character value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -429,7 +429,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeByte2(Byte value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -444,7 +444,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeShort2(Short value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -458,7 +458,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 
 	@Override
 	public void setAgeInteger(Integer value) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -473,7 +473,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeLong2(Long value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -488,7 +488,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeFloat2(Float value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {
@@ -503,7 +503,7 @@ public class HelloClassChildTinyAsmProxy extends HelloClassChild implements AdvR
 	@Override
 	public void setAgeDouble2(Double value) {
 
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		context.push(c -> {

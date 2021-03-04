@@ -3,17 +3,17 @@ package cc1sj.tinyasm;
 import org.objectweb.asm.Label;
 
 public class DoWhileBuilder implements AfterDo {
-	ThreadLocal<AdvContext> _context;
+	ThreadLocal<AdvContext> _contextThreadLocal;
 	ConsumerWithException<MethodCode> block;
 
-	public DoWhileBuilder(ThreadLocal<AdvContext> _context, ConsumerWithException<MethodCode> block) {
-		this._context = _context;
+	public DoWhileBuilder(ThreadLocal<AdvContext> _contextThreadLocal, ConsumerWithException<MethodCode> block) {
+		this._contextThreadLocal = _contextThreadLocal;
 		this.block = block;
 	}
 
 	@Override
 	public void while_(CompareEval eval) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> c = code -> {
 
 			Label label11OfIFNE = new Label();

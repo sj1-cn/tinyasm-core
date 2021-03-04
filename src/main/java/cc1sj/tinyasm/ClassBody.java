@@ -8,7 +8,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 
 public interface ClassBody
-		extends WithDefineStaticField<ClassBody>, WithDefineField<ClassBody>, WithMakeStaticMethod, WithMakeInstanceMethod {
+		extends WithDefineStaticField, WithDefineField, WithMakeStaticMethod, WithMakeInstanceMethod {
 
 	ClassBuilder end();
 

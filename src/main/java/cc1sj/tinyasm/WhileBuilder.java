@@ -3,17 +3,17 @@ package cc1sj.tinyasm;
 import org.objectweb.asm.Label;
 
 public class WhileBuilder implements AfterWhile {
-	ThreadLocal<AdvContext> _context;
+	ThreadLocal<AdvContext> _contextThreadLocal;
 	CompareEval eval;
 
-	public WhileBuilder(ThreadLocal<AdvContext> _context, CompareEval eval) {
-		this._context = _context;
+	public WhileBuilder(ThreadLocal<AdvContext> _contextThreadLocal, CompareEval eval) {
+		this._contextThreadLocal = _contextThreadLocal;
 		this.eval = eval;
 	}
 
 	@Override
 	public void block(ConsumerWithException<MethodCode> block) {
-		AdvContext context = _context.get();
+		AdvContext context = _contextThreadLocal.get();
 		context.push(code -> {
 			Label labelWhileEval = new Label();
 			code.GOTO(labelWhileEval);

@@ -7,11 +7,11 @@ import org.junit.Test;
 
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class TinyAsmBuilderASMifierTest {
+public class AdvTinyAsmBuilderASMifierTest {
 
 	@Test
 	public void test_TinyAsmBuilder_while_Dump() throws Exception {
-		Class<?> expectedClazz = TinyAsmBuilder_while.class;
+		Class<?> expectedClazz = AdvTinyAsmBuilder_while.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
@@ -25,11 +25,11 @@ public class TinyAsmBuilderASMifierTest {
 
 	@Test
 	public void test_TinyAsmBuilder_while_Builder() throws Exception {
-		Class<?> expectedClazz = TinyAsmBuilder_while.class;
+		Class<?> expectedClazz = AdvTinyAsmBuilder_while.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), TinyAsmBuilder_whileTinyAsmBuilder.dump());
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvTinyAsmBuilder_whileTinyAsmBuilder.dump());
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -42,7 +42,7 @@ public class TinyAsmBuilderASMifierTest {
 
 	@Test
 	public void test_TinyAsmBuilder_if_Dump() throws Exception {
-		Class<?> expectedClazz = TinyAsmBuilder_if.class;
+		Class<?> expectedClazz = AdvAsmBuilder_if.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
@@ -56,11 +56,11 @@ public class TinyAsmBuilderASMifierTest {
 
 	@Test
 	public void test_TinyAsmBuilder_if_Builder() throws Exception {
-		Class<?> expectedClazz = TinyAsmBuilder_if.class;
+		Class<?> expectedClazz = AdvAsmBuilder_if.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), TinyAsmBuilder_ifTinyAsmBuilder.dump());
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvTinyAsmBuilder_ifTinyAsmBuilder.dump());
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {

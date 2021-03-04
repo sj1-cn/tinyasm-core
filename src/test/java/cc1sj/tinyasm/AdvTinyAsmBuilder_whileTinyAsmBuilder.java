@@ -1,25 +1,26 @@
 package cc1sj.tinyasm;
 
 import org.objectweb.asm.Label;
-import cc1sj.tinyasm.ClassBody;
+import cc1sj.tinyasm.AdvClassBuilder;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
 import org.objectweb.asm.Type;
+
+import static cc1sj.tinyasm.Adv.*;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 import java.lang.Object;
-import static cc1sj.tinyasm.TinyAsmBuilder.*;
 
 @SuppressWarnings("unused")
-public class TinyAsmBuilder_whileTinyAsmBuilder {
+public class AdvTinyAsmBuilder_whileTinyAsmBuilder {
 
 	public static byte[] dump() throws Exception {
-		return new TinyAsmBuilder_whileTinyAsmBuilder().dump("cc1sj.tinyasm.TinyAsmBuilder_while");
+		return new AdvTinyAsmBuilder_whileTinyAsmBuilder().dump("cc1sj.tinyasm.TinyAsmBuilder_while");
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className).access(ACC_PUBLIC | ACC_SUPER).body();
+		AdvClassBuilder classBody = public_().class_(className).enterClassBody();
 
 		__init_(classBody);
 		_test(classBody);
@@ -27,43 +28,45 @@ public class TinyAsmBuilder_whileTinyAsmBuilder {
 		return classBody.end().toByteArray();
 	}
 
-	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+	protected void __init_(AdvClassBuilder classBody) {
+		classBody.method("<init>").code(code -> {
 
-		initThis();
-
-		code.END();
+//			initThis();
+		});
 	}
 
-	protected void _test(ClassBody classBody) {
-		MethodCode code = classBody.method("test").begin();
+	protected void _test(AdvClassBuilder classBody) {
+		classBody.method("test").code(code -> {
 
-		int iGT = cst(20);
-		whileEval(cmpGt(iGT, 10), c -> {
-			inc(iGT, -1);
+			int iGT = cst(20);
+			while_(isGreaterThan(iGT, 10)).block(c -> {
+				inc(iGT, -1);
+			});
+
+			int iGE = cst(20);
+			while_(isGreaterEqual(iGE, 10)).block(c -> {
+				inc(iGE, -1);
+			});
+
+			int iEQ = cst(10);
+			while_(isEqual(iEQ, 10)).block(c -> {
+				inc(iEQ, 1);
+			});
+
+			int iNE = cst(10);
+			while_(isNotEqual(iNE, 10)).block(c -> {
+				inc(iNE, 1);
+			});
+
+			int iLE = cst(0);
+			while_(isLessEqual(iLE, 10)).block(c -> {
+				inc(iLE, 1);
+			});
+
+			int iLT = cst(0);
+			while_(isLessThan(iLT, 10)).block(c -> {
+				inc(iLT, 1);
+			});
 		});
-
-		int iGE = cst(20);
-		whileEval(cmpGe(iGE, 10), c -> {
-			inc(iGE, -1);
-		});
-
-		int iEQ = cst(10);
-		whileEval(cmpEq(iEQ, 10), c -> {
-			inc(iEQ, 1);
-		});
-
-		int iLE = cst(0);
-		whileEval(cmpLe(iLE, 10), c -> {
-			inc(iLE, 1);
-		});
-
-		int iLT = cst(0);
-		whileEval(cmpLt(iLT, 10), c -> {
-			inc(iLT, 1);
-		});
-
-		code.END();
 	}
-
 }

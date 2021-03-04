@@ -30,16 +30,16 @@ public class SimpleSampleTinyAsmDump {
 	protected void __init_(ClassBody classBody) {
 		MethodCode code = classBody.method("<init>").begin();
 
-		code.LINE(6);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(Object.class, "<init>").INVOKE();
 
-		code.LINE(4);
+		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(0);
-		code.PUTFIELD("i", int.class);
+		code.PUTFIELD_OF_THIS("i");
 
-		code.LINE(8);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -48,27 +48,27 @@ public class SimpleSampleTinyAsmDump {
 	protected void _dd(ClassBody classBody) {
 		MethodCode code = classBody.method("dd").begin();
 
-		code.LINE(11);
+		code.LINE();
 		code.LOADConst(1);
 		code.STORE("j",int.class);
 
-		code.LINE(12);
+		code.LINE();
 		code.LOADConst(1);
 		code.STORE("k",int.class);
 
-		code.LINE(13);
+		code.LINE();
 		code.LOAD("j");
 		code.LOADConst(10);
 		code.ADD();
 		code.STORE("k1",int.class);
 
-		code.LINE(14);
+		code.LINE();
 		code.LOAD("k1");
 		code.LOADConst(10);
 		code.ADD();
 		code.STORE("j1",int.class);
 
-		code.LINE(15);
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -78,12 +78,12 @@ public class SimpleSampleTinyAsmDump {
 		MethodCode code = classBody.method("methodWith1Param")
 			.parameter("i",int.class).begin();
 
-		code.LINE(18);
+		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i");
-		code.PUTFIELD("i", int.class);
+		code.PUTFIELD_OF_THIS("i");
 
-		code.LINE(19);
+		code.LINE();
 		code.RETURN();
 
 		code.END();

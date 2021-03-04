@@ -31,7 +31,7 @@ public class ContactHelloTinyAsmDump {
 	protected void __init_(ClassBody classBody) {
 		MethodCode code = classBody.method("<init>").begin();
 
-		code.LINE(3);
+		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(Object.class, "<init>").INVOKE();
 		code.RETURN();
@@ -42,62 +42,62 @@ public class ContactHelloTinyAsmDump {
 	protected void _say(ClassBody classBody) {
 		MethodCode code = classBody.method("say").begin();
 
-		code.LINE(5);
+		code.LINE();
 		code.NEW(HelloClass.class);
 		code.DUP();
 		code.SPECIAL(HelloClass.class, "<init>").INVOKE();
 		code.STORE("hello",HelloClass.class);
 
-		code.LINE(7);
+		code.LINE();
 		code.LOAD("hello");
 		code.LOADConst("wangshilian");
 		code.VIRTUAL(HelloClass.class, "setName")
 			.parameter(String.class).INVOKE();
 
-		code.LINE(8);
+		code.LINE();
 		code.LOAD("hello");
 		code.VIRTUAL(HelloClass.class, "getName")
 			.reTurn(String.class).INVOKE();
 		code.STORE("name",String.class);
 
-		code.LINE(9);
+		code.LINE();
 		code.LOAD("hello");
 		code.LOAD("name");
 		code.VIRTUAL(HelloClass.class, "setName")
 			.parameter(String.class).INVOKE();
 
-		code.LINE(10);
+		code.LINE();
 		code.LOAD("hello");
 		code.LOADConst(10);
 		code.VIRTUAL(HelloClass.class, "setAgeShort")
 			.parameter(short.class).INVOKE();
 
-		code.LINE(11);
+		code.LINE();
 		code.LOAD("hello");
 		code.VIRTUAL(HelloClass.class, "getAgeShort")
 			.reTurn(short.class).INVOKE();
 		code.STORE("age",short.class);
 
-		code.LINE(12);
+		code.LINE();
 		code.LOAD("hello");
 		code.LOAD("age");
 		code.VIRTUAL(HelloClass.class, "setAgeShort")
 			.parameter(short.class).INVOKE();
 
-		code.LINE(13);
+		code.LINE();
 		code.LOAD("age");
 		code.LOADConst(10);
 		code.ADD();
 		code.CONVERTTO(short.class);
 		code.STORE("age2",short.class);
 
-		code.LINE(14);
+		code.LINE();
 		code.LOAD("hello");
 		code.LOAD("age2");
 		code.VIRTUAL(HelloClass.class, "setAgeShort")
 			.parameter(short.class).INVOKE();
 
-		code.LINE(16);
+		code.LINE();
 		code.LOAD("hello");
 		code.LOADConst(10);
 		code.STATIC(Short.class, "valueOf")
@@ -106,19 +106,19 @@ public class ContactHelloTinyAsmDump {
 		code.VIRTUAL(HelloClass.class, "setAgeShort2")
 			.parameter(Short.class).INVOKE();
 
-		code.LINE(17);
+		code.LINE();
 		code.LOAD("hello");
 		code.VIRTUAL(HelloClass.class, "getAgeShort2")
 			.reTurn(Short.class).INVOKE();
 		code.STORE("ageShort2",Short.class);
 
-		code.LINE(18);
+		code.LINE();
 		code.LOAD("hello");
 		code.LOAD("ageShort2");
 		code.VIRTUAL(HelloClass.class, "setAgeShort2")
 			.parameter(Short.class).INVOKE();
 
-		code.LINE(19);
+		code.LINE();
 		code.RETURN();
 
 		code.END();

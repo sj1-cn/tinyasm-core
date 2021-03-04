@@ -9,10 +9,10 @@ import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 import java.lang.Object;
 @SuppressWarnings("unused")
-public class AdvTinyAsmBuilder_ifTinyAsmDump {
+public class AdvAsmBuilder_ifTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new AdvTinyAsmBuilder_ifTinyAsmDump().dump("cc1sj.tinyasm.TinyAsmBuilder_if");
+		return new AdvAsmBuilder_ifTinyAsmDump().dump("cc1sj.tinyasm.AdvAsmBuilder_if");
 	}
 
 	public byte[] dump(String className) throws Exception {

@@ -1,15 +1,6 @@
-package cc1sj.tinyasm;
+package cc1sj.tinyasm.tinyasmproxy;
 
-import static cc1sj.tinyasm.TinyAsmProxyBase._code;
-import static cc1sj.tinyasm.TinyAsmProxyBase._interface;
-import static cc1sj.tinyasm.TinyAsmProxyBase._invoke;
-import static cc1sj.tinyasm.TinyAsmProxyBase._line;
-import static cc1sj.tinyasm.TinyAsmProxyBase._parameter;
-import static cc1sj.tinyasm.TinyAsmProxyBase._storeTopAndRefer;
-import static cc1sj.tinyasm.TinyAsmProxyBase._resolveParameter;
-import static cc1sj.tinyasm.TinyAsmProxyBase._resolveThis;
-import static cc1sj.tinyasm.TinyAsmProxyBase._return;
-import static cc1sj.tinyasm.TinyAsmProxyBase._virtual;
+import static cc1sj.tinyasm.tinyasmproxy.TinyAsmProxyBase.*;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
@@ -32,7 +23,14 @@ import org.objectweb.asm.ModuleVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.TypePath;
-import static cc1sj.tinyasm.TinyAsmProxyBase.*;
+
+import cc1sj.tinyasm.ClassBody;
+import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.ClassHeader;
+import cc1sj.tinyasm.Clazz;
+import cc1sj.tinyasm.MethodCaller;
+import cc1sj.tinyasm.MethodCode;
+import cc1sj.tinyasm.MethodHeader;
 
 class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsmProxyBase {
 
@@ -43,7 +41,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field(ACC_PRIVATE, "_referName", Clazz.of(String.class));
-		classBody.field(ACC_PRIVATE, "_context", Clazz.of(TinyAsmBuilderContext.class));
+		classBody.field(ACC_PRIVATE, "_contextThreadLocal", Clazz.of(TinyAsmBuilderContext.class));
 		classBody.field(ACC_PRIVATE, "_code", Clazz.of(MethodCode.class));
 
 		init(classBody, targetClass);
@@ -112,7 +110,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 			code.LINE(21);
 			code.LOAD("this");
 			code.LOAD("context");
-			code.PUTFIELD("_context", TinyAsmBuilderContext.class);
+			code.PUTFIELD("_contextThreadLocal", TinyAsmBuilderContext.class);
 
 			code.LINE(21);
 			code.LOAD("this");
@@ -307,7 +305,7 @@ class TinyAsmProxyForInterfaceAsmBuilder extends ClassVisitor implements TinyAsm
 		classBody = ch.body();
 
 		classBody.field(ACC_PRIVATE, "_referName", Clazz.of(String.class));
-		classBody.field(ACC_PRIVATE, "_context", Clazz.of(TinyAsmBuilderContext.class));
+		classBody.field(ACC_PRIVATE, "_contextThreadLocal", Clazz.of(TinyAsmBuilderContext.class));
 		classBody.field(ACC_PRIVATE, "_code", Clazz.of(MethodCode.class));
 
 		{
