@@ -338,7 +338,7 @@ public class Adv {
 		}
 
 		int codeIndex = context.push(clz, c -> {
-			c.LINE();
+//			c.LINE();
 			c.NEW(clz);
 			c.DUP();
 			for (ConsumerWithException<MethodCode> valueEval : valueEvals) {

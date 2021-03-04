@@ -79,7 +79,7 @@ public class AdvStatement_if_SampleAdvAsmBuilder {
 	protected void _testIfThenElse(AdvClassBuilder classBody) {
 		classBody.method("testIfThenElse").code(code -> {
 
-			int iGT = __("iGE", cst(20));
+			int iGT = __("iGT", cst(20));
 			_if(isGreaterThan(iGT, 10)).then(c -> {
 				_inc(iGT, -1);
 			}).else_(c -> {

@@ -27,7 +27,7 @@ public class ForBuilder implements AfterFor {
 
 			context.execBlock(block);
 
-			code.LINE();
+//			code.LINE();
 			execEveryLoop.accept(code);
 			code.GOTO(label6OfGOTO);
 

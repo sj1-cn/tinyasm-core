@@ -62,7 +62,7 @@ public class IfBuilder implements AfterIf, AfterThen, ConsumerWithException<Meth
 			code.visitLabel(label4OfGOTO);
 		} else if (thenBlock != null) {
 
-			code.LINE();
+//			code.LINE();
 			Label labelThenEnd = new Label();
 			ifEval.prepareData(code);
 			ifEval.gotoWhenFail(code, labelThenEnd);
