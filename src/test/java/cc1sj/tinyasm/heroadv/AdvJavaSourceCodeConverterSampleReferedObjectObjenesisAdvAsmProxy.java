@@ -7,7 +7,8 @@ import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 
-public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy extends AdvJavaSourceCodeConverterSampleReferedObject implements AdvRuntimeReferNameObject {
+public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy extends AdvJavaSourceCodeConverterSampleReferedObject
+		implements AdvRuntimeReferNameObject {
 	private byte _magicNumber;
 
 	private ThreadLocal<AdvContext> _contextThreadLocal;
@@ -28,39 +29,37 @@ public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy e
 	public void sayHello() {
 		AdvContext context = this._contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(paramMethodCode -> {
+		context.execLine(paramMethodCode -> {
 			objEval.accept(paramMethodCode);
 			paramMethodCode.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "sayHello").INVOKE();
 		});
-		context.popAndExec();
 	}
 
 	public String getHelloString() {
 		AdvContext context = this._contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(paramMethodCode -> {
+		byte codeIndex = context.push(String.class, paramMethodCode -> {
 			objEval.accept(paramMethodCode);
 			paramMethodCode.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "getHelloString").reTurn(String.class).INVOKE();
 		});
-		return new StringBuilder( MAGIC_CODES_String).append(codeIndex).toString();
+		return new StringBuilder(MAGIC_CODES_String).append(codeIndex).toString();
 	}
 
 	public void setHelloString(String param0) {
 		AdvContext context = this._contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> consumerWithException = context.resolve(this);
-		context.push(paramMethodCode -> {
+		context.execLine(paramMethodCode -> {
 			consumerWithException.accept(paramMethodCode);
 			eval_param0.accept(paramMethodCode);
 			paramMethodCode.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "setHelloString").parameter(String.class).INVOKE();
 		});
-		context.popAndExec();
 	}
 
 	public boolean beGood() {
 		AdvContext context = this._contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(paramMethodCode -> {
+		context.push(boolean.class, paramMethodCode -> {
 			objEval.accept(paramMethodCode);
 			paramMethodCode.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "beGood").reTurn(boolean.class).INVOKE();
 		});

@@ -239,6 +239,10 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 		// LOAD All Parameter
 		code.LINE();
 		code.LOAD("context");
+		if (returnType != Type.VOID_TYPE) {
+//			code.LOADConst(returnType);
+			loadType(code, returnClazz);
+		}
 		code.LOAD("objEval");
 		for (int i = 0; i < methodParamTypes.length; i++) {
 			code.LOAD("eval_param" + i);
@@ -251,12 +255,12 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 			c.LOADConst(methodName);
 			c.VIRTUAL(MethodCode.class, "INTERFACE").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
 			for (Type type : methodParamTypes) {
-				_type(c, Clazz.of(type));
+				loadType(c, Clazz.of(type));
 				c.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
 			}
 
 			if (returnType != Type.VOID_TYPE) {
-				_type(c, returnClazz);
+				loadType(c, returnClazz);
 				c.INTERFACE(MethodCaller.class, "reTurn").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
 			}
 
@@ -267,7 +271,11 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 
 		code.stackPush(Type.getType(ConsumerWithException.class));
 
-		code.VIRTUAL(AdvContext.class, "push").reTurn(byte.class).parameter(ConsumerWithException.class).INVOKE();
+		if(returnType != Type.VOID_TYPE){
+			code.VIRTUAL(AdvContext.class, "push").reTurn(byte.class).parameter(Class.class) .parameter(ConsumerWithException.class).INVOKE();
+		}else{
+			code.VIRTUAL(AdvContext.class, "execLine").parameter(ConsumerWithException.class).INVOKE();
+		}
 
 		// Refer
 		if (returnType != Type.VOID_TYPE) {
@@ -321,11 +329,11 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 			}
 
 		} else {
-			code.POP();
+//			code.POP();
 
-			code.LINE();
-			code.LOAD("context");
-			code.VIRTUAL(AdvContext.class, "popAndExec").INVOKE();
+//			code.LINE();
+//			code.LOAD("context");
+//			code.VIRTUAL(AdvContext.class, "popAndExec").INVOKE();
 
 			code.LINE();
 			code.RETURN();
@@ -446,7 +454,7 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 		}
 	}
 
-	static void _type(MethodCode code, Clazz returnClass) {
+	static void loadType(MethodCode code, Clazz returnClass) {
 		final boolean returnValueNeedBoxing = primitive_BoxedClazz_Maps.containsKey(returnClass.getType());
 		Type returnValueboxedClazz = returnValueNeedBoxing ? primitive_BoxedClazz_Maps.get(returnClass.getType()) : null;
 		if (returnValueNeedBoxing) code.GETSTATIC(returnValueboxedClazz, "TYPE", Type.getType(Class.class));

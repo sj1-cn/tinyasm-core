@@ -18,7 +18,7 @@ public class AdvContext {
 		this.code = code;
 	}
 
-	public byte push(ConsumerWithException<MethodCode> c) {
+	public byte push(Class<?> clz, ConsumerWithException<MethodCode> c) {
 		stack.push(c);
 		return (byte) (stack.size() - 1);
 	}
@@ -52,6 +52,15 @@ public class AdvContext {
 	public void clear() {
 //		assert stack.size() <= 1 : "应该最多缓存一个执行语句。如果大于一个，一定是哪里出错了";
 		if (stack.size() > 0) popAndExec();
+		if (ifbuilder != null) {
+			try {
+				code.LINE();
+				ifbuilder.accept(code);
+			} catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+			ifbuilder = null;
+		}
 	}
 
 	protected void execBlock(ConsumerWithException<MethodCode> block) throws Exception {
@@ -375,5 +384,11 @@ public class AdvContext {
 
 	public void line() {
 		code.LINE();
+	}
+
+	IfBuilder ifbuilder;
+
+	public void pushIf(IfBuilder builder) {
+		this.ifbuilder = builder;
 	}
 }

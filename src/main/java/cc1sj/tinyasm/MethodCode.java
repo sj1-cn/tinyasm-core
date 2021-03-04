@@ -134,8 +134,10 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	abstract void visitTypeInsn(int opcode, Type type);
 
 	abstract void visitJumpInsn(int opcode, Label label);
-	  abstract void visitLineNumber(final int line, final Label start) ;
-	  abstract void visitLineNumber(final Label start) ;
+
+	abstract void visitLineNumber(final int line, final Label start);
+
+	abstract void visitLineNumber(final Label start);
 
 	abstract void visitIincInsn(final int var, final int increment);
 
@@ -147,7 +149,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		stackPop();
 		stackPop();
 	}
-	
+
 	protected abstract Type typeOfThis();
 
 	protected abstract Type codeThisFieldType(String name);
@@ -155,7 +157,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	protected abstract Type codeThisClassFieldType(String name);
 
 	protected abstract int codeLocalGetLocals(String name);
-	
+
 	public abstract int codeLocalsNextLocal();
 
 	protected abstract Type localsLoadAccess(int index);
@@ -482,7 +484,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 			}
 		} else if (cst instanceof Type) {
 			int sort = ((Type) cst).getSort();
-			if (sort == Type.OBJECT) {
+			if (sort == Type.BOOLEAN || sort == Type.CHAR || sort == Type.BYTE || sort == Type.SHORT || sort == Type.INT
+					|| sort == Type.LONG || sort == Type.FLOAT || sort == Type.DOUBLE) {
+				visitLdcInsn(cst);
+				stackPush(Type.getType(String.class));
+			} else if (sort == Type.OBJECT) {
 				visitLdcInsn(cst);
 				stackPush(Type.getType(String.class));
 			} else if (sort == Type.ARRAY) {

@@ -24,7 +24,7 @@ public class IfBuilder implements AfterIf, AfterThen, ConsumerWithException<Meth
 	public void else_(ConsumerWithException<MethodCode> block) {
 		this.elseBlock = block;
 		AdvContext context = _contextThreadLocal.get();
-		context.popAndExec();
+		context.clear();
 	}
 
 	@Override

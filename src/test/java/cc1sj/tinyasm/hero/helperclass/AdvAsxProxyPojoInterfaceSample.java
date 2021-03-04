@@ -4,9 +4,11 @@ public interface AdvAsxProxyPojoInterfaceSample {
 
 	public String getName();
 
-	public char getAgeChar();
-
+	public boolean isAgeBoolean();
+	
 	public byte getAgeByte();
+
+	public char getAgeChar();
 
 	public short getAgeShort();
 
@@ -18,9 +20,11 @@ public interface AdvAsxProxyPojoInterfaceSample {
 
 	public double getAgeDouble();
 
-	public Character getAgeCharacter();
-
+	public Boolean getAgeBoolean2();
+	
 	public Byte getAgeByte2();
+
+	public Character getAgeCharacter();
 
 	public Short getAgeShort2();
 
@@ -33,10 +37,12 @@ public interface AdvAsxProxyPojoInterfaceSample {
 	public Double getAgeDouble2();
 
 	public void setName(String name);
-
-	public void setAgeChar(char ageChar);
+	
+	public void setAgeBoolean(boolean ageBoolean) ;
 
 	public void setAgeByte(byte ageByte);
+
+	public void setAgeChar(char ageChar);
 
 	public void setAgeShort(short ageShort);
 
@@ -48,10 +54,12 @@ public interface AdvAsxProxyPojoInterfaceSample {
 
 	public void setAgeDouble(double ageDouble);
 
-	public void setAgeCharacter(Character ageCharacter);
+	public void setAgeBoolean2(Boolean ageBoolean2);
 
 	public void setAgeByte2(Byte ageByte2);
 
+	public void setAgeCharacter(Character ageCharacter);
+	
 	public void setAgeShort2(Short ageShort2);
 
 	public void setAgeInteger(Integer ageInteger);

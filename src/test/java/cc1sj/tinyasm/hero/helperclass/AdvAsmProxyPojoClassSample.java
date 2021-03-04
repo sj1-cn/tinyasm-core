@@ -30,11 +30,11 @@ public class AdvAsmProxyPojoClassSample {
 	public boolean isAgeBoolean() {
 		return ageBoolean;
 	}
-	public char getAgeChar() {
-		return ageChar;
-	}
 	public byte getAgeByte() {
 		return ageByte;
+	}
+	public char getAgeChar() {
+		return ageChar;
 	}
 	public short getAgeShort() {
 		return ageShort;
@@ -54,11 +54,11 @@ public class AdvAsmProxyPojoClassSample {
 	public Boolean getAgeBoolean2() {
 		return ageBoolean2;
 	}
-	public Character getAgeCharacter() {
-		return ageCharacter;
-	}
 	public Byte getAgeByte2() {
 		return ageByte2;
+	}
+	public Character getAgeCharacter() {
+		return ageCharacter;
 	}
 	public Short getAgeShort2() {
 		return ageShort2;
@@ -81,11 +81,11 @@ public class AdvAsmProxyPojoClassSample {
 	public void setAgeBoolean(boolean ageBoolean) {
 		this.ageBoolean = ageBoolean;
 	}
-	public void setAgeChar(char ageChar) {
-		this.ageChar = ageChar;
-	}
 	public void setAgeByte(byte ageByte) {
 		this.ageByte = ageByte;
+	}
+	public void setAgeChar(char ageChar) {
+		this.ageChar = ageChar;
 	}
 	public void setAgeShort(short ageShort) {
 		this.ageShort = ageShort;
@@ -105,11 +105,11 @@ public class AdvAsmProxyPojoClassSample {
 	public void setAgeBoolean2(Boolean ageBoolean2) {
 		this.ageBoolean2 = ageBoolean2;
 	}
-	public void setAgeCharacter(Character ageCharacter) {
-		this.ageCharacter = ageCharacter;
-	}
 	public void setAgeByte2(Byte ageByte2) {
 		this.ageByte2 = ageByte2;
+	}
+	public void setAgeCharacter(Character ageCharacter) {
+		this.ageCharacter = ageCharacter;
 	}
 	public void setAgeShort2(Short ageShort2) {
 		this.ageShort2 = ageShort2;

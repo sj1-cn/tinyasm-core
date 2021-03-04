@@ -15,6 +15,7 @@ import cc1sj.tinyasm.hero.helperclass.AdvAsxProxyPojoInterfaceSample;
 import java.lang.Long;
 import java.lang.Double;
 import java.lang.Short;
+import java.lang.Boolean;
 import java.lang.Object;
 import java.lang.String;
 import java.lang.Byte;
@@ -38,6 +39,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 		_getStringHelloClassChild(classBody);
 		_setStringHelloClassChild(classBody);
 		_getName(classBody);
+		_isAgeBoolean(classBody);
 		_getAgeChar(classBody);
 		_getAgeByte(classBody);
 		_getAgeShort(classBody);
@@ -45,6 +47,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 		_getAgeLong(classBody);
 		_getAgeFloat(classBody);
 		_getAgeDouble(classBody);
+		_getAgeBoolean2(classBody);
 		_getAgeCharacter(classBody);
 		_getAgeByte2(classBody);
 		_getAgeShort2(classBody);
@@ -53,6 +56,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 		_getAgeFloat2(classBody);
 		_getAgeDouble2(classBody);
 		_setName(classBody);
+		_setAgeBoolean(classBody);
 		_setAgeChar(classBody);
 		_setAgeByte(classBody);
 		_setAgeShort(classBody);
@@ -60,6 +64,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 		_setAgeLong(classBody);
 		_setAgeFloat(classBody);
 		_setAgeDouble(classBody);
+		_setAgeBoolean2(classBody);
 		_setAgeCharacter(classBody);
 		_setAgeByte2(classBody);
 		_setAgeShort2(classBody);
@@ -144,6 +149,16 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 		code.END();
 	}
 
+	protected void _isAgeBoolean(ClassBody classBody) {
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "isAgeBoolean").begin();
+
+		code.LINE();
+		code.LOADConst(0);
+		code.RETURNTop();
+
+		code.END();
+	}
+
 	protected void _getAgeChar(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC, char.class, "getAgeChar").begin();
 
@@ -209,6 +224,16 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOADConst(0D);
+		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void _getAgeBoolean2(ClassBody classBody) {
+		MethodCode code = classBody.method(ACC_PUBLIC, Boolean.class, "getAgeBoolean2").begin();
+
+		code.LINE();
+		code.LOADConstNULL();
 		code.RETURNTop();
 
 		code.END();
@@ -294,6 +319,16 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 		code.END();
 	}
 
+	protected void _setAgeBoolean(ClassBody classBody) {
+		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeBoolean")
+			.parameter("ageBoolean",boolean.class).begin();
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
 	protected void _setAgeChar(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeChar")
 			.parameter("ageChar",char.class).begin();
@@ -357,6 +392,16 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	protected void _setAgeDouble(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeDouble")
 			.parameter("ageDouble",double.class).begin();
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _setAgeBoolean2(ClassBody classBody) {
+		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeBoolean2")
+			.parameter("ageBoolean2",Boolean.class).begin();
 
 		code.LINE();
 		code.RETURN();

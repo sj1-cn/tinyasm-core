@@ -53,6 +53,7 @@ public class Adv {
 		builder.access(0);
 		return builder.class_(advSample);
 	}
+
 	/**********************************************
 	 * enter method code
 	 * 
@@ -117,7 +118,7 @@ public class Adv {
 
 	static public boolean_ cst(boolean value) {
 		AdvContext context = _contextThreadLocal.get();
-		int magicNUmber = MAGIC_CODES_NUMBER + context.push(c -> {
+		int magicNUmber = MAGIC_CODES_NUMBER + context.push(boolean.class, c -> {
 			c.LOADConst(value);
 		});
 		return new boolean_Holder(_contextThreadLocal, (byte) magicNUmber);
@@ -125,49 +126,49 @@ public class Adv {
 
 	static public byte cst(byte value) {
 		AdvContext context = _contextThreadLocal.get();
-		return (byte) (MAGIC_CODES_NUMBER + context.push(c -> {
+		return (byte) (MAGIC_CODES_NUMBER + context.push(byte.class, c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public char cst(char value) {
 		AdvContext context = _contextThreadLocal.get();
-		return (char) (MAGIC_CODES_NUMBER + context.push(c -> {
+		return (char) (MAGIC_CODES_NUMBER + context.push(char.class, c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public short cst(short value) {
 		AdvContext context = _contextThreadLocal.get();
-		return (short) (MAGIC_CODES_NUMBER + context.push(c -> {
+		return (short) (MAGIC_CODES_NUMBER + context.push(short.class, c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public int cst(int value) {
 		AdvContext context = _contextThreadLocal.get();
-		return (int) (MAGIC_CODES_NUMBER + context.push(c -> {
+		return (int) (MAGIC_CODES_NUMBER + context.push(int.class, c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public long cst(long value) {
 		AdvContext context = _contextThreadLocal.get();
-		return (long) (MAGIC_CODES_NUMBER + context.push(c -> {
+		return (long) (MAGIC_CODES_NUMBER + context.push(long.class, c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public float cst(float value) {
 		AdvContext context = _contextThreadLocal.get();
-		return (float) (MAGIC_CODES_NUMBER + context.push(c -> {
+		return (float) (MAGIC_CODES_NUMBER + context.push(float.class, c -> {
 			c.LOADConst(value);
 		}));
 	}
 
 	static public double cst(double value) {
 		AdvContext context = _contextThreadLocal.get();
-		return (double) (MAGIC_CODES_NUMBER + context.push(c -> {
+		return (double) (MAGIC_CODES_NUMBER + context.push(double.class, c -> {
 			c.LOADConst(value);
 		}));
 	}
@@ -283,7 +284,7 @@ public class Adv {
 	static public <T> void return_(T left) {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
-		context.push(c -> {
+		context.push(left.getClass(), c -> {
 			leftEval.accept(c);
 			c.RETURNTop();
 		});
@@ -311,7 +312,7 @@ public class Adv {
 	static public <T> T new_(Class<T> clz) {
 		AdvContext context = _contextThreadLocal.get();
 
-		int codeIndex = context.push(c -> {
+		int codeIndex = context.push(clz, c -> {
 			c.NEW(clz);
 			c.DUP();
 			c.SPECIAL(clz, "<init>").INVOKE();
@@ -336,7 +337,7 @@ public class Adv {
 			valueEvals.add(context.resolve(params[i], paramTypes[i]));
 		}
 
-		int codeIndex = context.push(c -> {
+		int codeIndex = context.push(clz, c -> {
 			c.LINE();
 			c.NEW(clz);
 			c.DUP();
@@ -452,11 +453,10 @@ public class Adv {
 
 		ConsumerWithException<MethodCode> ref = context.resolve(magicIndex);
 
-		context.push(c -> {
+		context.execLine(c -> {
 			ref.accept(c);
 			c.STORE(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
 		});
-		context.popAndExec();
 
 	}
 
@@ -613,7 +613,7 @@ public class Adv {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
-		return MAGIC_CODES_NUMBER + context.push(c -> {
+		return MAGIC_CODES_NUMBER + context.push(int.class, c -> {
 			leftEval.accept(c);
 			rightEval.accept(c);
 			c.ADD();
@@ -626,10 +626,9 @@ public class Adv {
 		int magicNumber = left;
 		assert (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) : "第一个参数必须是locals位置";
 		int localsIndex = magicNumber - MAGIC_LOCALS_NUMBER;
-		context.push(c -> {
+		context.execLine(c -> {
 			c.IINC(localsIndex, right);
 		});
-		context.popAndExec();
 	}
 
 	static public AfterIf ifTrue_(boolean beGood) {
@@ -639,22 +638,22 @@ public class Adv {
 	static public AfterIf ifFalse_(boolean beGood) {
 		return _if(isFalse(beGood));
 	}
-	
-	static public AfterFor _for(CompareEval eval,ConsumerWithException<MethodCode> execEveryLoop) {
+
+	static public AfterFor _for(CompareEval eval, ConsumerWithException<MethodCode> execEveryLoop) {
 		AdvContext context = _contextThreadLocal.get();
 		context.clear();
 
-		ForBuilder builder = new ForBuilder(_contextThreadLocal,eval,execEveryLoop);
+		ForBuilder builder = new ForBuilder(_contextThreadLocal, eval, execEveryLoop);
 //		context.push(builder);
 		return builder;
 	}
-	
+
 	static public AfterIf _if(CompareEval eval) {
 		AdvContext context = _contextThreadLocal.get();
 		context.clear();
 
 		IfBuilder builder = new IfBuilder(_contextThreadLocal, eval);
-		context.push(builder);
+		context.pushIf(builder);
 		return builder;
 	}
 

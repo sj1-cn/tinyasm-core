@@ -16,12 +16,12 @@ public class Boolean__Holder implements Boolean__ {
 		AdvContext context = contextThreadLocal.get();
 		// Locals
 		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_LOCALS_NUMBER) {
-			context.push(context.getCodeAndPop(magicNumber - MAGIC_CODES_NUMBER));
+			context.push(Boolean.class, context.getCodeAndPop(magicNumber - MAGIC_CODES_NUMBER));
 			return false;
 		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_NUMBER + 20) {
-			context.push(c -> c.LOAD(magicNumber - MAGIC_LOCALS_NUMBER));
+			context.push(Boolean.class, c -> c.LOAD(magicNumber - MAGIC_LOCALS_NUMBER));
 		} else {
-			context.push(c -> c.LOADConst(magicNumber != 0));
+			context.push(Boolean.class,  c -> c.LOADConst(magicNumber != 0));
 		}
 		return false;
 	}

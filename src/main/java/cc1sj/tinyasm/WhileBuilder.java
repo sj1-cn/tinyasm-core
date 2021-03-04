@@ -14,7 +14,7 @@ public class WhileBuilder implements AfterWhile {
 	@Override
 	public void block(ConsumerWithException<MethodCode> block) {
 		AdvContext context = _contextThreadLocal.get();
-		context.push(code -> {
+		context.execLine(code -> {
 
 			Label labelWhileEval = new Label();
 
@@ -31,6 +31,5 @@ public class WhileBuilder implements AfterWhile {
 			code.visitLabel(label2OfIF_ICMPLE);
 
 		});
-		context.popAndExec();
 	}
 }

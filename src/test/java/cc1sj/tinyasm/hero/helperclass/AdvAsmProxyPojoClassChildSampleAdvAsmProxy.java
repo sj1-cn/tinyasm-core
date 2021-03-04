@@ -34,7 +34,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getIntHelloClassChild").reTurn(int.class).INVOKE();
 		});
@@ -47,19 +47,19 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setIntHelloClassChild").parameter(int.class).INVOKE();
 		});
-		context.popAndExec();
+
 	}
 
 	@Override
 	public String getStringHelloClassChild() {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(String.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getStringHelloClassChild").reTurn(String.class).INVOKE();
 		});
@@ -72,13 +72,11 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
-
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setStringHelloClassChild").parameter(String.class).INVOKE();
 		});
-		context.popAndExec();
 	}
 
 	@Override
@@ -87,13 +85,12 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 		ConsumerWithException<MethodCode> eval_2 = context.resolve(param2);
 		ConsumerWithException<MethodCode> eval_1 = context.resolve(param1);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			eval_1.accept(c);
 			eval_2.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setTwoParameter").parameter(int.class).parameter(byte.class).INVOKE();
 		});
-		context.popAndExec();
 	}
 
 	@Override
@@ -101,7 +98,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(String.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getName").reTurn(String.class).INVOKE();
 		});
@@ -112,7 +109,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 	public boolean isAgeBoolean() {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "isAgeBoolean").reTurn(boolean.class).INVOKE();
 		});
@@ -120,23 +117,11 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 	}
 
 	@Override
-	public char getAgeChar() {
-
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
-			objEval.accept(c);
-			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeChar").reTurn(char.class).INVOKE();
-		});
-		return (char) (MAGIC_CODES_NUMBER + codeIndex);// char.class);
-	}
-
-	@Override
 	public byte getAgeByte() {
-
+	
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(byte.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeByte").reTurn(byte.class).INVOKE();
 		});
@@ -144,11 +129,23 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 	}
 
 	@Override
+	public char getAgeChar() {
+
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(char.class, c -> {
+			objEval.accept(c);
+			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeChar").reTurn(char.class).INVOKE();
+		});
+		return (char) (MAGIC_CODES_NUMBER + codeIndex);// char.class);
+	}
+
+	@Override
 	public short getAgeShort() {
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(short.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeShort").reTurn(short.class).INVOKE();
 		});
@@ -160,7 +157,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeInt").reTurn(int.class).INVOKE();
 		});
@@ -172,7 +169,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(long.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeLong").reTurn(long.class).INVOKE();
 		});
@@ -184,7 +181,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(float.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeFloat").reTurn(float.class).INVOKE();
 		});
@@ -196,7 +193,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(double.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeDouble").reTurn(double.class).INVOKE();
 		});
@@ -207,7 +204,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 	public Boolean getAgeBoolean2() {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.push(Boolean.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeBoolean2").reTurn(Boolean.class).INVOKE();
 		});
@@ -215,23 +212,11 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 	}
 
 	@Override
-	public Character getAgeCharacter() {
-
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
-			objEval.accept(c);
-			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeCharacter").reTurn(Character.class).INVOKE();
-		});
-		return (char) (MAGIC_CODES_NUMBER + codeIndex); // Character.class);
-	}
-
-	@Override
 	public Byte getAgeByte2() {
-
+	
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(Byte.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeByte2").reTurn(Byte.class).INVOKE();
 		});
@@ -239,11 +224,23 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 	}
 
 	@Override
+	public Character getAgeCharacter() {
+
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(Character.class, c -> {
+			objEval.accept(c);
+			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeCharacter").reTurn(Character.class).INVOKE();
+		});
+		return (char) (MAGIC_CODES_NUMBER + codeIndex); // Character.class);
+	}
+
+	@Override
 	public Short getAgeShort2() {
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(Short.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeShort2").reTurn(Short.class).INVOKE();
 		});
@@ -255,7 +252,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(Integer.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeInteger").reTurn(Integer.class).INVOKE();
 		});
@@ -267,7 +264,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(Long.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeLong2").reTurn(Long.class).INVOKE();
 		});
@@ -279,7 +276,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(Float.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeFloat2").reTurn(Float.class).INVOKE();
 		});
@@ -291,7 +288,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(c -> {
+		byte codeIndex = context.push(Double.class, c -> {
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getAgeDouble2").reTurn(Double.class).INVOKE();
 		});
@@ -305,13 +302,12 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setName").parameter(String.class).INVOKE();
 		});
-		context.popAndExec();
 	}
 
 	@Override
@@ -319,13 +315,28 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objValue = context.getCodeAndPop();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeBoolean").parameter(boolean.class).INVOKE();
 		});
-		context.popAndExec();
+	}
+
+	@Override
+	public void setAgeByte(byte value) {
+	
+		AdvContext context = _contextThreadLocal.get();
+	
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		context.execLine(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+	
+			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeByte").parameter(byte.class).INVOKE();
+		});
+	
 	}
 
 	@Override
@@ -335,29 +346,12 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeChar").parameter(char.class).INVOKE();
 		});
-		context.popAndExec();
-	}
-
-	@Override
-	public void setAgeByte(byte value) {
-
-		AdvContext context = _contextThreadLocal.get();
-
-		ConsumerWithException<MethodCode> objValue = context.resolve(value);
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
-			objEval.accept(c);
-			objValue.accept(c);
-
-			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeByte").parameter(byte.class).INVOKE();
-		});
-		context.popAndExec();
 	}
 
 	@Override
@@ -367,13 +361,13 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeShort").parameter(short.class).INVOKE();
 		});
-		context.popAndExec();
+
 	}
 
 	@Override
@@ -383,13 +377,13 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeInt").parameter(int.class).INVOKE();
 		});
-		context.popAndExec();
+
 	}
 
 	@Override
@@ -399,13 +393,13 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeLong").parameter(long.class).INVOKE();
 		});
-		context.popAndExec();
+
 	}
 
 	@Override
@@ -415,13 +409,13 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeFloat").parameter(float.class).INVOKE();
 		});
-		context.popAndExec();
+
 	}
 
 	@Override
@@ -431,13 +425,13 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeDouble").parameter(double.class).INVOKE();
 		});
-		context.popAndExec();
+
 	}
 
 	@Override
@@ -445,13 +439,29 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objValue = context.getCodeAndPop();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeBoolean2").parameter(Boolean.class).INVOKE();
 		});
-		context.popAndExec();
+
+	}
+
+	@Override
+	public void setAgeByte2(Byte value) {
+	
+		AdvContext context = _contextThreadLocal.get();
+	
+		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		context.execLine(c -> {
+			objEval.accept(c);
+			objValue.accept(c);
+	
+			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeByte2").parameter(Byte.class).INVOKE();
+		});
+	
 	}
 
 	@Override
@@ -461,29 +471,13 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeCharacter").parameter(Character.class).INVOKE();
 		});
-		context.popAndExec();
-	}
 
-	@Override
-	public void setAgeByte2(Byte value) {
-
-		AdvContext context = _contextThreadLocal.get();
-
-		ConsumerWithException<MethodCode> objValue = context.resolve(value);
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
-			objEval.accept(c);
-			objValue.accept(c);
-
-			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeByte2").parameter(Byte.class).INVOKE();
-		});
-		context.popAndExec();
 	}
 
 	@Override
@@ -493,13 +487,13 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeShort2").parameter(Short.class).INVOKE();
 		});
-		context.popAndExec();
+
 	}
 
 	@Override
@@ -508,13 +502,13 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeInteger").parameter(Integer.class).INVOKE();
 		});
-		context.popAndExec();
+
 	}
 
 	@Override
@@ -524,13 +518,13 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeLong2").parameter(Long.class).INVOKE();
 		});
-		context.popAndExec();
+
 	}
 
 	@Override
@@ -540,13 +534,13 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeFloat2").parameter(Float.class).INVOKE();
 		});
-		context.popAndExec();
+
 	}
 
 	@Override
@@ -556,13 +550,13 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.push(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
 
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "setAgeDouble2").parameter(Double.class).INVOKE();
 		});
-		context.popAndExec();
+
 	}
 
 }

@@ -28,6 +28,12 @@ public class AdvAsmProxyPojoInterfaceChildSample  implements AdvAsxProxyPojoInte
 	}
 
 	@Override
+	public boolean isAgeBoolean() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
 	public char getAgeChar() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -67,6 +73,12 @@ public class AdvAsmProxyPojoInterfaceChildSample  implements AdvAsxProxyPojoInte
 	public double getAgeDouble() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public Boolean getAgeBoolean2() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -118,6 +130,12 @@ public class AdvAsmProxyPojoInterfaceChildSample  implements AdvAsxProxyPojoInte
 	}
 
 	@Override
+	public void setAgeBoolean(boolean ageBoolean) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void setAgeChar(char ageChar) {
 		// TODO Auto-generated method stub
 		
@@ -155,6 +173,12 @@ public class AdvAsmProxyPojoInterfaceChildSample  implements AdvAsxProxyPojoInte
 
 	@Override
 	public void setAgeDouble(double ageDouble) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setAgeBoolean2(Boolean ageBoolean2) {
 		// TODO Auto-generated method stub
 		
 	}
