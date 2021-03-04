@@ -7,7 +7,7 @@ import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 
-public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy extends AdvJavaSourceCodeConverterSampleReferedObject
+public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy__ extends AdvJavaSourceCodeConverterSampleReferedObject
 		implements AdvRuntimeReferNameObject {
 	private byte _magicNumber;
 

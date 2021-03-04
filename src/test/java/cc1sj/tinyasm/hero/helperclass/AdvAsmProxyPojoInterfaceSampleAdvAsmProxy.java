@@ -18,8 +18,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	}
 
 	@Override
-	public void set__MagicNumber(byte magicNumber) {
-		this._magicNumber = magicNumber;
+	public void set__MagicNumber(byte _magicNumber) {
+		this._magicNumber = _magicNumber;
 	}
 
 	@Override

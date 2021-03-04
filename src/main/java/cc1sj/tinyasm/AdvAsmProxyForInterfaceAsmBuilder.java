@@ -145,12 +145,12 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 
 	protected void _set__Context(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("set__Context")
-				.parameter("context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class))).parameter("_magicNumber", byte.class)
+				.parameter("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class))).parameter("_magicNumber", byte.class)
 				.begin();
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOAD("context");
+		code.LOAD("_contextThreadLocal");
 		code.PUTFIELD_OF_THIS("_contextThreadLocal");
 
 		code.LINE();
