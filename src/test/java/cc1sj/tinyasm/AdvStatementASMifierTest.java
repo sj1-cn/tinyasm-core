@@ -67,4 +67,20 @@ public class AdvStatementASMifierTest {
 			System.out.println(codeExpected);
 		}
 	}
+	
+
+	@Test
+	public void test_AdvStatement_do_while_Sample_Dump() throws Exception {
+		Class<?> expectedClazz = AdvStatement_do_while_Sample.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		try {
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
+
+			assertEquals("Code", codeExpected, codeActual);
+		} finally {
+			System.out.println(codeExpected);
+		}
+	}
+	
 }

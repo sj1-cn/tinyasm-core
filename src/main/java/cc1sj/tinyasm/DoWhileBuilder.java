@@ -16,16 +16,15 @@ public class DoWhileBuilder implements AfterDo {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> c = code -> {
 
-			Label label11OfIFNE = new Label();
+			Label label3OfIF_ICMPGT = new Label();
 
-			code.visitLabel(label11OfIFNE);
+			code.visitLabel(label3OfIF_ICMPGT);
 
 			context.execBlock(block);
 
 			code.LINE();
 			eval.prepareData(code);
-			code.LINE();
-			eval.gotoWhenSucceed(code, label11OfIFNE);
+			eval.gotoWhenSucceed(code, label3OfIF_ICMPGT);
 		};
 		context.exec(c);
 
