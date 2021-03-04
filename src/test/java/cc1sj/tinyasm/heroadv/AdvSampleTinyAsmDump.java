@@ -7,10 +7,10 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
-import cc1sj.tinyasm.heroadv.AdvSampleReferObject;
-import cc1sj.tinyasm.heroadv.AdvSampleImplmentInterface;
+import cc1sj.tinyasm.heroadv.AdvJavaSourceCodeConverterSampleReferedObject;
+import cc1sj.tinyasm.heroadv.AdvJavaSourceCodeConverterSampleImplmentedInterface;
 import java.lang.String;
-import cc1sj.tinyasm.heroadv.AdvSampleExtendsClass;
+import cc1sj.tinyasm.heroadv.AdvJavaSourceCodeConverterSampleExtendedClass;
 @SuppressWarnings("unused")
 public class AdvSampleTinyAsmDump {
 
@@ -19,7 +19,7 @@ public class AdvSampleTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className, AdvSampleExtendsClass.class, AdvSampleImplmentInterface.class)
+		ClassBody classBody = ClassBuilder.make(className, AdvJavaSourceCodeConverterSampleExtendedClass.class, AdvJavaSourceCodeConverterSampleImplmentedInterface.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("name", Clazz.of(String.class));
@@ -34,7 +34,7 @@ public class AdvSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.SPECIAL(AdvSampleExtendsClass.class, "<init>").INVOKE();
+		code.SPECIAL(AdvJavaSourceCodeConverterSampleExtendedClass.class, "<init>").INVOKE();
 		code.RETURN();
 
 		code.END();
@@ -58,31 +58,31 @@ public class AdvSampleTinyAsmDump {
 		code.STORE("j");
 
 		code.LINE();
-		code.NEW(AdvSampleReferObject.class);
+		code.NEW(AdvJavaSourceCodeConverterSampleReferedObject.class);
 		code.DUP();
-		code.SPECIAL(AdvSampleReferObject.class, "<init>").INVOKE();
-		code.STORE("advSampleReferObject",AdvSampleReferObject.class);
+		code.SPECIAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "<init>").INVOKE();
+		code.STORE("advSampleReferObject",AdvJavaSourceCodeConverterSampleReferedObject.class);
 
 		code.LINE();
 		code.LOAD("advSampleReferObject");
-		code.VIRTUAL(AdvSampleReferObject.class, "sayHello").INVOKE();
+		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "sayHello").INVOKE();
 
 		code.LINE();
 		code.LOAD("advSampleReferObject");
-		code.VIRTUAL(AdvSampleReferObject.class, "getHelloString")
+		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "getHelloString")
 			.reTurn(String.class).INVOKE();
 		code.STORE("helloString",String.class);
 
 		code.LINE();
 		code.LOAD("advSampleReferObject");
 		code.LOADConst("sayNothing");
-		code.VIRTUAL(AdvSampleReferObject.class, "setHelloString")
+		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "setHelloString")
 			.parameter(String.class).INVOKE();
 
 		code.LINE();
 		code.LOAD("advSampleReferObject");
 		code.LOAD("helloString");
-		code.VIRTUAL(AdvSampleReferObject.class, "setHelloString")
+		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "setHelloString")
 			.parameter(String.class).INVOKE();
 
 		code.LINE();

@@ -50,19 +50,32 @@ public class AdvContext {
 	}
 
 	public void clear() {
-		assert stack.size() <= 1 : "应该最多缓存一个执行语句。如果大于一个，一定是哪里出错了";
+//		assert stack.size() <= 1 : "应该最多缓存一个执行语句。如果大于一个，一定是哪里出错了";
 		if (stack.size() > 0) popAndExec();
 	}
 
 	protected void execBlock(ConsumerWithException<MethodCode> block) throws Exception {
-		int lastStackSize = code.advStackSize();
-		int lastContextStack = this.stackSize();
-		block.accept(code);
-		while (code.advStackSize() > lastStackSize) {
-			code.POP();
+		AdvContext contentBlock = Adv.enterCode(code);
+		MethodCode codeBlock = contentBlock.code;
+
+		int lastStackSize = codeBlock.advStackSize();
+		block.accept(contentBlock.code);
+		if (contentBlock.stackSize() > 0) {
+			contentBlock.popAndExec();
 		}
-		while (this.stackSize() > lastContextStack) {
-			this.popAndExec();
+		while (codeBlock.advStackSize() > lastStackSize) {
+			codeBlock.POP();
+		}
+
+	}
+
+	public void execLine(ConsumerWithException<MethodCode> line) {
+		clear();
+		try {
+			code.LINE();
+			line.accept(code);
+		} catch (Exception e) {
+			throw new UnsupportedOperationException(e);
 		}
 	}
 
@@ -292,10 +305,10 @@ public class AdvContext {
 	public ConsumerWithException<MethodCode> resolve(String magicString) {
 		// Locals
 		if (magicString.startsWith(MAGIC_CODES_String)) {
-			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length()+1));
+			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length() + 1));
 			return getCodeAndPop(magicNumber);
 		} else if (magicString.startsWith(MAGIC_LOCALS_String)) {
-			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length()+1));
+			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length() + 1));
 			return c -> c.LOAD(magicNumber);
 		} else {
 			return c -> c.LOADConst(magicString);

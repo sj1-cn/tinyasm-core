@@ -7,11 +7,11 @@ import org.junit.Test;
 
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class AdvTinyAsmBuilderASMifierTest {
+public class AdvStatementASMifierTest {
 
 	@Test
-	public void test_TinyAsmBuilder_while_Dump() throws Exception {
-		Class<?> expectedClazz = AdvTinyAsmBuilder_while.class;
+	public void test_AdvStatement_while_Dump() throws Exception {
+		Class<?> expectedClazz = AdvStatement_while_Sample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
@@ -24,12 +24,12 @@ public class AdvTinyAsmBuilderASMifierTest {
 	}
 
 	@Test
-	public void test_TinyAsmBuilder_while_Builder() throws Exception {
-		Class<?> expectedClazz = AdvTinyAsmBuilder_while.class;
+	public void test_AdvStatement_while_Builder() throws Exception {
+		Class<?> expectedClazz = AdvStatement_while_Sample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvTinyAsmBuilder_whileTinyAsmBuilder.dump());
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvStatement_while_SampleAdvAsmBuilder.dump());
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -41,8 +41,8 @@ public class AdvTinyAsmBuilderASMifierTest {
 	}
 
 	@Test
-	public void test_TinyAsmBuilder_if_Dump() throws Exception {
-		Class<?> expectedClazz = AdvAsmBuilder_if.class;
+	public void test_AdvStatement_if_Dump() throws Exception {
+		Class<?> expectedClazz = AdvStatement_if_Sample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
@@ -55,12 +55,12 @@ public class AdvTinyAsmBuilderASMifierTest {
 	}
 
 	@Test
-	public void test_TinyAsmBuilder_if_Builder() throws Exception {
-		Class<?> expectedClazz = AdvAsmBuilder_if.class;
+	public void test_AdvStatement_if_Builder() throws Exception {
+		Class<?> expectedClazz = AdvStatement_if_Sample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvTinyAsmBuilder_ifTinyAsmBuilder.dump());
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvStatement_if_SampleAdvAsmBuilder.dump());
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {

@@ -2,7 +2,7 @@ package cc1sj.tinyasm.hero.helperclass;
 
 public class ContactHello {
 	public void say() {
-		HelloClass hello = new HelloClass();
+		AdvAsmProxyPojoClassSample hello = new AdvAsmProxyPojoClassSample();
 
 		hello.setName("wangshilian");
 		String name = hello.getName();

@@ -1,6 +1,6 @@
 package cc1sj.tinyasm;
 
-public class AdvAsmBuilder_while {
+public class AdvStatement_while_Sample {
 	public void test() {
 		int iGT = 20;
 		while (iGT > 10) {

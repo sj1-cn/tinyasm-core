@@ -13,10 +13,10 @@ import cc1sj.tinyasm.Clazz;
 import java.lang.Object;
 
 @SuppressWarnings("unused")
-public class AdvAsmBuilder_ifAdvAsmBuilder {
+public class AdvStatement_if_SampleAdvAsmBuilder {
 
 	public static byte[] dump() throws Exception {
-		return new AdvAsmBuilder_ifAdvAsmBuilder().dump("cc1sj.tinyasm.AdvAsmBuilder_if");
+		return new AdvStatement_if_SampleAdvAsmBuilder().dump(AdvStatement_if_Sample.class.getName());
 	}
 
 	public byte[] dump(String className) throws Exception {
@@ -43,33 +43,33 @@ public class AdvAsmBuilder_ifAdvAsmBuilder {
 		classBody.public_().method("testIfThen").code(code -> {
 
 			int iGT = __(cst(20));
-			__if(isGreaterThan(iGT, 10)).then_(c -> {
+			_if(isGreaterThan(iGT, 10))._then(c -> {
 				_inc(iGT, -1);
 			});
 
 			int iGE = __(cst(20));
-			__if(isGreaterEqual(iGE, 10)).then_(c -> {
+			_if(isGreaterEqual(iGE, 10))._then(c -> {
 				_inc(iGE, -1);
 			});
 
 			int iEQ = __(cst(20));
-			__if(isEqual(iEQ, 10)).then_(c -> {
+			_if(isEqual(iEQ, 10))._then(c -> {
 				_inc(iEQ, 1);
 			});
 
 			int iNE = __(cst(20));
 			;
-			__if(isNotEqual(iNE, 10)).then_(c -> {
+			_if(isNotEqual(iNE, 10))._then(c -> {
 				_inc(iNE, 1);
 			});
 
 			int iLE = __(cst(20));
-			__if(isLessEqual(iLE, 10)).then_(c -> {
+			_if(isLessEqual(iLE, 10))._then(c -> {
 				_inc(iLE, 1);
 			});
 
 			int iLT = __(cst(20));
-			__if(isLessThan(iLT, 10)).then_(c -> {
+			_if(isLessThan(iLT, 10))._then(c -> {
 				_inc(iLT, 1);
 			});
 
@@ -81,42 +81,42 @@ public class AdvAsmBuilder_ifAdvAsmBuilder {
 		classBody.method("testIfThenElse").code(code -> {
 
 			int iGT = __(cst(20));
-			__if(isGreaterThan(iGT, 10)).then_(c -> {
+			_if(isGreaterThan(iGT, 10))._then(c -> {
 				_inc(iGT, -1);
 			}).else_(c -> {
 				_inc(iGT, 1);
 			});
 
 			int iGE = __(cst(20));
-			__if(isGreaterEqual(iGE, 10)).then_(c -> {
+			_if(isGreaterEqual(iGE, 10))._then(c -> {
 				_inc(iGE, -1);
 			}).else_(c -> {
 				_inc(iGE, 1);
 			});
 
 			int iEQ = __(cst(20));
-			__if(isEqual(iEQ, 10)).then_(c -> {
+			_if(isEqual(iEQ, 10))._then(c -> {
 				_inc(iEQ, 1);
 			}).else_(c -> {
 				_inc(iEQ, 1);
 			});
 
 			int iNE = __(cst(20));
-			__if(isNotEqual(iNE, 10)).then_(c -> {
+			_if(isNotEqual(iNE, 10))._then(c -> {
 				_inc(iNE, 1);
 			}).else_(c -> {
 				_inc(iNE, -1);
 			});
 
 			int iLE = __(cst(20));
-			__if(isLessEqual(iLE, 10)).then_(c -> {
+			_if(isLessEqual(iLE, 10))._then(c -> {
 				_inc(iLE, 1);
 			}).else_(c -> {
 				_inc(iLE, 1);
 			});
 
 			int iLT = __(cst(20));
-			__if(isLessThan(iLT, 10)).then_(c -> {
+			_if(isLessThan(iLT, 10))._then(c -> {
 				_inc(iLT, 1);
 			}).else_(c -> {
 				_inc(iLT, 1);

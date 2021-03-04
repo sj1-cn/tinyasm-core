@@ -1,5 +1,7 @@
 package cc1sj.tinyasm;
 
+import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_MAX;
+import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_NUMBER;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
 import java.lang.reflect.Constructor;
@@ -58,6 +60,12 @@ public class Adv {
 	 ***********************************************/
 	static private ThreadLocal<Stack<AdvContext>> _contextThreadLocalStack = new ThreadLocal<>();
 	static private ThreadLocal<AdvContext> _contextThreadLocal = new ThreadLocal<>();
+
+//	static void execBlock(MethodCode code, ConsumerWithException<MethodCode> block) throws Exception {
+//		AdvContext context = enterCode(code);
+//		context.execBlock(block);
+//		exitCode();
+//	}
 
 	static AdvContext enterCode(MethodCode code) {
 		AdvContext newContext = new AdvContext(code);
@@ -521,7 +529,7 @@ public class Adv {
 		AdvContext context = _contextThreadLocal.get();
 		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
 		int codeIndex = (int) magicIndex - MAGIC_CODES_NUMBER;
-		assert (codeIndex == 0) && (context.stackSize() == 1) : "堆栈必须只有一个值";
+		assert codeIndex == context.stackSize() - 1 : "必须在堆栈顶";
 
 		context.popAndExec();
 		int localsIndex = context.store();
@@ -609,27 +617,29 @@ public class Adv {
 		});
 	}
 
-	// TODO
-	static public void inc(int left, int right) {
+	// TODO INC 比较特殊 尽量不要使用
+	static public void _inc(int left, int right) {
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+		int magicNumber = left;
+		assert (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) : "第一个参数必须是locals位置";
+		int localsIndex = magicNumber - MAGIC_LOCALS_NUMBER;
 		context.push(c -> {
-			leftEval.accept(c);
-			c.IINC(left, right);
+			c.IINC(localsIndex, right);
 		});
 		context.popAndExec();
 	}
 
 	static public AfterIf ifTrue_(boolean beGood) {
-		return if_(isTrue(beGood));
+		return _if(isTrue(beGood));
 	}
 
 	static public AfterIf ifFalse_(boolean beGood) {
-		return if_(isFalse(beGood));
+		return _if(isFalse(beGood));
 	}
 
-	static public AfterIf if_(CompareEval eval) {
+	static public AfterIf _if(CompareEval eval) {
 		AdvContext context = _contextThreadLocal.get();
+		context.clear();
 
 		IfBuilder builder = new IfBuilder(_contextThreadLocal, eval);
 		context.push(builder);
@@ -637,20 +647,20 @@ public class Adv {
 	}
 
 	static AfterWhile whileTrue_(boolean eval) {
-		return while_(isTrue(eval));
+		return _while(isTrue(eval));
 	}
 
 	static AfterWhile whileFalse_(boolean eval) {
-		return while_(isFalse(eval));
+		return _while(isFalse(eval));
 	}
 
-	static public AfterWhile while_(CompareEval eval) {
+	static public AfterWhile _while(CompareEval eval) {
 		WhileBuilder builder = new WhileBuilder(_contextThreadLocal, eval);
 //		context.push(builder);
 		return builder;
 	}
 
-	static public AfterDo do_(ConsumerWithException<MethodCode> block) {
+	static public AfterDo _do(ConsumerWithException<MethodCode> block) {
 		DoWhileBuilder builder = new DoWhileBuilder(_contextThreadLocal, block);
 		return builder;
 	}

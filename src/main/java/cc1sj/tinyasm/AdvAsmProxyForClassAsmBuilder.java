@@ -168,7 +168,7 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 	@Override
 	public MethodVisitor visitMethod(int access, String methodName, String descriptor, String signature, String[] exceptions) {
 
-		if (methodName.equals("<init>") || methodName.equals("<clinit>") 
+		if (methodName.equals("<init>") || methodName.equals("<clinit>")
 				|| (access & (ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC | ACC_NATIVE | ACC_BRIDGE)) != 0) {
 			return null;
 		}
@@ -288,16 +288,13 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 				code.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
 				code.RETURNTop();
 			}
-			code.LINE();
-			code.LOAD("context");
-			code.VIRTUAL(AdvContext.class, "execAndPop").INVOKE();
 
 		} else {
 			code.POP();
 
 			code.LINE();
 			code.LOAD("context");
-			code.VIRTUAL(AdvContext.class, "execAndPop").INVOKE();
+			code.VIRTUAL(AdvContext.class, "popAndExec").INVOKE();
 
 			code.LINE();
 			code.RETURN();

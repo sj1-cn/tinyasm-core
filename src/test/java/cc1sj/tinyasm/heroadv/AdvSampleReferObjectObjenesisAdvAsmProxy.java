@@ -4,9 +4,8 @@ import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.heroadv.AdvSampleReferObject;
 
-public class AdvSampleReferObjectObjenesisAdvAsmProxy extends AdvSampleReferObject implements AdvRuntimeReferNameObject {
+public class AdvSampleReferObjectObjenesisAdvAsmProxy extends AdvJavaSourceCodeConverterSampleReferedObject implements AdvRuntimeReferNameObject {
 	private byte _magicNumber;
 
 	private ThreadLocal<AdvContext> _contextThreadLocal;
@@ -19,9 +18,8 @@ public class AdvSampleReferObjectObjenesisAdvAsmProxy extends AdvSampleReferObje
 		this._magicNumber = _magicNumber;
 	}
 
-	public void set__Context(ThreadLocal<AdvContext> 
- _contextThreadLocal, byte _magicNumber) {
-		this._contextThreadLocal = context;
+	public void set__Context(ThreadLocal<AdvContext> _contextThreadLocal, byte _magicNumber) {
+		this._contextThreadLocal = _contextThreadLocal;
 		this._magicNumber = _magicNumber;
 	}
 
@@ -30,7 +28,7 @@ public class AdvSampleReferObjectObjenesisAdvAsmProxy extends AdvSampleReferObje
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(paramMethodCode -> {
 			objEval.accept(paramMethodCode);
-			paramMethodCode.VIRTUAL(AdvSampleReferObject.class, "sayHello").INVOKE();
+			paramMethodCode.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "sayHello").INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -40,19 +38,19 @@ public class AdvSampleReferObjectObjenesisAdvAsmProxy extends AdvSampleReferObje
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(paramMethodCode -> {
 			objEval.accept(paramMethodCode);
-			paramMethodCode.VIRTUAL(AdvSampleReferObject.class, "getHelloString").reTurn(String.class).INVOKE();
+			paramMethodCode.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "getHelloString").reTurn(String.class).INVOKE();
 		});
 		return "#MAGIC-CODES#" + codeIndex;
 	}
 
 	public void setHelloString(String param0) {
 		AdvContext context = this._contextThreadLocal.get();
-		ConsumerWithException consumerWithException = context.resolve(this);
+		ConsumerWithException<MethodCode> consumerWithException = context.resolve(this);
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		context.push(paramMethodCode -> {
 			consumerWithException.accept(paramMethodCode);
 			eval_param0.accept(paramMethodCode);
-			paramMethodCode.VIRTUAL(AdvSampleReferObject.class, "setHelloString").parameter(String.class).INVOKE();
+			paramMethodCode.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "setHelloString").parameter(String.class).INVOKE();
 		});
 		context.popAndExec();
 	}
@@ -60,9 +58,9 @@ public class AdvSampleReferObjectObjenesisAdvAsmProxy extends AdvSampleReferObje
 	public boolean beGood() {
 		AdvContext context = this._contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(paramMethodCode -> {
+		context.push(paramMethodCode -> {
 			objEval.accept(paramMethodCode);
-			paramMethodCode.VIRTUAL(AdvSampleReferObject.class, "beGood").reTurn(boolean.class).INVOKE();
+			paramMethodCode.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "beGood").reTurn(boolean.class).INVOKE();
 		});
 		return false;
 	}

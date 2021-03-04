@@ -1,6 +1,6 @@
 package cc1sj.tinyasm;
 
-public class AdvAsmBuilder_if {
+public class AdvStatement_if_Sample {
 
 	public void testIfThen() {
 		int iGT = 20;

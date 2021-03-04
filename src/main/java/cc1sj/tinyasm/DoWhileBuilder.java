@@ -12,7 +12,7 @@ public class DoWhileBuilder implements AfterDo {
 	}
 
 	@Override
-	public void while_(CompareEval eval) {
+	public void _while(CompareEval eval) {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> c = code -> {
 

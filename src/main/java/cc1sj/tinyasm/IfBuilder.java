@@ -15,7 +15,7 @@ public class IfBuilder implements AfterIf, AfterThen, ConsumerWithException<Meth
 	}
 
 	@Override
-	public AfterThen then_(ConsumerWithException<MethodCode> block) {
+	public AfterThen _then(ConsumerWithException<MethodCode> block) {
 		this.thenBlock = block;
 		return this;
 	}
@@ -23,6 +23,8 @@ public class IfBuilder implements AfterIf, AfterThen, ConsumerWithException<Meth
 	@Override
 	public void else_(ConsumerWithException<MethodCode> block) {
 		this.elseBlock = block;
+		AdvContext context = _contextThreadLocal.get();
+		context.popAndExec();
 	}
 
 	@Override
@@ -30,7 +32,6 @@ public class IfBuilder implements AfterIf, AfterThen, ConsumerWithException<Meth
 		IfBuilder elseIfBuilder = new IfBuilder(_contextThreadLocal, beGood);
 		this.elseIf = elseIfBuilder;
 		return elseIfBuilder;
-
 	}
 
 	@Override

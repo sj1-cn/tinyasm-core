@@ -7,7 +7,7 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
-import cc1sj.tinyasm.hero.helperclass.HelloClass;
+import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyPojoClassSample;
 import java.lang.Short;
 import java.lang.Object;
 import java.lang.String;
@@ -43,45 +43,45 @@ public class ContactHelloTinyAsmDump {
 		MethodCode code = classBody.method("say").begin();
 
 		code.LINE();
-		code.NEW(HelloClass.class);
+		code.NEW(AdvAsmProxyPojoClassSample.class);
 		code.DUP();
-		code.SPECIAL(HelloClass.class, "<init>").INVOKE();
-		code.STORE("hello",HelloClass.class);
+		code.SPECIAL(AdvAsmProxyPojoClassSample.class, "<init>").INVOKE();
+		code.STORE("hello",AdvAsmProxyPojoClassSample.class);
 
 		code.LINE();
 		code.LOAD("hello");
 		code.LOADConst("wangshilian");
-		code.VIRTUAL(HelloClass.class, "setName")
+		code.VIRTUAL(AdvAsmProxyPojoClassSample.class, "setName")
 			.parameter(String.class).INVOKE();
 
 		code.LINE();
 		code.LOAD("hello");
-		code.VIRTUAL(HelloClass.class, "getName")
+		code.VIRTUAL(AdvAsmProxyPojoClassSample.class, "getName")
 			.reTurn(String.class).INVOKE();
 		code.STORE("name",String.class);
 
 		code.LINE();
 		code.LOAD("hello");
 		code.LOAD("name");
-		code.VIRTUAL(HelloClass.class, "setName")
+		code.VIRTUAL(AdvAsmProxyPojoClassSample.class, "setName")
 			.parameter(String.class).INVOKE();
 
 		code.LINE();
 		code.LOAD("hello");
 		code.LOADConst(10);
-		code.VIRTUAL(HelloClass.class, "setAgeShort")
+		code.VIRTUAL(AdvAsmProxyPojoClassSample.class, "setAgeShort")
 			.parameter(short.class).INVOKE();
 
 		code.LINE();
 		code.LOAD("hello");
-		code.VIRTUAL(HelloClass.class, "getAgeShort")
+		code.VIRTUAL(AdvAsmProxyPojoClassSample.class, "getAgeShort")
 			.reTurn(short.class).INVOKE();
 		code.STORE("age",short.class);
 
 		code.LINE();
 		code.LOAD("hello");
 		code.LOAD("age");
-		code.VIRTUAL(HelloClass.class, "setAgeShort")
+		code.VIRTUAL(AdvAsmProxyPojoClassSample.class, "setAgeShort")
 			.parameter(short.class).INVOKE();
 
 		code.LINE();
@@ -94,7 +94,7 @@ public class ContactHelloTinyAsmDump {
 		code.LINE();
 		code.LOAD("hello");
 		code.LOAD("age2");
-		code.VIRTUAL(HelloClass.class, "setAgeShort")
+		code.VIRTUAL(AdvAsmProxyPojoClassSample.class, "setAgeShort")
 			.parameter(short.class).INVOKE();
 
 		code.LINE();
@@ -103,19 +103,19 @@ public class ContactHelloTinyAsmDump {
 		code.STATIC(Short.class, "valueOf")
 			.reTurn(Short.class)
 			.parameter(short.class).INVOKE();
-		code.VIRTUAL(HelloClass.class, "setAgeShort2")
+		code.VIRTUAL(AdvAsmProxyPojoClassSample.class, "setAgeShort2")
 			.parameter(Short.class).INVOKE();
 
 		code.LINE();
 		code.LOAD("hello");
-		code.VIRTUAL(HelloClass.class, "getAgeShort2")
+		code.VIRTUAL(AdvAsmProxyPojoClassSample.class, "getAgeShort2")
 			.reTurn(Short.class).INVOKE();
 		code.STORE("ageShort2",Short.class);
 
 		code.LINE();
 		code.LOAD("hello");
 		code.LOAD("ageShort2");
-		code.VIRTUAL(HelloClass.class, "setAgeShort2")
+		code.VIRTUAL(AdvAsmProxyPojoClassSample.class, "setAgeShort2")
 			.parameter(Short.class).INVOKE();
 
 		code.LINE();
