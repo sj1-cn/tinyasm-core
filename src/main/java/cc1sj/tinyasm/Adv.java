@@ -639,7 +639,16 @@ public class Adv {
 	static public AfterIf ifFalse_(boolean beGood) {
 		return _if(isFalse(beGood));
 	}
+	
+	static public AfterFor _for(CompareEval eval,ConsumerWithException<MethodCode> execEveryLoop) {
+		AdvContext context = _contextThreadLocal.get();
+		context.clear();
 
+		ForBuilder builder = new ForBuilder(_contextThreadLocal,eval,execEveryLoop);
+//		context.push(builder);
+		return builder;
+	}
+	
 	static public AfterIf _if(CompareEval eval) {
 		AdvContext context = _contextThreadLocal.get();
 		context.clear();
