@@ -1,8 +1,6 @@
 package cc1sj.tinyasm;
 
-import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_MAX;
-import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_NUMBER;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.*;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -34,13 +32,13 @@ public class Adv {
 
 	static public AfterClassModifier private_() {
 		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
-		builder.access(ACC_PUBLIC);
+		builder.access(ACC_PRIVATE);
 		return builder;
 	}
 
 	static public AfterClassModifier protected_() {
 		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
-		builder.access(ACC_PUBLIC);
+		builder.access(ACC_PROTECTED);
 		return builder;
 	}
 
@@ -50,6 +48,11 @@ public class Adv {
 		return builder;
 	}
 
+	static public AfterClassName class_(String advSample) {
+		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
+		builder.access(0);
+		return builder.class_(advSample);
+	}
 	/**********************************************
 	 * enter method code
 	 * 
