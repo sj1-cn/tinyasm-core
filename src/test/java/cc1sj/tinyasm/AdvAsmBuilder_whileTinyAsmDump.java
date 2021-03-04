@@ -9,10 +9,10 @@ import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 import java.lang.Object;
 @SuppressWarnings("unused")
-public class AdvTinyAsmBuilder_whileTinyAsmDump {
+public class AdvAsmBuilder_whileTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new AdvTinyAsmBuilder_whileTinyAsmDump().dump("cc1sj.tinyasm.AdvTinyAsmBuilder_while");
+		return new AdvAsmBuilder_whileTinyAsmDump().dump("cc1sj.tinyasm.AdvAsmBuilder_while");
 	}
 
 	public byte[] dump(String className) throws Exception {

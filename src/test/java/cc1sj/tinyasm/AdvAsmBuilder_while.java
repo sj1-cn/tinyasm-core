@@ -1,6 +1,6 @@
 package cc1sj.tinyasm;
 
-public class AdvTinyAsmBuilder_while {
+public class AdvAsmBuilder_while {
 	public void test() {
 		int iGT = 20;
 		while (iGT > 10) {
@@ -12,21 +12,21 @@ public class AdvTinyAsmBuilder_while {
 			iGE--;
 		}
 
-		int iEQ = 10;
+		int iEQ = 20;
 		while (iEQ == 10) {
 			iEQ++;
 		}
-		int iNE = 10;
-		while (iNE == 10) {
+		int iNE = 20;
+		while (iNE != 10) {
 			iNE++;
 		}
 
-		int iLE = 0;
+		int iLE = 20;
 		while (iLE <= 10) {
 			iLE++;
 		}
 
-		int iLT = 0;
+		int iLT = 20;
 		while (iLT < 10) {
 			iLT++;
 		}

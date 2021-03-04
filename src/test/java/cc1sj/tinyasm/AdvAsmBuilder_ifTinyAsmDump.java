@@ -71,7 +71,7 @@ public class AdvAsmBuilder_ifTinyAsmDump {
 		code.visitLabel(label5OfIF_ICMPLT);
 
 		code.LINE();
-		code.LOADConst(10);
+		code.LOADConst(20);
 		code.STORE("iEQ",int.class);
 
 		code.LINE();
@@ -86,7 +86,7 @@ public class AdvAsmBuilder_ifTinyAsmDump {
 		code.visitLabel(label8OfIF_ICMPNE);
 
 		code.LINE();
-		code.LOADConst(10);
+		code.LOADConst(20);
 		code.STORE("iNE",int.class);
 
 		code.LINE();
@@ -101,7 +101,7 @@ public class AdvAsmBuilder_ifTinyAsmDump {
 		code.visitLabel(label11OfIF_ICMPEQ);
 
 		code.LINE();
-		code.LOADConst(0);
+		code.LOADConst(20);
 		code.STORE("iLE",int.class);
 
 		code.LINE();
@@ -116,7 +116,7 @@ public class AdvAsmBuilder_ifTinyAsmDump {
 		code.visitLabel(label14OfIF_ICMPGT);
 
 		code.LINE();
-		code.LOADConst(0);
+		code.LOADConst(20);
 		code.STORE("iLT",int.class);
 
 		code.LINE();
@@ -188,7 +188,7 @@ public class AdvAsmBuilder_ifTinyAsmDump {
 		code.visitLabel(label10OfGOTO);
 
 		code.LINE();
-		code.LOADConst(10);
+		code.LOADConst(20);
 		code.STORE("iEQ",int.class);
 
 		code.LINE();
@@ -212,7 +212,7 @@ public class AdvAsmBuilder_ifTinyAsmDump {
 		code.visitLabel(label15OfGOTO);
 
 		code.LINE();
-		code.LOADConst(10);
+		code.LOADConst(20);
 		code.STORE("iNE",int.class);
 
 		code.LINE();
@@ -236,7 +236,7 @@ public class AdvAsmBuilder_ifTinyAsmDump {
 		code.visitLabel(label20OfGOTO);
 
 		code.LINE();
-		code.LOADConst(0);
+		code.LOADConst(20);
 		code.STORE("iLE",int.class);
 
 		code.LINE();
@@ -260,7 +260,7 @@ public class AdvAsmBuilder_ifTinyAsmDump {
 		code.visitLabel(label25OfGOTO);
 
 		code.LINE();
-		code.LOADConst(0);
+		code.LOADConst(20);
 		code.STORE("iLT",int.class);
 
 		code.LINE();
