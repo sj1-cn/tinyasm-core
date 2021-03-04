@@ -5,15 +5,16 @@ import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_NUMBER;
 
 public class boolean_Holder implements boolean_ {
 	byte magicNumber;
-	AdvContext context;
+	ThreadLocal<AdvContext> contextThreadLocal;
 
-	public boolean_Holder(AdvContext context, byte magicNumber) {
+	public boolean_Holder(ThreadLocal<AdvContext> contextThreadLocal, byte magicNumber) {
 		this.magicNumber = magicNumber;
-		this.context = context;
+		this.contextThreadLocal = contextThreadLocal;
 	}
 
 	@Override
 	public boolean load() {
+		AdvContext context = contextThreadLocal.get();
 		// Locals
 		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_LOCALS_NUMBER) {
 			context.push(context.getCodeAndPop(magicNumber - MAGIC_CODES_NUMBER));
