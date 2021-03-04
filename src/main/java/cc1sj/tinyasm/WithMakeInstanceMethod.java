@@ -47,11 +47,11 @@ public interface WithMakeInstanceMethod {
 	}
 
 	default MethodHeader method(Class<?> returnClass, String name) {
-		return method(ACC_PUBLIC, Clazz.of(returnClass), name);
+		return method(0, Clazz.of(returnClass), name);
 	}
 
 	default MethodHeader method(Clazz returnClass, String name) {
-		return method(ACC_PUBLIC, returnClass, name);
+		return method(0, returnClass, name);
 	}
 
 	default MethodHeader method(int access, Class<?> returnClass, String name) {
@@ -72,11 +72,11 @@ public interface WithMakeInstanceMethod {
 //	}
 
 	default MethodHeader method(String name) {
-		return method(ACC_PUBLIC, name);
+		return method(0, name);
 	}
 
 	default MethodHeader method(String returnType, String name) {
-		return method(ACC_PUBLIC, Clazz.of(returnType), name);
+		return method(0, Clazz.of(returnType), name);
 	}
 
 }

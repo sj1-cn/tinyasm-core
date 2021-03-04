@@ -1,5 +1,7 @@
 package cc1sj.tinyasm;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
@@ -67,7 +69,7 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -78,7 +80,7 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _eq(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "eq")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "eq")
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -88,17 +90,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPNE = new Label();
 		code.IF_ICMPNE(label1OfIF_ICMPNE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPNE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ne(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ne")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ne")
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -108,17 +113,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPEQ = new Label();
 		code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPEQ);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ge(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ge")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ge")
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -128,17 +136,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLT = new Label();
 		code.IF_ICMPLT(label1OfIF_ICMPLT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPLT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _le(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "le")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "le")
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -148,17 +159,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGT = new Label();
 		code.IF_ICMPGT(label1OfIF_ICMPGT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPGT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _gt(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "gt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "gt")
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -168,17 +182,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLE = new Label();
 		code.IF_ICMPLE(label1OfIF_ICMPLE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPLE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _lt(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "lt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "lt")
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -188,17 +205,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGE = new Label();
 		code.IF_ICMPGE(label1OfIF_ICMPGE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPGE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _eq_char_char(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "eq")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "eq")
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -208,17 +228,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPNE = new Label();
 		code.IF_ICMPNE(label1OfIF_ICMPNE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPNE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ne_char_char(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ne")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ne")
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -228,17 +251,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPEQ = new Label();
 		code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPEQ);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ge_char_char(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ge")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ge")
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -248,17 +274,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLT = new Label();
 		code.IF_ICMPLT(label1OfIF_ICMPLT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPLT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _le_char_char(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "le")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "le")
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -268,17 +297,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGT = new Label();
 		code.IF_ICMPGT(label1OfIF_ICMPGT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPGT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _gt_char_char(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "gt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "gt")
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -288,17 +320,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLE = new Label();
 		code.IF_ICMPLE(label1OfIF_ICMPLE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPLE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _lt_char_char(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "lt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "lt")
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -308,17 +343,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGE = new Label();
 		code.IF_ICMPGE(label1OfIF_ICMPGE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPGE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _eq_short_short(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "eq")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "eq")
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -328,17 +366,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPNE = new Label();
 		code.IF_ICMPNE(label1OfIF_ICMPNE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPNE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ne_short_short(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ne")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ne")
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -348,17 +389,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPEQ = new Label();
 		code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPEQ);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ge_short_short(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ge")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ge")
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -368,17 +412,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLT = new Label();
 		code.IF_ICMPLT(label1OfIF_ICMPLT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPLT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _le_short_short(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "le")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "le")
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -388,17 +435,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGT = new Label();
 		code.IF_ICMPGT(label1OfIF_ICMPGT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPGT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _gt_short_short(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "gt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "gt")
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -408,17 +458,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLE = new Label();
 		code.IF_ICMPLE(label1OfIF_ICMPLE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPLE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _lt_short_short(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "lt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "lt")
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -428,17 +481,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGE = new Label();
 		code.IF_ICMPGE(label1OfIF_ICMPGE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPGE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _eq_int_int(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "eq")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "eq")
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -448,17 +504,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPNE = new Label();
 		code.IF_ICMPNE(label1OfIF_ICMPNE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPNE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ne_int_int(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ne")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ne")
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -468,17 +527,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPEQ = new Label();
 		code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPEQ);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ge_int_int(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ge")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ge")
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -488,17 +550,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLT = new Label();
 		code.IF_ICMPLT(label1OfIF_ICMPLT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPLT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _le_int_int(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "le")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "le")
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -508,17 +573,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGT = new Label();
 		code.IF_ICMPGT(label1OfIF_ICMPGT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPGT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _gt_int_int(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "gt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "gt")
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -528,17 +596,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLE = new Label();
 		code.IF_ICMPLE(label1OfIF_ICMPLE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPLE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _lt_int_int(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "lt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "lt")
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -548,17 +619,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGE = new Label();
 		code.IF_ICMPGE(label1OfIF_ICMPGE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIF_ICMPGE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _eq_long_long(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "eq")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "eq")
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -569,17 +643,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFNE = new Label();
 		code.IFNE(label1OfIFNE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFNE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ne_long_long(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ne")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ne")
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -590,17 +667,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFEQ = new Label();
 		code.IFEQ(label1OfIFEQ);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFEQ);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ge_long_long(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ge")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ge")
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -611,17 +691,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFLT = new Label();
 		code.IFLT(label1OfIFLT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFLT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _le_long_long(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "le")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "le")
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -632,17 +715,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFGT = new Label();
 		code.IFGT(label1OfIFGT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFGT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _gt_long_long(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "gt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "gt")
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -653,17 +739,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFLE = new Label();
 		code.IFLE(label1OfIFLE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFLE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _lt_long_long(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "lt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "lt")
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -674,17 +763,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFGE = new Label();
 		code.IFGE(label1OfIFGE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFGE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _eq_float_float(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "eq")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "eq")
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -695,17 +787,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFNE = new Label();
 		code.IFNE(label1OfIFNE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFNE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ne_float_float(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ne")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ne")
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -716,17 +811,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFEQ = new Label();
 		code.IFEQ(label1OfIFEQ);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFEQ);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ge_float_float(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ge")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ge")
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -737,17 +835,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFLT = new Label();
 		code.IFLT(label1OfIFLT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFLT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _le_float_float(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "le")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "le")
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -758,17 +859,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFGT = new Label();
 		code.IFGT(label1OfIFGT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFGT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _gt_float_float(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "gt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "gt")
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -779,17 +883,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFLE = new Label();
 		code.IFLE(label1OfIFLE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFLE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _lt_float_float(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "lt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "lt")
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -800,17 +907,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFGE = new Label();
 		code.IFGE(label1OfIFGE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFGE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _eq_double_double(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "eq")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "eq")
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -821,17 +931,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFNE = new Label();
 		code.IFNE(label1OfIFNE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFNE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ne_double_double(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ne")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ne")
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -842,17 +955,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFEQ = new Label();
 		code.IFEQ(label1OfIFEQ);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFEQ);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _ge_double_double(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "ge")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "ge")
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -863,17 +979,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFLT = new Label();
 		code.IFLT(label1OfIFLT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFLT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _le_double_double(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "le")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "le")
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -884,17 +1003,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFGT = new Label();
 		code.IFGT(label1OfIFGT);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFGT);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _gt_double_double(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "gt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "gt")
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -905,17 +1027,20 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFLE = new Label();
 		code.IFLE(label1OfIFLE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFLE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _lt_double_double(ClassBody classBody) {
-		MethodCode code = classBody.method(boolean.class, "lt")
+		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "lt")
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -926,10 +1051,13 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 		Label label1OfIFGE = new Label();
 		code.IFGE(label1OfIFGE);
 		code.LOADConst(1);
-		code.RETURNTop();
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFGE);
 		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();

@@ -1,5 +1,7 @@
 package cc1sj.tinyasm.util;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
@@ -37,7 +39,7 @@ public class MethodASMArraySampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -48,7 +50,7 @@ public class MethodASMArraySampleTinyAsmDump {
 	}
 
 	protected void _init(ClassBody classBody) {
-		MethodCode code = classBody.method("init").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "init").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -105,7 +107,7 @@ public class MethodASMArraySampleTinyAsmDump {
 	}
 
 	protected void _setArrayValue(ClassBody classBody) {
-		MethodCode code = classBody.method("setArrayValue").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "setArrayValue").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -170,7 +172,7 @@ public class MethodASMArraySampleTinyAsmDump {
 	}
 
 	protected void _getArrayValue(ClassBody classBody) {
-		MethodCode code = classBody.method("getArrayValue").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "getArrayValue").begin();
 
 		code.LINE();
 		code.LOAD("this");

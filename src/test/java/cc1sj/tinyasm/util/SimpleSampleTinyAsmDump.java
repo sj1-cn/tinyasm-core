@@ -1,5 +1,7 @@
 package cc1sj.tinyasm.util;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
@@ -28,7 +30,7 @@ public class SimpleSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -46,7 +48,7 @@ public class SimpleSampleTinyAsmDump {
 	}
 
 	protected void _dd(ClassBody classBody) {
-		MethodCode code = classBody.method("dd").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "dd").begin();
 
 		code.LINE();
 		code.LOADConst(1);
@@ -75,7 +77,7 @@ public class SimpleSampleTinyAsmDump {
 	}
 
 	protected void _methodWith1Param(ClassBody classBody) {
-		MethodCode code = classBody.method("methodWith1Param")
+		MethodCode code = classBody.method(ACC_PUBLIC, "methodWith1Param")
 			.parameter("i",int.class).begin();
 
 		code.LINE();

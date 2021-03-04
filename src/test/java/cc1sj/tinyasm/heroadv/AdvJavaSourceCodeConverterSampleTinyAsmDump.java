@@ -1,5 +1,7 @@
 package cc1sj.tinyasm.heroadv;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
@@ -30,7 +32,7 @@ public class AdvJavaSourceCodeConverterSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -41,7 +43,7 @@ public class AdvJavaSourceCodeConverterSampleTinyAsmDump {
 	}
 
 	protected void _sayHello(ClassBody classBody) {
-		MethodCode code = classBody.method("sayHello").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "sayHello").begin();
 
 		code.LINE();
 		code.LOADConst(10);
@@ -74,10 +76,8 @@ public class AdvJavaSourceCodeConverterSampleTinyAsmDump {
 		code.LOAD("j");
 		code.ADD();
 		code.STORE("j");
-
-		code.LINE();
-		Label label8OfGOTO = new Label();
-		code.GOTO(label8OfGOTO);
+		Label label7OfGOTO = new Label();
+		code.GOTO(label7OfGOTO);
 
 		code.visitLabel(label5OfIF_ICMPLE);
 
@@ -87,36 +87,31 @@ public class AdvJavaSourceCodeConverterSampleTinyAsmDump {
 		code.ADD();
 		code.STORE("j");
 
-		code.visitLabel(label8OfGOTO);
+		code.visitLabel(label7OfGOTO);
 
 		code.LINE();
 		code.LOAD("i");
 		code.LOAD("j");
 		code.ADD();
 		code.STORE("j");
+		Label label11OfGOTO = new Label();
 
-		code.LINE();
-		Label label10OfGOTO = new Label();
-		code.GOTO(label10OfGOTO);
-		Label label12OfIF_ICMPGT = new Label();
-
-		code.visitLabel(label12OfIF_ICMPGT);
-
-		code.LINE();
-		code.LOAD("i");
-		code.LOAD("j");
-		code.ADD();
-		code.STORE("j");
-
-		code.visitLabel(label10OfGOTO);
+		code.visitLabel(label11OfGOTO);
 
 		code.LINE();
 		code.LOAD("j");
 		code.LOADConst(10);
-		code.IF_ICMPGT(label12OfIF_ICMPGT);
-		Label label15OfIF_ICMPGT = new Label();
+		Label label9OfIF_ICMPLE = new Label();
+		code.IF_ICMPLE(label9OfIF_ICMPLE);
 
-		code.visitLabel(label15OfIF_ICMPGT);
+		code.LINE();
+		code.LOAD("i");
+		code.LOAD("j");
+		code.ADD();
+		code.STORE("j");
+		code.GOTO(label11OfGOTO);
+
+		code.visitLabel(label9OfIF_ICMPLE);
 
 		code.LINE();
 		code.LOAD("i");
@@ -127,9 +122,7 @@ public class AdvJavaSourceCodeConverterSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("j");
 		code.LOADConst(10);
-
-		code.LINE();
-		code.IF_ICMPGT(label15OfIF_ICMPGT);
+		code.IF_ICMPGT(label9OfIF_ICMPLE);
 
 		code.LINE();
 		code.RETURN();

@@ -37,7 +37,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 			objEval.accept(c);
 			c.INTERFACE(AdvAsxProxyPojoInterfaceSample.class, "getName").reTurn(String.class).INVOKE();
 		});
-		return MAGIC_CODES_String + codeIndex; // String.class);
+		
+		return new StringBuilder( MAGIC_CODES_String).append(codeIndex).toString(); // String.class);
 	}
 
 	@Override
@@ -212,8 +213,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setName(String value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -227,8 +228,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeChar(char value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -242,8 +243,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeByte(byte value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -257,8 +258,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeShort(short value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -279,8 +280,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeInt(int value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -294,8 +295,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeLong(long value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -309,8 +310,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeFloat(float value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -324,8 +325,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeDouble(double value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -339,8 +340,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeCharacter(Character value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -354,8 +355,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeByte2(Byte value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -369,8 +370,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeShort2(Short value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -383,8 +384,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	@Override
 	public void setAgeInteger(Integer value) {
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -398,8 +399,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeLong2(Long value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -413,8 +414,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeFloat2(Float value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);
@@ -428,8 +429,8 @@ public class AdvAsmProxyPojoInterfaceSampleAdvAsmProxy implements AdvAsxProxyPoj
 	public void setAgeDouble2(Double value) {
 
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		ConsumerWithException<MethodCode> objValue = context.resolve(value);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(c -> {
 			objEval.accept(c);
 			objValue.accept(c);

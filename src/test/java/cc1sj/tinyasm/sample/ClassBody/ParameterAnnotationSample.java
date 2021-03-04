@@ -31,7 +31,7 @@ public class ParameterAnnotationSample {
 		return null;
 	}
 
-	public void method(@TestAnnotation String annotation, @TestAnnotation("value") String annotationWithDefaultValue,
+	public void publicMethod(@TestAnnotation String annotation, @TestAnnotation("value") String annotationWithDefaultValue,
 			@TestAnnotation(value = "value", name = "name") String annotationWithDefaultValueAndNamedValue,
 			@TestAnnotation(name = "name", secondName = "secondName") String annotationWithDefaultValueAndNamedValue2) {
 		annotation = "annotation";

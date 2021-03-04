@@ -1,5 +1,7 @@
 package cc1sj.tinyasm.util;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
@@ -48,7 +50,6 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 		classBody.staticField(ACC_STATIC, "ln1", Clazz.of(long.class));
 		classBody.staticField(ACC_STATIC, "fn1", Clazz.of(float.class));
 		classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
-		__clinit_(classBody);
 		__init_(classBody);
 		_addInt(classBody);
 		_addByte(classBody);
@@ -57,135 +58,13 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 		_mathChar(classBody);
 		_mathFloat(classBody);
 		_mathDouble(classBody);
+		__clinit_(classBody);
 
 		return classBody.end().toByteArray();
 	}
 
-	protected void __clinit_(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(ACC_STATIC, "<clinit>").begin();
-
-		code.LINE();
-		code.LOADConst(1);
-		code.PUT_THIS_STATIC("b");
-
-		code.LINE();
-		code.LOADConst(1);
-		code.PUT_THIS_STATIC("c");
-
-		code.LINE();
-		code.LOADConst(1);
-		code.PUT_THIS_STATIC("s");
-
-		code.LINE();
-		code.LOADConst(1);
-		code.PUT_THIS_STATIC("i");
-
-		code.LINE();
-		code.LOADConst(1L);
-		code.PUT_THIS_STATIC("l");
-
-		code.LINE();
-		code.LOADConst(1F);
-		code.PUT_THIS_STATIC("f");
-
-		code.LINE();
-		code.LOADConst(1D);
-		code.PUT_THIS_STATIC("d");
-
-		code.LINE();
-		code.LOADConst(3);
-		code.PUT_THIS_STATIC("b3");
-
-		code.LINE();
-		code.LOADConst(3);
-		code.PUT_THIS_STATIC("c3");
-
-		code.LINE();
-		code.LOADConst(3);
-		code.PUT_THIS_STATIC("s3");
-
-		code.LINE();
-		code.LOADConst(3);
-		code.PUT_THIS_STATIC("i3");
-
-		code.LINE();
-		code.LOADConst(new Long(3L));
-		code.PUT_THIS_STATIC("l3");
-
-		code.LINE();
-		code.LOADConst(new Float("3.0"));
-		code.PUT_THIS_STATIC("f3");
-
-		code.LINE();
-		code.LOADConst(new Double("3.0"));
-		code.PUT_THIS_STATIC("d3");
-
-		code.LINE();
-		code.LOADConst(new Float("3.1"));
-		code.PUT_THIS_STATIC("f31");
-
-		code.LINE();
-		code.LOADConst(new Double("3.1"));
-		code.PUT_THIS_STATIC("d31");
-
-		code.LINE();
-		code.LOADConst(0);
-		code.PUT_THIS_STATIC("b0");
-
-		code.LINE();
-		code.LOADConst(0);
-		code.PUT_THIS_STATIC("c0");
-
-		code.LINE();
-		code.LOADConst(0);
-		code.PUT_THIS_STATIC("s0");
-
-		code.LINE();
-		code.LOADConst(0);
-		code.PUT_THIS_STATIC("i0");
-
-		code.LINE();
-		code.LOADConst(0L);
-		code.PUT_THIS_STATIC("l1");
-
-		code.LINE();
-		code.LOADConst(0F);
-		code.PUT_THIS_STATIC("f1");
-
-		code.LINE();
-		code.LOADConst(0D);
-		code.PUT_THIS_STATIC("d1");
-
-		code.LINE();
-		code.LOADConst(-1);
-		code.PUT_THIS_STATIC("bn1");
-
-		code.LINE();
-		code.LOADConst(-1);
-		code.PUT_THIS_STATIC("sn1");
-
-		code.LINE();
-		code.LOADConst(-1);
-		code.PUT_THIS_STATIC("in1");
-
-		code.LINE();
-		code.LOADConst(new Long(-1L));
-		code.PUT_THIS_STATIC("ln1");
-
-		code.LINE();
-		code.LOADConst(new Float("-1.0"));
-		code.PUT_THIS_STATIC("fn1");
-
-		code.LINE();
-		code.LOADConst(new Double("-1.0"));
-		code.PUT_THIS_STATIC("dn1");
-		code.RETURN();
-
-		code.END();
-	}
-
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -196,7 +75,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 	}
 
 	protected void _addInt(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(int.class, "addInt")
+		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, int.class, "addInt")
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -326,7 +205,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 	}
 
 	protected void _addByte(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(byte.class, "addByte")
+		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, byte.class, "addByte")
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -425,7 +304,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 	}
 
 	protected void _addShort(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(short.class, "addShort")
+		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, short.class, "addShort")
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -524,7 +403,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 	}
 
 	protected void _addLong(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(long.class, "addLong")
+		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, long.class, "addLong")
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -614,7 +493,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 	}
 
 	protected void _mathChar(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(char.class, "mathChar")
+		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, char.class, "mathChar")
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -713,7 +592,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 	}
 
 	protected void _mathFloat(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(float.class, "mathFloat")
+		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, float.class, "mathFloat")
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -784,7 +663,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 	}
 
 	protected void _mathDouble(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(double.class, "mathDouble")
+		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, double.class, "mathDouble")
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -850,6 +729,129 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("z");
 		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void __clinit_(ClassBody classBody) {
+		MethodCode code = classBody.staticMethod("<clinit>").begin();
+
+		code.LINE();
+		code.LOADConst(1);
+		code.PUT_THIS_STATIC("b");
+
+		code.LINE();
+		code.LOADConst(1);
+		code.PUT_THIS_STATIC("c");
+
+		code.LINE();
+		code.LOADConst(1);
+		code.PUT_THIS_STATIC("s");
+
+		code.LINE();
+		code.LOADConst(1);
+		code.PUT_THIS_STATIC("i");
+
+		code.LINE();
+		code.LOADConst(1L);
+		code.PUT_THIS_STATIC("l");
+
+		code.LINE();
+		code.LOADConst(1F);
+		code.PUT_THIS_STATIC("f");
+
+		code.LINE();
+		code.LOADConst(1D);
+		code.PUT_THIS_STATIC("d");
+
+		code.LINE();
+		code.LOADConst(3);
+		code.PUT_THIS_STATIC("b3");
+
+		code.LINE();
+		code.LOADConst(3);
+		code.PUT_THIS_STATIC("c3");
+
+		code.LINE();
+		code.LOADConst(3);
+		code.PUT_THIS_STATIC("s3");
+
+		code.LINE();
+		code.LOADConst(3);
+		code.PUT_THIS_STATIC("i3");
+
+		code.LINE();
+		code.LOADConst(new Long(3L));
+		code.PUT_THIS_STATIC("l3");
+
+		code.LINE();
+		code.LOADConst(new Float("3.0"));
+		code.PUT_THIS_STATIC("f3");
+
+		code.LINE();
+		code.LOADConst(new Double("3.0"));
+		code.PUT_THIS_STATIC("d3");
+
+		code.LINE();
+		code.LOADConst(new Float("3.1"));
+		code.PUT_THIS_STATIC("f31");
+
+		code.LINE();
+		code.LOADConst(new Double("3.1"));
+		code.PUT_THIS_STATIC("d31");
+
+		code.LINE();
+		code.LOADConst(0);
+		code.PUT_THIS_STATIC("b0");
+
+		code.LINE();
+		code.LOADConst(0);
+		code.PUT_THIS_STATIC("c0");
+
+		code.LINE();
+		code.LOADConst(0);
+		code.PUT_THIS_STATIC("s0");
+
+		code.LINE();
+		code.LOADConst(0);
+		code.PUT_THIS_STATIC("i0");
+
+		code.LINE();
+		code.LOADConst(0L);
+		code.PUT_THIS_STATIC("l1");
+
+		code.LINE();
+		code.LOADConst(0F);
+		code.PUT_THIS_STATIC("f1");
+
+		code.LINE();
+		code.LOADConst(0D);
+		code.PUT_THIS_STATIC("d1");
+
+		code.LINE();
+		code.LOADConst(-1);
+		code.PUT_THIS_STATIC("bn1");
+
+		code.LINE();
+		code.LOADConst(-1);
+		code.PUT_THIS_STATIC("sn1");
+
+		code.LINE();
+		code.LOADConst(-1);
+		code.PUT_THIS_STATIC("in1");
+
+		code.LINE();
+		code.LOADConst(new Long(-1L));
+		code.PUT_THIS_STATIC("ln1");
+
+		code.LINE();
+		code.LOADConst(new Float("-1.0"));
+		code.PUT_THIS_STATIC("fn1");
+
+		code.LINE();
+		code.LOADConst(new Double("-1.0"));
+		code.PUT_THIS_STATIC("dn1");
+		code.RETURN();
 
 		code.END();
 	}

@@ -33,7 +33,7 @@ public class MethodHeaderTest  {
 
 		cw.constructerEmpty();
 
-		cw.method("throwException").tHrow(IOException.class).code(mv -> {
+		cw.publicMethod("throwException").tHrow(IOException.class).code(mv -> {
 			mv.define("file", File.class);
 			mv.define("fileInputStream", FileInputStream.class);
 
@@ -82,7 +82,7 @@ public class MethodHeaderTest  {
 
 		cw.constructerEmpty();
 
-		MethodCode mv = cw.method("throwException").tHrow(IOException.class).begin();
+		MethodCode mv = cw.publicMethod("throwException").tHrow(IOException.class).begin();
 		mv.define("file", File.class);
 		mv.define("fileInputStream", FileInputStream.class);
 
@@ -133,7 +133,7 @@ public class MethodHeaderTest  {
 
 		cw.constructerEmpty();
 
-		cw.method("throwException").tHrow(IOException.class.getName()).code(mv -> {
+		cw.publicMethod("throwException").tHrow(IOException.class.getName()).code(mv -> {
 			mv.define("file", File.class);
 			mv.define("fileInputStream", FileInputStream.class);
 

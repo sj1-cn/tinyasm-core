@@ -24,23 +24,23 @@ import cc1sj.tinyasm.util.TinyAsmTestUtils;
 public class AdvAsmProxyASMifierTest {
 
 
-//	@Test
-//	public void test_PojoClassSampleAdvAsmProxy_dump() throws Exception {
-//		Class<?> expectedClazz = AdvAsmProxyPojoClassSampleAdvAsmProxy.class;
-//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-//
-//		try {
-//			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
-//
-//
-//			assertEquals("Code", codeExpected, codeActual);
-//		} finally {
-//
-//			System.out.println(codeExpected);
-//
-//		}
-//
-//	}
+	@Test
+	public void test_PojoClassSampleAdvAsmProxy_dump() throws Exception {
+		Class<?> expectedClazz = AdvAsmProxyPojoClassSampleAdvAsmProxy.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		try {
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
+
+
+			assertEquals("Code", codeExpected, codeActual);
+		} finally {
+
+			System.out.println(codeExpected);
+
+		}
+
+	}
 
 	@Test
 	public void test_PojoClassSampleAdvAsmProxy_Builder() throws Exception {

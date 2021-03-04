@@ -1,5 +1,7 @@
 package cc1sj.tinyasm.util;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
@@ -32,7 +34,7 @@ public class SignatureSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -43,7 +45,7 @@ public class SignatureSampleTinyAsmDump {
 	}
 
 	protected void _mapStrngString(ClassBody classBody) {
-		MethodCode code = classBody.method(0, Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)), "mapStrngString")
+		MethodCode code = classBody.method(Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)), "mapStrngString")
 			.parameter("mapStrngString",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)))
 			.parameter("mapStrngString2",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class))).begin();
 

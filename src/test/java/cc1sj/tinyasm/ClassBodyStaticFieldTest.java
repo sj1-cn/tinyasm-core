@@ -28,18 +28,22 @@ public class ClassBodyStaticFieldTest {
 
 	@Test
 	public void testMath() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).annotation(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" })
-				.body();
+		ClassBody cw = ClassBuilder.make(clazz)
+				.annotation(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }).body();
 
 		cw.staticField(Opcodes.ACC_PRIVATE, Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class));
-		cw.staticField(Opcodes.ACC_PROTECTED, Annotation.of(TestAnnotation.class, "value"), "annotationWithDefaultValue", Clazz.of(String.class));
-		cw.staticField(Opcodes.ACC_PUBLIC, Annotation.of(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
+		cw.staticField(Opcodes.ACC_PROTECTED, Annotation.of(TestAnnotation.class, "value"), "annotationWithDefaultValue",
+				Clazz.of(String.class));
+		cw.staticField(Opcodes.ACC_PUBLIC,
+				Annotation.of(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
 				"annotationWithDefaultValueAndNamedValue", Clazz.of(String.class));
-		cw.staticField(Opcodes.ACC_STATIC, Annotation.of(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
+		cw.staticField(Opcodes.ACC_STATIC,
+				Annotation.of(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
 				"annotationWithDefaultValueAndNamedValue2", Clazz.of(String.class));
 		Class<?>[] genericParameterClazz = { String.class };
 
-		cw.staticField(Opcodes.ACC_PRIVATE, Annotation.of(TestAnnotation.class), "genericWithAnnotation", Clazz.of(List.class, genericParameterClazz));
+		cw.staticField(Opcodes.ACC_PRIVATE, Annotation.of(TestAnnotation.class), "genericWithAnnotation",
+				Clazz.of(List.class, genericParameterClazz));
 		Class<?>[] genericParameterClazz1 = { String.class };
 		cw.staticField(Opcodes.ACC_PRIVATE, "genericWithoutAnnotation", Clazz.of(List.class, genericParameterClazz1));
 
@@ -84,11 +88,12 @@ public class ClassBodyStaticFieldTest {
 					mv.visitLabel(l1);
 				});
 
-		cw.method("method").ACC_STATIC().parameter(Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class))
+		cw.publicMethod("method").ACC_STATIC().parameter(Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class))
 				.parameter(Annotation.of(TestAnnotation.class, "value"), "annotationWithDefaultValue", Clazz.of(String.class))
 				.parameter(Annotation.of(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
 						"annotationWithDefaultValueAndNamedValue", Clazz.of(String.class))
-				.parameter(Annotation.of(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
+				.parameter(
+						Annotation.of(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }),
 						"annotationWithDefaultValueAndNamedValue2", Clazz.of(String.class))
 				.code(mv -> {
 					mv.LINE();
@@ -109,7 +114,7 @@ public class ClassBodyStaticFieldTest {
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}

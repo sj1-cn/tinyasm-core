@@ -96,13 +96,13 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 	}
 
 	public void finish() {
-		for (LambdaBuilder lambdaBuilder : lambdas) {
-			lambdaBuilder.exec(classBody);
+		for (int i = lambdas.size() - 1; i >= 0; i--) {
+			lambdas.get(i).exec(classBody);
 		}
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -113,7 +113,7 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 	}
 
 	protected void _get__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.method(byte.class, "get__MagicNumber").begin();
+		MethodCode code = classBody.publicMethod(byte.class, "get__MagicNumber").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -124,7 +124,7 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 	}
 
 	protected void _set__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.method("set__MagicNumber").parameter("_magicNumber", byte.class).begin();
+		MethodCode code = classBody.publicMethod("set__MagicNumber").parameter("_magicNumber", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -138,8 +138,9 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 	}
 
 	protected void _set__Context(ClassBody classBody) {
-		MethodCode code = classBody.method("set__Context").parameter("context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)))
-				.parameter("_magicNumber", byte.class).begin();
+		MethodCode code = classBody.publicMethod("set__Context")
+				.parameter("context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class))).parameter("_magicNumber", byte.class)
+				.begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -203,7 +204,7 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 		// ParamType
 		Type[] methodParamTypes = Type.getArgumentTypes(descriptor);
 
-		MethodHeader mh = classBody.method(returnClazz, methodName);
+		MethodHeader mh = classBody.method(ACC_PUBLIC, returnClazz, methodName);
 //			mh.access(access);
 		for (int i = 0; i < methodParamTypes.length; i++) {
 			mh.parameter("param" + i, Clazz.of(methodParamTypes[i]));
@@ -213,7 +214,6 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 		MethodCode code = mh.begin();
 
 		code_getContext(code);
-		// resolve this
 		// resolve parameters
 		for (int i = methodParamTypes.length - 1; i >= 0; i--) {
 			if (Type.BOOLEAN_TYPE == methodParamTypes[i] || Boolean.class.getName().equals(methodParamTypes[i].getClassName())) {
@@ -225,6 +225,7 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 				code_resolve("eval_param" + i, code, "param" + i, methodParamTypes[i]);
 			}
 		}
+		// resolve this
 		code_resolve_this("objEval", code);
 
 		// LOAD All Parameter
@@ -236,7 +237,7 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 		}
 
 		// invoke method
-		String lambdaName = push(1 + methodParamTypes.length, c -> {
+		String lambdaName = pushLambda(1 + methodParamTypes.length, methodName, c -> {
 			c.LINE();
 			c.LOAD("c");
 			c.LOADConst(targetType);
@@ -521,8 +522,8 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 
 	List<LambdaBuilder> lambdas = new ArrayList<>();
 
-	public String push(int params, Consumer<MethodCode> lambdaInvokeSuperMethod) {
-		String name = "lambda$" + this.lambdas.size();
+	public String pushLambda(int params, String methodName, Consumer<MethodCode> lambdaInvokeSuperMethod) {
+		String name = "lambda$" + methodName + "$" + this.lambdas.size();
 		lambdas.add(new LambdaBuilder(name, params, lambdaInvokeSuperMethod));
 		return name;
 	}

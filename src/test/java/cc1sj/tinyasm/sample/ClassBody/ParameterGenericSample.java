@@ -16,13 +16,14 @@ public class ParameterGenericSample extends ArrayList<Annotation> implements Tes
 		return null;
 	}
 
-	public void method(List<String> annotation) {
+	void method(List<String> annotation) {
 		this.annotation = annotation;
 	}
 
 	@SuppressWarnings("unused")
-	public void methodGenericVar(List<String> annotation) {
-		@TestAnnotation List<String> thisannotation = annotation;
+	void methodGenericVar(List<String> annotation) {
+		@TestAnnotation
+		List<String> thisannotation = annotation;
 		this.annotation = annotation;
 	}
 

@@ -63,7 +63,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getStringHelloClassChild").reTurn(String.class).INVOKE();
 		});
-		return MAGIC_CODES_String + codeIndex; // String.class);
+		return new StringBuilder(MAGIC_CODES_String).append(codeIndex).toString(); // String.class);
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassChildSample.class, "getName").reTurn(String.class).INVOKE();
 		});
-		return MAGIC_CODES_String + codeIndex; // String.class);
+		return new StringBuilder(MAGIC_CODES_String).append(codeIndex).toString(); // String.class);
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 		});
 		return false;
 	}
-	
+
 	@Override
 	public char getAgeChar() {
 
@@ -327,7 +327,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 		});
 		context.popAndExec();
 	}
-	
+
 	@Override
 	public void setAgeChar(char value) {
 
@@ -453,7 +453,7 @@ public class AdvAsmProxyPojoClassChildSampleAdvAsmProxy extends AdvAsmProxyPojoC
 		});
 		context.popAndExec();
 	}
-	
+
 	@Override
 	public void setAgeCharacter(Character value) {
 

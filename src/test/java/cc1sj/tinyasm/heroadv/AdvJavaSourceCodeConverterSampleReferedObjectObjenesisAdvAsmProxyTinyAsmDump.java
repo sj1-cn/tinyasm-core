@@ -1,5 +1,8 @@
 package cc1sj.tinyasm.heroadv;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Handle;
+
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
@@ -10,6 +13,7 @@ import cc1sj.tinyasm.Clazz;
 import java.lang.ThreadLocal;
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.heroadv.AdvJavaSourceCodeConverterSampleReferedObject;
+import org.objectweb.asm.Handle;
 import java.lang.Exception;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodCaller;
@@ -87,7 +91,7 @@ public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxyTi
 	}
 
 	protected void _set__Context(ClassBody classBody) {
-		MethodCode code = classBody.method(, "set__Context")
+		MethodCode code = classBody.method("set__Context")
 			.parameter("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)))
 			.parameter("_magicNumber",byte.class).begin();
 

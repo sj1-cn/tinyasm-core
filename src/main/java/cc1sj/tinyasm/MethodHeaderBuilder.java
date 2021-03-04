@@ -213,7 +213,6 @@ class MethodHeaderBuilder implements MethodHeader {
 		mc.END();
 	}
 
-
 	void end() {
 		exitMethod();
 //		if (!exited) TinyAsmBuilder.exitCode();
@@ -226,13 +225,20 @@ class MethodHeaderBuilder implements MethodHeader {
 		mv.visitLabel(label);
 		return label;
 	}
- 
 
 	boolean exited = false;
 
 	protected void exitMethod() {
 		if (thisMethod.hasEnded) return;
-		if (!((this.methodAccess & ACC_SYNTHETIC) > 0)) {
+		if ((this.methodAccess & ACC_SYNTHETIC) > 0 && (this.methodAccess & ACC_BRIDGE) > 0) {
+			Label endLabel = this.labelWithoutLineNumber();
+			LocalsStack.Var var = mhLocals.getByLocal(0);
+			assert mv != null;
+			assert var != null;
+			assert var.clazz.getDescriptor() != null;
+			Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
+			mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
+		} else {// if (!((this.methodAccess & ACC_SYNTHETIC) > 0)) {
 			Label endLabel = this.labelWithoutLineNumber();
 			for (LocalsStack.Var var : mhLocals) {
 				if (!((var.access & ACC_SYNTHETIC) > 0)) {
@@ -247,22 +253,12 @@ class MethodHeaderBuilder implements MethodHeader {
 							var.locals);
 				}
 			}
-		} else if ((this.methodAccess & ACC_SYNTHETIC) > 0 && (this.methodAccess & ACC_BRIDGE) > 0) {
-			Label endLabel = this.labelWithoutLineNumber();
-			LocalsStack.Var var = mhLocals.getByLocal(0);
-			assert mv != null;
-			assert var != null;
-			assert var.clazz.getDescriptor() != null;
-			Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
-			mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
 		}
 		mv.visitMaxs(0, 0);
 		mv.visitEnd();
 		thisMethod.hasEnded = true;
 	}
 
-
-	
 	//
 //	
 //	@Override

@@ -49,9 +49,9 @@ public class IfBuilder implements AfterIf, AfterThen, ConsumerWithException<Meth
 			context.execBlock(thenBlock);
 
 			Label label4OfGOTO = new Label();
-			Label line = new Label();
-			code.visitLabel(line);
-			code.visitLineNumber(line);
+//			Label line = new Label();
+//			code.visitLabel(line);
+//			code.visitLineNumber(line);
 
 			code.GOTO(label4OfGOTO);
 

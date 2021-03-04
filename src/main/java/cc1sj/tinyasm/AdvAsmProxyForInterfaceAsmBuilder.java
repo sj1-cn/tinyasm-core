@@ -102,13 +102,13 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 	}
 
 	public void finish() {
-		for (LambdaBuilder lambdaBuilder : lambdas) {
-			lambdaBuilder.exec(classBody);
+		for (int i = lambdas.size()-1; i >=0 ; i--) {
+			lambdas.get(i).exec(classBody);
 		}
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -119,7 +119,7 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 	}
 
 	protected void _get__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.method(byte.class, "get__MagicNumber").begin();
+		MethodCode code = classBody.publicMethod(byte.class, "get__MagicNumber").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -130,7 +130,7 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 	}
 
 	protected void _set__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.method("set__MagicNumber").parameter("_magicNumber", byte.class).begin();
+		MethodCode code = classBody.publicMethod("set__MagicNumber").parameter("_magicNumber", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -144,8 +144,9 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 	}
 
 	protected void _set__Context(ClassBody classBody) {
-		MethodCode code = classBody.method("set__Context").parameter("context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)))
-				.parameter("_magicNumber", byte.class).begin();
+		MethodCode code = classBody.publicMethod("set__Context")
+				.parameter("context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class))).parameter("_magicNumber", byte.class)
+				.begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -211,7 +212,7 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 		// ParamType
 		Type[] methodParamTypes = Type.getArgumentTypes(descriptor);
 
-		MethodHeader mh = classBody.method(returnClazz, methodName);
+		MethodHeader mh = classBody.method(ACC_PUBLIC, returnClazz, methodName);
 //			mh.access(access);
 		for (int i = 0; i < methodParamTypes.length; i++) {
 			mh.parameter("param" + i, Clazz.of(methodParamTypes[i]));
@@ -221,12 +222,19 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 		MethodCode code = mh.begin();
 
 		code_getContext(code);
+		// resolve parameters
+		for (int i = methodParamTypes.length - 1; i >= 0; i--) {
+			if (Type.BOOLEAN_TYPE == methodParamTypes[i] || Boolean.class.getName().equals(methodParamTypes[i].getClassName())) {
+				code.LINE();
+				code.LOAD("context");
+				code.VIRTUAL(AdvContext.class, "getCodeAndPop").reTurn(ConsumerWithException.class).INVOKE();
+				code.STORE("eval_param" + i, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+			} else {
+				code_resolve("eval_param" + i, code, "param" + i, methodParamTypes[i]);
+			}
+		}
 		// resolve this
 		code_resolve_this("objEval", code);
-		// resolve parameters
-		for (int i = 0; i < methodParamTypes.length; i++) {
-			code_resolve("eval_param" + i, code, "param" + i, methodParamTypes[i]);
-		}
 
 		// LOAD All Parameter
 		code.LINE();
@@ -236,7 +244,7 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 			code.LOAD("eval_param" + i);
 		}
 		// invoke method
-		String lambdaName = pushLambda(1 + methodParamTypes.length, c -> {
+		String lambdaName = pushLambda(1 + methodParamTypes.length, methodName, c -> {
 			c.LINE();
 			c.LOAD("c");
 			c.LOADConst(targetType);
@@ -263,12 +271,24 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 
 		// Refer
 		if (returnType != Type.VOID_TYPE) {
-			code.STORE("codeIndex", byte.class);
 
 //				code.CONVERTTO(returnClazz);
 
-			if (BoxUnbox.ClazzObjectToPrimitive.containsKey(returnType)) {
+			if (Type.BOOLEAN_TYPE == returnType) {
+				code.POP();
+				code.LINE();
+				code.LOADConst(0);
+				code.RETURNTop();
+			} else if (Boolean.class.getName().equals(returnType.getClassName())) {
+//				code.STORE("codeIndex", byte.class);
+				code.POP();
 
+				code.LINE();
+				code.LOADConst(0);
+				code.STATIC(Boolean.class, "valueOf").reTurn(Boolean.class).parameter(boolean.class).INVOKE();
+				code.RETURNTop();
+			} else if (BoxUnbox.ClazzObjectToPrimitive.containsKey(returnType)) {
+				code.STORE("codeIndex", byte.class);
 				code.LINE();
 				code.LOADConst(MAGIC_CODES_NUMBER);
 				code.LOAD("codeIndex");
@@ -278,6 +298,7 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 				BoxUnbox.PrimaryToBoxFunc.get(primitiveType).accept(code);
 				code.RETURNTop();
 			} else if (BoxUnbox.PrimativeToClazzObject.containsKey(returnType)) {
+				code.STORE("codeIndex", byte.class);
 				code.LINE();
 				code.LOADConst(MAGIC_CODES_NUMBER);
 				code.LOAD("codeIndex");
@@ -285,6 +306,7 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 				code.CONVERTTO(returnType);
 				code.RETURNTop();
 			} else if (returnType.getSort() == Type.OBJECT && returnType.equals(Type.getType(String.class))) {
+				code.STORE("codeIndex", byte.class);
 				code.LINE();
 				code.NEW(StringBuilder.class);
 				code.DUP();
@@ -294,6 +316,8 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 				code.VIRTUAL(StringBuilder.class, "append").reTurn(StringBuilder.class).parameter(int.class).INVOKE();
 				code.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
 				code.RETURNTop();
+			} else {
+				throw new UnsupportedOperationException();
 			}
 
 		} else {
@@ -506,8 +530,8 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 
 	List<LambdaBuilder> lambdas = new ArrayList<>();
 
-	public String pushLambda(int params, Consumer<MethodCode> lambdaInvokeSuperMethod) {
-		String name = "lambda$" + this.lambdas.size();
+	public String pushLambda(int params, String methodName, Consumer<MethodCode> lambdaInvokeSuperMethod) {
+		String name = "lambda$" + methodName + "$" + this.lambdas.size();
 		lambdas.add(new LambdaBuilder(name, params, lambdaInvokeSuperMethod));
 		return name;
 	}

@@ -1,5 +1,7 @@
 package cc1sj.tinyasm;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
@@ -39,7 +41,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -50,7 +52,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void _getField(ClassBody classBody) {
-		MethodCode code = classBody.method(int.class, "getField").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "getField").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -68,7 +70,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void _getFieldAll(ClassBody classBody) {
-		MethodCode code = classBody.method(int.class, "getFieldAll").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "getFieldAll").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -105,7 +107,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void _getFieldConst(ClassBody classBody) {
-		MethodCode code = classBody.method(int.class, "getFieldConst").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "getFieldConst").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -178,7 +180,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void _getFieldIConst(ClassBody classBody) {
-		MethodCode code = classBody.method(int.class, "getFieldIConst").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "getFieldIConst").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -254,7 +256,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void _retByte(ClassBody classBody) {
-		MethodCode code = classBody.method(byte.class, "retByte").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, byte.class, "retByte").begin();
 
 		code.LINE();
 		code.LOADConst(1);

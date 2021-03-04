@@ -83,19 +83,19 @@ public class AdvJavaSourceCodeConverter {
 		add(name + " [-] " + name, "minus($1,$2)");
 		add(name + " [*] " + name, "multi");
 		add(name + " [/] " + name, "divide($1,$2)");
-		add(name + " > " + name, "isGreaterThen($1,$2)");
+		add(name + " > " + name, "isGreaterThan($1,$2)");
 		add(name + " == " + name, "isEqual($1,$2)");
-		add(name + " < " + name, "isLessThen($1,$2)");
+		add(name + " < " + name, "isLessThan($1,$2)");
 		add(name + " >= " + name, "isGreaterEqual($1,$2)");
-		add(name + " <= " + name, "isLessThen($1,$2)");
+		add(name + " <= " + name, "isLessThan($1,$2)");
 
 		add(Line_start + tabs + "}" + Line_End, "$1});");
 
-		add(Line_start + tabs + "if (\\([^\\{]+)\\{" + Line_End, "$1if_$2.then_(c->{");
+		add(Line_start + tabs + "if (\\([^\\{]+)\\{" + Line_End, "$1_if$2.then(c->{");
 		add(Line_start + tabs + "\\} else \\{" + Line_End, "$1}).else_(c->{");
 
-		add(Line_start + tabs + "while (\\([^\\{]+)\\{" + Line_End, "$1while_$2.block(c->{");
-		add(Line_start + tabs + "do \\{" + Line_End, "$1do_(c->{");
+		add(Line_start + tabs + "while (\\([^\\{]+)\\{" + Line_End, "$1_while$2.block(c->{");
+		add(Line_start + tabs + "do \\{" + Line_End, "$1_do(c->{");
 		add(Line_start + tabs + "\\} while (\\([^\\n]+)" + Line_End, "$1}).while_$2");
 
 		add(Line_start + "}" + Line_End, "return clazz.end().toByteArray();");

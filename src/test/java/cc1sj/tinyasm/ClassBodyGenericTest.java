@@ -35,7 +35,7 @@ public class ClassBodyGenericTest {
 //		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
 		cw.field("annotation", Clazz.of(List.class.getName(), genericParameterClazz));
 
-		cw.method("<init>").code(mv -> {
+		cw.publicMethod("<init>").code(mv -> {
 			mv.LINE();
 			mv.LOAD(0);
 			mv.SPECIAL(ArrayList.class.getName(), "<init>").INVOKE();
@@ -90,7 +90,7 @@ public class ClassBodyGenericTest {
 //		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
 		cw.field("annotation", Clazz.of(List.class.getName(), genericParameterClazz));
 
-		cw.method("<init>").code(mv -> {
+		cw.publicMethod("<init>").code(mv -> {
 			mv.LINE();
 			mv.LOAD(0);
 			mv.SPECIAL(ArrayList.class.getName(), "<init>").INVOKE();

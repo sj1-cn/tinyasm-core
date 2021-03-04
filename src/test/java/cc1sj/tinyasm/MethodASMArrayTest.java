@@ -41,7 +41,7 @@ public class MethodASMArrayTest {
 
 		cw.field("stra", String.class, true);
 
-		cw.method("<init>").code(mv -> {
+		cw.publicMethod("<init>").code(mv -> {
 			Label l0 = mv.codeNewLabel();
 			mv.LINE();
 			mv.visitLabel(l0);
@@ -52,7 +52,7 @@ public class MethodASMArrayTest {
 			mv.visitLabel(l1);
 		});
 //
-		cw.method("init").code(mv -> {
+		cw.publicMethod("init").code(mv -> {
 			Label l0 = mv.codeNewLabel();
 			mv.visitLabel(l0);
 
@@ -126,7 +126,7 @@ public class MethodASMArrayTest {
 			mv.visitLabel(l9);
 		});
 
-		cw.method("setArrayValue").code(mv -> {
+		cw.publicMethod("setArrayValue").code(mv -> {
 			Label l0 = mv.codeNewLabel();
 			mv.visitLabel(l0);
 			mv.LINE();
@@ -199,7 +199,7 @@ public class MethodASMArrayTest {
 			mv.visitLabel(l9);
 		});
 
-		cw.method("getArrayValue").code(mv -> {
+		cw.publicMethod("getArrayValue").code(mv -> {
 			Label l0 = mv.codeNewLabel();
 			mv.visitLabel(l0);
 			mv.LINE();

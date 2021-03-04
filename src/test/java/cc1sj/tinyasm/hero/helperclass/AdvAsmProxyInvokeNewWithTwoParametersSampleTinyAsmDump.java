@@ -1,5 +1,7 @@
 package cc1sj.tinyasm.hero.helperclass;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
@@ -27,7 +29,7 @@ public class AdvAsmProxyInvokeNewWithTwoParametersSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -38,7 +40,7 @@ public class AdvAsmProxyInvokeNewWithTwoParametersSampleTinyAsmDump {
 	}
 
 	protected void _test(ClassBody classBody) {
-		MethodCode code = classBody.method("test").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "test").begin();
 
 		code.LINE();
 		code.NEW(AdvAsmProxyWithTwoParametersSample.class);

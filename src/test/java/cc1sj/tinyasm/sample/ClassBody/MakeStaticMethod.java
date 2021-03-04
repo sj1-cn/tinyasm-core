@@ -2,7 +2,7 @@ package cc1sj.tinyasm.sample.ClassBody;
 
 public class MakeStaticMethod {
 
-	public static String staticMethod() {
+	static String staticMethod() {
 		return "here";
 	}
 
@@ -19,7 +19,7 @@ public class MakeStaticMethod {
 		return "here";
 	}
 
-	public static void staticMethodVoid() {
+	static void staticMethodVoid() {
 		return;
 	}
 

@@ -259,7 +259,7 @@ public class MakeInstanceMethodTest {
 			mv.RETURNTop();
 		});
 
-		cw.method("publicMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.publicMethod("publicMethod").reTurn(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -282,7 +282,7 @@ public class MakeInstanceMethodTest {
 			mv.RETURN();
 		});
 
-		cw.method("publicMethodVoid").code(mv -> {
+		cw.publicMethod("publicMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
@@ -316,7 +316,7 @@ public class MakeInstanceMethodTest {
 			mv.RETURNTop();
 		});
 
-		cw.method(String.class, "publicMethod").code(mv -> {
+		cw.publicMethod(String.class, "publicMethod").code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -339,7 +339,7 @@ public class MakeInstanceMethodTest {
 			mv.RETURN();
 		});
 
-		cw.method("publicMethodVoid").code(mv -> {
+		cw.publicMethod("publicMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
@@ -373,7 +373,7 @@ public class MakeInstanceMethodTest {
 			mv.RETURNTop();
 		});
 
-		cw.method(String.class, "publicMethod").code(mv -> {
+		cw.publicMethod(String.class, "publicMethod").code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -396,7 +396,7 @@ public class MakeInstanceMethodTest {
 			mv.RETURN();
 		});
 
-		cw.method("publicMethodVoid").code(mv -> {
+		cw.publicMethod("publicMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});

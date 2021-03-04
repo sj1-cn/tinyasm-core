@@ -52,7 +52,7 @@ public class AdvAsmProxyPojoClassSampleAdvAsmProxy extends AdvAsmProxyPojoClassS
 			objEval.accept(c);
 			c.VIRTUAL(AdvAsmProxyPojoClassSample.class, "getName").reTurn(String.class).INVOKE();
 		});
-		return MAGIC_CODES_String + codeIndex; // String.class);
+		return new StringBuilder( MAGIC_CODES_String).append(codeIndex).toString(); // String.class);
 	}
 
 	@Override

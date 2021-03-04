@@ -15,19 +15,39 @@ public class WhileBuilder implements AfterWhile {
 	public void block(ConsumerWithException<MethodCode> block) {
 		AdvContext context = _contextThreadLocal.get();
 		context.push(code -> {
-			Label labelWhileEval = new Label();
-			code.GOTO(labelWhileEval);
-			Label labelWhileBegin = new Label();
+//
+//			{
+//				Label labelWhileEval = new Label();
+//				code.GOTO(labelWhileEval);
+//				Label labelWhileBegin = new Label();
+//
+//				code.visitLabel(labelWhileBegin);
+//
+//				context.execBlock(block);
+//
+//				code.LINE();
+//				code.visitLabel(labelWhileEval);
+//
+//				eval.prepareData(code);
+//				eval.gotoWhenSucceed(code, labelWhileBegin);
+//
+//			}
+//			{
 
-			code.visitLabel(labelWhileBegin);
+				Label labelWhileEval = new Label();
 
-			context.execBlock(block);
+				code.visitLabel(labelWhileEval);
 
-			code.LINE();
-			code.visitLabel(labelWhileEval);
+				eval.prepareData(code);
+				
+				Label label2OfIF_ICMPLE = new Label();
+				eval.gotoWhenFail(code, label2OfIF_ICMPLE);
 
-			eval.prepareData(code);
-			eval.gotoWhenSucceed(code, labelWhileBegin);
+				context.execBlock(block);
+
+				code.GOTO(labelWhileEval);
+				code.visitLabel(label2OfIF_ICMPLE);
+//			}
 
 		});
 		context.popAndExec();

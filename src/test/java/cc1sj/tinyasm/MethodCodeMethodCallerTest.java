@@ -29,7 +29,7 @@ public class MethodCodeMethodCallerTest {
 
 		cw.field("i", int.class);
 
-		cw.method(/* V */ "<init>" /**/).code(mv -> {
+		cw.publicMethod(/* V */ "<init>" /**/).code(mv -> {
 			mv.LINE();
 			mv.LOAD(0);
 			mv.SPECIAL(Object.class, "<init>").INVOKE();

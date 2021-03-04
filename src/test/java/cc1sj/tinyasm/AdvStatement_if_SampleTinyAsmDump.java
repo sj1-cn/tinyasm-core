@@ -1,5 +1,7 @@
 package cc1sj.tinyasm;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
@@ -27,7 +29,7 @@ public class AdvStatement_if_SampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -38,7 +40,7 @@ public class AdvStatement_if_SampleTinyAsmDump {
 	}
 
 	protected void _testIfThen(ClassBody classBody) {
-		MethodCode code = classBody.method("testIfThen").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "testIfThen").begin();
 
 		code.LINE();
 		code.LOADConst(20);
@@ -137,7 +139,7 @@ public class AdvStatement_if_SampleTinyAsmDump {
 	}
 
 	protected void _testIfThenElse(ClassBody classBody) {
-		MethodCode code = classBody.method("testIfThenElse").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "testIfThenElse").begin();
 
 		code.LINE();
 		code.LOADConst(20);
@@ -151,17 +153,15 @@ public class AdvStatement_if_SampleTinyAsmDump {
 
 		code.LINE();
 		code.IINC("iGT", -1);
-
-		code.LINE();
-		Label label5OfGOTO = new Label();
-		code.GOTO(label5OfGOTO);
+		Label label4OfGOTO = new Label();
+		code.GOTO(label4OfGOTO);
 
 		code.visitLabel(label2OfIF_ICMPLE);
 
 		code.LINE();
 		code.IINC("iGT", 1);
 
-		code.visitLabel(label5OfGOTO);
+		code.visitLabel(label4OfGOTO);
 
 		code.LINE();
 		code.LOADConst(20);
@@ -170,22 +170,20 @@ public class AdvStatement_if_SampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("iGE");
 		code.LOADConst(10);
-		Label label7OfIF_ICMPLT = new Label();
-		code.IF_ICMPLT(label7OfIF_ICMPLT);
+		Label label6OfIF_ICMPLT = new Label();
+		code.IF_ICMPLT(label6OfIF_ICMPLT);
 
 		code.LINE();
 		code.IINC("iGE", -1);
+		Label label8OfGOTO = new Label();
+		code.GOTO(label8OfGOTO);
 
-		code.LINE();
-		Label label10OfGOTO = new Label();
-		code.GOTO(label10OfGOTO);
-
-		code.visitLabel(label7OfIF_ICMPLT);
+		code.visitLabel(label6OfIF_ICMPLT);
 
 		code.LINE();
 		code.IINC("iGE", 1);
 
-		code.visitLabel(label10OfGOTO);
+		code.visitLabel(label8OfGOTO);
 
 		code.LINE();
 		code.LOADConst(20);
@@ -194,22 +192,20 @@ public class AdvStatement_if_SampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("iEQ");
 		code.LOADConst(10);
-		Label label12OfIF_ICMPNE = new Label();
-		code.IF_ICMPNE(label12OfIF_ICMPNE);
+		Label label10OfIF_ICMPNE = new Label();
+		code.IF_ICMPNE(label10OfIF_ICMPNE);
+
+		code.LINE();
+		code.IINC("iEQ", 1);
+		Label label12OfGOTO = new Label();
+		code.GOTO(label12OfGOTO);
+
+		code.visitLabel(label10OfIF_ICMPNE);
 
 		code.LINE();
 		code.IINC("iEQ", 1);
 
-		code.LINE();
-		Label label15OfGOTO = new Label();
-		code.GOTO(label15OfGOTO);
-
-		code.visitLabel(label12OfIF_ICMPNE);
-
-		code.LINE();
-		code.IINC("iEQ", 1);
-
-		code.visitLabel(label15OfGOTO);
+		code.visitLabel(label12OfGOTO);
 
 		code.LINE();
 		code.LOADConst(20);
@@ -218,22 +214,20 @@ public class AdvStatement_if_SampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("iNE");
 		code.LOADConst(10);
-		Label label17OfIF_ICMPEQ = new Label();
-		code.IF_ICMPEQ(label17OfIF_ICMPEQ);
+		Label label14OfIF_ICMPEQ = new Label();
+		code.IF_ICMPEQ(label14OfIF_ICMPEQ);
 
 		code.LINE();
 		code.IINC("iNE", 1);
+		Label label16OfGOTO = new Label();
+		code.GOTO(label16OfGOTO);
 
-		code.LINE();
-		Label label20OfGOTO = new Label();
-		code.GOTO(label20OfGOTO);
-
-		code.visitLabel(label17OfIF_ICMPEQ);
+		code.visitLabel(label14OfIF_ICMPEQ);
 
 		code.LINE();
 		code.IINC("iNE", -1);
 
-		code.visitLabel(label20OfGOTO);
+		code.visitLabel(label16OfGOTO);
 
 		code.LINE();
 		code.LOADConst(20);
@@ -242,22 +236,20 @@ public class AdvStatement_if_SampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("iLE");
 		code.LOADConst(10);
-		Label label22OfIF_ICMPGT = new Label();
-		code.IF_ICMPGT(label22OfIF_ICMPGT);
+		Label label18OfIF_ICMPGT = new Label();
+		code.IF_ICMPGT(label18OfIF_ICMPGT);
+
+		code.LINE();
+		code.IINC("iLE", 1);
+		Label label20OfGOTO = new Label();
+		code.GOTO(label20OfGOTO);
+
+		code.visitLabel(label18OfIF_ICMPGT);
 
 		code.LINE();
 		code.IINC("iLE", 1);
 
-		code.LINE();
-		Label label25OfGOTO = new Label();
-		code.GOTO(label25OfGOTO);
-
-		code.visitLabel(label22OfIF_ICMPGT);
-
-		code.LINE();
-		code.IINC("iLE", 1);
-
-		code.visitLabel(label25OfGOTO);
+		code.visitLabel(label20OfGOTO);
 
 		code.LINE();
 		code.LOADConst(20);
@@ -266,22 +258,20 @@ public class AdvStatement_if_SampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("iLT");
 		code.LOADConst(10);
-		Label label27OfIF_ICMPGE = new Label();
-		code.IF_ICMPGE(label27OfIF_ICMPGE);
+		Label label22OfIF_ICMPGE = new Label();
+		code.IF_ICMPGE(label22OfIF_ICMPGE);
+
+		code.LINE();
+		code.IINC("iLT", 1);
+		Label label24OfGOTO = new Label();
+		code.GOTO(label24OfGOTO);
+
+		code.visitLabel(label22OfIF_ICMPGE);
 
 		code.LINE();
 		code.IINC("iLT", 1);
 
-		code.LINE();
-		Label label30OfGOTO = new Label();
-		code.GOTO(label30OfGOTO);
-
-		code.visitLabel(label27OfIF_ICMPGE);
-
-		code.LINE();
-		code.IINC("iLT", 1);
-
-		code.visitLabel(label30OfGOTO);
+		code.visitLabel(label24OfGOTO);
 
 		code.LINE();
 		code.RETURN();

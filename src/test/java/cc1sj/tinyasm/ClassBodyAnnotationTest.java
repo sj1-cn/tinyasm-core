@@ -78,7 +78,7 @@ public class ClassBodyAnnotationTest {
 					mv.visitLabel(l1);
 				});
 
-		cw.method("method").parameter(Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class))
+		cw.publicMethod("publicMethod").parameter(Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class))
 				.parameter(Annotation.of(TestAnnotation.class, "value"), "annotationWithDefaultValue", Clazz.of(String.class))
 				.parameter(Annotation.of(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
 						"annotationWithDefaultValueAndNamedValue", Clazz.of(String.class))
