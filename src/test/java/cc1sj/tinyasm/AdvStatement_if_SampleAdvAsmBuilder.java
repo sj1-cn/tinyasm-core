@@ -43,33 +43,33 @@ public class AdvStatement_if_SampleAdvAsmBuilder {
 		classBody.public_().method("testIfThen").code(code -> {
 
 			int iGT = __(cst(20));
-			_if(isGreaterThan(iGT, 10))._then(c -> {
+			_if(isGreaterThan(iGT, 10)).then(c -> {
 				_inc(iGT, -1);
 			});
 
 			int iGE = __(cst(20));
-			_if(isGreaterEqual(iGE, 10))._then(c -> {
+			_if(isGreaterEqual(iGE, 10)).then(c -> {
 				_inc(iGE, -1);
 			});
 
 			int iEQ = __(cst(20));
-			_if(isEqual(iEQ, 10))._then(c -> {
+			_if(isEqual(iEQ, 10)).then(c -> {
 				_inc(iEQ, 1);
 			});
 
 			int iNE = __(cst(20));
 			;
-			_if(isNotEqual(iNE, 10))._then(c -> {
+			_if(isNotEqual(iNE, 10)).then(c -> {
 				_inc(iNE, 1);
 			});
 
 			int iLE = __(cst(20));
-			_if(isLessEqual(iLE, 10))._then(c -> {
+			_if(isLessEqual(iLE, 10)).then(c -> {
 				_inc(iLE, 1);
 			});
 
 			int iLT = __(cst(20));
-			_if(isLessThan(iLT, 10))._then(c -> {
+			_if(isLessThan(iLT, 10)).then(c -> {
 				_inc(iLT, 1);
 			});
 
@@ -81,42 +81,42 @@ public class AdvStatement_if_SampleAdvAsmBuilder {
 		classBody.method("testIfThenElse").code(code -> {
 
 			int iGT = __(cst(20));
-			_if(isGreaterThan(iGT, 10))._then(c -> {
+			_if(isGreaterThan(iGT, 10)).then(c -> {
 				_inc(iGT, -1);
 			}).else_(c -> {
 				_inc(iGT, 1);
 			});
 
 			int iGE = __(cst(20));
-			_if(isGreaterEqual(iGE, 10))._then(c -> {
+			_if(isGreaterEqual(iGE, 10)).then(c -> {
 				_inc(iGE, -1);
 			}).else_(c -> {
 				_inc(iGE, 1);
 			});
 
 			int iEQ = __(cst(20));
-			_if(isEqual(iEQ, 10))._then(c -> {
+			_if(isEqual(iEQ, 10)).then(c -> {
 				_inc(iEQ, 1);
 			}).else_(c -> {
 				_inc(iEQ, 1);
 			});
 
 			int iNE = __(cst(20));
-			_if(isNotEqual(iNE, 10))._then(c -> {
+			_if(isNotEqual(iNE, 10)).then(c -> {
 				_inc(iNE, 1);
 			}).else_(c -> {
 				_inc(iNE, -1);
 			});
 
 			int iLE = __(cst(20));
-			_if(isLessEqual(iLE, 10))._then(c -> {
+			_if(isLessEqual(iLE, 10)).then(c -> {
 				_inc(iLE, 1);
 			}).else_(c -> {
 				_inc(iLE, 1);
 			});
 
 			int iLT = __(cst(20));
-			_if(isLessThan(iLT, 10))._then(c -> {
+			_if(isLessThan(iLT, 10)).then(c -> {
 				_inc(iLT, 1);
 			}).else_(c -> {
 				_inc(iLT, 1);

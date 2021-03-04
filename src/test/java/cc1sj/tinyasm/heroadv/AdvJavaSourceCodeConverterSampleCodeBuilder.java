@@ -4,12 +4,13 @@ import static cc1sj.tinyasm.Adv.*;
 
 import cc1sj.tinyasm.AdvClassBuilder;
 
-public class AdvSampleCodeBuilder {
+public class AdvJavaSourceCodeConverterSampleCodeBuilder {
 
 	public static byte[] dump() {
 		// package_("cc1sj.tinyasm.heroadv");
 
-		AdvClassBuilder clazz = public_().class_("AdvSample").extends_(AdvJavaSourceCodeConverterSampleExtendedClass.class)
+		AdvClassBuilder clazz = public_().class_("AdvJavaSourceCodeConverterSample")
+				.extends_(AdvJavaSourceCodeConverterSampleExtendedClass.class)
 				.implements_(AdvJavaSourceCodeConverterSampleImplmentedInterface.class).enterClassBody();
 		String name = clazz.private_().field("name", String.class);
 
@@ -19,12 +20,12 @@ public class AdvSampleCodeBuilder {
 			__(j, add(i, j));
 
 			AdvJavaSourceCodeConverterSampleReferedObject advSampleReferObject = __(new AdvJavaSourceCodeConverterSampleReferedObject());
-			advSampleReferObject.sayHello();
-			String helloString = __(advSampleReferObject.getHelloString());
-			advSampleReferObject.setHelloString("sayNothing");
-			advSampleReferObject.setHelloString(helloString);
+			// advSampleReferObject.sayHello();
+			// String helloString = advSampleReferObject.getHelloString();
+			// advSampleReferObject.setHelloString("sayNothing");
+			// advSampleReferObject.setHelloString(helloString);
 			//
-			_if(isGreaterThan(j, 10))._then(c -> {
+			_if(isGreaterThan(j, 10)).then(c -> {
 				__(j, add(i, j));
 			}).else_(c -> {
 				__(j, add(i, j));
@@ -32,7 +33,7 @@ public class AdvSampleCodeBuilder {
 			//
 			__(j, add(i, j));
 
-			_while(isGreaterThan(j, 10))._block(c -> {
+			_while(isGreaterThan(j, 10)).block(c -> {
 				__(j, add(i, j));
 			});
 			//
@@ -40,7 +41,7 @@ public class AdvSampleCodeBuilder {
 
 			_do(c -> {
 				__(j, add(i, j));
-			})._while(isGreaterThan(j, 10));
+			}).while_(isGreaterThan(j, 10));
 		});
 		return clazz.end().toByteArray();
 	}

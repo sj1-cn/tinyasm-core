@@ -15,7 +15,7 @@ public class IfBuilder implements AfterIf, AfterThen, ConsumerWithException<Meth
 	}
 
 	@Override
-	public AfterThen _then(ConsumerWithException<MethodCode> block) {
+	public AfterThen then(ConsumerWithException<MethodCode> block) {
 		this.thenBlock = block;
 		return this;
 	}

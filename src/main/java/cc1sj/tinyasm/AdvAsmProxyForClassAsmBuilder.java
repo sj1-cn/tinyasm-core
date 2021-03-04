@@ -214,11 +214,18 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 
 		code_getContext(code);
 		// resolve this
-		code_resolve_this("objEval", code);
 		// resolve parameters
-		for (int i = 0; i < methodParamTypes.length; i++) {
-			code_resolve("eval_param" + i, code, "param" + i, methodParamTypes[i]);
+		for (int i = methodParamTypes.length - 1; i >= 0; i--) {
+			if (Type.BOOLEAN_TYPE == methodParamTypes[i] || Boolean.class.getName().equals(methodParamTypes[i].getClassName())) {
+				code.LINE();
+				code.LOAD("context");
+				code.VIRTUAL(AdvContext.class, "getCodeAndPop").reTurn(ConsumerWithException.class).INVOKE();
+				code.STORE("eval_param" + i, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+			} else {
+				code_resolve("eval_param" + i, code, "param" + i, methodParamTypes[i]);
+			}
 		}
+		code_resolve_this("objEval", code);
 
 		// LOAD All Parameter
 		code.LINE();
@@ -256,12 +263,23 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 
 		// Refer
 		if (returnType != Type.VOID_TYPE) {
-			code.STORE("codeIndex", byte.class);
 
 //				code.CONVERTTO(returnClazz);
+			if (Type.BOOLEAN_TYPE == returnType) {
+				code.POP();
+				code.LINE();
+				code.LOADConst(0);
+				code.RETURNTop();
+			} else if (Boolean.class.getName().equals(returnType.getClassName())) {
+//				code.STORE("codeIndex", byte.class);
+				code.POP();
 
-			if (BoxUnbox.ClazzObjectToPrimitive.containsKey(returnType)) {
-
+				code.LINE();
+				code.LOADConst(0);
+				code.STATIC(Boolean.class, "valueOf").reTurn(Boolean.class).parameter(boolean.class).INVOKE();
+				code.RETURNTop();
+			} else if (BoxUnbox.ClazzObjectToPrimitive.containsKey(returnType)) {
+				code.STORE("codeIndex", byte.class);
 				code.LINE();
 				code.LOADConst(MAGIC_CODES_NUMBER);
 				code.LOAD("codeIndex");
@@ -271,6 +289,7 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 				BoxUnbox.PrimaryToBoxFunc.get(primitiveType).accept(code);
 				code.RETURNTop();
 			} else if (BoxUnbox.PrimativeToClazzObject.containsKey(returnType)) {
+				code.STORE("codeIndex", byte.class);
 				code.LINE();
 				code.LOADConst(MAGIC_CODES_NUMBER);
 				code.LOAD("codeIndex");
@@ -278,6 +297,7 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 				code.CONVERTTO(returnType);
 				code.RETURNTop();
 			} else if (returnType.getSort() == Type.OBJECT && returnType.equals(Type.getType(String.class))) {
+				code.STORE("codeIndex", byte.class);
 				code.LINE();
 				code.NEW(StringBuilder.class);
 				code.DUP();
@@ -287,6 +307,8 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 				code.VIRTUAL(StringBuilder.class, "append").reTurn(StringBuilder.class).parameter(int.class).INVOKE();
 				code.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
 				code.RETURNTop();
+			} else {
+				throw new UnsupportedOperationException();
 			}
 
 		} else {

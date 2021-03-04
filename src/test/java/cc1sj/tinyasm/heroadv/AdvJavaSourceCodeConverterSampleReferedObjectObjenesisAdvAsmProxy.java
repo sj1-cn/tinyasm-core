@@ -5,7 +5,7 @@ import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 
-public class AdvSampleReferObjectObjenesisAdvAsmProxy extends AdvJavaSourceCodeConverterSampleReferedObject implements AdvRuntimeReferNameObject {
+public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy extends AdvJavaSourceCodeConverterSampleReferedObject implements AdvRuntimeReferNameObject {
 	private byte _magicNumber;
 
 	private ThreadLocal<AdvContext> _contextThreadLocal;
@@ -45,8 +45,8 @@ public class AdvSampleReferObjectObjenesisAdvAsmProxy extends AdvJavaSourceCodeC
 
 	public void setHelloString(String param0) {
 		AdvContext context = this._contextThreadLocal.get();
-		ConsumerWithException<MethodCode> consumerWithException = context.resolve(this);
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+		ConsumerWithException<MethodCode> consumerWithException = context.resolve(this);
 		context.push(paramMethodCode -> {
 			consumerWithException.accept(paramMethodCode);
 			eval_param0.accept(paramMethodCode);

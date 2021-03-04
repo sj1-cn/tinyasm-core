@@ -12,7 +12,7 @@ public class WhileBuilder implements AfterWhile {
 	}
 
 	@Override
-	public void _block(ConsumerWithException<MethodCode> block) {
+	public void block(ConsumerWithException<MethodCode> block) {
 		AdvContext context = _contextThreadLocal.get();
 		context.push(code -> {
 			Label labelWhileEval = new Label();

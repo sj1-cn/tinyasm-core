@@ -44,7 +44,7 @@ public class AdvContext {
 		return stack.pop();
 	}
 
-	public ConsumerWithException<MethodCode> getCodeAndPopTop() {
+	public ConsumerWithException<MethodCode> getCodeAndPop() {
 //		assert i == this.stack.size() - 1 : "必须在堆栈顶部，不然一定有一个环节错了";
 		return stack.pop();
 	}
@@ -117,7 +117,7 @@ public class AdvContext {
 	}
 
 	public ConsumerWithException<MethodCode> resolve(boolean magicNumber) {
-		return getCodeAndPopTop();
+		return getCodeAndPop();
 	}
 
 	public ConsumerWithException<MethodCode> resolve(boolean_ magicBooleanNumber) {
@@ -222,7 +222,7 @@ public class AdvContext {
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Boolean magicNumber) {
-		return getCodeAndPopTop();
+		return getCodeAndPop();
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Byte magicNumber) {

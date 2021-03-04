@@ -27,7 +27,7 @@ public class AdvJavaSourceCodeConverterSampleBuilder {
 //			advSampleReferObject.setHelloString("sayNothing");
 //			advSampleReferObject.setHelloString(helloString);
 //			
-			_if(isGreaterThan(j, 10))._then(c -> {/* if (j > 10) { */
+			_if(isGreaterThan(j, 10)).then(c -> {/* if (j > 10) { */
 				__(j, add(i, j));/* j = i + j; */
 			}).else_(c -> {
 				__(j, add(i, j));/* j = i + j; */
@@ -35,7 +35,7 @@ public class AdvJavaSourceCodeConverterSampleBuilder {
 //
 			__(j, add(i, j));/* j = i + j; */
 
-			_while(isGreaterThan(j, 10))._block(c -> {/* while (j > 10) { */
+			_while(isGreaterThan(j, 10)).block(c -> {/* while (j > 10) { */
 				__(j, add(i, j));/* j = i + j; */
 			});
 //
@@ -43,7 +43,7 @@ public class AdvJavaSourceCodeConverterSampleBuilder {
 ////				
 			_do(c -> {
 				__(j, add(i, j));/* j = i + j; */
-			})._while(isGreaterThan(j, 10));// } while (j > 10);
+			}).while_(isGreaterThan(j, 10));// } while (j > 10);
 		});
 
 		return clazz.end().toByteArray();

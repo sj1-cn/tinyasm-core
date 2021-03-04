@@ -806,7 +806,7 @@ public class Adv {
 
 	static public CompareEval isTrue(boolean eval) {
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> leftEval = context.getCodeAndPopTop();
+		ConsumerWithException<MethodCode> leftEval = context.getCodeAndPop();
 		return new CompareEval() {
 			@Override
 			public void prepareData(MethodCode code) throws Exception {
@@ -827,7 +827,7 @@ public class Adv {
 
 	static public CompareEval isFalse(boolean eval) {
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> leftEval = context.getCodeAndPopTop();
+		ConsumerWithException<MethodCode> leftEval = context.getCodeAndPop();
 
 		return new CompareEval() {
 			@Override

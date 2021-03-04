@@ -2,11 +2,12 @@ package cc1sj.tinyasm.hero.helperclass;
 
 public class AdvAsmProxyPojoClassSample {
 
-	public void setTwoParameter(int param1,byte param2) {
+	public void setTwoParameter(int param1, byte param2) {
 //		this.ageInt = ageInt;
 	}
-	
+
 	String name;
+	boolean ageBoolean;
 	char ageChar;
 	byte ageByte;
 	short ageShort;
@@ -15,6 +16,7 @@ public class AdvAsmProxyPojoClassSample {
 	float ageFloat;
 	double ageDouble;
 
+	Boolean ageBoolean2;
 	Character ageCharacter;
 	Byte ageByte2;
 	Short ageShort2;
@@ -24,6 +26,9 @@ public class AdvAsmProxyPojoClassSample {
 	Double ageDouble2;
 	public String getName() {
 		return name;
+	}
+	public boolean isAgeBoolean() {
+		return ageBoolean;
 	}
 	public char getAgeChar() {
 		return ageChar;
@@ -45,6 +50,9 @@ public class AdvAsmProxyPojoClassSample {
 	}
 	public double getAgeDouble() {
 		return ageDouble;
+	}
+	public Boolean getAgeBoolean2() {
+		return ageBoolean2;
 	}
 	public Character getAgeCharacter() {
 		return ageCharacter;
@@ -70,6 +78,9 @@ public class AdvAsmProxyPojoClassSample {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public void setAgeBoolean(boolean ageBoolean) {
+		this.ageBoolean = ageBoolean;
+	}
 	public void setAgeChar(char ageChar) {
 		this.ageChar = ageChar;
 	}
@@ -91,6 +102,9 @@ public class AdvAsmProxyPojoClassSample {
 	public void setAgeDouble(double ageDouble) {
 		this.ageDouble = ageDouble;
 	}
+	public void setAgeBoolean2(Boolean ageBoolean2) {
+		this.ageBoolean2 = ageBoolean2;
+	}
 	public void setAgeCharacter(Character ageCharacter) {
 		this.ageCharacter = ageCharacter;
 	}
@@ -106,14 +120,11 @@ public class AdvAsmProxyPojoClassSample {
 	public void setAgeLong2(Long ageLong2) {
 		this.ageLong2 = ageLong2;
 	}
-	public void setAgeFloat2(Float agefFloat) {
-		this.ageFloat2 = agefFloat;
+	public void setAgeFloat2(Float ageFloat2) {
+		this.ageFloat2 = ageFloat2;
 	}
 	public void setAgeDouble2(Double ageDouble2) {
 		this.ageDouble2 = ageDouble2;
 	}
-
-	
-	
 
 }

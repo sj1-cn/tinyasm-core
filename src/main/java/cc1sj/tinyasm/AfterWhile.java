@@ -1,5 +1,5 @@
 package cc1sj.tinyasm;
 
 public interface AfterWhile {
-	void _block(ConsumerWithException<MethodCode> block);
+	void block(ConsumerWithException<MethodCode> block);
 }

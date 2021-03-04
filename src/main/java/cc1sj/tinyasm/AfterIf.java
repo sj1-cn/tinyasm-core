@@ -4,6 +4,6 @@ import java.util.function.Consumer;
 
 public interface AfterIf {
 
-	AfterThen _then(ConsumerWithException<MethodCode> block);
+	AfterThen then(ConsumerWithException<MethodCode> block);
 
 }
