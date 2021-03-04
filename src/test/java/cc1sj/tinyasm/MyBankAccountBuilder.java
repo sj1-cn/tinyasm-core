@@ -75,7 +75,8 @@ public class MyBankAccountBuilder {
 				mc.LINE(52);
 				mc.LOADConstByte(1);
 				mc.RETURNTop();
-
+				
+				mc.LINE();
 				mc.visitLabel(ifEnd, 54);
 				mc.LOADConstByte(0);
 				mc.RETURNTop();

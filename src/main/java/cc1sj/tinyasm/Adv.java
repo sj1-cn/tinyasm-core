@@ -478,64 +478,64 @@ public class Adv {
 	 * @param magicIndex
 	 * @return
 	 */
-	static public boolean_ __(boolean magicIndex) {
+	static public boolean_ __(String varname,boolean magicIndex) {
 		AdvContext context = _contextThreadLocal.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 //		//context.line();
 		context.popAndExec();
-		int localsIndex = context.store();
+		int localsIndex = context.store(varname);
 
 		return new boolean_Holder(_contextThreadLocal, (byte) (MAGIC_LOCALS_NUMBER + localsIndex));
 	}
 
-	static public Boolean__ __(Boolean v) {
+	static public Boolean__ __(String varname,Boolean v) {
 		AdvContext context = _contextThreadLocal.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 //		//context.line();
 		context.popAndExec();
-		int localsIndex = context.store();
+		int localsIndex = context.store(varname);
 
 		return new Boolean__Holder(_contextThreadLocal, (byte) (MAGIC_LOCALS_NUMBER + localsIndex));
 	}
 
-	static public byte __(byte magicIndex) {
-		int localsIndex = doReferByte((int) magicIndex);
+	static public byte __(String varname,byte magicIndex) {
+		int localsIndex = doReferByte(varname,(int) magicIndex);
 		return (byte) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	static public short __(short magicIndex) {
-		int localsIndex = doReferByte((int) magicIndex);
+	static public short __(String varname,short magicIndex) {
+		int localsIndex = doReferByte(varname,(int) magicIndex);
 		return (short) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	static public int __(int magicIndex) {
-		int localsIndex = doReferByte((int) magicIndex);
+	static public int __(String varname,int magicIndex) {
+		int localsIndex = doReferByte(varname,(int) magicIndex);
 		return (int) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	static public long __(long magicIndex) {
-		int localsIndex = doReferByte((int) magicIndex);
+	static public long __(String varname,long magicIndex) {
+		int localsIndex = doReferByte(varname,(int) magicIndex);
 		return (long) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	static public float __(float magicIndex) {
-		int localsIndex = doReferByte((int) magicIndex);
+	static public float __(String varname,float magicIndex) {
+		int localsIndex = doReferByte(varname,(int) magicIndex);
 		return (float) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	static public double __(double magicIndex) {
-		int localsIndex = doReferByte((int) magicIndex);
+	static public double __(String varname,double magicIndex) {
+		int localsIndex = doReferByte(varname,(int) magicIndex);
 		return (double) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	protected static int doReferByte(int magicIndex) {
+	protected static int doReferByte(String varname,int magicIndex) {
 		AdvContext context = _contextThreadLocal.get();
 		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
 		int codeIndex = (int) magicIndex - MAGIC_CODES_NUMBER;
 		assert codeIndex == context.stackSize() - 1 : "必须在堆栈顶";
 
 		context.popAndExec();
-		int localsIndex = context.store();
+		int localsIndex = context.store(varname);
 
 		return localsIndex;
 	}
@@ -548,10 +548,10 @@ public class Adv {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	static public <T> T __(T value) {
+	static public <T> T __(String varname,T value) {
 		AdvContext context = _contextThreadLocal.get();
 		context.popAndExec();
-		int locals = context.store();
+		int locals = context.store(varname);
 
 		Class<?> t = value.getClass();
 

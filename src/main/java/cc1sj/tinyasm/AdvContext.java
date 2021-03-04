@@ -106,9 +106,8 @@ public class AdvContext {
 		return this.stack.size();
 	}
 
-	public int store() {
-		int localsIndex = code.codeLocalsNextLocal();
-		code.STORE(localsIndex);
+	public int store(String name) {
+		int localsIndex = code.STORE(name);
 		return localsIndex;
 
 	}

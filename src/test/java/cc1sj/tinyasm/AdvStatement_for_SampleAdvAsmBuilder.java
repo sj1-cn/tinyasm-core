@@ -41,8 +41,8 @@ public class AdvStatement_for_SampleAdvAsmBuilder {
 	protected void _test(AdvClassBuilder classBody) {
 		classBody.public_().method("test").code(code -> {
 
-			int iGT = __(cst(20));
-			int i = __(cst(0));
+			int iGT = __("iGT",cst(20));
+			int i = __("i",cst(0));
 
 			_for(isLessThan(i, 10), c -> _inc(i, 1)).block(c -> {
 				_inc(iGT, 1);

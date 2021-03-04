@@ -19,6 +19,8 @@ import org.objectweb.asm.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cc1sj.tinyasm.LocalsStack.Var;
+
 public class MethodCodeBuilder extends MethodCode {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	private final MethodVisitor mv;
@@ -83,7 +85,14 @@ public class MethodCodeBuilder extends MethodCode {
 	@Override
 	public int codeLocalGetLocals(String name) {
 		LocalsStack.Var var = locals.get(name);
-		return var != null ? locals.get(name).locals : -1;
+		if (var != null) {
+//			if(var.startFrom==null) {
+//				var.startFrom = labelCurrent;
+//			}
+			return var.locals;
+		} else {
+			return -1;
+		}
 	}
 
 	@Override
@@ -91,8 +100,11 @@ public class MethodCodeBuilder extends MethodCode {
 		return locals.accessLoadType(localsIndex, labelCurrent);
 	}
 
+	Var lastDefinedVar = null;
+
 	@Override
 	public Type localsStoreAccess(int localsIndex, Type type) {
+		lastDefinedVar = locals.getByLocal(localsIndex);
 		return locals.accessStoreType(localsIndex, type, labelCurrent);
 	}
 
@@ -174,20 +186,8 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	public void LINE() {
-		Label label;
-		if (!labelHasDefineBegin) {
-			label = new Label();
-			labelCurrent = null;
-			mv.visitLabel(label);
-			logger.debug("mv.visitLabel({});in LINE()", label);
-			
-		} else {
-			label = labelCurrent;
-			labelHasDefineBegin=false;
-		}
 		lastLineNumber = lastLineNumber + 1;
-		logger.debug("mv.visitLineNumber({}, {}); in LINE()", lastLineNumber, label);
-		mv.visitLineNumber(lastLineNumber, label);
+		LINE(lastLineNumber);
 	}
 
 	public void visitLineNumber(final int line, final Label start) {
@@ -200,17 +200,25 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	public void LINE(int line) {
+		lastLineNumber = line;
 		Label label;
-		if (labelCurrent == null) {
+		if (!labelHasDefineBegin) {
 			label = new Label();
+			labelCurrent = null;
 			mv.visitLabel(label);
+			logger.debug("mv.visitLabel({});in LINE()", label);
+
 		} else {
 			label = labelCurrent;
+			labelHasDefineBegin = false;
 		}
-		lastLineNumber = line;
 		logger.debug("mv.visitLineNumber({}, {}); in LINE()", lastLineNumber, label);
 		mv.visitLineNumber(lastLineNumber, label);
-		labelCurrent = null;
+		if(lastDefinedVar!=null && lastDefinedVar.startFrom ==null) {
+			lastDefinedVar.startFrom = label;
+			lastDefinedVar = null;
+		}
+		labelCurrent = label;
 	}
 
 	@Override

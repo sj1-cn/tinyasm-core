@@ -51,6 +51,8 @@ public class AdvStatement_for_SampleTinyAsmDump {
 		Label label6OfGOTO = new Label();
 
 		code.visitLabel(label6OfGOTO);
+
+		code.LINE();
 		code.LOAD("i");
 		code.LOADConst(10);
 		Label label3OfIF_ICMPGE = new Label();

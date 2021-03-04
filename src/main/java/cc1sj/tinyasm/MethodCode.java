@@ -254,7 +254,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
-	public void STORE(String varname) {
+	public int STORE(String varname) {
 		int local = codeLocalGetLocals(varname);
 		if (local >= 0) {
 			STORE(local);
@@ -263,6 +263,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 			local = codeLocalGetLocals(varname);
 			STORE(local);
 		}
+		return local;
 	}
 
 	@Override
@@ -688,6 +689,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	public void IINC(int local, int increment) {
 //		int local = codeLocalGetLocals(varname);
+		Type type = localsLoadAccess(local);
+		localsStoreAccess(local, type);
 		visitIincInsn(local, increment);
 	}
 

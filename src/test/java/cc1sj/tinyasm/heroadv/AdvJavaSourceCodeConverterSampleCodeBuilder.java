@@ -13,11 +13,11 @@ public class AdvJavaSourceCodeConverterSampleCodeBuilder {
 			String name = clazz.private_().field("name",String.class);
 		
 			clazz.public_().method("sayHello").code(code -> {
-				int i =__( 10);
-				int j =__( 20);
+				int i =__("i", 10);
+				int j =__("j", 20);
 				__(j, add(i,j));
 		
-				AdvJavaSourceCodeConverterSampleReferedObject advSampleReferObject =__( new AdvJavaSourceCodeConverterSampleReferedObject());
+				AdvJavaSourceCodeConverterSampleReferedObject advSampleReferObject =__("advSampleReferObject", new AdvJavaSourceCodeConverterSampleReferedObject());
 		//		advSampleReferObject.sayHello();
 		//		String helloString = advSampleReferObject.getHelloString();
 		//		advSampleReferObject.setHelloString("sayNothing");

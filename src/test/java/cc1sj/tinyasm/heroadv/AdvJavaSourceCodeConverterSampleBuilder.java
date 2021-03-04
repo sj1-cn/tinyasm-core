@@ -18,10 +18,10 @@ public class AdvJavaSourceCodeConverterSampleBuilder {
 		});
 
 		clazz.public_().method("sayHello").code(code -> {
-			final int i = __(cst(10));// int i = 10;
-			final int j = __(cst(20));// int j = 20;
+			final int i = __("i",cst(10));// int i = 10;
+			final int j = __("j",cst(20));// int j = 20;
 			__(j, add(i, j));// j = i + j;
-			AdvJavaSourceCodeConverterSampleReferedObject advSampleReferObject = __(new_(AdvJavaSourceCodeConverterSampleReferedObject.class));
+			AdvJavaSourceCodeConverterSampleReferedObject advSampleReferObject = __("advSampleReferObject",new_(AdvJavaSourceCodeConverterSampleReferedObject.class));
 //			advSampleReferObject.sayHello();
 //			String helloString = __(advSampleReferObject.getHelloString());
 //			advSampleReferObject.setHelloString("sayNothing");

@@ -29,10 +29,10 @@ public class AdvAsmProxyInvokeNewWithTwoParametersSampleAdvAsmBuilder {
 		});
 
 		classBody.public_().method("test").code(code -> {
-			AdvAsmProxyWithTwoParametersSample p1 = __(new_(AdvAsmProxyWithTwoParametersSample.class, 3, 3));
-			int i = __(cst(10));
-			int j = __(cst(20));
-			AdvAsmProxyWithTwoParametersSample p2 = __(new_(AdvAsmProxyWithTwoParametersSample.class, i, j));
+			AdvAsmProxyWithTwoParametersSample p1 = __("p1",new_(AdvAsmProxyWithTwoParametersSample.class, 3, 3));
+			int i = __("i",cst(10));
+			int j = __("j",cst(20));
+			AdvAsmProxyWithTwoParametersSample p2 = __("p2",new_(AdvAsmProxyWithTwoParametersSample.class, i, j));
 		});
 
 		return classBody.end().toByteArray();

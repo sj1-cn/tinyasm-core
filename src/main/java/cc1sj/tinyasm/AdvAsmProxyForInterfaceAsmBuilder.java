@@ -243,12 +243,16 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 //			code.LOADConst(returnType);
 			loadType(code, returnClazz);
 		}
+		
+		String[] names = new String[methodParamTypes.length+1];
 		code.LOAD("objEval");
+		names[0] = "objEval";
 		for (int i = 0; i < methodParamTypes.length; i++) {
 			code.LOAD("eval_param" + i);
+			names[i+1] = "eval_param" + i;
 		}
 		// invoke method
-		String lambdaName = pushLambda(1 + methodParamTypes.length, methodName, c -> {
+		String lambdaName = pushLambda(names, methodName, c -> {
 			c.LINE();
 			c.LOAD("c");
 			c.LOADConst(targetType);
@@ -538,7 +542,7 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 
 	List<LambdaBuilder> lambdas = new ArrayList<>();
 
-	public String pushLambda(int params, String methodName, Consumer<MethodCode> lambdaInvokeSuperMethod) {
+	public String pushLambda(String[] params, String methodName, Consumer<MethodCode> lambdaInvokeSuperMethod) {
 		String name = "lambda$" + methodName + "$" + this.lambdas.size();
 		lambdas.add(new LambdaBuilder(name, params, lambdaInvokeSuperMethod));
 		return name;
@@ -546,20 +550,20 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 
 	class LambdaBuilder {
 		String name;// "lambda$0""lambda$0",
-		int params;
+		String[]  params;
 		Consumer<MethodCode> lambdaInvokeSuperMethod;
 
 		public void exec(ClassBody classBody) {
 
 			MethodHeader methodHeader = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, name).tHrow(Exception.class);
-			for (int i = 0; i < params; i++) {
-				methodHeader.parameter("var" + i, ConsumerWithException.class);
+			for (int i = 0; i < params.length; i++) {
+				methodHeader.parameter(params[i], ConsumerWithException.class);
 			}
 			methodHeader.parameter("c", MethodCode.class);
 			MethodCode code = methodHeader.begin();
 
-			for (int i = 0; i < params; i++) {
-				code_param_eval_accept("var" + i, "c", code);
+			for (int i = 0; i < params.length; i++) {
+				code_param_eval_accept(params[i], "c", code);
 			}
 
 			lambdaInvokeSuperMethod.accept(code);
@@ -569,7 +573,7 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 			code.END();
 		}
 
-		public LambdaBuilder(String name, int params, Consumer<MethodCode> lambdaInvokeSuperMethod) {
+		public LambdaBuilder(String name, String[]  params, Consumer<MethodCode> lambdaInvokeSuperMethod) {
 			super();
 			this.name = name;
 			this.params = params;

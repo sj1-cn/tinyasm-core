@@ -59,7 +59,7 @@ public class AdvJavaSourceCodeConverter {
 //		add("class " + name + "", "class_(\\\"$1\\\")");
 //		add(" extends " + name + "", ".extends_($1.class)");
 //		add("([^=]+)=([^\\n]*);" + Line_End, "$1=__($2);");
-		add(Line_start + tabs + name + " " + name + " =([^\\n]*);" + Line_End, "$1$2 $3 =__($4);");
+		add(Line_start + tabs + name + " " + name + " =([^\\n]*);" + Line_End, "$1$2 $3 =__(\"$3\",$4);");
 		add(Line_start + tabs + name + " =([^\\n]*);" + Line_End, "$1__($2,$3);");
 
 //public class AdvSample extends AdvSampleExtendsClass {

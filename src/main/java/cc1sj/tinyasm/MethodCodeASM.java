@@ -23,7 +23,7 @@ public interface MethodCodeASM {
 
 //	void LOAD(String name, String... names);
 
-	void STORE(String varname);
+	int STORE(String varname);
 
 	void STORE(String varname, Class<?> clazz);
 

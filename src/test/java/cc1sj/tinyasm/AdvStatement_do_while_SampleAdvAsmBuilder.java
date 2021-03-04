@@ -41,32 +41,32 @@ public class AdvStatement_do_while_SampleAdvAsmBuilder {
 	protected void _test(AdvClassBuilder classBody) {
 		classBody.public_().method("test").code(code -> {
 
-			int iGT = __(cst(20));
+			int iGT = __("iGT",cst(20));
 			_do(c -> {
 				_inc(iGT, -1);
 			}).while_(isGreaterThan(iGT, 10));
 
-			int iGE = __(cst(20));
+			int iGE = __("iGE",cst(20));
 			_do(c -> {
 				_inc(iGE, -1);
 			}).while_(isGreaterEqual(iGE, 10));
 
-			int iEQ = __(cst(20));
+			int iEQ = __("iEQ",cst(20));
 			_do(c -> {
 				_inc(iEQ, 1);
 			}).while_(isEqual(iEQ, 10));
 
-			int iNE = __(cst(20));
+			int iNE = __("iNE",cst(20));
 			_do(c -> {
 				_inc(iNE, 1);
 			}).while_(isNotEqual(iNE, 10));
 
-			int iLE = __(cst(20));
+			int iLE = __("iLE",cst(20));
 			_do(c -> {
 				_inc(iLE, 1);
 			}).while_(isLessEqual(iLE, 10));
 
-			int iLT = __(cst(20));
+			int iLT = __("iLT",cst(20));
 			_do(c -> {
 				_inc(iLT, 1);
 			}).while_(isLessThan(iLT, 10));

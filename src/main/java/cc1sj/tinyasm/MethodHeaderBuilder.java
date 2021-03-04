@@ -12,8 +12,11 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class MethodHeaderBuilder implements MethodHeader {
+	Logger logger = LoggerFactory.getLogger(getClass());
 	class ThisMethod {
 
 		String methodName;
@@ -180,6 +183,8 @@ class MethodHeaderBuilder implements MethodHeader {
 	boolean enteredMethodCode = false;
 
 	MethodCode enterMethodCode(MethodVisitor mv) {
+
+		logger.debug("enter method {}",thisMethod.methodName);
 		if (!enteredMethodCode) {
 			enteredMethodCode = true;
 			methodCode = new MethodCodeBuilder(mv, this, mhLocals);
@@ -257,6 +262,8 @@ class MethodHeaderBuilder implements MethodHeader {
 		mv.visitMaxs(0, 0);
 		mv.visitEnd();
 		thisMethod.hasEnded = true;
+
+		logger.debug("exit method {}",thisMethod.methodName);
 	}
 
 	//
