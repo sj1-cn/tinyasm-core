@@ -66,37 +66,26 @@ public class AdvJavaSourceCodeConverterSampleTinyAsmDump {
 		code.STORE("advSampleReferObject",AdvJavaSourceCodeConverterSampleReferedObject.class);
 
 		code.LINE();
-		code.LOAD("j");
-		code.LOADConst(10);
-		Label label5OfIF_ICMPLE = new Label();
-		code.IF_ICMPLE(label5OfIF_ICMPLE);
+		code.LOAD("advSampleReferObject");
+		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "sayHello").INVOKE();
 
 		code.LINE();
-		code.LOAD("i");
-		code.LOAD("j");
-		code.ADD();
-		code.STORE("j");
-		Label label7OfGOTO = new Label();
-		code.GOTO(label7OfGOTO);
-
-		code.visitLabel(label5OfIF_ICMPLE);
+		code.LOAD("advSampleReferObject");
+		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "getHelloString")
+			.reTurn(String.class).INVOKE();
+		code.STORE("helloString",String.class);
 
 		code.LINE();
-		code.LOAD("i");
-		code.LOAD("j");
-		code.ADD();
-		code.STORE("j");
-
-		code.visitLabel(label7OfGOTO);
+		code.LOAD("advSampleReferObject");
+		code.LOADConst("sayNothing");
+		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "setHelloString")
+			.parameter(String.class).INVOKE();
 
 		code.LINE();
-		code.LOAD("i");
-		code.LOAD("j");
-		code.ADD();
-		code.STORE("j");
-		Label label11OfGOTO = new Label();
-
-		code.visitLabel(label11OfGOTO);
+		code.LOAD("advSampleReferObject");
+		code.LOAD("helloString");
+		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "setHelloString")
+			.parameter(String.class).INVOKE();
 
 		code.LINE();
 		code.LOAD("j");
@@ -109,9 +98,55 @@ public class AdvJavaSourceCodeConverterSampleTinyAsmDump {
 		code.LOAD("j");
 		code.ADD();
 		code.STORE("j");
-		code.GOTO(label11OfGOTO);
+
+		code.LINE();
+		Label label12OfGOTO = new Label();
+		code.GOTO(label12OfGOTO);
 
 		code.visitLabel(label9OfIF_ICMPLE);
+
+		code.LINE();
+		code.LOAD("i");
+		code.LOAD("j");
+		code.ADD();
+		code.STORE("j");
+
+		code.visitLabel(label12OfGOTO);
+
+		code.LINE();
+		code.LOAD("i");
+		code.LOAD("j");
+		code.ADD();
+		code.STORE("j");
+
+		code.LINE();
+		Label label14OfGOTO = new Label();
+		code.GOTO(label14OfGOTO);
+		Label label16OfIF_ICMPGT = new Label();
+
+		code.visitLabel(label16OfIF_ICMPGT);
+
+		code.LINE();
+		code.LOAD("i");
+		code.LOAD("j");
+		code.ADD();
+		code.STORE("j");
+
+		code.visitLabel(label14OfGOTO);
+
+		code.LINE();
+		code.LOAD("j");
+		code.LOADConst(10);
+		code.IF_ICMPGT(label16OfIF_ICMPGT);
+
+		code.LINE();
+		code.LOAD("advSampleReferObject");
+		code.LOAD("helloString");
+		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "setHelloString")
+			.parameter(String.class).INVOKE();
+		Label label20OfIF_ICMPGT = new Label();
+
+		code.visitLabel(label20OfIF_ICMPGT);
 
 		code.LINE();
 		code.LOAD("i");
@@ -122,7 +157,9 @@ public class AdvJavaSourceCodeConverterSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("j");
 		code.LOADConst(10);
-		code.IF_ICMPGT(label9OfIF_ICMPLE);
+
+		code.LINE();
+		code.IF_ICMPGT(label20OfIF_ICMPGT);
 
 		code.LINE();
 		code.RETURN();

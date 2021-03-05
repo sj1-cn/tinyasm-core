@@ -22,10 +22,10 @@ public class AdvJavaSourceCodeConverterSampleBuilder {
 			final int j = __("j",cst(20));// int j = 20;
 			__(j, add(i, j));// j = i + j;
 			AdvJavaSourceCodeConverterSampleReferedObject advSampleReferObject = __("advSampleReferObject",new_(AdvJavaSourceCodeConverterSampleReferedObject.class));
-//			advSampleReferObject.sayHello();
-//			String helloString = __(advSampleReferObject.getHelloString());
-//			advSampleReferObject.setHelloString("sayNothing");
-//			advSampleReferObject.setHelloString(helloString);
+			advSampleReferObject.sayHello();
+			String helloString = __("helloString",advSampleReferObject.getHelloString());
+			advSampleReferObject.setHelloString("sayNothing");
+			advSampleReferObject.setHelloString(helloString);
 //			
 			_if(isGreaterThan(j, 10)).then(c -> {/* if (j > 10) { */
 				__(j, add(i, j));/* j = i + j; */
@@ -39,7 +39,7 @@ public class AdvJavaSourceCodeConverterSampleBuilder {
 				__(j, add(i, j));/* j = i + j; */
 			});
 //
-//			advSampleReferObject.setHelloString(helloString);
+			advSampleReferObject.setHelloString(helloString);
 ////				
 			_do(c -> {
 				__(j, add(i, j));/* j = i + j; */

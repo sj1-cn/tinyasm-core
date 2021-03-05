@@ -9,27 +9,32 @@ public class AdvJavaSourceCodeConverterSample extends AdvJavaSourceCodeConverter
 		j = i + j;
 
 		AdvJavaSourceCodeConverterSampleReferedObject advSampleReferObject = new AdvJavaSourceCodeConverterSampleReferedObject();
-//		advSampleReferObject.sayHello();
-//		String helloString = advSampleReferObject.getHelloString();
-//		advSampleReferObject.setHelloString("sayNothing");
-//		advSampleReferObject.setHelloString(helloString);
-//
+		advSampleReferObject.sayHello();
+		String helloString = advSampleReferObject.getHelloString();
+		advSampleReferObject.setHelloString("sayNothing");
+		advSampleReferObject.setHelloString(helloString);
+
 		if (j > 10) {
 			j = i + j;
 		} else {
 			j = i + j;
 		}
-//
+
 		j = i + j;
 
 		while (j > 10) {
 			j = i + j;
 		}
-//
-//		advSampleReferObject.setHelloString(helloString);
+
+		advSampleReferObject.setHelloString(helloString);
 
 		do {
 			j = i + j;
 		} while (j > 10);
+
+		int k = 0;
+		for (; k > 10; k++) {
+			j = i + j;
+		}
 	}
 }

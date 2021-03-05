@@ -35,18 +35,47 @@ public class AdvJavaSourceCodeConverter {
 	static final String Line_End = "$";
 	static final String modifier = "(public|private|protected)";
 
+	static final String SPACE = "                                                                                                                               ";
+
 //	public String?
 	public String doconvertCode(String strsource, Class<?>... KnownClasses) {
 //		List<String> target = new ArrayList<>();
 		String[] source = strsource.split("\\n");
 		final StringBuffer buf = new StringBuffer();
-		for (String string : source) {
+		for (String line : source) {
+			int len = buf.length();
 			buf.append('\t');
 			buf.append('\t');
-			buf.append(doconvertByLine(string, KnownClasses));
+			buf.append(doconvertByLine(line, KnownClasses));
+			if (line.strip().length() > 0) {
+				etet(buf, line, len);
+			}
 			buf.append('\n');
 		}
 		return buf.toString();
+	}
+
+	static final int linestart = 80;
+
+	protected void etet(final StringBuffer buf, String line, int len) {
+		if (buf.length() - len > linestart) {
+
+		} else {
+			int j = 0;
+			for (int i = len; i < buf.length(); i++) {
+				if (buf.charAt(i) == '\t') {
+					j += 4;
+				} else {
+					j += 1;
+				}
+			}
+			if (j < linestart) {
+				buf.append(SPACE.substring(0, linestart - j));
+			}
+		}
+
+		buf.append("//");
+		buf.append(line);
 	}
 
 	public String doconvertByLine(String source, Class<?>... KnownClasses) {
@@ -65,6 +94,7 @@ public class AdvJavaSourceCodeConverter {
 //public class AdvSample extends AdvSampleExtendsClass {
 		add(modifier + " class " + name + " extends " + name + " \\{",
 				"AdvClassBuilder clazz = $1_().class_(\"$2\").extends_($3.class).enterClassBody();");
+		
 		add(modifier + " class " + name + " \\{", "AdvClassBuilder clazz = $1_().class_(\"$2\").enterClassBody();");
 		add(modifier + " class " + name + " extends " + name + " implements " + name + " \\{",
 				"AdvClassBuilder clazz = $1_().class_(\"$2\").extends_($3.class).implements_($4.class).enterClassBody();");
@@ -78,6 +108,8 @@ public class AdvJavaSourceCodeConverter {
 		add(tab1 + modifier + " (void) " + name + "\\(\\) \\{", "$1clazz.$2_().method(\"$4\").code(code -> {");
 		add(tab1 + modifier + " " + name + " " + name + "\\(\\) \\{", "$1clazz.$2_().method(\"$4\").code(code -> {");
 		add(tab1 + name + " " + name + ";", "$1$2 $3 = field(\"$3\",$2.class);");
+		
+		add(Line_start + tabs + "for \\(; ([^;]+);([^\\)]+)\\) \\{" + Line_End, "$1_for($2,c->$3).block(c->{");
 
 		add(name + " [+] " + name, "add($1,$2)");
 		add(name + " [-] " + name, "minus($1,$2)");
@@ -88,6 +120,7 @@ public class AdvJavaSourceCodeConverter {
 		add(name + " < " + name, "isLessThan($1,$2)");
 		add(name + " >= " + name, "isGreaterEqual($1,$2)");
 		add(name + " <= " + name, "isLessThan($1,$2)");
+		add(name + "[+][+]", "_inc($1,1)");
 
 		add(Line_start + tabs + "}" + Line_End, "$1});");
 
@@ -97,6 +130,8 @@ public class AdvJavaSourceCodeConverter {
 		add(Line_start + tabs + "while (\\([^\\{]+)\\{" + Line_End, "$1_while$2.block(c->{");
 		add(Line_start + tabs + "do \\{" + Line_End, "$1_do(c->{");
 		add(Line_start + tabs + "\\} while (\\([^\\n]+)" + Line_End, "$1}).while_$2");
+
+//		for (; k > 10; k++) {
 
 		add(Line_start + "}" + Line_End, "return clazz.end().toByteArray();");
 
