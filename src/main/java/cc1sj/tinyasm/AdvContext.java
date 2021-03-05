@@ -313,10 +313,10 @@ public class AdvContext {
 	public ConsumerWithException<MethodCode> resolve(String magicString) {
 		// Locals
 		if (magicString.startsWith(MAGIC_CODES_String)) {
-			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length() + 1));
+			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length()));
 			return getCodeAndPop(magicNumber);
 		} else if (magicString.startsWith(MAGIC_LOCALS_String)) {
-			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length() + 1));
+			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_LOCALS_String.length()));
 			return c -> c.LOAD(magicNumber);
 		} else {
 			return c -> c.LOADConst(magicString);
@@ -335,6 +335,9 @@ public class AdvContext {
 			} else {
 				throw new UnsupportedOperationException();
 			}
+		}
+		if (t.getClass() == String.class) {
+			return resolve((String) t);
 		} else {
 			throw new UnsupportedOperationException();
 		}

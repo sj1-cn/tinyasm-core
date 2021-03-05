@@ -1,6 +1,6 @@
-package cc1sj.tinyasm.heroadv;
+package cc1sj.tinyasm.sourceconverter;
 
-public class AdvJavaSourceCodeConverterSampleReferedObject {
+public class ReferedObject {
 	public void sayHello() {
 		System.out.println(getHelloString());
 	}

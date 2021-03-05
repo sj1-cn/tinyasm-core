@@ -1,4 +1,4 @@
-package cc1sj.tinyasm.heroadv;
+package cc1sj.tinyasm.sourceconverter;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -84,12 +84,7 @@ public class AdvJavaSourceCodeConverter {
 
 	static {
 		add("package ([^\\n]*);" + Line_End, "//package_(\\\"$1\\\");");
-//		add("public ", "public_().");
-//		add("class " + name + "", "class_(\\\"$1\\\")");
-//		add(" extends " + name + "", ".extends_($1.class)");
-//		add("([^=]+)=([^\\n]*);" + Line_End, "$1=__($2);");
-		add(Line_start + tabs + name + " " + name + " =([^\\n]*);" + Line_End, "$1$2 $3 =__(\"$3\",$4);");
-		add(Line_start + tabs + name + " =([^\\n]*);" + Line_End, "$1__($2,$3);");
+
 
 //public class AdvSample extends AdvSampleExtendsClass {
 		add(modifier + " class " + name + " extends " + name + " \\{",
@@ -100,16 +95,27 @@ public class AdvJavaSourceCodeConverter {
 				"AdvClassBuilder clazz = $1_().class_(\"$2\").extends_($3.class).implements_($4.class).enterClassBody();");
 		// Field
 		// private String name;
-		add(tab1 + modifier + " " + name + " " + name + ";", "$1$3 $4 = clazz.$2_().field(\"$4\",$3.class);");
-		add(tab1 + name + " " + name + ";", "$1$2 $3 = clazz.field(\"$3\",$2_.class);");
+		add(tab1 + modifier + " " + name + " " + name + ";", "$1final $3 $4 = clazz.$2_().field(\"$4\",$3.class);");
+		add(tab1 + name + " " + name + ";", "$1final $2 $3 = clazz.field(\"$3\",$2_.class);");
 
-		// Field
-		// private String name;
+		// Method
+		// public void sayHello() {
 		add(tab1 + modifier + " (void) " + name + "\\(\\) \\{", "$1clazz.$2_().method(\"$4\").code(code -> {");
+		// public int sayHello() {
 		add(tab1 + modifier + " " + name + " " + name + "\\(\\) \\{", "$1clazz.$2_().method(\"$4\").code(code -> {");
-		add(tab1 + name + " " + name + ";", "$1$2 $3 = field(\"$3\",$2.class);");
+		
+
+		// 定义本地变量
+		add(Line_start + tabs + name + " " + name + " =([^\\n]*);" + Line_End, "$1final $2 $3 =__(\"$3\",$4);");
+		add(Line_start + tabs + name + " =([^\\n]*);" + Line_End, "$1__($2,$3);");
 		
 		add(Line_start + tabs + "for \\(; ([^;]+);([^\\)]+)\\) \\{" + Line_End, "$1_for($2,c->$3).block(c->{");
+		add(Line_start + tabs + "if (\\([^\\{]+)\\{" + Line_End, "$1_if$2.then(c->{");
+		add(Line_start + tabs + "\\} else \\{" + Line_End, "$1}).else_(c->{");
+
+		add(Line_start + tabs + "while (\\([^\\{]+)\\{" + Line_End, "$1_while$2.block(c->{");
+		add(Line_start + tabs + "do \\{" + Line_End, "$1_do(c->{");
+		add(Line_start + tabs + "\\} while (\\([^\\n]+)" + Line_End, "$1}).while_$2");
 
 		add(name + " [+] " + name, "add($1,$2)");
 		add(name + " [-] " + name, "minus($1,$2)");
@@ -124,12 +130,6 @@ public class AdvJavaSourceCodeConverter {
 
 		add(Line_start + tabs + "}" + Line_End, "$1});");
 
-		add(Line_start + tabs + "if (\\([^\\{]+)\\{" + Line_End, "$1_if$2.then(c->{");
-		add(Line_start + tabs + "\\} else \\{" + Line_End, "$1}).else_(c->{");
-
-		add(Line_start + tabs + "while (\\([^\\{]+)\\{" + Line_End, "$1_while$2.block(c->{");
-		add(Line_start + tabs + "do \\{" + Line_End, "$1_do(c->{");
-		add(Line_start + tabs + "\\} while (\\([^\\n]+)" + Line_End, "$1}).while_$2");
 
 //		for (; k > 10; k++) {
 

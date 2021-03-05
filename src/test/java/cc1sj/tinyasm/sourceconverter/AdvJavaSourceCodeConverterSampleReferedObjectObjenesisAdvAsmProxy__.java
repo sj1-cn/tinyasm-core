@@ -1,4 +1,4 @@
-package cc1sj.tinyasm.heroadv;
+package cc1sj.tinyasm.sourceconverter;
 
 import static cc1sj.tinyasm.Adv.MAGIC_CODES_String;
 
@@ -7,7 +7,7 @@ import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 
-public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy__ extends AdvJavaSourceCodeConverterSampleReferedObject
+public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy__ extends ReferedObject
 		implements AdvRuntimeReferNameObject {
 	private byte _magicNumber;
 
@@ -31,7 +31,7 @@ public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy__
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.execLine(c -> {
 			objEval.accept(c);
-			c.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "sayHello").INVOKE();
+			c.VIRTUAL(ReferedObject.class, "sayHello").INVOKE();
 		});
 	}
 
@@ -40,7 +40,7 @@ public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy__
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(String.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "getHelloString").reTurn(String.class).INVOKE();
+			c.VIRTUAL(ReferedObject.class, "getHelloString").reTurn(String.class).INVOKE();
 		});
 		return new StringBuilder(MAGIC_CODES_String).append(codeIndex).toString();
 	}
@@ -52,7 +52,7 @@ public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy__
 		context.execLine(c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "setHelloString").parameter(String.class).INVOKE();
+			c.VIRTUAL(ReferedObject.class, "setHelloString").parameter(String.class).INVOKE();
 		});
 	}
 
@@ -61,7 +61,7 @@ public class AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy__
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(boolean.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "beGood").reTurn(boolean.class).INVOKE();
+			c.VIRTUAL(ReferedObject.class, "beGood").reTurn(boolean.class).INVOKE();
 		});
 		return false;
 	}

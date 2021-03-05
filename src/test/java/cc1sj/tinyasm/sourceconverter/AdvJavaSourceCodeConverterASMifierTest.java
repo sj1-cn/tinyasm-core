@@ -1,21 +1,17 @@
-package cc1sj.tinyasm;
+package cc1sj.tinyasm.sourceconverter;
 
 import static cc1sj.tinyasm.util.TinyAsmTestUtils.dumpTinyAsm;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-
-import cc1sj.tinyasm.heroadv.AdvJavaSourceCodeConverter;
-import cc1sj.tinyasm.heroadv.AdvJavaSourceCodeConverterSample;
-import cc1sj.tinyasm.heroadv.AdvJavaSourceCodeConverterSampleBuilder;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
 public class AdvJavaSourceCodeConverterASMifierTest {
 
 	@Test
 	public void test_AdvJavaSourceCodeConverterSample_Dump() throws Exception {
-		Class<?> expectedClazz = AdvJavaSourceCodeConverterSample.class;
+		Class<?> expectedClazz = SimpleSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
@@ -29,11 +25,11 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 
 	@Test
 	public void test_AdvJavaSourceConverterSampleBuilder_dump() throws Exception {
-		Class<?> expectedClazz = AdvJavaSourceCodeConverterSample.class;
+		Class<?> expectedClazz = SimpleSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		try {
-			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvJavaSourceCodeConverterSampleBuilder.dump());
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleBuilder.dump());
 
 			assertEquals("Code", codeExpected, codeActual);
 		} finally {
@@ -46,10 +42,10 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 
 	@Test
 	public void test_AdvJavaSourceConverterSample_ConvertTest() throws Exception {
-		Class<?> expectedClazz = AdvJavaSourceCodeConverterSample.class;
+		Class<?> expectedClazz = SimpleSample.class;
 		String source = TinyAsmTestUtils.readJavaSourceFile(expectedClazz);
 
-		String targetClassName = AdvJavaSourceCodeConverterSample.class.getName() + "CodeBuilder";
+		String targetClassName = SimpleSample.class.getName() + "CodeBuilder";
 		String target = convertFrom(targetClassName, source);
 		TinyAsmTestUtils.writeJavaSourceFile(targetClassName, target);
 

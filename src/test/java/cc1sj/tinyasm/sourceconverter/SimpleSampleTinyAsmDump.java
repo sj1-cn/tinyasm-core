@@ -1,5 +1,7 @@
-package cc1sj.tinyasm.heroadv;
+package cc1sj.tinyasm.sourceconverter;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
@@ -7,19 +9,19 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
-import cc1sj.tinyasm.heroadv.AdvJavaSourceCodeConverterSampleReferedObject;
-import cc1sj.tinyasm.heroadv.AdvJavaSourceCodeConverterSampleImplmentedInterface;
+import cc1sj.tinyasm.sourceconverter.SuperClass;
+import cc1sj.tinyasm.sourceconverter.ReferedObject;
+import cc1sj.tinyasm.sourceconverter.SuperInterface;
 import java.lang.String;
-import cc1sj.tinyasm.heroadv.AdvJavaSourceCodeConverterSampleExtendedClass;
 @SuppressWarnings("unused")
-public class AdvSampleTinyAsmDump {
+public class SimpleSampleTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new AdvSampleTinyAsmDump().dump("cc1sj.tinyasm.heroadv.AdvSample");
+		return new SimpleSampleTinyAsmDump().dump("cc1sj.tinyasm.sourceconverter.SimpleSample");
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className, AdvJavaSourceCodeConverterSampleExtendedClass.class, AdvJavaSourceCodeConverterSampleImplmentedInterface.class)
+		ClassBody classBody = ClassBuilder.make(className, SuperClass.class, SuperInterface.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("name", Clazz.of(String.class));
@@ -30,18 +32,18 @@ public class AdvSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
-		code.SPECIAL(AdvJavaSourceCodeConverterSampleExtendedClass.class, "<init>").INVOKE();
+		code.SPECIAL(SuperClass.class, "<init>").INVOKE();
 		code.RETURN();
 
 		code.END();
 	}
 
 	protected void _sayHello(ClassBody classBody) {
-		MethodCode code = classBody.method("sayHello").begin();
+		MethodCode code = classBody.method(ACC_PUBLIC, "sayHello").begin();
 
 		code.LINE();
 		code.LOADConst(10);
@@ -58,31 +60,31 @@ public class AdvSampleTinyAsmDump {
 		code.STORE("j");
 
 		code.LINE();
-		code.NEW(AdvJavaSourceCodeConverterSampleReferedObject.class);
+		code.NEW(ReferedObject.class);
 		code.DUP();
-		code.SPECIAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "<init>").INVOKE();
-		code.STORE("advSampleReferObject",AdvJavaSourceCodeConverterSampleReferedObject.class);
+		code.SPECIAL(ReferedObject.class, "<init>").INVOKE();
+		code.STORE("referedObject",ReferedObject.class);
 
 		code.LINE();
-		code.LOAD("advSampleReferObject");
-		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "sayHello").INVOKE();
+		code.LOAD("referedObject");
+		code.VIRTUAL(ReferedObject.class, "sayHello").INVOKE();
 
 		code.LINE();
-		code.LOAD("advSampleReferObject");
-		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "getHelloString")
+		code.LOAD("referedObject");
+		code.VIRTUAL(ReferedObject.class, "getHelloString")
 			.reTurn(String.class).INVOKE();
 		code.STORE("helloString",String.class);
 
 		code.LINE();
-		code.LOAD("advSampleReferObject");
+		code.LOAD("referedObject");
 		code.LOADConst("sayNothing");
-		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "setHelloString")
+		code.VIRTUAL(ReferedObject.class, "setHelloString")
 			.parameter(String.class).INVOKE();
 
 		code.LINE();
-		code.LOAD("advSampleReferObject");
+		code.LOAD("referedObject");
 		code.LOAD("helloString");
-		code.VIRTUAL(AdvJavaSourceCodeConverterSampleReferedObject.class, "setHelloString")
+		code.VIRTUAL(ReferedObject.class, "setHelloString")
 			.parameter(String.class).INVOKE();
 
 		code.LINE();
@@ -136,9 +138,15 @@ public class AdvSampleTinyAsmDump {
 		code.LOAD("j");
 		code.LOADConst(10);
 		code.IF_ICMPGT(label16OfIF_ICMPGT);
-		Label label19OfIF_ICMPGT = new Label();
 
-		code.visitLabel(label19OfIF_ICMPGT);
+		code.LINE();
+		code.LOAD("referedObject");
+		code.LOAD("helloString");
+		code.VIRTUAL(ReferedObject.class, "setHelloString")
+			.parameter(String.class).INVOKE();
+		Label label20OfIF_ICMPGT = new Label();
+
+		code.visitLabel(label20OfIF_ICMPGT);
 
 		code.LINE();
 		code.LOAD("i");
@@ -151,7 +159,32 @@ public class AdvSampleTinyAsmDump {
 		code.LOADConst(10);
 
 		code.LINE();
-		code.IF_ICMPGT(label19OfIF_ICMPGT);
+		code.IF_ICMPGT(label20OfIF_ICMPGT);
+
+		code.LINE();
+		code.LOADConst(0);
+		code.STORE("k",int.class);
+
+		code.LINE();
+		Label label22OfGOTO = new Label();
+		code.GOTO(label22OfGOTO);
+		Label label25OfIF_ICMPGT = new Label();
+
+		code.visitLabel(label25OfIF_ICMPGT);
+
+		code.LINE();
+		code.LOAD("i");
+		code.LOAD("j");
+		code.ADD();
+		code.STORE("j");
+
+		code.LINE();
+		code.IINC("k", 1);
+
+		code.visitLabel(label22OfGOTO);
+		code.LOAD("k");
+		code.LOADConst(10);
+		code.IF_ICMPGT(label25OfIF_ICMPGT);
 
 		code.LINE();
 		code.RETURN();

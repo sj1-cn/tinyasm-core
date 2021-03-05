@@ -530,11 +530,15 @@ public class Adv {
 
 	protected static int doReferByte(String varname,int magicIndex) {
 		AdvContext context = _contextThreadLocal.get();
-		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
+//		context.resolve(null)
+//		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
 		int codeIndex = (int) magicIndex - MAGIC_CODES_NUMBER;
-		assert codeIndex == context.stackSize() - 1 : "必须在堆栈顶";
+//		assert codeIndex == context.stackSize() - 1 : "必须在堆栈顶";
 
-		context.popAndExec();
+		context.clear();
+		ConsumerWithException<MethodCode> expr =  context.resolve(magicIndex);
+		context.line();
+		context.exec(expr);
 		int localsIndex = context.store(varname);
 
 		return localsIndex;
@@ -544,59 +548,62 @@ public class Adv {
 	 * 把当前堆栈顶端的对象存储到locals中
 	 * 
 	 * @param <T>
-	 * @param value
+	 * @param magicNumber
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	static public <T> T __(String varname,T value) {
+	static public <T> T __(String varname,T magicNumber) {
 		AdvContext context = _contextThreadLocal.get();
-		context.popAndExec();
+		ConsumerWithException<MethodCode> expr =  context.resolve(magicNumber);
+		context.clear();
+		context.line();
+		context.exec(expr);
 		int locals = context.store(varname);
 
-		Class<?> t = value.getClass();
+		Class<?> t = magicNumber.getClass();
 
 		if (t == boolean.class) {
 			throw new UnsupportedOperationException();
 		} else if (t == Byte.class) {
-			int codeIndex = ((Byte) value).intValue() - MAGIC_CODES_NUMBER;
+			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
 			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
 			Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Character.class) {
-			int codeIndex = ((Character) value).charValue() - MAGIC_CODES_NUMBER;
+			int codeIndex = ((Character) magicNumber).charValue() - MAGIC_CODES_NUMBER;
 			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
 			Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Short.class) {
-			int codeIndex = ((Short) value).intValue() - MAGIC_CODES_NUMBER;
+			int codeIndex = ((Short) magicNumber).intValue() - MAGIC_CODES_NUMBER;
 			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
 			Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Integer.class) {
-			int codeIndex = ((Integer) value).intValue() - MAGIC_CODES_NUMBER;
+			int codeIndex = ((Integer) magicNumber).intValue() - MAGIC_CODES_NUMBER;
 			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
 			Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Long.class) {
-			int codeIndex = ((Long) value).intValue() - MAGIC_CODES_NUMBER;
+			int codeIndex = ((Long) magicNumber).intValue() - MAGIC_CODES_NUMBER;
 			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
 			Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Float.class) {
-			int codeIndex = ((Float) value).intValue() - MAGIC_CODES_NUMBER;
+			int codeIndex = ((Float) magicNumber).intValue() - MAGIC_CODES_NUMBER;
 			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
 			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Double.class) {
-			int codeIndex = ((Byte) value).intValue() - MAGIC_CODES_NUMBER;
+			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
 			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
 			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == String.class) {
 			String key = String.valueOf(MAGIC_LOCALS_String + locals);
 			return (T) key;
-		} else if (value instanceof AdvRuntimeReferNameObject) {
-			AdvRuntimeReferNameObject obj = ((AdvRuntimeReferNameObject) value);
+		} else if (magicNumber instanceof AdvRuntimeReferNameObject) {
+			AdvRuntimeReferNameObject obj = ((AdvRuntimeReferNameObject) magicNumber);
 			byte codeIndex = obj.get__MagicNumber();
 
 			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
