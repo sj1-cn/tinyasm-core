@@ -12,7 +12,7 @@ import static org.objectweb.asm.Opcodes.*;
 public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, AfterClassExtends, AfterClassImplements, AdvClassBuilder,
 		AfterModifier, AfterClassEnd {
 
-	int access = 0;
+	int classAccess = 0;
 	String className;
 	Clazz _extends;
 	List<Clazz> _implements = new ArrayList<>();
@@ -27,7 +27,7 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 	}
 
 	public void access(int accPublic) {
-		this.access |= accPublic;
+		this.classAccess |= accPublic;
 	}
 
 	@Override
@@ -73,6 +73,13 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 		AdvMethodBuilder methodBuilder = new AdvMethodBuilder(classBody, memberAccess, methodName);
 		return methodBuilder;
 	}
+
+	@Override
+	public AfterMethodName method(int access, String methodName) {
+		AdvMethodBuilder methodBuilder = new AdvMethodBuilder(classBody, access, methodName);
+		return methodBuilder;
+	}
+
 
 	@Override
 	public AfterModifier public_() {
@@ -185,5 +192,4 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 //			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
 		}
 	}
-
 }

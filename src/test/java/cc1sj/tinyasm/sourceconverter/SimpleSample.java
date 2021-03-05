@@ -1,6 +1,7 @@
 package cc1sj.tinyasm.sourceconverter;
 
 public class SimpleSample extends SuperClass implements SuperInterface {
+	
 	private String name;
 
 	public void sayHello() {

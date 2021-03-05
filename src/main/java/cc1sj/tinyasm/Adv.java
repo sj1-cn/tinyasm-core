@@ -3,6 +3,9 @@ package cc1sj.tinyasm;
 import static org.objectweb.asm.Opcodes.*;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -478,7 +481,7 @@ public class Adv {
 	 * @param magicIndex
 	 * @return
 	 */
-	static public boolean_ __(String varname,boolean magicIndex) {
+	static public boolean_ __(String varname, boolean magicIndex) {
 		AdvContext context = _contextThreadLocal.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 //		//context.line();
@@ -488,7 +491,7 @@ public class Adv {
 		return new boolean_Holder(_contextThreadLocal, (byte) (MAGIC_LOCALS_NUMBER + localsIndex));
 	}
 
-	static public Boolean__ __(String varname,Boolean v) {
+	static public Boolean__ __(String varname, Boolean v) {
 		AdvContext context = _contextThreadLocal.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 //		//context.line();
@@ -498,37 +501,37 @@ public class Adv {
 		return new Boolean__Holder(_contextThreadLocal, (byte) (MAGIC_LOCALS_NUMBER + localsIndex));
 	}
 
-	static public byte __(String varname,byte magicIndex) {
-		int localsIndex = doReferByte(varname,(int) magicIndex);
+	static public byte __(String varname, byte magicIndex) {
+		int localsIndex = doReferByte(varname, (int) magicIndex);
 		return (byte) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	static public short __(String varname,short magicIndex) {
-		int localsIndex = doReferByte(varname,(int) magicIndex);
+	static public short __(String varname, short magicIndex) {
+		int localsIndex = doReferByte(varname, (int) magicIndex);
 		return (short) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	static public int __(String varname,int magicIndex) {
-		int localsIndex = doReferByte(varname,(int) magicIndex);
+	static public int __(String varname, int magicIndex) {
+		int localsIndex = doReferByte(varname, (int) magicIndex);
 		return (int) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	static public long __(String varname,long magicIndex) {
-		int localsIndex = doReferByte(varname,(int) magicIndex);
+	static public long __(String varname, long magicIndex) {
+		int localsIndex = doReferByte(varname, (int) magicIndex);
 		return (long) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	static public float __(String varname,float magicIndex) {
-		int localsIndex = doReferByte(varname,(int) magicIndex);
+	static public float __(String varname, float magicIndex) {
+		int localsIndex = doReferByte(varname, (int) magicIndex);
 		return (float) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	static public double __(String varname,double magicIndex) {
-		int localsIndex = doReferByte(varname,(int) magicIndex);
+	static public double __(String varname, double magicIndex) {
+		int localsIndex = doReferByte(varname, (int) magicIndex);
 		return (double) (MAGIC_LOCALS_NUMBER + localsIndex);
 	}
 
-	protected static int doReferByte(String varname,int magicIndex) {
+	protected static int doReferByte(String varname, int magicIndex) {
 		AdvContext context = _contextThreadLocal.get();
 //		context.resolve(null)
 //		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
@@ -536,7 +539,7 @@ public class Adv {
 //		assert codeIndex == context.stackSize() - 1 : "必须在堆栈顶";
 
 		context.clear();
-		ConsumerWithException<MethodCode> expr =  context.resolve(magicIndex);
+		ConsumerWithException<MethodCode> expr = context.resolve(magicIndex);
 		context.line();
 		context.exec(expr);
 		int localsIndex = context.store(varname);
@@ -552,9 +555,9 @@ public class Adv {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	static public <T> T __(String varname,T magicNumber) {
+	static public <T> T __(String varname, T magicNumber) {
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> expr =  context.resolve(magicNumber);
+		ConsumerWithException<MethodCode> expr = context.resolve(magicNumber);
 		context.clear();
 		context.line();
 		context.exec(expr);
@@ -921,5 +924,39 @@ public class Adv {
 
 	public static <T> T buildProxyClass(Class<T> t, byte magicNumber) {
 		return brokerBuilder.buildProxyClass(t, _contextThreadLocal, magicNumber);
+	}
+
+	public static byte[] dumpClass(AdvClassBuilder clazz, Object simpleSampleCodeBuilder) {
+		Method[] methods = simpleSampleCodeBuilder.getClass().getDeclaredMethods();
+		for (int i = 0; i < methods.length; i++) {
+
+			Method method = methods[i];
+
+			if ((method.getModifiers() & ACC_PUBLIC) > 0 && !"dump".equals(method.getName())) {
+				AdvMethodBuilder methodBuilder = (AdvMethodBuilder) clazz.method(method.getModifiers(), method.getName());
+				methodBuilder.return_(method.getReturnType());
+				for (Parameter parameter : method.getParameters()) {
+					methodBuilder.parameter_(parameter.getName(), parameter.getType());
+				}
+				Class<?>[] exceptionClasses = method.getExceptionTypes();
+				methodBuilder.throws_(exceptionClasses);
+				methodBuilder.code(code -> {
+					try {
+						method.invoke(simpleSampleCodeBuilder);
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				});
+			}
+
+		}
+		return clazz.end().toByteArray();
 	}
 }

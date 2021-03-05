@@ -39,6 +39,22 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 		}
 
 	}
+	@Test
+	public void test_SimpleSampleBuilderMagic_dump() throws Exception {
+		Class<?> expectedClazz = SimpleSample.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		try {
+			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleBuilderMagic.dump());
+
+			assertEquals("Code", codeExpected, codeActual);
+		} finally {
+
+			System.out.println(codeExpected);
+
+		}
+
+	}
 
 	@Test
 	public void test_AdvJavaSourceConverterSample_ConvertTest() throws Exception {

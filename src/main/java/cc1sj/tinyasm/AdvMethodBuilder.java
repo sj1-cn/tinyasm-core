@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdvMethodBuilder implements AfterMethodName, AfterParameter, AfterThrows, AfterReturn, AfterCode {
-	int memberAccess;
-	final ClassBody classBody;
-	final String methodName;
+	private final int memberAccess;
+	private final ClassBody classBody;
+	private final String methodName;
 
-	final List<Parameter> _parameters = new ArrayList<>();
-	final List<Clazz> _throws = new ArrayList<>();
+	private final List<Parameter> _parameters = new ArrayList<>();
+	private final List<Clazz> _throws = new ArrayList<>();
 
-	Clazz returnClazz;
+	private Clazz returnClazz;
 
 	static class Parameter {
 		String name;
@@ -38,8 +38,10 @@ public class AdvMethodBuilder implements AfterMethodName, AfterParameter, AfterT
 	}
 
 	@Override
-	public AfterThrows throws_(Class<?> exception) {
-		_throws.add(Clazz.of(exception));
+	public AfterThrows throws_(Class<?>... exceptiones) {
+		for (Class<?> exception : exceptiones) {
+			_throws.add(Clazz.of(exception));
+		}
 		return this;
 	}
 
@@ -63,7 +65,7 @@ public class AdvMethodBuilder implements AfterMethodName, AfterParameter, AfterT
 		return code;
 	}
 
-	MethodCode _methodCode;
+	private MethodCode _methodCode;
 
 	@Override
 	public AfterCode code(ConsumerWithException<MethodCode> block) {
@@ -82,6 +84,12 @@ public class AdvMethodBuilder implements AfterMethodName, AfterParameter, AfterT
 	@Override
 	public AfterReturn return_(Clazz clazz) {
 		this.returnClazz = clazz;
+		return this;
+	}
+
+	@Override
+	public AfterReturn return_(Class<?> clazz) {
+		this.returnClazz = Clazz.of(clazz);
 		return this;
 	}
 
