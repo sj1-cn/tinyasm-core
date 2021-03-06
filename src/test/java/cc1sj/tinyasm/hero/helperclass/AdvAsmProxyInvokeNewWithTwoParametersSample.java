@@ -1,6 +1,7 @@
 package cc1sj.tinyasm.hero.helperclass;
 
 public class AdvAsmProxyInvokeNewWithTwoParametersSample {
+	@SuppressWarnings("unused")
 	public void test() {
 
 		AdvAsmProxyWithTwoParametersSample p1 = new AdvAsmProxyWithTwoParametersSample(3, 3);

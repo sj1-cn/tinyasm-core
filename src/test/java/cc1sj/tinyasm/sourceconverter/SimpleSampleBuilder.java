@@ -6,6 +6,7 @@ import cc1sj.tinyasm.AdvClassBuilder;
 
 public class SimpleSampleBuilder {
 
+	@SuppressWarnings("unused")
 	public static byte[] dump() {
 		AdvClassBuilder clazz = public_().class_("cc1sj.tinyasm.sourceconverter.SimpleSample").extends_(SuperClass.class)
 				.implements_(SuperInterface.class).enterClassBody();

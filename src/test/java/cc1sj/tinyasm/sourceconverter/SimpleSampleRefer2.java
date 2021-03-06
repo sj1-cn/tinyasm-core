@@ -2,6 +2,7 @@ package cc1sj.tinyasm.sourceconverter;
 
 public class SimpleSampleRefer2 extends SuperClass implements SuperInterface {
 	
+	@SuppressWarnings("unused")
 	private String name;
 
 	public void sayHello() {

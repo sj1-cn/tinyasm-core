@@ -11,6 +11,7 @@ public class SimpleSampleCodeBuilder {
 		
 		AdvClassBuilder clazz = public_().class_("SimpleSample").extends_(SuperClass.class).implements_(SuperInterface.class).enterClassBody();//public class SimpleSample extends SuperClass implements SuperInterface {
 			
+			@SuppressWarnings("unused")                                         //	@SuppressWarnings("unused")
 			final String name = clazz.private_().field("name",String.class);    //	private String name;
 		
 			clazz.public_().method("sayHello").code(code -> {                   //	public void sayHello() {

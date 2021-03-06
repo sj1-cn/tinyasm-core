@@ -24,6 +24,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.ModuleVisitor;
 import org.objectweb.asm.Opcodes;
@@ -327,6 +328,39 @@ class AdvAsmProxyForInterfaceAsmBuilder extends ClassVisitor {
 				code.LOAD("codeIndex");
 				code.VIRTUAL(StringBuilder.class, "append").reTurn(StringBuilder.class).parameter(int.class).INVOKE();
 				code.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
+				code.RETURNTop();
+			} else if (returnType.getSort() == Type.OBJECT ) {
+				code.STORE("codeIndex", byte.class);
+
+				code.LINE();
+				code.LOADConst(80);
+				code.LOAD("codeIndex");
+				code.ADD();
+				code.CONVERTTO(byte.class);
+				code.STORE("magicNumber",byte.class);
+
+				code.LINE();
+				code.LOADConst(returnType);
+				code.STATIC(Adv.class, "canProxy")
+					.reTurn(boolean.class)
+					.parameter(Class.class).INVOKE();
+				Label label5OfIFEQ = new Label();
+				code.IFEQ(label5OfIFEQ);
+
+				code.LINE();
+				code.LOADConst(returnType);
+				code.LOAD("magicNumber");
+				code.STATIC(Adv.class, "buildProxyClass")
+					.reTurn(Object.class)
+					.parameter(Class.class)
+					.parameter(byte.class).INVOKE();
+				code.CHECKCAST(returnType);
+				code.RETURNTop();
+
+				code.visitLabel(label5OfIFEQ);
+
+				code.LINE();
+				code.LOADConstNULL();
 				code.RETURNTop();
 			} else {
 				throw new UnsupportedOperationException();

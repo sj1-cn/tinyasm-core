@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("serial")
 public class SignatureGenericSample<S,D> extends HashMap<S,D> implements Serializable {
 
 //public class SignatureSample  extends ArrayList<String[]>{

@@ -1,12 +1,9 @@
 package cc1sj.tinyasm.sourceconverter;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AdvJavaSourceCodeConverter {
 
@@ -20,7 +17,6 @@ public class AdvJavaSourceCodeConverter {
 //	public class AdvSample extends AdvSampleExtendsClass implements AdvSampleImplmentInterface {
 
 	String thisClassName;
-
 	StringBuilder sb = new StringBuilder();
 
 	void when(boolean check, String text) {

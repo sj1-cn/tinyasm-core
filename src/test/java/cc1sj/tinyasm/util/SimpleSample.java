@@ -1,12 +1,14 @@
 package cc1sj.tinyasm.util;
 
 public class SimpleSample {
+	@SuppressWarnings("unused")
 	private int i = 0;
 
 	public SimpleSample() {
 
 	}
 
+	@SuppressWarnings("unused")
 	public void dd() {
 		int j = 1;
 		int k = 1;

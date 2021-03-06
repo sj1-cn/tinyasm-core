@@ -165,6 +165,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 		code.END();
 	}
 
+	@SuppressWarnings("unused")
 	protected void _setAgeInt(ClassBody classBody) {
 		Type targetType = Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClassChild;");
 		Class<Integer> paramClass = int.class;
