@@ -3,6 +3,7 @@ package cc1sj.tinyasm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import static org.objectweb.asm.Opcodes.*;
 
 import org.objectweb.asm.ClassVisitor;
 
@@ -97,7 +98,13 @@ class ClassHeaderImpl implements ClassHeader {
 			this.ACC_PUBLIC();
 			this.ACC_SUPER();
 		}
+		if((access & ACC_INTERFACE)>0 ) {
+			
+		}else {
 
+			this.ACC_SUPER();
+		}
+		
 		if (superClazz == null) {
 			this.eXtend(Object.class);
 		}

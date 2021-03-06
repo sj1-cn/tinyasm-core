@@ -109,9 +109,4 @@ public class MethodCodeMethodCallerTest {
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
-//	@Test
-//	public void printClass() {
-//		System.out.println(RefineCode.refineCode(toString(clazz)));
-//	}
-
 }

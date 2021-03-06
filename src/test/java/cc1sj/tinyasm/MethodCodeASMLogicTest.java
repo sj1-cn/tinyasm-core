@@ -650,9 +650,4 @@ public class MethodCodeASMLogicTest  {
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
-
-//	@Test
-//	public void printClass() throws IOException {
-//		System.out.println(toString(ClassBuilderCompare.class.getName()));
-//	}
 }

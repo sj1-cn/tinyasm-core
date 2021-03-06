@@ -16,15 +16,9 @@ public class TinyASMifierTest  {
 		Class<?> expectedClazz = SimpleSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		try {
 			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-
-			System.out.println(codeExpected);
-
-		}
 
 	}
 
@@ -33,15 +27,9 @@ public class TinyASMifierTest  {
 		Class<?> expectedClazz = SignatureSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		try {
 			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-
-			System.out.println(codeExpected);
-
-		}
 
 	}
 	
@@ -51,15 +39,9 @@ public class TinyASMifierTest  {
 		Class<?> expectedClazz = SignatureInterfaceSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		try {
 			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-
-			System.out.println(codeExpected);
-
-		}
 
 	}
 	
@@ -69,15 +51,9 @@ public class TinyASMifierTest  {
 		Class<?> expectedClazz = SignatureGenericSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		try {
 			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-
-			System.out.println(codeExpected);
-
-		}
 
 	}
 	
@@ -102,15 +78,9 @@ public class TinyASMifierTest  {
 		Class<?> expectedClazz = MethodCodeASMMathSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		try {
 			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),dumpTinyAsm(expectedClazz));
 
 			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-
-			System.out.println(codeExpected);
-
-		}
 	}
 
 	@Test

@@ -32,6 +32,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		{
 			int version = 53;
 			int access = header.access;
+			
 			String name = this.thisType.getType().getInternalName();
 			String signature = null;
 			boolean needSignature = false;

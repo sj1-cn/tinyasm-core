@@ -11,15 +11,9 @@ public class TinyHeroTinyAsmProxyASMifierTest {
 		Class<?> expectedClazz = SimpleSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-//		try {
 //			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleTinyAsmProxyBuilder.dump());
 //
 //			assertEquals("Code", codeExpected, codeActual);
-//		} finally {
-//
-//			System.out.println(codeExpected);
-//
-//		}
 
 	}
 }

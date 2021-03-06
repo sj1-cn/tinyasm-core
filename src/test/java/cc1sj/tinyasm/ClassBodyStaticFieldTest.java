@@ -119,9 +119,5 @@ public class ClassBodyStaticFieldTest {
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
-//	@Test
-//	public void printClass() throws IOException {
-//		System.out.println(RefineCode.refineCode(toString(clazz)));
-//	}
 
 }

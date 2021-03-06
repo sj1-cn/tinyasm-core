@@ -12,15 +12,25 @@ import static org.objectweb.asm.Opcodes.*;
 public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, AfterClassExtends, AfterClassImplements, AdvClassBuilder,
 		AfterModifier, AfterClassEnd {
 
-	int classAccess = 0;
-	String className;
-	Clazz _extends;
-	List<Clazz> _implements = new ArrayList<>();
-	Map<String, Clazz> maps = new HashMap<>();
-	ClassBody classBody;
+	private ThreadLocal<AdvContext> _contextThreadLocal;
+	private int classAccess = 0;
+	private String className;
+	private Clazz _extends;
+	private List<Clazz> _implements = new ArrayList<>();
+	private Map<String, Clazz> maps = new HashMap<>();
+	private ClassBody classBody;
+	private int memberAccess = 0;
+	ClassBuilder classBuilder;
 
-	int memberAccess = 0;
-	ThreadLocal<AdvContext> _contextThreadLocal;
+	@Override
+	public Clazz getClazz() {
+		return Clazz.of(className);
+	}
+
+	@Override
+	public Clazz getSuperClazz() {
+		return this._extends;
+	}
 
 	public AdvClassBuilderImpl(ThreadLocal<AdvContext> _contextThreadLocal) {
 		this._contextThreadLocal = _contextThreadLocal;
@@ -57,6 +67,8 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 			ch = ClassBuilder.make(className);
 		}
 
+		ch.access(classAccess);
+
 		if (_implements != null && _implements.size() > 0) {
 			for (Clazz clazz : _implements) {
 				ch.implement(clazz);
@@ -80,26 +92,23 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 		return methodBuilder;
 	}
 
-
 	@Override
 	public AfterModifier public_() {
-		this.memberAccess |= ACC_PUBLIC;
+		this.memberAccess = ACC_PUBLIC;
 		return this;
 	}
 
 	@Override
 	public AfterModifier protected_() {
-		this.memberAccess |= ACC_PROTECTED;
+		this.memberAccess = ACC_PROTECTED;
 		return this;
 	}
 
 	@Override
 	public AfterModifier private_() {
-		this.memberAccess |= ACC_PRIVATE;
+		this.memberAccess = ACC_PRIVATE;
 		return this;
 	}
-
-	ClassBuilder classBuilder;
 
 	@Override
 	public AfterClassEnd end() {

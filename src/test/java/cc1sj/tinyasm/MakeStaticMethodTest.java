@@ -417,9 +417,5 @@ public class MakeStaticMethodTest  {
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
-//	@Test
-//	public void printClass() throws IOException {
-//		System.out.println(RefineCode.refineCode(toString(clazz)));
-//	}
 
 }

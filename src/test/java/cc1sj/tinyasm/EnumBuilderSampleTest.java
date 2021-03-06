@@ -28,10 +28,4 @@ public class EnumBuilderSampleTest  {
 		String strCode = TinyAsmTestUtils.toString("com.nebula.dropwizard.core.Status",code);
 		assertEquals("Code", strCodeExpected, strCode);
 	}
-
-//	@Test
-//	public void printClass() throws IOException {
-//		System.out.println(toString(ClassBuilderMath.class.getName()));
-//	}
-
 }

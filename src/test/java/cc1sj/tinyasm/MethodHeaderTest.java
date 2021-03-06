@@ -175,10 +175,4 @@ public class MethodHeaderTest  {
 		String codeExpected = RefineCode.excludeLocalVariable(TinyAsmTestUtils.toString(clazz));
 		assertEquals("Code", codeExpected, codeActual);
 	}
-
-//	@Test
-//	public void printClass() {
-//		System.out.println(RefineCode.refineCode(toString(clazz)));
-//	}
-
 }

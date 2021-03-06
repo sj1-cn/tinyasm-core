@@ -134,28 +134,28 @@ public class MethodASMArraySampleTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD_OF_THIS("ia");
 		code.LOADConst(0);
-		code.LOADConst(new Integer(100000));
+		code.LOADConst(Integer.valueOf(100000));
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD_OF_THIS("la");
 		code.LOADConst(0);
-		code.LOADConst(new Long(1000000L));
+		code.LOADConst(Long.valueOf(1000000L));
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD_OF_THIS("fa");
 		code.LOADConst(0);
-		code.LOADConst(new Float("1.0E7"));
+		code.LOADConst(Float.valueOf("1.0E7"));
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD_OF_THIS("da");
 		code.LOADConst(0);
-		code.LOADConst(new Double("1.0E8"));
+		code.LOADConst(Double.valueOf("1.0E8"));
 		code.ARRAYSTORE();
 
 		code.LINE();

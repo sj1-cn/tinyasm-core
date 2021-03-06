@@ -13,8 +13,8 @@ public class TinyAsmClassLoader extends ClassLoader {
 	static TinyAsmClassLoader instance;
 
 	public static final Class<?> defineClass(String name, byte[] b) {
-		if (log.isDebugEnabled()) {
-			log.debug("defineClass [ " + name + " ]");
+		if (log.isTraceEnabled()) {
+			log.trace("defineClass [ " + name + " ]");
 		}
 		if (instance == null) instance = new TinyAsmClassLoader();
 		return instance.defineClass(name, b, 0, b.length);

@@ -10,7 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -484,8 +489,11 @@ public class Adv {
 	static public boolean_ __(String varname, boolean magicIndex) {
 		AdvContext context = _contextThreadLocal.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-//		//context.line();
-		context.popAndExec();
+
+		ConsumerWithException<MethodCode> expr = context.getCodeAndPop();
+		context.clear();
+		context.line();
+		context.exec(expr);
 		int localsIndex = context.store(varname);
 
 		return new boolean_Holder(_contextThreadLocal, (byte) (MAGIC_LOCALS_NUMBER + localsIndex));
@@ -494,8 +502,11 @@ public class Adv {
 	static public Boolean__ __(String varname, Boolean v) {
 		AdvContext context = _contextThreadLocal.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-//		//context.line();
-		context.popAndExec();
+
+		ConsumerWithException<MethodCode> expr = context.getCodeAndPop();
+		context.clear();
+		context.line();
+		context.exec(expr);
 		int localsIndex = context.store(varname);
 
 		return new Boolean__Holder(_contextThreadLocal, (byte) (MAGIC_LOCALS_NUMBER + localsIndex));
@@ -535,11 +546,11 @@ public class Adv {
 		AdvContext context = _contextThreadLocal.get();
 //		context.resolve(null)
 //		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
-		int codeIndex = (int) magicIndex - MAGIC_CODES_NUMBER;
+//		int codeIndex = (int) magicIndex - MAGIC_CODES_NUMBER;
 //		assert codeIndex == context.stackSize() - 1 : "必须在堆栈顶";
 
-		context.clear();
 		ConsumerWithException<MethodCode> expr = context.resolve(magicIndex);
+		context.clear();
 		context.line();
 		context.exec(expr);
 		int localsIndex = context.store(varname);
@@ -926,37 +937,83 @@ public class Adv {
 		return brokerBuilder.buildProxyClass(t, _contextThreadLocal, magicNumber);
 	}
 
-	public static byte[] dumpClass(AdvClassBuilder clazz, Object simpleSampleCodeBuilder) {
-		Method[] methods = simpleSampleCodeBuilder.getClass().getDeclaredMethods();
-		for (int i = 0; i < methods.length; i++) {
+	public static byte[] dumpClass(AdvClassBuilder classBuilder, Object simpleSampleCodeBuilder) {
+		Class<?> clazz = simpleSampleCodeBuilder.getClass();
+		try {
 
-			Method method = methods[i];
+			ClassReader cr = new ClassReader(clazz.getName());
+			cr.accept(new ClassVisitor(ASM9) {
 
-			if ((method.getModifiers() & ACC_PUBLIC) > 0 && !"dump".equals(method.getName())) {
-				AdvMethodBuilder methodBuilder = (AdvMethodBuilder) clazz.method(method.getModifiers(), method.getName());
-				methodBuilder.return_(method.getReturnType());
-				for (Parameter parameter : method.getParameters()) {
-					methodBuilder.parameter_(parameter.getName(), parameter.getType());
-				}
-				Class<?>[] exceptionClasses = method.getExceptionTypes();
-				methodBuilder.throws_(exceptionClasses);
-				methodBuilder.code(code -> {
+				@Override
+				public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+
 					try {
-						method.invoke(simpleSampleCodeBuilder);
-					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				});
-			}
+						if ((access & ACC_PUBLIC) > 0 && !"dump".equals(name)) {
+							Method thisMethod = null;
+							Method[] methodes = clazz.getDeclaredMethods();
+							for (Method method : methodes) {
+								if (method.getName().equals(name)) {
+									thisMethod = method;
+									break;
+								}
+							}
+//							Method method = clazz.getMethod(name);
+							logger.debug(name);
+							if (thisMethod != null) {
+								buildWithMethod(classBuilder, simpleSampleCodeBuilder, thisMethod);
+							}
 
+						}
+					} catch (SecurityException e) {
+						throw new UnsupportedOperationException(e);
+					}
+					return null;
+				}
+
+			}, ClassReader.SKIP_CODE);
+		} catch (Exception e1) {
+			throw new UnsupportedOperationException(e1);
 		}
-		return clazz.end().toByteArray();
+
+		return classBuilder.end().toByteArray();
+	}
+
+	protected static void buildWithMethod(AdvClassBuilder classBuilder, Object simpleSampleCodeBuilder, Method method) {
+		if (method.getName().startsWith("_dump") && method.getParameters()[0].getType() == AdvClassBuilder.class) {
+			try {
+				method.invoke(simpleSampleCodeBuilder, classBuilder);
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			AdvMethodBuilder methodBuilder = (AdvMethodBuilder) classBuilder.method(method.getModifiers(), method.getName());
+			if (method.getReturnType() == Void.class) methodBuilder.return_(method.getReturnType());
+			for (Parameter parameter : method.getParameters()) {
+				methodBuilder.parameter_(parameter.getName(), parameter.getType());
+			}
+			Class<?>[] exceptionClasses = method.getExceptionTypes();
+			methodBuilder.throws_(exceptionClasses);
+			methodBuilder.code(code -> {
+				try {
+					method.invoke(simpleSampleCodeBuilder);
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+		}
 	}
 }

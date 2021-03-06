@@ -162,14 +162,14 @@ public class MethodCodeBuilder extends MethodCode {
 	public void visitLabel(Label label) {
 		labelCurrent = label;
 		mv.visitLabel(label);
-		logger.debug("mv.visitLabel({}; in visitLabel(Label label)", label);
+		logger.trace("mv.visitLabel({}; in visitLabel(Label label)", label);
 	}
 
 	@Override
 	public void visitLabel(Label label, int line) {
 		labelCurrent = label;
 		mv.visitLabel(label);
-		logger.debug("mv.visitLabel({},{}); in visitLabel(Label label, int line)", label, line);
+		logger.trace("mv.visitLabel({},{}); in visitLabel(Label label, int line)", label, line);
 //		labelHasDefineBegin = true;
 //		mv.visitLineNumber(line, label);
 	}
@@ -206,13 +206,13 @@ public class MethodCodeBuilder extends MethodCode {
 			label = new Label();
 			labelCurrent = null;
 			mv.visitLabel(label);
-			logger.debug("mv.visitLabel({});in LINE()", label);
+			logger.trace("mv.visitLabel({});in LINE()", label);
 
 		} else {
 			label = labelCurrent;
 			labelHasDefineBegin = false;
 		}
-		logger.debug("mv.visitLineNumber({}, {}); in LINE()", lastLineNumber, label);
+		logger.trace("mv.visitLineNumber({}, {}); in LINE()", lastLineNumber, label);
 		mv.visitLineNumber(lastLineNumber, label);
 		if(lastDefinedVar!=null && lastDefinedVar.startFrom ==null) {
 			lastDefinedVar.startFrom = label;
@@ -283,14 +283,16 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	private void printStack(Stack<Type> stack) {
-//		StringBuffer sb = new StringBuffer();
-//		sb.append(thisMethod.name).append(" : ");
-//		for (Type type : stack) {
-//			sb.append(type);
-//			sb.append(" > ");
+//		if(logger.isTraceEnabled()){
+//			StringBuffer sb = new StringBuffer();
+//			sb.append(thisMethod.name).append(" : ");
+//			for (Type type : stack) {
+//				sb.append(type);
+//				sb.append(" > ");
+//			}
+//			sb.setCharAt(sb.length() - 2, '\n');
+//			logger.trace("{}",sb.toString());
 //		}
-//		sb.setCharAt(sb.length() - 2, '\n');
-//		System.out.println(sb.toString());
 	}
 
 	@Override

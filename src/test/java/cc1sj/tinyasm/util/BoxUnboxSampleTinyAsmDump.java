@@ -95,11 +95,11 @@ public class BoxUnboxSampleTinyAsmDump {
 		MethodCode code = classBody.method(ACC_PUBLIC, "init").begin();
 
 		code.LINE();
-		code.LOADConst(new Long(10L));
+		code.LOADConst(Long.valueOf(10L));
 		code.STORE("l",long.class);
 
 		code.LINE();
-		code.LOADConst(new Long(100L));
+		code.LOADConst(Long.valueOf(100L));
 		code.STATIC(Long.class, "valueOf")
 			.reTurn(Long.class)
 			.parameter(long.class).INVOKE();
@@ -125,7 +125,7 @@ public class BoxUnboxSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Long(2L));
+		code.LOADConst(Long.valueOf(2L));
 		code.STATIC(Long.class, "valueOf")
 			.reTurn(Long.class)
 			.parameter(long.class).INVOKE();

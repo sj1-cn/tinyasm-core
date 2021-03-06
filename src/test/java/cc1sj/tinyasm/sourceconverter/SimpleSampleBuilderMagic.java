@@ -2,9 +2,23 @@ package cc1sj.tinyasm.sourceconverter;
 
 import static cc1sj.tinyasm.Adv.*;
 
+import cc1sj.tinyasm.AdvClassBuilder;
+
 public class SimpleSampleBuilderMagic {
 
 	final String name = null;// = clazz.public_().field("name", String.class);
+
+	public void _dump_fields(AdvClassBuilder classBody) {
+		classBody.private_().field("name", String.class);
+	}
+	
+	public void _dump_init(AdvClassBuilder classBody) {
+		classBody.public_().method("<init>").code(code -> {
+			code.LINE();
+			code.LOAD("this");
+			code.SPECIAL(classBody.getSuperClazz(), "<init>").INVOKE();
+		});
+	}
 
 	public void sayHello() { // public void sayHello() {
 		int i = __("i", 10); // int i = 10;

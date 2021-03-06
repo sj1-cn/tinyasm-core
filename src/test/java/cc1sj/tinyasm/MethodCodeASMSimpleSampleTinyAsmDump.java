@@ -126,22 +126,22 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Integer(100000));
+		code.LOADConst(Integer.valueOf(100000));
 		code.PUTFIELD_OF_THIS("i");
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Long(1000000L));
+		code.LOADConst(Long.valueOf(1000000L));
 		code.PUTFIELD_OF_THIS("l");
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Float("1.0E7"));
+		code.LOADConst(Float.valueOf("1.0E7"));
 		code.PUTFIELD_OF_THIS("f");
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Double("1.0E8"));
+		code.LOADConst(Double.valueOf("1.0E8"));
 		code.PUTFIELD_OF_THIS("d");
 
 		code.LINE();

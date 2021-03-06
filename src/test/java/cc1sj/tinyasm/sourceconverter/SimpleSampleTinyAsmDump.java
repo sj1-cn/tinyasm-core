@@ -98,10 +98,8 @@ public class SimpleSampleTinyAsmDump {
 		code.LOAD("j");
 		code.ADD();
 		code.STORE("j");
-
-		code.LINE();
-		Label label12OfGOTO = new Label();
-		code.GOTO(label12OfGOTO);
+		Label label11OfGOTO = new Label();
+		code.GOTO(label11OfGOTO);
 
 		code.visitLabel(label9OfIF_ICMPLE);
 
@@ -111,42 +109,40 @@ public class SimpleSampleTinyAsmDump {
 		code.ADD();
 		code.STORE("j");
 
-		code.visitLabel(label12OfGOTO);
+		code.visitLabel(label11OfGOTO);
 
 		code.LINE();
 		code.LOAD("i");
 		code.LOAD("j");
 		code.ADD();
 		code.STORE("j");
+		Label label15OfGOTO = new Label();
 
-		code.LINE();
-		Label label14OfGOTO = new Label();
-		code.GOTO(label14OfGOTO);
-		Label label16OfIF_ICMPGT = new Label();
-
-		code.visitLabel(label16OfIF_ICMPGT);
-
-		code.LINE();
-		code.LOAD("i");
-		code.LOAD("j");
-		code.ADD();
-		code.STORE("j");
-
-		code.visitLabel(label14OfGOTO);
+		code.visitLabel(label15OfGOTO);
 
 		code.LINE();
 		code.LOAD("j");
 		code.LOADConst(10);
-		code.IF_ICMPGT(label16OfIF_ICMPGT);
+		Label label13OfIF_ICMPLE = new Label();
+		code.IF_ICMPLE(label13OfIF_ICMPLE);
+
+		code.LINE();
+		code.LOAD("i");
+		code.LOAD("j");
+		code.ADD();
+		code.STORE("j");
+		code.GOTO(label15OfGOTO);
+
+		code.visitLabel(label13OfIF_ICMPLE);
 
 		code.LINE();
 		code.LOAD("referedObject");
 		code.LOAD("helloString");
 		code.VIRTUAL(ReferedObject.class, "setHelloString")
 			.parameter(String.class).INVOKE();
-		Label label20OfIF_ICMPGT = new Label();
+		Label label17OfIF_ICMPGT = new Label();
 
-		code.visitLabel(label20OfIF_ICMPGT);
+		code.visitLabel(label17OfIF_ICMPGT);
 
 		code.LINE();
 		code.LOAD("i");
@@ -157,20 +153,20 @@ public class SimpleSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("j");
 		code.LOADConst(10);
-
-		code.LINE();
-		code.IF_ICMPGT(label20OfIF_ICMPGT);
+		code.IF_ICMPGT(label17OfIF_ICMPGT);
 
 		code.LINE();
 		code.LOADConst(0);
 		code.STORE("k",int.class);
+		Label label22OfGOTO = new Label();
+
+		code.visitLabel(label22OfGOTO);
 
 		code.LINE();
-		Label label22OfGOTO = new Label();
-		code.GOTO(label22OfGOTO);
-		Label label25OfIF_ICMPGT = new Label();
-
-		code.visitLabel(label25OfIF_ICMPGT);
+		code.LOAD("k");
+		code.LOADConst(10);
+		Label label19OfIF_ICMPLE = new Label();
+		code.IF_ICMPLE(label19OfIF_ICMPLE);
 
 		code.LINE();
 		code.LOAD("i");
@@ -180,11 +176,9 @@ public class SimpleSampleTinyAsmDump {
 
 		code.LINE();
 		code.IINC("k", 1);
+		code.GOTO(label22OfGOTO);
 
-		code.visitLabel(label22OfGOTO);
-		code.LOAD("k");
-		code.LOADConst(10);
-		code.IF_ICMPGT(label25OfIF_ICMPGT);
+		code.visitLabel(label19OfIF_ICMPLE);
 
 		code.LINE();
 		code.RETURN();

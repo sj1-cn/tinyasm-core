@@ -300,9 +300,4 @@ public class MethodASMArrayTest {
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
-
-//	@Test
-//	public void printClass() throws IOException {
-//		System.out.println(refineCode(toString(MethodASMArraySample.class.getName())));
-//	}
 }

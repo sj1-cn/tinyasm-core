@@ -14,13 +14,9 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 		Class<?> expectedClazz = SimpleSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		try {
-			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
 
-			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-			System.out.println(codeExpected);
-		}
+		assertEquals("Code", codeExpected, codeActual);
 	}
 
 	@Test
@@ -28,31 +24,20 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 		Class<?> expectedClazz = SimpleSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		try {
-			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleBuilder.dump());
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleBuilder.dump());
 
-			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-
-			System.out.println(codeExpected);
-
-		}
+		assertEquals("Code", codeExpected, codeActual);
 
 	}
+
 	@Test
 	public void test_SimpleSampleBuilderMagic_dump() throws Exception {
 		Class<?> expectedClazz = SimpleSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		try {
-			String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleBuilderMagic.dump());
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleBuilderMagic.dump());
 
-			assertEquals("Code", codeExpected, codeActual);
-		} finally {
-
-			System.out.println(codeExpected);
-
-		}
+		assertEquals("Code", codeExpected, codeActual);
 
 	}
 
@@ -64,8 +49,6 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 		String targetClassName = SimpleSample.class.getName() + "CodeBuilder";
 		String target = convertFrom(targetClassName, source);
 		TinyAsmTestUtils.writeJavaSourceFile(targetClassName, target);
-
-		System.out.println(target);
 	}
 
 	private String convertFrom(String targetClassName, String source) {

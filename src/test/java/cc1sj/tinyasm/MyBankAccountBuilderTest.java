@@ -28,8 +28,4 @@ public class MyBankAccountBuilderTest {
 		assertEquals("Code", strCodeExpected, strCode);
 	}
 
-//	@Test
-//	public void printClass() throws IOException {
-//		System.out.println(toString(ClassBuilderMath.class.getName()));
-//	}
 }

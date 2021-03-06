@@ -126,27 +126,27 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Long(3L));
+		code.LOADConst(Long.valueOf(3L));
 		code.PUTFIELD_OF_THIS("l3");
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Float("3.0"));
+		code.LOADConst(Float.valueOf("3.0"));
 		code.PUTFIELD_OF_THIS("f3");
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Double("3.0"));
+		code.LOADConst(Double.valueOf("3.0"));
 		code.PUTFIELD_OF_THIS("d3");
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Float("3.1"));
+		code.LOADConst(Float.valueOf("3.1"));
 		code.PUTFIELD_OF_THIS("f31");
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Double("3.1"));
+		code.LOADConst(Double.valueOf("3.1"));
 		code.PUTFIELD_OF_THIS("d31");
 
 		code.LINE();
@@ -201,17 +201,17 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Long(-1L));
+		code.LOADConst(Long.valueOf(-1L));
 		code.PUTFIELD_OF_THIS("ln1");
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Float("-1.0"));
+		code.LOADConst(Float.valueOf("-1.0"));
 		code.PUTFIELD_OF_THIS("fn1");
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOADConst(new Double("-1.0"));
+		code.LOADConst(Double.valueOf("-1.0"));
 		code.PUTFIELD_OF_THIS("dn1");
 		code.RETURN();
 

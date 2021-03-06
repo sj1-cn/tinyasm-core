@@ -781,23 +781,23 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 		code.PUT_THIS_STATIC("i3");
 
 		code.LINE();
-		code.LOADConst(new Long(3L));
+		code.LOADConst(Long.valueOf(3L));
 		code.PUT_THIS_STATIC("l3");
 
 		code.LINE();
-		code.LOADConst(new Float("3.0"));
+		code.LOADConst(Float.valueOf("3.0"));
 		code.PUT_THIS_STATIC("f3");
 
 		code.LINE();
-		code.LOADConst(new Double("3.0"));
+		code.LOADConst(Double.valueOf("3.0"));
 		code.PUT_THIS_STATIC("d3");
 
 		code.LINE();
-		code.LOADConst(new Float("3.1"));
+		code.LOADConst(Float.valueOf("3.1"));
 		code.PUT_THIS_STATIC("f31");
 
 		code.LINE();
-		code.LOADConst(new Double("3.1"));
+		code.LOADConst(Double.valueOf("3.1"));
 		code.PUT_THIS_STATIC("d31");
 
 		code.LINE();
@@ -841,15 +841,15 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 		code.PUT_THIS_STATIC("in1");
 
 		code.LINE();
-		code.LOADConst(new Long(-1L));
+		code.LOADConst(Long.valueOf(-1L));
 		code.PUT_THIS_STATIC("ln1");
 
 		code.LINE();
-		code.LOADConst(new Float("-1.0"));
+		code.LOADConst(Float.valueOf("-1.0"));
 		code.PUT_THIS_STATIC("fn1");
 
 		code.LINE();
-		code.LOADConst(new Double("-1.0"));
+		code.LOADConst(Double.valueOf("-1.0"));
 		code.PUT_THIS_STATIC("dn1");
 		code.RETURN();
 
