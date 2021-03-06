@@ -144,16 +144,26 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 		code.LINE();
 		code.LOADConst(Type.getType("Lcc1sj/tinyasm/sourceconverter/ReferedObject;"));
+		code.STATIC(Adv.class, "canProxy")
+			.reTurn(boolean.class)
+			.parameter(Class.class).INVOKE();
+		Label label5OfIFEQ = new Label();
+		code.IFEQ(label5OfIFEQ);
+
+		code.LINE();
+		code.LOADConst(Type.getType("Lcc1sj/tinyasm/sourceconverter/ReferedObject;"));
 		code.LOAD("magicNumber");
 		code.STATIC(Adv.class, "buildProxyClass")
 			.reTurn(Object.class)
 			.parameter(Class.class)
 			.parameter(byte.class).INVOKE();
 		code.CHECKCAST(ReferedObject.class);
-		code.STORE("referedObject",ReferedObject.class);
+		code.RETURNTop();
+
+		code.visitLabel(label5OfIFEQ);
 
 		code.LINE();
-		code.LOAD("referedObject");
+		code.LOADConstNULL();
 		code.RETURNTop();
 
 		code.END();

@@ -931,6 +931,9 @@ public class Adv {
 		return null;
 	}
 
+	public static boolean canProxy(Class<?> t) {
+		return true;
+	}
 	public static <T> T buildProxyClass(Class<T> t, byte magicNumber) {
 		return brokerBuilder.buildProxyClass(t, _contextThreadLocal, magicNumber);
 	}

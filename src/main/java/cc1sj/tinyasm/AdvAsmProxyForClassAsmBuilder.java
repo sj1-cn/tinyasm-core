@@ -24,6 +24,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.ModuleVisitor;
 import org.objectweb.asm.Opcodes;
@@ -322,12 +323,22 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 				code.RETURNTop();
 			} else if (returnType.getSort() == Type.OBJECT ) {
 				code.STORE("codeIndex", byte.class);
+
 				code.LINE();
 				code.LOADConst(80);
 				code.LOAD("codeIndex");
 				code.ADD();
 				code.CONVERTTO(byte.class);
 				code.STORE("magicNumber",byte.class);
+
+				code.LINE();
+				code.LOADConst(returnType);
+				code.STATIC(Adv.class, "canProxy")
+					.reTurn(boolean.class)
+					.parameter(Class.class).INVOKE();
+				Label label5OfIFEQ = new Label();
+				code.IFEQ(label5OfIFEQ);
+
 				code.LINE();
 				code.LOADConst(returnType);
 				code.LOAD("magicNumber");
@@ -336,10 +347,12 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 					.parameter(Class.class)
 					.parameter(byte.class).INVOKE();
 				code.CHECKCAST(returnType);
-				code.STORE("referedObject");
+				code.RETURNTop();
+
+				code.visitLabel(label5OfIFEQ);
 
 				code.LINE();
-				code.LOAD("referedObject");
+				code.LOADConstNULL();
 				code.RETURNTop();
 			} else {
 				throw new UnsupportedOperationException();

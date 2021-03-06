@@ -39,9 +39,13 @@ public class AdvAsmProxyWithReferReferAdvAsmProxy extends AdvAsmProxyWithReferRe
 			c.VIRTUAL(AdvAsmProxyWithReferRefferSample.class, "getRefer").reTurn(ReferedObject.class).INVOKE();
 		});
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
-		ReferedObject referedObject =  Adv.buildProxyClass(ReferedObject.class, magicNumber);
 		
-		return referedObject; 
+		if (Adv.canProxy(ReferedObject.class)) {
+			return Adv.buildProxyClass(ReferedObject.class, magicNumber);
+		} else {
+			return null;
+		}
+
 	}
 
 }
