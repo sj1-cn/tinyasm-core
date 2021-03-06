@@ -63,7 +63,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
+		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -219,7 +219,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _addInt(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "addInt")
+		MethodCode code = classBody.publicMethod(int.class, "addInt")
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -361,7 +361,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _addByte(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, byte.class, "addByte")
+		MethodCode code = classBody.publicMethod(byte.class, "addByte")
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -466,7 +466,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _addShort(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, short.class, "addShort")
+		MethodCode code = classBody.publicMethod(short.class, "addShort")
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -571,7 +571,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _addLong(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, long.class, "addLong")
+		MethodCode code = classBody.publicMethod(long.class, "addLong")
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -667,7 +667,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _mathChar(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, char.class, "mathChar")
+		MethodCode code = classBody.publicMethod(char.class, "mathChar")
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -772,7 +772,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _mathFloat(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, float.class, "mathFloat")
+		MethodCode code = classBody.publicMethod(float.class, "mathFloat")
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -849,7 +849,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _mathDouble(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, double.class, "mathDouble")
+		MethodCode code = classBody.publicMethod(double.class, "mathDouble")
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 

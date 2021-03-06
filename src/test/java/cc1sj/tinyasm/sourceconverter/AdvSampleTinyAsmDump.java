@@ -32,7 +32,7 @@ public class AdvSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -43,7 +43,7 @@ public class AdvSampleTinyAsmDump {
 	}
 
 	protected void _sayHello(ClassBody classBody) {
-		MethodCode code = classBody.method("sayHello").begin();
+		MethodCode code = classBody.publicMethod("sayHello").begin();
 
 		code.LINE();
 		code.LOADConst(10);

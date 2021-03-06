@@ -77,7 +77,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
+		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -88,7 +88,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getIntHelloClassChild(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "getIntHelloClassChild").begin();
+		MethodCode code = classBody.publicMethod(int.class, "getIntHelloClassChild").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -99,7 +99,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setIntHelloClassChild(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setIntHelloClassChild")
+		MethodCode code = classBody.publicMethod("setIntHelloClassChild")
 			.parameter("intHelloClassChild",int.class).begin();
 
 		code.LINE();
@@ -114,7 +114,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getStringHelloClassChild(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, String.class, "getStringHelloClassChild").begin();
+		MethodCode code = classBody.publicMethod(String.class, "getStringHelloClassChild").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -125,7 +125,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setStringHelloClassChild(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setStringHelloClassChild")
+		MethodCode code = classBody.publicMethod("setStringHelloClassChild")
 			.parameter("stringHelloClassChild",String.class).begin();
 
 		code.LINE();
@@ -140,7 +140,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getName(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, String.class, "getName").begin();
+		MethodCode code = classBody.publicMethod(String.class, "getName").begin();
 
 		code.LINE();
 		code.LOADConstNULL();
@@ -150,7 +150,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _isAgeBoolean(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, boolean.class, "isAgeBoolean").begin();
+		MethodCode code = classBody.publicMethod(boolean.class, "isAgeBoolean").begin();
 
 		code.LINE();
 		code.LOADConst(0);
@@ -160,7 +160,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeChar(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, char.class, "getAgeChar").begin();
+		MethodCode code = classBody.publicMethod(char.class, "getAgeChar").begin();
 
 		code.LINE();
 		code.LOADConst(0);
@@ -170,7 +170,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeByte(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, byte.class, "getAgeByte").begin();
+		MethodCode code = classBody.publicMethod(byte.class, "getAgeByte").begin();
 
 		code.LINE();
 		code.LOADConst(0);
@@ -180,7 +180,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeShort(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, short.class, "getAgeShort").begin();
+		MethodCode code = classBody.publicMethod(short.class, "getAgeShort").begin();
 
 		code.LINE();
 		code.LOADConst(0);
@@ -190,7 +190,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeInt(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "getAgeInt").begin();
+		MethodCode code = classBody.publicMethod(int.class, "getAgeInt").begin();
 
 		code.LINE();
 		code.LOADConst(0);
@@ -200,7 +200,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeLong(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, long.class, "getAgeLong").begin();
+		MethodCode code = classBody.publicMethod(long.class, "getAgeLong").begin();
 
 		code.LINE();
 		code.LOADConst(0L);
@@ -210,7 +210,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeFloat(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, float.class, "getAgeFloat").begin();
+		MethodCode code = classBody.publicMethod(float.class, "getAgeFloat").begin();
 
 		code.LINE();
 		code.LOADConst(0F);
@@ -220,7 +220,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeDouble(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, double.class, "getAgeDouble").begin();
+		MethodCode code = classBody.publicMethod(double.class, "getAgeDouble").begin();
 
 		code.LINE();
 		code.LOADConst(0D);
@@ -230,7 +230,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeBoolean2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, Boolean.class, "getAgeBoolean2").begin();
+		MethodCode code = classBody.publicMethod(Boolean.class, "getAgeBoolean2").begin();
 
 		code.LINE();
 		code.LOADConstNULL();
@@ -240,7 +240,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeCharacter(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, Character.class, "getAgeCharacter").begin();
+		MethodCode code = classBody.publicMethod(Character.class, "getAgeCharacter").begin();
 
 		code.LINE();
 		code.LOADConstNULL();
@@ -250,7 +250,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeByte2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, Byte.class, "getAgeByte2").begin();
+		MethodCode code = classBody.publicMethod(Byte.class, "getAgeByte2").begin();
 
 		code.LINE();
 		code.LOADConstNULL();
@@ -260,7 +260,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeShort2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, Short.class, "getAgeShort2").begin();
+		MethodCode code = classBody.publicMethod(Short.class, "getAgeShort2").begin();
 
 		code.LINE();
 		code.LOADConstNULL();
@@ -270,7 +270,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeInteger(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, Integer.class, "getAgeInteger").begin();
+		MethodCode code = classBody.publicMethod(Integer.class, "getAgeInteger").begin();
 
 		code.LINE();
 		code.LOADConstNULL();
@@ -280,7 +280,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeLong2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, Long.class, "getAgeLong2").begin();
+		MethodCode code = classBody.publicMethod(Long.class, "getAgeLong2").begin();
 
 		code.LINE();
 		code.LOADConstNULL();
@@ -290,7 +290,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeFloat2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, Float.class, "getAgeFloat2").begin();
+		MethodCode code = classBody.publicMethod(Float.class, "getAgeFloat2").begin();
 
 		code.LINE();
 		code.LOADConstNULL();
@@ -300,7 +300,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _getAgeDouble2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, Double.class, "getAgeDouble2").begin();
+		MethodCode code = classBody.publicMethod(Double.class, "getAgeDouble2").begin();
 
 		code.LINE();
 		code.LOADConstNULL();
@@ -310,7 +310,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setName(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setName")
+		MethodCode code = classBody.publicMethod("setName")
 			.parameter("name",String.class).begin();
 
 		code.LINE();
@@ -320,7 +320,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeBoolean(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeBoolean")
+		MethodCode code = classBody.publicMethod("setAgeBoolean")
 			.parameter("ageBoolean",boolean.class).begin();
 
 		code.LINE();
@@ -330,7 +330,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeChar(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeChar")
+		MethodCode code = classBody.publicMethod("setAgeChar")
 			.parameter("ageChar",char.class).begin();
 
 		code.LINE();
@@ -340,7 +340,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeByte(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeByte")
+		MethodCode code = classBody.publicMethod("setAgeByte")
 			.parameter("ageByte",byte.class).begin();
 
 		code.LINE();
@@ -350,7 +350,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeShort(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeShort")
+		MethodCode code = classBody.publicMethod("setAgeShort")
 			.parameter("ageShort",short.class).begin();
 
 		code.LINE();
@@ -360,7 +360,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeInt(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeInt")
+		MethodCode code = classBody.publicMethod("setAgeInt")
 			.parameter("ageInt",int.class).begin();
 
 		code.LINE();
@@ -370,7 +370,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeLong(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeLong")
+		MethodCode code = classBody.publicMethod("setAgeLong")
 			.parameter("ageLong",long.class).begin();
 
 		code.LINE();
@@ -380,7 +380,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeFloat(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeFloat")
+		MethodCode code = classBody.publicMethod("setAgeFloat")
 			.parameter("ageFloat",float.class).begin();
 
 		code.LINE();
@@ -390,7 +390,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeDouble(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeDouble")
+		MethodCode code = classBody.publicMethod("setAgeDouble")
 			.parameter("ageDouble",double.class).begin();
 
 		code.LINE();
@@ -400,7 +400,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeBoolean2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeBoolean2")
+		MethodCode code = classBody.publicMethod("setAgeBoolean2")
 			.parameter("ageBoolean2",Boolean.class).begin();
 
 		code.LINE();
@@ -410,7 +410,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeCharacter(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeCharacter")
+		MethodCode code = classBody.publicMethod("setAgeCharacter")
 			.parameter("ageCharacter",Character.class).begin();
 
 		code.LINE();
@@ -420,7 +420,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeByte2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeByte2")
+		MethodCode code = classBody.publicMethod("setAgeByte2")
 			.parameter("ageByte2",Byte.class).begin();
 
 		code.LINE();
@@ -430,7 +430,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeShort2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeShort2")
+		MethodCode code = classBody.publicMethod("setAgeShort2")
 			.parameter("ageShort2",Short.class).begin();
 
 		code.LINE();
@@ -440,7 +440,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeInteger(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeInteger")
+		MethodCode code = classBody.publicMethod("setAgeInteger")
 			.parameter("ageInteger",Integer.class).begin();
 
 		code.LINE();
@@ -450,7 +450,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeLong2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeLong2")
+		MethodCode code = classBody.publicMethod("setAgeLong2")
 			.parameter("ageLong2",Long.class).begin();
 
 		code.LINE();
@@ -460,7 +460,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeFloat2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeFloat2")
+		MethodCode code = classBody.publicMethod("setAgeFloat2")
 			.parameter("agefFloat",Float.class).begin();
 
 		code.LINE();
@@ -470,7 +470,7 @@ public class AdvAsmProxyPojoInterfaceChildSampleTinyAsmDump {
 	}
 
 	protected void _setAgeDouble2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setAgeDouble2")
+		MethodCode code = classBody.publicMethod("setAgeDouble2")
 			.parameter("ageDouble2",Double.class).begin();
 
 		code.LINE();

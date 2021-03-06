@@ -29,7 +29,7 @@ public class AdvStatement_if_SampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
+		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -40,7 +40,7 @@ public class AdvStatement_if_SampleTinyAsmDump {
 	}
 
 	protected void _testIfThen(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "testIfThen").begin();
+		MethodCode code = classBody.publicMethod("testIfThen").begin();
 
 		code.LINE();
 		code.LOADConst(20);
@@ -139,7 +139,7 @@ public class AdvStatement_if_SampleTinyAsmDump {
 	}
 
 	protected void _testIfThenElse(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "testIfThenElse").begin();
+		MethodCode code = classBody.publicMethod("testIfThenElse").begin();
 
 		code.LINE();
 		code.LOADConst(20);

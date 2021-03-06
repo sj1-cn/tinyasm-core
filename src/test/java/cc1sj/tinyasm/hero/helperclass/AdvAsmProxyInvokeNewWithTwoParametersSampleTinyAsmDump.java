@@ -29,7 +29,7 @@ public class AdvAsmProxyInvokeNewWithTwoParametersSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
+		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -40,7 +40,7 @@ public class AdvAsmProxyInvokeNewWithTwoParametersSampleTinyAsmDump {
 	}
 
 	protected void _test(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "test").begin();
+		MethodCode code = classBody.publicMethod("test").begin();
 
 		code.LINE();
 		code.NEW(AdvAsmProxyWithTwoParametersSample.class);

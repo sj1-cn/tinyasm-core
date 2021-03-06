@@ -46,7 +46,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "<init>")
+		MethodCode code = classBody.publicMethod("<init>")
 			.parameter("b",byte.class)
 			.parameter("c",char.class)
 			.parameter("s",short.class)
@@ -107,7 +107,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	}
 
 	protected void _getB(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, byte.class, "getB").begin();
+		MethodCode code = classBody.publicMethod(byte.class, "getB").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -118,7 +118,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	}
 
 	protected void _getC(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, char.class, "getC").begin();
+		MethodCode code = classBody.publicMethod(char.class, "getC").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -129,7 +129,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	}
 
 	protected void _getS(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, short.class, "getS").begin();
+		MethodCode code = classBody.publicMethod(short.class, "getS").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -140,7 +140,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	}
 
 	protected void _getI(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "getI").begin();
+		MethodCode code = classBody.publicMethod(int.class, "getI").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -151,7 +151,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	}
 
 	protected void _getL(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, long.class, "getL").begin();
+		MethodCode code = classBody.publicMethod(long.class, "getL").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -162,7 +162,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	}
 
 	protected void _getF(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, float.class, "getF").begin();
+		MethodCode code = classBody.publicMethod(float.class, "getF").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -173,7 +173,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	}
 
 	protected void _getD(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, double.class, "getD").begin();
+		MethodCode code = classBody.publicMethod(double.class, "getD").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -184,7 +184,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	}
 
 	protected void _getStr(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, String.class, "getStr").begin();
+		MethodCode code = classBody.publicMethod(String.class, "getStr").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -195,7 +195,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 	}
 
 	protected void _toString(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, String.class, "toString").begin();
+		MethodCode code = classBody.publicMethod(String.class, "toString").begin();
 
 		code.LINE();
 		code.NEW(StringBuilder.class);

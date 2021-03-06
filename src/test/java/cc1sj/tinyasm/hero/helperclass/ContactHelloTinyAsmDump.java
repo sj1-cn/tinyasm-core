@@ -29,7 +29,7 @@ public class ContactHelloTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -40,7 +40,7 @@ public class ContactHelloTinyAsmDump {
 	}
 
 	protected void _say(ClassBody classBody) {
-		MethodCode code = classBody.method("say").begin();
+		MethodCode code = classBody.publicMethod("say").begin();
 
 		code.LINE();
 		code.NEW(AdvAsmProxyPojoClassSample.class);

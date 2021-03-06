@@ -1621,6 +1621,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
+	public MethodCaller<MethodCode> SPECIAL(String methodName) {
+		return SPECIAL(Clazz.of(typeOfThis()), methodName);
+	}
+	
+	@Override
 	public MethodCaller<MethodCode> VIRTUAL(String methodName) {
 		return VIRTUAL(Clazz.of(typeOfThis()), methodName);
 	}

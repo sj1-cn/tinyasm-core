@@ -31,7 +31,7 @@ public class BoxUnboxSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
+		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -42,7 +42,7 @@ public class BoxUnboxSampleTinyAsmDump {
 	}
 
 	protected void _funcLong(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "funcLong")
+		MethodCode code = classBody.publicMethod("funcLong")
 			.parameter("l",Long.class).begin();
 
 		code.LINE();
@@ -67,7 +67,7 @@ public class BoxUnboxSampleTinyAsmDump {
 	}
 
 	protected void _funclong(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "funclong")
+		MethodCode code = classBody.publicMethod("funclong")
 			.parameter("l",long.class).begin();
 
 		code.LINE();
@@ -92,7 +92,7 @@ public class BoxUnboxSampleTinyAsmDump {
 	}
 
 	protected void _init(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "init").begin();
+		MethodCode code = classBody.publicMethod("init").begin();
 
 		code.LINE();
 		code.LOADConst(Long.valueOf(10L));

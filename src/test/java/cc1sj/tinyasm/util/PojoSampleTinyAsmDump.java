@@ -45,7 +45,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "<init>")
+		MethodCode code = classBody.publicMethod("<init>")
 			.parameter("i1",int.class)
 			.parameter("i2",int.class)
 			.parameter("i3",int.class)
@@ -88,7 +88,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI1(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "getI1").begin();
+		MethodCode code = classBody.publicMethod(int.class, "getI1").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -99,7 +99,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _setI1(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setI1")
+		MethodCode code = classBody.publicMethod("setI1")
 			.parameter("i1",int.class).begin();
 
 		code.LINE();
@@ -114,7 +114,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "getI2").begin();
+		MethodCode code = classBody.publicMethod(int.class, "getI2").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -125,7 +125,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _setI2(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setI2")
+		MethodCode code = classBody.publicMethod("setI2")
 			.parameter("i2",int.class).begin();
 
 		code.LINE();
@@ -140,7 +140,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI3(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "getI3").begin();
+		MethodCode code = classBody.publicMethod(int.class, "getI3").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -151,7 +151,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _setI3(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setI3")
+		MethodCode code = classBody.publicMethod("setI3")
 			.parameter("i3",int.class).begin();
 
 		code.LINE();
@@ -166,7 +166,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI4(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, int.class, "getI4").begin();
+		MethodCode code = classBody.publicMethod(int.class, "getI4").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -177,7 +177,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _setI4(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setI4")
+		MethodCode code = classBody.publicMethod("setI4")
 			.parameter("i4",int.class).begin();
 
 		code.LINE();
@@ -192,7 +192,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getStr(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, String.class, "getStr").begin();
+		MethodCode code = classBody.publicMethod(String.class, "getStr").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -203,7 +203,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _setStr(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "setStr")
+		MethodCode code = classBody.publicMethod("setStr")
 			.parameter("str",String.class).begin();
 
 		code.LINE();
@@ -218,7 +218,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _toString(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, String.class, "toString").begin();
+		MethodCode code = classBody.publicMethod(String.class, "toString").begin();
 
 		code.LINE();
 		code.NEW(StringBuilder.class);

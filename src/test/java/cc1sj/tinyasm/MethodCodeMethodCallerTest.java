@@ -48,7 +48,7 @@ public class MethodCodeMethodCallerTest {
 
 		});
 
-		cw.method("method").ACC_PUBLIC().ACC_STATIC().parameter("data", String.class).code(mv -> {
+		cw.publicStaticMethod("method").parameter("data", String.class).code(mv -> {
 			mv.define("i", int.class);
 			mv.define("l", Long.class);
 			mv.define("s", String.class);

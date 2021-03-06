@@ -64,7 +64,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method("<init>").begin();
+		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -75,7 +75,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	}
 
 	protected void _get__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.method(byte.class, "get__MagicNumber").begin();
+		MethodCode code = classBody.publicMethod(byte.class, "get__MagicNumber").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -86,7 +86,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	}
 
 	protected void _set__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.method("set__MagicNumber").parameter("_magicNumber", byte.class).begin();
+		MethodCode code = classBody.publicMethod("set__MagicNumber").parameter("_magicNumber", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -100,7 +100,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	}
 
 	protected void _set__Context(ClassBody classBody) {
-		MethodCode code = classBody.method("set__Context").parameter("context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)))
+		MethodCode code = classBody.publicMethod("set__Context").parameter("context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)))
 				.parameter("_magicNumber", byte.class).begin();
 
 		code.LINE();
@@ -120,7 +120,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	}
 
 	protected void _getAgeInt(ClassBody classBody) {
-		MethodCode code = classBody.method(int.class, "getAgeInt").begin();
+		MethodCode code = classBody.publicMethod(int.class, "getAgeInt").begin();
 
 		code_getContext(code);
 
@@ -181,7 +181,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 		// ParamType
 		Type[] methodParamTypes = new Type[] { Type.getType(int.class) };
 
-		MethodHeader mh = classBody.method(returnClazz, methodName);
+		MethodHeader mh = classBody.publicMethod(returnClazz, methodName);
 //			mh.access(access);
 		for (int i = 0; i < methodParamTypes.length; i++) {
 			mh.parameter("param" + i, Clazz.of(methodParamTypes[i]));

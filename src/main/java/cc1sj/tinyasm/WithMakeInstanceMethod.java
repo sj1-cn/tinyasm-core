@@ -46,6 +46,15 @@ public interface WithMakeInstanceMethod {
 		return method(ACC_PUBLIC, Clazz.of(returnClass), name);
 	}
 
+
+	default MethodHeader method(String name) {
+		return method(0, name);
+	}
+
+	default MethodHeader method(String returnType, String name) {
+		return method(0, Clazz.of(returnType), name);
+	}
+	
 	default MethodHeader method(Class<?> returnClass, String name) {
 		return method(0, Clazz.of(returnClass), name);
 	}
@@ -71,12 +80,5 @@ public interface WithMakeInstanceMethod {
 //		return method(access, returnType, name).pa
 //	}
 
-	default MethodHeader method(String name) {
-		return method(0, name);
-	}
-
-	default MethodHeader method(String returnType, String name) {
-		return method(0, Clazz.of(returnType), name);
-	}
 
 }

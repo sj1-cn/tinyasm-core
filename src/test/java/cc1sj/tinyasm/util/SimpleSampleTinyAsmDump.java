@@ -30,7 +30,7 @@ public class SimpleSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "<init>").begin();
+		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -48,7 +48,7 @@ public class SimpleSampleTinyAsmDump {
 	}
 
 	protected void _dd(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "dd").begin();
+		MethodCode code = classBody.publicMethod("dd").begin();
 
 		code.LINE();
 		code.LOADConst(1);
@@ -77,7 +77,7 @@ public class SimpleSampleTinyAsmDump {
 	}
 
 	protected void _methodWith1Param(ClassBody classBody) {
-		MethodCode code = classBody.method(ACC_PUBLIC, "methodWith1Param")
+		MethodCode code = classBody.publicMethod("methodWith1Param")
 			.parameter("i",int.class).begin();
 
 		code.LINE();
