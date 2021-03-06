@@ -35,7 +35,18 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 		Class<?> expectedClazz = SimpleSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleBuilderMagic.dump());
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleMagicBuilder.dump());
+
+		assertEquals("Code", codeExpected, codeActual);
+
+	}
+
+	@Test
+	public void test_SimpleSampleRefer2BuilderMagic_dump() throws Exception {
+		Class<?> expectedClazz = SimpleSampleRefer2.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleRefer2MagicBuilder.dump());
 
 		assertEquals("Code", codeExpected, codeActual);
 

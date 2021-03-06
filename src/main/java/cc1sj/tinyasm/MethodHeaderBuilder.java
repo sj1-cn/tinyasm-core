@@ -184,7 +184,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	MethodCode enterMethodCode(MethodVisitor mv) {
 
-		logger.trace("enter method {}",thisMethod.methodName);
+		logger.debug("enter method {}",thisMethod.methodName);
 		if (!enteredMethodCode) {
 			enteredMethodCode = true;
 			methodCode = new MethodCodeBuilder(mv, this, mhLocals);
@@ -263,7 +263,7 @@ class MethodHeaderBuilder implements MethodHeader {
 		mv.visitEnd();
 		thisMethod.hasEnded = true;
 
-		logger.trace("exit method {}",thisMethod.methodName);
+		logger.debug("exit  method {}",thisMethod.methodName);
 	}
 
 	//

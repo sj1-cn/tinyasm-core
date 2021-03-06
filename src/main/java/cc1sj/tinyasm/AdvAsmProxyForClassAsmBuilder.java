@@ -320,6 +320,27 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 				code.VIRTUAL(StringBuilder.class, "append").reTurn(StringBuilder.class).parameter(int.class).INVOKE();
 				code.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
 				code.RETURNTop();
+			} else if (returnType.getSort() == Type.OBJECT ) {
+				code.STORE("codeIndex", byte.class);
+				code.LINE();
+				code.LOADConst(80);
+				code.LOAD("codeIndex");
+				code.ADD();
+				code.CONVERTTO(byte.class);
+				code.STORE("magicNumber",byte.class);
+				code.LINE();
+				code.LOADConst(returnType);
+				code.LOAD("magicNumber");
+				code.STATIC(Adv.class, "buildProxyClass")
+					.reTurn(Object.class)
+					.parameter(Class.class)
+					.parameter(byte.class).INVOKE();
+				code.CHECKCAST(returnType);
+				code.STORE("referedObject");
+
+				code.LINE();
+				code.LOAD("referedObject");
+				code.RETURNTop();
 			} else {
 				throw new UnsupportedOperationException();
 			}

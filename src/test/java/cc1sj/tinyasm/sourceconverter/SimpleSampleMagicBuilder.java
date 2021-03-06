@@ -4,7 +4,7 @@ import static cc1sj.tinyasm.Adv.*;
 
 import cc1sj.tinyasm.AdvClassBuilder;
 
-public class SimpleSampleBuilderMagic {
+public class SimpleSampleMagicBuilder {
 
 	final String name = null;// = clazz.public_().field("name", String.class);
 
@@ -58,6 +58,6 @@ public class SimpleSampleBuilderMagic {
 
 	public static byte[] dump() {
 		return dumpClass(public_().class_("cc1sj.tinyasm.sourceconverter.SimpleSample").extends_(SuperClass.class)
-				.implements_(SuperInterface.class).enterClassBody(), new SimpleSampleBuilderMagic());
+				.implements_(SuperInterface.class).enterClassBody(), new SimpleSampleMagicBuilder());
 	}
 }

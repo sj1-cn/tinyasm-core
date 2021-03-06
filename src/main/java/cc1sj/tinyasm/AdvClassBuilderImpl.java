@@ -1,9 +1,7 @@
 package cc1sj.tinyasm;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static cc1sj.tinyasm.Adv.*;
 
@@ -17,7 +15,6 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 	private String className;
 	private Clazz _extends;
 	private List<Clazz> _implements = new ArrayList<>();
-	private Map<String, Clazz> maps = new HashMap<>();
 	private ClassBody classBody;
 	private int memberAccess = 0;
 	ClassBuilder classBuilder;
