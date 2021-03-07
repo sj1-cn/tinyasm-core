@@ -206,15 +206,15 @@ public class AdvContext {
 	}
 
 	public ConsumerWithException<MethodCode> resolve(long magicNumber) {
-		return doResolve((int)magicNumber);
+		return doResolve((int) magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(float magicNumber) {
-		return doResolve((int)magicNumber);
+		return doResolve((int) magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(double magicNumber) {
-		return doResolve((int)magicNumber);
+		return doResolve((int) magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Boolean magicNumber) {
@@ -222,19 +222,19 @@ public class AdvContext {
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Byte magicNumber) {
-		return doResolve((int)magicNumber);
+		return doResolve((int) magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Character magicNumber) {
-		return doResolve((int)magicNumber);
+		return doResolve((int) magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Short magicNumber) {
-		return doResolve((int)magicNumber);
+		return doResolve((int) magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Integer magicNumber) {
-		return doResolve((int)magicNumber);
+		return doResolve((int) magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Long magicNumber) {
@@ -242,11 +242,11 @@ public class AdvContext {
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Float magicNumber) {
-		return doResolve((int)magicNumber.intValue());
+		return doResolve((int) magicNumber.intValue());
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Double magicNumber) {
-		return doResolve((int)magicNumber.intValue());
+		return doResolve((int) magicNumber.intValue());
 	}
 
 	public ConsumerWithException<MethodCode> resolve(String magicString) {
@@ -262,6 +262,80 @@ public class AdvContext {
 			return c -> c.GETFIELD_OF_THIS(fieldIndex);
 		} else {
 			return c -> c.LOADConst(magicString);
+		}
+	}
+	public ConsumerWithException<MethodCode> resolve(String[] magicStringArray) {
+		return resolve(magicStringArray[0]);
+	}
+
+	public ConsumerWithException<MethodCode> resolve(byte[] tarray) {
+		return resolve((int)tarray[0]);
+	}
+
+	public ConsumerWithException<MethodCode> resolve(short[] tarray) {
+		return resolve((int)tarray[0]);
+	}
+
+	public ConsumerWithException<MethodCode> resolve(int[] tarray) {
+		return resolve((int)tarray[0]);
+	}
+
+	public ConsumerWithException<MethodCode> resolve(long[] tarray) {
+		return resolve((int)tarray[0]);
+	}
+
+	public ConsumerWithException<MethodCode> resolve(float[] tarray) {
+		return resolve((int)tarray[0]);
+	}
+
+	public ConsumerWithException<MethodCode> resolve(double[] tarray) {
+		return resolve((int)tarray[0]);
+	}
+	public ConsumerWithException<MethodCode> resolve(Byte[] tarray) {
+		return resolve((int)tarray[0]);
+	}
+
+	public ConsumerWithException<MethodCode> resolve(Short[] tarray) {
+		return resolve((int)tarray[0]);
+	}
+
+	public ConsumerWithException<MethodCode> resolve(Integer[] tarray) {
+		return resolve((int)tarray[0]);
+	}
+
+	public ConsumerWithException<MethodCode> resolve(Long[] tarray) {
+		return resolve((int)(long)tarray[0]);
+	}
+
+	public ConsumerWithException<MethodCode> resolve(Float[] tarray) {
+		return resolve((int)(float)tarray[0]);
+	}
+
+	public ConsumerWithException<MethodCode> resolve(Double[] tarray) {
+		return resolve((int)(double)tarray[0]);
+	}
+
+	public <T> ConsumerWithException<MethodCode> resolve(T[] tarray) {
+		T t = tarray[0];
+		if (t instanceof AdvRuntimeReferNameObject) {
+			byte magicNumber = ((AdvRuntimeReferNameObject) t).get__MagicNumber();
+			if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
+				int codeIndex = magicNumber - MAGIC_CODES_NUMBER;
+				return getCodeAndPop(codeIndex);
+			} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
+				int localsIndex = magicNumber - MAGIC_LOCALS_NUMBER;
+				return c -> c.LOAD(localsIndex);
+			} else if (MAGIC_FIELDS_NUMBER <= magicNumber && magicNumber <= MAGIC_FIELDS_MAX) {
+				int fieldIndex = magicNumber - MAGIC_FIELDS_NUMBER;
+				return c -> c.GETFIELD_OF_THIS(fieldIndex);
+			} else {
+				throw new UnsupportedOperationException();
+			}
+		}
+		if (t.getClass() == String.class) {
+			return resolve((String) t);
+		} else {
+			throw new UnsupportedOperationException();
 		}
 	}
 

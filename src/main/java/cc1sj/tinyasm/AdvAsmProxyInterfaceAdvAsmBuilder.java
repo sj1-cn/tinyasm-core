@@ -31,15 +31,15 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.TypePath;
 
-class AdvAdvAsmBuilder extends ClassVisitor {
+public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 
 	public static byte[] dump2(Class<?> target, String proxyClassName) throws Exception {
 		ClassReader cr = new ClassReader(target.getName());
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		AdvAdvAsmBuilder bw;
+		AdvAsmProxyInterfaceAdvAsmBuilder bw;
 //		target.getConstructor();
-		bw = new AdvAdvAsmBuilder(Opcodes.ASM9, cw, Type.getType(target).getInternalName(), proxyClassName);
+		bw = new AdvAsmProxyInterfaceAdvAsmBuilder(Opcodes.ASM9, cw, Type.getType(target).getInternalName(), proxyClassName);
 		cr.accept(bw, ClassReader.SKIP_CODE);
 
 		Class<?> superClass = target.getSuperclass();
@@ -66,13 +66,13 @@ class AdvAdvAsmBuilder extends ClassVisitor {
 	Type targetType;
 	Type objectType;
 
-	public AdvAdvAsmBuilder(int api, String targetName, String proxyClassName) {
+	public AdvAsmProxyInterfaceAdvAsmBuilder(int api, String targetName, String proxyClassName) {
 		super(api);
 		this.proxyClassName = proxyClassName;
 		dump(targetName, proxyClassName);
 	}
 
-	public AdvAdvAsmBuilder(int api, ClassVisitor classVisitor, String targetName, String proxyClassName) {
+	public AdvAsmProxyInterfaceAdvAsmBuilder(int api, ClassVisitor classVisitor, String targetName, String proxyClassName) {
 		super(api, classVisitor);
 		this.proxyClassName = proxyClassName;
 		this.targetType = Clazz.of(targetName).getType();

@@ -31,15 +31,15 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.TypePath;
 
-class AdvProxyClassAdvAsmBuilder extends ClassVisitor {
+public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 
 	public static byte[] dump2(Class<?> target, String proxyClassName) throws Exception {
 		ClassReader cr = new ClassReader(target.getName());
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		AdvProxyClassAdvAsmBuilder bw;
+		AdvAsmProxyClassAdvAsmBuilder bw;
 //		target.getConstructor();
-		bw = new AdvProxyClassAdvAsmBuilder(Opcodes.ASM9, cw, Type.getType(target).getInternalName(), proxyClassName);
+		bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM9, cw, Type.getType(target).getInternalName(), proxyClassName);
 		cr.accept(bw, ClassReader.SKIP_CODE);
 
 		Class<?> superClass = target.getSuperclass();
@@ -60,13 +60,13 @@ class AdvProxyClassAdvAsmBuilder extends ClassVisitor {
 	Type targetType;
 	Type objectType;
 
-	public AdvProxyClassAdvAsmBuilder(int api, String targetName, String proxyClassName) {
+	public AdvAsmProxyClassAdvAsmBuilder(int api, String targetName, String proxyClassName) {
 		super(api);
 		this.proxyClassName = proxyClassName;
 		dump(targetName, proxyClassName);
 	}
 
-	public AdvProxyClassAdvAsmBuilder(int api, ClassVisitor classVisitor, String targetName, String proxyClassName) {
+	public AdvAsmProxyClassAdvAsmBuilder(int api, ClassVisitor classVisitor, String targetName, String proxyClassName) {
 		super(api, classVisitor);
 		this.proxyClassName = proxyClassName;
 		this.targetType = Clazz.of(targetName).getType();
@@ -351,7 +351,171 @@ class AdvProxyClassAdvAsmBuilder extends ClassVisitor {
 				code.LOADConstNULL();
 				code.RETURNTop();
 			} else if (returnType.getSort() == Type.ARRAY) {
-				throw new UnsupportedOperationException();
+
+				Type elementType = returnType.getElementType();
+
+				if (Type.BOOLEAN_TYPE == elementType) {
+					code.POP();
+
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(elementType);
+					code.STORE("tarray");
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOADConst(0);
+					code.ARRAYSTORE();
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
+				} else if (Boolean.class.getName().equals(elementType.getClassName())) {
+//					code.STORE("codeIndex", byte.class);
+					code.POP();
+
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(elementType);
+					code.STORE("tarray");
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOADConst(0);
+					code.STATIC(Boolean.class, "valueOf").reTurn(Boolean.class).parameter(boolean.class).INVOKE();
+					code.ARRAYSTORE();
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
+				} else if (BoxUnbox.ClazzObjectToPrimitive.containsKey(elementType)) {
+					code.STORE("codeIndex", byte.class);
+
+					code.LINE();
+					code.LOADConst(MAGIC_CODES_NUMBER);
+					code.LOAD("codeIndex");
+					code.ADD();
+					code.STORE("magicNumber", int.class);
+
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(elementType);
+					code.STORE("tarray");
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOAD("magicNumber");
+					Type primitiveType = BoxUnbox.ClazzObjectToPrimitive.get(elementType);
+					code.CONVERTTO(primitiveType);
+					BoxUnbox.PrimaryToBoxFunc.get(primitiveType).accept(code);
+					code.ARRAYSTORE();
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
+				} else if (BoxUnbox.PrimativeToClazzObject.containsKey(elementType)) {
+					code.STORE("codeIndex", byte.class);
+
+					code.LINE();
+					code.LOADConst(MAGIC_CODES_NUMBER);
+					code.LOAD("codeIndex");
+					code.ADD();
+					code.STORE("magicNumber");
+
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(elementType);
+					code.STORE("tarray");
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOAD("magicNumber");
+					code.CONVERTTO(elementType);
+					code.ARRAYSTORE();
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
+				} else if (elementType.getSort() == Type.OBJECT && elementType.equals(Type.getType(String.class))) {
+					code.STORE("codeIndex", byte.class);
+
+					code.LINE();
+					code.NEW(StringBuilder.class);
+					code.DUP();
+					code.LOADConst(MAGIC_CODES_String);
+					code.SPECIAL(StringBuilder.class, "<init>").parameter(String.class).INVOKE();
+					code.LOAD("codeIndex");
+					code.VIRTUAL(StringBuilder.class, "append").reTurn(StringBuilder.class).parameter(int.class).INVOKE();
+					code.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
+					code.STORE("magicNumber", String.class);
+
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(String.class);
+					code.STORE("tarray", String[].class);
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOAD("magicNumber");
+					code.ARRAYSTORE();
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
+				} else if (elementType.getSort() == Type.OBJECT) {
+					code.STORE("codeIndex", byte.class);
+
+					code.LINE();
+					code.LOADConst(MAGIC_CODES_NUMBER);
+					code.LOAD("codeIndex");
+					code.ADD();
+					code.CONVERTTO(byte.class);
+					code.STORE("magicNumber", byte.class);
+
+					code.LINE();
+					code.LOADConstNULL();
+					code.STORE("simplePojoClassSample", elementType);
+
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(elementType);
+					code.STORE("tarray");
+
+					code.LINE();
+					code.LOADConst(elementType);
+					code.STATIC(Adv.class, "canProxy").reTurn(boolean.class).parameter(Class.class).INVOKE();
+					Label label7OfIFEQ = new Label();
+					code.IFEQ(label7OfIFEQ);
+
+					code.LINE();
+					code.LOADConst(elementType);
+					code.LOAD("magicNumber");
+					code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(byte.class).INVOKE();
+					code.CHECKCAST(elementType);
+					code.STORE("simplePojoClassSample", elementType);
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOAD("simplePojoClassSample");
+					code.ARRAYSTORE();
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
+
+					code.visitLabel(label7OfIFEQ);
+
+					code.LINE();
+					code.LOADConstNULL();
+					code.RETURNTop();
+				}
+
 			} else {
 
 			}
@@ -547,8 +711,14 @@ class AdvProxyClassAdvAsmBuilder extends ClassVisitor {
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD(paramName);
-		code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Clazz.of(paramClass)).INVOKE();
-		code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+		if (paramClass.getSort() == Type.ARRAY && paramClass.getElementType().getSort() == Type.OBJECT
+				&& !BoxUnbox.ClazzObjectToPrimitive.containsKey(paramClass.getElementType()) && !paramClass.getElementType().equals(Type.getType(String.class))) {
+			code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Clazz.of(Object.class, true)).INVOKE();
+			code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+		} else {
+			code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Clazz.of(paramClass)).INVOKE();
+			code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+		}
 	}
 
 	protected void dynamicInvokeLambda(MethodCode code, String objClass, String lambdaName, String dontKnowByNowMethodDesriptor,

@@ -67,9 +67,9 @@ class AdvAsmProxyObjenesisBuilder {
 				String proxyClassName = this.getClass().getName() + "_" + target.getName().replace('.', '_') + count;
 				byte[] code;
 				if (target.isInterface()) {
-					code = AdvAdvAsmBuilder.dump2(target, proxyClassName);
+					code = AdvAsmProxyInterfaceAdvAsmBuilder.dump2(target, proxyClassName);
 				} else {
-					code = AdvProxyClassAdvAsmBuilder.dump2(target, proxyClassName);
+					code = AdvAsmProxyClassAdvAsmBuilder.dump2(target, proxyClassName);
 				}
 
 				if (log.isDebugEnabled()) {
