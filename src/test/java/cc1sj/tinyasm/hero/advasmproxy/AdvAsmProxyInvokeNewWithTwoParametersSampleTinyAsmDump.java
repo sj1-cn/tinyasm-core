@@ -1,15 +1,17 @@
-package cc1sj.tinyasm.hero.helperclass;
+package cc1sj.tinyasm.hero.advasmproxy;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyWithTwoParametersSample;
+
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyWithTwoParametersSample;
+
 import java.lang.Object;
 @SuppressWarnings("unused")
 public class AdvAsmProxyInvokeNewWithTwoParametersSampleTinyAsmDump {

@@ -140,8 +140,8 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 
 	protected void _set__Context(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("set__Context")
-				.parameter("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class))).parameter("_magicNumber", byte.class)
-				.begin();
+				.parameter("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)))
+				.parameter("_magicNumber", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -234,15 +234,15 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 		code.LOAD("context");
 		if (returnType != Type.VOID_TYPE) {
 //			code.LOADConst(returnType);
-			loadType(code, returnClazz); 
+			loadType(code, returnClazz);
 		}
-		
-		String[] names = new String[methodParamTypes.length+1];
+
+		String[] names = new String[methodParamTypes.length + 1];
 		code.LOAD("objEval");
 		names[0] = "objEval";
 		for (int i = 0; i < methodParamTypes.length; i++) {
 			code.LOAD("eval_param" + i);
-			names[i+1] = "eval_param" + i;
+			names[i + 1] = "eval_param" + i;
 		}
 
 		// invoke method
@@ -269,9 +269,10 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 
 		code.stackPush(Type.getType(ConsumerWithException.class));
 
-		if(returnType != Type.VOID_TYPE){
-			code.VIRTUAL(AdvContext.class, "push").reTurn(byte.class).parameter(Class.class) .parameter(ConsumerWithException.class).INVOKE();
-		}else{
+		if (returnType != Type.VOID_TYPE) {
+			code.VIRTUAL(AdvContext.class, "push").reTurn(byte.class).parameter(Class.class).parameter(ConsumerWithException.class)
+					.INVOKE();
+		} else {
 			code.VIRTUAL(AdvContext.class, "execLine").parameter(ConsumerWithException.class).INVOKE();
 		}
 
@@ -321,7 +322,7 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 				code.VIRTUAL(StringBuilder.class, "append").reTurn(StringBuilder.class).parameter(int.class).INVOKE();
 				code.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
 				code.RETURNTop();
-			} else if (returnType.getSort() == Type.OBJECT ) {
+			} else if (returnType.getSort() == Type.OBJECT) {
 				code.STORE("codeIndex", byte.class);
 
 				code.LINE();
@@ -329,23 +330,18 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 				code.LOAD("codeIndex");
 				code.ADD();
 				code.CONVERTTO(byte.class);
-				code.STORE("magicNumber",byte.class);
+				code.STORE("magicNumber", byte.class);
 
 				code.LINE();
 				code.LOADConst(returnType);
-				code.STATIC(Adv.class, "canProxy")
-					.reTurn(boolean.class)
-					.parameter(Class.class).INVOKE();
+				code.STATIC(Adv.class, "canProxy").reTurn(boolean.class).parameter(Class.class).INVOKE();
 				Label label5OfIFEQ = new Label();
 				code.IFEQ(label5OfIFEQ);
 
 				code.LINE();
 				code.LOADConst(returnType);
 				code.LOAD("magicNumber");
-				code.STATIC(Adv.class, "buildProxyClass")
-					.reTurn(Object.class)
-					.parameter(Class.class)
-					.parameter(byte.class).INVOKE();
+				code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(byte.class).INVOKE();
 				code.CHECKCAST(returnType);
 				code.RETURNTop();
 
@@ -354,8 +350,10 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 				code.LINE();
 				code.LOADConstNULL();
 				code.RETURNTop();
-			} else {
+			} else if (returnType.getSort() == Type.ARRAY) {
 				throw new UnsupportedOperationException();
+			} else {
+
 			}
 
 		} else {
@@ -576,7 +574,7 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 
 	class LambdaBuilder {
 		String name;// "lambda$0""lambda$0",
-		String[]  params;
+		String[] params;
 		Consumer<MethodCode> lambdaInvokeSuperMethod;
 
 		public void exec(ClassBody classBody) {
@@ -599,7 +597,7 @@ class AdvAsmProxyForClassAsmBuilder extends ClassVisitor {
 			code.END();
 		}
 
-		public LambdaBuilder(String name, String[]  params, Consumer<MethodCode> lambdaInvokeSuperMethod) {
+		public LambdaBuilder(String name, String[] params, Consumer<MethodCode> lambdaInvokeSuperMethod) {
 			super();
 			this.name = name;
 			this.params = params;

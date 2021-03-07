@@ -1,4 +1,4 @@
-package cc1sj.tinyasm.hero.helperclass;
+package cc1sj.tinyasm.hero.advasmproxy;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;

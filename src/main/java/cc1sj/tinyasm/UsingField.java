@@ -1,7 +1,7 @@
 package cc1sj.tinyasm;
 
 public interface UsingField {
-	
+
 	public boolean_ field_boolean(String name);
 
 	public Boolean__ field_Boolean(String name);

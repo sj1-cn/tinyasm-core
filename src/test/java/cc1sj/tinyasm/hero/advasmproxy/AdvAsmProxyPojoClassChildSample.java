@@ -1,6 +1,6 @@
-package cc1sj.tinyasm.hero.helperclass;
+package cc1sj.tinyasm.hero.advasmproxy;
 
-public class AdvAsmProxyPojoClassChildSample extends AdvAsmProxyPojoClassSample {
+public class AdvAsmProxyPojoClassChildSample extends PojoSample {
 
 	int intHelloClassChild;
 	String stringHelloClassChild;

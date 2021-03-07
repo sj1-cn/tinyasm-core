@@ -5,18 +5,18 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyInvokeNewWithTwoParametersSample;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyInvokeNewWithTwoParametersSampleAdvAsmBuilder;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyPojoClassChildSample;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyPojoClassChildSampleAdvAsmProxy;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyPojoClassSample;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyPojoClassSampleAdvAsmProxy;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyPojoInterfaceChildSample;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyPojoInterfaceChildSampleAdvAsmProxy;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyPojoInterfaceSampleAdvAsmProxy;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyWithReferReferAdvAsmProxy;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyWithReferRefferSample;
-import cc1sj.tinyasm.hero.helperclass.AdvAsxProxyPojoInterfaceSample;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyInvokeNewWithTwoParametersSample;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyInvokeNewWithTwoParametersSampleAdvAsmBuilder;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyPojoClassChildSample;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyPojoClassChildSampleAdvAsmProxy;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyPojoClassSampleAdvAsmProxy;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyPojoInterfaceChildSample;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyPojoInterfaceChildSampleAdvAsmProxy;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyPojoInterfaceSampleAdvAsmProxy;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyWithReferReferAdvAsmProxy;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyWithReferRefferSample;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsxProxyPojoInterfaceSample;
+import cc1sj.tinyasm.hero.advasmproxy.PojoSample;
 import cc1sj.tinyasm.sourceconverter.AdvJavaSourceCodeConverterSampleReferedObjectObjenesisAdvAsmProxy__;
 import cc1sj.tinyasm.sourceconverter.ReferedObject;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
@@ -40,7 +40,7 @@ public class AdvAsmProxyASMifierTest {
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyForClassAsmBuilder
-				.dump2(AdvAsmProxyPojoClassSample.class, AdvAsmProxyPojoClassSampleAdvAsmProxy.class.getName()));
+				.dump2(PojoSample.class, AdvAsmProxyPojoClassSampleAdvAsmProxy.class.getName()));
 
 		assertEquals("Code", codeExpected, codeActual);
 

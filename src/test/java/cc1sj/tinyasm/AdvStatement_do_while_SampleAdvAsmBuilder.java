@@ -20,7 +20,7 @@ public class AdvStatement_do_while_SampleAdvAsmBuilder {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		AdvClassBuilder classBody = public_().class_(className).enterClassBody();
+		AdvClassBuilder classBody = publicClass_(className).enterClassBody();
 
 		__init_(classBody);
 		_test(classBody);

@@ -50,8 +50,14 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 	}
 
 	@Override
-	public AfterClassImplements implements_(Class<?> _implement) {
-		this._implements.add(Clazz.of(_implement));
+	public AfterClassImplements implements_(Class<?> interfaceClass) {
+		this._implements.add(Clazz.of(interfaceClass));
+		return this;
+	}
+
+	@Override
+	public AfterClassImplements implements_(Class<?> interfaceClass, Class<?> genericClass) {
+		this._implements.add(Clazz.of(interfaceClass, genericClass));
 		return this;
 	}
 
@@ -102,6 +108,12 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 	}
 
 	@Override
+	public AfterModifier package_() {
+		this.memberAccess = 0;
+		return this;
+	}
+
+	@Override
 	public AfterModifier private_() {
 		this.memberAccess = ACC_PRIVATE;
 		return this;
@@ -120,42 +132,42 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 
 	public boolean_ field_boolean(String name) {
 		int localsIndex = classBody.field(name, boolean.class);
-		return new boolean_Holder(_contextThreadLocal, (byte) (MAGIC_FIELD_NUMBER + localsIndex));
+		return new boolean_Holder(_contextThreadLocal, (byte) (MAGIC_FIELDS_NUMBER + localsIndex));
 	}
 
 	public Boolean__ field_Boolean(String name) {
 		int localsIndex = classBody.field(name, boolean.class);
-		return new Boolean__Holder(_contextThreadLocal, (byte) (MAGIC_FIELD_NUMBER + localsIndex));
+		return new Boolean__Holder(_contextThreadLocal, (byte) (MAGIC_FIELDS_NUMBER + localsIndex));
 	}
 
 	public byte field_byte(String name) {
 		int localsIndex = classBody.field(name, byte.class);
-		return (byte) (MAGIC_FIELD_NUMBER + localsIndex);
+		return (byte) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	public short field_short(String name) {
 		int localsIndex = classBody.field(name, short.class);
-		return (short) (MAGIC_FIELD_NUMBER + localsIndex);
+		return (short) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	public int field_int(String name) {
 		int localsIndex = classBody.field(name, int.class);
-		return (int) (MAGIC_FIELD_NUMBER + localsIndex);
+		return (int) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	public long field_long(String name) {
 		int localsIndex = classBody.field(name, long.class);
-		return (long) (MAGIC_FIELD_NUMBER + localsIndex);
+		return (long) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	public float field_float(String name) {
 		int localsIndex = classBody.field(name, float.class);
-		return (float) (MAGIC_FIELD_NUMBER + localsIndex);
+		return (float) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	public double field_double(String name) {
 		int localsIndex = classBody.field(name, double.class);
-		return (double) (MAGIC_FIELD_NUMBER + localsIndex);
+		return (double) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -166,31 +178,31 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 		if (clazz == Boolean.class) {
 			throw new UnsupportedOperationException("请使用 field_boolean");
 		} else if (clazz == Byte.class) {
-			Byte key = (byte) (MAGIC_FIELD_NUMBER + localsIndex);
+			Byte key = (byte) (MAGIC_FIELDS_NUMBER + localsIndex);
 			return (T) key;
 		} else if (clazz == Character.class) {
-			Character key = (char) (MAGIC_FIELD_NUMBER + localsIndex);
+			Character key = (char) (MAGIC_FIELDS_NUMBER + localsIndex);
 			return (T) key;
 		} else if (clazz == Short.class) {
-			Short key = (short) (MAGIC_FIELD_NUMBER + localsIndex);
+			Short key = (short) (MAGIC_FIELDS_NUMBER + localsIndex);
 			return (T) key;
 		} else if (clazz == Integer.class) {
-			Integer key = (int) (MAGIC_FIELD_NUMBER + localsIndex);
+			Integer key = (int) (MAGIC_FIELDS_NUMBER + localsIndex);
 			return (T) key;
 		} else if (clazz == Long.class) {
-			Long key = (long) (MAGIC_FIELD_NUMBER + localsIndex);
+			Long key = (long) (MAGIC_FIELDS_NUMBER + localsIndex);
 			return (T) key;
 		} else if (clazz == Float.class) {
-			Double key = (double) (MAGIC_FIELD_NUMBER + localsIndex);
+			Double key = (double) (MAGIC_FIELDS_NUMBER + localsIndex);
 			return (T) key;
 		} else if (clazz == Double.class) {
-			Double key = (double) (MAGIC_FIELD_NUMBER + localsIndex);
+			Double key = (double) (MAGIC_FIELDS_NUMBER + localsIndex);
 			return (T) key;
 		} else if (clazz == String.class) {
 			String key = String.valueOf(MAGIC_LOCALS_String + localsIndex);
 			return (T) key;
 		} else {
-			byte magicNumber = (byte) (MAGIC_FIELD_NUMBER + localsIndex);
+			byte magicNumber = (byte) (MAGIC_FIELDS_NUMBER + localsIndex);
 			T obj = Adv.buildProxyClass(clazz, magicNumber);
 			return (T) obj;
 //			return null;
@@ -198,4 +210,5 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 //			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
 		}
 	}
+
 }

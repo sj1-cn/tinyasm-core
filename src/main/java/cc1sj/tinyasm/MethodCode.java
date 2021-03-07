@@ -1394,6 +1394,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		GETFIELD(fieldname, codeThisFieldType(fieldname));
 	}
 
+	public void GETFIELD_OF_THIS(int fieldIndex) {
+		String fieldname = codeFieldNameOf(fieldIndex);
+		GETFIELD(fieldname, codeThisFieldType(fieldname));
+	}
+
 	@Override
 	public void GETFIELD(String fieldname, Class<?> fieldType) {
 		GETFIELD(fieldname, typeOf(fieldType));
@@ -1423,6 +1428,14 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void PUTFIELD_OF_THIS(String fieldname) {
 		PUTFIELD(fieldname, codeThisFieldType(fieldname));
 	}
+
+//	@Override
+	public void PUTFIELD_OF_THIS(int fieldIndex) {
+		String fieldname = codeFieldNameOf(fieldIndex);
+		PUTFIELD(fieldname, codeThisFieldType(fieldname));
+	}
+
+	protected abstract String codeFieldNameOf(int fieldIndex);
 
 	@Override
 	public void PUTFIELD(String fieldname, Class<?> fieldType) {
@@ -1624,7 +1637,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public MethodCaller<MethodCode> SPECIAL(String methodName) {
 		return SPECIAL(Clazz.of(typeOfThis()), methodName);
 	}
-	
+
 	@Override
 	public MethodCaller<MethodCode> VIRTUAL(String methodName) {
 		return VIRTUAL(Clazz.of(typeOfThis()), methodName);

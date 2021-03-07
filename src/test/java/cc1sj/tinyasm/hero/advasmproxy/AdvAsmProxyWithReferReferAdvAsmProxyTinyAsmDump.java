@@ -1,10 +1,12 @@
-package cc1sj.tinyasm.hero.helperclass;
+package cc1sj.tinyasm.hero.advasmproxy;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
+import cc1sj.tinyasm.hero.advasmproxy.AdvAsmProxyWithReferRefferSample;
+
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
@@ -12,7 +14,7 @@ import cc1sj.tinyasm.Clazz;
 import java.lang.ThreadLocal;
 import cc1sj.tinyasm.AdvContext;
 import java.lang.Exception;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyWithReferRefferSample;
+
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodCaller;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;

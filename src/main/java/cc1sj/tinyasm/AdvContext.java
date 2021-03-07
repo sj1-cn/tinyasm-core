@@ -2,7 +2,7 @@ package cc1sj.tinyasm;
 
 import static cc1sj.tinyasm.Adv.MAGIC_CODES_MAX;
 import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
-import static cc1sj.tinyasm.Adv.MAGIC_CODES_String;
+import static cc1sj.tinyasm.Adv.*;
 import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_MAX;
 import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_NUMBER;
 import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_String;
@@ -187,46 +187,34 @@ public class AdvContext {
 
 	public ConsumerWithException<MethodCode> resolve(int magicNumber) {
 		// Locals
+		return doResolve(magicNumber);
+	}
+
+	protected ConsumerWithException<MethodCode> doResolve(int magicNumber) {
 		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-			return getCodeAndPop(magicNumber - MAGIC_CODES_NUMBER);
+			int codeIndex = magicNumber - MAGIC_CODES_NUMBER;
+			return getCodeAndPop(codeIndex);
 		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-			return c -> c.LOAD(magicNumber - MAGIC_LOCALS_NUMBER);
+			int localsIndex = magicNumber - MAGIC_LOCALS_NUMBER;
+			return c -> c.LOAD(localsIndex);
+		} else if (MAGIC_FIELDS_NUMBER <= magicNumber && magicNumber <= MAGIC_FIELDS_MAX) {
+			int fieldIndex = magicNumber - MAGIC_FIELDS_NUMBER;
+			return c -> c.GETFIELD_OF_THIS(fieldIndex);
 		} else {
 			return c -> c.LOADConst(magicNumber);
 		}
 	}
 
 	public ConsumerWithException<MethodCode> resolve(long magicNumber) {
-		// Locals
-		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-			return getCodeAndPop((int) magicNumber - MAGIC_CODES_NUMBER);
-		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-			return c -> c.LOAD((int) magicNumber - MAGIC_LOCALS_NUMBER);
-		} else {
-			return c -> c.LOADConst(magicNumber);
-		}
+		return doResolve((int)magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(float magicNumber) {
-		// Locals
-		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-			return getCodeAndPop((int) magicNumber - MAGIC_CODES_NUMBER);
-		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-			return c -> c.LOAD((int) magicNumber - MAGIC_LOCALS_NUMBER);
-		} else {
-			return c -> c.LOADConst(magicNumber);
-		}
+		return doResolve((int)magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(double magicNumber) {
-		// Locals
-		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-			return getCodeAndPop((int) magicNumber - MAGIC_CODES_NUMBER);
-		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-			return c -> c.LOAD((int) magicNumber - MAGIC_LOCALS_NUMBER);
-		} else {
-			return c -> c.LOADConst(magicNumber);
-		}
+		return doResolve((int)magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Boolean magicNumber) {
@@ -234,90 +222,44 @@ public class AdvContext {
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Byte magicNumber) {
-		// Locals
-		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-			return getCodeAndPop(magicNumber - MAGIC_CODES_NUMBER);
-		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-			return c -> c.LOAD(magicNumber - MAGIC_LOCALS_NUMBER);
-		} else {
-			return c -> c.LOADConst(magicNumber);
-		}
+		return doResolve((int)magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Character magicNumber) {
-		// Locals
-		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-			return getCodeAndPop((int) magicNumber - MAGIC_CODES_NUMBER);
-		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-			return c -> c.LOAD(magicNumber - MAGIC_LOCALS_NUMBER);
-		} else {
-			return c -> c.LOADConst(magicNumber);
-		}
+		return doResolve((int)magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Short magicNumber) {
-		// Locals
-		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-			return getCodeAndPop((int) magicNumber - MAGIC_CODES_NUMBER);
-		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-			return c -> c.LOAD(magicNumber - MAGIC_LOCALS_NUMBER);
-		} else {
-			return c -> c.LOADConst(magicNumber);
-		}
+		return doResolve((int)magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Integer magicNumber) {
-		// Locals
-		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-			return getCodeAndPop((int) magicNumber - MAGIC_CODES_NUMBER);
-		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-			return c -> c.LOAD(magicNumber - MAGIC_LOCALS_NUMBER);
-		} else {
-			return c -> c.LOADConst(magicNumber);
-		}
+		return doResolve((int)magicNumber);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Long magicNumber) {
-		// Locals
-		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-			return getCodeAndPop(((Long) magicNumber).intValue() - MAGIC_CODES_NUMBER);
-		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-			return c -> c.LOAD(((Long) magicNumber).intValue() - MAGIC_LOCALS_NUMBER);
-		} else {
-			return c -> c.LOADConst(magicNumber);
-		}
+		return doResolve(magicNumber.intValue());
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Float magicNumber) {
-		// Locals
-		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-			return getCodeAndPop(((Float) magicNumber).intValue() - MAGIC_CODES_NUMBER);
-		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-			return c -> c.LOAD(((Float) magicNumber).intValue() - MAGIC_LOCALS_NUMBER);
-		} else {
-			return c -> c.LOADConst(magicNumber);
-		}
+		return doResolve((int)magicNumber.intValue());
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Double magicNumber) {
-		// Locals
-		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_CODES_MAX) {
-			return getCodeAndPop(((Double) magicNumber).intValue() - MAGIC_CODES_NUMBER);
-		} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
-			return c -> c.LOAD(((Double) magicNumber).intValue() - MAGIC_LOCALS_NUMBER);
-		} else {
-			return c -> c.LOADConst(magicNumber);
-		}
+		return doResolve((int)magicNumber.intValue());
 	}
 
 	public ConsumerWithException<MethodCode> resolve(String magicString) {
 		// Locals
 		if (magicString.startsWith(MAGIC_CODES_String)) {
-			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length()));
-			return getCodeAndPop(magicNumber);
+			int codesIndex = Integer.valueOf(magicString.substring(MAGIC_CODES_String.length()));
+			return getCodeAndPop(codesIndex);
 		} else if (magicString.startsWith(MAGIC_LOCALS_String)) {
-			int magicNumber = Integer.valueOf(magicString.substring(MAGIC_LOCALS_String.length()));
-			return c -> c.LOAD(magicNumber);
+			int localsIndex = Integer.valueOf(magicString.substring(MAGIC_LOCALS_String.length()));
+			return c -> c.LOAD(localsIndex);
+		} else if (magicString.startsWith(MAGIC_FIELD_String)) {
+			int fieldIndex = Integer.valueOf(magicString.substring(MAGIC_FIELD_String.length()));
+			return c -> c.GETFIELD_OF_THIS(fieldIndex);
 		} else {
 			return c -> c.LOADConst(magicString);
 		}
@@ -332,6 +274,9 @@ public class AdvContext {
 			} else if (MAGIC_LOCALS_NUMBER <= magicNumber && magicNumber <= MAGIC_LOCALS_MAX) {
 				int localsIndex = magicNumber - MAGIC_LOCALS_NUMBER;
 				return c -> c.LOAD(localsIndex);
+			} else if (MAGIC_FIELDS_NUMBER <= magicNumber && magicNumber <= MAGIC_FIELDS_MAX) {
+				int fieldIndex = magicNumber - MAGIC_FIELDS_NUMBER;
+				return c -> c.GETFIELD_OF_THIS(fieldIndex);
 			} else {
 				throw new UnsupportedOperationException();
 			}

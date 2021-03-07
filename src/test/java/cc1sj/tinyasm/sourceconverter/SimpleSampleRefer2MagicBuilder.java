@@ -6,10 +6,10 @@ import cc1sj.tinyasm.AdvClassBuilder;
 
 public class SimpleSampleRefer2MagicBuilder {
 
-	final String name = null;// = clazz.public_().field("name", String.class);
+	final private String name =  private_().field("name", String.class);
 
 	public void _dump_fields(AdvClassBuilder classBody) {
-		classBody.private_().field("name", String.class);
+//		classBody.private_().field("name", String.class);
 	}
 
 	public void _dump_init(AdvClassBuilder classBody) {
@@ -21,17 +21,17 @@ public class SimpleSampleRefer2MagicBuilder {
 	}
 
 	public void sayHello() { // public void sayHello() {
-		int i = __("i", 10); // int i = 10;
-		int j = __("j", 20); // int j = 20;
+		final int i = __("i", 10); // int i = 10;
+		final int j = __("j", 20); // int j = 20;
 		__(j, add(i, j)); // j = i + j;
 
-		ReferReferedObject referedObject = __("referedObject", new_(ReferReferedObject.class));// ReferedObject referedObject = new
+		final ReferReferedObject referedObject = __("referedObject", new_(ReferReferedObject.class));// ReferedObject referedObject = new
 																								// ReferedObject();
 		referedObject.sayHello(); // referedObject.sayHello();
-		String helloString = __("helloString", referedObject.getHelloString());// String helloString = referedObject.getHelloString();
+		final String helloString = __("helloString", referedObject.getHelloString());// String helloString = referedObject.getHelloString();
 		referedObject.setHelloString("sayNothing"); // referedObject.setHelloString("sayNothing");
 		referedObject.setHelloString(helloString); // referedObject.setHelloString(helloString);
-		ReferRefered2Object refered2Object = __("refered2Object", referedObject.getReferRefered2Object());
+		final ReferRefered2Object refered2Object = __("refered2Object", referedObject.getReferRefered2Object());
 		refered2Object.sayHello();
 
 		_if(isGreaterThan(j, 10)).then(c -> { // if (j > 10) {
@@ -60,7 +60,7 @@ public class SimpleSampleRefer2MagicBuilder {
 	}
 
 	public static byte[] dump() {
-		return dumpClass(public_().class_("cc1sj.tinyasm.sourceconverter.SimpleSampleRefer2").extends_(SuperClass.class)
-				.implements_(SuperInterface.class).enterClassBody(), new SimpleSampleRefer2MagicBuilder());
+		return dumpClass(publicClass_("cc1sj.tinyasm.sourceconverter.SimpleSampleRefer2").extends_(SuperClass.class)
+				.implements_(SuperInterface.class).enterClassBody(), SimpleSampleRefer2MagicBuilder.class);
 	}
 }

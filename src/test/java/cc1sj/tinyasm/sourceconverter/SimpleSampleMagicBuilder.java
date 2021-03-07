@@ -57,7 +57,7 @@ public class SimpleSampleMagicBuilder {
 	}
 
 	public static byte[] dump() {
-		return dumpClass(public_().class_("cc1sj.tinyasm.sourceconverter.SimpleSample").extends_(SuperClass.class)
-				.implements_(SuperInterface.class).enterClassBody(), new SimpleSampleMagicBuilder());
+		return dumpClass(publicClass_("cc1sj.tinyasm.sourceconverter.SimpleSample").extends_(SuperClass.class)
+				.implements_(SuperInterface.class).enterClassBody(), SimpleSampleMagicBuilder.class);
 	}
 }

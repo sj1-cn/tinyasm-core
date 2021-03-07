@@ -101,10 +101,10 @@ class AdvAsmProxyObjenesisBuilder {
 
 		} catch (ClassFormatError e) {
 			log.error("", e);
-			throw new RuntimeException(e);
+			throw new RuntimeException(target.getName(),e);
 		} catch (Exception e) {
 			log.error("", e);
-			throw new RuntimeException(e);
+			throw new RuntimeException(target.getName(),e);
 		} finally {
 			lock.unlock();
 		}

@@ -29,7 +29,11 @@ class MethodHeaderBuilder implements MethodHeader {
 	ThisMethod thisMethod;
 	int methodAccess;
 
-	final private ClassBodyImpl classVisitor;
+	final ClassBodyImpl classVisitor;
+
+	public ClassBodyImpl getClassVisitor() {
+		return classVisitor;
+	}
 
 	protected Label labelCurrent;
 

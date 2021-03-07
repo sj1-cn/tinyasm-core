@@ -84,11 +84,11 @@ public class AdvJavaSourceCodeConverter {
 
 //public class AdvSample extends AdvSampleExtendsClass {
 		add(modifier + " class " + name + " extends " + name + " \\{",
-				"AdvClassBuilder clazz = $1_().class_(\"$2\").extends_($3.class).enterClassBody();");
+				"AdvClassBuilder clazz = $1Class_(\"$2\").extends_($3.class).enterClassBody();");
 		
-		add(modifier + " class " + name + " \\{", "AdvClassBuilder clazz = $1_().class_(\"$2\").enterClassBody();");
+		add(modifier + " class " + name + " \\{", "AdvClassBuilder clazz = $1Class_(\"$2\").enterClassBody();");
 		add(modifier + " class " + name + " extends " + name + " implements " + name + " \\{",
-				"AdvClassBuilder clazz = $1_().class_(\"$2\").extends_($3.class).implements_($4.class).enterClassBody();");
+				"AdvClassBuilder clazz = $1Class_(\"$2\").extends_($3.class).implements_($4.class).enterClassBody();");
 		// Field
 		// private String name;
 		add(tab1 + modifier + " " + name + " " + name + ";", "$1final $3 $4 = clazz.$2_().field(\"$4\",$3.class);");

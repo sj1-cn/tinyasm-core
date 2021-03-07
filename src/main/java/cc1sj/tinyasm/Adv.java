@@ -6,12 +6,16 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.slf4j.Logger;
@@ -29,34 +33,34 @@ public class Adv {
 	 * 
 	 * 
 	 ***********************************************/
+//
+//	static public AfterClassName public_class_(String advSample) {
+//		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
+//		builder.access(ACC_PUBLIC);
+//		return builder.class_(advSample);
+//	}
 
-	static public AfterClassModifier public_() {
-		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
-		builder.access(ACC_PUBLIC);
-		return builder;
-	}
-
-	static public AfterClassModifier private_() {
+	static public AfterClassName private_class_(String advSample) {
 		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(ACC_PRIVATE);
-		return builder;
+		return builder.class_(advSample);
 	}
 
-	static public AfterClassModifier protected_() {
+	static public AfterClassName protected_class_(String advSample) {
 		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(ACC_PROTECTED);
-		return builder;
+		return builder.class_(advSample);
 	}
 
-	static public AfterClassModifier package_() {
+	static public AfterClassName package_class_(String advSample) {
 		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(0);
-		return builder;
+		return builder.class_(advSample);
 	}
 
-	static public AfterClassName class_(String advSample) {
+	static public AfterClassName publicClass_(String advSample) {
 		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
-		builder.access(0);
+		builder.access(ACC_PUBLIC);
 		return builder.class_(advSample);
 	}
 
@@ -71,11 +75,35 @@ public class Adv {
 	static private ThreadLocal<Stack<AdvContext>> _contextThreadLocalStack = new ThreadLocal<>();
 	static private ThreadLocal<AdvContext> _contextThreadLocal = new ThreadLocal<>();
 
+	static private ThreadLocal<Stack<AdvClassContext>> _contextClassThreadLocalStack = new ThreadLocal<>();
+	static private ThreadLocal<AdvClassContext> _contextClassThreadLocal = new ThreadLocal<>();
 //	static void execBlock(MethodCode code, ConsumerWithException<MethodCode> block) throws Exception {
 //		AdvContext context = enterCode(code);
 //		context.execBlock(block);
 //		exitCode();
 //	}
+
+	static AdvClassContext enterClass(AdvClassBuilder classBuilder) {
+		AdvClassContext newContext = new AdvClassContext(classBuilder);
+		if (_contextClassThreadLocal.get() != null) {
+			if (_contextClassThreadLocalStack.get() == null) {
+				_contextClassThreadLocalStack.set(new Stack<>());
+			}
+			_contextClassThreadLocalStack.get().push(_contextClassThreadLocal.get());
+		}
+		_contextClassThreadLocal.set(newContext);
+		return newContext;
+	}
+
+	static void exitClass() {
+//		AdvClassContext currentContext = _contextClassThreadLocal.get();
+//		currentContext.clear();
+		if (_contextClassThreadLocalStack.get() != null) {
+			_contextClassThreadLocal.set(_contextClassThreadLocalStack.get().pop());
+		} else {
+			_contextClassThreadLocal.set(null);
+		}
+	}
 
 	static AdvContext enterCode(MethodCode code) {
 		AdvContext newContext = new AdvContext(code);
@@ -99,6 +127,26 @@ public class Adv {
 		}
 	}
 
+	static public AfterModifier public_() {
+		AdvClassContext classContext = _contextClassThreadLocal.get();
+		return classContext.getClassBuilder().public_();
+	}
+
+	static public AfterModifier private_() {
+		AdvClassContext classContext = _contextClassThreadLocal.get();
+		return classContext.getClassBuilder().private_();
+	}
+
+	static public AfterModifier protected_() {
+		AdvClassContext classContext = _contextClassThreadLocal.get();
+		return classContext.getClassBuilder().protected_();
+	}
+
+	static public AfterModifier package_() {
+		AdvClassContext classContext = _contextClassThreadLocal.get();
+		return classContext.getClassBuilder().package_();
+	}
+
 	/**********************************************
 	 * code
 	 * 
@@ -109,6 +157,7 @@ public class Adv {
 	 ***********************************************/
 	public static final String MAGIC_LOCALS_String = "#MAGIC-LOCALS#";
 	public static final String MAGIC_CODES_String = "#MAGIC-CODES#";
+	public static final String MAGIC_FIELD_String = "#MAGIC-FIELDS#";
 
 	public static final byte MAGIC_LOCALS_NUMBER = 100;
 	public static final byte MAGIC_LOCALS_MAX = 120;
@@ -116,8 +165,8 @@ public class Adv {
 	public static final byte MAGIC_CODES_NUMBER = 80;
 	public static final byte MAGIC_CODES_MAX = 99;
 
-	public static final byte MAGIC_FIELD_NUMBER = 60;
-	public static final byte MAGIC_FIELD_MAX = 79;
+	public static final byte MAGIC_FIELDS_NUMBER = 60;
+	public static final byte MAGIC_FIELDS_MAX = 79;
 
 	public static final byte MAGIC_STATIC_FIELD_NUMBER = 40;
 	public static final byte MAGIC_STATIC_FIELD_MAX = 59;
@@ -195,6 +244,98 @@ public class Adv {
 //		code.LOAD_THIS();
 //		code.GETFIELD_OF_THIS(name);
 //		return storeTopAndRefer(clazz);
+//	}
+
+//
+//	static public boolean_ field_boolean(String name) {
+//		AdvClassContext context = _contextClassThreadLocal.get();
+//		
+//		int locals = context.getClassBuilder().(name,boolean.class);
+//
+//		return new boolean_Holder(_contextThreadLocal, (byte) (MAGIC_FIELDS_NUMBER + locals));
+//	}
+//
+//	static public Boolean__ field_Boolean(String name) {
+//		AdvContext context = _contextThreadLocal.get();
+//		int locals = context.getCode().codeLocalGetLocals(name);
+//
+//		return new Boolean__Holder(_contextThreadLocal, (byte) (MAGIC_FIELDS_NUMBER + locals));
+//	}
+//
+//	static public byte field_byte(String name) {
+//		AdvContext context = _contextThreadLocal.get();
+//		int localsIndex = context.getCode().codeLocalGetLocals(name);
+//		return (byte) (MAGIC_FIELDS_NUMBER + localsIndex);
+//	}
+//
+//	static public short field_short(String name) {
+//		AdvContext context = _contextThreadLocal.get();
+//		int localsIndex = context.getCode().codeLocalGetLocals(name);
+//		return (short) (MAGIC_FIELDS_NUMBER + localsIndex);
+//	}
+//
+//	static public int field_int(String name) {
+//		AdvContext context = _contextThreadLocal.get();
+//		int localsIndex = context.getCode().codeLocalGetLocals(name);
+//		return (int) (MAGIC_FIELDS_NUMBER + localsIndex);
+//	}
+//
+//	static public long field_long(String name) {
+//		AdvContext context = _contextThreadLocal.get();
+//		int localsIndex = context.getCode().codeLocalGetLocals(name);
+//		return (long) (MAGIC_FIELDS_NUMBER + localsIndex);
+//	}
+//
+//	static public float field_float(String name) {
+//		AdvContext context = _contextThreadLocal.get();
+//		int localsIndex = context.getCode().codeLocalGetLocals(name);
+//		return (float) (MAGIC_FIELDS_NUMBER + localsIndex);
+//	}
+//
+//	static public double field_double(String name) {
+//		AdvContext context = _contextThreadLocal.get();
+//		int localsIndex = context.getCode().codeLocalGetLocals(name);
+//		return (double) (MAGIC_FIELDS_NUMBER + localsIndex);
+//	}
+//
+//	@SuppressWarnings("unchecked")
+//	static public <T> T field(String name, Class<T> t) {
+//		AdvContext context = _contextThreadLocal.get();
+//		int localsIndex = context.getCode().codeLocalGetLocals(name);
+//
+//		if (t == Boolean.class) {
+//			throw new UnsupportedOperationException("请使用 field_boolean");
+//		} else if (t == Byte.class) {
+//			Byte key = (byte) (MAGIC_FIELDS_NUMBER + localsIndex);
+//			return (T) key;
+//		} else if (t == Character.class) {
+//			Character key = (char) (MAGIC_FIELDS_NUMBER + localsIndex);
+//			return (T) key;
+//		} else if (t == Short.class) {
+//			Short key = (short) (MAGIC_FIELDS_NUMBER + localsIndex);
+//			return (T) key;
+//		} else if (t == Integer.class) {
+//			Integer key = (int) (MAGIC_FIELDS_NUMBER + localsIndex);
+//			return (T) key;
+//		} else if (t == Long.class) {
+//			Long key = (long) (MAGIC_FIELDS_NUMBER + localsIndex);
+//			return (T) key;
+//		} else if (t == Float.class) {
+//			Double key = (double) (MAGIC_FIELDS_NUMBER + localsIndex);
+//			return (T) key;
+//		} else if (t == Double.class) {
+//			Double key = (double) (MAGIC_FIELDS_NUMBER + localsIndex);
+//			return (T) key;
+//		} else if (t == String.class) {
+//			String key = String.valueOf(MAGIC_LOCALS_String + localsIndex);
+//			return (T) key;
+//		} else {
+//			byte magicNumber = (byte) (MAGIC_FIELDS_NUMBER + localsIndex);
+//			T obj = brokerBuilder.buildProxyClass(t, _contextThreadLocal, magicNumber);
+//			return (T) obj;
+////		} else {
+////			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+//		}
 //	}
 
 	static public boolean_ param_boolean(String name) {
@@ -416,26 +557,42 @@ public class Adv {
 	 * @param booleanMagicLocalsIndex
 	 * @param magicIndex
 	 */
-	static public void __(boolean_ booleanMagicLocalsIndex, boolean magicIndex) {
+	static public void __(boolean_ booleanMagicLocalsIndex, boolean v) {
+		byte targetMagicIndex = booleanMagicLocalsIndex.getLocalsIndex();
 		AdvContext context = _contextThreadLocal.get();
-
-		byte magicLocalsIndex = booleanMagicLocalsIndex.getLocalsIndex();
-		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
-		assert /* (magicIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-
-		context.popAndExec();
-		context.store(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
+		ConsumerWithException<MethodCode> ref = context.getCodeAndPop();
+		if (MAGIC_LOCALS_NUMBER <= targetMagicIndex && targetMagicIndex <= MAGIC_LOCALS_MAX) {
+			context.execLine(c -> {
+				ref.accept(c);
+				c.STORE(targetMagicIndex - MAGIC_LOCALS_NUMBER);
+			});
+		} else if (MAGIC_FIELDS_NUMBER <= targetMagicIndex && targetMagicIndex <= MAGIC_FIELDS_MAX) {
+			int fieldIndex = targetMagicIndex - MAGIC_FIELDS_NUMBER;
+			context.execLine(c -> {
+				c.LOAD_THIS();
+				ref.accept(c);
+				c.PUTFIELD_OF_THIS(fieldIndex);
+			});
+		}
 	}
 
 	static public void __(Boolean__ booleanMagicLocalsIndex, Boolean v) {
+		byte targetMagicIndex = booleanMagicLocalsIndex.getLocalsIndex();
 		AdvContext context = _contextThreadLocal.get();
-
-		byte magicLocalsIndex = booleanMagicLocalsIndex.getLocalsIndex();
-		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
-		assert /* (magicIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-
-		context.popAndExec();
-		context.store(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
+		ConsumerWithException<MethodCode> ref = context.getCodeAndPop();
+		if (MAGIC_LOCALS_NUMBER <= targetMagicIndex && targetMagicIndex <= MAGIC_LOCALS_MAX) {
+			context.execLine(c -> {
+				ref.accept(c);
+				c.STORE(targetMagicIndex - MAGIC_LOCALS_NUMBER);
+			});
+		} else if (MAGIC_FIELDS_NUMBER <= targetMagicIndex && targetMagicIndex <= MAGIC_FIELDS_MAX) {
+			int fieldIndex = targetMagicIndex - MAGIC_FIELDS_NUMBER;
+			context.execLine(c -> {
+				c.LOAD_THIS();
+				ref.accept(c);
+				c.PUTFIELD_OF_THIS(fieldIndex);
+			});
+		}
 	}
 
 	static public void __(byte magicLocalsIndex, byte magicIndex) {
@@ -451,19 +608,22 @@ public class Adv {
 		doSet_(magicLocalsIndex, magicIndex);
 	}
 
-	protected static void doSet_(int magicLocalsIndex, int magicIndex) {
+	protected static void doSet_(int targetMagicIndex, int magicIndex) {
 		AdvContext context = _contextThreadLocal.get();
-
-		assert MAGIC_LOCALS_NUMBER <= magicLocalsIndex && magicLocalsIndex <= MAGIC_LOCALS_MAX : "必须是locals index";
-		assert MAGIC_CODES_NUMBER <= magicIndex && magicIndex <= MAGIC_CODES_MAX : "必须是code index";
-
 		ConsumerWithException<MethodCode> ref = context.resolve(magicIndex);
-
-		context.execLine(c -> {
-			ref.accept(c);
-			c.STORE(magicLocalsIndex - MAGIC_LOCALS_NUMBER);
-		});
-
+		if (MAGIC_LOCALS_NUMBER <= targetMagicIndex && targetMagicIndex <= MAGIC_LOCALS_MAX) {
+			context.execLine(c -> {
+				ref.accept(c);
+				c.STORE(targetMagicIndex - MAGIC_LOCALS_NUMBER);
+			});
+		} else if (MAGIC_FIELDS_NUMBER <= targetMagicIndex && targetMagicIndex <= MAGIC_FIELDS_MAX) {
+			int fieldIndex = targetMagicIndex - MAGIC_FIELDS_NUMBER;
+			context.execLine(c -> {
+				c.LOAD_THIS();
+				ref.accept(c);
+				c.PUTFIELD_OF_THIS(fieldIndex);
+			});
+		}
 	}
 
 	static public void __(long magicLocalsIndex, long magicIndex) {
@@ -475,6 +635,18 @@ public class Adv {
 	}
 
 	static public void __(double magicLocalsIndex, double magicIndex) {
+		doSet_((int) magicLocalsIndex, (int) magicIndex);
+	}
+
+	static public <T> void __(T target, T src) {
+		assert target instanceof AdvRuntimeReferNameObject : "target 必须是内部对象";
+		assert src instanceof AdvRuntimeReferNameObject : "src 必须是内部对象";
+//		if(src instanceof AdvRuntimeReferNameObject) {
+//			
+//		}
+		int magicLocalsIndex = ((AdvRuntimeReferNameObject) target).get__MagicNumber();
+
+		int magicIndex = ((AdvRuntimeReferNameObject) src).get__MagicNumber();
 		doSet_((int) magicLocalsIndex, (int) magicIndex);
 	}
 
@@ -934,46 +1106,67 @@ public class Adv {
 	public static boolean canProxy(Class<?> t) {
 		return true;
 	}
+
 	public static <T> T buildProxyClass(Class<T> t, byte magicNumber) {
 		return brokerBuilder.buildProxyClass(t, _contextThreadLocal, magicNumber);
 	}
 
-	public static byte[] dumpClass(AdvClassBuilder classBuilder, Object simpleSampleCodeBuilder) {
-		Class<?> clazz = simpleSampleCodeBuilder.getClass();
+	public static <T> byte[] dumpClass(AdvClassBuilder classBuilder, Class<T> clazz) {
+//		Class<?> clazz = simpleSampleCodeBuilder.getClass();
+		clazz.getGenericSuperclass();
+		logger.debug("class {} {}", clazz.getName(), clazz.getGenericSuperclass());
+		for (Class<?> type : clazz.getInterfaces()) {
+			logger.debug("getGenericInterfaces {} {}", clazz.getName(), type.getName());
+		}
+		for (Type type : clazz.getGenericInterfaces()) {
+			ParameterizedType parameterizedType = (ParameterizedType) type;
+			logger.debug("getGenericInterfaces {} {} {}", clazz.getName(), parameterizedType.getRawType(),
+					parameterizedType.getActualTypeArguments());
+		}
+
 		try {
+
+			enterClass(classBuilder);
+
+			T simpleSampleCodeBuilder = clazz.getConstructor().newInstance();
 
 			ClassReader cr = new ClassReader(clazz.getName());
 			cr.accept(new ClassVisitor(ASM9) {
+				@Override
+				public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+					logger.debug("{} {} ", name, signature);
+				}
 
 				@Override
 				public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-
 					try {
 						if ((access & ACC_PUBLIC) > 0 && !"dump".equals(name)) {
 							Method thisMethod = null;
 							Method[] methodes = clazz.getDeclaredMethods();
 							for (Method method : methodes) {
-								if (method.getName().equals(name)) {
+								if (method.getName().equals(name) && !method.isBridge()) {
 									thisMethod = method;
 									break;
 								}
 							}
 //							Method method = clazz.getMethod(name);
-							logger.debug(name);
+							logger.debug("{} {} ", name, signature);
 							if (thisMethod != null) {
 								buildWithMethod(classBuilder, simpleSampleCodeBuilder, thisMethod);
 							}
 
 						}
 					} catch (SecurityException e) {
-						throw new UnsupportedOperationException(e);
+						throw new UnsupportedOperationException(clazz.getName(), e);
 					}
 					return null;
 				}
 
 			}, ClassReader.SKIP_CODE);
+
+			exitClass();
 		} catch (Exception e1) {
-			throw new UnsupportedOperationException(e1);
+			throw new UnsupportedOperationException(clazz.getName(), e1);
 		}
 
 		return classBuilder.end().toByteArray();
@@ -984,14 +1177,11 @@ public class Adv {
 			try {
 				method.invoke(simpleSampleCodeBuilder, classBuilder);
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new UnsupportedOperationException(method.getName(), e);
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new UnsupportedOperationException(method.getName(), e);
 			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new UnsupportedOperationException(method.getName(), e);
 			}
 		} else {
 			AdvMethodBuilder methodBuilder = (AdvMethodBuilder) classBuilder.method(method.getModifiers(), method.getName());
@@ -1003,16 +1193,55 @@ public class Adv {
 			methodBuilder.throws_(exceptionClasses);
 			methodBuilder.code(code -> {
 				try {
-					method.invoke(simpleSampleCodeBuilder);
+					AdvContext context = _contextThreadLocal.get();
+					Parameter[] parameters = method.getParameters();
+					Type[] parameterTypes = method.getGenericParameterTypes();
+					Object[] params = new Object[parameters.length];
+					for (int i = 0; i < parameters.length; i++) {
+						Parameter parameter = parameters[i];
+						Class<?> parameterClass = parameter.getType();
+
+						Type type = parameterTypes[i];
+						if (type instanceof ParameterizedType) {
+							ParameterizedType parameterType = (ParameterizedType) type;
+							logger.debug("{} {} {} {}", method.getName(), parameter.getName(), parameter.getType().getName(),
+									parameterType.getActualTypeArguments());
+
+						} else {
+							logger.debug("{} {} {} {}", method.getName(), parameter.getName(), parameter.getType().getName());
+
+						}
+						if (parameterClass == boolean.class || parameterClass == Boolean.class) {
+							params[i] = false;
+						} else if (parameterClass == byte.class || parameterClass == Byte.class) {
+							params[i] = (byte) (MAGIC_LOCALS_NUMBER + i + 1);
+						} else if (parameterClass == short.class || parameterClass == Short.class) {
+							params[i] = (short) (MAGIC_LOCALS_NUMBER + i + 1);
+						} else if (parameterClass == int.class || parameterClass == Integer.class) {
+							params[i] = (int) (MAGIC_LOCALS_NUMBER + i + 1);
+						} else if (parameterClass == long.class || parameterClass == Long.class) {
+							params[i] = (long) (MAGIC_LOCALS_NUMBER + i + 1);
+						} else if (parameterClass == float.class || parameterClass == Float.class) {
+							params[i] = (float) (MAGIC_LOCALS_NUMBER + i + 1);
+						} else if (parameterClass == double.class || parameterClass == Double.class) {
+							params[i] = (double) (MAGIC_LOCALS_NUMBER + i + 1);
+						} else if (parameterClass == String.class) {
+							params[i] = MAGIC_LOCALS_String + (i + 1);
+						} else if (canProxy(parameterClass)) {
+							params[i] = buildProxyClass(parameterClass, (byte) (MAGIC_LOCALS_NUMBER + i + 1));
+						} else if (parameterClass == Object.class) {
+							throw new UnsupportedOperationException();
+						} else {
+							throw new UnsupportedOperationException();
+						}
+					}
+					method.invoke(simpleSampleCodeBuilder, params);
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					throw new UnsupportedOperationException(method.getName(), e);
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					throw new UnsupportedOperationException(method.getName(), e);
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					throw new UnsupportedOperationException(method.getName(), e);
 				}
 			});
 		}

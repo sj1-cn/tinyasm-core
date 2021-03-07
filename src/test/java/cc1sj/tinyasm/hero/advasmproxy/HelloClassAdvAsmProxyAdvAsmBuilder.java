@@ -1,4 +1,4 @@
-package cc1sj.tinyasm.hero.helperclass;
+package cc1sj.tinyasm.hero.advasmproxy;
 
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
@@ -39,7 +39,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	Type targetType;
 
 	public byte[] dump(String proxyClassName) throws Exception {
-		targetType = Clazz.of(AdvAsmProxyPojoClassSample.class).getType();
+		targetType = Clazz.of(PojoSample.class).getType();
 		ClassHeader ch = ClassBuilder.make(proxyClassName);
 		ch.eXtend(Clazz.of(targetType));
 		ch.implement(AdvRuntimeReferNameObject.class);
@@ -68,7 +68,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 
 		code.LINE();
 		code.LOAD("this");
-		code.SPECIAL(AdvAsmProxyPojoClassSample.class, "<init>").INVOKE();
+		code.SPECIAL(PojoSample.class, "<init>").INVOKE();
 		code.RETURN();
 
 		code.END();

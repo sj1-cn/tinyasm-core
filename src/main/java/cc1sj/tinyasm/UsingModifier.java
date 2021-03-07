@@ -7,5 +7,7 @@ public interface UsingModifier {
 	AfterModifier protected_();
 
 	AfterModifier private_();
+	
+	AfterModifier package_();
 
 }

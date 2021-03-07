@@ -1,10 +1,11 @@
-package cc1sj.tinyasm.hero.helperclass;
+package cc1sj.tinyasm.hero.advasmproxy;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
+
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
@@ -28,7 +29,6 @@ import java.lang.StringBuilder;
 import cc1sj.tinyasm.ConsumerWithException;
 import java.lang.String;
 import java.lang.Byte;
-import cc1sj.tinyasm.hero.helperclass.AdvAsmProxyPojoClassSample;
 @SuppressWarnings("unused")
 public class AdvAsmProxyPojoClassSampleAdvAsmProxyTinyAsmDump {
 
@@ -37,7 +37,7 @@ public class AdvAsmProxyPojoClassSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className, AdvAsmProxyPojoClassSample.class, AdvRuntimeReferNameObject.class)
+		ClassBody classBody = ClassBuilder.make(className, PojoSample.class, AdvRuntimeReferNameObject.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
@@ -127,7 +127,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 		code.LINE();
 		code.LOAD("this");
-		code.SPECIAL(AdvAsmProxyPojoClassSample.class, "<init>").INVOKE();
+		code.SPECIAL(PojoSample.class, "<init>").INVOKE();
 		code.RETURN();
 
 		code.END();

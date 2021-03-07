@@ -83,6 +83,11 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
+	protected String codeFieldNameOf(int fieldIndex) {
+		return this.mh.getClassVisitor().getFields().get(fieldIndex).name;
+	}
+
+	@Override
 	public int codeLocalGetLocals(String name) {
 		LocalsStack.Var var = locals.get(name);
 		if (var != null) {
