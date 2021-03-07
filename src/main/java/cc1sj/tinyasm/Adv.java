@@ -1246,4 +1246,9 @@ public class Adv {
 			});
 		}
 	}
+
+	public static void import_(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 }

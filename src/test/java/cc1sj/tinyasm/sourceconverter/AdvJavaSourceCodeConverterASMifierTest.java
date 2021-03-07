@@ -11,7 +11,7 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 
 	@Test
 	public void test_AdvJavaSourceCodeConverterSample_Dump() throws Exception {
-		Class<?> expectedClazz = SimpleSample.class;
+		Class<?> expectedClazz = UsingSimplePojoClassSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
@@ -21,10 +21,10 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 
 	@Test
 	public void test_AdvJavaSourceConverterSampleBuilder_dump() throws Exception {
-		Class<?> expectedClazz = SimpleSample.class;
+		Class<?> expectedClazz = UsingSimplePojoClassSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleBuilder.dump());
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), UsingSimplePojoClassSampleBuilder.dump());
 
 		assertEquals("Code", codeExpected, codeActual);
 
@@ -32,10 +32,10 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 
 	@Test
 	public void test_SimpleSampleBuilderMagic_dump() throws Exception {
-		Class<?> expectedClazz = SimpleSample.class;
+		Class<?> expectedClazz = UsingSimplePojoClassSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleMagicBuilder.dump());
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), UsingSimplePojoClassSampleMagicBuilder.dump());
 
 		assertEquals("Code", codeExpected, codeActual);
 
@@ -43,42 +43,42 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 
 	@Test
 	public void test_SimpleSampleRefer2BuilderMagic_dump() throws Exception {
-		Class<?> expectedClazz = SimpleSampleRefer2.class;
+		Class<?> expectedClazz = UsingReferSimplePojoClassSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimpleSampleRefer2MagicBuilder.dump());
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), UsingReferSimplePojoClassSampleMagicBuilder.dump());
 
 		assertEquals("Code", codeExpected, codeActual);
 
 	}
-
-	@Test
-	public void test_AdvJavaSourceConverterSample_ConvertTest() throws Exception {
-		Class<?> expectedClazz = SimpleSample.class;
-		String source = TinyAsmTestUtils.readJavaSourceFile(expectedClazz);
-
-		String targetClassName = SimpleSample.class.getName() + "CodeBuilder";
-		String target = convertFrom(targetClassName, source);
-		TinyAsmTestUtils.writeJavaSourceFile(targetClassName, target);
-	}
-
-	private String convertFrom(String targetClassName, String source) {
-		String targetClassSimpleName = targetClassName.substring(targetClassName.lastIndexOf('.') + 1, targetClassName.length());
-		String targetPackageName = targetClassName.substring(0, targetClassName.lastIndexOf('.'));
-		// @formatter:off
-		String d = "package "+targetPackageName+";\n"
-				+ "\n"
-				+ "import static cc1sj.tinyasm.Adv.*;\n"
-				+ "\n"
-				+ "import cc1sj.tinyasm.AdvClassBuilder;\n"
-				+ "\n"
-				+ "public class "  +  targetClassSimpleName +  " {\n"
-				+ "\n"
-				+ "\tpublic static byte[] dump() {\n"
-				+ AdvJavaSourceCodeConverter.convertCode( source)
-				+ "\t}\n"
-				+ "}\n";
-		//@formatter:on
-		return d;
-	}
+//
+//	@Test
+//	public void test_AdvJavaSourceConverterSample_ConvertTest() throws Exception {
+//		Class<?> expectedClazz = UsingSimplePojoClassSample.class;
+//		String source = TinyAsmTestUtils.readJavaSourceFile(expectedClazz);
+//
+//		String targetClassName = UsingSimplePojoClassSample.class.getName() + "CodeBuilder";
+//		String target = convertFrom(targetClassName, source);
+//		TinyAsmTestUtils.writeJavaSourceFile(targetClassName, target);
+//	}
+//
+//	private String convertFrom(String targetClassName, String source) {
+//		String targetClassSimpleName = targetClassName.substring(targetClassName.lastIndexOf('.') + 1, targetClassName.length());
+//		String targetPackageName = targetClassName.substring(0, targetClassName.lastIndexOf('.'));
+//		// @formatter:off
+//		String d = "package "+targetPackageName+";\n"
+//				+ "\n"
+//				+ "import static cc1sj.tinyasm.Adv.*;\n"
+//				+ "\n"
+//				+ "import cc1sj.tinyasm.AdvClassBuilder;\n"
+//				+ "\n"
+//				+ "public class "  +  targetClassSimpleName +  " {\n"
+//				+ "\n"
+//				+ "\tpublic static byte[] dump() {\n"
+//				+ AdvJavaSourceCodeConverter.convertCode( source)
+//				+ "\t}\n"
+//				+ "}\n";
+//		//@formatter:on
+//		return d;
+//	}
 }
