@@ -517,7 +517,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 				}
 
 			} else {
-
+				throw new UnsupportedOperationException();
 			}
 
 		} else {
@@ -711,13 +711,28 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD(paramName);
-		if (paramClass.getSort() == Type.ARRAY && paramClass.getElementType().getSort() == Type.OBJECT
-				&& !BoxUnbox.ClazzObjectToPrimitive.containsKey(paramClass.getElementType()) && !paramClass.getElementType().equals(Type.getType(String.class))) {
-			code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Clazz.of(Object.class, true)).INVOKE();
-			code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+		if (paramClass.getSort() == Type.ARRAY) {
+			Type type = paramClass.getElementType();
+
+			if (type.getSort() == Type.OBJECT && !BoxUnbox.ClazzObjectToPrimitive.containsKey(type)
+					&& !type.equals(Type.getType(String.class))) {
+				code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Clazz.of(Object.class, true))
+						.INVOKE();
+				code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+			} else {
+				code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Clazz.of(paramClass)).INVOKE();
+				code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+			}
 		} else {
-			code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Clazz.of(paramClass)).INVOKE();
-			code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+			Type type = paramClass;
+			if (type.getSort() == Type.OBJECT && !BoxUnbox.ClazzObjectToPrimitive.containsKey(type)
+					&& !type.equals(Type.getType(String.class))) {
+				code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Clazz.of(Object.class)).INVOKE();
+				code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+			} else {
+				code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Clazz.of(paramClass)).INVOKE();
+				code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
+			}
 		}
 	}
 

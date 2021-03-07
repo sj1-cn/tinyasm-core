@@ -10,9 +10,13 @@ import cc1sj.tinyasm.hero.helperclass.PojoInterfaceSample;
 import cc1sj.tinyasm.hero.helperclass.ReferSimplePojoClassOnlySample;
 import cc1sj.tinyasm.hero.helperclass.ReferSimplePojoClassSample;
 import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
+import cc1sj.tinyasm.hero.helperclass.UsingGenericClass;
 import cc1sj.tinyasm.AdvAsmProxyInterfaceAdvAsmBuilder;
 import cc1sj.tinyasm.AdvAsmProxyClassAdvAsmBuilder;
+import cc1sj.tinyasm.AdvAsmProxyGenericInterfaceAdvAsmBuilder;
 import cc1sj.tinyasm.hero.helperclass.ArraySample;
+import cc1sj.tinyasm.hero.helperclass.GenericClassSample;
+import cc1sj.tinyasm.hero.helperclass.GenericInterface;
 import cc1sj.tinyasm.hero.helperclass.PojoClassChildSample;
 import cc1sj.tinyasm.hero.helperclass.PojoClassSample;
 import cc1sj.tinyasm.sourceconverter.SimplePojoClassSampleObjenesisAdvAsmProxy__;
@@ -183,4 +187,57 @@ public class AdvAsmProxyASMifierTest {
 
 	}
 
+	@Test
+	public void test_GenericClassSample_Dump() throws Exception {
+		Class<?> expectedClazz = GenericClassSample.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
+
+		assertEquals("Code", codeExpected, codeActual);
+	}
+
+	@Test
+	public void test_UsingGenericClass_Dump() throws Exception {
+		Class<?> expectedClazz = UsingGenericClass.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
+
+		assertEquals("Code", codeExpected, codeActual);
+	}
+
+	@Test
+	public void test_GenericInterfaceSampleAdvAsmProxy_Dump() throws Exception {
+		Class<?> expectedClazz = GenericInterfaceSampleAdvAsmProxy.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
+
+		assertEquals("Code", codeExpected, codeActual);
+	}
+
+	@Test
+	public void test_GenericInterfaceSampleAdvAsmProxy_Builder() throws Exception {
+		Class<?> expectedClazz = GenericInterfaceSampleAdvAsmProxy.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyGenericInterfaceAdvAsmBuilder
+				.dump2(GenericInterface.class, PojoClassSample.class, GenericInterfaceSampleAdvAsmProxy.class.getName()));
+
+		assertEquals("Code", codeExpected, codeActual);
+
+	}
+//
+//	@Test
+//	public void test_ArraySampleAdvAsmProxy_Builder() throws Exception {
+//		Class<?> expectedClazz = ArraySampleAdvAsmProxy.class;
+//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+//
+//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),
+//				AdvAsmProxyClassAdvAsmBuilder.dump2(ArraySample.class, ArraySampleAdvAsmProxy.class.getName()));
+//
+//		assertEquals("Code", codeExpected, codeActual);
+//
+//	}
 }

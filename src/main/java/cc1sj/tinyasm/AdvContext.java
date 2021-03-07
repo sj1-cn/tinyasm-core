@@ -129,7 +129,7 @@ public class AdvContext {
 	}
 
 	public ConsumerWithException<MethodCode> resolve(boolean_ magicBooleanNumber) {
-		byte magicNumber = magicBooleanNumber.getLocalsIndex();
+		byte magicNumber = magicBooleanNumber.getMagicNumber();
 		// Locals
 		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_LOCALS_NUMBER) {
 			return getCodeAndPop(magicNumber - MAGIC_CODES_NUMBER);
@@ -141,7 +141,7 @@ public class AdvContext {
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Boolean__ magicBooleanNumber) {
-		byte magicNumber = magicBooleanNumber.getLocalsIndex();
+		byte magicNumber = magicBooleanNumber.getMagicNumber();
 		// Locals
 		if (MAGIC_CODES_NUMBER <= magicNumber && magicNumber < MAGIC_LOCALS_NUMBER) {
 			return getCodeAndPop(magicNumber - MAGIC_CODES_NUMBER);
@@ -199,7 +199,10 @@ public class AdvContext {
 			return c -> c.LOAD(localsIndex);
 		} else if (MAGIC_FIELDS_NUMBER <= magicNumber && magicNumber <= MAGIC_FIELDS_MAX) {
 			int fieldIndex = magicNumber - MAGIC_FIELDS_NUMBER;
-			return c -> c.GETFIELD_OF_THIS(fieldIndex);
+			return c -> {
+				c.LOAD_THIS();
+				c.GETFIELD_OF_THIS(fieldIndex);
+			};
 		} else {
 			return c -> c.LOADConst(magicNumber);
 		}
@@ -259,60 +262,65 @@ public class AdvContext {
 			return c -> c.LOAD(localsIndex);
 		} else if (magicString.startsWith(MAGIC_FIELD_String)) {
 			int fieldIndex = Integer.valueOf(magicString.substring(MAGIC_FIELD_String.length()));
-			return c -> c.GETFIELD_OF_THIS(fieldIndex);
+			return c -> {
+				c.LOAD_THIS();
+				c.GETFIELD_OF_THIS(fieldIndex);
+			};
 		} else {
 			return c -> c.LOADConst(magicString);
 		}
 	}
+
 	public ConsumerWithException<MethodCode> resolve(String[] magicStringArray) {
 		return resolve(magicStringArray[0]);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(byte[] tarray) {
-		return resolve((int)tarray[0]);
+		return resolve((int) tarray[0]);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(short[] tarray) {
-		return resolve((int)tarray[0]);
+		return resolve((int) tarray[0]);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(int[] tarray) {
-		return resolve((int)tarray[0]);
+		return resolve((int) tarray[0]);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(long[] tarray) {
-		return resolve((int)tarray[0]);
+		return resolve((int) tarray[0]);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(float[] tarray) {
-		return resolve((int)tarray[0]);
+		return resolve((int) tarray[0]);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(double[] tarray) {
-		return resolve((int)tarray[0]);
+		return resolve((int) tarray[0]);
 	}
+
 	public ConsumerWithException<MethodCode> resolve(Byte[] tarray) {
-		return resolve((int)tarray[0]);
+		return resolve((int) tarray[0]);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Short[] tarray) {
-		return resolve((int)tarray[0]);
+		return resolve((int) tarray[0]);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Integer[] tarray) {
-		return resolve((int)tarray[0]);
+		return resolve((int) tarray[0]);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Long[] tarray) {
-		return resolve((int)(long)tarray[0]);
+		return resolve((int) (long) tarray[0]);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Float[] tarray) {
-		return resolve((int)(float)tarray[0]);
+		return resolve((int) (float) tarray[0]);
 	}
 
 	public ConsumerWithException<MethodCode> resolve(Double[] tarray) {
-		return resolve((int)(double)tarray[0]);
+		return resolve((int) (double) tarray[0]);
 	}
 
 	public <T> ConsumerWithException<MethodCode> resolve(T[] tarray) {
@@ -327,7 +335,10 @@ public class AdvContext {
 				return c -> c.LOAD(localsIndex);
 			} else if (MAGIC_FIELDS_NUMBER <= magicNumber && magicNumber <= MAGIC_FIELDS_MAX) {
 				int fieldIndex = magicNumber - MAGIC_FIELDS_NUMBER;
-				return c -> c.GETFIELD_OF_THIS(fieldIndex);
+				return c -> {
+					c.LOAD_THIS();
+					c.GETFIELD_OF_THIS(fieldIndex);
+				};
 			} else {
 				throw new UnsupportedOperationException();
 			}
@@ -350,7 +361,10 @@ public class AdvContext {
 				return c -> c.LOAD(localsIndex);
 			} else if (MAGIC_FIELDS_NUMBER <= magicNumber && magicNumber <= MAGIC_FIELDS_MAX) {
 				int fieldIndex = magicNumber - MAGIC_FIELDS_NUMBER;
-				return c -> c.GETFIELD_OF_THIS(fieldIndex);
+				return c -> {
+					c.LOAD_THIS();
+					c.GETFIELD_OF_THIS(fieldIndex);
+				};
 			} else {
 				throw new UnsupportedOperationException();
 			}

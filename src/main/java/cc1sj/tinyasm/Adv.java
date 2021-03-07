@@ -7,10 +7,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import org.objectweb.asm.Type;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import org.objectweb.asm.ClassReader;
@@ -18,9 +20,9 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.signature.SignatureReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 public class Adv {
 
 	static Logger logger = LoggerFactory.getLogger(Adv.class);
@@ -428,14 +430,60 @@ public class Adv {
 		}
 	}
 
-	static public <T> void return_(T left) {
+	static public boolean _return(boolean_ value) {
+		return doreturn_(value.getMagicNumber()) == 0;
+	}
+
+	static public byte _return(byte value) {
+		return (byte) doreturn_((int) value);
+	}
+
+	static public char _return(char value) {
+		return (char) doreturn_((int) value);
+	}
+
+	static public short _return(short value) {
+		return (short) doreturn_((int) value);
+	}
+
+	static public int _return(int value) {
+		return doreturn_((int) value);
+	}
+
+	static public long _return(long value) {
+		return doreturn_((int) value);
+	}
+
+	static public float _return(float value) {
+		return doreturn_((int) value);
+	}
+
+	static public double _return(double value) {
+		return doreturn_((int) value);
+	}
+
+	static public boolean _return(Boolean__ value) {
+		return doreturn_(value.getMagicNumber()) == 0;
+	}
+
+	static public int doreturn_(int left) {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
-		context.push(left.getClass(), c -> {
+		context.execLine(c -> {
 			leftEval.accept(c);
 			c.RETURNTop();
 		});
-		context.popAndExec();
+		return 0;
+	}
+
+	static public <T> T _return(T left) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+		context.execLine(c -> {
+			leftEval.accept(c);
+			c.RETURNTop();
+		});
+		return null;
 	}
 
 //
@@ -471,6 +519,16 @@ public class Adv {
 		return t;
 	}
 
+	public static <T> List<T> newlist_(Class<?> class1, Class<T> class2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static <K,V> Map<K,V> newmap_(Class<?> class1, Class<K> keyClass, Class<V> valueClass) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	static public <T> T new_(Class<T> clz, Object... params) {
 
 		AdvContext context = _contextThreadLocal.get();
@@ -558,7 +616,7 @@ public class Adv {
 	 * @param magicIndex
 	 */
 	static public void __(boolean_ booleanMagicLocalsIndex, boolean v) {
-		byte targetMagicIndex = booleanMagicLocalsIndex.getLocalsIndex();
+		byte targetMagicIndex = booleanMagicLocalsIndex.getMagicNumber();
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> ref = context.getCodeAndPop();
 		if (MAGIC_LOCALS_NUMBER <= targetMagicIndex && targetMagicIndex <= MAGIC_LOCALS_MAX) {
@@ -577,7 +635,7 @@ public class Adv {
 	}
 
 	static public void __(Boolean__ booleanMagicLocalsIndex, Boolean v) {
-		byte targetMagicIndex = booleanMagicLocalsIndex.getLocalsIndex();
+		byte targetMagicIndex = booleanMagicLocalsIndex.getMagicNumber();
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> ref = context.getCodeAndPop();
 		if (MAGIC_LOCALS_NUMBER <= targetMagicIndex && targetMagicIndex <= MAGIC_LOCALS_MAX) {
@@ -726,6 +784,52 @@ public class Adv {
 		int localsIndex = context.store(varname);
 
 		return localsIndex;
+	}
+
+	@SuppressWarnings("unchecked")
+	static public <T> T _null(String varname, Class<T> clazz) {
+		AdvContext context = _contextThreadLocal.get();
+//		ConsumerWithException<MethodCode> expr = context.resolve(magicNumber);
+		context.clear();
+		context.line();
+		context.exec(c -> {
+			c.LOADConstNULL();
+		});
+		int locals = context.store(varname);
+
+		Class<?> t = clazz;
+		if (t == boolean.class) {
+			throw new UnsupportedOperationException();
+		} else if (t == Byte.class) {
+			Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Character.class) {
+			Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Short.class) {
+			Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Integer.class) {
+			Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Long.class) {
+			Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Float.class) {
+			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Double.class) {
+			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == String.class) {
+			String key = String.valueOf(MAGIC_LOCALS_String + locals);
+			return (T) key;
+		} else if (clazz.isAssignableFrom(AdvRuntimeReferNameObject.class)) {
+			byte magicNumber = (byte) (MAGIC_LOCALS_NUMBER + locals);
+			return buildProxyClass(clazz, magicNumber);
+		} else {
+			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+		}
 	}
 
 	/**
@@ -1118,7 +1222,7 @@ public class Adv {
 		for (Class<?> type : clazz.getInterfaces()) {
 			logger.debug("getGenericInterfaces {} {}", clazz.getName(), type.getName());
 		}
-		for (Type type : clazz.getGenericInterfaces()) {
+		for (java.lang.reflect.Type type : clazz.getGenericInterfaces()) {
 			ParameterizedType parameterizedType = (ParameterizedType) type;
 			logger.debug("getGenericInterfaces {} {} {}", clazz.getName(), parameterizedType.getRawType(),
 					parameterizedType.getActualTypeArguments());
@@ -1145,8 +1249,16 @@ public class Adv {
 							Method[] methodes = clazz.getDeclaredMethods();
 							for (Method method : methodes) {
 								if (method.getName().equals(name) && !method.isBridge()) {
-									thisMethod = method;
-									break;
+									Class<?>[] parameterTypes = method.getParameterTypes();
+									Type[] types = new Type[parameterTypes.length];
+									for (int i = 0; i < parameterTypes.length; i++) {
+										types[i] = Type.getType(parameterTypes[i]);
+									}
+									String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
+									if (reflectMethodDescriptor.equals(descriptor)) {
+										thisMethod = method;
+										break;
+									}
 								}
 							}
 //							Method method = clazz.getMethod(name);
@@ -1172,10 +1284,13 @@ public class Adv {
 		return classBuilder.end().toByteArray();
 	}
 
+	@SuppressWarnings("unused")
 	protected static void buildWithMethod(AdvClassBuilder classBuilder, Object simpleSampleCodeBuilder, Method method) {
-		if (method.getName().startsWith("_dump") && method.getParameters()[0].getType() == AdvClassBuilder.class) {
+		if (method.getName().startsWith("_") && method.getParameters()[0].getType() == AdvClassBuilder.class) {
 			try {
+				logger.debug("enter asm method {}" + method.getName());
 				method.invoke(simpleSampleCodeBuilder, classBuilder);
+				logger.debug("exit  asm method {}" + method.getName());
 			} catch (IllegalAccessException e) {
 				throw new UnsupportedOperationException(method.getName(), e);
 			} catch (IllegalArgumentException e) {
@@ -1184,6 +1299,7 @@ public class Adv {
 				throw new UnsupportedOperationException(method.getName(), e);
 			}
 		} else {
+			logger.debug("enter magic method {}" + method.getName());
 			AdvMethodBuilder methodBuilder = (AdvMethodBuilder) classBuilder.method(method.getModifiers(), method.getName());
 			if (method.getReturnType() == Void.class) methodBuilder.return_(method.getReturnType());
 			for (Parameter parameter : method.getParameters()) {
@@ -1195,13 +1311,13 @@ public class Adv {
 				try {
 					AdvContext context = _contextThreadLocal.get();
 					Parameter[] parameters = method.getParameters();
-					Type[] parameterTypes = method.getGenericParameterTypes();
+					java.lang.reflect.Type[] parameterTypes = method.getGenericParameterTypes();
 					Object[] params = new Object[parameters.length];
 					for (int i = 0; i < parameters.length; i++) {
 						Parameter parameter = parameters[i];
 						Class<?> parameterClass = parameter.getType();
 
-						Type type = parameterTypes[i];
+						java.lang.reflect.Type type = parameterTypes[i];
 						if (type instanceof ParameterizedType) {
 							ParameterizedType parameterType = (ParameterizedType) type;
 							logger.debug("{} {} {} {}", method.getName(), parameter.getName(), parameter.getType().getName(),
@@ -1243,12 +1359,13 @@ public class Adv {
 				} catch (InvocationTargetException e) {
 					throw new UnsupportedOperationException(method.getName(), e);
 				}
+				logger.debug("exit magic method {}" + method.getName());
 			});
 		}
 	}
 
 	public static void import_(String string) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

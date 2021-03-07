@@ -27,7 +27,7 @@ public class Boolean__Holder implements Boolean__ {
 	}
 
 	@Override
-	public byte getLocalsIndex() {
+	public byte getMagicNumber() {
 		return this.magicNumber;
 	}
 

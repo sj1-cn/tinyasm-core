@@ -24,7 +24,7 @@ class AdvAsmProxyObjenesisBuilder {
 
 	public AdvAsmProxyObjenesisBuilder() {
 		knownBrokeres = new HashMap<String, ObjectInstantiator<?>>();
-//		instanceBuilder = new BrokerInstanceBuilderClassMaker();
+		this.knownBrokeres.put(Object.class.getName(), objenesis.getInstantiatorOf(ObjectAdvAsmProxy.class));
 	}
 
 	public void clear() {
@@ -101,10 +101,10 @@ class AdvAsmProxyObjenesisBuilder {
 
 		} catch (ClassFormatError e) {
 			log.error("", e);
-			throw new RuntimeException(target.getName(),e);
+			throw new RuntimeException(target.getName(), e);
 		} catch (Exception e) {
 			log.error("", e);
-			throw new RuntimeException(target.getName(),e);
+			throw new RuntimeException(target.getName(), e);
 		} finally {
 			lock.unlock();
 		}

@@ -483,7 +483,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 			Type cstType = ((Clazz) cst).getType();
 			int sort = cstType.getSort();
 			if (sort == Type.OBJECT) {
-				visitLdcInsn(cst);
+				visitLdcInsn(cstType);
 				stackPush(Type.getType(String.class));
 			} else if (sort == Type.ARRAY) {
 				throw new UnsupportedOperationException();

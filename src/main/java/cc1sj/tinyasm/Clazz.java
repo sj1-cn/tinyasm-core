@@ -28,7 +28,11 @@ public interface Clazz {
 	}
 
 	static Clazz of(Class<?> classname, boolean isarray) {
-		return new ClazzType(arrayOf(typeOf(classname), isarray));
+		if(isarray) {
+			return new ClazzType(arrayOf(typeOf(classname), isarray));
+		}else {
+			return of(classname);
+		}
 	}
 
 	static Clazz of(Type classname) {

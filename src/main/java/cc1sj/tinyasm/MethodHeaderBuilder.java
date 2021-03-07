@@ -2,6 +2,7 @@ package cc1sj.tinyasm;
 
 import static cc1sj.tinyasm.TypeUtils.every;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 class MethodHeaderBuilder implements MethodHeader {
 	Logger logger = LoggerFactory.getLogger(getClass());
+
 	class ThisMethod {
 
 		String methodName;
@@ -188,7 +190,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	MethodCode enterMethodCode(MethodVisitor mv) {
 
-		logger.debug("enter method {}",thisMethod.methodName);
+		logger.debug("enter method {}", thisMethod.methodName);
 		if (!enteredMethodCode) {
 			enteredMethodCode = true;
 			methodCode = new MethodCodeBuilder(mv, this, mhLocals);
@@ -239,7 +241,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void exitMethod() {
 		if (thisMethod.hasEnded) return;
-		if ((this.methodAccess & ACC_SYNTHETIC) > 0 && (this.methodAccess & ACC_BRIDGE) > 0) {
+		if (this.methodAccess == (ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC)) {
 			Label endLabel = this.labelWithoutLineNumber();
 			LocalsStack.Var var = mhLocals.getByLocal(0);
 			assert mv != null;
@@ -267,7 +269,7 @@ class MethodHeaderBuilder implements MethodHeader {
 		mv.visitEnd();
 		thisMethod.hasEnded = true;
 
-		logger.debug("exit  method {}",thisMethod.methodName);
+		logger.debug("exit  method {}", thisMethod.methodName);
 	}
 
 	//

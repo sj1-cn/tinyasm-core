@@ -29,7 +29,7 @@ public class boolean_Holder implements boolean_ {
 	}
 
 	@Override
-	public byte getLocalsIndex() {
+	public byte getMagicNumber() {
 		return this.magicNumber;
 	}
 }
