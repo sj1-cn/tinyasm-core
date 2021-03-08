@@ -586,8 +586,7 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 						code.LINE();
 						code.LOADConst(elementType);
 						code.LOAD("magicNumber");
-						code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(byte.class)
-								.INVOKE();
+						code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(byte.class).INVOKE();
 						code.CHECKCAST(elementType);
 						code.STORE("simplePojoClassSample", elementType);
 
