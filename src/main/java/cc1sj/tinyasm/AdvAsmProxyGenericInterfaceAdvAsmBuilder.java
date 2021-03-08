@@ -54,11 +54,11 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 			superClass = superClass.getSuperclass();
 		}
 
-//		String[] is = cr.getInterfaces();
-//		for (String s : is) {
-//			cr = new ClassReader(s);
-//			cr.accept(bw, ClassReader.SKIP_CODE);
-//		}
+		String[] is = cr.getInterfaces();
+		for (String s : is) {
+			cr = new ClassReader(s);
+			cr.accept(bw, ClassReader.SKIP_CODE);
+		}
 //		
 		bw.finish();
 
@@ -188,8 +188,9 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 			ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
 			SignatureReader sr = new SignatureReader(signature);
 			sr.accept(classSignaturewwww);
-			for (int i = 0; i < classSignaturewwww.typeParameterClass.size(); i++) {
-				Clazz clazz = classSignaturewwww.typeParameterClass.get(i).get();
+			classSignaturewwww.finish(); 
+			for (int i = 0; i < classSignaturewwww.typeParamenterClazzes.length; i++) {
+				Clazz clazz = classSignaturewwww.typeParamenterClazzes[i];
 				if (clazz instanceof ClazzFormalTypeParameter) {
 					ClazzFormalTypeParameter clazzFormalTypeParameter = (ClazzFormalTypeParameter) clazz;
 					formalTypeParameters.put(clazzFormalTypeParameter.name, clazzFormalTypeParameter.clazz);
@@ -236,9 +237,7 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 //		}
 
 		// Return Type
-
 		Type originReturnType = Type.getReturnType(descriptor);
-
 		// ParamType
 		Type[] originParamTypes = Type.getArgumentTypes(descriptor);
 
@@ -251,8 +250,9 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 			classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
 			SignatureReader sr = new SignatureReader(signature);
 			sr.accept(classSignaturewwww);
-			for (int i = 0; i < classSignaturewwww.paramsClass.size(); i++) {
-				Clazz clazz = classSignaturewwww.paramsClass.get(i).get();
+			classSignaturewwww.finish();
+			for (int i = 0; i < classSignaturewwww.paramsClazzes.length; i++) {
+				Clazz clazz = classSignaturewwww.paramsClazzes[i];
 				Clazz computedClazz;
 				if (clazz instanceof ClazzVariable) {
 					computedClazz = formalTypeActParameters.get(((ClazzVariable) clazz).name);
@@ -262,7 +262,7 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 				methodParamClazzes[i] = computedClazz;
 			}
 
-			Clazz originReturnClazz = classSignaturewwww.returnClass.get();
+			Clazz originReturnClazz = classSignaturewwww.returnClazz;
 			if (originReturnClazz instanceof ClazzVariable) {
 				computedReturnClazz = formalTypeActParameters.get(((ClazzVariable) originReturnClazz).name);
 			} else {

@@ -1,5 +1,7 @@
 package cc1sj.tinyasm;
 
+import java.util.Arrays;
+
 import org.objectweb.asm.Type;
 
 public class ClazzComplex implements Clazz {
@@ -59,5 +61,11 @@ public class ClazzComplex implements Clazz {
 			signature = sb.toString();
 		}
 		return signature;
+	}
+
+	@Override
+	public String toString() {
+		return this.signatureOf();
 	};
+
 }

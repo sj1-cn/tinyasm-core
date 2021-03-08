@@ -46,6 +46,10 @@ public interface Clazz {
 	static Clazz typeVariableOf(String name) {
 		return new ClazzVariable(name);
 	}
+	
+	static Clazz typeUnboundedVariable() {
+		return new ClazzVariable("*");
+	}
 
 	static Clazz formalTypeParameterOf(String name, Clazz clazz) {
 		return new ClazzFormalTypeParameter(name, clazz);
@@ -103,4 +107,5 @@ public interface Clazz {
 	}
 
 	String signatureOf();
+
 }

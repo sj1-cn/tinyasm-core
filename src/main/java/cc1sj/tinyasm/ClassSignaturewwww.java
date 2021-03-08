@@ -3,6 +3,7 @@ package cc1sj.tinyasm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.signature.SignatureVisitor;
@@ -12,13 +13,8 @@ import org.slf4j.LoggerFactory;
 public final class ClassSignaturewwww extends SignatureVisitor {
 	static Logger logger = LoggerFactory.getLogger(ClassSignaturewwww.class);
 
-//	@Override
-//	public String toString() {
-//		return sb.toString();
-//	}
-
-	int level = 0;
-	boolean array = false;
+	private int level = 0;
+	private boolean array = false;
 
 	String indent() {
 		StringBuilder sb = new StringBuilder();
@@ -30,41 +26,89 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 		return sb.toString();
 	}
 
-	List<Holder<Clazz>> paramsClass = new ArrayList<>();
-	Holder<Clazz> returnClass = new Holder<>();
-	Holder<Clazz> superClass = new Holder<>();
-	List<Holder<Clazz>> interfacesClass = new ArrayList<>();
-	List<Holder<Clazz>> typeParameterClass = new ArrayList<>();;
+	private List<Holder<Clazz>> paramsClassList = new ArrayList<>();
+	private List<Holder<Clazz>> returnClassList = new ArrayList<>();
+	private List<Holder<Clazz>> superClassList = new ArrayList<>();
+	private List<Holder<Clazz>> interfacesClassList = new ArrayList<>();
+	private List<Holder<Clazz>> typeParameterClassList = new ArrayList<>();;
 
-	Holder<Clazz> sb;
+//	Holder<Clazz> sb;
 
-	class Holder<T> {
-		T t;
+	private List<Holder<Clazz>> list;
 
-		T get() {
-			return t;
+	private Stack<List<Holder<Clazz>>> listStack = new Stack<List<Holder<Clazz>>>();
+
+	Clazz returnClazz;
+	Clazz superClazz;
+	Clazz[] interfaceClazzes;
+	Clazz[] typeParamenterClazzes;
+	Clazz[] paramsClazzes;
+
+	public void finish() {
+		returnClazz = returnClassList.size() > 0 ? returnClassList.get(0).get() : null;
+		superClazz = superClassList.size() > 0 ? superClassList.get(0).get() : null;
+
+		interfaceClazzes = extracted(interfacesClassList);
+		typeParamenterClazzes = extracted(typeParameterClassList);
+		paramsClazzes = extracted(paramsClassList);
+
+	}
+
+	protected Clazz[] extracted(List<Holder<Clazz>> ee) {
+		Clazz[] interfaceClazzes = new Clazz[ee.size()];
+		for (int i = 0; i < interfaceClazzes.length; i++) {
+			interfaceClazzes[i] = ee.get(i).get();
 		}
+		return interfaceClazzes;
+	}
 
-		void set(T t) {
-			this.t = t;
-		}
-
-		@Override
-		public String toString() {
-			return t != null ? t.toString() : "";
-		}
+	abstract class Holder<T> {
+		abstract T get();
 	}
 
 	class HolderFormalTypeParameter extends Holder<Clazz> {
-		String name;
+		String parameterName;
+		List<Holder<Clazz>> children = new ArrayList<>();
 
-		public HolderFormalTypeParameter(String name) {
-			this.name = name;
+		public HolderFormalTypeParameter(String parameterName) {
+			this.parameterName = parameterName;
 		}
 
 		@Override
 		Clazz get() {
-			return Clazz.formalTypeParameterOf(name, super.get());
+			return Clazz.formalTypeParameterOf(parameterName, children.get(0).get());
+		}
+
+		@Override
+		public String toString() {
+			return get().toString();
+		}
+
+	}
+
+	class HolderClazz extends Holder<Clazz> {
+		Clazz baseClass;
+		List<Holder<Clazz>> children = new ArrayList<>();
+
+		public HolderClazz(Clazz name) {
+			this.baseClass = name;
+		}
+
+		@Override
+		Clazz get() {
+			if (children.size() > 0) {
+				Clazz[] clazzes = new Clazz[children.size()];
+				for (int i = 0; i < clazzes.length; i++) {
+					clazzes[i] = children.get(i).get();
+				}
+				return Clazz.of(baseClass, clazzes);
+			} else {
+				return baseClass;
+			}
+		}
+
+		public List<Holder<Clazz>> getChildren() {
+			return children;
 		}
 
 		@Override
@@ -90,78 +134,80 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 
 	@Override
 	public void visitFormalTypeParameter(String name) {
-		logger.debug("{}visitFormalTypeParameter({})", indent(), name);
-		sb = new HolderFormalTypeParameter(name);
-		typeParameterClass.add(sb);
+		logger.trace("{}visitFormalTypeParameter({})", indent(), name);
+		HolderFormalTypeParameter sb = new HolderFormalTypeParameter(name);
+		typeParameterClassList.add(sb);
+		list = sb.children;
 		super.visitFormalTypeParameter(name);
 	}
 
 	@Override
 	public SignatureVisitor visitClassBound() { // :
 //		sb = new Holder<>();
-		logger.debug("{}visitClassBound()", indent());
+		logger.trace("{}visitClassBound()", indent());
 		return this; // new ClassSignaturewwww(Opcodes.ASM9, header + "->visitClassBound");
 	}
 
 	@Override
 	public SignatureVisitor visitInterfaceBound() {
-		logger.debug("{}visitInterfaceBound()", indent());
+		logger.trace("{}visitInterfaceBound()", indent());
 		return this; // new ClassSignaturewwww(Opcodes.ASM9, header + "->visitInterfaceBound");
 	}
 
 	@Override
 	public SignatureVisitor visitSuperclass() {
-		sb = superClass = new Holder<>();
-		logger.debug("{}visitSuperclass()", indent());
+		list = superClassList;
+		logger.trace("{}visitSuperclass()", indent());
 		return this; // new ClassSignaturewwww(Opcodes.ASM9, header + "->visitSuperclass");
 	}
 
 	@Override
 	public SignatureVisitor visitInterface() {
-		sb = new Holder<>();
-		interfacesClass.add(sb);
-		logger.debug("{}visitInterface()", indent());
+//		sb = new Holder<>();
+		list = interfacesClassList;
+		logger.trace("{}visitInterface()", indent());
 		return this; // new ClassSignaturewwww(Opcodes.ASM9, header + "->visitInterface");
 	}
 
 	@Override
 	public SignatureVisitor visitParameterType() {
-		sb = new Holder<>();
-		paramsClass.add(sb);
-		logger.debug("{}visitParameterType()", indent());
+		list = paramsClassList;
+//		sb = new Holder<>();
+//		paramsClass.add(sb);
+		logger.trace("{}visitParameterType()", indent());
 		return this; // new ClassSignaturewwww(Opcodes.ASM9, header + "->visitParameterType");
 	}
 
 	@Override
 	public SignatureVisitor visitReturnType() {
-		sb = returnClass = new Holder<>();
-		logger.debug("{}visitReturnType()", indent());
+		list = returnClassList;
+		logger.trace("{}visitReturnType()", indent());
 		return this; // new ClassSignaturewwww(Opcodes.ASM9, header + "->visitReturnType");
 	}
 
 	@Override
 	public SignatureVisitor visitExceptionType() {
-		logger.debug("{}visitExceptionType()", indent());
+		logger.trace("{}visitExceptionType()", indent());
 		return this; // new ClassSignaturewwww(Opcodes.ASM9, header + "->visitExceptionType");
 	}
 
 	@Override
 	public void visitBaseType(char descriptor) {
-		logger.debug("{}visitBaseType({})", indent(), descriptor);
+		logger.trace("{}visitBaseType({})", indent(), descriptor);
 		super.visitBaseType(descriptor);
 	}
 
 	@Override
 	public void visitTypeVariable(String name) {
-		sb.set(Clazz.typeVariableOf(name));
-		logger.debug("{}visitTypeVariable({})", indent(), name);
+		list.add(new HolderClazz(Clazz.typeVariableOf(name)));
+		logger.trace("{}visitTypeVariable({})", indent(), name);
 		super.visitTypeVariable(name);
 	}
 
 	@Override
 	public SignatureVisitor visitArrayType() {
 		array = true;
-		logger.debug("{}visitArrayType()", indent());
+		logger.trace("{}visitArrayType()", indent());
 		return this; // new ClassSignaturewwww(Opcodes.ASM9, header + "->visitArrayType");
 	}
 
@@ -171,43 +217,49 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 
 	@Override
 	public void visitClassType(String name) {
-
+		HolderClazz holderClazz;
 		if (array) {
-			sb.set(Clazz.of(toSimpleName(name), true));
+			holderClazz = new HolderClazz(Clazz.of(toSimpleName(name), true));
 		} else {
-			sb.set(Clazz.of(toSimpleName(name)));
+			holderClazz = new HolderClazz(Clazz.of(toSimpleName(name)));
 		}
+		list.add(holderClazz);
+		listStack.push(list);
+		list = holderClazz.getChildren();
+//		sb.set(null); = holderClazz;
 
-		logger.debug("{}visitClassType({})", indent(), name);
+		logger.trace("{}visitClassType({})", indent(), name);
 		level++;
 		super.visitClassType(name);
 	}
 
 	@Override
 	public void visitInnerClassType(String name) {
-		logger.debug("{}visitInnerClassType({})", indent(), name);
+		logger.trace("{}visitInnerClassType({})", indent(), name);
 		super.visitInnerClassType(name);
 	}
 
 	@Override
 	public void visitTypeArgument() {
-		logger.debug("{}visitTypeArgument()", indent());
+		logger.trace("{}visitTypeArgument()", indent());
 		array = false;
+
 		super.visitTypeArgument();
 	}
 
 	@Override
 	public SignatureVisitor visitTypeArgument(char wildcard) {
 //		sb.append(",");
-		logger.debug("{}visitTypeArgument({})", indent(), wildcard);
+		logger.trace("{}visitTypeArgument({})", indent(), wildcard);
 		return this; // new ClassSignaturewwww(Opcodes.ASM9, header + "->visitTypeArgument");
 	}
 
 	@Override
 	public void visitEnd() {
+		list = listStack.pop();
 		array = false;
 		level--;
-		logger.debug("{}visitEnd()", indent());
+		logger.trace("{}visitEnd()", indent());
 		super.visitEnd();
 	}
 }

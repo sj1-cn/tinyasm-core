@@ -31,7 +31,7 @@ public class ClazzVariable implements Clazz {
 
 	@Override
 	public String getDescriptor() {
-		return null;
+		return this.signatureOf();
 	}
 
 	@Override

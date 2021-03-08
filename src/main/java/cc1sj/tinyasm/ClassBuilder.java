@@ -20,8 +20,7 @@ public interface ClassBuilder {
 		return new ClassHeaderImpl(classWriter, clazz, Clazz.of(superClazz)).implement(interfaceType);
 	}
 
-	static public ClassHeader make(ClassVisitor classWriter, String clazz, Class<?> superClazz,
-			Class<?> interfaceType) {
+	static public ClassHeader make(ClassVisitor classWriter, String clazz, Class<?> superClazz, Class<?> interfaceType) {
 		return new ClassHeaderImpl(classWriter, clazz, Clazz.of(superClazz)).implement(interfaceType);
 	}
 
@@ -40,15 +39,25 @@ public interface ClassBuilder {
 		return new ClassHeaderImpl(classWriter, clazz, Clazz.of(superClazz));
 	}
 
+	static public ClassHeader make(String clazz, Class<?> superClazz, Class<?>... interfaceTypes) {
+		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
+		ClassHeader ch = new ClassHeaderImpl(classWriter, clazz, Clazz.of(superClazz));
+		for (Class<?> interfaceType : interfaceTypes) {
+			ch.implement(interfaceType);
+		}
+		return ch;
+	}
+
 	static public ClassHeader make(String clazz, Clazz superClazz, Clazz... interfaceType) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		return new ClassHeaderImpl(classWriter, clazz, superClazz).implement(interfaceType);
 	}
+
 	static public ClassHeader make(String clazz, Clazz superClazz) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		return new ClassHeaderImpl(classWriter, clazz, superClazz);
 	}
-	
+
 	static public ClassHeader make(String clazz, String superClazz, String interfaceType) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		return new ClassHeaderImpl(classWriter, clazz, Clazz.of(superClazz)).implement(interfaceType);

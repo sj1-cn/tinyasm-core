@@ -23,6 +23,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.signature.SignatureReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 public class Adv {
 
 	static Logger logger = LoggerFactory.getLogger(Adv.class);
@@ -519,16 +520,100 @@ public class Adv {
 		return t;
 	}
 
-	public static <T> List<T> newlist_(Class<?> class1, Class<T> class2) {
-		// TODO Auto-generated method stub
-		return null;
+	public static <T> T new_(Class<?> clz, Class<?> interfaceClass, Class<?> typeParameter) {
+		AdvContext context = _contextThreadLocal.get();
+
+		int codeIndex = context.push(clz, c -> {
+			c.NEW(clz);
+			c.DUP();
+			c.SPECIAL(clz, "<init>").INVOKE();
+			c.CHECKCAST(Type.getType(interfaceClass));
+		});
+
+		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
+
+		@SuppressWarnings("unchecked")
+		T t = (T) brokerBuilder.buildProxyClass(interfaceClass, typeParameter, _contextThreadLocal, magicNumber);
+		return t;
 	}
 
-	public static <K,V> Map<K,V> newmap_(Class<?> class1, Class<K> keyClass, Class<V> valueClass) {
-		// TODO Auto-generated method stub
-		return null;
+	public static <T> T new_(Class<?> clz, Class<?> interfaceClass, Class<?> typeParameter, Object... params) {
+		AdvContext context = _contextThreadLocal.get();
+
+		Constructor<?> constructor = matchConstruct(clz, params);
+		if (constructor == null) throw new UnsupportedOperationException();
+		Class<?>[] paramTypes = constructor.getParameterTypes();
+
+		List<ConsumerWithException<MethodCode>> valueEvals = new ArrayList<>();
+		for (int i = 0; i < params.length; i++) {
+			valueEvals.add(context.resolve(params[i], paramTypes[i]));
+		}
+
+		int codeIndex = context.push(clz, c -> {
+//			c.LINE();
+			c.NEW(clz);
+			c.DUP();
+			for (ConsumerWithException<MethodCode> valueEval : valueEvals) {
+				valueEval.accept(c);
+			}
+			c.SPECIAL(clz, "<init>").parameter(constructor.getParameterTypes()).INVOKE();
+			c.CHECKCAST(Type.getType(interfaceClass));
+		});
+
+		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
+
+		@SuppressWarnings("unchecked")
+		T t = (T) brokerBuilder.buildProxyClass(interfaceClass, typeParameter, _contextThreadLocal, magicNumber);
+		return t;
 	}
-	
+
+	public static <T> T new_(Class<?> clz, Class<?> interfaceClass) {
+		AdvContext context = _contextThreadLocal.get();
+
+		int codeIndex = context.push(clz, c -> {
+			c.NEW(clz);
+			c.DUP();
+			c.SPECIAL(clz, "<init>").INVOKE();
+			c.CHECKCAST(Type.getType(interfaceClass));
+		});
+
+		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
+
+		@SuppressWarnings("unchecked")
+		T t = (T) brokerBuilder.buildProxyClass(interfaceClass, _contextThreadLocal, magicNumber);
+		return t;
+	}
+
+	public static <T> T new_(Class<?> clz, Class<?> interfaceClass, Object... params) {
+		AdvContext context = _contextThreadLocal.get();
+
+		Constructor<?> constructor = matchConstruct(clz, params);
+		if (constructor == null) throw new UnsupportedOperationException();
+		Class<?>[] paramTypes = constructor.getParameterTypes();
+
+		List<ConsumerWithException<MethodCode>> valueEvals = new ArrayList<>();
+		for (int i = 0; i < params.length; i++) {
+			valueEvals.add(context.resolve(params[i], paramTypes[i]));
+		}
+
+		int codeIndex = context.push(clz, c -> {
+//			c.LINE();
+			c.NEW(clz);
+			c.DUP();
+			for (ConsumerWithException<MethodCode> valueEval : valueEvals) {
+				valueEval.accept(c);
+			}
+			c.SPECIAL(clz, "<init>").parameter(constructor.getParameterTypes()).INVOKE();
+			c.CHECKCAST(Type.getType(interfaceClass));
+		});
+
+		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
+
+		@SuppressWarnings("unchecked")
+		T t = (T) brokerBuilder.buildProxyClass(interfaceClass, _contextThreadLocal, magicNumber);
+		return t;
+	}
+
 	static public <T> T new_(Class<T> clz, Object... params) {
 
 		AdvContext context = _contextThreadLocal.get();
@@ -696,6 +781,78 @@ public class Adv {
 		doSet_((int) magicLocalsIndex, (int) magicIndex);
 	}
 
+	/**
+	 * 把当前堆栈顶端的对象存储到locals中
+	 * 
+	 * @param <T>
+	 * @param magicNumber
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	static public <T> T __(String varname, T magicNumber) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> expr = context.resolve(magicNumber);
+		context.clear();
+		context.line();
+		context.exec(expr);
+		int locals = context.store(varname);
+
+		Class<?> t = magicNumber.getClass();
+
+		if (t == boolean.class) {
+			throw new UnsupportedOperationException();
+		} else if (t == Byte.class) {
+			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Character.class) {
+			int codeIndex = ((Character) magicNumber).charValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Short.class) {
+			int codeIndex = ((Short) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Integer.class) {
+			int codeIndex = ((Integer) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Long.class) {
+			int codeIndex = ((Long) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Float.class) {
+			int codeIndex = ((Float) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Double.class) {
+			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == String.class) {
+			String key = String.valueOf(MAGIC_LOCALS_String + locals);
+			return (T) key;
+		} else if (magicNumber instanceof AdvRuntimeReferNameObject) {
+			AdvRuntimeReferNameObject obj = ((AdvRuntimeReferNameObject) magicNumber);
+			byte codeIndex = obj.get__MagicNumber();
+
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+
+			byte localsIndex = (byte) (MAGIC_LOCALS_NUMBER + locals);
+			obj.set__MagicNumber(localsIndex);
+			return (T) obj;
+		} else {
+			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+		}
+	}
+
 	static public <T> void __(T target, T src) {
 		assert target instanceof AdvRuntimeReferNameObject : "target 必须是内部对象";
 		assert src instanceof AdvRuntimeReferNameObject : "src 必须是内部对象";
@@ -708,13 +865,13 @@ public class Adv {
 		doSet_((int) magicLocalsIndex, (int) magicIndex);
 	}
 
-	/**
-	 * Refer 把当前堆栈顶的值保存在新的local位置中并返回记录local位置的值。
-	 * 
-	 * @param magicIndex
-	 * @return
-	 */
-	static public boolean_ __(String varname, boolean magicIndex) {
+//	/**
+//	 * Refer 把当前堆栈顶的值保存在新的local位置中并返回记录local位置的值。
+//	 * 
+//	 * @param magicIndex
+//	 * @return
+//	 */
+	static public boolean_ _b(String varname, boolean magicIndex) {
 		AdvContext context = _contextThreadLocal.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 
@@ -727,7 +884,7 @@ public class Adv {
 		return new boolean_Holder(_contextThreadLocal, (byte) (MAGIC_LOCALS_NUMBER + localsIndex));
 	}
 
-	static public Boolean__ __(String varname, Boolean v) {
+	static public Boolean__ _b(String varname, Boolean v) {
 		AdvContext context = _contextThreadLocal.get();
 		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
 
@@ -827,78 +984,6 @@ public class Adv {
 		} else if (clazz.isAssignableFrom(AdvRuntimeReferNameObject.class)) {
 			byte magicNumber = (byte) (MAGIC_LOCALS_NUMBER + locals);
 			return buildProxyClass(clazz, magicNumber);
-		} else {
-			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
-		}
-	}
-
-	/**
-	 * 把当前堆栈顶端的对象存储到locals中
-	 * 
-	 * @param <T>
-	 * @param magicNumber
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	static public <T> T __(String varname, T magicNumber) {
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> expr = context.resolve(magicNumber);
-		context.clear();
-		context.line();
-		context.exec(expr);
-		int locals = context.store(varname);
-
-		Class<?> t = magicNumber.getClass();
-
-		if (t == boolean.class) {
-			throw new UnsupportedOperationException();
-		} else if (t == Byte.class) {
-			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Character.class) {
-			int codeIndex = ((Character) magicNumber).charValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Short.class) {
-			int codeIndex = ((Short) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Integer.class) {
-			int codeIndex = ((Integer) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Long.class) {
-			int codeIndex = ((Long) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Float.class) {
-			int codeIndex = ((Float) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Double.class) {
-			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == String.class) {
-			String key = String.valueOf(MAGIC_LOCALS_String + locals);
-			return (T) key;
-		} else if (magicNumber instanceof AdvRuntimeReferNameObject) {
-			AdvRuntimeReferNameObject obj = ((AdvRuntimeReferNameObject) magicNumber);
-			byte codeIndex = obj.get__MagicNumber();
-
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-
-			byte localsIndex = (byte) (MAGIC_LOCALS_NUMBER + locals);
-			obj.set__MagicNumber(localsIndex);
-			return (T) obj;
 		} else {
 			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
 		}
@@ -1213,6 +1298,10 @@ public class Adv {
 
 	public static <T> T buildProxyClass(Class<T> t, byte magicNumber) {
 		return brokerBuilder.buildProxyClass(t, _contextThreadLocal, magicNumber);
+	}
+
+	public static <T> T buildProxyClass(Class<?> t, Class<?> type, byte magicNumber) {
+		return brokerBuilder.buildProxyClass(t, type, _contextThreadLocal, magicNumber);
 	}
 
 	public static <T> byte[] dumpClass(AdvClassBuilder classBuilder, Class<T> clazz) {
