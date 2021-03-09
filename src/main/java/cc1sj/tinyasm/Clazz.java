@@ -2,6 +2,8 @@ package cc1sj.tinyasm;
 
 import static cc1sj.tinyasm.TypeUtils.arrayOf;
 
+import java.util.List;
+
 import org.objectweb.asm.Type;
 
 public interface Clazz {
@@ -15,6 +17,8 @@ public interface Clazz {
 
 	String getDescriptor();
 
+	String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters);
+
 	static Clazz of(String classname) {
 		return new ClazzType(classname);
 	}
@@ -24,13 +28,13 @@ public interface Clazz {
 	}
 
 	static Clazz of(Class<?> classname) {
-		return classname!=null?new ClazzType(classname):null;
+		return classname != null ? new ClazzType(classname) : null;
 	}
 
 	static Clazz of(Class<?> classname, boolean isarray) {
-		if(isarray) {
+		if (isarray) {
 			return new ClazzType(arrayOf(typeOf(classname), isarray));
-		}else {
+		} else {
 			return of(classname);
 		}
 	}
@@ -46,11 +50,11 @@ public interface Clazz {
 	static Clazz typeVariableOf(String name) {
 		return new ClazzVariable(name);
 	}
+
 	static Clazz typeVariableOf(String name, boolean isarray) {
-		return new ClazzVariable(name,isarray);
+		return new ClazzVariable(name, isarray);
 	}
 
-	
 	static Clazz typeUnboundedVariable() {
 		return new ClazzVariable("*");
 	}
@@ -94,10 +98,12 @@ public interface Clazz {
 
 		return new ClazzComplex(baseType, genericParameterClazz);
 	}
+
 	static Clazz of(Clazz baseType, Clazz... genericParameterClazz) {
 
 		return new ClazzComplex(baseType, genericParameterClazz);
 	}
+
 	static Type typeOf(String name) {
 		Type type;
 		if (name == null) type = Type.VOID_TYPE;

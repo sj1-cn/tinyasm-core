@@ -3,6 +3,8 @@ package cc1sj.tinyasm;
 import org.objectweb.asm.Type;
 import static cc1sj.tinyasm.TypeUtils.arrayOf;
 
+import java.util.List;
+
 public class ClazzVariable implements Clazz {
 	final String name;
 	final boolean isarray;
@@ -29,12 +31,12 @@ public class ClazzVariable implements Clazz {
 
 	@Override
 	public String signatureWhenNeed() {
-		return signatureOf();
+		return needSignature() ? signatureOf() : null;
 	}
 
 	@Override
 	public boolean needSignature() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -43,8 +45,24 @@ public class ClazzVariable implements Clazz {
 	}
 
 	@Override
+	public String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters) {
+		for (int i = 0; i < formalTypeParameters.size(); i++) {
+			if (this.name == formalTypeParameters.get(i).name) {
+				if (isarray) {
+					return "[" + formalTypeParameters.get(i).clazz.getDescriptor();
+				} else {
+					return formalTypeParameters.get(i).clazz.getDescriptor();
+				}
+			}
+		}
+		throw new UnsupportedOperationException("不能找到对应的FormalTypeParameter");
+	}
+
+	@Override
 	public String signatureOf() {
-		return isarray ? "[T" + name + ";" : "T" + name + ";";
+		if ("*".equals(name)) {
+			return "*";
+		} else return isarray ? "[T" + name + ";" : "T" + name + ";";
 	}
 
 	@Override

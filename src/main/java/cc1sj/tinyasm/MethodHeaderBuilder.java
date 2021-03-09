@@ -75,7 +75,6 @@ class MethodHeaderBuilder implements MethodHeader {
 		this.methodAccess |= access;
 		return this;
 	}
-	
 
 	@Override
 	public MethodHeader formalTypeParameter(ClazzFormalTypeParameter clazz) {
@@ -136,6 +135,16 @@ class MethodHeaderBuilder implements MethodHeader {
 			boolean needSignature = false;
 			{
 				StringBuilder sb = new StringBuilder();
+				if (formalTypeParameters != null && formalTypeParameters.size() > 0) {
+					sb.append('<');
+					for (int i = 0; i < formalTypeParameters.size(); i++) {
+						ClazzFormalTypeParameter type = formalTypeParameters.get(i);
+						sb.append(type.signatureOf());
+					}
+					sb.append('>');
+					needSignature = true;
+				}
+
 				sb.append("(");
 				for (ClassField param : params) {
 					if (param.clazz.needSignature()) {
@@ -151,7 +160,6 @@ class MethodHeaderBuilder implements MethodHeader {
 					sb.append(returnClazz.signatureAnyway());
 				} else {
 					sb.append(returnType.getDescriptor());
-
 				}
 				String signatureFromParameter = sb.toString();
 
@@ -249,14 +257,15 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	protected void exitMethod() {
 		if (thisMethod.hasEnded) return;
-		if (this.methodAccess == (ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC)) {
+		if ((this.methodAccess & (ACC_BRIDGE | ACC_SYNTHETIC)) == (ACC_BRIDGE | ACC_SYNTHETIC)) {
 			Label endLabel = this.labelWithoutLineNumber();
 			LocalsStack.Var var = mhLocals.getByLocal(0);
 			assert mv != null;
 			assert var != null;
 			assert var.clazz.getDescriptor() != null;
 			Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
-			mv.visitLocalVariable(var.name, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
+			mv.visitLocalVariable(var.name, var.clazz.getDescriptor(formalTypeParameters), var.clazz.signatureWhenNeed(), labelfrom,
+					endLabel, var.locals);
 		} else {// if (!((this.methodAccess & ACC_SYNTHETIC) > 0)) {
 			Label endLabel = this.labelWithoutLineNumber();
 			for (LocalsStack.Var var : mhLocals) {
@@ -268,8 +277,8 @@ class MethodHeaderBuilder implements MethodHeader {
 
 					String varname = var.name != null ? var.name : "var" + var.locals;
 
-					mv.visitLocalVariable(varname, var.clazz.getDescriptor(), var.clazz.signatureWhenNeed(), labelfrom, endLabel,
-							var.locals);
+					mv.visitLocalVariable(varname, var.clazz.getDescriptor(formalTypeParameters), var.clazz.signatureWhenNeed(), labelfrom,
+							endLabel, var.locals);
 				}
 			}
 		}

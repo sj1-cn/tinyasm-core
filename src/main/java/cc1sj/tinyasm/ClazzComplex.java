@@ -1,6 +1,7 @@
 package cc1sj.tinyasm;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.objectweb.asm.Type;
 
@@ -25,21 +26,22 @@ public class ClazzComplex implements Clazz {
 
 	@Override
 	public String signatureWhenNeed() {
-		if (genericParameterClazz != null && genericParameterClazz.length > 0) {
-			return signatureOf();
-		} else {
-			return null;
-		}
+		return needSignature() ? signatureOf() : null;
 	}
 
 	@Override
 	public boolean needSignature() {
-		return (genericParameterClazz != null && genericParameterClazz.length > 0);
+		return baseClazz.needSignature() || (genericParameterClazz != null && genericParameterClazz.length > 0);
 	}
 
 	@Override
 	public String getDescriptor() {
 		return baseClazz.getDescriptor();
+	}
+
+	@Override
+	public String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters) {
+		return this.getDescriptor();
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package cc1sj.tinyasm;
 
+import java.util.List;
+
 import org.objectweb.asm.Type;
 
 public class ClazzFormalTypeParameter implements Clazz {
@@ -34,6 +36,11 @@ public class ClazzFormalTypeParameter implements Clazz {
 	@Override
 	public String getDescriptor() {
 		return null;
+	}
+
+	@Override
+	public String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters) {
+		return this.getDescriptor();
 	}
 
 	@Override
