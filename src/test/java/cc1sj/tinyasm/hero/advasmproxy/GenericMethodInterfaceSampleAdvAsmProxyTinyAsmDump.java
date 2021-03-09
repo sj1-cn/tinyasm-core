@@ -88,8 +88,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _set__Context(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("set__Context")
+			.reTurn(Clazz.of(void.class) )
 			.parameter("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)))
-			.parameter("_magicNumber",byte.class).begin();
+			.parameter("_magicNumber",Clazz.of(byte.class)).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -119,7 +120,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 			.reTurn(Class.class).INVOKE();
 		code.VIRTUAL(Class.class, "getComponentType")
 			.reTurn(Class.class).INVOKE();
-		code.STORE("elementClass",Clazz.of(Class.class, Clazz.typeUnboundedVariable()));
+		code.STORE("elementClass",Clazz.of(Class.class, Clazz.typeUnboundedTypeArgument()));
 
 		code.LINE();
 		code.LOAD("this");

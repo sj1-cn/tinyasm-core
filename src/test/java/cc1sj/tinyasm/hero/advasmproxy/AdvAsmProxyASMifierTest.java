@@ -255,6 +255,16 @@ public class AdvAsmProxyASMifierTest {
 	}
 
 	@Test
+	public void test_PageListAdvAsmProxy_Dump() throws Exception {
+		Class<?> expectedClazz = PageListAdvAsmProxy.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
+		
+		assertEquals("Code", codeExpected, codeActual);
+	}
+	
+	@Test
 	public void test_PageList_Builder() throws Exception {
 		Class<?> expectedClazz = PageListAdvAsmProxy.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
@@ -263,7 +273,6 @@ public class AdvAsmProxyASMifierTest {
 				AdvAsmProxyGenericInterfaceAdvAsmBuilder.dump2(PageList.class, PojoClassSample.class, PageListAdvAsmProxy.class.getName()));
 
 		assertEquals("Code", codeExpected, codeActual);
-
 	}
 
 	@Test

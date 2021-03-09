@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.signature.SignatureReader;
 
-
 public class ClassSignaturewwwwTest {
 
 	@Before
@@ -67,7 +66,7 @@ public class ClassSignaturewwwwTest {
 		classSignaturewwww.finish();
 		assertEquals("TT;", classSignaturewwww.paramsClazzes[0].toString());
 
-		assertEquals(null, classSignaturewwww.returnClazz);
+		assertEquals("V", classSignaturewwww.returnClazz.toString());
 //		assertEquals(0, classSignaturewwww.paramsClazzes.length);
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
 		assertEquals(null, classSignaturewwww.superClazz);
@@ -108,6 +107,7 @@ public class ClassSignaturewwwwTest {
 		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
 
 	}
+
 	@Test
 	public void test_generic_method() {
 		String signature = "<T:Ljava/lang/Object;>([TT;)[TT;";
@@ -115,15 +115,50 @@ public class ClassSignaturewwwwTest {
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
-		assertEquals("TT;", classSignaturewwww.returnClazz.toString());
+		assertEquals("[TT;", classSignaturewwww.returnClazz.toString());
 
 //		assertEquals(null, classSignaturewwww.returnClazz);
-		assertEquals("TT;", classSignaturewwww.paramsClazzes[0].toString());
+		assertEquals("[TT;", classSignaturewwww.paramsClazzes[0].toString());
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
 		assertEquals(null, classSignaturewwww.superClazz);
 		assertEquals("T:Ljava/lang/Object;", classSignaturewwww.typeParamenterClazzes[0].toString());
 	}
-	//<T:Ljava/lang/Object;>([TT;)[TT;
 
+	@Test
+	public void test_basetype() {
+		String signature = "(Ljava/util/Collection<*>;)Z";
+		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
+		SignatureReader sr = new SignatureReader(signature);
+		sr.accept(classSignaturewwww);
+		classSignaturewwww.finish();
+		assertEquals("Z", classSignaturewwww.returnClazz.toString());
 
+//		assertEquals(null, classSignaturewwww.returnClazz);
+		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].toString());
+		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].signatureOf());
+		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
+		assertEquals(null, classSignaturewwww.superClazz);
+		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
+	}
+	// <T:Ljava/lang/Object;>([TT;)[TT;
+//	
+	
+
+	@Test
+	public void test_basetypessssss() {
+		String signature = "(ILjava/util/Collection<+Lcc1sj/tinyasm/hero/helperclass/PojoClassSample;>;)Z";
+		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
+		SignatureReader sr = new SignatureReader(signature);
+		sr.accept(classSignaturewwww);
+		classSignaturewwww.finish();
+		assertEquals("Z", classSignaturewwww.returnClazz.toString());
+
+//		assertEquals(null, classSignaturewwww.returnClazz);
+		assertEquals("I", classSignaturewwww.paramsClazzes[0].toString());
+		assertEquals("Ljava/util/Collection<+Lcc1sj/tinyasm/hero/helperclass/PojoClassSample;>;", classSignaturewwww.paramsClazzes[1].toString());
+//		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].signatureOf());
+		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
+		assertEquals(null, classSignaturewwww.superClazz);
+		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
+	}
 }

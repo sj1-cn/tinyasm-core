@@ -8,6 +8,7 @@ import org.objectweb.asm.Type;
 
 /**
  * TODO 暂时为了回避调用方式是的对象是否是接口的逻辑修改成抽象类。回头还是改回去吧
+ * 
  * @author wangshilian
  *
  */
@@ -62,8 +63,8 @@ public abstract class Clazz {
 		return new ClazzVariable(name, isarray);
 	}
 
-	public static Clazz typeUnboundedVariable() {
-		return new ClazzVariable("*");
+	public static Clazz typeUnboundedTypeArgument() {
+		return new ClazzTypeArgument('*');
 	}
 
 	public static Clazz formalTypeParameterOf(String name, Clazz clazz) {
@@ -121,6 +122,26 @@ public abstract class Clazz {
 
 	public static Type typeOf(Class<?> clazz) {
 		return Type.getType(clazz);
+	}
+
+	public static Clazz typeArgument(char wildcard, Class<?> clazz, Class<?>... genericParameterClazz) {
+		return new ClazzTypeArgument(wildcard, Clazz.of(clazz, genericParameterClazz));
+	}
+
+	public static Clazz typeArgument(char wildcard, Class<?> clazz, Clazz... genericParameterClazz) {
+		return new ClazzTypeArgument(wildcard, Clazz.of(clazz, genericParameterClazz));
+	}
+
+	public static Clazz typeArgument(char wildcard, Class<?> clazz) {
+		return new ClazzTypeArgument(wildcard, Clazz.of(clazz));
+	}
+
+	public static Clazz typeArgument(char wildcard, Clazz clazz) {
+		return new ClazzTypeArgument(wildcard, clazz);
+	}
+
+	public static Clazz typeArgument(char wildcard) {
+		return new ClazzTypeArgument(wildcard);
 	}
 
 }

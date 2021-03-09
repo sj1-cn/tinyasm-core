@@ -1,6 +1,5 @@
 package cc1sj.tinyasm;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.objectweb.asm.Type;

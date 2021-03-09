@@ -96,8 +96,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _set__Context(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("set__Context")
+			.reTurn(Clazz.of(void.class) )
 			.parameter("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)))
-			.parameter("_magicNumber",byte.class).begin();
+			.parameter("_magicNumber",Clazz.of(byte.class)).begin();
 
 		code.LINE();
 		code.LOAD("this");

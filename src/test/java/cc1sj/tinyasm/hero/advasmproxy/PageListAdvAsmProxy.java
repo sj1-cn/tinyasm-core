@@ -481,13 +481,13 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(Array.class, c -> {
-//			objEval.accept(c);
-//			eval_param0.accept(c);
-//			c.VIRTUAL(PageList.class, "toArray").parameter(IntFunction.class).reTurn(T[].class).INVOKE();
-		});
+//		byte codeIndex = context.push(Array.class, c -> {
+////			objEval.accept(c);
+////			eval_param0.accept(c);
+////			c.VIRTUAL(PageList.class, "toArray").parameter(IntFunction.class).reTurn(T[].class).INVOKE();
+//		});
 
-		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+//		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
 //		context.push(Array.class,c->{});
 		return null;
 
