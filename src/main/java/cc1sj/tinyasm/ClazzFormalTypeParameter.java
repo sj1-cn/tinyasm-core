@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.objectweb.asm.Type;
 
-public class ClazzFormalTypeParameter implements Clazz {
+public class ClazzFormalTypeParameter extends Clazz {
 	String name;
 	Clazz clazz;
 

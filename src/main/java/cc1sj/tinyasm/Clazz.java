@@ -6,32 +6,39 @@ import java.util.List;
 
 import org.objectweb.asm.Type;
 
-public interface Clazz {
-	Type getType();
+/**
+ * TODO 暂时为了回避调用方式是的对象是否是接口的逻辑修改成抽象类。回头还是改回去吧
+ * @author wangshilian
+ *
+ */
+public abstract class Clazz {
+	public abstract Type getType();
 
-	String signatureAnyway();
+	public abstract String signatureAnyway();
 
-	String signatureWhenNeed();
+	public abstract String signatureWhenNeed();
 
-	boolean needSignature();
+	public abstract boolean needSignature();
 
-	String getDescriptor();
+	public abstract String signatureOf();
 
-	String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters);
+	public abstract String getDescriptor();
 
-	static Clazz of(String classname) {
+	public abstract String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters);
+
+	public static Clazz of(String classname) {
 		return new ClazzType(classname);
 	}
 
-	static Clazz of(String classname, boolean isarray) {
+	public static Clazz of(String classname, boolean isarray) {
 		return new ClazzType(arrayOf(typeOf(classname), isarray));
 	}
 
-	static Clazz of(Class<?> classname) {
+	public static Clazz of(Class<?> classname) {
 		return classname != null ? new ClazzType(classname) : null;
 	}
 
-	static Clazz of(Class<?> classname, boolean isarray) {
+	public static Clazz of(Class<?> classname, boolean isarray) {
 		if (isarray) {
 			return new ClazzType(arrayOf(typeOf(classname), isarray));
 		} else {
@@ -39,31 +46,31 @@ public interface Clazz {
 		}
 	}
 
-	static Clazz of(Type classname) {
+	public static Clazz of(Type classname) {
 		return new ClazzType(classname);
 	}
 
-	static Clazz of(Type classname, boolean isarray) {
+	public static Clazz of(Type classname, boolean isarray) {
 		return new ClazzType(arrayOf(classname, isarray));
 	}
 
-	static Clazz typeVariableOf(String name) {
+	public static Clazz typeVariableOf(String name) {
 		return new ClazzVariable(name);
 	}
 
-	static Clazz typeVariableOf(String name, boolean isarray) {
+	public static Clazz typeVariableOf(String name, boolean isarray) {
 		return new ClazzVariable(name, isarray);
 	}
 
-	static Clazz typeUnboundedVariable() {
+	public static Clazz typeUnboundedVariable() {
 		return new ClazzVariable("*");
 	}
 
-	static Clazz formalTypeParameterOf(String name, Clazz clazz) {
+	public static Clazz formalTypeParameterOf(String name, Clazz clazz) {
 		return new ClazzFormalTypeParameter(name, clazz);
 	}
 
-	static Clazz of(String originclazzName, String... genericParameterClazz) {
+	public static Clazz of(String originclazzName, String... genericParameterClazz) {
 		ClazzType baseType = new ClazzType(originclazzName);
 		Clazz[] gClazz = new Clazz[genericParameterClazz.length];
 		for (int i = 0; i < genericParameterClazz.length; i++) {
@@ -83,7 +90,7 @@ public interface Clazz {
 		return new ClazzComplex(baseType, gClazz);
 	}
 
-	static Clazz of(Class<?> originclazzName, Class<?>... genericParameterClazz) {
+	public static Clazz of(Class<?> originclazzName, Class<?>... genericParameterClazz) {
 		ClazzType baseType = new ClazzType(originclazzName);
 		Clazz[] gClazz = new Clazz[genericParameterClazz.length];
 		for (int i = 0; i < genericParameterClazz.length; i++) {
@@ -93,18 +100,18 @@ public interface Clazz {
 		return new ClazzComplex(baseType, gClazz);
 	}
 
-	static Clazz of(Class<?> originclazzName, Clazz... genericParameterClazz) {
+	public static Clazz of(Class<?> originclazzName, Clazz... genericParameterClazz) {
 		ClazzType baseType = new ClazzType(originclazzName);
 
 		return new ClazzComplex(baseType, genericParameterClazz);
 	}
 
-	static Clazz of(Clazz baseType, Clazz... genericParameterClazz) {
+	public static Clazz of(Clazz baseType, Clazz... genericParameterClazz) {
 
 		return new ClazzComplex(baseType, genericParameterClazz);
 	}
 
-	static Type typeOf(String name) {
+	public static Type typeOf(String name) {
 		Type type;
 		if (name == null) type = Type.VOID_TYPE;
 		if (TypeUtils.primaryTypeMaps.containsKey(name)) type = TypeUtils.primaryTypeMaps.get(name);
@@ -112,10 +119,8 @@ public interface Clazz {
 		return type;
 	}
 
-	static Type typeOf(Class<?> clazz) {
+	public static Type typeOf(Class<?> clazz) {
 		return Type.getType(clazz);
 	}
-
-	String signatureOf();
 
 }

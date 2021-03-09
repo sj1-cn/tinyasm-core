@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.objectweb.asm.Type;
 
-public class ClazzComplex implements Clazz {
+public class ClazzComplex extends Clazz {
 	private Clazz baseClazz;
 	private Clazz[] genericParameterClazz;
 

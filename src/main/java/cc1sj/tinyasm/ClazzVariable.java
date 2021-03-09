@@ -5,7 +5,7 @@ import static cc1sj.tinyasm.TypeUtils.arrayOf;
 
 import java.util.List;
 
-public class ClazzVariable implements Clazz {
+public class ClazzVariable extends Clazz {
 	final String name;
 	final boolean isarray;
 

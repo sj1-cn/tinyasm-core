@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.objectweb.asm.Type;
 
-public class ClazzType implements Clazz {
+public class ClazzType extends Clazz {
 	Type type;
 
 	ClazzType(Type type) {
