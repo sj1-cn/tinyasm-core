@@ -88,7 +88,8 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI1(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(int.class, "getI1").begin();
+		MethodCode code = classBody.publicMethod("getI1")
+			.reTurn(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -114,7 +115,8 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(int.class, "getI2").begin();
+		MethodCode code = classBody.publicMethod("getI2")
+			.reTurn(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -140,7 +142,8 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI3(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(int.class, "getI3").begin();
+		MethodCode code = classBody.publicMethod("getI3")
+			.reTurn(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -166,7 +169,8 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI4(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(int.class, "getI4").begin();
+		MethodCode code = classBody.publicMethod("getI4")
+			.reTurn(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -192,7 +196,8 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getStr(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(String.class, "getStr").begin();
+		MethodCode code = classBody.publicMethod("getStr")
+			.reTurn(String.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -218,7 +223,8 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _toString(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(String.class, "toString").begin();
+		MethodCode code = classBody.publicMethod("toString")
+			.reTurn(String.class ).begin();
 
 		code.LINE();
 		code.NEW(StringBuilder.class);

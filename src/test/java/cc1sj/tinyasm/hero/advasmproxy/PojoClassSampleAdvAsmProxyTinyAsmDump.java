@@ -132,7 +132,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _get__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(byte.class, "get__MagicNumber").begin();
+		MethodCode code = classBody.publicMethod("get__MagicNumber")
+			.reTurn(byte.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -179,7 +180,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getName(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(String.class, "getName").begin();
+		MethodCode code = classBody.publicMethod("getName")
+			.reTurn(String.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -226,7 +228,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _isAgeBoolean(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "isAgeBoolean").begin();
+		MethodCode code = classBody.publicMethod("isAgeBoolean")
+			.reTurn(boolean.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -263,7 +266,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeByte(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(byte.class, "getAgeByte").begin();
+		MethodCode code = classBody.publicMethod("getAgeByte")
+			.reTurn(byte.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -303,7 +307,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeChar(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(char.class, "getAgeChar").begin();
+		MethodCode code = classBody.publicMethod("getAgeChar")
+			.reTurn(char.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -343,7 +348,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeShort(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(short.class, "getAgeShort").begin();
+		MethodCode code = classBody.publicMethod("getAgeShort")
+			.reTurn(short.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -383,7 +389,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeInt(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(int.class, "getAgeInt").begin();
+		MethodCode code = classBody.publicMethod("getAgeInt")
+			.reTurn(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -422,7 +429,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeLong(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(long.class, "getAgeLong").begin();
+		MethodCode code = classBody.publicMethod("getAgeLong")
+			.reTurn(long.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -462,7 +470,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeFloat(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(float.class, "getAgeFloat").begin();
+		MethodCode code = classBody.publicMethod("getAgeFloat")
+			.reTurn(float.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -502,7 +511,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeDouble(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(double.class, "getAgeDouble").begin();
+		MethodCode code = classBody.publicMethod("getAgeDouble")
+			.reTurn(double.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -542,7 +552,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeBoolean2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(Boolean.class, "getAgeBoolean2").begin();
+		MethodCode code = classBody.publicMethod("getAgeBoolean2")
+			.reTurn(Boolean.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -582,7 +593,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeByte2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(Byte.class, "getAgeByte2").begin();
+		MethodCode code = classBody.publicMethod("getAgeByte2")
+			.reTurn(Byte.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -625,7 +637,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeCharacter(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(Character.class, "getAgeCharacter").begin();
+		MethodCode code = classBody.publicMethod("getAgeCharacter")
+			.reTurn(Character.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -668,7 +681,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeShort2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(Short.class, "getAgeShort2").begin();
+		MethodCode code = classBody.publicMethod("getAgeShort2")
+			.reTurn(Short.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -711,7 +725,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeInteger(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(Integer.class, "getAgeInteger").begin();
+		MethodCode code = classBody.publicMethod("getAgeInteger")
+			.reTurn(Integer.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -753,7 +768,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeLong2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(Long.class, "getAgeLong2").begin();
+		MethodCode code = classBody.publicMethod("getAgeLong2")
+			.reTurn(Long.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -796,7 +812,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeFloat2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(Float.class, "getAgeFloat2").begin();
+		MethodCode code = classBody.publicMethod("getAgeFloat2")
+			.reTurn(Float.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -839,7 +856,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getAgeDouble2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(Double.class, "getAgeDouble2").begin();
+		MethodCode code = classBody.publicMethod("getAgeDouble2")
+			.reTurn(Double.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");

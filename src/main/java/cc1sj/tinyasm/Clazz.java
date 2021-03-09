@@ -46,6 +46,10 @@ public interface Clazz {
 	static Clazz typeVariableOf(String name) {
 		return new ClazzVariable(name);
 	}
+	static Clazz typeVariableOf(String name, boolean isarray) {
+		return new ClazzVariable(name,isarray);
+	}
+
 	
 	static Clazz typeUnboundedVariable() {
 		return new ClazzVariable("*");

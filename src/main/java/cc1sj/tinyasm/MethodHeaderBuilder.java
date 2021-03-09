@@ -46,6 +46,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	final LocalsStack mhLocals = new LocalsStack();
 	final List<LocalsVariable> params = new ArrayList<>();
 	final List<Annotation> annotations = new ArrayList<>();
+	final List<ClazzFormalTypeParameter> formalTypeParameters = new ArrayList<>();
 	final FieldList fields;
 	final FieldList staticFields;
 
@@ -72,6 +73,13 @@ class MethodHeaderBuilder implements MethodHeader {
 	@Override
 	public MethodHeader access(int access) {
 		this.methodAccess |= access;
+		return this;
+	}
+	
+
+	@Override
+	public MethodHeader formalTypeParameter(ClazzFormalTypeParameter clazz) {
+		formalTypeParameters.add(clazz);
 		return this;
 	}
 

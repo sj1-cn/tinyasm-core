@@ -83,7 +83,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _get__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(byte.class, "get__MagicNumber").begin();
+		MethodCode code = classBody.publicMethod("get__MagicNumber")
+			.reTurn(byte.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -130,7 +131,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getByteArray(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(byte[].class, "getByteArray").begin();
+		MethodCode code = classBody.publicMethod("getByteArray")
+			.reTurn(byte[].class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -185,7 +187,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getShortArray(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(short[].class, "getShortArray").begin();
+		MethodCode code = classBody.publicMethod("getShortArray")
+			.reTurn(short[].class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -240,7 +243,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getIntArray(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(int[].class, "getIntArray").begin();
+		MethodCode code = classBody.publicMethod("getIntArray")
+			.reTurn(int[].class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -294,7 +298,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getShort2Array(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(Short[].class, "getShort2Array").begin();
+		MethodCode code = classBody.publicMethod("getShort2Array")
+			.reTurn(Short[].class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -352,7 +357,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getStringArray(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(String[].class, "getStringArray").begin();
+		MethodCode code = classBody.publicMethod("getStringArray")
+			.reTurn(String[].class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -414,7 +420,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getSimplePojoClassSampleArray(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(SimplePojoClassSample[].class, "getSimplePojoClassSampleArray").begin();
+		MethodCode code = classBody.publicMethod("getSimplePojoClassSampleArray")
+			.reTurn(SimplePojoClassSample[].class ).begin();
 
 		code.LINE();
 		code.LOAD("this");

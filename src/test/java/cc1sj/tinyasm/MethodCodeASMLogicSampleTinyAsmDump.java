@@ -80,7 +80,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _eq(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "eq")
+		MethodCode code = classBody.publicMethod("eq")
+			.reTurn(boolean.class )
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -103,7 +104,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ne(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ne")
+		MethodCode code = classBody.publicMethod("ne")
+			.reTurn(boolean.class )
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -126,7 +128,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ge(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ge")
+		MethodCode code = classBody.publicMethod("ge")
+			.reTurn(boolean.class )
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -149,7 +152,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _le(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "le")
+		MethodCode code = classBody.publicMethod("le")
+			.reTurn(boolean.class )
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -172,7 +176,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _gt(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "gt")
+		MethodCode code = classBody.publicMethod("gt")
+			.reTurn(boolean.class )
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -195,7 +200,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _lt(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "lt")
+		MethodCode code = classBody.publicMethod("lt")
+			.reTurn(boolean.class )
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -218,7 +224,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _eq_char_char(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "eq")
+		MethodCode code = classBody.publicMethod("eq")
+			.reTurn(boolean.class )
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -241,7 +248,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ne_char_char(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ne")
+		MethodCode code = classBody.publicMethod("ne")
+			.reTurn(boolean.class )
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -264,7 +272,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ge_char_char(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ge")
+		MethodCode code = classBody.publicMethod("ge")
+			.reTurn(boolean.class )
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -287,7 +296,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _le_char_char(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "le")
+		MethodCode code = classBody.publicMethod("le")
+			.reTurn(boolean.class )
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -310,7 +320,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _gt_char_char(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "gt")
+		MethodCode code = classBody.publicMethod("gt")
+			.reTurn(boolean.class )
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -333,7 +344,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _lt_char_char(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "lt")
+		MethodCode code = classBody.publicMethod("lt")
+			.reTurn(boolean.class )
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -356,7 +368,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _eq_short_short(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "eq")
+		MethodCode code = classBody.publicMethod("eq")
+			.reTurn(boolean.class )
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -379,7 +392,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ne_short_short(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ne")
+		MethodCode code = classBody.publicMethod("ne")
+			.reTurn(boolean.class )
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -402,7 +416,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ge_short_short(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ge")
+		MethodCode code = classBody.publicMethod("ge")
+			.reTurn(boolean.class )
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -425,7 +440,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _le_short_short(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "le")
+		MethodCode code = classBody.publicMethod("le")
+			.reTurn(boolean.class )
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -448,7 +464,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _gt_short_short(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "gt")
+		MethodCode code = classBody.publicMethod("gt")
+			.reTurn(boolean.class )
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -471,7 +488,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _lt_short_short(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "lt")
+		MethodCode code = classBody.publicMethod("lt")
+			.reTurn(boolean.class )
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -494,7 +512,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _eq_int_int(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "eq")
+		MethodCode code = classBody.publicMethod("eq")
+			.reTurn(boolean.class )
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -517,7 +536,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ne_int_int(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ne")
+		MethodCode code = classBody.publicMethod("ne")
+			.reTurn(boolean.class )
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -540,7 +560,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ge_int_int(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ge")
+		MethodCode code = classBody.publicMethod("ge")
+			.reTurn(boolean.class )
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -563,7 +584,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _le_int_int(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "le")
+		MethodCode code = classBody.publicMethod("le")
+			.reTurn(boolean.class )
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -586,7 +608,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _gt_int_int(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "gt")
+		MethodCode code = classBody.publicMethod("gt")
+			.reTurn(boolean.class )
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -609,7 +632,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _lt_int_int(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "lt")
+		MethodCode code = classBody.publicMethod("lt")
+			.reTurn(boolean.class )
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -632,7 +656,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _eq_long_long(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "eq")
+		MethodCode code = classBody.publicMethod("eq")
+			.reTurn(boolean.class )
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -656,7 +681,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ne_long_long(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ne")
+		MethodCode code = classBody.publicMethod("ne")
+			.reTurn(boolean.class )
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -680,7 +706,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ge_long_long(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ge")
+		MethodCode code = classBody.publicMethod("ge")
+			.reTurn(boolean.class )
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -704,7 +731,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _le_long_long(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "le")
+		MethodCode code = classBody.publicMethod("le")
+			.reTurn(boolean.class )
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -728,7 +756,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _gt_long_long(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "gt")
+		MethodCode code = classBody.publicMethod("gt")
+			.reTurn(boolean.class )
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -752,7 +781,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _lt_long_long(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "lt")
+		MethodCode code = classBody.publicMethod("lt")
+			.reTurn(boolean.class )
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -776,7 +806,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _eq_float_float(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "eq")
+		MethodCode code = classBody.publicMethod("eq")
+			.reTurn(boolean.class )
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -800,7 +831,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ne_float_float(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ne")
+		MethodCode code = classBody.publicMethod("ne")
+			.reTurn(boolean.class )
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -824,7 +856,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ge_float_float(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ge")
+		MethodCode code = classBody.publicMethod("ge")
+			.reTurn(boolean.class )
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -848,7 +881,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _le_float_float(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "le")
+		MethodCode code = classBody.publicMethod("le")
+			.reTurn(boolean.class )
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -872,7 +906,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _gt_float_float(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "gt")
+		MethodCode code = classBody.publicMethod("gt")
+			.reTurn(boolean.class )
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -896,7 +931,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _lt_float_float(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "lt")
+		MethodCode code = classBody.publicMethod("lt")
+			.reTurn(boolean.class )
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -920,7 +956,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _eq_double_double(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "eq")
+		MethodCode code = classBody.publicMethod("eq")
+			.reTurn(boolean.class )
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -944,7 +981,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ne_double_double(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ne")
+		MethodCode code = classBody.publicMethod("ne")
+			.reTurn(boolean.class )
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -968,7 +1006,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _ge_double_double(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "ge")
+		MethodCode code = classBody.publicMethod("ge")
+			.reTurn(boolean.class )
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -992,7 +1031,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _le_double_double(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "le")
+		MethodCode code = classBody.publicMethod("le")
+			.reTurn(boolean.class )
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -1016,7 +1056,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _gt_double_double(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "gt")
+		MethodCode code = classBody.publicMethod("gt")
+			.reTurn(boolean.class )
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -1040,7 +1081,8 @@ public class MethodCodeASMLogicSampleTinyAsmDump {
 	}
 
 	protected void _lt_double_double(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(boolean.class, "lt")
+		MethodCode code = classBody.publicMethod("lt")
+			.reTurn(boolean.class )
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 

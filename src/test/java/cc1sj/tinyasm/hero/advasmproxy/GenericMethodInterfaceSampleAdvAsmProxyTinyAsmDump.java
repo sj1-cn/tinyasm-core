@@ -43,7 +43,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		_set__MagicNumber(classBody);
 		_set__Context(classBody);
 		_toArray(classBody);
-		_lambda$0(classBody);
+		_lambda$toArray$0(classBody);
 
 		return classBody.end().toByteArray();
 	}
@@ -60,7 +60,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _get__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(byte.class, "get__MagicNumber").begin();
+		MethodCode code = classBody.publicMethod("get__MagicNumber")
+			.reTurn(byte.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -107,8 +108,10 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _toArray(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(Clazz.typeVariableOf("T"), "toArray")
-			.parameter("param0",Clazz.typeVariableOf("T")).begin();
+		MethodCode code = classBody.publicMethod("toArray")
+			.reTurn(Clazz.typeVariableOf("T",true) )
+			.formalTypeParameter("T",Clazz.of(Object.class) )
+			.parameter("param0",Clazz.typeVariableOf("T",true)).begin();
 
 		code.LINE();
 		code.LOAD("param0");
@@ -148,7 +151,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOAD("objEval");
 		code.LOAD("eval_param0");
 		code.LOAD("elementClass");
-		code.visitInvokeDynamicInsn("accept", "(Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Ljava/lang/Class;)Lcc1sj/tinyasm/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cc1sj/tinyasm/hero/advasmproxy/GenericMethodInterfaceSampleAdvAsmProxy", "lambda$0", "(Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Ljava/lang/Class;Lcc1sj/tinyasm/MethodCode;)V", false), Type.getType("(Lcc1sj/tinyasm/MethodCode;)V")});
+		code.visitInvokeDynamicInsn("accept", "(Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Ljava/lang/Class;)Lcc1sj/tinyasm/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cc1sj/tinyasm/hero/advasmproxy/GenericMethodInterfaceSampleAdvAsmProxy", "lambda$toArray$0", "(Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Ljava/lang/Class;Lcc1sj/tinyasm/MethodCode;)V", false), Type.getType("(Lcc1sj/tinyasm/MethodCode;)V")});
 		code.VIRTUAL(AdvContext.class, "push")
 			.reTurn(byte.class)
 			.parameter(Class.class)
@@ -174,7 +177,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 			.parameter(Class.class)
 			.parameter(int.class).INVOKE();
 		code.CHECKCAST(Object[].class);
-		code.STORE("tarray",Object[].class);
+		code.STORE("tarray",Clazz.typeVariableOf("T",true));
 
 		code.LINE();
 		code.LOAD("elementClass");
@@ -212,22 +215,22 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _lambda$0(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$0")
+	protected void _lambda$toArray$0(ClassBody classBody) {
+		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$toArray$0")
 			.tHrow(Exception.class )
-			.parameter("var0",ConsumerWithException.class)
-			.parameter("var1",ConsumerWithException.class)
-			.parameter("var2",Class.class)
+			.parameter("objEval",ConsumerWithException.class)
+			.parameter("eval_param0",ConsumerWithException.class)
+			.parameter("elementClass",Class.class)
 			.parameter("c",MethodCode.class).begin();
 
 		code.LINE();
-		code.LOAD("var0");
+		code.LOAD("objEval");
 		code.LOAD("c");
 		code.INTERFACE(ConsumerWithException.class, "accept")
 			.parameter(Object.class).INVOKE();
 
 		code.LINE();
-		code.LOAD("var1");
+		code.LOAD("eval_param0");
 		code.LOAD("c");
 		code.INTERFACE(ConsumerWithException.class, "accept")
 			.parameter(Object.class).INVOKE();
@@ -252,7 +255,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 		code.LINE();
 		code.LOAD("c");
-		code.LOAD("var2");
+		code.LOAD("elementClass");
 		code.LOADConst(1);
 		code.STATIC(Clazz.class, "of")
 			.reTurn(Clazz.class)

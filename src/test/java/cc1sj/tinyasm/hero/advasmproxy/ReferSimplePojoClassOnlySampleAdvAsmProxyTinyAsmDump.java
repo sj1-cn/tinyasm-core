@@ -59,7 +59,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _get__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(byte.class, "get__MagicNumber").begin();
+		MethodCode code = classBody.publicMethod("get__MagicNumber")
+			.reTurn(byte.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -106,7 +107,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	}
 
 	protected void _getSimplePojoClassSample(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(SimplePojoClassSample.class, "getSimplePojoClassSample").begin();
+		MethodCode code = classBody.publicMethod("getSimplePojoClassSample")
+			.reTurn(SimplePojoClassSample.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");

@@ -1,17 +1,25 @@
 package cc1sj.tinyasm;
 
 import org.objectweb.asm.Type;
+import static cc1sj.tinyasm.TypeUtils.arrayOf;
 
 public class ClazzVariable implements Clazz {
-	String name;
+	final String name;
+	final boolean isarray;
 
 	ClazzVariable(String name) {
 		this.name = name;
+		this.isarray = false;
+	}
+
+	public ClazzVariable(String name, boolean isarray) {
+		this.name = name;
+		this.isarray = isarray;
 	}
 
 	@Override
 	public Type getType() {
-		return Type.getType(Object.class);
+		return arrayOf(Type.getType(Object.class), isarray);
 	}
 
 	@Override
@@ -36,7 +44,7 @@ public class ClazzVariable implements Clazz {
 
 	@Override
 	public String signatureOf() {
-		return "T" + name + ";";
+		return isarray ? "[T" + name + ";" : "T" + name + ";";
 	}
 
 	@Override
