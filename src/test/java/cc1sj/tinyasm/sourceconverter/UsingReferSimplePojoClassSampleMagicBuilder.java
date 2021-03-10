@@ -8,6 +8,7 @@ import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
 
 public class UsingReferSimplePojoClassSampleMagicBuilder {
 
+	@SuppressWarnings("unused")
 	final private String name =  private_().field("name", String.class);
 
 	public void _dump_fields(AdvClassBuilder classBody) {

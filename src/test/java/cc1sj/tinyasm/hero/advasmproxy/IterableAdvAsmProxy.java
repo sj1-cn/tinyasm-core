@@ -9,11 +9,8 @@ import java.util.function.Consumer;
 import cc1sj.tinyasm.Adv;
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
-import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.hero.helperclass.GenericInterface;
-import cc1sj.tinyasm.hero.helperclass.PojoClassChildSample;
 import cc1sj.tinyasm.hero.helperclass.PojoClassSample;
 
 public class IterableAdvAsmProxy implements Iterable<PojoClassSample>, AdvRuntimeReferNameObject {

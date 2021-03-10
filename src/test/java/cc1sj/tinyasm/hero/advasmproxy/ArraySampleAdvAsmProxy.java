@@ -9,7 +9,6 @@ import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.ArraySample;
-import cc1sj.tinyasm.hero.helperclass.ReferSimplePojoClassOnlySample;
 import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
 
 public class ArraySampleAdvAsmProxy extends ArraySample implements AdvRuntimeReferNameObject {

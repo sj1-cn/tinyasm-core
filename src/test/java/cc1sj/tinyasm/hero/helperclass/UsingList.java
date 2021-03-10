@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Spliterator;
 
 public class UsingList {
+	@SuppressWarnings("unused")
 	public void say(List<PojoClassSample> in) {
 		Iterable<PojoClassSample> hello = in;
 

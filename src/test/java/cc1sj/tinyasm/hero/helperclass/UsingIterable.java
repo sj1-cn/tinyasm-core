@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Spliterator;
 
 public class UsingIterable {
+	@SuppressWarnings("unused")
 	public void say(Iterable<PojoClassSample> in) {
 		Iterable<PojoClassSample> hello = in;
 

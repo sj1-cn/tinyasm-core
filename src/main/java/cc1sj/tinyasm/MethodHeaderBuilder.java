@@ -2,7 +2,6 @@ package cc1sj.tinyasm;
 
 import static cc1sj.tinyasm.TypeUtils.every;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
 import java.util.ArrayList;

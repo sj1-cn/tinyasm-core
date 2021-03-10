@@ -8,7 +8,6 @@ import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.GenericInterfaceImplSample;
-import cc1sj.tinyasm.hero.helperclass.GenericInterface;
 import cc1sj.tinyasm.hero.helperclass.PojoClassChildSample;
 import cc1sj.tinyasm.hero.helperclass.PojoClassSample;
 
