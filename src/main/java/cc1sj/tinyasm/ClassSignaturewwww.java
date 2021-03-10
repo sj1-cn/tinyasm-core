@@ -109,11 +109,20 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 	@Override
 	public void visitTypeVariable(String name) {
 		logger.debug("{}visitTypeVariable({})", indent(), name);
-		if(array){
-			list.add(new HolderClazz(Clazz.typeVariableOf(name, array)));
-		}else{
-			list.add(new HolderClazz(Clazz.typeVariableOf(name, array)));
+		if (typeArgument > DEFAULT_TypeArgument) {
+			if (array) {
+				list.add(new HolderClazz(Clazz.typeArgument(typeArgument, Clazz.typeVariableOf(name, array))));
+			} else {
+				list.add(new HolderClazz(Clazz.typeArgument(typeArgument, Clazz.typeVariableOf(name, array))));
+			}
+		} else {
+			if (array) {
+				list.add(new HolderClazz(Clazz.typeVariableOf(name, array)));
+			} else {
+				list.add(new HolderClazz(Clazz.typeVariableOf(name, array)));
+			}
 		}
+		typeArgument = DEFAULT_TypeArgument;
 	}
 
 	@Override
@@ -146,7 +155,6 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 		listStack.push(list);
 		list = holderClazz.getChildren();
 //		sb.set(null); = holderClazz;
-
 
 		typeArgument = DEFAULT_TypeArgument;
 	}

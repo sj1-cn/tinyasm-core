@@ -1,16 +1,23 @@
 package cc1sj.tinyasm;
 
-import java.util.List;
-
 import org.objectweb.asm.Type;
 
 public class ClazzFormalTypeParameter extends Clazz {
 	String name;
 	Clazz clazz;
+	Clazz actualClazz;
 
-	ClazzFormalTypeParameter(String name,Clazz clazz) {
+	ClazzFormalTypeParameter(String name, Clazz clazz) {
 		this.name = name;
 		this.clazz = clazz;
+	}
+
+	public Clazz getActualClazz() {
+		return actualClazz;
+	}
+
+	public void setActualClazz(Clazz actualClazz) {
+		this.actualClazz = actualClazz;
 	}
 
 	@Override
@@ -36,11 +43,6 @@ public class ClazzFormalTypeParameter extends Clazz {
 	@Override
 	public String getDescriptor() {
 		return null;
-	}
-
-	@Override
-	public String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters) {
-		return this.getDescriptor();
 	}
 
 	@Override

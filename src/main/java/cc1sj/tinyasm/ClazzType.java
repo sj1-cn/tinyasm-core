@@ -1,7 +1,5 @@
 package cc1sj.tinyasm;
 
-import java.util.List;
-
 import org.objectweb.asm.Type;
 
 public class ClazzType extends Clazz {
@@ -45,19 +43,9 @@ public class ClazzType extends Clazz {
 	public String getDescriptor() {
 		return this.type.getDescriptor();
 	}
-
-	@Override
-	public String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters) {
-		return this.getDescriptor();
-	}
-
+	
 	@Override
 	public String signatureOf() {
-//		StringBuilder sb = new StringBuilder();
-//
-//		if (this.type.getSort() == Type.ARRAY) sb.append("[" + type.getInternalName());
-//		else sb.append(type.getInternalName());
-//		return sb.toString();
 		return type.getDescriptor();
 	}
 

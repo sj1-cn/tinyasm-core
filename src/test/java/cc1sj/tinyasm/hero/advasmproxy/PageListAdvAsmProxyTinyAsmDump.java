@@ -1697,7 +1697,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		MethodCode code = classBody.publicMethod("toArray")
 			.reTurn(Clazz.typeVariableOf("T",true) )
 			.formalTypeParameter("T",Clazz.of(Object.class) )
-			.parameter("param0",Clazz.of(IntFunction.class,Clazz.typeVariableOf("T",true))).begin();
+			.parameter("param0",Clazz.of(IntFunction.class,Clazz.typeArgument(Clazz.typeVariableOf("T",true)))).begin();
 
 		code.LINE();
 		code.LOAD("this");

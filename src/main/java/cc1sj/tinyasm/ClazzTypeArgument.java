@@ -8,6 +8,14 @@ public class ClazzTypeArgument extends Clazz {
 	char wildcard;
 	Clazz clazz;
 
+	public char getWildcard() {
+		return wildcard;
+	}
+
+	public Clazz getClazz() {
+		return clazz;
+	}
+
 	ClazzTypeArgument(char wildcard) {
 		this.wildcard = wildcard;
 	}
@@ -39,12 +47,25 @@ public class ClazzTypeArgument extends Clazz {
 
 	@Override
 	public String getDescriptor() {
-		return null;
+		return clazz.getDescriptor();
 	}
 
 	@Override
 	public String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters) {
-		return this.getDescriptor();
+		return clazz.getDescriptor(formalTypeParameters);
+	}
+
+	@Override
+	public String signatureOf(List<ClazzFormalTypeParameter> formalTypeParameters) {
+		switch (wildcard) {
+		case '*':
+			return String.valueOf(wildcard);
+		case '=':
+			return clazz.signatureOf(formalTypeParameters) + "";
+
+		default:
+			return wildcard + clazz.signatureOf(formalTypeParameters) + "";
+		}
 	}
 
 	@Override

@@ -1,9 +1,10 @@
 package cc1sj.tinyasm;
 
-import org.objectweb.asm.Type;
 import static cc1sj.tinyasm.TypeUtils.arrayOf;
 
 import java.util.List;
+
+import org.objectweb.asm.Type;
 
 public class ClazzVariable extends Clazz {
 	final String name;
@@ -45,6 +46,25 @@ public class ClazzVariable extends Clazz {
 	}
 
 	@Override
+	public String signatureOf(List<ClazzFormalTypeParameter> formalTypeParameters) {
+		for (int i = 0; i < formalTypeParameters.size(); i++) {
+			if (this.name.equals(formalTypeParameters.get(i).name)) {
+				Clazz actualClazz = formalTypeParameters.get(i).getActualClazz();
+				if (actualClazz == null) {
+					actualClazz = formalTypeParameters.get(i).clazz;
+				}
+
+				if (isarray) {
+					return "[" + actualClazz.getDescriptor();
+				} else {
+					return actualClazz.getDescriptor();
+				}
+			}
+		}
+		return signatureOf();
+	}
+
+	@Override
 	public String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters) {
 		for (int i = 0; i < formalTypeParameters.size(); i++) {
 			if (this.name == formalTypeParameters.get(i).name) {
@@ -55,14 +75,12 @@ public class ClazzVariable extends Clazz {
 				}
 			}
 		}
-		throw new UnsupportedOperationException("不能找到对应的FormalTypeParameter");
+		return getDescriptor();
 	}
 
 	@Override
 	public String signatureOf() {
-		if ("*".equals(name)) {
-			return "*";
-		} else return isarray ? "[T" + name + ";" : "T" + name + ";";
+		return isarray ? "[T" + name + ";" : "T" + name + ";";
 	}
 
 	@Override

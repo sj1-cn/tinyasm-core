@@ -25,7 +25,13 @@ public abstract class Clazz {
 
 	public abstract String getDescriptor();
 
-	public abstract String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters);
+	public String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters) {
+		return this.getDescriptor();
+	}
+
+	public String signatureOf(List<ClazzFormalTypeParameter> formalTypeParameters) {
+		return signatureOf();
+	}
 
 	public static Clazz of(String classname) {
 		return new ClazzType(classname);
@@ -124,20 +130,24 @@ public abstract class Clazz {
 		return Type.getType(clazz);
 	}
 
-	public static Clazz typeArgument(char wildcard, Class<?> clazz, Class<?>... genericParameterClazz) {
+	public static ClazzTypeArgument typeArgument(char wildcard, Class<?> clazz, Class<?>... genericParameterClazz) {
 		return new ClazzTypeArgument(wildcard, Clazz.of(clazz, genericParameterClazz));
 	}
 
-	public static Clazz typeArgument(char wildcard, Class<?> clazz, Clazz... genericParameterClazz) {
+	public static ClazzTypeArgument typeArgument(char wildcard, Class<?> clazz, Clazz... genericParameterClazz) {
 		return new ClazzTypeArgument(wildcard, Clazz.of(clazz, genericParameterClazz));
 	}
 
-	public static Clazz typeArgument(char wildcard, Class<?> clazz) {
+	public static ClazzTypeArgument typeArgument(char wildcard, Class<?> clazz) {
 		return new ClazzTypeArgument(wildcard, Clazz.of(clazz));
 	}
 
-	public static Clazz typeArgument(char wildcard, Clazz clazz) {
+	public static ClazzTypeArgument typeArgument(char wildcard, Clazz clazz) {
 		return new ClazzTypeArgument(wildcard, clazz);
+	}
+
+	public static ClazzTypeArgument typeArgument(Clazz clazz) {
+		return new ClazzTypeArgument('=', clazz);
 	}
 
 	public static Clazz typeArgument(char wildcard) {
