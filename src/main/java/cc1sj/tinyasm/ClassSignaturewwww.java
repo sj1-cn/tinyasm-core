@@ -84,6 +84,10 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 		logger.debug("{}visitReturnType()", indent());
 		typeArgument = DEFAULT_TypeArgument;
 		list = returnClassList;
+		
+		array=false;
+		typeArgument = DEFAULT_TypeArgument;
+		
 		return this;
 	}
 
@@ -198,7 +202,7 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 	Clazz returnClazz;
 	Clazz superClazz;
 	Clazz[] interfaceClazzes;
-	Clazz[] typeParamenterClazzes;
+	ClazzFormalTypeParameter[] typeParamenterClazzes;
 	Clazz[] paramsClazzes;
 
 	public void finish() {
@@ -206,9 +210,17 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 		superClazz = superClassList.size() > 0 ? superClassList.get(0).get() : null;
 
 		interfaceClazzes = extracted(interfacesClassList);
-		typeParamenterClazzes = extracted(typeParameterClassList);
+		typeParamenterClazzes = extractedtypeParameterClassList(typeParameterClassList);
 		paramsClazzes = extracted(paramsClassList);
 
+	}
+
+	protected ClazzFormalTypeParameter[] extractedtypeParameterClassList(List<Holder<Clazz>> ee) {
+		ClazzFormalTypeParameter[] interfaceClazzes = new ClazzFormalTypeParameter[ee.size()];
+		for (int i = 0; i < interfaceClazzes.length; i++) {
+			interfaceClazzes[i] = (ClazzFormalTypeParameter) ee.get(i).get();
+		}
+		return interfaceClazzes;
 	}
 
 	protected Clazz[] extracted(List<Holder<Clazz>> ee) {
@@ -232,7 +244,7 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 		}
 
 		@Override
-		Clazz get() {
+		ClazzFormalTypeParameter get() {
 			return Clazz.formalTypeParameterOf(parameterName, children.get(0).get());
 		}
 

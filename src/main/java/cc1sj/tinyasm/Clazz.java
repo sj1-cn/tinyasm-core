@@ -73,7 +73,7 @@ public abstract class Clazz {
 		return new ClazzTypeArgument('*');
 	}
 
-	public static Clazz formalTypeParameterOf(String name, Clazz clazz) {
+	public static ClazzFormalTypeParameter formalTypeParameterOf(String name, Clazz clazz) {
 		return new ClazzFormalTypeParameter(name, clazz);
 	}
 

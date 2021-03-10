@@ -42,7 +42,11 @@ public class ClazzVariable extends Clazz {
 
 	@Override
 	public String getDescriptor() {
-		return this.signatureOf();
+		if (isarray) {
+			return "[" + Type.getType(Object.class).getDescriptor();
+		} else {
+			return Type.getType(Object.class).getDescriptor();
+		}
 	}
 
 	@Override

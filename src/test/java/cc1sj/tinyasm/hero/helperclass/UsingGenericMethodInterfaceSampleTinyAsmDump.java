@@ -11,6 +11,7 @@ import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.hero.helperclass.GenericMethodInterface;
 import java.lang.Object;
+import cc1sj.tinyasm.hero.helperclass.PojoClassSample;
 import java.lang.Integer;
 @SuppressWarnings("unused")
 public class UsingGenericMethodInterfaceSampleTinyAsmDump {
@@ -41,11 +42,9 @@ public class UsingGenericMethodInterfaceSampleTinyAsmDump {
 	}
 
 	protected void _say(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("say").begin();
-
-		code.LINE();
-		code.LOADConstNULL();
-		code.STORE("pp",GenericMethodInterface.class);
+		MethodCode code = classBody.publicMethod("say")
+			.reTurn(Clazz.of(void.class) )
+			.parameter("pp",Clazz.of(GenericMethodInterface.class,Clazz.of(PojoClassSample.class))).begin();
 
 		code.LINE();
 		code.LOADConst(1);
@@ -55,7 +54,7 @@ public class UsingGenericMethodInterfaceSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("pp");
 		code.LOAD("iarray");
-		code.INTERFACE(GenericMethodInterface.class, "toArray")
+		code.INTERFACE(GenericMethodInterface.class, "arrayToArray")
 			.reTurn(Object[].class)
 			.parameter(Object[].class).INVOKE();
 		code.CHECKCAST(Integer[].class);

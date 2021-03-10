@@ -35,8 +35,7 @@ public class GenericMethodInterfaceSampleAdvAsmProxy implements GenericMethodInt
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T[] toArray(T[] param0) {
-		Class<?> elementClass = param0.getClass().getComponentType();
+	public <T> T[] arrayToArray(T[] param0) {
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
@@ -45,21 +44,123 @@ public class GenericMethodInterfaceSampleAdvAsmProxy implements GenericMethodInt
 			objEval.accept(c);
 			eval_param0.accept(c);
 
-			c.INTERFACE(GenericMethodInterface.class, "toArray").parameter(Object[].class).reTurn(Object[].class).INVOKE();
-			c.CHECKCAST(Clazz.of(elementClass, true));
+			c.INTERFACE(GenericMethodInterface.class, "arrayToArray").parameter(Object[].class).reTurn(Object[].class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
-		T simplePojoClassSample = null;
-		T[] tarray = (T[]) Array.newInstance(elementClass, 1);
 
-		if (Adv.canProxy(elementClass)) {
-			simplePojoClassSample = Adv.buildProxyClass((Class<T>) elementClass, magicNumber);
-			tarray[0] = simplePojoClassSample;
-			return tarray; // int.class);
+		Class<?> targetClassT = param0.getClass().getComponentType();
+
+		T[] targetArray = (T[]) Array.newInstance(targetClassT, 1);
+
+		T targetElement = null;
+		if (Adv.canProxy(targetClassT)) {
+			targetElement = Adv.buildProxyClass((Class<T>) targetClassT, magicNumber);
+			targetArray[0] = targetElement;
+			return targetArray; // int.class);
 		} else {
 			return null;
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T arrayToObject(T[] param0) {
+
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(Object.class, c -> {
+			objEval.accept(c);
+			eval_param0.accept(c);
+
+			c.INTERFACE(GenericMethodInterface.class, "arrayToObject").parameter(Object[].class).reTurn(Object.class).INVOKE();
+		});
+
+		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+
+		Class<?> targetClassT = param0.getClass().getComponentType();
+
+		if (Adv.canProxy(targetClassT)) {
+			return Adv.buildProxyClass((Class<T>) targetClassT, magicNumber);
+		} else {
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T objectToObject(T param0) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(Object.class, c -> {
+			objEval.accept(c);
+			eval_param0.accept(c);
+
+			c.INTERFACE(GenericMethodInterface.class, "objectToObject").parameter(Object.class).reTurn(Object.class).INVOKE();
+		});
+
+		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+
+		Class<?> targetClassT = param0.getClass();
+		if (Adv.canProxy(targetClassT)) {
+			return Adv.buildProxyClass((Class<T>) targetClassT, magicNumber);
+		} else {
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T[] objectToArray(T param0) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(Object[].class, c -> {
+			objEval.accept(c);
+			eval_param0.accept(c);
+
+			c.INTERFACE(GenericMethodInterface.class, "objectToArray").parameter(Object.class).reTurn(Object[].class).INVOKE();
+		});
+
+		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+
+		Class<?> targetClassT = param0.getClass();
+
+		T[] targetArray = (T[]) Array.newInstance(targetClassT, 1);
+
+		T targetElement = null;
+		if (Adv.canProxy(targetClassT)) {
+			targetElement = Adv.buildProxyClass((Class<T>) targetClassT, magicNumber);
+			targetArray[0] = targetElement;
+			return targetArray; // int.class);
+		} else {
+			return null;
+		}
+	}
+
+//	@Override
+//	public <T> T classToObject(Class<T> param0) {
+//		AdvContext context = _contextThreadLocal.get();
+//		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+//		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+//		byte codeIndex = context.push(Object[].class, c -> {
+//			objEval.accept(c);
+//			eval_param0.accept(c);
+//
+//			c.INTERFACE(GenericMethodInterface.class, "toArray").parameter(Object[].class).reTurn(Object[].class).INVOKE();
+//		});
+//
+//		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+//
+//		Class<?> targetClassT = param0;
+//
+//		if (Adv.canProxy(targetClassT)) {
+//			return Adv.buildProxyClass((Class<T>) targetClassT, magicNumber);
+//		} else {
+//			return null;
+//		}
+//	}
 
 }

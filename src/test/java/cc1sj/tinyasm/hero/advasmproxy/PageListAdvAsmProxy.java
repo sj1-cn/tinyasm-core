@@ -9,11 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Spliterator;
-import java.util.function.Consumer;
-import java.util.function.IntFunction;
-import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 
 import cc1sj.tinyasm.Adv;
 import cc1sj.tinyasm.AdvContext;
@@ -21,10 +17,8 @@ import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.hero.helperclass.GenericMethodInterface;
 import cc1sj.tinyasm.hero.helperclass.PageList;
 import cc1sj.tinyasm.hero.helperclass.PojoClassSample;
-import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
 
 public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntimeReferNameObject {
 	private byte _magicNumber;
@@ -150,7 +144,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(PageList.class, "contains").reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "contains").parameter(Object.class).reTurn(boolean.class).INVOKE();
 		});
 		return false;
 	}
@@ -198,7 +192,6 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T[] toArray(T[] param0) {
-		Class<?> elementClass = param0.getClass().getComponentType();
 
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
@@ -208,17 +201,19 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 			eval_param0.accept(c);
 
 			c.INTERFACE(PageList.class, "toArray").parameter(Object[].class).reTurn(Object[].class).INVOKE();
-			c.CHECKCAST(Clazz.of(elementClass, true));
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
-		T simplePojoClassSample = null;
-		T[] tarray = (T[]) Array.newInstance(elementClass, 1);
 
-		if (Adv.canProxy(elementClass)) {
-			simplePojoClassSample = Adv.buildProxyClass((Class<T>) elementClass, magicNumber);
-			tarray[0] = simplePojoClassSample;
-			return tarray; // int.class);
+		Class<?> targetClassT = param0.getClass().getComponentType();
+
+		T[] targetArray = (T[]) Array.newInstance(targetClassT, 1);
+
+		T targetElement = null;
+		if (Adv.canProxy(targetClassT)) {
+			targetElement = Adv.buildProxyClass((Class<T>) targetClassT, magicNumber);
+			targetArray[0] = targetElement;
+			return targetArray; // int.class);
 		} else {
 			return null;
 		}
