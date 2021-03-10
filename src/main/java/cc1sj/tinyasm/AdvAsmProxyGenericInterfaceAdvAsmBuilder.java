@@ -306,14 +306,19 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 //		}
 
 		if (needBridge && methodFormalTypeParameters.length == 0) {
-			bridgeMethods.add(
-					new BridgeMethod(methodName, originReturnType, originParamTypes, methodReturnClazz, methodParamClazzes, exceptions));
+			String actualDescriptor = buildBridgeDescriptor(originParamTypes, originReturnType);
+			String referkey = methodName + actualDescriptor;
+//			logger.debug(referkey);
+			if (!definedMethodes.containsKey(referkey)) {
+				bridgeMethods.add(new BridgeMethod(methodName, originReturnType, originParamTypes, methodReturnClazz, methodParamClazzes,
+						exceptions));
+				definedMethodes.put(referkey, referkey);
+			}
 		}
 
 		String actualDescriptor;
 		String actualSignature;
 		{
-
 			actualDescriptor = buildDescriptor(methodParamClazzes, methodReturnClazz);
 			actualSignature = buildSignature(methodFormalTypeParameters, methodParamClazzes, methodReturnClazz);
 		}
@@ -801,6 +806,17 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 		// TODO Auto-generated method stub
 		return null;
 
+	}
+
+	private String buildBridgeDescriptor(Type[] originParamTypes, Type originReturnType) {
+		String actualDescriptor;
+		Type[] types1 = new Type[originParamTypes.length];
+		for (int i1 = 0; i1 < originParamTypes.length; i1++) {
+			types1[i1] = originParamTypes[i1];
+		}
+
+		actualDescriptor = Type.getMethodDescriptor(originReturnType, types1);
+		return actualDescriptor;
 	}
 
 	protected String buildDescriptor(Clazz[] methodParamClazzes, final Clazz methodReturnClazz) {

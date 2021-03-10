@@ -246,6 +246,7 @@ public class AdvAsmProxyASMifierTest {
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
+	//TODO
 //	@Test
 //	public void test_GenericInterfaceImplSampleAdvAsmProxy_Builder() throws Exception {
 //		Class<?> expectedClazz = GenericInterfaceImplSampleAdvAsmProxy.class;
