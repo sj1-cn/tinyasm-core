@@ -537,7 +537,7 @@ public class Adv {
 		return t;
 	}
 
-	public static <T> T new_(Class<?> clz, Class<?> interfaceClass, Class<?> typeParameter, Object... params) {
+	public static <T> T newList_(Class<?> clz, Class<?> interfaceClass, Class<?> typeParameter, Object... params) {
 		AdvContext context = _contextThreadLocal.get();
 
 		Constructor<?> constructor = matchConstruct(clz, params);
@@ -981,7 +981,7 @@ public class Adv {
 		} else if (t == String.class) {
 			String key = String.valueOf(MAGIC_LOCALS_String + locals);
 			return (T) key;
-		} else if (clazz.isAssignableFrom(AdvRuntimeReferNameObject.class)) {
+		} else if (canProxy(t)) {
 			byte magicNumber = (byte) (MAGIC_LOCALS_NUMBER + locals);
 			return buildProxyClass(clazz, magicNumber);
 		} else {

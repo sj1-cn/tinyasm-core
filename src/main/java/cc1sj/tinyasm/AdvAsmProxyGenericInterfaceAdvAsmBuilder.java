@@ -10,6 +10,7 @@ import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -39,32 +40,49 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	public static byte[] dump2(Class<?> target, Class<?> typeClass, String proxyClassName) throws Exception {
-		ClassReader cr = new ClassReader(target.getName());
+
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+		AdvAsmProxyGenericInterfaceAdvAsmBuilder bw = new AdvAsmProxyGenericInterfaceAdvAsmBuilder(Opcodes.ASM9, cw, Type.getType(target),
+				Type.getType(typeClass), proxyClassName);
 
-		AdvAsmProxyGenericInterfaceAdvAsmBuilder bw;
-//		target.getConstructor();
-		bw = new AdvAsmProxyGenericInterfaceAdvAsmBuilder(Opcodes.ASM9, cw, Type.getType(target), Type.getType(typeClass), proxyClassName);
-		cr.accept(bw, ClassReader.SKIP_CODE);
+		resolveClass(target, bw);
 
-		Class<?> superClass = target.getSuperclass();
-		while (superClass != null && superClass != Object.class) {
-			cr = new ClassReader(superClass.getName());
-			cr.accept(bw, ClassReader.SKIP_CODE);
-
-			superClass = superClass.getSuperclass();
-		}
-
-		String[] is = cr.getInterfaces();
-		for (String s : is) {
-			cr = new ClassReader(s);
-			cr.accept(bw, ClassReader.SKIP_CODE);
-		}
+//		String[] is = cr.getInterfaces();
+//		for (String s : is) {
+//			cr = new ClassReader(s);
+//			cr.accept(bw, ClassReader.SKIP_CODE);
+//		}
 
 		bw.finish();
 
 		return cw.toByteArray();
 	}
+
+	protected static void resolveClass(Class<?> target, AdvAsmProxyGenericInterfaceAdvAsmBuilder bw) throws IOException {
+		ClassReader cr = new ClassReader(target.getName());
+		cr.accept(bw, ClassReader.SKIP_CODE);
+
+		Class<?> superClass = target.getSuperclass();
+
+		if (superClass != null && superClass != Object.class) {
+			resolveClass(superClass, bw);
+		}
+
+		for (Class<?> interfaceClass : target.getInterfaces()) {
+			resolveClass(interfaceClass, bw);
+		}
+	}
+//
+//	protected static void resolveSuper(Class<?> target, AdvAsmProxyGenericInterfaceAdvAsmBuilder bw) throws IOException {
+//		ClassReader cr;
+//		Class<?> superClass = target.getSuperclass();
+//		while (superClass != null && superClass != Object.class) {
+//			cr = new ClassReader(superClass.getName());
+//			cr.accept(bw, ClassReader.SKIP_CODE);
+//
+//			superClass = superClass.getSuperclass();
+//		}
+//	}
 
 	ClassBody classBody;
 	String proxyClassName;
@@ -215,12 +233,6 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 //			return null;
 //		}
 
-		String referkey = methodName + descriptor + signature;
-		if (definedMethodes.containsKey(referkey)) {
-			return null;
-		}
-		definedMethodes.put(referkey, referkey);
-
 //		List<StringBuilder> methodParamClazzes = null;
 //		if (signature == null) {
 //			if (returnType != Type.VOID_TYPE) {
@@ -293,10 +305,24 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 //			return null;
 //		}
 
-		if (needBridge && methodFormalTypeParameters.length==0) {
+		if (needBridge && methodFormalTypeParameters.length == 0) {
 			bridgeMethods.add(
 					new BridgeMethod(methodName, originReturnType, originParamTypes, methodReturnClazz, methodParamClazzes, exceptions));
 		}
+
+		String actualDescriptor;
+		String actualSignature;
+		{
+
+			actualDescriptor = buildDescriptor(methodParamClazzes, methodReturnClazz);
+			actualSignature = buildSignature(methodFormalTypeParameters, methodParamClazzes, methodReturnClazz);
+		}
+
+		String referkey = methodName + actualDescriptor + actualSignature;
+		if (definedMethodes.containsKey(referkey)) {
+			return null;
+		}
+		definedMethodes.put(referkey, referkey);
 
 		MethodHeader mh = classBody.method(ACC_PUBLIC, methodReturnClazz, methodName);
 		if (methodFormalTypeParameters.length > 0) {
@@ -678,7 +704,7 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 				}
 		} else if (methodFormalTypeParameters.length > 0 && methodReturnClazz.getType() != Type.VOID_TYPE) {
 			code.STORE("codeIndex", byte.class);
-			
+
 			code.LINE();
 			code.LOADConst(MAGIC_CODES_NUMBER);
 			code.LOAD("codeIndex");
@@ -687,68 +713,77 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 			code.STORE("magicNumber", byte.class);
 
 			boolean classResolved = resolveParamArgument(code, classSignaturewwww.typeParamenterClazzes, classSignaturewwww.paramsClazzes);
-			if (classResolved && methodReturnClazz instanceof ClazzVariable) {
+			if (classResolved) {
 
-				String targetClassName = "targetClass" + ((ClazzVariable) methodReturnClazz).name;
-				if (((ClazzVariable) methodReturnClazz).isarray) {
-					code.LINE();
-					code.LOAD(targetClassName);
-					code.LOADConst(1);
-					code.STATIC(Array.class, "newInstance").reTurn(Object.class).parameter(Class.class).parameter(int.class).INVOKE();
-					code.CHECKCAST(Object[].class);
-					code.STORE("targetArray", Clazz.typeVariableOf("T", true));
+				if (methodReturnClazz instanceof ClazzVariable) {
+					String targetClassName = "targetClass" + ((ClazzVariable) methodReturnClazz).name;
+					if (((ClazzVariable) methodReturnClazz).isarray) {
+						code.LINE();
+						code.LOAD(targetClassName);
+						code.LOADConst(1);
+						code.STATIC(Array.class, "newInstance").reTurn(Object.class).parameter(Class.class).parameter(int.class).INVOKE();
+						code.CHECKCAST(Object[].class);
+						code.STORE("targetArray", Clazz.typeVariableOf("T", true));
 
-					code.LINE();
-					code.LOADConstNULL();
-					code.STORE("targetElement", Clazz.typeVariableOf("T"));
+						code.LINE();
+						code.LOADConstNULL();
+						code.STORE("targetElement", Clazz.typeVariableOf("T"));
 
-					code.LINE();
-					code.LOAD(targetClassName);
-					code.STATIC(Adv.class, "canProxy").reTurn(boolean.class).parameter(Class.class).INVOKE();
-					Label label9OfIFEQ = new Label();
-					code.IFEQ(label9OfIFEQ);
+						code.LINE();
+						code.LOAD(targetClassName);
+						code.STATIC(Adv.class, "canProxy").reTurn(boolean.class).parameter(Class.class).INVOKE();
+						Label label9OfIFEQ = new Label();
+						code.IFEQ(label9OfIFEQ);
 
-					code.LINE();
-					code.LOAD(targetClassName);
-					code.LOAD("magicNumber");
-					code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(byte.class).INVOKE();
-					code.STORE("targetElement");
+						code.LINE();
+						code.LOAD(targetClassName);
+						code.LOAD("magicNumber");
+						code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(byte.class)
+								.INVOKE();
+						code.STORE("targetElement");
 
-					code.LINE();
-					code.LOAD("targetArray");
-					code.LOADConst(0);
-					code.LOAD("targetElement");
-					code.ARRAYSTORE();
+						code.LINE();
+						code.LOAD("targetArray");
+						code.LOADConst(0);
+						code.LOAD("targetElement");
+						code.ARRAYSTORE();
 
-					code.LINE();
-					code.LOAD("targetArray");
-					code.RETURNTop();
+						code.LINE();
+						code.LOAD("targetArray");
+						code.RETURNTop();
 
-					code.visitLabel(label9OfIFEQ);
+						code.visitLabel(label9OfIFEQ);
 
-					code.LINE();
-					code.LOADConstNULL();
-					code.RETURNTop();
-				} else {
-					code.LINE();
-					code.LOAD(targetClassName);
-					code.STATIC(Adv.class, "canProxy").reTurn(boolean.class).parameter(Class.class).INVOKE();
-					Label label7OfIFEQ = new Label();
-					code.IFEQ(label7OfIFEQ);
+						code.LINE();
+						code.LOADConstNULL();
+						code.RETURNTop();
+					} else {
+						code.LINE();
+						code.LOAD(targetClassName);
+						code.STATIC(Adv.class, "canProxy").reTurn(boolean.class).parameter(Class.class).INVOKE();
+						Label label7OfIFEQ = new Label();
+						code.IFEQ(label7OfIFEQ);
 
-					code.LINE();
-					code.LOAD(targetClassName);
-					code.LOAD("magicNumber");
-					code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(byte.class).INVOKE();
-					code.RETURNTop();
+						code.LINE();
+						code.LOAD(targetClassName);
+						code.LOAD("magicNumber");
+						code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(byte.class)
+								.INVOKE();
+						code.RETURNTop();
 
-					code.visitLabel(label7OfIFEQ);
+						code.visitLabel(label7OfIFEQ);
 
-					code.LINE();
-					code.LOADConstNULL();
-					code.RETURNTop();
+						code.LINE();
+						code.LOADConstNULL();
+						code.RETURNTop();
 
+					}
 				}
+			} else {
+
+				code.LINE();
+				code.LOADConstNULL();
+				code.RETURNTop();
 			}
 		} else {
 //			code.POP();
@@ -766,6 +801,57 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 		// TODO Auto-generated method stub
 		return null;
 
+	}
+
+	protected String buildDescriptor(Clazz[] methodParamClazzes, final Clazz methodReturnClazz) {
+		String actualDescriptor;
+		Type[] types1 = new Type[methodParamClazzes.length];
+		for (int i1 = 0; i1 < methodParamClazzes.length; i1++) {
+			types1[i1] = methodParamClazzes[i1].getType();
+		}
+
+		actualDescriptor = Type.getMethodDescriptor(methodReturnClazz.getType(), types1);
+		return actualDescriptor;
+	}
+
+	protected String buildSignature(ClazzFormalTypeParameter[] methodFormalTypeParameters, Clazz[] methodParamClazzes,
+			final Clazz methodReturnClazz) {
+		String actualSignature;
+		boolean needSignature = false;
+		{
+			StringBuilder sb = new StringBuilder();
+			if (methodFormalTypeParameters != null && methodFormalTypeParameters.length > 0) {
+				sb.append('<');
+				for (int i = 0; i < methodFormalTypeParameters.length; i++) {
+					ClazzFormalTypeParameter type = methodFormalTypeParameters[i];
+					sb.append(type.signatureOf());
+				}
+				sb.append('>');
+				needSignature = true;
+			}
+
+			sb.append("(");
+			for (Clazz param : methodParamClazzes) {
+				if (param.needSignature()) {
+					sb.append(param.signatureAnyway());
+					needSignature = true;
+				} else {
+					sb.append(param.getDescriptor());
+				}
+			}
+			sb.append(")");
+			needSignature |= methodReturnClazz.needSignature();
+			sb.append(methodReturnClazz.signatureAnyway());
+
+			String signatureFromParameter = sb.toString();
+
+			if (needSignature) {
+				actualSignature = signatureFromParameter;
+			} else {
+				actualSignature = null;
+			}
+		}
+		return actualSignature;
 	}
 
 	private boolean resolveParamArgument(MethodCode code, ClazzFormalTypeParameter[] typeParamenterClazzes, Clazz[] paramsClazzes) {
@@ -797,7 +883,7 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 			}
 			resolvedAll = resolvedAll && resolved;
 		}
-		if (!resolvedAll) throw new UnsupportedOperationException("当前是简单的版本，不是所有的参数都解开了");
+//		if (!resolvedAll) throw new UnsupportedOperationException("当前是简单的版本，不是所有的参数都解开了");
 		return resolvedAll;
 	}
 
