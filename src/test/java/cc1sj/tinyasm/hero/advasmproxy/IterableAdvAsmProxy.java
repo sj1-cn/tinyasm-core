@@ -3,10 +3,13 @@ package cc1sj.tinyasm.hero.advasmproxy;
 import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
 
 import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 import cc1sj.tinyasm.Adv;
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
+import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.GenericInterface;
@@ -39,9 +42,9 @@ public class IterableAdvAsmProxy implements Iterable<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Iterator.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(Iterable.class, "iterator").reTurn(Object.class).INVOKE();
-			c.CHECKCAST(Iterator.class);
+			c.INTERFACE(Iterable.class, "iterator").reTurn(Iterator.class).INVOKE();
 		});
+		
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
 
@@ -52,68 +55,34 @@ public class IterableAdvAsmProxy implements Iterable<PojoClassSample>, AdvRuntim
 		}
 	}
 
-//
-//	@Override
-//	public PojoClassSample getT() {
-//		AdvContext context = _contextThreadLocal.get();
-//		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-//		byte codeIndex = context.push(PojoClassSample.class, c -> {
-//			objEval.accept(c);
-//			c.INTERFACE(GenericInterface.class, "getT").reTurn(Object.class).INVOKE();
-//			c.CHECKCAST(PojoClassSample.class);
-//		});
-//
-//		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
-//
-//		if (Adv.canProxy(PojoClassSample.class)) {
-//			return Adv.buildProxyClass(PojoClassSample.class, magicNumber);
-//		} else {
-//			return null;
-//		}
-//	}
-//
-//	@Override
-//	public PojoClassChildSample getPojoClassChildSample() {
-//		AdvContext context = _contextThreadLocal.get();
-//		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-//		byte codeIndex = context.push(PojoClassChildSample.class, c -> {
-//			objEval.accept(c);
-//			c.INTERFACE(GenericInterface.class, "getPojoClassChildSample").reTurn(PojoClassChildSample.class).INVOKE();
-//		});
-//
-//		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
-//
-//		if (Adv.canProxy(PojoClassChildSample.class)) {
-//			return Adv.buildProxyClass(PojoClassChildSample.class, magicNumber);
-//		} else {
-//			return null;
-//		}
-//	}
-//
-//	@Override
-//	public void setT(PojoClassSample param0) {
-//		AdvContext context = _contextThreadLocal.get();
-//		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
-//		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-//		context.execLine(c -> {
-//			objEval.accept(c);
-//			eval_param0.accept(c);
-//
-//			c.INTERFACE(GenericInterface.class, "setT").parameter(Object.class).INVOKE();
-//		});
-//	}
-//
-//	@Override
-//	public void setPojoClassChildSample(PojoClassChildSample param0) {
-//		AdvContext context = _contextThreadLocal.get();
-//		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
-//		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-//		context.execLine(c -> {
-//			objEval.accept(c);
-//			eval_param0.accept(c);
-//			c.INTERFACE(GenericInterface.class, "setPojoClassChildSample").parameter(PojoClassChildSample.class).INVOKE();
-//		});
-//
-//	}
+	@Override
+	public void forEach(Consumer<? super PojoClassSample> param0) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		context.execLine(c -> {
+			objEval.accept(c);
+			eval_param0.accept(c);
+			c.INTERFACE(Iterable.class, "forEach").parameter(Consumer.class).INVOKE();
+		});
+	}
+
+	@Override
+	public Spliterator<PojoClassSample> spliterator() {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(Spliterator.class, c -> {
+			objEval.accept(c);
+			c.INTERFACE(Iterable.class, "spliterator").reTurn(Spliterator.class).INVOKE();
+		});
+
+		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+
+		if (Adv.canProxy(Spliterator.class)) {
+			return Adv.buildProxyClass(Spliterator.class, PojoClassSample.class, magicNumber);
+		} else {
+			return null;
+		}
+	}
 
 }

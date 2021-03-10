@@ -4,21 +4,27 @@ import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 import cc1sj.tinyasm.Adv;
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
+import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
+import cc1sj.tinyasm.hero.helperclass.GenericMethodInterface;
 import cc1sj.tinyasm.hero.helperclass.PageList;
 import cc1sj.tinyasm.hero.helperclass.PojoClassSample;
+import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
 
 public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntimeReferNameObject {
 	private byte _magicNumber;
@@ -46,7 +52,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getStart").reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "getStart").reTurn(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
@@ -57,7 +63,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getMax").reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "getMax").reTurn(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
@@ -68,7 +74,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getTotalSize").reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "getTotalSize").reTurn(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
@@ -81,7 +87,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		context.execLine(c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PageList.class, "start").parameter(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "start").parameter(int.class).INVOKE();
 		});
 
 	}
@@ -94,7 +100,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		context.execLine(c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PageList.class, "max").parameter(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "max").parameter(int.class).INVOKE();
 		});
 
 	}
@@ -107,32 +113,30 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		context.execLine(c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PageList.class, "totalSize").parameter(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "totalSize").parameter(int.class).INVOKE();
 		});
 
 	}
-	
+
 	@Override
 	public int size() {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PageList.class, "size").reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "size").reTurn(int.class).INVOKE();
 		});
 
-		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
-
-		return magicNumber;
+		return MAGIC_CODES_NUMBER + codeIndex;
 	}
 
 	@Override
 	public boolean isEmpty() {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(boolean.class, c -> {
+		context.push(boolean.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PageList.class, "isEmpty").reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "isEmpty").reTurn(boolean.class).INVOKE();
 		});
 
 		return false;
@@ -143,10 +147,10 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(boolean.class, c -> {
+		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PageList.class, "contains").reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "contains").reTurn(boolean.class).INVOKE();
 		});
 		return false;
 	}
@@ -157,7 +161,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Iterator.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PageList.class, "iterator").reTurn(Iterator.class).INVOKE();
+			c.INTERFACE(PageList.class, "iterator").reTurn(Iterator.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -173,33 +177,51 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 	public Object[] toArray() {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-//		byte codeIndex = context.push(Object[].class, c -> {
-//			objEval.accept(c);
-//			c.VIRTUAL(PageList.class, "toArray").reTurn(Object[].class).INVOKE();
-//		});
-//
-//		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
-//
-//		if (Adv.canProxy(Iterator.class)) {
-//			return Adv.buildProxyClass(Iterator.class, PojoClassSample.class, magicNumber);
-//		} else {
-//			return null;
-//		}
-		return null;
+		byte codeIndex = context.push(Object[].class, c -> {
+			objEval.accept(c);
+			c.INTERFACE(PageList.class, "toArray").reTurn(Object[].class).INVOKE();
+		});
+
+		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+		Object simplePojoClassSample = null;
+		Object[] tarray = new Object[1];
+
+		if (Adv.canProxy(Object.class)) {
+			simplePojoClassSample = Adv.buildProxyClass(Object.class, magicNumber);
+			tarray[0] = simplePojoClassSample;
+			return tarray; // int.class);
+		} else {
+			return null;
+		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T[] toArray(T[] param0) {
+		Class<?> elementClass = param0.getClass().getComponentType();
+
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-//		byte codeIndex = context.push(Array.li.class, c -> {
-////			objEval.accept(c);
-////			eval_param0.accept(c);
-////			c.VIRTUAL(PojoClassSample.class, "toArray").reTurn(int.class).INVOKE();
-//		});
-//		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
-		return null;
+		byte codeIndex = context.push(Object[].class, c -> {
+			objEval.accept(c);
+			eval_param0.accept(c);
+
+			c.INTERFACE(PageList.class, "toArray").parameter(Object[].class).reTurn(Object[].class).INVOKE();
+			c.CHECKCAST(Clazz.of(elementClass, true));
+		});
+
+		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+		T simplePojoClassSample = null;
+		T[] tarray = (T[]) Array.newInstance(elementClass, 1);
+
+		if (Adv.canProxy(elementClass)) {
+			simplePojoClassSample = Adv.buildProxyClass((Class<T>) elementClass, magicNumber);
+			tarray[0] = simplePojoClassSample;
+			return tarray; // int.class);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -207,10 +229,10 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(boolean.class, c -> {
+		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "add").parameter(PojoClassSample.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "add").parameter(Object.class).reTurn(boolean.class).INVOKE();
 		});
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 		return false;
@@ -221,11 +243,12 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(boolean.class, c -> {
+		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "remove").parameter(Object.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "remove").parameter(Object.class).reTurn(boolean.class).INVOKE();
 		});
+//		super.remove(param0);
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 		return false;
 	}
@@ -235,10 +258,10 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(boolean.class, c -> {
+		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "containsAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "containsAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
 		});
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 		return false;
@@ -249,10 +272,10 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(boolean.class, c -> {
+		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "addAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "addAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
 		});
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 		return false;
@@ -264,11 +287,11 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> eval_param1 = context.resolve(param1);
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(boolean.class, c -> {
+		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
 			eval_param1.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "addAll").parameter(int.class).parameter(Collection.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "addAll").parameter(int.class).parameter(Collection.class).reTurn(boolean.class).INVOKE();
 		});
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 		return false;
@@ -279,10 +302,10 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(boolean.class, c -> {
+		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "removeAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "removeAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
 		});
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 		return false;
@@ -293,14 +316,56 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(boolean.class, c -> {
+		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "retainAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "retainAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
 		});
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 		return false;
 	}
+
+	@Override
+	public void replaceAll(UnaryOperator<PojoClassSample> param0) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		context.execLine(c -> {
+			objEval.accept(c);
+			eval_param0.accept(c);
+			c.INTERFACE(PageList.class, "replaceAll").parameter(UnaryOperator.class).INVOKE();
+		});
+	}
+
+	@Override
+	public void sort(Comparator<? super PojoClassSample> param0) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		context.execLine(c -> {
+			objEval.accept(c);
+			eval_param0.accept(c);
+			c.INTERFACE(PageList.class, "sort").parameter(Comparator.class).INVOKE();
+		});
+	}
+//
+//	@Override
+//	public Spliterator<PojoClassSample> spliterator() {
+//		AdvContext context = _contextThreadLocal.get();
+//		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+//		byte codeIndex = context.push(Iterator.class, c -> {
+//			objEval.accept(c);
+//			c.INTERFACE(PageList.class, "spliterator").reTurn(Spliterator.class).INVOKE();
+//		});
+//
+//		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+//
+//		if (Adv.canProxy(Spliterator.class)) {
+//			return Adv.buildProxyClass(Spliterator.class, PojoClassSample.class, magicNumber);
+//		} else {
+//			return null;
+//		}
+//	}
 
 	@Override
 	public void clear() {
@@ -308,9 +373,34 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.execLine(c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PageList.class, "clear").INVOKE();
+			c.INTERFACE(PageList.class, "clear").INVOKE();
 		});
 
+	}
+
+	@Override
+	public boolean equals(Object param0) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		context.push(boolean.class, c -> {
+			objEval.accept(c);
+			eval_param0.accept(c);
+			c.INTERFACE(PageList.class, "equals").parameter(Object.class).reTurn(boolean.class).INVOKE();
+		});
+//		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(int.class, c -> {
+			objEval.accept(c);
+			c.INTERFACE(PageList.class, "hashCode").reTurn(int.class).INVOKE();
+		});
+		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
 
 	@Override
@@ -321,13 +411,14 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		byte codeIndex = context.push(PojoClassSample.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PageList.class, "isEmpty").parameter(int.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "get").parameter(int.class).reTurn(Object.class).INVOKE();
+			c.CHECKCAST(PojoClassSample.class);
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
 
-		if (Adv.canProxy(Iterator.class)) {
-			return Adv.buildProxyClass(Iterator.class, PojoClassSample.class, magicNumber);
+		if (Adv.canProxy(PojoClassSample.class)) {
+			return Adv.buildProxyClass(PojoClassSample.class, magicNumber);
 		} else {
 			return null;
 		}
@@ -343,13 +434,14 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 			objEval.accept(c);
 			eval_param0.accept(c);
 			eval_param1.accept(c);
-			c.VIRTUAL(PageList.class, "isEmpty").parameter(int.class).parameter(PojoClassSample.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "set").parameter(int.class).parameter(Object.class).reTurn(Object.class).INVOKE();
+			c.CHECKCAST(PojoClassSample.class);
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
 
-		if (Adv.canProxy(Iterator.class)) {
-			return Adv.buildProxyClass(Iterator.class, PojoClassSample.class, magicNumber);
+		if (Adv.canProxy(PojoClassSample.class)) {
+			return Adv.buildProxyClass(PojoClassSample.class, magicNumber);
 		} else {
 			return null;
 		}
@@ -361,11 +453,11 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> eval_param1 = context.resolve(param1);
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.exec(c -> {
+		context.execLine(c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
 			eval_param1.accept(c);
-			c.VIRTUAL(PageList.class, "add").parameter(int.class).parameter(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "add").parameter(int.class).parameter(Object.class).INVOKE();
 		});
 
 	}
@@ -378,7 +470,8 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		byte codeIndex = context.push(PojoClassSample.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PageList.class, "isEmpty").parameter(int.class).reTurn(PojoClassSample.class).INVOKE();
+			c.INTERFACE(PageList.class, "remove").parameter(int.class).reTurn(Object.class).INVOKE();
+			c.CHECKCAST(PojoClassSample.class);
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -398,7 +491,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "indexOf").parameter(Object.class).reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "indexOf").parameter(Object.class).reTurn(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
@@ -411,7 +504,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "lastIndexOf").parameter(Object.class).reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "lastIndexOf").parameter(Object.class).reTurn(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
@@ -422,7 +515,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(ListIterator.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PageList.class, "listIterator").reTurn(ListIterator.class).INVOKE();
+			c.INTERFACE(PageList.class, "listIterator").reTurn(ListIterator.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -442,7 +535,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		byte codeIndex = context.push(ListIterator.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(PageList.class, "listIterator").parameter(int.class).reTurn(ListIterator.class).INVOKE();
+			c.INTERFACE(PageList.class, "listIterator").parameter(int.class).reTurn(ListIterator.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -464,7 +557,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 			objEval.accept(c);
 			eval_param0.accept(c);
 			eval_param1.accept(c);
-			c.VIRTUAL(PageList.class, "subList").parameter(int.class).parameter(int.class).reTurn(List.class).INVOKE();
+			c.INTERFACE(PageList.class, "subList").parameter(int.class).parameter(int.class).reTurn(List.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -477,82 +570,121 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 	}
 
 	@Override
-	public <T> T[] toArray(IntFunction<T[]> param0) {
+	public Spliterator<PojoClassSample> spliterator() {
 		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-//		byte codeIndex = context.push(Array.class, c -> {
+		byte codeIndex = context.push(Spliterator.class, c -> {
+			objEval.accept(c);
+			c.INTERFACE(PageList.class, "spliterator").reTurn(Spliterator.class).INVOKE();
+		});
+
+		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+
+		if (Adv.canProxy(Spliterator.class)) {
+			return Adv.buildProxyClass(Spliterator.class, PojoClassSample.class, magicNumber);
+		} else {
+			return null;
+		}
+	}
+
+//	@Override
+//	public <T> T[] toArray(IntFunction<T[]> param0) {
+//		AdvContext context = _contextThreadLocal.get();
+//		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+//		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+//
+//		// TODO
+////
+////		
+////		Class<?> elementClass = param0.getClass().getComponentType();
+////
+////		AdvContext context = _contextThreadLocal.get();
+////		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+////		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+////		byte codeIndex = context.push(Object[].class, c -> {
 ////			objEval.accept(c);
 ////			eval_param0.accept(c);
-////			c.VIRTUAL(PageList.class, "toArray").parameter(IntFunction.class).reTurn(T[].class).INVOKE();
+////
+////			c.INTERFACE(PageListAdvAsmProxy.class, "toArray").parameter(Object[].class).reTurn(Object[].class).INVOKE();
+////			c.CHECKCAST(Clazz.of(elementClass, true));
+////		});
+////
+////		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+////		T simplePojoClassSample = null;
+////		T[] tarray = (T[]) Array.newInstance(elementClass, 1);
+////
+////		if (Adv.canProxy(elementClass)) {
+////			simplePojoClassSample = Adv.buildProxyClass((Class<T>) elementClass, magicNumber);
+////			tarray[0] = simplePojoClassSample;
+////			return tarray; // int.class);
+////		} else {
+////			return null;
+////		}
+////		
+//
+//		return null;
+//
+//	}
+//
+//	@Override
+//	public boolean removeIf(Predicate<? super PojoClassSample> param0) {
+//		AdvContext context = _contextThreadLocal.get();
+//		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+//		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+//		context.push(boolean.class, c -> {
+//			objEval.accept(c);
+//			eval_param0.accept(c);
+//			c.INTERFACE(PageList.class, "removeIf").parameter(Predicate.class).INVOKE();
 //		});
-
+//		return false; // int.class);
+//	}
+//
+//	@Override
+//	public Stream<PojoClassSample> stream() {
+//		AdvContext context = _contextThreadLocal.get();
+//		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+//		byte codeIndex = context.push(Stream.class, c -> {
+//			objEval.accept(c);
+//			c.INTERFACE(PageList.class, "stream").reTurn(Stream.class).INVOKE();
+//		});
+//
 //		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
-//		context.push(Array.class,c->{});
-		return null;
-
-	}
-
-	@Override
-	public boolean removeIf(Predicate<? super PojoClassSample> param0) {
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(boolean.class, c -> {
-			objEval.accept(c);
-			eval_param0.accept(c);
-			c.VIRTUAL(PageList.class, "removeIf").parameter(Predicate.class).INVOKE();
-		});
-		return false; // int.class);
-	}
-
-	@Override
-	public Stream<PojoClassSample> stream() {
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(Stream.class, c -> {
-			objEval.accept(c);
-			c.VIRTUAL(PageList.class, "stream").reTurn(Stream.class).INVOKE();
-		});
-
-		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
-
-		if (Adv.canProxy(Stream.class)) {
-			return Adv.buildProxyClass(Stream.class, PojoClassSample.class, magicNumber);
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public Stream<PojoClassSample> parallelStream() {
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(Stream.class, c -> {
-			objEval.accept(c);
-			c.VIRTUAL(PageList.class, "parallelStream").reTurn(Stream.class).INVOKE();
-		});
-
-		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
-
-		if (Adv.canProxy(Stream.class)) {
-			return Adv.buildProxyClass(Stream.class, PojoClassSample.class, magicNumber);
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public void forEach(Consumer<? super PojoClassSample> param0) {
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.execLine(c -> {
-			objEval.accept(c);
-			eval_param0.accept(c);
-			c.VIRTUAL(PageList.class, "forEach").parameter(Consumer.class).INVOKE();
-		});
-	}
-
+//
+//		if (Adv.canProxy(Stream.class)) {
+//			return Adv.buildProxyClass(Stream.class, PojoClassSample.class, magicNumber);
+//		} else {
+//			return null;
+//		}
+//	}
+//
+//	@Override
+//	public Stream<PojoClassSample> parallelStream() {
+//		AdvContext context = _contextThreadLocal.get();
+//		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+//		byte codeIndex = context.push(Stream.class, c -> {
+//			objEval.accept(c);
+//			c.INTERFACE(PageList.class, "parallelStream").reTurn(Stream.class).INVOKE();
+//		});
+//
+//		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+//
+//		if (Adv.canProxy(Stream.class)) {
+//			return Adv.buildProxyClass(Stream.class, PojoClassSample.class, magicNumber);
+//		} else {
+//			return null;
+//		}
+//	}
+//
+//	@Override
+//	public void forEach(Consumer<? super PojoClassSample> param0) {
+//		AdvContext context = _contextThreadLocal.get();
+//		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+//		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+//		context.execLine(c -> {
+//			objEval.accept(c);
+//			eval_param0.accept(c);
+//			c.INTERFACE(PageList.class, "forEach").parameter(Consumer.class).INVOKE();
+//		});
+//	}
 
 }

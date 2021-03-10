@@ -54,12 +54,12 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 			superClass = superClass.getSuperclass();
 		}
 
-//		String[] is = cr.getInterfaces();
-//		for (String s : is) {
-//			cr = new ClassReader(s);
-//			cr.accept(bw, ClassReader.SKIP_CODE);
-//		}
-//		
+		String[] is = cr.getInterfaces();
+		for (String s : is) {
+			cr = new ClassReader(s);
+			cr.accept(bw, ClassReader.SKIP_CODE);
+		}
+
 		bw.finish();
 
 		return cw.toByteArray();
@@ -323,15 +323,16 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 			loadType(code, methodReturnClazz);
 		}
 
-		String[] names = new String[methodParamClazzes.length + 1];
+		String[] lambdaEvalParamNames = new String[methodParamClazzes.length + 1];
 		code.LOAD("objEval");
-		names[0] = "objEval";
+		lambdaEvalParamNames[0] = "objEval";
 		for (int i = 0; i < methodParamClazzes.length; i++) {
 			code.LOAD("eval_param" + i);
-			names[i + 1] = "eval_param" + i;
+			lambdaEvalParamNames[i + 1] = "eval_param" + i;
 		}
+
 		// invoke method
-		String lambdaName = pushLambda(names, methodName, c -> {
+		String lambdaName = pushLambda(lambdaEvalParamNames, methodName, c -> {
 			c.LINE();
 			c.LOAD("c");
 			c.LOADConst(targetClazz);
@@ -421,31 +422,75 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 				if (methodReturnClazz.getType().getSort() == Type.OBJECT) {
 					code.STORE("codeIndex", byte.class);
 
-					code.LINE();
-					code.LOADConst(80);
-					code.LOAD("codeIndex");
-					code.ADD();
-					code.CONVERTTO(byte.class);
-					code.STORE("magicNumber", byte.class);
+					if (methodReturnClazz instanceof ClazzType) {
 
-					code.LINE();
-					code.LOADConst(methodReturnClazz);
-					code.STATIC(Adv.class, "canProxy").reTurn(boolean.class).parameter(Class.class).INVOKE();
-					Label label5OfIFEQ = new Label();
-					code.IFEQ(label5OfIFEQ);
+						code.LINE();
+						code.LOADConst(80);
+						code.LOAD("codeIndex");
+						code.ADD();
+						code.CONVERTTO(byte.class);
+						code.STORE("magicNumber", byte.class);
 
-					code.LINE();
-					code.LOADConst(methodReturnClazz);
-					code.LOAD("magicNumber");
-					code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(byte.class).INVOKE();
-					code.CHECKCAST(methodReturnClazz);
-					code.RETURNTop();
+						code.LINE();
+						code.LOADConst(methodReturnClazz);
+						code.STATIC(Adv.class, "canProxy").reTurn(boolean.class).parameter(Class.class).INVOKE();
+						Label label5OfIFEQ = new Label();
+						code.IFEQ(label5OfIFEQ);
 
-					code.visitLabel(label5OfIFEQ);
+						code.LINE();
+						code.LOADConst(methodReturnClazz);
+						code.LOAD("magicNumber");
+						code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(byte.class)
+								.INVOKE();
+						code.CHECKCAST(methodReturnClazz);
+						code.RETURNTop();
 
-					code.LINE();
-					code.LOADConstNULL();
-					code.RETURNTop();
+						code.visitLabel(label5OfIFEQ);
+
+						code.LINE();
+						code.LOADConstNULL();
+						code.RETURNTop();
+					} else if (methodReturnClazz instanceof ClazzComplex) {
+
+						code.LINE();
+						code.LOADConst(80);
+						code.LOAD("codeIndex");
+						code.ADD();
+						code.CONVERTTO(byte.class);
+						code.STORE("magicNumber", byte.class);
+
+						Clazz[] genericParameterClazz = ((ClazzComplex) methodReturnClazz).getGenericParameterClazz();
+
+						code.LINE();
+						code.LOADConst(methodReturnClazz);
+						code.STATIC(Adv.class, "canProxy").reTurn(boolean.class).parameter(Class.class).INVOKE();
+						Label label5OfIFEQ = new Label();
+						code.IFEQ(label5OfIFEQ);
+
+						code.LINE();
+						code.LOADConst(methodReturnClazz);
+						Class<?>[] paramsclasses = new Class[genericParameterClazz.length];
+						for (int i = 0; i < genericParameterClazz.length; i++) {
+							Clazz clazz = genericParameterClazz[i];
+							code.LOADConst(((ClazzTypeArgument) clazz).clazz);
+							paramsclasses[i] = Class.class;
+						}
+
+						code.LOAD("magicNumber");
+						code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(paramsclasses)
+								.parameter(byte.class).INVOKE();
+						code.CHECKCAST(methodReturnClazz);
+						code.RETURNTop();
+
+						code.visitLabel(label5OfIFEQ);
+
+						code.LINE();
+						code.LOADConstNULL();
+						code.RETURNTop();
+					} else {
+						logger.debug(methodReturnClazz.signatureOf());
+					}
+
 				} else if (methodReturnClazz.getType().getSort() == Type.ARRAY) {
 
 					Type elementType = methodReturnClazz.getType().getElementType();
@@ -593,7 +638,10 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 						code.LOAD("magicNumber");
 						code.STATIC(Adv.class, "buildProxyClass").reTurn(Object.class).parameter(Class.class).parameter(byte.class)
 								.INVOKE();
-						code.CHECKCAST(elementType);
+
+						if (!elementType.getClassName().equals("java.lang.Object")) {
+							code.CHECKCAST(elementType);
+						}
 						code.STORE("simplePojoClassSample", elementType);
 
 						code.LINE();
@@ -633,6 +681,14 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 		// TODO Auto-generated method stub
 		return null;
 
+	}
+
+	protected Class<?> toClass(final Clazz methodReturnClazz) {
+		try {
+			return Class.forName(methodReturnClazz.getType().getClassName());
+		} catch (ClassNotFoundException e1) {
+			throw new UnsupportedOperationException(e1);
+		}
 	}
 
 	protected Clazz resolveClassVariable(Clazz clazz, List<ClazzFormalTypeParameter> formalTypeParameters) {
@@ -779,7 +835,9 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 			code.CHECKCAST(returnValueboxedClazz);
 			code.VIRTUAL(Clazz.of(returnValueboxedClazz), returnValueUnboxValueMethodName).reTurn(returnClazz).INVOKE();
 		} else {
-			code.CHECKCAST(returnClazz);
+			if (!returnClazz.getType().getClassName().equals("java.lang.Object")) {
+				code.CHECKCAST(returnClazz);
+			}
 		}
 	}
 
@@ -962,7 +1020,9 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends ClassVisitor {
 
 			for (int i = 0; i < originParamTypes.length; i++) {
 				code.LOAD("params" + i);
-				code.CHECKCAST(targetParamClazzes[i]);
+				if (targetParamClazzes[i].getType().getSort() != Type.INT) {
+					code.CHECKCAST(targetParamClazzes[i]);
+				}
 			}
 
 			if (this.targetParamClazzes.length > 0)

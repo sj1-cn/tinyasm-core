@@ -11,8 +11,9 @@ import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.GenericMethodInterface;
+import cc1sj.tinyasm.hero.helperclass.PojoClassSample;
 
-public class GenericMethodInterfaceSampleAdvAsmProxy implements GenericMethodInterface, AdvRuntimeReferNameObject {
+public class GenericMethodInterfaceSampleAdvAsmProxy implements GenericMethodInterface<PojoClassSample>, AdvRuntimeReferNameObject {
 	private byte _magicNumber;
 	private ThreadLocal<AdvContext> _contextThreadLocal;
 
