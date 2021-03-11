@@ -16,7 +16,7 @@ public class ClazzFormalTypeParameter extends Clazz {
 		return actualClazz;
 	}
 
-	public void setActualClazz(Clazz actualClazz) {
+	public void setActualTypeArgument(Clazz actualClazz) {
 		this.actualClazz = actualClazz;
 	}
 

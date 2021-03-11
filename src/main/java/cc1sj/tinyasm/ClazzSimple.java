@@ -2,18 +2,18 @@ package cc1sj.tinyasm;
 
 import org.objectweb.asm.Type;
 
-public class ClazzType extends Clazz {
+public class ClazzSimple extends Clazz {
 	Type type;
 
-	ClazzType(Type type) {
+	ClazzSimple(Type type) {
 		this.type = type;
 	}
 
-	public ClazzType(Class<?> type) {
+	public ClazzSimple(Class<?> type) {
 		this.type = Type.getType(type);
 	}
 
-	public ClazzType(String name) {
+	public ClazzSimple(String name) {
 		if (name == null) type = Type.VOID_TYPE;
 		if (TypeUtils.primaryTypeMaps.containsKey(name)) type = TypeUtils.primaryTypeMaps.get(name);
 		type = Type.getObjectType(name.replace('.', '/'));

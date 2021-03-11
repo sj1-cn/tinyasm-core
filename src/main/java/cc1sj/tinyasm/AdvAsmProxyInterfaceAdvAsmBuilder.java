@@ -36,146 +36,92 @@ import org.objectweb.asm.signature.SignatureReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
+public class AdvAsmProxyInterfaceAdvAsmBuilder extends AdvAsmProxyDefaultAdvAsmBuilder {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	public static byte[] dump2(Class<?> target, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		AdvAsmProxyInterfaceAdvAsmBuilder bw = new AdvAsmProxyInterfaceAdvAsmBuilder(Opcodes.ASM9, cw, Type.getType(target), proxyClassName);
+		AdvAsmProxyInterfaceAdvAsmBuilder bw = new AdvAsmProxyInterfaceAdvAsmBuilder(Opcodes.ASM9, cw);
 
-		resolveClass(target, bw);
-
-		bw.finish();
+		bw.dump(Clazz.of(target), new Clazz[] {}, proxyClassName);
 
 		return cw.toByteArray();
 	}
 
-	protected static void resolveClass(Class<?> target, ClassVisitor bw) throws IOException {
-		ClassReader cr = new ClassReader(target.getName());
-		cr.accept(bw, ClassReader.SKIP_CODE);
-
-		Class<?> superClass = target.getSuperclass();
-
-		if (superClass != null && superClass != Object.class) {
-			resolveClass(superClass, bw);
-		}
-
-		for (Class<?> interfaceClass : target.getInterfaces()) {
-			resolveClass(interfaceClass, bw);
-		}
-	}
-
-	ClassBody classBody;
+	ClassBody proxyClassBody;
 	String proxyClassName;
-	Clazz targetClazz;
-	Clazz[] typeTypes;
 
-	List<BridgeMethod> bridgeMethods = new ArrayList<>();
+	List<LambdaBuilder> proxyLambdas = new ArrayList<>();
+	List<BridgeMethod> proxyBridgeMethods = new ArrayList<>();
+	Map<String, String> proxyDefinedMethodes = new HashMap<>();
 
-	public AdvAsmProxyInterfaceAdvAsmBuilder(int api, Type targetType, String proxyClassName) {
+	Current current;
+
+	class Current {
+		Clazz targetClazz;
+		Clazz[] actualTypeArguments;
+		List<ClazzFormalTypeParameter> classFormalTypeParameters = new ArrayList<>();
+	}
+
+	public AdvAsmProxyInterfaceAdvAsmBuilder(int api) throws IOException {
 		super(api);
-		this.proxyClassName = proxyClassName;
-		this.targetClazz = Clazz.of(targetType);
-		dump(targetType, proxyClassName);
 	}
 
-	public AdvAsmProxyInterfaceAdvAsmBuilder(int api, ClassVisitor classVisitor, Type targetType, String proxyClassName) {
+	public AdvAsmProxyInterfaceAdvAsmBuilder(int api, ClassVisitor classVisitor) throws IOException {
 		super(api, classVisitor);
-		this.proxyClassName = proxyClassName;
-		this.targetClazz = Clazz.of(targetType);
-
-		dump(targetType, proxyClassName);
 	}
 
-	protected void dump(Type targetType, String proxyClassName) {
+	protected void dump(ClazzSimple targetClazz, Clazz[] actualTypeArguments, String proxyClassName) throws IOException {
+		this.proxyClassName = proxyClassName;
+
 		ClassHeader ch = ClassBuilder.make(cv, proxyClassName);
 //		if(superName)
-		ch.implement(targetClazz);
+		ch.implement(Clazz.of(targetClazz, actualTypeArguments));
 		ch.implement(AdvRuntimeReferNameObject.class);
 //		ch.access(access);
-		classBody = ch.body();
+		proxyClassBody = ch.body();
 
-		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, MethodHandles.class.getName(), "Lookup");
+		proxyClassBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, MethodHandles.class.getName(), "Lookup");
 
-		classBody.field("_magicNumber", Clazz.of(byte.class));
-		classBody.field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
+		proxyClassBody.field("_magicNumber", Clazz.of(byte.class));
+		proxyClassBody.field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
 
-		__init_(classBody);
-		_get__MagicNumber(classBody);
-		_set__MagicNumber(classBody);
-		_set__Context(classBody);
+		__init_(proxyClassBody);
+		_get__MagicNumber(proxyClassBody);
+		_set__MagicNumber(proxyClassBody);
+		_set__Context(proxyClassBody);
 
+		resolveClass(targetClazz, actualTypeArguments);
+
+		finish();
+	}
+
+	protected void resolveClass(Clazz target, Clazz[] actualTypeArguments) {
+		Current last = this.current;
+		this.current = new Current();
+		current.targetClazz = target;
+		current.actualTypeArguments = actualTypeArguments;
+
+		try {
+			ClassReader cr = new ClassReader(target.getType().getClassName());
+			cr.accept(this, ClassReader.SKIP_CODE);
+		} catch (IOException e) {
+			throw new UnsupportedOperationException(e);
+		}
+
+		this.current = last;
 	}
 
 	public void finish() {
-		for (int i = bridgeMethods.size() - 1; i >= 0; i--) {
-			bridgeMethods.get(i).exec(classBody);
+		for (int i = proxyBridgeMethods.size() - 1; i >= 0; i--) {
+			proxyBridgeMethods.get(i).exec(proxyClassBody);
 		}
 
-		for (int i = lambdas.size() - 1; i >= 0; i--) {
-			lambdas.get(i).exec(classBody);
+		for (int i = proxyLambdas.size() - 1; i >= 0; i--) {
+			proxyLambdas.get(i).exec(proxyClassBody);
 		}
 	}
-
-	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
-
-		code.LINE();
-		code.LOAD("this");
-		code.SPECIAL(Clazz.of(Object.class), "<init>").INVOKE();
-		code.RETURN();
-
-		code.END();
-	}
-
-	protected void _get__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(byte.class, "get__MagicNumber").begin();
-
-		code.LINE();
-		code.LOAD("this");
-		code.GETFIELD_OF_THIS("_magicNumber");
-		code.RETURNTop();
-
-		code.END();
-	}
-
-	protected void _set__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("set__MagicNumber").parameter("_magicNumber", byte.class).begin();
-
-		code.LINE();
-		code.LOAD("this");
-		code.LOAD("_magicNumber");
-		code.PUTFIELD_OF_THIS("_magicNumber");
-
-		code.LINE();
-		code.RETURN();
-
-		code.END();
-	}
-
-	protected void _set__Context(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("set__Context")
-				.parameter("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)))
-				.parameter("_magicNumber", byte.class).begin();
-
-		code.LINE();
-		code.LOAD("this");
-		code.LOAD("_contextThreadLocal");
-		code.PUTFIELD_OF_THIS("_contextThreadLocal");
-
-		code.LINE();
-		code.LOAD("this");
-		code.LOAD("_magicNumber");
-		code.PUTFIELD_OF_THIS("_magicNumber");
-
-		code.LINE();
-		code.RETURN();
-
-		code.END();
-	}
-
-	List<ClazzFormalTypeParameter> classFormalTypeParameters = new ArrayList<>();
 
 	@Override
 	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
@@ -189,14 +135,57 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 				Clazz clazz = classSignaturewwww.typeParamenterClazzes[i];
 				if (clazz instanceof ClazzFormalTypeParameter) {
 					ClazzFormalTypeParameter clazzFormalTypeParameter = (ClazzFormalTypeParameter) clazz;
-					clazzFormalTypeParameter.setActualClazz(typeTypes[i]);
-					classFormalTypeParameters.add(clazzFormalTypeParameter);
+					clazzFormalTypeParameter.setActualTypeArgument(current.actualTypeArguments[i]);
+					current.classFormalTypeParameters.add(clazzFormalTypeParameter);
+				}
+			}
+
+			if (!classSignaturewwww.superClazz.getType().getClassName().equals(Object.class.getName())) {
+				Clazz superClazz = classSignaturewwww.superClazz;
+				if (superClazz instanceof ClazzSimple) {
+
+				} else if (superClazz instanceof ClazzWithTypeArguments) {
+					Clazz[] interfaceClazzTypeArguments = resolveTypeArguments(superClazz);
+					resolveClass(superClazz, interfaceClazzTypeArguments);
+				}
+			}
+
+			if (classSignaturewwww.interfaceClazzes.length > 0) {
+				for (Clazz interfaceClazz : classSignaturewwww.interfaceClazzes) {
+					logger.debug(interfaceClazz.toString());
+					if (interfaceClazz instanceof ClazzWithTypeArguments) {
+						Clazz[] interfaceClazzTypeArguments = resolveTypeArguments(interfaceClazz);
+						resolveClass(interfaceClazz, interfaceClazzTypeArguments);
+					}
 				}
 			}
 		}
 	}
 
-	Map<String, String> definedMethodes = new HashMap<>();
+	protected Clazz[] resolveTypeArguments(Clazz interfaceClazz) {
+		Clazz[] interfaceClazzTypeArguments;
+		ClazzTypeArgument[] typeArguments = ((ClazzWithTypeArguments) interfaceClazz).getTypeArguments();
+		interfaceClazzTypeArguments = new Clazz[typeArguments.length];
+		for (int j = 0; j < typeArguments.length; j++) {
+			ClazzTypeArgument clazzTypeArgument = typeArguments[j];
+
+			logger.debug(clazzTypeArgument.toString());
+			Clazz argumentClazz = clazzTypeArgument.clazz;
+			if (argumentClazz instanceof ClazzVariable) {
+				for (ClazzFormalTypeParameter clazzFormalTypeParameter : current.classFormalTypeParameters) {
+					if (clazzFormalTypeParameter.name.equals(((ClazzVariable) argumentClazz).name)) {
+						interfaceClazzTypeArguments[j] = clazzFormalTypeParameter.getActualClazz();
+						break;
+					}
+				}
+			} else if (argumentClazz instanceof ClazzSimple) {
+				interfaceClazzTypeArguments[j] = argumentClazz;
+			} else {
+				throw new UnsupportedOperationException("暂时还没有支持");
+			}
+		}
+		return interfaceClazzTypeArguments;
+	}
 
 	@Override
 	public MethodVisitor visitMethod(int access, String methodName, String descriptor, String signature, String[] exceptions) {
@@ -228,18 +217,15 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 			for (int i = 0; i < classSignaturewwww.paramsClazzes.length; i++) {
 				Clazz clazz = classSignaturewwww.paramsClazzes[i];
 				Clazz computedClazz;
-				computedClazz = resolveClassVariable(clazz, classFormalTypeParameters);
+				computedClazz = resolveClassVariable(clazz, current.classFormalTypeParameters);
 				methodParamClazzes[i] = computedClazz;
-				if (clazz instanceof ClazzVariable) {
-					needBridge = true;
-				}
+				needBridge |= clazz instanceof ClazzVariable;
 			}
 
-			if (classSignaturewwww.returnClazz instanceof ClazzVariable) {
-				needBridge = true;
-			}
+			needBridge |= classSignaturewwww.returnClazz instanceof ClazzVariable;
+
 			Clazz originReturnClazz = classSignaturewwww.returnClazz;
-			computedReturnClazz = resolveClassVariable(originReturnClazz, classFormalTypeParameters);
+			computedReturnClazz = resolveClassVariable(originReturnClazz, current.classFormalTypeParameters);
 
 			if (computedReturnClazz == null) {
 				computedReturnClazz = Clazz.of(Type.VOID_TYPE);
@@ -262,10 +248,10 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 			String actualDescriptor = buildBridgeDescriptor(originParamTypes, originReturnType);
 			String referkey = methodName + actualDescriptor;
 //			logger.debug(referkey);
-			if (!definedMethodes.containsKey(referkey)) {
-				bridgeMethods.add(new BridgeMethod(methodName, originReturnType, originParamTypes, methodReturnClazz, methodParamClazzes,
-						exceptions));
-				definedMethodes.put(referkey, referkey);
+			if (!proxyDefinedMethodes.containsKey(referkey)) {
+				proxyBridgeMethods.add(new BridgeMethod(methodName, originReturnType, originParamTypes, methodReturnClazz,
+						methodParamClazzes, exceptions));
+				proxyDefinedMethodes.put(referkey, referkey);
 			}
 		}
 
@@ -277,12 +263,12 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 		}
 
 		String referkey = methodName + actualDescriptor + actualSignature;
-		if (definedMethodes.containsKey(referkey)) {
+		if (proxyDefinedMethodes.containsKey(referkey)) {
 			return null;
 		}
-		definedMethodes.put(referkey, referkey);
+		proxyDefinedMethodes.put(referkey, referkey);
 
-		MethodHeader mh = classBody.method(ACC_PUBLIC, methodReturnClazz, methodName);
+		MethodHeader mh = proxyClassBody.method(ACC_PUBLIC, methodReturnClazz, methodName);
 		if (methodFormalTypeParameters.length > 0) {
 			for (ClazzFormalTypeParameter clazz : methodFormalTypeParameters) {
 				mh.formalTypeParameter(clazz);
@@ -327,6 +313,8 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 			code.LOAD("eval_param" + i);
 			lambdaEvalParamNames[i + 1] = "eval_param" + i;
 		}
+
+		Clazz targetClazz = current.targetClazz;
 
 		// invoke method
 		String lambdaName = pushLambda(lambdaEvalParamNames, methodName, c -> {
@@ -417,7 +405,7 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 				if (methodReturnClazz.getType().getSort() == Type.OBJECT) {
 					code.STORE("codeIndex", byte.class);
 
-					if (methodReturnClazz instanceof ClazzType) {
+					if (methodReturnClazz instanceof ClazzSimple) {
 
 						code.LINE();
 						code.LOADConst(80);
@@ -445,7 +433,7 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 						code.LINE();
 						code.LOADConstNULL();
 						code.RETURNTop();
-					} else if (methodReturnClazz instanceof ClazzComplex) {
+					} else if (methodReturnClazz instanceof ClazzWithTypeArguments) {
 
 						code.LINE();
 						code.LOADConst(80);
@@ -454,7 +442,7 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 						code.CONVERTTO(byte.class);
 						code.STORE("magicNumber", byte.class);
 
-						Clazz[] genericParameterClazz = ((ClazzComplex) methodReturnClazz).getGenericParameterClazz();
+						ClazzTypeArgument[] genericParameterClazz = ((ClazzWithTypeArguments) methodReturnClazz).getTypeArguments();
 
 						code.LINE();
 						code.LOADConst(methodReturnClazz);
@@ -466,7 +454,7 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 						code.LOADConst(methodReturnClazz);
 						Class<?>[] paramsclasses = new Class[genericParameterClazz.length];
 						for (int i = 0; i < genericParameterClazz.length; i++) {
-							Clazz clazz = genericParameterClazz[i];
+							ClazzTypeArgument clazz = genericParameterClazz[i];
 							code.LOADConst(((ClazzTypeArgument) clazz).clazz);
 							paramsclasses[i] = Class.class;
 						}
@@ -871,32 +859,21 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 					return formalTypeParameter.getActualClazz();
 				}
 			}
-		} else if (clazz instanceof ClazzComplex) {
-			ClazzComplex clazzComplex = (ClazzComplex) clazz;
-			Clazz baseClazz = clazzComplex.getBaseClazz();
+		} else if (clazz instanceof ClazzWithTypeArguments) {
+			ClazzWithTypeArguments clazzWithTypeArguments = (ClazzWithTypeArguments) clazz;
 			boolean changed = false;
-			Clazz[] genericParameterClazz = clazzComplex.getGenericParameterClazz();
-			Clazz[] genericParameterClazzResolved = new Clazz[genericParameterClazz.length];
-			for (int i = 0; i < genericParameterClazz.length; i++) {
-				Clazz cl = genericParameterClazz[i];
-				Clazz cln = resolveClassVariable(cl, formalTypeParameters);
-				if (cl != cln) {
+			ClazzTypeArgument[] typeArguments = clazzWithTypeArguments.getTypeArguments();
+			ClazzTypeArgument[] genericParameterClazzResolved = new ClazzTypeArgument[typeArguments.length];
+			for (int i = 0; i < typeArguments.length; i++) {
+				ClazzTypeArgument typeArgument = typeArguments[i];
+				Clazz clazzResolved = resolveClassVariable(typeArgument.clazz, formalTypeParameters);
+				if (typeArgument != clazzResolved) {
 					changed = true;
 				}
-				genericParameterClazzResolved[i] = cln;
+				genericParameterClazzResolved[i] = Clazz.typeArgument(typeArgument.getWildcard(), clazzResolved);
 			}
 			if (changed) {
-				return Clazz.of(baseClazz, genericParameterClazzResolved);
-			}
-		} else if (clazz instanceof ClazzTypeArgument) {
-			ClazzTypeArgument typeArgument = (ClazzTypeArgument) clazz;
-			Clazz typeArgumentClazz = typeArgument.getClazz();
-
-			Clazz typeArgumentClazzResolved = resolveClassVariable(typeArgumentClazz, formalTypeParameters);
-			if (typeArgumentClazzResolved != typeArgumentClazz) {
-				return Clazz.typeArgument(typeArgument.getWildcard(), typeArgumentClazzResolved);
-			} else {
-				return typeArgument;
+				return Clazz.of(clazzWithTypeArguments.getBaseClazz(), genericParameterClazzResolved);
 			}
 		}
 
@@ -998,11 +975,11 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 		return maps;
 	}
 
-	static void _cast(MethodCode code, Clazz returnType) {
-		Clazz returnClazz = Clazz.of(returnType);
-		final boolean returnValueNeedBoxing = primitive_BoxedClazz_Maps.containsKey(returnType.getType());
-		Type returnValueboxedClazz = returnValueNeedBoxing ? primitive_BoxedClazz_Maps.get(returnType.getType()) : null;
-		String returnValueUnboxValueMethodName = returnValueNeedBoxing ? primitive_BoxedClassIntValue_Maps.get(returnType.getType()) : null;
+	static void _cast(MethodCode code, Clazz returnClazz) {
+		final boolean returnValueNeedBoxing = primitive_BoxedClazz_Maps.containsKey(returnClazz.getType());
+		Type returnValueboxedClazz = returnValueNeedBoxing ? primitive_BoxedClazz_Maps.get(returnClazz.getType()) : null;
+		String returnValueUnboxValueMethodName = returnValueNeedBoxing ? primitive_BoxedClassIntValue_Maps.get(returnClazz.getType())
+				: null;
 		if (returnValueNeedBoxing) {
 			code.CHECKCAST(returnValueboxedClazz);
 			code.VIRTUAL(Clazz.of(returnValueboxedClazz), returnValueUnboxValueMethodName).reTurn(returnClazz).INVOKE();
@@ -1116,11 +1093,9 @@ public class AdvAsmProxyInterfaceAdvAsmBuilder extends ClassVisitor {
 						lambdaDefinedMethodDescriptor });
 	}
 
-	List<LambdaBuilder> lambdas = new ArrayList<>();
-
 	public String pushLambda(String[] params, String methodName, Consumer<MethodCode> lambdaInvokeSuperMethod) {
-		String name = "lambda$" + methodName + "$" + this.lambdas.size();
-		lambdas.add(new LambdaBuilder(name, params, lambdaInvokeSuperMethod));
+		String name = "lambda$" + methodName + "$" + this.proxyLambdas.size();
+		proxyLambdas.add(new LambdaBuilder(name, params, lambdaInvokeSuperMethod));
 		return name;
 	}
 

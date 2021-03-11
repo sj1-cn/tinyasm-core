@@ -162,6 +162,10 @@ public class ClassSignaturewwwwTest {
 		assertEquals("I", classSignaturewwww.paramsClazzes[0].toString());
 		assertEquals("Ljava/util/Collection<+Lcc1sj/tinyasm/hero/helperclass/PojoClassSample;>;",
 				classSignaturewwww.paramsClazzes[1].toString());
+		assertTrue(classSignaturewwww.paramsClazzes[1] instanceof ClazzWithTypeArguments);
+		assertTrue(((ClazzWithTypeArguments) classSignaturewwww.paramsClazzes[1]).getTypeArguments()[0] instanceof ClazzTypeArgument);
+		assertTrue(((ClazzTypeArgument) ((ClazzWithTypeArguments) classSignaturewwww.paramsClazzes[1])
+				.getTypeArguments()[0]).clazz instanceof ClazzSimple);
 //		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].signatureOf());
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
 		assertEquals(null, classSignaturewwww.superClazz);
@@ -179,12 +183,12 @@ public class ClassSignaturewwwwTest {
 
 		List<ClazzFormalTypeParameter> clazzFormalTypeParameters = new ArrayList<>();
 		ClazzFormalTypeParameter f = new ClazzFormalTypeParameter("E", Clazz.of(Object.class));
-		f.setActualClazz(Clazz.of(PojoClassSample.class));
+		f.setActualTypeArgument(Clazz.of(PojoClassSample.class));
 		clazzFormalTypeParameters.add(f);
 
 //		assertEquals(null, classSignaturewwww.returnClazz);
 		assertEquals("Ljava/util/function/Consumer;", classSignaturewwww.paramsClazzes[0].getDescriptor());
-		assertTrue(classSignaturewwww.paramsClazzes[0] instanceof ClazzComplex);
+		assertTrue(classSignaturewwww.paramsClazzes[0] instanceof ClazzWithTypeArguments);
 		assertEquals("Ljava/util/function/Consumer<-TE;>;", classSignaturewwww.paramsClazzes[0].signatureOf());
 		assertEquals("Ljava/util/function/Consumer<-Lcc1sj/tinyasm/hero/helperclass/PojoClassSample;>;",
 				classSignaturewwww.paramsClazzes[0].signatureOf(clazzFormalTypeParameters));
@@ -194,5 +198,29 @@ public class ClassSignaturewwwwTest {
 		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
 	}
 
-	
+	@Test
+	public void test_basetypessddddssss_() {
+		String signature = "()Ljava/util/Spliterator<TT;>;";
+		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
+		SignatureReader sr = new SignatureReader(signature);
+		sr.accept(classSignaturewwww);
+		classSignaturewwww.finish();
+		assertEquals("Ljava/util/Spliterator<TT;>;", classSignaturewwww.returnClazz.toString());
+		assertTrue(classSignaturewwww.returnClazz instanceof ClazzWithTypeArguments);
+		assertTrue(((ClazzWithTypeArguments) classSignaturewwww.returnClazz).getTypeArguments()[0] instanceof ClazzTypeArgument);
+		assertTrue(((ClazzTypeArgument) ((ClazzWithTypeArguments) classSignaturewwww.returnClazz)
+				.getTypeArguments()[0]).clazz instanceof ClazzVariable);
+
+		List<ClazzFormalTypeParameter> clazzFormalTypeParameters = new ArrayList<>();
+		ClazzFormalTypeParameter f = new ClazzFormalTypeParameter("E", Clazz.of(Object.class));
+		f.setActualTypeArgument(Clazz.of(PojoClassSample.class));
+		clazzFormalTypeParameters.add(f);
+
+//		assertEquals(null, classSignaturewwww.returnClazz);
+		assertEquals(0, classSignaturewwww.paramsClazzes.length);
+		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
+		assertEquals(null, classSignaturewwww.superClazz);
+		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
+	}
+
 }

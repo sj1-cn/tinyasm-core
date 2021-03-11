@@ -98,13 +98,13 @@ class ClassHeaderImpl implements ClassHeader {
 			this.ACC_PUBLIC();
 			this.ACC_SUPER();
 		}
-		if((access & ACC_INTERFACE)>0 ) {
-			
-		}else {
+		if ((access & ACC_INTERFACE) > 0) {
+
+		} else {
 
 			this.ACC_SUPER();
 		}
-		
+
 		if (superClazz == null) {
 			this.eXtend(Object.class);
 		}
@@ -113,7 +113,7 @@ class ClassHeaderImpl implements ClassHeader {
 			for (int i = 0; i < formalTypeParameters.size(); i++) {
 				typeVariable[i] = Clazz.typeVariableOf(((ClazzFormalTypeParameter) formalTypeParameters.get(i)).name);
 			}
-			this.clazz = Clazz.of(this.clazz, typeVariable);
+			this.clazz = Clazz.of((ClazzSimple) this.clazz, typeVariable);
 		}
 
 		classBuilderImpl = new ClassBodyImpl(cv, this);

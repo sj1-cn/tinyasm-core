@@ -33,43 +33,43 @@ public abstract class Clazz {
 		return signatureOf();
 	}
 
-	public static Clazz of(String classname) {
-		return new ClazzType(classname);
+	public static ClazzSimple of(String classname) {
+		return new ClazzSimple(classname);
 	}
 
-	public static Clazz of(String classname, boolean isarray) {
-		return new ClazzType(arrayOf(typeOf(classname), isarray));
+	public static ClazzSimple of(String classname, boolean isarray) {
+		return new ClazzSimple(arrayOf(typeOf(classname), isarray));
 	}
 
-	public static Clazz of(Class<?> classname) {
-		return classname != null ? new ClazzType(classname) : null;
+	public static ClazzSimple of(Class<?> classname) {
+		return classname != null ? new ClazzSimple(classname) : null;
 	}
 
-	public static Clazz of(Class<?> classname, boolean isarray) {
+	public static ClazzSimple of(Class<?> classname, boolean isarray) {
 		if (isarray) {
-			return new ClazzType(arrayOf(typeOf(classname), isarray));
+			return new ClazzSimple(arrayOf(typeOf(classname), isarray));
 		} else {
 			return of(classname);
 		}
 	}
 
-	public static Clazz of(Type classname) {
-		return new ClazzType(classname);
+	public static ClazzSimple of(Type classname) {
+		return new ClazzSimple(classname);
 	}
 
-	public static Clazz of(Type classname, boolean isarray) {
-		return new ClazzType(arrayOf(classname, isarray));
+	public static ClazzSimple of(Type classname, boolean isarray) {
+		return new ClazzSimple(arrayOf(classname, isarray));
 	}
 
-	public static Clazz typeVariableOf(String name) {
+	public static ClazzVariable typeVariableOf(String name) {
 		return new ClazzVariable(name);
 	}
 
-	public static Clazz typeVariableOf(String name, boolean isarray) {
+	public static ClazzVariable typeVariableOf(String name, boolean isarray) {
 		return new ClazzVariable(name, isarray);
 	}
 
-	public static Clazz typeUnboundedTypeArgument() {
+	public static ClazzTypeArgument typeUnboundedTypeArgument() {
 		return new ClazzTypeArgument('*');
 	}
 
@@ -77,45 +77,61 @@ public abstract class Clazz {
 		return new ClazzFormalTypeParameter(name, clazz);
 	}
 
-	public static Clazz of(String originclazzName, String... genericParameterClazz) {
-		ClazzType baseType = new ClazzType(originclazzName);
-		Clazz[] gClazz = new Clazz[genericParameterClazz.length];
+	public static ClazzWithTypeArguments of(String originclazzName, String... genericParameterClazz) {
+		ClazzSimple baseType = new ClazzSimple(originclazzName);
+		ClazzTypeArgument[] gClazz = new ClazzTypeArgument[genericParameterClazz.length];
 		for (int i = 0; i < genericParameterClazz.length; i++) {
-			gClazz[i] = Clazz.of(genericParameterClazz[i]);
+			gClazz[i] = Clazz.typeArgument(Clazz.of(genericParameterClazz[i]));
 
 		}
-		return new ClazzComplex(baseType, gClazz);
+		return new ClazzWithTypeArguments(baseType, gClazz);
 	}
 
-	public static Clazz of(Class<?> originclazzName, String... genericParameterClazz) {
-		ClazzType baseType = new ClazzType(originclazzName);
-		Clazz[] gClazz = new Clazz[genericParameterClazz.length];
+	public static ClazzWithTypeArguments of(Class<?> originclazzName, String... genericParameterClazz) {
+		ClazzSimple baseType = new ClazzSimple(originclazzName);
+		ClazzTypeArgument[] gClazz = new ClazzTypeArgument[genericParameterClazz.length];
 		for (int i = 0; i < genericParameterClazz.length; i++) {
-			gClazz[i] = Clazz.of(genericParameterClazz[i]);
-
+			gClazz[i] = Clazz.typeArgument(Clazz.of(genericParameterClazz[i]));
 		}
-		return new ClazzComplex(baseType, gClazz);
+		return new ClazzWithTypeArguments(baseType, gClazz);
 	}
 
-	public static Clazz of(Class<?> originclazzName, Class<?>... genericParameterClazz) {
-		ClazzType baseType = new ClazzType(originclazzName);
-		Clazz[] gClazz = new Clazz[genericParameterClazz.length];
+	public static ClazzWithTypeArguments of(Class<?> originclazzName, Class<?>... genericParameterClazz) {
+		ClazzSimple baseType = new ClazzSimple(originclazzName);
+		ClazzTypeArgument[] gClazz = new ClazzTypeArgument[genericParameterClazz.length];
 		for (int i = 0; i < genericParameterClazz.length; i++) {
-			gClazz[i] = Clazz.of(genericParameterClazz[i]);
-
+			gClazz[i] = Clazz.typeArgument(Clazz.of(genericParameterClazz[i]));
 		}
-		return new ClazzComplex(baseType, gClazz);
+		return new ClazzWithTypeArguments(baseType, gClazz);
 	}
 
-	public static Clazz of(Class<?> originclazzName, Clazz... genericParameterClazz) {
-		ClazzType baseType = new ClazzType(originclazzName);
-
-		return new ClazzComplex(baseType, genericParameterClazz);
+	public static ClazzWithTypeArguments of(Class<?> originclazzName, Clazz... genericParameterClazz) {
+		ClazzSimple baseType = new ClazzSimple(originclazzName);
+		ClazzTypeArgument[] gClazz = new ClazzTypeArgument[genericParameterClazz.length];
+		for (int i = 0; i < genericParameterClazz.length; i++) {
+			if (genericParameterClazz[i] instanceof ClazzTypeArgument) {
+				gClazz[i] = (ClazzTypeArgument) genericParameterClazz[i];
+			} else {
+				gClazz[i] = Clazz.typeArgument(genericParameterClazz[i]);
+			}
+		}
+		return new ClazzWithTypeArguments(baseType, gClazz);
 	}
 
-	public static Clazz of(Clazz baseType, Clazz... genericParameterClazz) {
+	public static ClazzWithTypeArguments of(Clazz baseType, Clazz... genericParameterClazz) {
+		ClazzTypeArgument[] gClazz = new ClazzTypeArgument[genericParameterClazz.length];
+		for (int i = 0; i < genericParameterClazz.length; i++) {
+			if (genericParameterClazz[i] instanceof ClazzTypeArgument) {
+				gClazz[i] = (ClazzTypeArgument) genericParameterClazz[i];
+			} else {
+				gClazz[i] = Clazz.typeArgument(genericParameterClazz[i]);
+			}
+		}
+		return new ClazzWithTypeArguments(baseType, gClazz);
+	}
 
-		return new ClazzComplex(baseType, genericParameterClazz);
+	public static ClazzWithTypeArguments of(ClazzSimple baseType, ClazzTypeArgument... genericParameterClazz) {
+		return new ClazzWithTypeArguments(baseType, genericParameterClazz);
 	}
 
 	public static Type typeOf(String name) {
@@ -150,7 +166,7 @@ public abstract class Clazz {
 		return new ClazzTypeArgument('=', clazz);
 	}
 
-	public static Clazz typeArgument(char wildcard) {
+	public static ClazzTypeArgument typeArgument(char wildcard) {
 		return new ClazzTypeArgument(wildcard);
 	}
 

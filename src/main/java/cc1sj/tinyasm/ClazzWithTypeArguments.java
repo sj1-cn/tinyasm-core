@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.objectweb.asm.Type;
 
-public class ClazzComplex extends Clazz {
+public class ClazzWithTypeArguments extends Clazz {
 	private Clazz baseClazz;
-	private Clazz[] genericParameterClazz;
+	private ClazzTypeArgument[] typeArguments;
 
 	public Type getType() {
 		return baseClazz.getType();
@@ -16,14 +16,14 @@ public class ClazzComplex extends Clazz {
 		return baseClazz;
 	}
 
-	public Clazz[] getGenericParameterClazz() {
-		return genericParameterClazz;
+	public ClazzTypeArgument[] getTypeArguments() {
+		return typeArguments;
 	}
 
-	ClazzComplex(Clazz originclazzName, Clazz... genericClazz) {
+	ClazzWithTypeArguments(Clazz baseClazz, ClazzTypeArgument... genericClazz) {
 		super();
-		this.baseClazz = originclazzName;
-		this.genericParameterClazz = genericClazz;
+		this.baseClazz = baseClazz;
+		this.typeArguments = genericClazz;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class ClazzComplex extends Clazz {
 
 	@Override
 	public boolean needSignature() {
-		return baseClazz.needSignature() || (genericParameterClazz != null && genericParameterClazz.length > 0);
+		return baseClazz.needSignature() || (typeArguments != null && typeArguments.length > 0);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class ClazzComplex extends Clazz {
 	@Override
 	public String signatureOf(List<ClazzFormalTypeParameter> formalTypeParameters) {
 		String signature = null;
-		if (this.genericParameterClazz != null && genericParameterClazz.length > 0) {
+		if (this.typeArguments != null && typeArguments.length > 0) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("L");
 
@@ -80,7 +80,7 @@ public class ClazzComplex extends Clazz {
 			sb.append(baseClazz.getType().getInternalName());
 
 			sb.append("<");
-			for (Clazz signatureType : genericParameterClazz) {
+			for (Clazz signatureType : typeArguments) {
 				sb.append(signatureType.signatureOf(formalTypeParameters));
 			}
 			sb.append(">;");
@@ -92,7 +92,7 @@ public class ClazzComplex extends Clazz {
 	@Override
 	public String signatureOf() {
 		String signature = null;
-		if (this.genericParameterClazz != null && genericParameterClazz.length > 0) {
+		if (this.typeArguments != null && typeArguments.length > 0) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("L");
 
@@ -101,7 +101,7 @@ public class ClazzComplex extends Clazz {
 			sb.append(baseClazz.getType().getInternalName());
 
 			sb.append("<");
-			for (Clazz signatureType : genericParameterClazz) {
+			for (Clazz signatureType : typeArguments) {
 				sb.append(signatureType.signatureOf());
 			}
 			sb.append(">;");

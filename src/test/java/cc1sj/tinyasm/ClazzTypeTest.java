@@ -19,17 +19,17 @@ public class ClazzTypeTest {
 	
 	@Test
 	public void testClazzTypeType() {
-		assertEquals("Lcc1sj/tinyasm/ClazzTypeTest;", new ClazzType(Type.getType(ClazzTypeTest.class)).toString());
+		assertEquals("Lcc1sj/tinyasm/ClazzTypeTest;", new ClazzSimple(Type.getType(ClazzTypeTest.class)).toString());
 	}
 
 	@Test
 	public void testClazzTypeClassOfQ() {
-		assertEquals("Lcc1sj/tinyasm/ClazzTypeTest;", new ClazzType(ClazzTypeTest.class).toString());
+		assertEquals("Lcc1sj/tinyasm/ClazzTypeTest;", new ClazzSimple(ClazzTypeTest.class).toString());
 	}
 
 	@Test
 	public void testClazzTypeString() {
-		assertEquals("Lcc1sj/tinyasm/ClazzTypeTest;", new ClazzType(Type.getType(ClazzTypeTest.class)).toString());
+		assertEquals("Lcc1sj/tinyasm/ClazzTypeTest;", new ClazzSimple(Type.getType(ClazzTypeTest.class)).toString());
 	}
 
 	@Test
