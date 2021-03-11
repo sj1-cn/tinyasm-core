@@ -77,7 +77,7 @@ public abstract class Clazz {
 		return new ClazzFormalTypeParameter(name, clazz);
 	}
 
-	public static ClazzWithTypeArguments of(String originclazzName, String... genericParameterClazz) {
+	public static Clazz of(String originclazzName, String... genericParameterClazz) {
 		ClazzSimple baseType = new ClazzSimple(originclazzName);
 		ClazzTypeArgument[] gClazz = new ClazzTypeArgument[genericParameterClazz.length];
 		for (int i = 0; i < genericParameterClazz.length; i++) {
@@ -87,7 +87,7 @@ public abstract class Clazz {
 		return new ClazzWithTypeArguments(baseType, gClazz);
 	}
 
-	public static ClazzWithTypeArguments of(Class<?> originclazzName, String... genericParameterClazz) {
+	public static Clazz of(Class<?> originclazzName, String... genericParameterClazz) {
 		ClazzSimple baseType = new ClazzSimple(originclazzName);
 		ClazzTypeArgument[] gClazz = new ClazzTypeArgument[genericParameterClazz.length];
 		for (int i = 0; i < genericParameterClazz.length; i++) {
@@ -96,7 +96,7 @@ public abstract class Clazz {
 		return new ClazzWithTypeArguments(baseType, gClazz);
 	}
 
-	public static ClazzWithTypeArguments of(Class<?> originclazzName, Class<?>... genericParameterClazz) {
+	public static Clazz of(Class<?> originclazzName, Class<?>... genericParameterClazz) {
 		ClazzSimple baseType = new ClazzSimple(originclazzName);
 		ClazzTypeArgument[] gClazz = new ClazzTypeArgument[genericParameterClazz.length];
 		for (int i = 0; i < genericParameterClazz.length; i++) {
@@ -105,7 +105,7 @@ public abstract class Clazz {
 		return new ClazzWithTypeArguments(baseType, gClazz);
 	}
 
-	public static ClazzWithTypeArguments of(Class<?> originclazzName, Clazz... genericParameterClazz) {
+	public static Clazz of(Class<?> originclazzName, Clazz... genericParameterClazz) {
 		ClazzSimple baseType = new ClazzSimple(originclazzName);
 		ClazzTypeArgument[] gClazz = new ClazzTypeArgument[genericParameterClazz.length];
 		for (int i = 0; i < genericParameterClazz.length; i++) {
@@ -118,7 +118,7 @@ public abstract class Clazz {
 		return new ClazzWithTypeArguments(baseType, gClazz);
 	}
 
-	public static ClazzWithTypeArguments of(Clazz baseType, Clazz... genericParameterClazz) {
+	public static Clazz of(Clazz baseType, Clazz... genericParameterClazz) {
 		ClazzTypeArgument[] gClazz = new ClazzTypeArgument[genericParameterClazz.length];
 		for (int i = 0; i < genericParameterClazz.length; i++) {
 			if (genericParameterClazz[i] instanceof ClazzTypeArgument) {
@@ -130,7 +130,7 @@ public abstract class Clazz {
 		return new ClazzWithTypeArguments(baseType, gClazz);
 	}
 
-	public static ClazzWithTypeArguments of(ClazzSimple baseType, ClazzTypeArgument... genericParameterClazz) {
+	public static Clazz of(ClazzSimple baseType, ClazzTypeArgument... genericParameterClazz) {
 		return new ClazzWithTypeArguments(baseType, genericParameterClazz);
 	}
 

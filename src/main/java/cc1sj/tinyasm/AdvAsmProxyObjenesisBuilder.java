@@ -69,7 +69,7 @@ class AdvAsmProxyObjenesisBuilder {
 				String proxyClassName = this.getClass().getName() + "_" + key.replace('.', '_') + count;
 				byte[] code;
 				if (target.isInterface()) {
-					code = AdvAsmProxyGenericInterfaceAdvAsmBuilder.dump2(target, typeParameter, proxyClassName);
+					code = AdvAsmProxyClassAdvAsmBuilder.dumpInterface(target, typeParameter, proxyClassName);
 				} else {
 //					code = AdvAsmProxyClassAdvAsmBuilder.dump2(target, proxyClassName);
 					throw new UnsupportedOperationException();
@@ -147,9 +147,9 @@ class AdvAsmProxyObjenesisBuilder {
 				String proxyClassName = this.getClass().getName() + "_" + target.getName().replace('.', '_') + count;
 				byte[] code;
 				if (target.isInterface()) {
-					code = AdvAsmProxyGenericInterfaceAdvAsmBuilder.dump2(target, proxyClassName);
+					code = AdvAsmProxyClassAdvAsmBuilder.dumpInterface(target, proxyClassName);
 				} else {
-					code = AdvAsmProxyClassAdvAsmBuilder.dump2(target, proxyClassName);
+					code = AdvAsmProxyClassAdvAsmBuilder.dumpClass(target, proxyClassName);
 				}
 
 				if (log.isDebugEnabled()) {

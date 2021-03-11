@@ -36,21 +36,54 @@ import org.objectweb.asm.signature.SignatureReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AdvAsmProxyClassAdvAsmBuilder extends AdvAsmProxyDefaultAdvAsmBuilder {
-	static Logger logger = LoggerFactory.getLogger(AdvAsmProxyClassAdvAsmBuilder.class);
+public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
+	Logger logger = LoggerFactory.getLogger(getClass());
 
-	public static byte[] dump2(Class<?> target, String proxyClassName) throws Exception {
+	public static byte[] dumpClass(Class<?> target, Class<?> actualTypeArgument, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
 		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM9, cw);
 
-		bw.dump(Clazz.of(target), new Clazz[] {}, proxyClassName);
+		bw.dumpClass(Clazz.of(target), new Clazz[] { Clazz.of(actualTypeArgument) }, proxyClassName);
+
+		return cw.toByteArray();
+	}
+
+	public static byte[] dumpClass(Class<?> target, String proxyClassName) throws Exception {
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+
+		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM9, cw);
+
+		bw.dumpClass(Clazz.of(target), new Clazz[] {}, proxyClassName);
+
+		return cw.toByteArray();
+	}
+
+	public static byte[] dumpInterface(Class<?> target, Class<?> actualTypeArgument, String proxyClassName) throws Exception {
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+
+		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM9, cw);
+
+		bw.dumpInterface(Clazz.of(target), new Clazz[] { Clazz.of(actualTypeArgument) }, proxyClassName);
+
+		return cw.toByteArray();
+	}
+
+	public static byte[] dumpInterface(Class<?> target, String proxyClassName) throws Exception {
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+
+		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM9, cw);
+
+		bw.dumpInterface(Clazz.of(target), new Clazz[] {}, proxyClassName);
 
 		return cw.toByteArray();
 	}
 
 	ClassBody proxyClassBody;
 	String proxyClassName;
+	String INTERFACE_OR_VIRTUAL = "VIRTUAL";
+	String INTERFACE = "INTERFACE";
+	String VIRTUAL = "VIRTUAL";
 
 	List<LambdaBuilder> proxyLambdas = new ArrayList<>();
 	List<BridgeMethod> proxyBridgeMethods = new ArrayList<>();
@@ -72,13 +105,18 @@ public class AdvAsmProxyClassAdvAsmBuilder extends AdvAsmProxyDefaultAdvAsmBuild
 		super(api, classVisitor);
 	}
 
-	protected void dump(ClazzSimple targetClazz, Clazz[] actualTypeArguments, String proxyClassName) throws IOException {
+	protected void dumpClass(ClazzSimple targetClazz, Clazz[] actualTypeArguments, String proxyClassName) throws IOException {
 		this.proxyClassName = proxyClassName;
 		this.targetClazz = targetClazz;
+		INTERFACE_OR_VIRTUAL = VIRTUAL;
 
 		ClassHeader ch = ClassBuilder.make(cv, proxyClassName);
 //		if(superName)
-		ch.eXtend(targetClazz);
+		if (actualTypeArguments.length > 0) {
+			ch.eXtend(Clazz.of(targetClazz, actualTypeArguments));
+		} else {
+			ch.eXtend(targetClazz);
+		}
 		ch.implement(AdvRuntimeReferNameObject.class);
 //		ch.access(access);
 		proxyClassBody = ch.body();
@@ -88,7 +126,38 @@ public class AdvAsmProxyClassAdvAsmBuilder extends AdvAsmProxyDefaultAdvAsmBuild
 		proxyClassBody.field("_magicNumber", Clazz.of(byte.class));
 		proxyClassBody.field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
 
-		__init_(proxyClassBody, targetClazz);
+		__init_TargetClass(proxyClassBody, targetClazz);
+		_get__MagicNumber(proxyClassBody);
+		_set__MagicNumber(proxyClassBody);
+		_set__Context(proxyClassBody);
+
+		resolveClass(targetClazz, actualTypeArguments);
+
+		finish();
+	}
+
+	protected void dumpInterface(ClazzSimple targetClazz, Clazz[] actualTypeArguments, String proxyClassName) throws IOException {
+		this.proxyClassName = proxyClassName;
+		this.targetClazz = targetClazz;
+		INTERFACE_OR_VIRTUAL = INTERFACE;
+
+		ClassHeader ch = ClassBuilder.make(cv, proxyClassName);
+//		if(superName)
+		if (actualTypeArguments.length > 0) {
+			ch.implement(Clazz.of(targetClazz, actualTypeArguments));
+		} else {
+			ch.implement(targetClazz);
+		}
+		ch.implement(AdvRuntimeReferNameObject.class);
+//		ch.access(access);
+		proxyClassBody = ch.body();
+
+		proxyClassBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, MethodHandles.class.getName(), "Lookup");
+
+		proxyClassBody.field("_magicNumber", Clazz.of(byte.class));
+		proxyClassBody.field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
+
+		__init_TargetClass(proxyClassBody, Clazz.of(Object.class));
 		_get__MagicNumber(proxyClassBody);
 		_set__MagicNumber(proxyClassBody);
 		_set__Context(proxyClassBody);
@@ -124,7 +193,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends AdvAsmProxyDefaultAdvAsmBuild
 		}
 	}
 
-	protected void __init_(ClassBody classBody, Clazz targetClazz) {
+	protected void __init_TargetClass(ClassBody classBody, Clazz targetClazz) {
 		MethodCode code = classBody.publicMethod("<init>").begin();
 
 		code.LINE();
@@ -134,8 +203,6 @@ public class AdvAsmProxyClassAdvAsmBuilder extends AdvAsmProxyDefaultAdvAsmBuild
 
 		code.END();
 	}
-
-	List<ClazzFormalTypeParameter> classFormalTypeParameters = new ArrayList<>();
 
 	@Override
 	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
@@ -343,7 +410,8 @@ public class AdvAsmProxyClassAdvAsmBuilder extends AdvAsmProxyDefaultAdvAsmBuild
 			c.LOAD("c");
 			c.LOADConst(targetClazz);
 			c.LOADConst(methodName);
-			c.VIRTUAL(MethodCode.class, "VIRTUAL").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
+			c.VIRTUAL(MethodCode.class, INTERFACE_OR_VIRTUAL).reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class)
+					.INVOKE();
 			for (Type type : originParamTypes) {
 				loadType(c, Clazz.of(type));
 				c.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
@@ -1213,5 +1281,51 @@ public class AdvAsmProxyClassAdvAsmBuilder extends AdvAsmProxyDefaultAdvAsmBuild
 		code.LOAD(var1);
 		code.LOAD(c);
 		code.INTERFACE(ConsumerWithException.class, "accept").parameter(Object.class).INVOKE();
+	}
+
+	protected void _set__Context(ClassBody classBody) {
+		MethodCode code = classBody.publicMethod("set__Context")
+				.parameter("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)))
+				.parameter("_magicNumber", byte.class).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("_contextThreadLocal");
+		code.PUTFIELD_OF_THIS("_contextThreadLocal");
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("_magicNumber");
+		code.PUTFIELD_OF_THIS("_magicNumber");
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _get__MagicNumber(ClassBody classBody) {
+		MethodCode code = classBody.publicMethod(byte.class, "get__MagicNumber").begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.GETFIELD_OF_THIS("_magicNumber");
+		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void _set__MagicNumber(ClassBody classBody) {
+		MethodCode code = classBody.publicMethod("set__MagicNumber").parameter("_magicNumber", byte.class).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("_magicNumber");
+		code.PUTFIELD_OF_THIS("_magicNumber");
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
 	}
 }
