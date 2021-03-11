@@ -247,17 +247,17 @@ public class AdvAsmProxyASMifierTest {
 	}
 
 	//TODO
-//	@Test
-//	public void test_GenericInterfaceImplSampleAdvAsmProxy_Builder() throws Exception {
-//		Class<?> expectedClazz = GenericInterfaceImplSampleAdvAsmProxy.class;
-//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-//
-//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyClassAdvAsmBuilder
-//				.dump2(GenericInterfaceImplSample.class, GenericInterfaceImplSampleAdvAsmProxy.class.getName()));
-//
-//		assertEquals("Code", codeExpected, codeActual);
-//
-//	}
+	@Test
+	public void test_GenericInterfaceImplSampleAdvAsmProxy_Builder() throws Exception {
+		Class<?> expectedClazz = GenericInterfaceImplSampleAdvAsmProxy.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyClassAdvAsmBuilder
+				.dump2(GenericInterfaceImplSample.class, GenericInterfaceImplSampleAdvAsmProxy.class.getName()));
+
+		assertEquals("Code", codeExpected, codeActual);
+
+	}
 
 	@Test
 	public void test_PageListAdvAsmProxy_Dump() throws Exception {
