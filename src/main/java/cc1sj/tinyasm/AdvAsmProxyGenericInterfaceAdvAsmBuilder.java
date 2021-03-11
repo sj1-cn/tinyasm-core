@@ -52,7 +52,7 @@ public class AdvAsmProxyGenericInterfaceAdvAsmBuilder extends AdvAsmProxyDefault
 	public static byte[] dump2(Class<?> target, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		AdvAsmProxyInterfaceAdvAsmBuilder bw = new AdvAsmProxyInterfaceAdvAsmBuilder(Opcodes.ASM9, cw);
+		AdvAsmProxyGenericInterfaceAdvAsmBuilder bw = new AdvAsmProxyGenericInterfaceAdvAsmBuilder(Opcodes.ASM9, cw);
 
 		bw.dump(Clazz.of(target), new Clazz[] {}, proxyClassName);
 
