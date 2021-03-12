@@ -3,17 +3,94 @@ package cc1sj.tinyasm;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ASM9;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
-import org.objectweb.asm.Type;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Type;
 
 public class AdvDumpMagic {
+
+	public static <T> byte[] doDump(AdvClassBuilder classBuilder, Class<T> magicBuilderClass, ThreadLocal<AdvContext> threadLocal) {
+		Adv.logger.debug("class {} {}", magicBuilderClass.getName(), magicBuilderClass.getGenericSuperclass());
+		for (Class<?> type : magicBuilderClass.getInterfaces()) {
+			Adv.logger.debug("getGenericInterfaces {} {}", magicBuilderClass.getName(), type.getName());
+		}
+		for (java.lang.reflect.Type type : magicBuilderClass.getGenericInterfaces()) {
+			ParameterizedType parameterizedType = (ParameterizedType) type;
+			Adv.logger.debug("getGenericInterfaces {} {} {}", magicBuilderClass.getName(), parameterizedType.getRawType(),
+					parameterizedType.getActualTypeArguments());
+		}
+	
+		try {
+	
+			Adv.enterClass(classBuilder);
+			T magicBuilderProxy = Adv.buildMagicBuilderProxyClass(threadLocal, magicBuilderClass);
+			Class<?> magicBuilderProxyClass = magicBuilderProxy.getClass();
+			ClassReader cr = new ClassReader(magicBuilderClass.getName());
+			cr.accept(new ClassVisitor(ASM9) {
+				@Override
+				public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+					Adv.logger.debug("{} {} ", name, signature);
+				}
+	
+				@Override
+				public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+					try {
+						if ((access & ACC_PUBLIC) > 0 && !"dump".equals(name)) {
+							Method thisMethod = null;
+							Method thisProxyMethod = null;
+							for (Method method : magicBuilderClass.getMethods()) {
+								if (method.getName().equals(name) && !method.isBridge()) {
+									Class<?>[] parameterTypes = method.getParameterTypes();
+									Type[] types = new Type[parameterTypes.length];
+									for (int i = 0; i < parameterTypes.length; i++) {
+										types[i] = Type.getType(parameterTypes[i]);
+									}
+									String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
+									if (reflectMethodDescriptor.equals(descriptor)) {
+										thisMethod = method;
+									}
+								}
+							}
+							for (Method method : magicBuilderProxyClass.getMethods()) {
+								if (method.getName().equals("$_" + name) && !method.isBridge()) {
+									Class<?>[] parameterTypes = method.getParameterTypes();
+									Type[] types = new Type[parameterTypes.length];
+									for (int i = 0; i < parameterTypes.length; i++) {
+										types[i] = Type.getType(parameterTypes[i]);
+									}
+									String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
+									if (reflectMethodDescriptor.equals(descriptor)) {
+										thisProxyMethod = method;
+									}
+								}
+							}
+							// Method method = clazz.getMethod(name);
+							Adv.logger.debug("{} {} ", name, signature);
+							if (thisMethod != null) {
+								buildWithMethod(classBuilder, magicBuilderProxy, thisMethod, thisProxyMethod, threadLocal);
+							}
+
+						}
+					} catch (SecurityException e) {
+						throw new UnsupportedOperationException(magicBuilderProxyClass.getName(), e);
+					}
+					return null;
+				}
+	
+			}, ClassReader.SKIP_CODE);
+	
+			Adv.exitClass();
+		} catch (Exception e1) {
+			throw new UnsupportedOperationException(magicBuilderClass.getName(), e1);
+		}
+	
+		return classBuilder.end().toByteArray();
+	}
 
 	@SuppressWarnings("unused")
 	public static void buildWithMethod(AdvClassBuilder classBuilder, Object simpleSampleCodeBuilder, Method method, Method thisProxyMethod,
@@ -23,11 +100,7 @@ public class AdvDumpMagic {
 				Adv.logger.debug("enter asm method {}" + method.getName());
 				method.invoke(simpleSampleCodeBuilder, classBuilder);
 				Adv.logger.debug("exit  asm method {}" + method.getName());
-			} catch (IllegalAccessException e) {
-				throw new UnsupportedOperationException(method.getName(), e);
-			} catch (IllegalArgumentException e) {
-				throw new UnsupportedOperationException(method.getName(), e);
-			} catch (InvocationTargetException e) {
+			} catch (Exception e) {
 				throw new UnsupportedOperationException(method.getName(), e);
 			}
 		} else {
@@ -85,84 +158,6 @@ public class AdvDumpMagic {
 				Adv.logger.debug("exit magic method {}", method.getName());
 			});
 		}
-	}
-
-	public static <T> byte[] doDump(AdvClassBuilder classBuilder, Class<T> builderClass, ThreadLocal<AdvContext> threadLocal) {
-		Adv.logger.debug("class {} {}", builderClass.getName(), builderClass.getGenericSuperclass());
-		for (Class<?> type : builderClass.getInterfaces()) {
-			Adv.logger.debug("getGenericInterfaces {} {}", builderClass.getName(), type.getName());
-		}
-		for (java.lang.reflect.Type type : builderClass.getGenericInterfaces()) {
-			ParameterizedType parameterizedType = (ParameterizedType) type;
-			Adv.logger.debug("getGenericInterfaces {} {} {}", builderClass.getName(), parameterizedType.getRawType(),
-					parameterizedType.getActualTypeArguments());
-		}
-
-		try {
-
-			Adv.enterClass(classBuilder);
-			T simpleSampleCodeBuilder = Adv.buildMagicClass(threadLocal, builderClass);
-			Class<?> builderProxyClass = simpleSampleCodeBuilder.getClass();
-			ClassReader cr = new ClassReader(builderClass.getName());
-			cr.accept(new ClassVisitor(ASM9) {
-				@Override
-				public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-					Adv.logger.debug("{} {} ", name, signature);
-				}
-
-				@Override
-				public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-					try {
-						if ((access & ACC_PUBLIC) > 0 && !"dump".equals(name)) {
-							Method thisMethod = null;
-							Method thisProxyMethod = null;
-							for (Method method : builderClass.getMethods()) {
-								if (method.getName().equals(name) && !method.isBridge()) {
-									Class<?>[] parameterTypes = method.getParameterTypes();
-									Type[] types = new Type[parameterTypes.length];
-									for (int i = 0; i < parameterTypes.length; i++) {
-										types[i] = Type.getType(parameterTypes[i]);
-									}
-									String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
-									if (reflectMethodDescriptor.equals(descriptor)) {
-										thisMethod = method;
-									}
-								}
-							}
-							for (Method method : builderProxyClass.getMethods()) {
-								if (method.getName().equals("$_" + name) && !method.isBridge()) {
-									Class<?>[] parameterTypes = method.getParameterTypes();
-									Type[] types = new Type[parameterTypes.length];
-									for (int i = 0; i < parameterTypes.length; i++) {
-										types[i] = Type.getType(parameterTypes[i]);
-									}
-									String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
-									if (reflectMethodDescriptor.equals(descriptor)) {
-										thisProxyMethod = method;
-									}
-								}
-							}
-							// Method method = clazz.getMethod(name);
-							Adv.logger.debug("{} {} ", name, signature);
-							if (thisMethod != null) {
-								buildWithMethod(classBuilder, simpleSampleCodeBuilder, thisMethod, thisProxyMethod, threadLocal);
-							}
-
-						}
-					} catch (SecurityException e) {
-						throw new UnsupportedOperationException(builderProxyClass.getName(), e);
-					}
-					return null;
-				}
-
-			}, ClassReader.SKIP_CODE);
-
-			Adv.exitClass();
-		} catch (Exception e1) {
-			throw new UnsupportedOperationException(builderClass.getName(), e1);
-		}
-
-		return classBuilder.end().toByteArray();
 	}
 
 }

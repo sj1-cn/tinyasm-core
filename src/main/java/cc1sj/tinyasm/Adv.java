@@ -1484,7 +1484,7 @@ public class Adv {
 		return AdvDumpMagic.doDump(classBuilder, builderClass, _contextThreadLocal);
 	}
 
-	public static <T> T buildMagicClass(ThreadLocal<AdvContext> threadLocal, Class<T> builderClass) {
+	public static <T> T buildMagicBuilderProxyClass(ThreadLocal<AdvContext> threadLocal, Class<T> builderClass) {
 		return brokerBuilder.buildMagicProxyClass(builderClass, threadLocal, Adv.MAGIC_LOCALS_NUMBER);
 	}
 
