@@ -14,21 +14,12 @@ import org.objectweb.asm.Type;
 
 public class AdvDumpMagic {
 
-	public static <T> byte[] doDump(AdvClassBuilder classBuilder, Class<T> magicBuilderClass, ThreadLocal<AdvContext> threadLocal) {
-		Adv.logger.debug("class {} {}", magicBuilderClass.getName(), magicBuilderClass.getGenericSuperclass());
-		for (Class<?> type : magicBuilderClass.getInterfaces()) {
-			Adv.logger.debug("getGenericInterfaces {} {}", magicBuilderClass.getName(), type.getName());
-		}
-		for (java.lang.reflect.Type type : magicBuilderClass.getGenericInterfaces()) {
-			ParameterizedType parameterizedType = (ParameterizedType) type;
-			Adv.logger.debug("getGenericInterfaces {} {} {}", magicBuilderClass.getName(), parameterizedType.getRawType(),
-					parameterizedType.getActualTypeArguments());
-		}
-	
+	@SuppressWarnings("unchecked")
+	public static <T> byte[] execMagicBuilder(ThreadLocal<AdvContext> threadLocal, AdvClassBuilder classBuilder, T magicBuilderProxy) {
+		Class<T> magicBuilderClass = (Class<T>)magicBuilderProxy.getClass().getSuperclass();
 		try {
-	
+
 			Adv.enterClass(classBuilder);
-			T magicBuilderProxy = Adv.buildMagicBuilderProxyClass(threadLocal, magicBuilderClass);
 			Class<?> magicBuilderProxyClass = magicBuilderProxy.getClass();
 			ClassReader cr = new ClassReader(magicBuilderClass.getName());
 			cr.accept(new ClassVisitor(ASM9) {
@@ -36,11 +27,11 @@ public class AdvDumpMagic {
 				public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
 					Adv.logger.debug("{} {} ", name, signature);
 				}
-	
+
 				@Override
 				public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
 					try {
-						if ((access & ACC_PUBLIC) > 0 && !"dump".equals(name)) {
+						if ((access & ACC_PUBLIC) > 0 && !name.startsWith("dump")) {
 							Method thisMethod = null;
 							Method thisProxyMethod = null;
 							for (Method method : magicBuilderClass.getMethods()) {
@@ -81,14 +72,14 @@ public class AdvDumpMagic {
 					}
 					return null;
 				}
-	
+
 			}, ClassReader.SKIP_CODE);
-	
+
 			Adv.exitClass();
 		} catch (Exception e1) {
 			throw new UnsupportedOperationException(magicBuilderClass.getName(), e1);
 		}
-	
+
 		return classBuilder.end().toByteArray();
 	}
 
@@ -158,6 +149,11 @@ public class AdvDumpMagic {
 				Adv.logger.debug("exit magic method {}", method.getName());
 			});
 		}
+	}
+
+	public static <T> byte[] execMagicBuilder(ThreadLocal<AdvContext> _contextThreadLocal, String classname, T magicBuilderProxy) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

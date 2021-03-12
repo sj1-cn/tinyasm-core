@@ -1479,13 +1479,23 @@ public class Adv {
 		return brokerBuilder.buildProxyClass(_contextThreadLocal, magicNumber, t, type);
 	}
 
-	public static <T> byte[] dumpMagicClass(AdvClassBuilder classBuilder, Class<T> builderClass) {
-
-		return AdvDumpMagic.doDump(classBuilder, builderClass, _contextThreadLocal);
+	public static <T> T buildMagicBuilderProxyClass(Class<T> builderClass) {
+		return brokerBuilder.buildMagicProxyClass(builderClass, _contextThreadLocal, Adv.MAGIC_LOCALS_NUMBER);
 	}
 
-	public static <T> T buildMagicBuilderProxyClass(ThreadLocal<AdvContext> threadLocal, Class<T> builderClass) {
-		return brokerBuilder.buildMagicProxyClass(builderClass, threadLocal, Adv.MAGIC_LOCALS_NUMBER);
+	public static <T> byte[] dumpMagicClass(AdvClassBuilder classBuilder, Class<T> builderClass) {
+
+		T magicBuilderProxy = Adv.buildMagicBuilderProxyClass(builderClass);
+
+		return execMagic(classBuilder, magicBuilderProxy);
+	}
+
+	public static <T> byte[] execMagic(AdvClassBuilder classBuilder, T magicBuilderProxy) {
+		return AdvDumpMagic.execMagicBuilder(_contextThreadLocal, classBuilder, magicBuilderProxy);
+	}
+
+	public static <T> byte[] execMagic(String classname, T magicBuilderProxy) {
+		return AdvDumpMagic.execMagicBuilder(_contextThreadLocal, classname, magicBuilderProxy);
 	}
 
 	public static void import_(String string) {
