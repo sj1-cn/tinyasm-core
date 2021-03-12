@@ -31,7 +31,7 @@ public class UsingGenericInterfaceImplSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -42,7 +42,7 @@ public class UsingGenericInterfaceImplSampleTinyAsmDump {
 	}
 
 	protected void _say(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("say").begin();
+		MethodCode code = classBody.public_().method("say").begin();
 
 		code.LINE();
 		code.NEW(GenericInterfaceImplSample.class);
@@ -65,7 +65,7 @@ public class UsingGenericInterfaceImplSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("pp");
 		code.VIRTUAL(GenericInterfaceImplSample.class, "getT")
-			.reTurn(PojoClassSample.class).INVOKE();
+			.return_(PojoClassSample.class).INVOKE();
 		code.STORE("pojoClassSample2",PojoClassSample.class);
 
 		code.LINE();
@@ -77,7 +77,7 @@ public class UsingGenericInterfaceImplSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("pp");
 		code.VIRTUAL(GenericInterfaceImplSample.class, "getPojoClassChildSample")
-			.reTurn(PojoClassChildSample.class).INVOKE();
+			.return_(PojoClassChildSample.class).INVOKE();
 		code.STORE("pojoClassChildSample",PojoClassChildSample.class);
 
 		code.LINE();

@@ -349,7 +349,7 @@ public class MethodCodeBuilder extends MethodCode {
 		}
 
 		@Override
-		public MethodCaller<MethodCode> reTurn(Clazz clazz) {
+		public MethodCaller<MethodCode> return_(Clazz clazz) {
 			returnClazz = clazz;
 			return this;
 		}
@@ -420,7 +420,7 @@ public class MethodCodeBuilder extends MethodCode {
 		}
 
 		@Override
-		public MethodCaller<MethodCode> reTurn(Clazz clazz) {
+		public MethodCaller<MethodCode> return_(Clazz clazz) {
 			returnClazz = clazz;
 			return this;
 		}

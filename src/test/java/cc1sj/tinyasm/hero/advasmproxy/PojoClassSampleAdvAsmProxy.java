@@ -50,7 +50,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(String.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getName").reTurn(String.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getName").return_(String.class).INVOKE();
 		});
 		return new StringBuilder( MAGIC_CODES_String).append(codeIndex).toString(); // String.class);
 	}
@@ -61,7 +61,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(boolean.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "isAgeBoolean").reTurn(boolean.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "isAgeBoolean").return_(boolean.class).INVOKE();
 		});
 		return false;
 	}
@@ -73,7 +73,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(byte.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeByte").reTurn(byte.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeByte").return_(byte.class).INVOKE();
 		});
 		return (byte) (MAGIC_CODES_NUMBER + codeIndex); // byte.class);
 	}
@@ -85,7 +85,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(char.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeChar").reTurn(char.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeChar").return_(char.class).INVOKE();
 		});
 		return (char) (MAGIC_CODES_NUMBER + codeIndex);// char.class);
 	}
@@ -97,7 +97,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(short.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeShort").reTurn(short.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeShort").return_(short.class).INVOKE();
 		});
 		return (short) (MAGIC_CODES_NUMBER + codeIndex); // short.class);
 	}
@@ -109,7 +109,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeInt").reTurn(int.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeInt").return_(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
@@ -121,7 +121,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(long.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeLong").reTurn(long.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeLong").return_(long.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // long.class);
 	}
@@ -133,7 +133,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(float.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeFloat").reTurn(float.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeFloat").return_(float.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // float.class);
 	}
@@ -145,7 +145,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(double.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeDouble").reTurn(double.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeDouble").return_(double.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // double.class);
 	}
@@ -156,7 +156,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(Boolean.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeBoolean2").reTurn(Boolean.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeBoolean2").return_(Boolean.class).INVOKE();
 		});
 		return false;
 	}
@@ -168,7 +168,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Byte.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeByte2").reTurn(Byte.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeByte2").return_(Byte.class).INVOKE();
 		});
 		return (byte) (MAGIC_CODES_NUMBER + codeIndex); // Byte.class);
 	}
@@ -180,7 +180,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Character.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeCharacter").reTurn(Character.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeCharacter").return_(Character.class).INVOKE();
 		});
 		return (char) (MAGIC_CODES_NUMBER + codeIndex); // Character.class);
 	}
@@ -192,7 +192,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Short.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeShort2").reTurn(Short.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeShort2").return_(Short.class).INVOKE();
 		});
 		return (short) (MAGIC_CODES_NUMBER + codeIndex);// Short.class);
 	}
@@ -204,7 +204,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Integer.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeInteger").reTurn(Integer.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeInteger").return_(Integer.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // Integer.class);
 	}
@@ -216,7 +216,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Long.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeLong2").reTurn(Long.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeLong2").return_(Long.class).INVOKE();
 		});
 		return (long) (MAGIC_CODES_NUMBER + codeIndex);// Long.class);
 	}
@@ -228,7 +228,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Float.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeFloat2").reTurn(Float.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeFloat2").return_(Float.class).INVOKE();
 		});
 		return (float) (MAGIC_CODES_NUMBER + codeIndex); // Float.class);
 	}
@@ -240,7 +240,7 @@ public class PojoClassSampleAdvAsmProxy extends PojoClassSample implements AdvRu
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Double.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(PojoClassSample.class, "getAgeDouble2").reTurn(Double.class).INVOKE();
+			c.VIRTUAL(PojoClassSample.class, "getAgeDouble2").return_(Double.class).INVOKE();
 		});
 		return (double) (MAGIC_CODES_NUMBER + codeIndex); // Double.class);
 	}

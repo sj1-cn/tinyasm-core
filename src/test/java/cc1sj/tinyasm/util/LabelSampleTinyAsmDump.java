@@ -31,7 +31,7 @@ public class LabelSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -42,7 +42,7 @@ public class LabelSampleTinyAsmDump {
 	}
 
 	protected void _t(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("t").begin();
+		MethodCode code = classBody.public_().method("t").begin();
 
 		code.LINE();
 		code.LOADConst(10);

@@ -43,23 +43,23 @@ public interface MethodCaller<T> {
 		return parameter(Clazz.of(clazz, isarray));
 	}
 
-	default MethodCaller<T> reTurn(Class<?> clazz) {
-		return reTurn(Clazz.of(clazz));
+	default MethodCaller<T> return_(Class<?> clazz) {
+		return return_(Clazz.of(clazz));
 	}
 
-	default MethodCaller<T> reTurn(Class<?> clazz, boolean isarray) {
-		return reTurn(Clazz.of(clazz, isarray));
+	default MethodCaller<T> return_(Class<?> clazz, boolean isarray) {
+		return return_(Clazz.of(clazz, isarray));
 	}
 
-	MethodCaller<T> reTurn(Clazz clazz);
+	MethodCaller<T> return_(Clazz clazz);
 
-	default MethodCaller<T> reTurn(String clazz) {
+	default MethodCaller<T> return_(String clazz) {
 		String[] genericParameterClazz = {};
-		return reTurn(Clazz.of(clazz, genericParameterClazz));
+		return return_(Clazz.of(clazz, genericParameterClazz));
 	}
 
 	default MethodCaller<T> reTurn(String clazz, boolean isarray) {
-		return reTurn(Clazz.of(clazz, isarray));
+		return return_(Clazz.of(clazz, isarray));
 	}
 
 	void INVOKE();

@@ -21,35 +21,35 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-		classBody.field(0, "b", Clazz.of(byte.class));
-		classBody.field(0, "c", Clazz.of(char.class));
-		classBody.field(0, "s", Clazz.of(short.class));
-		classBody.field(0, "i", Clazz.of(int.class));
-		classBody.field(0, "l", Clazz.of(long.class));
-		classBody.field(0, "f", Clazz.of(float.class));
-		classBody.field(0, "d", Clazz.of(double.class));
-		classBody.field(0, "b3", Clazz.of(byte.class));
-		classBody.field(0, "c3", Clazz.of(char.class));
-		classBody.field(0, "s3", Clazz.of(short.class));
-		classBody.field(0, "i3", Clazz.of(int.class));
-		classBody.field(0, "l3", Clazz.of(long.class));
-		classBody.field(0, "f3", Clazz.of(float.class));
-		classBody.field(0, "d3", Clazz.of(double.class));
-		classBody.field(0, "f31", Clazz.of(float.class));
-		classBody.field(0, "d31", Clazz.of(double.class));
-		classBody.field(0, "b0", Clazz.of(byte.class));
-		classBody.field(0, "c0", Clazz.of(char.class));
-		classBody.field(0, "s0", Clazz.of(short.class));
-		classBody.field(0, "i0", Clazz.of(int.class));
-		classBody.field(0, "l1", Clazz.of(long.class));
-		classBody.field(0, "f1", Clazz.of(float.class));
-		classBody.field(0, "d1", Clazz.of(double.class));
-		classBody.field(0, "bn1", Clazz.of(byte.class));
-		classBody.field(0, "sn1", Clazz.of(short.class));
-		classBody.field(0, "in1", Clazz.of(int.class));
-		classBody.field(0, "ln1", Clazz.of(long.class));
-		classBody.field(0, "fn1", Clazz.of(float.class));
-		classBody.field(0, "dn1", Clazz.of(double.class));
+		classBody.field("b", Clazz.of(byte.class));
+		classBody.field("c", Clazz.of(char.class));
+		classBody.field("s", Clazz.of(short.class));
+		classBody.field("i", Clazz.of(int.class));
+		classBody.field("l", Clazz.of(long.class));
+		classBody.field("f", Clazz.of(float.class));
+		classBody.field("d", Clazz.of(double.class));
+		classBody.field("b3", Clazz.of(byte.class));
+		classBody.field("c3", Clazz.of(char.class));
+		classBody.field("s3", Clazz.of(short.class));
+		classBody.field("i3", Clazz.of(int.class));
+		classBody.field("l3", Clazz.of(long.class));
+		classBody.field("f3", Clazz.of(float.class));
+		classBody.field("d3", Clazz.of(double.class));
+		classBody.field("f31", Clazz.of(float.class));
+		classBody.field("d31", Clazz.of(double.class));
+		classBody.field("b0", Clazz.of(byte.class));
+		classBody.field("c0", Clazz.of(char.class));
+		classBody.field("s0", Clazz.of(short.class));
+		classBody.field("i0", Clazz.of(int.class));
+		classBody.field("l1", Clazz.of(long.class));
+		classBody.field("f1", Clazz.of(float.class));
+		classBody.field("d1", Clazz.of(double.class));
+		classBody.field("bn1", Clazz.of(byte.class));
+		classBody.field("sn1", Clazz.of(short.class));
+		classBody.field("in1", Clazz.of(int.class));
+		classBody.field("ln1", Clazz.of(long.class));
+		classBody.field("fn1", Clazz.of(float.class));
+		classBody.field("dn1", Clazz.of(double.class));
 		__init_(classBody);
 		_addInt(classBody);
 		_addByte(classBody);
@@ -63,7 +63,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -219,7 +219,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _addInt(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("addInt")
+		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
@@ -362,7 +362,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _addByte(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("addByte")
+		MethodCode code = classBody.public_().method("addByte")
 			.return_(byte.class )
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
@@ -468,7 +468,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _addShort(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("addShort")
+		MethodCode code = classBody.public_().method("addShort")
 			.return_(short.class )
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
@@ -574,7 +574,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _addLong(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("addLong")
+		MethodCode code = classBody.public_().method("addLong")
 			.return_(long.class )
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
@@ -671,7 +671,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _mathChar(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("mathChar")
+		MethodCode code = classBody.public_().method("mathChar")
 			.return_(char.class )
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
@@ -777,7 +777,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _mathFloat(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("mathFloat")
+		MethodCode code = classBody.public_().method("mathFloat")
 			.return_(float.class )
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
@@ -855,7 +855,7 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 	}
 
 	protected void _mathDouble(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("mathDouble")
+		MethodCode code = classBody.public_().method("mathDouble")
 			.return_(double.class )
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();

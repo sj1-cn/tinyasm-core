@@ -67,51 +67,51 @@ public class BoxUnbox {
 
 	static {
 		register(Character.class, char.class, mv -> {
-			mv.VIRTUAL(Character.class, "charValue").reTurn(char.class).INVOKE();
+			mv.VIRTUAL(Character.class, "charValue").return_(char.class).INVOKE();
 		}, mv -> {
-			mv.STATIC(Character.class, "valueOf").parameter(char.class).reTurn(Character.class).INVOKE();
+			mv.STATIC(Character.class, "valueOf").parameter(char.class).return_(Character.class).INVOKE();
 		});
 
 		register(Boolean.class, boolean.class, mv -> {
-			mv.VIRTUAL(Boolean.class, "booleanValue").reTurn(boolean.class).INVOKE();
+			mv.VIRTUAL(Boolean.class, "booleanValue").return_(boolean.class).INVOKE();
 		}, mv -> {
-			mv.STATIC(Boolean.class, "valueOf").parameter(boolean.class).reTurn(Boolean.class).INVOKE();
+			mv.STATIC(Boolean.class, "valueOf").parameter(boolean.class).return_(Boolean.class).INVOKE();
 		});
 
 		register(Byte.class, byte.class, mv -> {
-			mv.VIRTUAL(Byte.class, "byteValue").reTurn(byte.class).INVOKE();
+			mv.VIRTUAL(Byte.class, "byteValue").return_(byte.class).INVOKE();
 		}, mv -> {
-			mv.STATIC(Byte.class, "valueOf").parameter(byte.class).reTurn(Byte.class).INVOKE();
+			mv.STATIC(Byte.class, "valueOf").parameter(byte.class).return_(Byte.class).INVOKE();
 		});
 
 		register(Short.class, short.class, mv -> {
-			mv.VIRTUAL(Short.class, "shortValue").reTurn(short.class).INVOKE();
+			mv.VIRTUAL(Short.class, "shortValue").return_(short.class).INVOKE();
 		}, mv -> {
-			mv.STATIC(Short.class, "valueOf").parameter(short.class).reTurn(Short.class).INVOKE();
+			mv.STATIC(Short.class, "valueOf").parameter(short.class).return_(Short.class).INVOKE();
 		});
 
 		register(Integer.class, int.class, mv -> {
-			mv.VIRTUAL(Integer.class, "intValue").reTurn(int.class).INVOKE();
+			mv.VIRTUAL(Integer.class, "intValue").return_(int.class).INVOKE();
 		}, mv -> {
-			mv.STATIC(Integer.class, "valueOf").parameter(int.class).reTurn(Integer.class).INVOKE();
+			mv.STATIC(Integer.class, "valueOf").parameter(int.class).return_(Integer.class).INVOKE();
 		});
 
 		register(Long.class, long.class, mv -> {
-			mv.VIRTUAL(Long.class, "longValue").reTurn(long.class).INVOKE();
+			mv.VIRTUAL(Long.class, "longValue").return_(long.class).INVOKE();
 		}, mv -> {
-			mv.STATIC(Long.class, "valueOf").parameter(long.class).reTurn(Long.class).INVOKE();
+			mv.STATIC(Long.class, "valueOf").parameter(long.class).return_(Long.class).INVOKE();
 		});
 
 		register(Float.class, float.class, mv -> {
-			mv.VIRTUAL(Float.class, "floatValue").reTurn(float.class).INVOKE();
+			mv.VIRTUAL(Float.class, "floatValue").return_(float.class).INVOKE();
 		}, mv -> {
-			mv.STATIC(Float.class, "valueOf").parameter(float.class).reTurn(Float.class).INVOKE();
+			mv.STATIC(Float.class, "valueOf").parameter(float.class).return_(Float.class).INVOKE();
 		});
 
 		register(Double.class, double.class, mv -> {
-			mv.VIRTUAL(Double.class, "doubleValue").reTurn(double.class).INVOKE();
+			mv.VIRTUAL(Double.class, "doubleValue").return_(double.class).INVOKE();
 		}, mv -> {
-			mv.STATIC(Double.class, "valueOf").parameter(double.class).reTurn(Double.class).INVOKE();
+			mv.STATIC(Double.class, "valueOf").parameter(double.class).return_(Double.class).INVOKE();
 		});
 
 	}

@@ -108,7 +108,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	@Override
-	public MethodHeader tHrow(Clazz clazz) {
+	public MethodHeader throws_(Clazz clazz) {
 		exceptions.add(clazz);
 		return this;
 	}

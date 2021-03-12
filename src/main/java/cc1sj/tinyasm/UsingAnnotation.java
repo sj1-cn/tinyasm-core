@@ -1,6 +1,6 @@
 package cc1sj.tinyasm;
 
-public interface WithAnnotation<B> {
+public interface UsingAnnotation<B> {
 
 	default B annotation(Class<?> clazz) {
 		return annotation(clazz.getName(), null);

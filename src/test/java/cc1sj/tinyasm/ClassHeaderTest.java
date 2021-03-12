@@ -27,7 +27,7 @@ public class ClassHeaderTest {
 
 	@Test
 	public void testMath() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz, TestSuperClass.class, TestInerface.class).body();
+		ClassBody cw = ClassBuilder.class_(clazz, TestSuperClass.class, TestInerface.class).body();
 
 		cw.constructerEmpty();
 		// @formatter:on
@@ -39,7 +39,7 @@ public class ClassHeaderTest {
 
 	@Test
 	public void testMathGEtname() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz, TestSuperClass.class.getName(), TestInerface.class.getName()).body();
+		ClassBody cw = ClassBuilder.class_(clazz, TestSuperClass.class.getName(), TestInerface.class.getName()).body();
 
 		cw.constructerEmpty();
 		// @formatter:on
@@ -51,7 +51,7 @@ public class ClassHeaderTest {
 
 	@Test
 	public void testMathGEtnamedd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz, TestSuperClass.class, TestInerface.class.getName()).body();
+		ClassBody cw = ClassBuilder.class_(clazz, TestSuperClass.class, TestInerface.class.getName()).body();
 
 		cw.constructerEmpty();
 		// @formatter:on
@@ -64,7 +64,7 @@ public class ClassHeaderTest {
 	@Test
 	public void testMathGEtnsssamedd() throws Exception {
 		String clazz = MakeClassSuperSample.class.getName();
-		ClassBody cw = ClassBuilder.make(clazz, TestSuperClass.class).body();
+		ClassBody cw = ClassBuilder.class_(clazz, TestSuperClass.class).body();
 
 		cw.constructerEmpty();
 		// @formatter:on
@@ -77,7 +77,7 @@ public class ClassHeaderTest {
 	@Test
 	public void testMathGEtnsssameddfsdd() throws Exception {
 		String clazz = MakeClassSuperSample.class.getName();
-		ClassBuilder cb = ClassBuilder.make(clazz, TestSuperClass.class.getName()).body(cw -> {
+		ClassBuilder cb = ClassBuilder.class_(clazz, TestSuperClass.class.getName()).body(cw -> {
 			cw.constructerEmpty();
 		});
 
@@ -91,7 +91,7 @@ public class ClassHeaderTest {
 	@Test
 	public void testMathTestSuperClassclassWriter() throws Exception {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
-		ClassBody cw = ClassBuilder.make(classWriter, TestSuperClass.class.getName()).body();
+		ClassBody cw = ClassBuilder.class_(classWriter, TestSuperClass.class.getName()).body();
 
 		cw.constructerEmpty();
 		// @formatter:on
@@ -104,7 +104,7 @@ public class ClassHeaderTest {
 	@Test
 	public void testMathclassWriter() throws Exception {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
-		ClassBody cw = ClassBuilder.make(classWriter, clazz, TestSuperClass.class, TestInerface.class).body();
+		ClassBody cw = ClassBuilder.class_(classWriter, clazz, TestSuperClass.class, TestInerface.class).body();
 
 		cw.constructerEmpty();
 		// @formatter:on
@@ -117,7 +117,7 @@ public class ClassHeaderTest {
 	@Test
 	public void testMathGEtnameclassWriter() throws Exception {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
-		ClassBody cw = ClassBuilder.make(classWriter, clazz, TestSuperClass.class.getName(), TestInerface.class.getName()).body();
+		ClassBody cw = ClassBuilder.class_(classWriter, clazz, TestSuperClass.class.getName(), TestInerface.class.getName()).body();
 
 		cw.constructerEmpty();
 		// @formatter:on
@@ -130,7 +130,7 @@ public class ClassHeaderTest {
 	@Test
 	public void testMathGEtnameddclassWriter() throws Exception {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
-		ClassBody cw = ClassBuilder.make(classWriter, clazz, TestSuperClass.class, TestInerface.class).body();
+		ClassBody cw = ClassBuilder.class_(classWriter, clazz, TestSuperClass.class, TestInerface.class).body();
 
 		cw.constructerEmpty();
 		// @formatter:on
@@ -144,7 +144,7 @@ public class ClassHeaderTest {
 	public void testMathGEtnsssameddclassWriter() throws Exception {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		String clazz = MakeClassSuperSample.class.getName();
-		ClassBody cw = ClassBuilder.make(classWriter, clazz, TestSuperClass.class).body();
+		ClassBody cw = ClassBuilder.class_(classWriter, clazz, TestSuperClass.class).body();
 
 		cw.constructerEmpty();
 		// @formatter:on
@@ -158,7 +158,7 @@ public class ClassHeaderTest {
 	public void testMathGEtnsssameddfsddclassWriter() throws Exception {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		String clazz = MakeClassSuperSample.class.getName();
-		ClassBuilder cb = ClassBuilder.make(classWriter, clazz, TestSuperClass.class.getName()).body(cw -> {
+		ClassBuilder cb = ClassBuilder.class_(classWriter, clazz, TestSuperClass.class.getName()).body(cw -> {
 			cw.constructerEmpty();
 		});
 

@@ -22,14 +22,14 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-		classBody.field("b", Clazz.of(byte.class));
-		classBody.field("c", Clazz.of(char.class));
-		classBody.field("s", Clazz.of(short.class));
-		classBody.field("i", Clazz.of(int.class));
-		classBody.field("l", Clazz.of(long.class));
-		classBody.field("f", Clazz.of(float.class));
-		classBody.field("d", Clazz.of(double.class));
-		classBody.field("str", Clazz.of(String.class));
+		classBody.private_().field("b", Clazz.of(byte.class));
+		classBody.private_().field("c", Clazz.of(char.class));
+		classBody.private_().field("s", Clazz.of(short.class));
+		classBody.private_().field("i", Clazz.of(int.class));
+		classBody.private_().field("l", Clazz.of(long.class));
+		classBody.private_().field("f", Clazz.of(float.class));
+		classBody.private_().field("d", Clazz.of(double.class));
+		classBody.private_().field("str", Clazz.of(String.class));
 		__init_(classBody);
 		_getField(classBody);
 		_getFieldAll(classBody);
@@ -41,7 +41,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -52,7 +52,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void _getField(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getField")
+		MethodCode code = classBody.public_().method("getField")
 			.return_(int.class ).begin();
 
 		code.LINE();
@@ -71,7 +71,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void _getFieldAll(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getFieldAll")
+		MethodCode code = classBody.public_().method("getFieldAll")
 			.return_(int.class ).begin();
 
 		code.LINE();
@@ -109,7 +109,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void _getFieldConst(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getFieldConst")
+		MethodCode code = classBody.public_().method("getFieldConst")
 			.return_(int.class ).begin();
 
 		code.LINE();
@@ -183,7 +183,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void _getFieldIConst(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getFieldIConst")
+		MethodCode code = classBody.public_().method("getFieldIConst")
 			.return_(int.class ).begin();
 
 		code.LINE();
@@ -260,7 +260,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	protected void _retByte(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("retByte")
+		MethodCode code = classBody.public_().method("retByte")
 			.return_(byte.class ).begin();
 
 		code.LINE();

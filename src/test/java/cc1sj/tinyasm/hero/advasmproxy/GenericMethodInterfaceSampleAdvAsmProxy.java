@@ -43,7 +43,7 @@ public class GenericMethodInterfaceSampleAdvAsmProxy implements GenericMethodInt
 			objEval.accept(c);
 			eval_param0.accept(c);
 
-			c.INTERFACE(GenericMethodInterface.class, "arrayToArray").parameter(Object[].class).reTurn(Object[].class).INVOKE();
+			c.INTERFACE(GenericMethodInterface.class, "arrayToArray").parameter(Object[].class).return_(Object[].class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -73,7 +73,7 @@ public class GenericMethodInterfaceSampleAdvAsmProxy implements GenericMethodInt
 			objEval.accept(c);
 			eval_param0.accept(c);
 
-			c.INTERFACE(GenericMethodInterface.class, "arrayToObject").parameter(Object[].class).reTurn(Object.class).INVOKE();
+			c.INTERFACE(GenericMethodInterface.class, "arrayToObject").parameter(Object[].class).return_(Object.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -97,7 +97,7 @@ public class GenericMethodInterfaceSampleAdvAsmProxy implements GenericMethodInt
 			objEval.accept(c);
 			eval_param0.accept(c);
 
-			c.INTERFACE(GenericMethodInterface.class, "objectToObject").parameter(Object.class).reTurn(Object.class).INVOKE();
+			c.INTERFACE(GenericMethodInterface.class, "objectToObject").parameter(Object.class).return_(Object.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -120,7 +120,7 @@ public class GenericMethodInterfaceSampleAdvAsmProxy implements GenericMethodInt
 			objEval.accept(c);
 			eval_param0.accept(c);
 
-			c.INTERFACE(GenericMethodInterface.class, "objectToArray").parameter(Object.class).reTurn(Object[].class).INVOKE();
+			c.INTERFACE(GenericMethodInterface.class, "objectToArray").parameter(Object.class).return_(Object[].class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);

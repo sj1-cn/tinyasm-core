@@ -65,7 +65,7 @@ public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClass
 	public AdvClassBuilder enterClassBody() {
 		ClassHeader ch;
 		if (_extends != null) {
-			ch = ClassBuilder.make(className, _extends);
+			ch = ClassBuilder.class_(className, _extends);
 		} else {
 			ch = ClassBuilder.class_(className);
 		}
@@ -74,7 +74,7 @@ public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClass
 
 		if (_implements != null && _implements.size() > 0) {
 			for (Clazz clazz : _implements) {
-				ch.implement(clazz);
+				ch.implements_(clazz);
 			}
 		}
 
@@ -131,49 +131,49 @@ public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClass
 	}
 
 	public boolean_ field_boolean(String name) {
-		int localsIndex = classBody.field(name, boolean.class);
+		int localsIndex = classBody.private_().field(name, boolean.class);
 		return new boolean_Holder(_contextThreadLocal, (byte) (MAGIC_FIELDS_NUMBER + localsIndex));
 	}
 
 	public Boolean__ field_Boolean(String name) {
-		int localsIndex = classBody.field(name, boolean.class);
+		int localsIndex = classBody.private_().field(name, boolean.class);
 		return new Boolean__Holder(_contextThreadLocal, (byte) (MAGIC_FIELDS_NUMBER + localsIndex));
 	}
 
 	public byte field_byte(String name) {
-		int localsIndex = classBody.field(name, byte.class);
+		int localsIndex = classBody.private_().field(name, byte.class);
 		return (byte) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	public short field_short(String name) {
-		int localsIndex = classBody.field(name, short.class);
+		int localsIndex = classBody.private_().field(name, short.class);
 		return (short) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	public int field_int(String name) {
-		int localsIndex = classBody.field(name, int.class);
+		int localsIndex = classBody.private_().field(name, int.class);
 		return (int) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	public long field_long(String name) {
-		int localsIndex = classBody.field(name, long.class);
+		int localsIndex = classBody.private_().field(name, long.class);
 		return (long) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	public float field_float(String name) {
-		int localsIndex = classBody.field(name, float.class);
+		int localsIndex = classBody.private_().field(name, float.class);
 		return (float) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	public double field_double(String name) {
-		int localsIndex = classBody.field(name, double.class);
+		int localsIndex = classBody.private_().field(name, double.class);
 		return (double) (MAGIC_FIELDS_NUMBER + localsIndex);
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T> T field(String name, Class<T> clazz) {
 
-		int localsIndex = classBody.field(name, clazz);
+		int localsIndex = classBody.private_().field(name, clazz);
 
 		if (clazz == Boolean.class) {
 			throw new UnsupportedOperationException("请使用 field_boolean");

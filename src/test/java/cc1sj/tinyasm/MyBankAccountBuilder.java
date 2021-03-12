@@ -11,9 +11,10 @@ public class MyBankAccountBuilder {
 		ClassBody cb = ClassBuilder.class_("com.nebula.cqrs.core.asm.MyBankAccount").annotation("com/nebula/cqrs/core/CqrsEntity")
 				.annotation("org/axonframework/spring/stereotype/Aggregate").body();
 
-		cb.field(ACC_PRIVATE,Annotation.of("org/axonframework/commandhandling/model/AggregateIdentifier"), "axonBankAccountId", Clazz.of(String.class));
-		cb.field("overdraftLimit", long.class);
-		cb.field("balance", long.class);
+		cb.field(ACC_PRIVATE, Annotation.of("org/axonframework/commandhandling/model/AggregateIdentifier"), "axonBankAccountId",
+				Clazz.of(String.class));
+		cb.private_().field("overdraftLimit", long.class);
+		cb.private_().field("balance", long.class);
 
 		visitDefine_init(cb);
 		visitDefine_init_withfields(cb);
@@ -27,7 +28,7 @@ public class MyBankAccountBuilder {
 	}
 
 	private static void visitDefine_init_withfields(ClassBody cw) {
-		cw.publicMethod("<init>").parameter("axonBankAccountId", String.class).parameter("overdraftLimit", long.class).code(mc -> {
+		cw.public_().method("<init>").parameter("axonBankAccountId", String.class).parameter("overdraftLimit", long.class).code(mc -> {
 			mc.LINE(38);
 			mc.INIT_OBJECT();
 			mc.LINE(39);
@@ -41,7 +42,7 @@ public class MyBankAccountBuilder {
 	}
 
 	private static void visitDefine_deposit(ClassBody cw) {
-		cw.publicMethod(boolean.class, "deposit").parameter("amount", long.class).code(mc -> {
+		cw.public_().method("deposit").return_(boolean.class).parameter("amount", long.class).code(mc -> {
 			mc.LINE(44);
 			mc.LOAD_THIS();
 			mc.LOAD("amount");
@@ -54,7 +55,7 @@ public class MyBankAccountBuilder {
 
 	private static void visitDefine_withdraw(ClassBody cw) {
 		{
-			cw.publicMethod(boolean.class, "withdraw").parameter("amount", long.class).code(mc -> {
+			cw.public_().method("withdraw").return_(boolean.class).parameter("amount", long.class).code(mc -> {
 				mc.LINE(50);
 				mc.LOAD("amount");
 
@@ -75,7 +76,7 @@ public class MyBankAccountBuilder {
 				mc.LINE(52);
 				mc.LOADConstByte(1);
 				mc.RETURNTop();
-				
+
 				mc.LINE();
 				mc.visitLabel(ifEnd, 54);
 				mc.LOADConstByte(0);
@@ -85,7 +86,7 @@ public class MyBankAccountBuilder {
 	}
 
 	private static void visitDefine_onCreated(ClassBody cw) {
-		cw.privateMethod("onCreated").parameter("axonBankAccountId", String.class).parameter("overdraftLimit", long.class).code(mc -> {
+		cw.private_().method("onCreated").parameter("axonBankAccountId", String.class).parameter("overdraftLimit", long.class).code(mc -> {
 			mc.LINE(100);
 			mc.LOAD_THIS();
 			mc.LOAD("axonBankAccountId");
@@ -106,7 +107,7 @@ public class MyBankAccountBuilder {
 	}
 
 	private static void visitDefine_onMoneyAdded(ClassBody cw) {
-		cw.privateMethod("onMoneyAdded").parameter("amount", long.class).code(mc -> {
+		cw.private_().method("onMoneyAdded").parameter("amount", long.class).code(mc -> {
 			mc.define("newbalance", long.class);
 			mc.LINE(107);
 			mc.LOAD("this");
@@ -124,7 +125,7 @@ public class MyBankAccountBuilder {
 	}
 
 	private static void visitDefine_onMoneySubtracted(ClassBody cw) {
-		cw.privateMethod("onMoneySubtracted").parameter("amount", long.class).code(mc -> {
+		cw.private_().method("onMoneySubtracted").parameter("amount", long.class).code(mc -> {
 			mc.LINE(113);
 			mc.LOAD_THIS();
 			mc.DUP();
@@ -138,7 +139,7 @@ public class MyBankAccountBuilder {
 	}
 
 	private static void visitDefine_init(ClassBody cw) {
-		cw.privateMethod("<init>").code(mc -> {
+		cw.private_().method("<init>").code(mc -> {
 			mc.LINE(34);
 			mc.INIT_OBJECT();
 			mc.LINE(35);

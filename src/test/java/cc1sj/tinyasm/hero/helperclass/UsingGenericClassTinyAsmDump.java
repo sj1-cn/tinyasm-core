@@ -31,7 +31,7 @@ public class UsingGenericClassTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -42,7 +42,7 @@ public class UsingGenericClassTinyAsmDump {
 	}
 
 	protected void _say(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("say").begin();
+		MethodCode code = classBody.public_().method("say").begin();
 
 		code.LINE();
 		code.NEW(GenericClass.class);
@@ -65,7 +65,7 @@ public class UsingGenericClassTinyAsmDump {
 		code.LINE();
 		code.LOAD("pp");
 		code.INTERFACE(GenericInterface.class, "getT")
-			.reTurn(Object.class).INVOKE();
+			.return_(Object.class).INVOKE();
 		code.CHECKCAST(PojoClassSample.class);
 		code.STORE("pojoClassSample2",PojoClassSample.class);
 

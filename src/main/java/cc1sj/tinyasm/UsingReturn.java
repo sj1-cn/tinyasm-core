@@ -1,6 +1,6 @@
 package cc1sj.tinyasm;
 
-public interface WithReturn<T> {
+public interface UsingReturn<T> {
 
 	default MethodHeader return_(Class<?> clazz) {
 		return return_(Clazz.of(clazz));

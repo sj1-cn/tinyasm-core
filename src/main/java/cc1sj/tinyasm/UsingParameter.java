@@ -2,7 +2,7 @@ package cc1sj.tinyasm;
 
 import java.util.List;
 
-public interface WithDefineParameter<T> {
+public interface UsingParameter<T> {
 
 	default T parameter(List<Field> fields) {
 		T t = null;

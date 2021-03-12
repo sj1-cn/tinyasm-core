@@ -21,7 +21,7 @@ public class ClassBTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className, ClassA.class)
+		ClassBody classBody = ClassBuilder.class_(className, ClassA.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
@@ -34,7 +34,7 @@ public class ClassBTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -45,7 +45,7 @@ public class ClassBTinyAsmDump {
 	}
 
 	protected void _say1(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("say1").begin();
+		MethodCode code = classBody.public_().method("say1").begin();
 
 		code.LINE();
 		code.GETSTATIC(System.class, "out", PrintStream.class);
@@ -60,7 +60,7 @@ public class ClassBTinyAsmDump {
 	}
 
 	protected void _say2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("say2").begin();
+		MethodCode code = classBody.public_().method("say2").begin();
 
 		code.LINE();
 		code.GETSTATIC(System.class, "out", PrintStream.class);
@@ -75,7 +75,7 @@ public class ClassBTinyAsmDump {
 	}
 
 	protected void _say1InB(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("say1InB").begin();
+		MethodCode code = classBody.public_().method("say1InB").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -88,7 +88,7 @@ public class ClassBTinyAsmDump {
 	}
 
 	protected void _say2InB(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("say2InB").begin();
+		MethodCode code = classBody.public_().method("say2InB").begin();
 
 		code.LINE();
 		code.LOAD("this");

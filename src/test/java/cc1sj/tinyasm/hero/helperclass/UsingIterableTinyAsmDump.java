@@ -32,7 +32,7 @@ public class UsingIterableTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -43,7 +43,7 @@ public class UsingIterableTinyAsmDump {
 	}
 
 	protected void _say(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("say")
+		MethodCode code = classBody.public_().method("say")
 			.return_(Clazz.of(void.class) )
 			.parameter("in",Clazz.of(Iterable.class,Clazz.of(PojoClassSample.class))).begin();
 
@@ -54,13 +54,13 @@ public class UsingIterableTinyAsmDump {
 		code.LINE();
 		code.LOAD("in");
 		code.INTERFACE(Iterable.class, "iterator")
-			.reTurn(Iterator.class).INVOKE();
+			.return_(Iterator.class).INVOKE();
 		code.STORE("iterator",Clazz.of(Iterator.class,Clazz.of(PojoClassSample.class)));
 
 		code.LINE();
 		code.LOAD("in");
 		code.INTERFACE(Iterable.class, "spliterator")
-			.reTurn(Spliterator.class).INVOKE();
+			.return_(Spliterator.class).INVOKE();
 		code.STORE("spliterator",Clazz.of(Spliterator.class,Clazz.of(PojoClassSample.class)));
 
 		code.LINE();

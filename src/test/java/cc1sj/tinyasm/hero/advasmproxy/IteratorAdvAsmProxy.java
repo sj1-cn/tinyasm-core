@@ -38,7 +38,7 @@ public class IteratorAdvAsmProxy implements Iterator<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(boolean.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(Iterator.class, "hasNext").reTurn(boolean.class).INVOKE();
+			c.INTERFACE(Iterator.class, "hasNext").return_(boolean.class).INVOKE();
 		});
 		return false;
 	}
@@ -49,7 +49,7 @@ public class IteratorAdvAsmProxy implements Iterator<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(PojoClassSample.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(Iterator.class, "next").reTurn(Object.class).INVOKE();
+			c.INTERFACE(Iterator.class, "next").return_(Object.class).INVOKE();
 			c.CHECKCAST(PojoClassSample.class);
 		});
 

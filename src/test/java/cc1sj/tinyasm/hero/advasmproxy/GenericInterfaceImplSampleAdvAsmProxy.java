@@ -37,7 +37,7 @@ public class GenericInterfaceImplSampleAdvAsmProxy extends GenericInterfaceImplS
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(PojoClassSample.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(GenericInterfaceImplSample.class, "getT").reTurn(Object.class).INVOKE();
+			c.VIRTUAL(GenericInterfaceImplSample.class, "getT").return_(Object.class).INVOKE();
 			c.CHECKCAST(PojoClassSample.class);
 		});
 
@@ -56,7 +56,7 @@ public class GenericInterfaceImplSampleAdvAsmProxy extends GenericInterfaceImplS
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(PojoClassChildSample.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(GenericInterfaceImplSample.class, "getPojoClassChildSample").reTurn(PojoClassChildSample.class).INVOKE();
+			c.VIRTUAL(GenericInterfaceImplSample.class, "getPojoClassChildSample").return_(PojoClassChildSample.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);

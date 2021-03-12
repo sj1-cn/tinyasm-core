@@ -69,7 +69,7 @@ class ClassHeaderImpl implements ClassHeader {
 //	}
 
 	@Override
-	public ClassHeader eXtend(Clazz clazz) {
+	public ClassHeader extends_(Clazz clazz) {
 		this.superClazz = clazz;
 		return this;
 	}
@@ -81,7 +81,7 @@ class ClassHeaderImpl implements ClassHeader {
 	}
 
 	@Override
-	public ClassHeader implement(Clazz clazz) {
+	public ClassHeader implements_(Clazz clazz) {
 		interfaces.add(clazz);
 		return this;
 	}
@@ -95,7 +95,7 @@ class ClassHeaderImpl implements ClassHeader {
 	ClassBuilder makeClassBuilder() {
 
 		if (access == 0) {// ACC_PUBLIC + ACC_SUPER
-			this.public_();
+			access |= ACC_PUBLIC;
 			access |= ACC_SUPER;
 		}
 		if ((access & ACC_INTERFACE) > 0) {
@@ -105,7 +105,7 @@ class ClassHeaderImpl implements ClassHeader {
 		}
 
 		if (superClazz == null) {
-			this.eXtend(Object.class);
+			this.extends_(Object.class);
 		}
 		if (formalTypeParameters.size() > 0) {
 			Clazz[] typeVariable = new Clazz[formalTypeParameters.size()];

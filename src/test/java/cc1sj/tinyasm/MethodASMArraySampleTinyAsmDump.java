@@ -15,14 +15,14 @@ public static byte[] dump () throws Exception {
 
 ClassBody classWriter = ClassBuilder.class_("nebula.tinyasm.MethodASMArraySample").body();
 
-classWriter.field("ba", byte[].class);
-classWriter.field("ca", char[].class);
-classWriter.field("sa", short[].class);
-classWriter.field("ia", int[].class);
-classWriter.field("la", long[].class);
-classWriter.field("fa", float[].class);
-classWriter.field("da", double[].class);
-classWriter.field("stra", java.lang.String[].class);
+classWriter.private_().field("ba", byte[].class);
+classWriter.private_().field("ca", char[].class);
+classWriter.private_().field("sa", short[].class);
+classWriter.private_().field("ia", int[].class);
+classWriter.private_().field("la", long[].class);
+classWriter.private_().field("fa", float[].class);
+classWriter.private_().field("da", double[].class);
+classWriter.private_().field("stra", java.lang.String[].class);
 classWriter.method(ACC_PUBLIC, "<init>").code(code -> {
 
 	code.LINE(3);

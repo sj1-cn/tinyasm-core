@@ -28,14 +28,14 @@ public class ClassBodyGenericTest {
 
 	@Test
 	public void testMathClass() throws Exception {
-		ClassBody cw = ClassBuilder.class_(clazz).eXtend(Clazz.of(ArrayList.class, Annotation.class)).implement(TestInerface.class.getName())
-				.implement(Clazz.of(List.class, Annotation.class)).body();
+		ClassBody cw = ClassBuilder.class_(clazz).extends_(Clazz.of(ArrayList.class, Annotation.class)).implements_(TestInerface.class.getName())
+				.implements_(Clazz.of(List.class, Annotation.class)).body();
 		String[] genericParameterClazz = { String.class.getName() };
 
 //		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
-		cw.field("annotation", Clazz.of(List.class.getName(), genericParameterClazz));
+		cw.private_().field("annotation", Clazz.of(List.class.getName(), genericParameterClazz));
 
-		cw.publicMethod("<init>").code(mv -> {
+		cw.public_().method("<init>").code(mv -> {
 			mv.LINE();
 			mv.LOAD(0);
 			mv.SPECIAL(ArrayList.class.getName(), "<init>").INVOKE();
@@ -43,7 +43,7 @@ public class ClassBodyGenericTest {
 		});
 		String[] genericParameterClazz1 = { String.class.getName() };
 
-		cw.privateMethod("annotationMethod").return_(Clazz.of(List.class.getName(), genericParameterClazz1)).code(mv -> {
+		cw.private_().method("annotationMethod").return_(Clazz.of(List.class.getName(), genericParameterClazz1)).code(mv -> {
 			mv.LINE();
 			mv.LOADConstNULL();
 			mv.RETURNTop();
@@ -83,14 +83,14 @@ public class ClassBodyGenericTest {
 
 	@Test
 	public void testMathString() throws Exception {
-		ClassBody cw = ClassBuilder.class_(clazz).eXtend(Clazz.of(ArrayList.class, Annotation.class)).implement(Clazz.of(TestInerface.class))
-				.implement(Clazz.of(List.class, Annotation.class)).body();
+		ClassBody cw = ClassBuilder.class_(clazz).extends_(Clazz.of(ArrayList.class, Annotation.class)).implements_(Clazz.of(TestInerface.class))
+				.implements_(Clazz.of(List.class, Annotation.class)).body();
 		String[] genericParameterClazz = { String.class.getName() };
 
 //		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
-		cw.field("annotation", Clazz.of(List.class.getName(), genericParameterClazz));
+		cw.private_().field("annotation", Clazz.of(List.class.getName(), genericParameterClazz));
 
-		cw.publicMethod("<init>").code(mv -> {
+		cw.public_().method("<init>").code(mv -> {
 			mv.LINE();
 			mv.LOAD(0);
 			mv.SPECIAL(ArrayList.class.getName(), "<init>").INVOKE();
@@ -98,7 +98,7 @@ public class ClassBodyGenericTest {
 		});
 		String[] genericParameterClazz1 = { String.class.getName() };
 
-		cw.privateMethod("annotationMethod").return_(Clazz.of(List.class.getName(), genericParameterClazz1)).code(mv -> {
+		cw.private_().method("annotationMethod").return_(Clazz.of(List.class.getName(), genericParameterClazz1)).code(mv -> {
 			mv.LINE();
 			mv.LOADConstNULL();
 			mv.RETURNTop();

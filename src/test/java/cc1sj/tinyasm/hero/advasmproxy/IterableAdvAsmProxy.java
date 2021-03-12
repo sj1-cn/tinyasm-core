@@ -39,7 +39,7 @@ public class IterableAdvAsmProxy implements Iterable<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Iterator.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(Iterable.class, "iterator").reTurn(Iterator.class).INVOKE();
+			c.INTERFACE(Iterable.class, "iterator").return_(Iterator.class).INVOKE();
 		});
 		
 
@@ -70,7 +70,7 @@ public class IterableAdvAsmProxy implements Iterable<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Spliterator.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(Iterable.class, "spliterator").reTurn(Spliterator.class).INVOKE();
+			c.INTERFACE(Iterable.class, "spliterator").return_(Spliterator.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);

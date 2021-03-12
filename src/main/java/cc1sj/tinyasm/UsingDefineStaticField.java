@@ -4,7 +4,7 @@ import static org.objectweb.asm.Opcodes.*;
 
 import java.util.List;
 
-public interface WithDefineStaticField {
+public interface UsingDefineStaticField {
 
 	default void staticField(List<Field> fields) {
 		for (Field field : fields) {

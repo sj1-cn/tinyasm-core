@@ -10,6 +10,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
 
 class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
@@ -32,7 +33,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		{
 			int version = 53;
 			int access = header.access;
-			
+
 			String name = this.thisType.getType().getInternalName();
 			String signature = null;
 			boolean needSignature = false;
@@ -141,11 +142,22 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
+	public int field(String name, Clazz clazz) {
+		return field(memberAccess, name, clazz);
+	}
+
+	@Override
+	public int field(Annotation annotation, String name, Clazz clazz) {
+		return field(memberAccess, annotation, name, clazz);
+	}
+
+	@Override
 	public int field(int access, String name, Clazz clazz) {
 		ClassField field1 = new ClassField(access, name, clazz, null);
 		fields.push(field1);
 		FieldVisitor fv = cv.visitField(access, name, clazz.getDescriptor(), clazz.signatureWhenNeed(), null);
 		fv.visitEnd();
+		memberAccess = 0;
 		return fields.size() - 1;
 	}
 
@@ -159,6 +171,7 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		Annotation.visitAnnotation(fv, annotation);
 
 		fv.visitEnd();
+		memberAccess = 0;
 		return fields.size() - 1;
 	}
 
@@ -178,9 +191,17 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	}
 
 	@Override
-	public MethodHeader method(int access, Clazz returnType, String name) {
-		return new MethodHeaderBuilder(this, thisType, access, returnType, name);
+	public MethodHeader method(String name) {
+		MethodHeader mh = new MethodHeaderBuilder(this, thisType, memberAccess, name);
+		memberAccess = 0;
+		return mh;
 	}
+
+//
+//	@Override
+//	public MethodHeader method(int access, Clazz returnType, String name) {
+//		return new MethodHeaderBuilder(this, thisType, access, returnType, name);
+//	}
 
 	@Override
 	public String referInnerClass(int access, String objectclazz, String innerName) {
@@ -206,6 +227,32 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 			cv.visitInnerClass(fullName, outerName, innerName, 0);
 			return Type.getType("L" + fullName + ";").getClassName();
 		}
+	}
+
+	int memberAccess = 0;
+
+	@Override
+	public AfterModifier public_() {
+		memberAccess = ACC_PUBLIC;
+		return this;
+	}
+
+	@Override
+	public AfterModifier protected_() {
+		memberAccess = ACC_PROTECTED;
+		return this;
+	}
+
+	@Override
+	public AfterModifier private_() {
+		memberAccess = ACC_PRIVATE;
+		return this;
+	}
+
+	@Override
+	public AfterModifier package_() {
+		memberAccess = 0;
+		return this;
 	}
 
 	@Override

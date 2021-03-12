@@ -49,7 +49,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Iterator.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(PageList.class, "iterator").reTurn(Iterator.class).INVOKE();
+			c.INTERFACE(PageList.class, "iterator").return_(Iterator.class).INVOKE();
 		});
 	
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -79,7 +79,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Spliterator.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(PageList.class, "spliterator").reTurn(Spliterator.class).INVOKE();
+			c.INTERFACE(PageList.class, "spliterator").return_(Spliterator.class).INVOKE();
 		});
 	
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -97,7 +97,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(PageList.class, "size").reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "size").return_(int.class).INVOKE();
 		});
 
 		return MAGIC_CODES_NUMBER + codeIndex;
@@ -109,7 +109,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.push(boolean.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(PageList.class, "isEmpty").reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "isEmpty").return_(boolean.class).INVOKE();
 		});
 
 		return false;
@@ -123,7 +123,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(PageList.class, "contains").parameter(Object.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "contains").parameter(Object.class).return_(boolean.class).INVOKE();
 		});
 		return false;
 	}
@@ -134,7 +134,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Object[].class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(PageList.class, "toArray").reTurn(Object[].class).INVOKE();
+			c.INTERFACE(PageList.class, "toArray").return_(Object[].class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -161,7 +161,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 			objEval.accept(c);
 			eval_param0.accept(c);
 
-			c.INTERFACE(PageList.class, "toArray").parameter(Object[].class).reTurn(Object[].class).INVOKE();
+			c.INTERFACE(PageList.class, "toArray").parameter(Object[].class).return_(Object[].class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -191,7 +191,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 			objEval.accept(c);
 			eval_param0.accept(c);
 	
-			c.INTERFACE(PageList.class, "toArray").parameter(IntFunction.class).reTurn(Object[].class).INVOKE();
+			c.INTERFACE(PageList.class, "toArray").parameter(IntFunction.class).return_(Object[].class).INVOKE();
 		});
 	
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -207,7 +207,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(PageList.class, "add").parameter(Object.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "add").parameter(Object.class).return_(boolean.class).INVOKE();
 		});
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 		return false;
@@ -222,7 +222,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(PageList.class, "remove").parameter(Object.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "remove").parameter(Object.class).return_(boolean.class).INVOKE();
 		});
 //		super.remove(param0);
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
@@ -237,7 +237,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(PageList.class, "containsAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "containsAll").parameter(Collection.class).return_(boolean.class).INVOKE();
 		});
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 		return false;
@@ -251,7 +251,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		context.push(boolean.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(PageList.class, "addAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "addAll").parameter(Collection.class).return_(boolean.class).INVOKE();
 		});
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 		return false;
@@ -265,7 +265,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 			context.push(boolean.class, c -> {
 				objEval.accept(c);
 				eval_param0.accept(c);
-				c.INTERFACE(PageList.class, "removeAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
+				c.INTERFACE(PageList.class, "removeAll").parameter(Collection.class).return_(boolean.class).INVOKE();
 			});
 	//		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 			return false;
@@ -279,7 +279,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 			context.push(boolean.class, c -> {
 				objEval.accept(c);
 				eval_param0.accept(c);
-				c.INTERFACE(PageList.class, "removeIf").parameter(Predicate.class).reTurn(boolean.class).INVOKE();
+				c.INTERFACE(PageList.class, "removeIf").parameter(Predicate.class).return_(boolean.class).INVOKE();
 			});
 	//		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 			return false;
@@ -293,7 +293,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 			context.push(boolean.class, c -> {
 				objEval.accept(c);
 				eval_param0.accept(c);
-				c.INTERFACE(PageList.class, "retainAll").parameter(Collection.class).reTurn(boolean.class).INVOKE();
+				c.INTERFACE(PageList.class, "retainAll").parameter(Collection.class).return_(boolean.class).INVOKE();
 			});
 	//		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 			return false;
@@ -356,7 +356,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 				context.push(boolean.class, c -> {
 					objEval.accept(c);
 					eval_param0.accept(c);
-					c.INTERFACE(PageList.class, "equals").parameter(Object.class).reTurn(boolean.class).INVOKE();
+					c.INTERFACE(PageList.class, "equals").parameter(Object.class).return_(boolean.class).INVOKE();
 				});
 		//		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 				return false;
@@ -387,7 +387,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 					ConsumerWithException<MethodCode> objEval = context.resolve(this);
 					byte codeIndex = context.push(int.class, c -> {
 						objEval.accept(c);
-						c.INTERFACE(PageList.class, "hashCode").reTurn(int.class).INVOKE();
+						c.INTERFACE(PageList.class, "hashCode").return_(int.class).INVOKE();
 					});
 					return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 				}
@@ -398,7 +398,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 					ConsumerWithException<MethodCode> objEval = context.resolve(this);
 					byte codeIndex = context.push(Stream.class, c -> {
 						objEval.accept(c);
-						c.INTERFACE(PageList.class, "stream").reTurn(Stream.class).INVOKE();
+						c.INTERFACE(PageList.class, "stream").return_(Stream.class).INVOKE();
 					});
 				
 					byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -416,7 +416,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Stream.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(PageList.class, "parallelStream").reTurn(Stream.class).INVOKE();
+			c.INTERFACE(PageList.class, "parallelStream").return_(Stream.class).INVOKE();
 		});
 	
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -438,7 +438,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 			objEval.accept(c);
 			eval_param0.accept(c);
 			eval_param1.accept(c);
-			c.INTERFACE(PageList.class, "addAll").parameter(int.class).parameter(Collection.class).reTurn(boolean.class).INVOKE();
+			c.INTERFACE(PageList.class, "addAll").parameter(int.class).parameter(Collection.class).return_(boolean.class).INVOKE();
 		});
 //		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 		return false;
@@ -494,7 +494,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		byte codeIndex = context.push(PojoClassSample.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(PageList.class, "get").parameter(int.class).reTurn(Object.class).INVOKE();
+			c.INTERFACE(PageList.class, "get").parameter(int.class).return_(Object.class).INVOKE();
 			c.CHECKCAST(PojoClassSample.class);
 		});
 
@@ -517,7 +517,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 			objEval.accept(c);
 			eval_param0.accept(c);
 			eval_param1.accept(c);
-			c.INTERFACE(PageList.class, "set").parameter(int.class).parameter(Object.class).reTurn(Object.class).INVOKE();
+			c.INTERFACE(PageList.class, "set").parameter(int.class).parameter(Object.class).return_(Object.class).INVOKE();
 			c.CHECKCAST(PojoClassSample.class);
 		});
 
@@ -553,7 +553,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		byte codeIndex = context.push(PojoClassSample.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(PageList.class, "remove").parameter(int.class).reTurn(Object.class).INVOKE();
+			c.INTERFACE(PageList.class, "remove").parameter(int.class).return_(Object.class).INVOKE();
 			c.CHECKCAST(PojoClassSample.class);
 		});
 
@@ -574,7 +574,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(PageList.class, "indexOf").parameter(Object.class).reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "indexOf").parameter(Object.class).return_(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
@@ -587,7 +587,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(PageList.class, "lastIndexOf").parameter(Object.class).reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "lastIndexOf").parameter(Object.class).return_(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
@@ -598,7 +598,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(ListIterator.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(PageList.class, "listIterator").reTurn(ListIterator.class).INVOKE();
+			c.INTERFACE(PageList.class, "listIterator").return_(ListIterator.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -618,7 +618,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		byte codeIndex = context.push(ListIterator.class, c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(PageList.class, "listIterator").parameter(int.class).reTurn(ListIterator.class).INVOKE();
+			c.INTERFACE(PageList.class, "listIterator").parameter(int.class).return_(ListIterator.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -640,7 +640,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 			objEval.accept(c);
 			eval_param0.accept(c);
 			eval_param1.accept(c);
-			c.INTERFACE(PageList.class, "subList").parameter(int.class).parameter(int.class).reTurn(List.class).INVOKE();
+			c.INTERFACE(PageList.class, "subList").parameter(int.class).parameter(int.class).return_(List.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -658,7 +658,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(PageList.class, "getStart").reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "getStart").return_(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
@@ -669,7 +669,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(PageList.class, "getMax").reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "getMax").return_(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}
@@ -680,7 +680,7 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(int.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(PageList.class, "getTotalSize").reTurn(int.class).INVOKE();
+			c.INTERFACE(PageList.class, "getTotalSize").return_(int.class).INVOKE();
 		});
 		return MAGIC_CODES_NUMBER + codeIndex; // int.class);
 	}

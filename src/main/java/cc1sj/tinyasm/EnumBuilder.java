@@ -14,7 +14,7 @@ public class EnumBuilder implements Opcodes {
 	public static ClassBody build(String className, String... names) {
 		Clazz enumClazz = Clazz.of(className);
 
-		ClassBody cb = ClassBuilder.class_(className).eXtend(Clazz.of(Enum.class, className)).public_()
+		ClassBody cb = ClassBuilder.class_(className).extends_(Clazz.of(Enum.class, className)).public_()
 				.access(ACC_FINAL | ACC_SUPER | ACC_ENUM).body();
 		for (String name : names) {
 			cb.staticField(ACC_PUBLIC + ACC_FINAL + ACC_STATIC + ACC_ENUM, name, enumClazz);
@@ -49,7 +49,7 @@ public class EnumBuilder implements Opcodes {
 			}
 		});
 
-		cb.privateMethod("<init>").parameter("name", String.class).parameter("value", int.class).code(mc -> {
+		cb.private_().method("<init>").parameter("name", String.class).parameter("value", int.class).code(mc -> {
 			mc.LINE(3);
 			mc.LOAD_THIS();
 			mc.LOAD("name");

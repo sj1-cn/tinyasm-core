@@ -25,23 +25,23 @@ public class MethodASMArrayTest {
 		String clazz = MethodASMArraySample.class.getName();
 		ClassBody cw = ClassBuilder.class_(clazz).body();
 
-		cw.field("ba", byte.class, true);
+		cw.private_().field("ba", byte.class, true);
 
-		cw.field("ca", char.class, true);
+		cw.private_().field("ca", char.class, true);
 
-		cw.field("sa", short.class, true);
+		cw.private_().field("sa", short.class, true);
 
-		cw.field("ia", int.class, true);
+		cw.private_().field("ia", int.class, true);
 
-		cw.field("la", long.class, true);
+		cw.private_().field("la", long.class, true);
 
-		cw.field("fa", float.class, true);
+		cw.private_().field("fa", float.class, true);
 
-		cw.field("da", double.class, true);
+		cw.private_().field("da", double.class, true);
 
-		cw.field("stra", String.class, true);
+		cw.private_().field("stra", String.class, true);
 
-		cw.publicMethod("<init>").code(mv -> {
+		cw.public_().method("<init>").code(mv -> {
 			Label l0 = mv.codeNewLabel();
 			mv.LINE();
 			mv.visitLabel(l0);
@@ -52,7 +52,7 @@ public class MethodASMArrayTest {
 			mv.visitLabel(l1);
 		});
 //
-		cw.publicMethod("init").code(mv -> {
+		cw.public_().method("init").code(mv -> {
 			Label l0 = mv.codeNewLabel();
 			mv.visitLabel(l0);
 
@@ -126,7 +126,7 @@ public class MethodASMArrayTest {
 			mv.visitLabel(l9);
 		});
 
-		cw.publicMethod("setArrayValue").code(mv -> {
+		cw.public_().method("setArrayValue").code(mv -> {
 			Label l0 = mv.codeNewLabel();
 			mv.visitLabel(l0);
 			mv.LINE();
@@ -199,7 +199,7 @@ public class MethodASMArrayTest {
 			mv.visitLabel(l9);
 		});
 
-		cw.publicMethod("getArrayValue").code(mv -> {
+		cw.public_().method("getArrayValue").code(mv -> {
 			Label l0 = mv.codeNewLabel();
 			mv.visitLabel(l0);
 			mv.LINE();

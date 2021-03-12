@@ -29,7 +29,7 @@ public class UsingObjectWithTwoParametersSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -40,7 +40,7 @@ public class UsingObjectWithTwoParametersSampleTinyAsmDump {
 	}
 
 	protected void _test(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("test").begin();
+		MethodCode code = classBody.public_().method("test").begin();
 
 		code.LINE();
 		code.NEW(ObjectWithTwoParametersSample.class);

@@ -26,7 +26,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className, PojoInterfaceChildSample.class)
+		ClassBody classBody = ClassBuilder.class_(className, PojoInterfaceChildSample.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
@@ -69,7 +69,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -80,20 +80,20 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _getIntHelloClassChild(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getIntHelloClassChild")
+		MethodCode code = classBody.public_().method("getIntHelloClassChild")
 			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getIntHelloClassChild")
-			.reTurn(int.class).INVOKE();
+			.return_(int.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _setIntHelloClassChild(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setIntHelloClassChild")
+		MethodCode code = classBody.public_().method("setIntHelloClassChild")
 			.parameter("intHelloClassChild",int.class).begin();
 
 		code.LINE();
@@ -109,20 +109,20 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _getStringHelloClassChild(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getStringHelloClassChild")
+		MethodCode code = classBody.public_().method("getStringHelloClassChild")
 			.return_(String.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getStringHelloClassChild")
-			.reTurn(String.class).INVOKE();
+			.return_(String.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _setStringHelloClassChild(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setStringHelloClassChild")
+		MethodCode code = classBody.public_().method("setStringHelloClassChild")
 			.parameter("stringHelloClassChild",String.class).begin();
 
 		code.LINE();
@@ -138,202 +138,202 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _getName(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getName")
+		MethodCode code = classBody.public_().method("getName")
 			.return_(String.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getName")
-			.reTurn(String.class).INVOKE();
+			.return_(String.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeChar(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeChar")
+		MethodCode code = classBody.public_().method("getAgeChar")
 			.return_(char.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeChar")
-			.reTurn(char.class).INVOKE();
+			.return_(char.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeByte(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeByte")
+		MethodCode code = classBody.public_().method("getAgeByte")
 			.return_(byte.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeByte")
-			.reTurn(byte.class).INVOKE();
+			.return_(byte.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeShort(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeShort")
+		MethodCode code = classBody.public_().method("getAgeShort")
 			.return_(short.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeShort")
-			.reTurn(short.class).INVOKE();
+			.return_(short.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeInt(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeInt")
+		MethodCode code = classBody.public_().method("getAgeInt")
 			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeInt")
-			.reTurn(int.class).INVOKE();
+			.return_(int.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeLong(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeLong")
+		MethodCode code = classBody.public_().method("getAgeLong")
 			.return_(long.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeLong")
-			.reTurn(long.class).INVOKE();
+			.return_(long.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeFloat(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeFloat")
+		MethodCode code = classBody.public_().method("getAgeFloat")
 			.return_(float.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeFloat")
-			.reTurn(float.class).INVOKE();
+			.return_(float.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeDouble(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeDouble")
+		MethodCode code = classBody.public_().method("getAgeDouble")
 			.return_(double.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeDouble")
-			.reTurn(double.class).INVOKE();
+			.return_(double.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeCharacter(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeCharacter")
+		MethodCode code = classBody.public_().method("getAgeCharacter")
 			.return_(Character.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeCharacter")
-			.reTurn(Character.class).INVOKE();
+			.return_(Character.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeByte2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeByte2")
+		MethodCode code = classBody.public_().method("getAgeByte2")
 			.return_(Byte.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeByte2")
-			.reTurn(Byte.class).INVOKE();
+			.return_(Byte.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeShort2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeShort2")
+		MethodCode code = classBody.public_().method("getAgeShort2")
 			.return_(Short.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeShort2")
-			.reTurn(Short.class).INVOKE();
+			.return_(Short.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeInteger(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeInteger")
+		MethodCode code = classBody.public_().method("getAgeInteger")
 			.return_(Integer.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeInteger")
-			.reTurn(Integer.class).INVOKE();
+			.return_(Integer.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeLong2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeLong2")
+		MethodCode code = classBody.public_().method("getAgeLong2")
 			.return_(Long.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeLong2")
-			.reTurn(Long.class).INVOKE();
+			.return_(Long.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeFloat2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeFloat2")
+		MethodCode code = classBody.public_().method("getAgeFloat2")
 			.return_(Float.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeFloat2")
-			.reTurn(Float.class).INVOKE();
+			.return_(Float.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _getAgeDouble2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getAgeDouble2")
+		MethodCode code = classBody.public_().method("getAgeDouble2")
 			.return_(Double.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(PojoInterfaceChildSample.class, "getAgeDouble2")
-			.reTurn(Double.class).INVOKE();
+			.return_(Double.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
 	}
 
 	protected void _setName(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setName")
+		MethodCode code = classBody.public_().method("setName")
 			.parameter("name",String.class).begin();
 
 		code.LINE();
@@ -349,7 +349,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeChar(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeChar")
+		MethodCode code = classBody.public_().method("setAgeChar")
 			.parameter("ageChar",char.class).begin();
 
 		code.LINE();
@@ -365,7 +365,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeByte(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeByte")
+		MethodCode code = classBody.public_().method("setAgeByte")
 			.parameter("ageByte",byte.class).begin();
 
 		code.LINE();
@@ -381,7 +381,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeShort(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeShort")
+		MethodCode code = classBody.public_().method("setAgeShort")
 			.parameter("ageShort",short.class).begin();
 
 		code.LINE();
@@ -397,7 +397,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeInt(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeInt")
+		MethodCode code = classBody.public_().method("setAgeInt")
 			.parameter("ageInt",int.class).begin();
 
 		code.LINE();
@@ -413,7 +413,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeLong(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeLong")
+		MethodCode code = classBody.public_().method("setAgeLong")
 			.parameter("ageLong",long.class).begin();
 
 		code.LINE();
@@ -429,7 +429,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeFloat(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeFloat")
+		MethodCode code = classBody.public_().method("setAgeFloat")
 			.parameter("ageFloat",float.class).begin();
 
 		code.LINE();
@@ -445,7 +445,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeDouble(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeDouble")
+		MethodCode code = classBody.public_().method("setAgeDouble")
 			.parameter("ageDouble",double.class).begin();
 
 		code.LINE();
@@ -461,7 +461,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeCharacter(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeCharacter")
+		MethodCode code = classBody.public_().method("setAgeCharacter")
 			.parameter("ageCharacter",Character.class).begin();
 
 		code.LINE();
@@ -477,7 +477,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeByte2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeByte2")
+		MethodCode code = classBody.public_().method("setAgeByte2")
 			.parameter("ageByte2",Byte.class).begin();
 
 		code.LINE();
@@ -493,7 +493,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeShort2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeShort2")
+		MethodCode code = classBody.public_().method("setAgeShort2")
 			.parameter("ageShort2",Short.class).begin();
 
 		code.LINE();
@@ -509,7 +509,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeInteger(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeInteger")
+		MethodCode code = classBody.public_().method("setAgeInteger")
 			.parameter("ageInteger",Integer.class).begin();
 
 		code.LINE();
@@ -525,7 +525,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeLong2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeLong2")
+		MethodCode code = classBody.public_().method("setAgeLong2")
 			.parameter("ageLong2",Long.class).begin();
 
 		code.LINE();
@@ -541,7 +541,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeFloat2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeFloat2")
+		MethodCode code = classBody.public_().method("setAgeFloat2")
 			.parameter("agefFloat",Float.class).begin();
 
 		code.LINE();
@@ -557,7 +557,7 @@ public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 	}
 
 	protected void _setAgeDouble2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setAgeDouble2")
+		MethodCode code = classBody.public_().method("setAgeDouble2")
 			.parameter("ageDouble2",Double.class).begin();
 
 		code.LINE();

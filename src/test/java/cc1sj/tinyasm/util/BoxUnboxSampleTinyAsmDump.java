@@ -31,7 +31,7 @@ public class BoxUnboxSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -42,7 +42,7 @@ public class BoxUnboxSampleTinyAsmDump {
 	}
 
 	protected void _funcLong(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("funcLong")
+		MethodCode code = classBody.public_().method("funcLong")
 			.parameter("l",Long.class).begin();
 
 		code.LINE();
@@ -52,11 +52,11 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("ll");
 		code.VIRTUAL(Long.class, "longValue")
-			.reTurn(long.class).INVOKE();
+			.return_(long.class).INVOKE();
 		code.LOADConst(1L);
 		code.ADD();
 		code.STATIC(Long.class, "valueOf")
-			.reTurn(Long.class)
+			.return_(Long.class)
 			.parameter(long.class).INVOKE();
 		code.STORE("l");
 
@@ -67,20 +67,20 @@ public class BoxUnboxSampleTinyAsmDump {
 	}
 
 	protected void _funclong(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("funclong")
+		MethodCode code = classBody.public_().method("funclong")
 			.parameter("l",long.class).begin();
 
 		code.LINE();
 		code.LOAD("l");
 		code.STATIC(Long.class, "valueOf")
-			.reTurn(Long.class)
+			.return_(Long.class)
 			.parameter(long.class).INVOKE();
 		code.STORE("ll",Long.class);
 
 		code.LINE();
 		code.LOAD("ll");
 		code.VIRTUAL(Long.class, "longValue")
-			.reTurn(long.class).INVOKE();
+			.return_(long.class).INVOKE();
 		code.LOADConst(1L);
 		code.ADD();
 		code.STORE("l");
@@ -92,7 +92,7 @@ public class BoxUnboxSampleTinyAsmDump {
 	}
 
 	protected void _init(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("init").begin();
+		MethodCode code = classBody.public_().method("init").begin();
 
 		code.LINE();
 		code.LOADConst(Long.valueOf(10L));
@@ -101,7 +101,7 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.LINE();
 		code.LOADConst(Long.valueOf(100L));
 		code.STATIC(Long.class, "valueOf")
-			.reTurn(Long.class)
+			.return_(Long.class)
 			.parameter(long.class).INVOKE();
 		code.STORE("ll",Long.class);
 
@@ -127,7 +127,7 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.LOAD("this");
 		code.LOADConst(Long.valueOf(2L));
 		code.STATIC(Long.class, "valueOf")
-			.reTurn(Long.class)
+			.return_(Long.class)
 			.parameter(long.class).INVOKE();
 		code.VIRTUAL("funcLong")
 			.parameter(Long.class).INVOKE();

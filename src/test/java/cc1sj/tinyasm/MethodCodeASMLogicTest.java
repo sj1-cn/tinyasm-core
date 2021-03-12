@@ -23,14 +23,14 @@ public class MethodCodeASMLogicTest  {
 	public void testMath() throws Exception {
 		String clazz = MethodCodeASMLogicSample.class.getName();
 		ClassBody cw = ClassBuilder.class_(clazz).body();
-		cw.publicMethod("<init>").code(mc -> {
+		cw.public_().method("<init>").code(mc -> {
 			mc.LINE(3);
 			mc.INIT_OBJECT();
 			mc.RETURN();
 		});
 
 		// @formatter:off
-		cw.publicMethod("eq").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
+		cw.public_().method("eq").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
 			mc.LINE();
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -45,7 +45,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("ne").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
+		cw.public_().method("ne").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
 			mc.LINE();
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -60,7 +60,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("ge").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
+		cw.public_().method("ge").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
 			mc.LINE(14);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -75,7 +75,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("le").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
+		cw.public_().method("le").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
 			mc.LINE(18);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -89,7 +89,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("gt").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
+		cw.public_().method("gt").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
 			mc.LINE(22);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -103,7 +103,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("lt").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
+		cw.public_().method("lt").return_(boolean.class).parameter("x", byte.class).parameter("y", byte.class).code(mc -> {
 			mc.LINE(26);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -117,7 +117,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});		
 
-		cw.publicMethod("eq").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
+		cw.public_().method("eq").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
 			mc.LINE(30);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -131,7 +131,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("ne").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
+		cw.public_().method("ne").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
 			mc.LINE(34);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -145,7 +145,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("ge").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
+		cw.public_().method("ge").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
 			mc.LINE(38);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -159,7 +159,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("le").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
+		cw.public_().method("le").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
 			mc.LINE(42);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -173,7 +173,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("gt").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
+		cw.public_().method("gt").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
 			mc.LINE(46);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -187,7 +187,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("lt").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
+		cw.public_().method("lt").return_(boolean.class).parameter("x", char.class).parameter("y", char.class).code(mc -> {
 			mc.LINE(50);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -202,7 +202,7 @@ public class MethodCodeASMLogicTest  {
 		});	
 		
 
-		cw.publicMethod("eq").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
+		cw.public_().method("eq").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
 			mc.LINE(54);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -216,7 +216,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 		
-		cw.publicMethod("ne").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
+		cw.public_().method("ne").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
 			mc.LINE(58);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -230,7 +230,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});		
 
-		cw.publicMethod("ge").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
+		cw.public_().method("ge").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
 			mc.LINE(62);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -244,7 +244,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("le").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
+		cw.public_().method("le").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
 			mc.LINE(66);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -258,7 +258,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("gt").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
+		cw.public_().method("gt").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
 			mc.LINE(70);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -272,7 +272,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("lt").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
+		cw.public_().method("lt").return_(boolean.class).parameter("x",short.class).parameter("y",short.class).code(mc -> {
 			mc.LINE(74);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -286,7 +286,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 		
-		cw.publicMethod("eq").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
+		cw.public_().method("eq").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
 			mc.LINE(78);
 			mc.LOAD("x");mc.LOAD("y");
 			Label ifElse = mc.codeNewLabel();
@@ -299,7 +299,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("ne").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
+		cw.public_().method("ne").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
 			mc.LINE(82);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -313,7 +313,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});		
 
-		cw.publicMethod("ge").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
+		cw.public_().method("ge").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
 			mc.LINE(86);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -327,7 +327,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("le").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
+		cw.public_().method("le").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
 			mc.LINE(90);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -341,7 +341,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("gt").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
+		cw.public_().method("gt").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
 			mc.LINE(94);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -355,7 +355,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("lt").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
+		cw.public_().method("lt").return_(boolean.class).parameter("x", int.class).parameter("y", int.class).code(mc -> {
 			mc.LINE(98);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -369,7 +369,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});		
 
-		cw.publicMethod("eq").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
+		cw.public_().method("eq").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.LINE(102);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -383,7 +383,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("ne").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
+		cw.public_().method("ne").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.LINE(106);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -398,7 +398,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("ge").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
+		cw.public_().method("ge").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.LINE(110);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -413,7 +413,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("le").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
+		cw.public_().method("le").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.LINE(114);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -429,7 +429,7 @@ public class MethodCodeASMLogicTest  {
 		});
 
 
-		cw.publicMethod("gt").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
+		cw.public_().method("gt").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.LINE(118);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -444,7 +444,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("lt").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
+		cw.public_().method("lt").return_(boolean.class).parameter("x",long.class).parameter("y",long.class).code(mc -> {
 			mc.LINE(122);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -459,7 +459,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});				
 
-		cw.publicMethod("eq").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
+		cw.public_().method("eq").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
 			mc.LINE(126);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -474,7 +474,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("ne").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
+		cw.public_().method("ne").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
 			mc.LINE(130);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -490,7 +490,7 @@ public class MethodCodeASMLogicTest  {
 		});
 		
 
-		cw.publicMethod("ge").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
+		cw.public_().method("ge").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
 			mc.LINE(134);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -505,7 +505,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("le").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
+		cw.public_().method("le").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
 			mc.LINE(138);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -520,7 +520,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("gt").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
+		cw.public_().method("gt").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
 			mc.LINE(142);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -535,7 +535,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 		
-		cw.publicMethod("lt").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
+		cw.public_().method("lt").return_(boolean.class).parameter("x", float.class).parameter("y", float.class).code(mc -> {
 			mc.LINE(146);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -551,7 +551,7 @@ public class MethodCodeASMLogicTest  {
 		});		
 		
 
-		cw.publicMethod("eq").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
+		cw.public_().method("eq").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
 			mc.LINE(150);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -566,7 +566,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("ne").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
+		cw.public_().method("ne").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
 			mc.LINE(154);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -582,7 +582,7 @@ public class MethodCodeASMLogicTest  {
 		});
 		
 
-		cw.publicMethod("ge").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
+		cw.public_().method("ge").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
 			mc.LINE(158);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -597,7 +597,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("le").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
+		cw.public_().method("le").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
 			mc.LINE(162);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -613,7 +613,7 @@ public class MethodCodeASMLogicTest  {
 		});
 
 
-		cw.publicMethod("gt").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
+		cw.public_().method("gt").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
 			mc.LINE(166);
 			mc.LOAD("x");
 			mc.LOAD("y");
@@ -628,7 +628,7 @@ public class MethodCodeASMLogicTest  {
 			mc.RETURNTop();
 		});
 
-		cw.publicMethod("lt").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
+		cw.public_().method("lt").return_(boolean.class).parameter("x", double.class).parameter("y", double.class).code(mc -> {
 			mc.LINE(170);
 			mc.LOAD("x");
 			mc.LOAD("y");

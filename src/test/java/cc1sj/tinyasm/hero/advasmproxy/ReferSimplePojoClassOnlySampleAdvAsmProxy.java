@@ -37,7 +37,7 @@ public class ReferSimplePojoClassOnlySampleAdvAsmProxy extends ReferSimplePojoCl
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(SimplePojoClassSample.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(ReferSimplePojoClassOnlySample.class, "getSimplePojoClassSample").reTurn(SimplePojoClassSample.class).INVOKE();
+			c.VIRTUAL(ReferSimplePojoClassOnlySample.class, "getSimplePojoClassSample").return_(SimplePojoClassSample.class).INVOKE();
 		});
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
 		

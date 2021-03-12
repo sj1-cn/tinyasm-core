@@ -31,7 +31,7 @@ public class UsingGenericMethodInterfaceSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -42,7 +42,7 @@ public class UsingGenericMethodInterfaceSampleTinyAsmDump {
 	}
 
 	protected void _say(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("say")
+		MethodCode code = classBody.public_().method("say")
 			.return_(Clazz.of(void.class) )
 			.parameter("pp",Clazz.of(GenericMethodInterface.class,Clazz.of(PojoClassSample.class))).begin();
 
@@ -55,7 +55,7 @@ public class UsingGenericMethodInterfaceSampleTinyAsmDump {
 		code.LOAD("pp");
 		code.LOAD("iarray");
 		code.INTERFACE(GenericMethodInterface.class, "arrayToArray")
-			.reTurn(Object[].class)
+			.return_(Object[].class)
 			.parameter(Object[].class).INVOKE();
 		code.CHECKCAST(Integer[].class);
 		code.STORE("warray",Integer[].class);

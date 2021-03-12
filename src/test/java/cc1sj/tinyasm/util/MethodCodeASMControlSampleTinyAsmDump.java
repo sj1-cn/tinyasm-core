@@ -22,7 +22,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-		classBody.field(0, "b", Clazz.of(byte.class));
+		classBody.field("b", Clazz.of(byte.class));
 		__init_(classBody);
 		_addInt(classBody);
 		_addInt_float_float(classBody);
@@ -37,7 +37,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -53,7 +53,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 	}
 
 	protected void _addInt(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("addInt")
+		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
@@ -151,7 +151,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 	}
 
 	protected void _addInt_float_float(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("addInt")
+		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
@@ -249,7 +249,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 	}
 
 	protected void _addInt_double_double(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("addInt")
+		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
@@ -347,7 +347,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 	}
 
 	protected void _addInt_int_int(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("addInt")
+		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
@@ -439,7 +439,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 	}
 
 	protected void _addInt_int(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("addInt")
+		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",int.class).begin();
 
@@ -524,7 +524,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 	}
 
 	protected void _addInt_String_String(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("addInt")
+		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",String.class)
 			.parameter("y",String.class).begin();
@@ -564,7 +564,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 	}
 
 	protected void _add_instance(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("add_instance")
+		MethodCode code = classBody.public_().method("add_instance")
 			.return_(int.class )
 			.parameter("x",String.class)
 			.parameter("y",String.class).begin();
@@ -591,7 +591,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 	}
 
 	protected void _addByte(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("addByte")
+		MethodCode code = classBody.public_().method("addByte")
 			.return_(byte.class )
 			.parameter("o",Object.class).begin();
 

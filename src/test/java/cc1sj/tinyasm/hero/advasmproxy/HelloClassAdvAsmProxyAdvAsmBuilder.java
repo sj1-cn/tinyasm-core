@@ -42,14 +42,14 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	public byte[] dump(String proxyClassName) throws Exception {
 		targetType = Clazz.of(PojoClassSample.class).getType();
 		ClassHeader ch = ClassBuilder.class_(proxyClassName);
-		ch.eXtend(Clazz.of(targetType));
-		ch.implement(AdvRuntimeReferNameObject.class);
+		ch.extends_(Clazz.of(targetType));
+		ch.implements_(AdvRuntimeReferNameObject.class);
 		ch.access(ACC_PUBLIC | ACC_SUPER);
 		classBody = ch.body();
 		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, MethodHandles.class.getName(), "Lookup");
 
-		classBody.field("_magicNumber", Clazz.of(byte.class));
-		classBody.field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
+		classBody.private_().field("_magicNumber", Clazz.of(byte.class));
+		classBody.private_().field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
 		__init_(classBody);
 		_get__MagicNumber(classBody);
 		_set__MagicNumber(classBody);
@@ -65,7 +65,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -76,7 +76,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	}
 
 	protected void _get__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(byte.class, "get__MagicNumber").begin();
+		MethodCode code = classBody.public_().method("get__MagicNumber").return_(byte.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -87,7 +87,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	}
 
 	protected void _set__MagicNumber(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("set__MagicNumber").parameter("_magicNumber", byte.class).begin();
+		MethodCode code = classBody.public_().method("set__MagicNumber").parameter("_magicNumber", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -101,8 +101,9 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	}
 
 	protected void _set__Context(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("set__Context").parameter("context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)))
-				.parameter("_magicNumber", byte.class).begin();
+		MethodCode code = classBody.public_().method("set__Context")
+				.parameter("context", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class))).parameter("_magicNumber", byte.class)
+				.begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -121,7 +122,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	}
 
 	protected void _getAgeInt(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod(int.class, "getAgeInt").begin();
+		MethodCode code = classBody.public_().method("getAgeInt").return_(int.class).begin();
 
 		code_getContext(code);
 
@@ -143,9 +144,9 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 			c.LOAD("c");
 			c.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/HelloClassChild;"));
 			c.LOADConst("getAgeInt");
-			c.VIRTUAL(MethodCode.class, "VIRTUAL").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
+			c.VIRTUAL(MethodCode.class, "VIRTUAL").return_(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
 			c.GETSTATIC(Integer.class, "TYPE", Class.class);
-			c.INTERFACE(MethodCaller.class, "reTurn").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
+			c.INTERFACE(MethodCaller.class, "reTurn").return_(MethodCaller.class).parameter(Class.class).INVOKE();
 			c.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 		});
 
@@ -154,7 +155,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 
 		code.stackPush(Type.getType(ConsumerWithException.class));
 
-		code.VIRTUAL(AdvContext.class, "push").reTurn(byte.class).parameter(ConsumerWithException.class).INVOKE();
+		code.VIRTUAL(AdvContext.class, "push").return_(byte.class).parameter(ConsumerWithException.class).INVOKE();
 		code.STORE("codeIndex", int.class);
 
 		code.LINE();
@@ -182,7 +183,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 		// ParamType
 		Type[] methodParamTypes = new Type[] { Type.getType(int.class) };
 
-		MethodHeader mh = classBody.publicMethod(returnClazz, methodName);
+		MethodHeader mh = classBody.public_().method(methodName).return_(returnClazz);
 //			mh.access(access);
 		for (int i = 0; i < methodParamTypes.length; i++) {
 			mh.parameter("param" + i, Clazz.of(methodParamTypes[i]));
@@ -214,16 +215,16 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 			c.LOAD("c");
 			c.LOADConst(targetType);
 			c.LOADConst(methodName);
-			c.VIRTUAL(MethodCode.class, "VIRTUAL").reTurn(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
+			c.VIRTUAL(MethodCode.class, "VIRTUAL").return_(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
 
 			for (Type type : methodParamTypes) {
 				_type(c, Clazz.of(type));
-				c.INTERFACE(MethodCaller.class, "parameter").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
+				c.INTERFACE(MethodCaller.class, "parameter").return_(MethodCaller.class).parameter(Class.class).INVOKE();
 			}
 
 			if (returnType != Type.VOID_TYPE) {
 				_type(c, returnClazz);
-				c.INTERFACE(MethodCaller.class, "reTurn").reTurn(MethodCaller.class).parameter(Class.class).INVOKE();
+				c.INTERFACE(MethodCaller.class, "reTurn").return_(MethodCaller.class).parameter(Class.class).INVOKE();
 			}
 
 			c.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
@@ -233,7 +234,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 
 		code.stackPush(Type.getType(ConsumerWithException.class));
 
-		code.VIRTUAL(AdvContext.class, "push").reTurn(byte.class).parameter(ConsumerWithException.class).INVOKE();
+		code.VIRTUAL(AdvContext.class, "push").return_(byte.class).parameter(ConsumerWithException.class).INVOKE();
 
 		// Refer
 		if (returnType != Type.VOID_TYPE) {
@@ -300,7 +301,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 		String returnValueUnboxValueMethodName = returnValueNeedBoxing ? primativeToValueMaps.get(returnType.getType()) : null;
 		if (returnValueNeedBoxing) {
 			code.CHECKCAST(returnValueboxedClazz);
-			code.VIRTUAL(Clazz.of(returnValueboxedClazz), returnValueUnboxValueMethodName).reTurn(returnClazz).INVOKE();
+			code.VIRTUAL(Clazz.of(returnValueboxedClazz), returnValueUnboxValueMethodName).return_(returnClazz).INVOKE();
 		} else {
 			code.CHECKCAST(returnClazz);
 		}
@@ -354,7 +355,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
-		code.VIRTUAL(ThreadLocal.class, "get").reTurn(Object.class).INVOKE();
+		code.VIRTUAL(ThreadLocal.class, "get").return_(Object.class).INVOKE();
 		code.CHECKCAST(AdvContext.class);
 		code.STORE("context", AdvContext.class);
 	}
@@ -363,7 +364,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Object.class).INVOKE();
+		code.VIRTUAL(AdvContext.class, "resolve").return_(ConsumerWithException.class).parameter(Object.class).INVOKE();
 		code.STORE(thisBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
 	}
 
@@ -371,7 +372,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD(paramName);
-		code.VIRTUAL(AdvContext.class, "resolve").reTurn(ConsumerWithException.class).parameter(Clazz.of(paramClass)).INVOKE();
+		code.VIRTUAL(AdvContext.class, "resolve").return_(ConsumerWithException.class).parameter(Clazz.of(paramClass)).INVOKE();
 		code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
 	}
 
@@ -403,7 +404,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 
 		public void exec(ClassBody classBody) {
 
-			MethodHeader methodHeader = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, name).tHrow(Exception.class);
+			MethodHeader methodHeader = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, name).throws_(Exception.class);
 			for (int i = 0; i < params; i++) {
 				methodHeader.parameter("var" + i, ConsumerWithException.class);
 			}

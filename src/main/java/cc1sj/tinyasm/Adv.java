@@ -930,6 +930,7 @@ public class Adv {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T, R> T __(Class<?> targetClass, Class<?> typeArgument, String varname, R magicNumber) {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> expr = context.resolve(magicNumber);

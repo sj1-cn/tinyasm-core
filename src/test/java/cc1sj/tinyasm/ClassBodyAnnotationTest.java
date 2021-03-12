@@ -40,7 +40,7 @@ public class ClassBodyAnnotationTest {
 		cw.constructerEmpty();
 
 //		Opcodes.NULL
-		cw.privateMethod(String.class, "annotationMethod").annotation(TestAnnotation.class).code(mv -> {
+		cw.private_().method("annotationMethod").return_(String.class).annotation(TestAnnotation.class).code(mv -> {
 			mv.LINE();
 
 			mv.LOADConstNULL();
@@ -49,7 +49,7 @@ public class ClassBodyAnnotationTest {
 			mv.visitLabel(l1);
 		});
 
-		cw.privateMethod(String.class, "annotationWithDefaultValue").annotation(TestAnnotation.class, "value").code(mv -> {
+		cw.private_().method("annotationWithDefaultValue").return_(String.class).annotation(TestAnnotation.class, "value").code(mv -> {
 			mv.LINE();
 
 			mv.LOADConstNULL();
@@ -58,7 +58,7 @@ public class ClassBodyAnnotationTest {
 			mv.visitLabel(l1);
 		});
 
-		cw.privateMethod(String.class, "annotationWithDefaultValueAndNamedValue")
+		cw.private_().method("annotationWithDefaultValueAndNamedValue").return_(String.class)
 				.annotation(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }).code(mv -> {
 					mv.LINE();
 
@@ -68,7 +68,7 @@ public class ClassBodyAnnotationTest {
 					mv.visitLabel(l1);
 				});
 
-		cw.privateMethod(String.class, "annotationWithDefaultValueAndNamedValue2")
+		cw.private_().method("annotationWithDefaultValueAndNamedValue2").return_(String.class)
 				.annotation(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }).code(mv -> {
 					mv.LINE();
 
@@ -78,7 +78,7 @@ public class ClassBodyAnnotationTest {
 					mv.visitLabel(l1);
 				});
 
-		cw.publicMethod("publicMethod").parameter(Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class))
+		cw.public_().method("publicMethod").parameter(Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class))
 				.parameter(Annotation.of(TestAnnotation.class, "value"), "annotationWithDefaultValue", Clazz.of(String.class))
 				.parameter(Annotation.of(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
 						"annotationWithDefaultValueAndNamedValue", Clazz.of(String.class))

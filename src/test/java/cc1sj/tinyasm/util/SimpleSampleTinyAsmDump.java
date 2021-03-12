@@ -21,7 +21,7 @@ public class SimpleSampleTinyAsmDump {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-		classBody.field("i", Clazz.of(int.class));
+		classBody.private_().field("i", Clazz.of(int.class));
 		__init_(classBody);
 		_dd(classBody);
 		_methodWith1Param(classBody);
@@ -30,7 +30,7 @@ public class SimpleSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -48,7 +48,7 @@ public class SimpleSampleTinyAsmDump {
 	}
 
 	protected void _dd(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("dd").begin();
+		MethodCode code = classBody.public_().method("dd").begin();
 
 		code.LINE();
 		code.LOADConst(1);
@@ -77,7 +77,7 @@ public class SimpleSampleTinyAsmDump {
 	}
 
 	protected void _methodWith1Param(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("methodWith1Param")
+		MethodCode code = classBody.public_().method("methodWith1Param")
 			.parameter("i",int.class).begin();
 
 		code.LINE();

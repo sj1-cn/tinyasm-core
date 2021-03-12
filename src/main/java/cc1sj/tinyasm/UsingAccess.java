@@ -7,7 +7,7 @@ import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
-public interface WithAccess<T> {
+public interface UsingAccess<T> {
 
 	T access(int access);
 

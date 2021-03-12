@@ -9,6 +9,7 @@ import org.objectweb.asm.Opcodes;
 
 import cc1sj.tinyasm.sample.ClassHeader.InnerClassSample;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
+import static org.objectweb.asm.Opcodes.*;
 
 public class ClassHeaderInnerClassTest {
 
@@ -29,7 +30,7 @@ public class ClassHeaderInnerClassTest {
 
 		cw.referInnerClass("Test");
 
-		cw.field("outer", int.class);
+		cw.private_().field("outer", int.class);
 		cw.constructerEmpty();
 
 		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
@@ -40,11 +41,11 @@ public class ClassHeaderInnerClassTest {
 
 	@Test
 	public void testMathInner() throws Exception {
-		ClassBody cw = ClassBuilder.class_(clazz + "$Test").body();
+		ClassBody cw = ClassBuilder.class_(clazz + "$Test").access(ACC_SUPER).body();
 
 		cw.referInnerClass("Test");
 
-		cw.field("inner", Clazz.of(int.class));
+		cw.private_().field("inner", Clazz.of(int.class));
 		cw.field(Opcodes.ACC_FINAL | Opcodes.ACC_SYNTHETIC, "this$0", Clazz.of(clazz));
 
 		cw.method(0, "<init>").parameter(Opcodes.ACC_FINAL | Opcodes.ACC_MANDATED, "this$0", Clazz.of(clazz)).code(mv -> {

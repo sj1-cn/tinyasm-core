@@ -37,7 +37,7 @@ public class ArraySampleAdvAsmProxy extends ArraySample implements AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(byte[].class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(ArraySample.class, "getByteArray").reTurn(byte[].class).INVOKE();
+			c.VIRTUAL(ArraySample.class, "getByteArray").return_(byte[].class).INVOKE();
 		});
 
 		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
@@ -53,7 +53,7 @@ public class ArraySampleAdvAsmProxy extends ArraySample implements AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(short[].class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(ArraySample.class, "getShortArray").reTurn(short[].class).INVOKE();
+			c.VIRTUAL(ArraySample.class, "getShortArray").return_(short[].class).INVOKE();
 		});
 
 		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
@@ -69,7 +69,7 @@ public class ArraySampleAdvAsmProxy extends ArraySample implements AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(int[].class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(ArraySample.class, "getIntArray").reTurn(int[].class).INVOKE();
+			c.VIRTUAL(ArraySample.class, "getIntArray").return_(int[].class).INVOKE();
 		});
 
 		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
@@ -85,7 +85,7 @@ public class ArraySampleAdvAsmProxy extends ArraySample implements AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(Short[].class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(ArraySample.class, "getShort2Array").reTurn(Short[].class).INVOKE();
+			c.VIRTUAL(ArraySample.class, "getShort2Array").return_(Short[].class).INVOKE();
 		});
 
 		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
@@ -101,7 +101,7 @@ public class ArraySampleAdvAsmProxy extends ArraySample implements AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(String[].class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(ArraySample.class, "getStringArray").reTurn(String[].class).INVOKE();
+			c.VIRTUAL(ArraySample.class, "getStringArray").return_(String[].class).INVOKE();
 		});
 
 		String magicNumber = new StringBuilder(MAGIC_CODES_String).append(codeIndex).toString(); // String.class);
@@ -118,7 +118,7 @@ public class ArraySampleAdvAsmProxy extends ArraySample implements AdvRuntimeRef
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(SimplePojoClassSample[].class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(ArraySample.class, "getSimplePojoClassSampleArray").reTurn(SimplePojoClassSample[].class).INVOKE();
+			c.VIRTUAL(ArraySample.class, "getSimplePojoClassSampleArray").return_(SimplePojoClassSample[].class).INVOKE();
 		});
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
 		SimplePojoClassSample simplePojoClassSample = null;

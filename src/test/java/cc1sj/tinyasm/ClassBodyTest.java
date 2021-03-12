@@ -43,14 +43,14 @@ public class ClassBodyTest {
 	public void testConstructerWithAllFields() throws IOException {
 		String clazz = ConstructerWithAllFields.class.getName();
 		ClassBody cw = ClassBuilder.class_(clazz).body();
-		cw.field("b", byte.class);
-		cw.field("c", char.class);
-		cw.field("s", short.class);
-		cw.field("i", int.class);
-		cw.field("l", long.class);
-		cw.field("f", float.class);
-		cw.field("d", double.class);
-		cw.field("str", String.class);
+		cw.private_().field("b", byte.class);
+		cw.private_().field("c", char.class);
+		cw.private_().field("s", short.class);
+		cw.private_().field("i", int.class);
+		cw.private_().field("l", long.class);
+		cw.private_().field("f", float.class);
+		cw.private_().field("d", double.class);
+		cw.private_().field("str", String.class);
 
 		cw.constructerWithAllFields();
 		cw.makeAllPropertyGet();
@@ -65,14 +65,14 @@ public class ClassBodyTest {
 		String clazz = MakeIntPropertyGetSet.class.getName();
 		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.constructerEmpty();
-		cw.field("b", byte.class);
-		cw.field("c", char.class);
-		cw.field("s", short.class);
-		cw.field("i", int.class);
-		cw.field("l", long.class);
-		cw.field("f", float.class);
-		cw.field("d", double.class);
-		cw.field("str", String.class);
+		cw.private_().field("b", byte.class);
+		cw.private_().field("c", char.class);
+		cw.private_().field("s", short.class);
+		cw.private_().field("i", int.class);
+		cw.private_().field("l", long.class);
+		cw.private_().field("f", float.class);
+		cw.private_().field("d", double.class);
+		cw.private_().field("str", String.class);
 
 		assertEquals("Class", byte.class.getName(), cw.clazzOfField("b").getType().getClassName());
 		assertEquals("Class", char.class.getName(), cw.clazzOfField("c").getType().getClassName());
@@ -90,13 +90,13 @@ public class ClassBodyTest {
 		String clazz = MakeIntPropertyGetSet.class.getName();
 		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.constructerEmpty();
-		cw.field("name", int.class);
-		cw.field("nameWithAnnotationClazz", int.class);
-		cw.field("nameWithAnnotationString", int.class);
-		cw.field("nameWithAnnotationClazzValue", int.class);
-		cw.field("nameWithAnnotationStringValue", int.class);
-		cw.field("nameWithAnnotationClazzNameValue", int.class);
-		cw.field("nameWithAnnotationStringNameValue", int.class);
+		cw.private_().field("name", int.class);
+		cw.private_().field("nameWithAnnotationClazz", int.class);
+		cw.private_().field("nameWithAnnotationString", int.class);
+		cw.private_().field("nameWithAnnotationClazzValue", int.class);
+		cw.private_().field("nameWithAnnotationStringValue", int.class);
+		cw.private_().field("nameWithAnnotationClazzNameValue", int.class);
+		cw.private_().field("nameWithAnnotationStringNameValue", int.class);
 
 		cw.makePropertyGet("name");
 		cw.makePropertySet("name");
@@ -135,13 +135,13 @@ public class ClassBodyTest {
 		String clazz = MakeStringPropertyGetSet.class.getName();
 		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.constructerEmpty();
-		cw.field("name", String.class);
-		cw.field("nameWithAnnotationClazz", String.class);
-		cw.field("nameWithAnnotationString", String.class);
-		cw.field("nameWithAnnotationClazzValue", String.class);
-		cw.field("nameWithAnnotationStringValue", String.class);
-		cw.field("nameWithAnnotationClazzNameValue", String.class);
-		cw.field("nameWithAnnotationStringNameValue", String.class);
+		cw.private_().field("name", String.class);
+		cw.private_().field("nameWithAnnotationClazz", String.class);
+		cw.private_().field("nameWithAnnotationString", String.class);
+		cw.private_().field("nameWithAnnotationClazzValue", String.class);
+		cw.private_().field("nameWithAnnotationStringValue", String.class);
+		cw.private_().field("nameWithAnnotationClazzNameValue", String.class);
+		cw.private_().field("nameWithAnnotationStringNameValue", String.class);
 
 		cw.makePropertyGet("name");
 		cw.makePropertySet("name");
@@ -180,14 +180,14 @@ public class ClassBodyTest {
 		String clazz = MakeAllPropertyGetSet.class.getName();
 		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.constructerEmpty();
-		cw.field("b", byte.class);
-		cw.field("c", char.class);
-		cw.field("s", short.class);
-		cw.field("i", int.class);
-		cw.field("l", long.class);
-		cw.field("f", float.class);
-		cw.field("d", double.class);
-		cw.field("str", String.class);
+		cw.private_().field("b", byte.class);
+		cw.private_().field("c", char.class);
+		cw.private_().field("s", short.class);
+		cw.private_().field("i", int.class);
+		cw.private_().field("l", long.class);
+		cw.private_().field("f", float.class);
+		cw.private_().field("d", double.class);
+		cw.private_().field("str", String.class);
 
 		cw.makeAllPropertyGet();
 		cw.makeAllPropertySet();
@@ -201,14 +201,14 @@ public class ClassBodyTest {
 	public void testMakePojo() throws IOException {
 		String clazz = MakePojo.class.getName();
 		ClassBody cw = ClassBuilder.class_(clazz).annotation(TestAnnotation.class).body();
-		cw.field("b", byte.class);
-		cw.field("c", char.class);
-		cw.field("s", short.class);
-		cw.field("i", int.class);
-		cw.field("l", long.class);
-		cw.field("f", float.class);
-		cw.field("d", double.class);
-		cw.field("str", String.class);
+		cw.private_().field("b", byte.class);
+		cw.private_().field("c", char.class);
+		cw.private_().field("s", short.class);
+		cw.private_().field("i", int.class);
+		cw.private_().field("l", long.class);
+		cw.private_().field("f", float.class);
+		cw.private_().field("d", double.class);
+		cw.private_().field("str", String.class);
 
 		cw.makePojo();
 
@@ -221,14 +221,14 @@ public class ClassBodyTest {
 	public void testMakeReadonlyPojo() throws IOException {
 		String clazz = MakeReadOnlyPojo.class.getName();
 		ClassBody cw = ClassBuilder.class_(clazz).body();
-		cw.field("b", byte.class);
-		cw.field("c", char.class);
-		cw.field("s", short.class);
-		cw.field("i", int.class);
-		cw.field("l", long.class);
-		cw.field("f", float.class);
-		cw.field("d", double.class);
-		cw.field("str", String.class);
+		cw.private_().field("b", byte.class);
+		cw.private_().field("c", char.class);
+		cw.private_().field("s", short.class);
+		cw.private_().field("i", int.class);
+		cw.private_().field("l", long.class);
+		cw.private_().field("f", float.class);
+		cw.private_().field("d", double.class);
+		cw.private_().field("str", String.class);
 
 		cw.makeReadonlyPojo();
 

@@ -27,9 +27,9 @@ public class MethodCodeMethodCallerTest {
 	public void testMath() throws Exception {
 		ClassBody cw = ClassBuilder.class_(clazz).body();
 
-		cw.field("i", int.class);
+		cw.private_().field("i", int.class);
 
-		cw.publicMethod(/* V */ "<init>" /**/).code(mv -> {
+		cw.public_().method(/* V */ "<init>" /**/).code(mv -> {
 			mv.LINE();
 			mv.LOAD(0);
 			mv.SPECIAL(Object.class, "<init>").INVOKE();
@@ -59,12 +59,12 @@ public class MethodCodeMethodCallerTest {
 			mv.STORE("i");
 			mv.LINE();
 			mv.LOADConst(Long.valueOf(10L));
-			mv.STATIC(Long.class, "valueOf").parameter(long.class).reTurn(Long.class).INVOKE();
+			mv.STATIC(Long.class, "valueOf").parameter(long.class).return_(Long.class).INVOKE();
 			mv.STORE("l");
 
 			mv.LINE();
 			mv.LOAD(1);
-			mv.STATIC(String.class, "valueOf").parameter(int.class).reTurn(String.class).INVOKE();
+			mv.STATIC(String.class, "valueOf").parameter(int.class).return_(String.class).INVOKE();
 			mv.STORE("s");
 
 			mv.LINE();
@@ -72,12 +72,12 @@ public class MethodCodeMethodCallerTest {
 			mv.DUP();
 			mv.SPECIAL(StringBuilder.class, "<init>").INVOKE();
 			mv.LOAD("s");
-			mv.VIRTUAL(StringBuilder.class, "append").parameter(String.class).reTurn(StringBuilder.class).INVOKE();
+			mv.VIRTUAL(StringBuilder.class, "append").parameter(String.class).return_(StringBuilder.class).INVOKE();
 			mv.LOAD("i");
-			mv.VIRTUAL(StringBuilder.class, "append").parameter(int.class).reTurn(StringBuilder.class).INVOKE();
+			mv.VIRTUAL(StringBuilder.class, "append").parameter(int.class).return_(StringBuilder.class).INVOKE();
 			mv.LOAD("l");
-			mv.VIRTUAL(StringBuilder.class, "append").parameter(Object.class).reTurn(StringBuilder.class).INVOKE();
-			mv.VIRTUAL(StringBuilder.class, "toString").reTurn(String.class).INVOKE();
+			mv.VIRTUAL(StringBuilder.class, "append").parameter(Object.class).return_(StringBuilder.class).INVOKE();
+			mv.VIRTUAL(StringBuilder.class, "toString").return_(String.class).INVOKE();
 			mv.STORE("s");
 
 			mv.LINE();
@@ -89,13 +89,13 @@ public class MethodCodeMethodCallerTest {
 			mv.LINE();
 			mv.LOAD("ls");
 			mv.LOADConst("first");
-			mv.INTERFACE("java/util/List", "add").parameter(Object.class).reTurn(boolean.class).INVOKE();
+			mv.INTERFACE("java/util/List", "add").parameter(Object.class).return_(boolean.class).INVOKE();
 			mv.POP();
 
 			mv.LINE();
 			mv.LOAD("ls");
 			mv.LOADConst("second");
-			mv.INTERFACE("java/util/List", "add").parameter(Object.class).reTurn(boolean.class).INVOKE();
+			mv.INTERFACE("java/util/List", "add").parameter(Object.class).return_(boolean.class).INVOKE();
 			mv.POP();
 
 			mv.LINE();

@@ -23,11 +23,11 @@ public class PojoSampleTinyAsmDump {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-		classBody.field("i1", Clazz.of(int.class));
-		classBody.field("i2", Clazz.of(int.class));
-		classBody.field("i3", Clazz.of(int.class));
-		classBody.field("i4", Clazz.of(int.class));
-		classBody.field("str", Clazz.of(String.class));
+		classBody.private_().field("i1", Clazz.of(int.class));
+		classBody.private_().field("i2", Clazz.of(int.class));
+		classBody.private_().field("i3", Clazz.of(int.class));
+		classBody.private_().field("i4", Clazz.of(int.class));
+		classBody.private_().field("str", Clazz.of(String.class));
 		__init_(classBody);
 		_getI1(classBody);
 		_setI1(classBody);
@@ -45,7 +45,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>")
+		MethodCode code = classBody.public_().method("<init>")
 			.parameter("i1",int.class)
 			.parameter("i2",int.class)
 			.parameter("i3",int.class)
@@ -88,7 +88,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI1(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getI1")
+		MethodCode code = classBody.public_().method("getI1")
 			.return_(int.class ).begin();
 
 		code.LINE();
@@ -100,7 +100,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _setI1(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setI1")
+		MethodCode code = classBody.public_().method("setI1")
 			.parameter("i1",int.class).begin();
 
 		code.LINE();
@@ -115,7 +115,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getI2")
+		MethodCode code = classBody.public_().method("getI2")
 			.return_(int.class ).begin();
 
 		code.LINE();
@@ -127,7 +127,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _setI2(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setI2")
+		MethodCode code = classBody.public_().method("setI2")
 			.parameter("i2",int.class).begin();
 
 		code.LINE();
@@ -142,7 +142,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI3(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getI3")
+		MethodCode code = classBody.public_().method("getI3")
 			.return_(int.class ).begin();
 
 		code.LINE();
@@ -154,7 +154,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _setI3(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setI3")
+		MethodCode code = classBody.public_().method("setI3")
 			.parameter("i3",int.class).begin();
 
 		code.LINE();
@@ -169,7 +169,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getI4(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getI4")
+		MethodCode code = classBody.public_().method("getI4")
 			.return_(int.class ).begin();
 
 		code.LINE();
@@ -181,7 +181,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _setI4(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setI4")
+		MethodCode code = classBody.public_().method("setI4")
 			.parameter("i4",int.class).begin();
 
 		code.LINE();
@@ -196,7 +196,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _getStr(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getStr")
+		MethodCode code = classBody.public_().method("getStr")
 			.return_(String.class ).begin();
 
 		code.LINE();
@@ -208,7 +208,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _setStr(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setStr")
+		MethodCode code = classBody.public_().method("setStr")
 			.parameter("str",String.class).begin();
 
 		code.LINE();
@@ -223,7 +223,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	protected void _toString(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("toString")
+		MethodCode code = classBody.public_().method("toString")
 			.return_(String.class ).begin();
 
 		code.LINE();
@@ -236,69 +236,69 @@ public class PojoSampleTinyAsmDump {
 		code.LOAD("builder");
 		code.LOADConst("Pojo [i1=");
 		code.VIRTUAL(StringBuilder.class, "append")
-			.reTurn(StringBuilder.class)
+			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
 		code.GETFIELD_OF_THIS("i1");
 		code.VIRTUAL(StringBuilder.class, "append")
-			.reTurn(StringBuilder.class)
+			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
 		code.LOADConst(", i2=");
 
 		code.LINE();
 		code.VIRTUAL(StringBuilder.class, "append")
-			.reTurn(StringBuilder.class)
+			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
 		code.GETFIELD_OF_THIS("i2");
 		code.VIRTUAL(StringBuilder.class, "append")
-			.reTurn(StringBuilder.class)
+			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
 		code.LOADConst(", i3=");
 
 		code.LINE();
 		code.VIRTUAL(StringBuilder.class, "append")
-			.reTurn(StringBuilder.class)
+			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
 		code.GETFIELD_OF_THIS("i3");
 		code.VIRTUAL(StringBuilder.class, "append")
-			.reTurn(StringBuilder.class)
+			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
 		code.LOADConst(", i4=");
 
 		code.LINE();
 		code.VIRTUAL(StringBuilder.class, "append")
-			.reTurn(StringBuilder.class)
+			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
 		code.GETFIELD_OF_THIS("i4");
 		code.VIRTUAL(StringBuilder.class, "append")
-			.reTurn(StringBuilder.class)
+			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
 		code.LOADConst(", str=");
 
 		code.LINE();
 		code.VIRTUAL(StringBuilder.class, "append")
-			.reTurn(StringBuilder.class)
+			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
 		code.GETFIELD_OF_THIS("str");
 		code.VIRTUAL(StringBuilder.class, "append")
-			.reTurn(StringBuilder.class)
+			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOADConst("]");
 
 		code.LINE();
 		code.VIRTUAL(StringBuilder.class, "append")
-			.reTurn(StringBuilder.class)
+			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("builder");
 		code.VIRTUAL(StringBuilder.class, "toString")
-			.reTurn(String.class).INVOKE();
+			.return_(String.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();

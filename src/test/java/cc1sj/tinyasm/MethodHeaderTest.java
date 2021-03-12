@@ -33,7 +33,7 @@ public class MethodHeaderTest  {
 
 		cw.constructerEmpty();
 
-		cw.publicMethod("throwException").tHrow(IOException.class).code(mv -> {
+		cw.public_().method("throwException").throws_(IOException.class).code(mv -> {
 			mv.define("file", File.class);
 			mv.define("fileInputStream", FileInputStream.class);
 
@@ -46,7 +46,7 @@ public class MethodHeaderTest  {
 
 			mv.LINE();
 			mv.LOAD("file");
-			mv.VIRTUAL("java/io/File", "exists").reTurn(boolean.class).INVOKE();
+			mv.VIRTUAL("java/io/File", "exists").return_(boolean.class).INVOKE();
 			Label l2 = mv.codeNewLabel();
 			mv.IFEQ(l2);
 
@@ -59,7 +59,7 @@ public class MethodHeaderTest  {
 
 			mv.LINE();
 			mv.LOAD("fileInputStream");
-			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
+			mv.VIRTUAL("java/io/FileInputStream", "read").return_(int.class).INVOKE();
 			mv.POP();
 
 			mv.LINE();
@@ -82,7 +82,7 @@ public class MethodHeaderTest  {
 
 		cw.constructerEmpty();
 
-		MethodCode mv = cw.publicMethod("throwException").tHrow(IOException.class).begin();
+		MethodCode mv = cw.public_().method("throwException").throws_(IOException.class).begin();
 		mv.define("file", File.class);
 		mv.define("fileInputStream", FileInputStream.class);
 
@@ -95,7 +95,7 @@ public class MethodHeaderTest  {
 
 		mv.LINE();
 		mv.LOAD("file");
-		mv.VIRTUAL("java/io/File", "exists").reTurn(boolean.class).INVOKE();
+		mv.VIRTUAL("java/io/File", "exists").return_(boolean.class).INVOKE();
 		Label l2 = mv.codeNewLabel();
 		mv.IFEQ(l2);
 
@@ -109,7 +109,7 @@ public class MethodHeaderTest  {
 		mv.BLOCK(mb -> {
 			mv.LINE();
 			mv.LOAD("fileInputStream");
-			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
+			mv.VIRTUAL("java/io/FileInputStream", "read").return_(int.class).INVOKE();
 			mv.POP();
 		});
 
@@ -133,7 +133,7 @@ public class MethodHeaderTest  {
 
 		cw.constructerEmpty();
 
-		cw.publicMethod("throwException").tHrow(IOException.class.getName()).code(mv -> {
+		cw.public_().method("throwException").throws_(IOException.class.getName()).code(mv -> {
 			mv.define("file", File.class);
 			mv.define("fileInputStream", FileInputStream.class);
 
@@ -146,7 +146,7 @@ public class MethodHeaderTest  {
 
 			mv.LINE();
 			mv.LOAD("file");
-			mv.VIRTUAL("java/io/File", "exists").reTurn(boolean.class).INVOKE();
+			mv.VIRTUAL("java/io/File", "exists").return_(boolean.class).INVOKE();
 			Label l2 = mv.codeNewLabel();
 			mv.IFEQ(l2);
 
@@ -159,7 +159,7 @@ public class MethodHeaderTest  {
 
 			mv.LINE();
 			mv.LOAD("fileInputStream");
-			mv.VIRTUAL("java/io/FileInputStream", "read").reTurn(int.class).INVOKE();
+			mv.VIRTUAL("java/io/FileInputStream", "read").return_(int.class).INVOKE();
 			mv.POP();
 
 			mv.LINE();

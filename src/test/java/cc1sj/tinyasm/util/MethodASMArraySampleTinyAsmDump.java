@@ -22,14 +22,14 @@ public class MethodASMArraySampleTinyAsmDump {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-		classBody.field("ba", Clazz.of(byte[].class));
-		classBody.field("ca", Clazz.of(char[].class));
-		classBody.field("sa", Clazz.of(short[].class));
-		classBody.field("ia", Clazz.of(int[].class));
-		classBody.field("la", Clazz.of(long[].class));
-		classBody.field("fa", Clazz.of(float[].class));
-		classBody.field("da", Clazz.of(double[].class));
-		classBody.field("stra", Clazz.of(String[].class));
+		classBody.private_().field("ba", Clazz.of(byte[].class));
+		classBody.private_().field("ca", Clazz.of(char[].class));
+		classBody.private_().field("sa", Clazz.of(short[].class));
+		classBody.private_().field("ia", Clazz.of(int[].class));
+		classBody.private_().field("la", Clazz.of(long[].class));
+		classBody.private_().field("fa", Clazz.of(float[].class));
+		classBody.private_().field("da", Clazz.of(double[].class));
+		classBody.private_().field("stra", Clazz.of(String[].class));
 		__init_(classBody);
 		_init(classBody);
 		_setArrayValue(classBody);
@@ -39,7 +39,7 @@ public class MethodASMArraySampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -50,7 +50,7 @@ public class MethodASMArraySampleTinyAsmDump {
 	}
 
 	protected void _init(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("init").begin();
+		MethodCode code = classBody.public_().method("init").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -107,7 +107,7 @@ public class MethodASMArraySampleTinyAsmDump {
 	}
 
 	protected void _setArrayValue(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setArrayValue").begin();
+		MethodCode code = classBody.public_().method("setArrayValue").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -172,7 +172,7 @@ public class MethodASMArraySampleTinyAsmDump {
 	}
 
 	protected void _getArrayValue(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getArrayValue").begin();
+		MethodCode code = classBody.public_().method("getArrayValue").begin();
 
 		code.LINE();
 		code.LOAD("this");

@@ -21,7 +21,7 @@ public class GenericInterfaceImplSampleTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className, Clazz.of(Object.class),Clazz.of(GenericInterface.class,Clazz.of(PojoClassSample.class)))
+		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(Object.class),Clazz.of(GenericInterface.class,Clazz.of(PojoClassSample.class)))
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
@@ -36,7 +36,7 @@ public class GenericInterfaceImplSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -47,7 +47,7 @@ public class GenericInterfaceImplSampleTinyAsmDump {
 	}
 
 	protected void _getT(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getT")
+		MethodCode code = classBody.public_().method("getT")
 			.return_(PojoClassSample.class ).begin();
 
 		code.LINE();
@@ -58,7 +58,7 @@ public class GenericInterfaceImplSampleTinyAsmDump {
 	}
 
 	protected void _getPojoClassChildSample(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("getPojoClassChildSample")
+		MethodCode code = classBody.public_().method("getPojoClassChildSample")
 			.return_(PojoClassChildSample.class ).begin();
 
 		code.LINE();
@@ -69,7 +69,7 @@ public class GenericInterfaceImplSampleTinyAsmDump {
 	}
 
 	protected void _setT(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setT")
+		MethodCode code = classBody.public_().method("setT")
 			.parameter("t",PojoClassSample.class).begin();
 
 		code.LINE();
@@ -79,7 +79,7 @@ public class GenericInterfaceImplSampleTinyAsmDump {
 	}
 
 	protected void _setPojoClassChildSample(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("setPojoClassChildSample")
+		MethodCode code = classBody.public_().method("setPojoClassChildSample")
 			.parameter("classSample",PojoClassChildSample.class).begin();
 
 		code.LINE();
@@ -110,7 +110,7 @@ public class GenericInterfaceImplSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.VIRTUAL("getT")
-			.reTurn(PojoClassSample.class).INVOKE();
+			.return_(PojoClassSample.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();

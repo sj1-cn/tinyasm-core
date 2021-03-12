@@ -7,7 +7,7 @@ public interface AdvUsingModifier {
 	AdvAfterModifier protected_();
 
 	AdvAfterModifier private_();
-	
+
 	AdvAfterModifier package_();
 
 }

@@ -88,7 +88,7 @@ public class ClassBodyStaticFieldTest {
 					mv.visitLabel(l1);
 				});
 
-		cw.publicMethod("method").static_().parameter(Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class))
+		cw.public_().method("method").static_().parameter(Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class))
 				.parameter(Annotation.of(TestAnnotation.class, "value"), "annotationWithDefaultValue", Clazz.of(String.class))
 				.parameter(Annotation.of(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
 						"annotationWithDefaultValueAndNamedValue", Clazz.of(String.class))

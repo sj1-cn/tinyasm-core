@@ -28,25 +28,25 @@ public class MakeInstanceMethodTest {
 
 		cw.constructerEmpty();
 
-		cw.method(0, String.class, "method").code(mv -> {
+		cw.method(0, "method").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.publicMethod(String.class, "publicMethod").code(mv -> {
+		cw.public_().method("publicMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.privateMethod(String.class, "privateMethod").code(mv -> {
+		cw.private_().method("privateMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.protectdMethod(String.class, "protectedMethod").code(mv -> {
+		cw.protected_().method("protectedMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -57,24 +57,24 @@ public class MakeInstanceMethodTest {
 			mv.RETURN();
 		});
 
-		cw.publicMethod("publicMethodVoid").code(mv -> {
+		cw.public_().method("publicMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
-		cw.privateMethod("privateMethodVoid").code(mv -> {
+		cw.private_().method("privateMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
-		cw.protectdMethod("protectedMethodVoid").code(mv -> {
+		cw.protected_().method("protectedMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -85,24 +85,24 @@ public class MakeInstanceMethodTest {
 
 		cw.constructerEmpty();
 
-		cw.method(0, String.class, "method").code(mv -> {
+		cw.method("method").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
-		cw.publicMethod(String.class.getName(), "publicMethod").code(mv -> {
-			mv.LINE();
-			mv.LOADConst("here");
-			mv.RETURNTop();
-		});
-
-		cw.privateMethod(String.class.getName(), "privateMethod").code(mv -> {
+		cw.public_().method("publicMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.protectdMethod(String.class.getName(), "protectedMethod").code(mv -> {
+		cw.private_().method("privateMethod").return_(String.class).code(mv -> {
+			mv.LINE();
+			mv.LOADConst("here");
+			mv.RETURNTop();
+		});
+
+		cw.protected_().method("protectedMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -112,24 +112,24 @@ public class MakeInstanceMethodTest {
 			mv.LINE();
 			mv.RETURN();
 		});
-		cw.publicMethod("publicMethodVoid").code(mv -> {
+		cw.public_().method("publicMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
-		cw.privateMethod("privateMethodVoid").code(mv -> {
+		cw.private_().method("privateMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
-		cw.protectdMethod("protectedMethodVoid").code(mv -> {
+		cw.protected_().method("protectedMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -146,19 +146,19 @@ public class MakeInstanceMethodTest {
 			mv.RETURNTop();
 		});
 
-		cw.publicMethod("publicMethod").return_(String.class).code(mv -> {
+		cw.public_().method("publicMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.privateMethod("privateMethod").return_(String.class).code(mv -> {
+		cw.private_().method("privateMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.protectdMethod("protectedMethod").return_(String.class).code(mv -> {
+		cw.protected_().method("protectedMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -168,24 +168,24 @@ public class MakeInstanceMethodTest {
 			mv.LINE();
 			mv.RETURN();
 		});
-		cw.publicMethod("publicMethodVoid").code(mv -> {
+		cw.public_().method("publicMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
-		cw.privateMethod("privateMethodVoid").code(mv -> {
+		cw.private_().method("privateMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
-		cw.protectdMethod("protectedMethodVoid").code(mv -> {
+		cw.protected_().method("protectedMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -202,19 +202,19 @@ public class MakeInstanceMethodTest {
 			mv.RETURNTop();
 		});
 
-		cw.publicMethod("publicMethod").return_(String.class.getName()).code(mv -> {
+		cw.public_().method("publicMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.privateMethod("privateMethod").return_(String.class.getName()).code(mv -> {
+		cw.private_().method("privateMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.protectdMethod("protectedMethod").return_(String.class.getName()).code(mv -> {
+		cw.protected_().method("protectedMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -225,24 +225,24 @@ public class MakeInstanceMethodTest {
 			mv.RETURN();
 		});
 
-		cw.publicMethod("publicMethodVoid").code(mv -> {
+		cw.public_().method("publicMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
-		cw.privateMethod("privateMethodVoid").code(mv -> {
+		cw.private_().method("privateMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
-		cw.protectdMethod("protectedMethodVoid").code(mv -> {
+		cw.protected_().method("protectedMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -259,13 +259,13 @@ public class MakeInstanceMethodTest {
 			mv.RETURNTop();
 		});
 
-		cw.publicMethod("publicMethod").return_(String.class.getName()).code(mv -> {
+		cw.public_().method("publicMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.method(Opcodes.ACC_PRIVATE, "privateMethod").return_(String.class.getName()).code(mv -> {
+		cw.method(Opcodes.ACC_PRIVATE, "privateMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -282,7 +282,7 @@ public class MakeInstanceMethodTest {
 			mv.RETURN();
 		});
 
-		cw.publicMethod("publicMethodVoid").code(mv -> {
+		cw.public_().method("publicMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
@@ -299,7 +299,7 @@ public class MakeInstanceMethodTest {
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -310,25 +310,25 @@ public class MakeInstanceMethodTest {
 
 		cw.constructerEmpty();
 
-		cw.method(0, String.class, "method").code(mv -> {
+		cw.method("method").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.publicMethod(String.class, "publicMethod").code(mv -> {
+		cw.public_().method("publicMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.method(Opcodes.ACC_PRIVATE, String.class, "privateMethod").code(mv -> {
+		cw.private_().method("privateMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.method(Opcodes.ACC_PROTECTED, String.class, "protectedMethod").code(mv -> {
+		cw.protected_().method("protectedMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -339,7 +339,7 @@ public class MakeInstanceMethodTest {
 			mv.RETURN();
 		});
 
-		cw.publicMethod("publicMethodVoid").code(mv -> {
+		cw.public_().method("publicMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
@@ -356,7 +356,7 @@ public class MakeInstanceMethodTest {
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -367,56 +367,55 @@ public class MakeInstanceMethodTest {
 
 		cw.constructerEmpty();
 
-		cw.method(0, String.class, "method").code(mv -> {
+		cw.method("method").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.publicMethod(String.class, "publicMethod").code(mv -> {
+		cw.public_().method("publicMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.method(Opcodes.ACC_PRIVATE, String.class, "privateMethod").code(mv -> {
+		cw.private_().method("privateMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.method(Opcodes.ACC_PROTECTED, String.class, "protectedMethod").code(mv -> {
+		cw.protected_().method("protectedMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.method(0, "methodVoid").code(mv -> {
+		cw.method("methodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
-		cw.publicMethod("publicMethodVoid").code(mv -> {
+		cw.public_().method("publicMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
-		cw.method(Opcodes.ACC_PRIVATE, "privateMethodVoid").code(mv -> {
+		cw.private_().method("privateMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
-		cw.method(Opcodes.ACC_PROTECTED, "protectedMethodVoid").code(mv -> {
+		cw.protected_().method("protectedMethodVoid").code(mv -> {
 			mv.LINE();
 			mv.RETURN();
 		});
 
 		// @formatter:on
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
-	
 
 }

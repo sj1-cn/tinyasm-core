@@ -21,10 +21,10 @@ public class UsingSimplePojoClassSampleTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className, SimpleSuperClass.class, SimpleSuperInterface.class)
+		ClassBody classBody = ClassBuilder.class_(className, SimpleSuperClass.class, SimpleSuperInterface.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-		classBody.field("name", Clazz.of(String.class));
+		classBody.private_().field("name", Clazz.of(String.class));
 		__init_(classBody);
 		_sayHello(classBody);
 
@@ -32,7 +32,7 @@ public class UsingSimplePojoClassSampleTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -43,7 +43,7 @@ public class UsingSimplePojoClassSampleTinyAsmDump {
 	}
 
 	protected void _sayHello(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("sayHello").begin();
+		MethodCode code = classBody.public_().method("sayHello").begin();
 
 		code.LINE();
 		code.LOADConst(10);
@@ -72,7 +72,7 @@ public class UsingSimplePojoClassSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("referedObject");
 		code.VIRTUAL(SimplePojoClassSample.class, "getHelloString")
-			.reTurn(String.class).INVOKE();
+			.return_(String.class).INVOKE();
 		code.STORE("helloString",String.class);
 
 		code.LINE();

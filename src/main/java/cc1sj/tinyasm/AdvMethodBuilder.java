@@ -57,7 +57,7 @@ public class AdvMethodBuilder implements AdvAfterMethodName, AdvAfterParameter, 
 		}
 		if (_throws.size() > 0) {
 			for (Clazz clazz : _throws) {
-				mh.tHrow(clazz);
+				mh.throws_(clazz);
 			}
 		}
 		MethodCode code = mh.begin();

@@ -33,7 +33,7 @@ public class UsingListTinyAsmDump {
 	}
 
 	protected void __init_(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("<init>").begin();
+		MethodCode code = classBody.public_().method("<init>").begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -44,7 +44,7 @@ public class UsingListTinyAsmDump {
 	}
 
 	protected void _say(ClassBody classBody) {
-		MethodCode code = classBody.publicMethod("say")
+		MethodCode code = classBody.public_().method("say")
 			.return_(Clazz.of(void.class) )
 			.parameter("in",Clazz.of(List.class,Clazz.of(PojoClassSample.class))).begin();
 
@@ -55,20 +55,20 @@ public class UsingListTinyAsmDump {
 		code.LINE();
 		code.LOAD("in");
 		code.INTERFACE(List.class, "iterator")
-			.reTurn(Iterator.class).INVOKE();
+			.return_(Iterator.class).INVOKE();
 		code.STORE("iterator",Clazz.of(Iterator.class,Clazz.of(PojoClassSample.class)));
 
 		code.LINE();
 		code.LOAD("in");
 		code.INTERFACE(List.class, "spliterator")
-			.reTurn(Spliterator.class).INVOKE();
+			.return_(Spliterator.class).INVOKE();
 		code.STORE("spliterator",Clazz.of(Spliterator.class,Clazz.of(PojoClassSample.class)));
 
 		code.LINE();
 		code.LOAD("in");
 		code.LOADConst(0);
 		code.INTERFACE(List.class, "remove")
-			.reTurn(Object.class)
+			.return_(Object.class)
 			.parameter(int.class).INVOKE();
 		code.CHECKCAST(PojoClassSample.class);
 		code.STORE("pojoClassSample",PojoClassSample.class);

@@ -4,8 +4,9 @@ import java.util.function.Consumer;
 
 import org.objectweb.asm.MethodVisitor;
 
-public interface MethodHeader extends WithAccess<MethodHeader>, WithReturn<MethodHeader>, WithThrow<MethodHeader>,
-		WithDefineParameter<MethodHeader>, WithAnnotation<MethodHeader>, WithSignature<MethodHeader> {
+public interface MethodHeader extends
+		UsingAccess<MethodHeader>, UsingReturn<MethodHeader>, UsingThrows<MethodHeader>,
+		UsingParameter<MethodHeader>, UsingAnnotation<MethodHeader>, UsingSignature<MethodHeader> {
 	MethodCode begin();
 //	void end();
 

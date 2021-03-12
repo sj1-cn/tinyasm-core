@@ -39,21 +39,21 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 		this.targetClazz = targetClazz;
 		INTERFACE_OR_VIRTUAL = VIRTUAL;
 
-		ClassHeader ch = ClassBuilder.make(cv, proxyClassName);
+		ClassHeader ch = ClassBuilder.class_(cv, proxyClassName);
 //		if(superName)
 		if (actualTypeArguments.length > 0) {
-			ch.eXtend(Clazz.of(targetClazz, actualTypeArguments));
+			ch.extends_(Clazz.of(targetClazz, actualTypeArguments));
 		} else {
-			ch.eXtend(targetClazz);
+			ch.extends_(targetClazz);
 		}
-		ch.implement(AdvRuntimeReferNameObject.class);
+		ch.implements_(AdvRuntimeReferNameObject.class);
 //		ch.access(access);
 		proxyClassBody = ch.body();
 
 		proxyClassBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, MethodHandles.class.getName(), "Lookup");
 
-		proxyClassBody.field("_magicNumber", Clazz.of(byte.class));
-		proxyClassBody.field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
+		proxyClassBody.private_().field("_magicNumber", Clazz.of(byte.class));
+		proxyClassBody.private_().field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
 
 		__init_TargetClass(proxyClassBody, targetClazz);
 		_get__MagicNumber(proxyClassBody);
@@ -112,7 +112,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 				mh.parameter("param" + i, Clazz.of(params[i]));
 			}
 			if (exceptions != null && exceptions.length > 0) {
-				mh.tHrow(exceptions);
+				mh.throws_(exceptions);
 			}
 //			if(ex)
 
@@ -128,7 +128,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 //				}
 			}
 			if (returnType != Type.VOID_TYPE) {
-				code.SPECIAL(targetClazz, methodName).parameter(clazzes).reTurn(Clazz.of(returnType)).INVOKE();
+				code.SPECIAL(targetClazz, methodName).parameter(clazzes).return_(Clazz.of(returnType)).INVOKE();
 				code.RETURNTop();
 			} else {
 				code.SPECIAL(targetClazz, methodName).parameter(clazzes).INVOKE();
