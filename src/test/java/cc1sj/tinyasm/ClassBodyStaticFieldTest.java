@@ -28,7 +28,7 @@ public class ClassBodyStaticFieldTest {
 
 	@Test
 	public void testMath() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz)
+		ClassBody cw = ClassBuilder.class_(clazz)
 				.annotation(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }).body();
 
 		cw.staticField(Opcodes.ACC_PRIVATE, Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class));
@@ -50,7 +50,7 @@ public class ClassBodyStaticFieldTest {
 		cw.constructerEmpty();
 
 //		Opcodes.NULL
-		cw.privateStaticMethod(String.class, "annotationMethod").ACC_STATIC().annotation(TestAnnotation.class).code(mv -> {
+		cw.privateStaticMethod(String.class, "annotationMethod").static_().annotation(TestAnnotation.class).code(mv -> {
 			mv.LINE();
 
 			mv.LOADConstNULL();
@@ -88,7 +88,7 @@ public class ClassBodyStaticFieldTest {
 					mv.visitLabel(l1);
 				});
 
-		cw.publicMethod("method").ACC_STATIC().parameter(Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class))
+		cw.publicMethod("method").static_().parameter(Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class))
 				.parameter(Annotation.of(TestAnnotation.class, "value"), "annotationWithDefaultValue", Clazz.of(String.class))
 				.parameter(Annotation.of(TestAnnotation.class, new String[] { "value", "name" }, new Object[] { "value", "name" }),
 						"annotationWithDefaultValueAndNamedValue", Clazz.of(String.class))

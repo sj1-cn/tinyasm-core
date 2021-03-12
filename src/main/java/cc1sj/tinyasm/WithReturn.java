@@ -2,29 +2,31 @@ package cc1sj.tinyasm;
 
 public interface WithReturn<T> {
 
-	default MethodHeader reTurn(Class<?> clazz) {
-		return reTurn(Clazz.of(clazz));
+	default MethodHeader return_(Class<?> clazz) {
+		return return_(Clazz.of(clazz));
 	}
 
-	default MethodHeader reTurn(String clazz) {
+	default MethodHeader return_(String clazz) {
 		String[] genericParameterClazz = {};
-		return reTurn(Clazz.of(clazz, genericParameterClazz));
+		return return_(Clazz.of(clazz, genericParameterClazz));
 	}
 
-	default MethodHeader reTurn(Class<?> class1, String clazzTarget){
-		return reTurn(Clazz.of(class1,clazzTarget));
-	}
-	default MethodHeader reTurn(Class<?> class1, Class<?> clazzTarget){
-		return reTurn(Clazz.of(class1,clazzTarget));
-	}
-	default MethodHeader reTurn(Class<?> clazz, boolean isarray) {
-		return reTurn(Clazz.of(clazz, isarray));
+	default MethodHeader return_(Class<?> class1, String clazzTarget) {
+		return return_(Clazz.of(class1, clazzTarget));
 	}
 
-	default MethodHeader reTurn(String clazz, boolean isarray) {
-		return reTurn(Clazz.of(clazz, isarray));
+	default MethodHeader return_(Class<?> class1, Class<?> clazzTarget) {
+		return return_(Clazz.of(class1, clazzTarget));
 	}
 
-	MethodHeader reTurn(Clazz clazz);
+	default MethodHeader return_(Class<?> clazz, boolean isarray) {
+		return return_(Clazz.of(clazz, isarray));
+	}
+
+	default MethodHeader return_(String clazz, boolean isarray) {
+		return return_(Clazz.of(clazz, isarray));
+	}
+
+	MethodHeader return_(Clazz clazz);
 
 }

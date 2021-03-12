@@ -46,7 +46,7 @@ public class SignatureSampleTinyAsmDump {
 
 	protected void _mapStrngString(ClassBody classBody) {
 		MethodCode code = classBody.method("mapStrngString")
-			.reTurn(Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)) )
+			.return_(Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)) )
 			.parameter("mapStrngString",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)))
 			.parameter("mapStrngString2",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class))).begin();
 

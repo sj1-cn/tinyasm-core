@@ -18,7 +18,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className)
+		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.staticField(ACC_STATIC, "b", Clazz.of(byte.class));
@@ -76,7 +76,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 
 	protected void _addInt(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, "addInt")
-			.reTurn(int.class )
+			.return_(int.class )
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -207,7 +207,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 
 	protected void _addByte(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, "addByte")
-			.reTurn(byte.class )
+			.return_(byte.class )
 			.parameter("x",byte.class)
 			.parameter("y",byte.class).begin();
 
@@ -307,7 +307,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 
 	protected void _addShort(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, "addShort")
-			.reTurn(short.class )
+			.return_(short.class )
 			.parameter("x",short.class)
 			.parameter("y",short.class).begin();
 
@@ -407,7 +407,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 
 	protected void _addLong(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, "addLong")
-			.reTurn(long.class )
+			.return_(long.class )
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -498,7 +498,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 
 	protected void _mathChar(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, "mathChar")
-			.reTurn(char.class )
+			.return_(char.class )
 			.parameter("x",char.class)
 			.parameter("y",char.class).begin();
 
@@ -598,7 +598,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 
 	protected void _mathFloat(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, "mathFloat")
-			.reTurn(float.class )
+			.return_(float.class )
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -670,7 +670,7 @@ public class MethodCodeASMMathStaticSampleTinyAsmDump {
 
 	protected void _mathDouble(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, "mathDouble")
-			.reTurn(double.class )
+			.return_(double.class )
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 

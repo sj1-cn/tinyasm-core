@@ -18,7 +18,7 @@ public class AdvStatement_while_SampleTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className)
+		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);

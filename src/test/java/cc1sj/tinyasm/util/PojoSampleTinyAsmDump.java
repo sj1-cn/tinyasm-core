@@ -20,7 +20,7 @@ public class PojoSampleTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className)
+		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("i1", Clazz.of(int.class));
@@ -89,7 +89,7 @@ public class PojoSampleTinyAsmDump {
 
 	protected void _getI1(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getI1")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -116,7 +116,7 @@ public class PojoSampleTinyAsmDump {
 
 	protected void _getI2(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getI2")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -143,7 +143,7 @@ public class PojoSampleTinyAsmDump {
 
 	protected void _getI3(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getI3")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -170,7 +170,7 @@ public class PojoSampleTinyAsmDump {
 
 	protected void _getI4(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getI4")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -197,7 +197,7 @@ public class PojoSampleTinyAsmDump {
 
 	protected void _getStr(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getStr")
-			.reTurn(String.class ).begin();
+			.return_(String.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -224,7 +224,7 @@ public class PojoSampleTinyAsmDump {
 
 	protected void _toString(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("toString")
-			.reTurn(String.class ).begin();
+			.return_(String.class ).begin();
 
 		code.LINE();
 		code.NEW(StringBuilder.class);

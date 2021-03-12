@@ -24,7 +24,7 @@ public interface ClassBuilder {
 		return new ClassHeaderImpl(classWriter, clazz, Clazz.of(superClazz)).implement(interfaceType);
 	}
 
-	static public ClassHeader make(String clazz) {
+	static public ClassHeader class_(String clazz) {
 		ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 		return new ClassHeaderImpl(classWriter, clazz);
 	}

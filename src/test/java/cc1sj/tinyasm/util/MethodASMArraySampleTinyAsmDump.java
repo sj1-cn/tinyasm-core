@@ -19,7 +19,7 @@ public class MethodASMArraySampleTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className)
+		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("ba", Clazz.of(byte[].class));

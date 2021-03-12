@@ -25,7 +25,7 @@ public class MethodCodeMethodCallerTest {
 
 	@Test
 	public void testMath() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.field("i", int.class);
 

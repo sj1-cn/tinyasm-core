@@ -19,7 +19,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className)
+		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("b", Clazz.of(byte.class));
@@ -53,7 +53,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	protected void _getField(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getField")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -72,7 +72,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	protected void _getFieldAll(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getFieldAll")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -110,7 +110,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	protected void _getFieldConst(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getFieldConst")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -184,7 +184,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	protected void _getFieldIConst(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getFieldIConst")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -261,7 +261,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	protected void _retByte(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("retByte")
-			.reTurn(byte.class ).begin();
+			.return_(byte.class ).begin();
 
 		code.LINE();
 		code.LOADConst(1);

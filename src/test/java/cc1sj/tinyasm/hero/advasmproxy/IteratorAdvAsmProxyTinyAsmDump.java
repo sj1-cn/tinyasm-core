@@ -69,7 +69,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _get__MagicNumber(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("get__MagicNumber")
-			.reTurn(byte.class ).begin();
+			.return_(byte.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -96,7 +96,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _set__Context(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("set__Context")
-			.reTurn(Clazz.of(void.class) )
+			.return_(Clazz.of(void.class) )
 			.parameter("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)))
 			.parameter("_magicNumber",Clazz.of(byte.class)).begin();
 
@@ -118,7 +118,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _hasNext(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("hasNext")
-			.reTurn(boolean.class ).begin();
+			.return_(boolean.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -156,7 +156,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _next(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("next")
-			.reTurn(PojoClassSample.class ).begin();
+			.return_(PojoClassSample.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -253,7 +253,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _forEachRemaining(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("forEachRemaining")
-			.reTurn(Clazz.of(void.class) )
+			.return_(Clazz.of(void.class) )
 			.parameter("param0",Clazz.of(Consumer.class,Clazz.typeArgument('-',PojoClassSample.class))).begin();
 
 		code.LINE();
@@ -296,7 +296,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _bridge_next(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "next")
-			.reTurn(Object.class ).begin();
+			.return_(Object.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");

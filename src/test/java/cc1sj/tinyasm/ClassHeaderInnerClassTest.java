@@ -25,14 +25,14 @@ public class ClassHeaderInnerClassTest {
 
 	@Test
 	public void testMath() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.referInnerClass("Test");
 
 		cw.field("outer", int.class);
 		cw.constructerEmpty();
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 
@@ -40,7 +40,7 @@ public class ClassHeaderInnerClassTest {
 
 	@Test
 	public void testMathInner() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz + "$Test").ACC_SUPER().body();
+		ClassBody cw = ClassBuilder.class_(clazz + "$Test").body();
 
 		cw.referInnerClass("Test");
 
@@ -57,7 +57,7 @@ public class ClassHeaderInnerClassTest {
 			mv.RETURN();
 		});
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(innerclazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}

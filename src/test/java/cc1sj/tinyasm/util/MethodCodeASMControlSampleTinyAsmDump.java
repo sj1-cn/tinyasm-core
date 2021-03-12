@@ -19,7 +19,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className)
+		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field(0, "b", Clazz.of(byte.class));
@@ -54,7 +54,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 
 	protected void _addInt(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("addInt")
-			.reTurn(int.class )
+			.return_(int.class )
 			.parameter("x",long.class)
 			.parameter("y",long.class).begin();
 
@@ -152,7 +152,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 
 	protected void _addInt_float_float(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("addInt")
-			.reTurn(int.class )
+			.return_(int.class )
 			.parameter("x",float.class)
 			.parameter("y",float.class).begin();
 
@@ -250,7 +250,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 
 	protected void _addInt_double_double(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("addInt")
-			.reTurn(int.class )
+			.return_(int.class )
 			.parameter("x",double.class)
 			.parameter("y",double.class).begin();
 
@@ -348,7 +348,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 
 	protected void _addInt_int_int(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("addInt")
-			.reTurn(int.class )
+			.return_(int.class )
 			.parameter("x",int.class)
 			.parameter("y",int.class).begin();
 
@@ -440,7 +440,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 
 	protected void _addInt_int(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("addInt")
-			.reTurn(int.class )
+			.return_(int.class )
 			.parameter("x",int.class).begin();
 
 		code.LINE();
@@ -525,7 +525,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 
 	protected void _addInt_String_String(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("addInt")
-			.reTurn(int.class )
+			.return_(int.class )
 			.parameter("x",String.class)
 			.parameter("y",String.class).begin();
 
@@ -565,7 +565,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 
 	protected void _add_instance(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("add_instance")
-			.reTurn(int.class )
+			.return_(int.class )
 			.parameter("x",String.class)
 			.parameter("y",String.class).begin();
 
@@ -592,7 +592,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 
 	protected void _addByte(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("addByte")
-			.reTurn(byte.class )
+			.return_(byte.class )
 			.parameter("o",Object.class).begin();
 
 		code.LINE();

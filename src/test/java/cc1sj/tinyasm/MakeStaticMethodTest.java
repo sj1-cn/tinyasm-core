@@ -24,7 +24,7 @@ public class MakeStaticMethodTest  {
 
 	@Test
 	public void testMath() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
@@ -81,7 +81,7 @@ public class MakeStaticMethodTest  {
 
 	@Test
 	public void testMathdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
@@ -136,29 +136,29 @@ public class MakeStaticMethodTest  {
 
 	@Test
 	public void testMathsssdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
-		cw.staticMethod("staticMethod").reTurn(String.class).code(mv -> {
+		cw.staticMethod("staticMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.publicStaticMethod("publicStaticMethod").reTurn(String.class).code(mv -> {
+		cw.publicStaticMethod("publicStaticMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.privateStaticMethod("privateStaticMethod").reTurn(String.class).code(mv -> {
+		cw.privateStaticMethod("privateStaticMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.protectdStaticMethod("protectedStaticMethod").reTurn(String.class).code(mv -> {
+		cw.protectdStaticMethod("protectedStaticMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -192,29 +192,29 @@ public class MakeStaticMethodTest  {
 
 	@Test
 	public void testMathsssssdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
-		cw.staticMethod("staticMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.staticMethod("staticMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.publicStaticMethod("publicStaticMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.publicStaticMethod("publicStaticMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.privateStaticMethod("privateStaticMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.privateStaticMethod("privateStaticMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.protectdStaticMethod("protectedStaticMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.protectdStaticMethod("protectedStaticMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -249,29 +249,29 @@ public class MakeStaticMethodTest  {
 
 	@Test
 	public void testMathssssssssdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
-		cw.staticMethod("staticMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.staticMethod("staticMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, "publicStaticMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, "publicStaticMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE, "privateStaticMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE, "privateStaticMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PROTECTED, "protectedStaticMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.staticMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PROTECTED, "protectedStaticMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -306,7 +306,7 @@ public class MakeStaticMethodTest  {
 
 	@Test
 	public void testMathssssssdfsdfsdfssdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
@@ -363,7 +363,7 @@ public class MakeStaticMethodTest  {
 
 	@Test
 	public void testMathssssssdfsdfsdfsdfsdfsdsdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 

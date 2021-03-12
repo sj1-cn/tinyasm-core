@@ -88,7 +88,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	@Override
-	public MethodHeader reTurn(Clazz clazz) {
+	public MethodHeader return_(Clazz clazz) {
 		this.returnClazz = clazz;
 		return this;
 	}

@@ -21,7 +21,7 @@ public class UsingGenericMethodInterfaceSampleTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className)
+		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
@@ -43,7 +43,7 @@ public class UsingGenericMethodInterfaceSampleTinyAsmDump {
 
 	protected void _say(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("say")
-			.reTurn(Clazz.of(void.class) )
+			.return_(Clazz.of(void.class) )
 			.parameter("pp",Clazz.of(GenericMethodInterface.class,Clazz.of(PojoClassSample.class))).begin();
 
 		code.LINE();

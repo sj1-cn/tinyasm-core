@@ -41,7 +41,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 
 	public byte[] dump(String proxyClassName) throws Exception {
 		targetType = Clazz.of(PojoClassSample.class).getType();
-		ClassHeader ch = ClassBuilder.make(proxyClassName);
+		ClassHeader ch = ClassBuilder.class_(proxyClassName);
 		ch.eXtend(Clazz.of(targetType));
 		ch.implement(AdvRuntimeReferNameObject.class);
 		ch.access(ACC_PUBLIC | ACC_SUPER);

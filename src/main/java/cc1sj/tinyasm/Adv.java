@@ -40,25 +40,25 @@ public class Adv {
 //		return builder.class_(advSample);
 //	}
 
-	static public AfterClassName private_class_(String advSample) {
+	static public AdvAfterClassName private_class_(String advSample) {
 		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(ACC_PRIVATE);
 		return builder.class_(advSample);
 	}
 
-	static public AfterClassName protected_class_(String advSample) {
+	static public AdvAfterClassName protected_class_(String advSample) {
 		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(ACC_PROTECTED);
 		return builder.class_(advSample);
 	}
 
-	static public AfterClassName package_class_(String advSample) {
+	static public AdvAfterClassName package_class_(String advSample) {
 		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(0);
 		return builder.class_(advSample);
 	}
 
-	static public AfterClassName public_class_(String advSample) {
+	static public AdvAfterClassName public_class_(String advSample) {
 		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(ACC_PUBLIC);
 		return builder.class_(advSample);
@@ -127,22 +127,22 @@ public class Adv {
 		}
 	}
 
-	static public AfterModifier public_() {
+	static public AdvAfterModifier public_() {
 		AdvClassContext classContext = _contextClassThreadLocal.get();
 		return classContext.getClassBuilder().public_();
 	}
 
-	static public AfterModifier private_() {
+	static public AdvAfterModifier private_() {
 		AdvClassContext classContext = _contextClassThreadLocal.get();
 		return classContext.getClassBuilder().private_();
 	}
 
-	static public AfterModifier protected_() {
+	static public AdvAfterModifier protected_() {
 		AdvClassContext classContext = _contextClassThreadLocal.get();
 		return classContext.getClassBuilder().protected_();
 	}
 
-	static public AfterModifier package_() {
+	static public AdvAfterModifier package_() {
 		AdvClassContext classContext = _contextClassThreadLocal.get();
 		return classContext.getClassBuilder().package_();
 	}
@@ -1191,48 +1191,48 @@ public class Adv {
 		});
 	}
 
-	static public AfterIf ifTrue_(boolean beGood) {
+	static public AdvAfterIf ifTrue_(boolean beGood) {
 		return _if(isTrue(beGood));
 	}
 
-	static public AfterIf ifFalse_(boolean beGood) {
+	static public AdvAfterIf ifFalse_(boolean beGood) {
 		return _if(isFalse(beGood));
 	}
 
-	static public AfterFor _for(CompareEval eval, ConsumerWithException<MethodCode> execEveryLoop) {
+	static public AdvAfterFor _for(CompareEval eval, ConsumerWithException<MethodCode> execEveryLoop) {
 		AdvContext context = _contextThreadLocal.get();
 		context.clear();
 
-		ForBuilder builder = new ForBuilder(_contextThreadLocal, eval, execEveryLoop);
+		AdvForBuilder builder = new AdvForBuilder(_contextThreadLocal, eval, execEveryLoop);
 //		context.push(builder);
 		return builder;
 	}
 
-	static public AfterIf _if(CompareEval eval) {
+	static public AdvAfterIf _if(CompareEval eval) {
 		AdvContext context = _contextThreadLocal.get();
 		context.clear();
 
-		IfBuilder builder = new IfBuilder(_contextThreadLocal, eval);
+		AdvIfBuilder builder = new AdvIfBuilder(_contextThreadLocal, eval);
 		context.pushIf(builder);
 		return builder;
 	}
 
-	static AfterWhile whileTrue_(boolean eval) {
+	static AdvAfterWhile whileTrue_(boolean eval) {
 		return _while(isTrue(eval));
 	}
 
-	static AfterWhile whileFalse_(boolean eval) {
+	static AdvAfterWhile whileFalse_(boolean eval) {
 		return _while(isFalse(eval));
 	}
 
-	static public AfterWhile _while(CompareEval eval) {
-		WhileBuilder builder = new WhileBuilder(_contextThreadLocal, eval);
+	static public AdvAfterWhile _while(CompareEval eval) {
+		AdvWhileBuilder builder = new AdvWhileBuilder(_contextThreadLocal, eval);
 //		context.push(builder);
 		return builder;
 	}
 
-	static public AfterDo _do(ConsumerWithException<MethodCode> block) {
-		DoWhileBuilder builder = new DoWhileBuilder(_contextThreadLocal, block);
+	static public AdvAfterDo _do(ConsumerWithException<MethodCode> block) {
+		AdvDoWhileBuilder builder = new AdvDoWhileBuilder(_contextThreadLocal, block);
 		return builder;
 	}
 

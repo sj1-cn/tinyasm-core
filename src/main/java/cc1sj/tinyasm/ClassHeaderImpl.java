@@ -95,14 +95,13 @@ class ClassHeaderImpl implements ClassHeader {
 	ClassBuilder makeClassBuilder() {
 
 		if (access == 0) {// ACC_PUBLIC + ACC_SUPER
-			this.ACC_PUBLIC();
-			this.ACC_SUPER();
+			this.public_();
+			access |= ACC_SUPER;
 		}
 		if ((access & ACC_INTERFACE) > 0) {
 
 		} else {
-
-			this.ACC_SUPER();
+			access |= ACC_SUPER;
 		}
 
 		if (superClazz == null) {

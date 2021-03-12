@@ -7,8 +7,8 @@ import static cc1sj.tinyasm.Adv.*;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, AfterClassExtends, AfterClassImplements, AdvClassBuilder,
-		AfterModifier, AfterClassEnd {
+public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClassName, AdvAfterClassExtends, AdvAfterClassImplements, AdvClassBuilder,
+		AdvAfterModifier, AdvAfterClassEnd {
 
 	private ThreadLocal<AdvContext> _contextThreadLocal;
 	private int classAccess = 0;
@@ -38,25 +38,25 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 	}
 
 	@Override
-	public AfterClassName class_(String className) {
+	public AdvAfterClassName class_(String className) {
 		this.className = className;
 		return this;
 	}
 
 	@Override
-	public AfterClassExtends extends_(Class<?> _extends) {
+	public AdvAfterClassExtends extends_(Class<?> _extends) {
 		this._extends = Clazz.of(_extends);
 		return this;
 	}
 
 	@Override
-	public AfterClassImplements implements_(Class<?> interfaceClass) {
+	public AdvAfterClassImplements implements_(Class<?> interfaceClass) {
 		this._implements.add(Clazz.of(interfaceClass));
 		return this;
 	}
 
 	@Override
-	public AfterClassImplements implements_(Class<?> interfaceClass, Class<?> genericClass) {
+	public AdvAfterClassImplements implements_(Class<?> interfaceClass, Class<?> genericClass) {
 		this._implements.add(Clazz.of(interfaceClass, genericClass));
 		return this;
 	}
@@ -67,7 +67,7 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 		if (_extends != null) {
 			ch = ClassBuilder.make(className, _extends);
 		} else {
-			ch = ClassBuilder.make(className);
+			ch = ClassBuilder.class_(className);
 		}
 
 		ch.access(classAccess);
@@ -84,43 +84,43 @@ public class AdvClassBuilderImpl implements AfterClassModifier, AfterClassName, 
 	}
 
 	@Override
-	public AfterMethodName method(String methodName) {
+	public AdvAfterMethodName method(String methodName) {
 		AdvMethodBuilder methodBuilder = new AdvMethodBuilder(classBody, memberAccess, methodName);
 		return methodBuilder;
 	}
 
 	@Override
-	public AfterMethodName method(int access, String methodName) {
+	public AdvAfterMethodName method(int access, String methodName) {
 		AdvMethodBuilder methodBuilder = new AdvMethodBuilder(classBody, access, methodName);
 		return methodBuilder;
 	}
 
 	@Override
-	public AfterModifier public_() {
+	public AdvAfterModifier public_() {
 		this.memberAccess = ACC_PUBLIC;
 		return this;
 	}
 
 	@Override
-	public AfterModifier protected_() {
+	public AdvAfterModifier protected_() {
 		this.memberAccess = ACC_PROTECTED;
 		return this;
 	}
 
 	@Override
-	public AfterModifier package_() {
+	public AdvAfterModifier package_() {
 		this.memberAccess = 0;
 		return this;
 	}
 
 	@Override
-	public AfterModifier private_() {
+	public AdvAfterModifier private_() {
 		this.memberAccess = ACC_PRIVATE;
 		return this;
 	}
 
 	@Override
-	public AfterClassEnd end() {
+	public AdvAfterClassEnd end() {
 		classBuilder = classBody.end();
 		return this;
 	}

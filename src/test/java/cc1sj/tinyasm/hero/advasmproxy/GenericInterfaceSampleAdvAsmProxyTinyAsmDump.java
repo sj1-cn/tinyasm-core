@@ -69,7 +69,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _get__MagicNumber(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("get__MagicNumber")
-			.reTurn(byte.class ).begin();
+			.return_(byte.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -96,7 +96,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _set__Context(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("set__Context")
-			.reTurn(Clazz.of(void.class) )
+			.return_(Clazz.of(void.class) )
 			.parameter("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)))
 			.parameter("_magicNumber",Clazz.of(byte.class)).begin();
 
@@ -118,7 +118,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _getT(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getT")
-			.reTurn(PojoClassSample.class ).begin();
+			.return_(PojoClassSample.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -183,7 +183,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _getPojoClassChildSample(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getPojoClassChildSample")
-			.reTurn(PojoClassChildSample.class ).begin();
+			.return_(PojoClassChildSample.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -347,7 +347,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _bridge_getT(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "getT")
-			.reTurn(Object.class ).begin();
+			.return_(Object.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");

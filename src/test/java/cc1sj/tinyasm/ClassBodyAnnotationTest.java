@@ -26,7 +26,7 @@ public class ClassBodyAnnotationTest {
 
 	@Test
 	public void testMath() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz)
+		ClassBody cw = ClassBuilder.class_(clazz)
 				.annotation(TestAnnotation.class, new String[] { "name", "secondName" }, new Object[] { "name", "secondName" }).body();
 
 		cw.field(ACC_PRIVATE, Annotation.of(TestAnnotation.class), "annotation", Clazz.of(String.class));

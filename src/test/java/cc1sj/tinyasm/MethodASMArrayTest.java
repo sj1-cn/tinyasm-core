@@ -23,7 +23,7 @@ public class MethodASMArrayTest {
 	@Test
 	public void testMath() throws Exception {
 		String clazz = MethodASMArraySample.class.getName();
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.field("ba", byte.class, true);
 

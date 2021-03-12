@@ -155,7 +155,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _get__MagicNumber(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("get__MagicNumber")
-			.reTurn(byte.class ).begin();
+			.return_(byte.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -182,7 +182,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _set__Context(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("set__Context")
-			.reTurn(Clazz.of(void.class) )
+			.return_(Clazz.of(void.class) )
 			.parameter("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)))
 			.parameter("_magicNumber",Clazz.of(byte.class)).begin();
 
@@ -204,7 +204,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _iterator(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("iterator")
-			.reTurn(Clazz.of(Iterator.class,Clazz.of(PojoClassSample.class)) ).begin();
+			.return_(Clazz.of(Iterator.class,Clazz.of(PojoClassSample.class)) ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -271,7 +271,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _forEach(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("forEach")
-			.reTurn(Clazz.of(void.class) )
+			.return_(Clazz.of(void.class) )
 			.parameter("param0",Clazz.of(Consumer.class,Clazz.typeArgument('-',PojoClassSample.class))).begin();
 
 		code.LINE();
@@ -314,7 +314,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _spliterator(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("spliterator")
-			.reTurn(Clazz.of(Spliterator.class,Clazz.of(PojoClassSample.class)) ).begin();
+			.return_(Clazz.of(Spliterator.class,Clazz.of(PojoClassSample.class)) ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -381,7 +381,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _size(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("size")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -421,7 +421,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _isEmpty(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("isEmpty")
-			.reTurn(boolean.class ).begin();
+			.return_(boolean.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -459,7 +459,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _contains(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("contains")
-			.reTurn(boolean.class )
+			.return_(boolean.class )
 			.parameter("param0",Object.class).begin();
 
 		code.LINE();
@@ -507,7 +507,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _toArray(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("toArray")
-			.reTurn(Object[].class ).begin();
+			.return_(Object[].class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -590,7 +590,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _toArray_Object_array_(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("toArray")
-			.reTurn(Clazz.typeVariableOf("T",true) )
+			.return_(Clazz.typeVariableOf("T",true) )
 			.formalTypeParameter("T",Clazz.of(Object.class) )
 			.parameter("param0",Clazz.typeVariableOf("T",true)).begin();
 
@@ -697,7 +697,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _toArray_javautilfunctionIntFunction(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("toArray")
-			.reTurn(Clazz.typeVariableOf("T",true) )
+			.return_(Clazz.typeVariableOf("T",true) )
 			.formalTypeParameter("T",Clazz.of(Object.class) )
 			.parameter("param0",Clazz.of(IntFunction.class,Clazz.typeArgument(Clazz.typeVariableOf("T",true)))).begin();
 
@@ -753,7 +753,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _add(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("add")
-			.reTurn(boolean.class )
+			.return_(boolean.class )
 			.parameter("param0",PojoClassSample.class).begin();
 
 		code.LINE();
@@ -801,7 +801,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _remove(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("remove")
-			.reTurn(boolean.class )
+			.return_(boolean.class )
 			.parameter("param0",Object.class).begin();
 
 		code.LINE();
@@ -849,7 +849,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _containsAll(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("containsAll")
-			.reTurn(Clazz.of(boolean.class) )
+			.return_(Clazz.of(boolean.class) )
 			.parameter("param0",Clazz.of(Collection.class, Clazz.typeUnboundedTypeArgument())).begin();
 
 		code.LINE();
@@ -897,7 +897,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _addAll(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("addAll")
-			.reTurn(Clazz.of(boolean.class) )
+			.return_(Clazz.of(boolean.class) )
 			.parameter("param0",Clazz.of(Collection.class,Clazz.typeArgument('+',PojoClassSample.class))).begin();
 
 		code.LINE();
@@ -945,7 +945,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _removeAll(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("removeAll")
-			.reTurn(Clazz.of(boolean.class) )
+			.return_(Clazz.of(boolean.class) )
 			.parameter("param0",Clazz.of(Collection.class, Clazz.typeUnboundedTypeArgument())).begin();
 
 		code.LINE();
@@ -993,7 +993,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _removeIf(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("removeIf")
-			.reTurn(Clazz.of(boolean.class) )
+			.return_(Clazz.of(boolean.class) )
 			.parameter("param0",Clazz.of(Predicate.class,Clazz.typeArgument('-',PojoClassSample.class))).begin();
 
 		code.LINE();
@@ -1041,7 +1041,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _retainAll(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("retainAll")
-			.reTurn(Clazz.of(boolean.class) )
+			.return_(Clazz.of(boolean.class) )
 			.parameter("param0",Clazz.of(Collection.class, Clazz.typeUnboundedTypeArgument())).begin();
 
 		code.LINE();
@@ -1121,7 +1121,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _equals(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("equals")
-			.reTurn(boolean.class )
+			.return_(boolean.class )
 			.parameter("param0",Object.class).begin();
 
 		code.LINE();
@@ -1169,7 +1169,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _hashCode(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("hashCode")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -1209,7 +1209,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _stream(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("stream")
-			.reTurn(Clazz.of(Stream.class,Clazz.of(PojoClassSample.class)) ).begin();
+			.return_(Clazz.of(Stream.class,Clazz.of(PojoClassSample.class)) ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -1276,7 +1276,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _parallelStream(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("parallelStream")
-			.reTurn(Clazz.of(Stream.class,Clazz.of(PojoClassSample.class)) ).begin();
+			.return_(Clazz.of(Stream.class,Clazz.of(PojoClassSample.class)) ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -1343,7 +1343,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _addAll_int_javautilCollection(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("addAll")
-			.reTurn(Clazz.of(boolean.class) )
+			.return_(Clazz.of(boolean.class) )
 			.parameter("param0",Clazz.of(int.class))
 			.parameter("param1",Clazz.of(Collection.class,Clazz.typeArgument('+',PojoClassSample.class))).begin();
 
@@ -1401,7 +1401,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _replaceAll(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("replaceAll")
-			.reTurn(Clazz.of(void.class) )
+			.return_(Clazz.of(void.class) )
 			.parameter("param0",Clazz.of(UnaryOperator.class,Clazz.of(PojoClassSample.class))).begin();
 
 		code.LINE();
@@ -1444,7 +1444,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _sort(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("sort")
-			.reTurn(Clazz.of(void.class) )
+			.return_(Clazz.of(void.class) )
 			.parameter("param0",Clazz.of(Comparator.class,Clazz.typeArgument('-',PojoClassSample.class))).begin();
 
 		code.LINE();
@@ -1487,7 +1487,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _get(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("get")
-			.reTurn(PojoClassSample.class )
+			.return_(PojoClassSample.class )
 			.parameter("param0",int.class).begin();
 
 		code.LINE();
@@ -1562,7 +1562,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _set(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("set")
-			.reTurn(PojoClassSample.class )
+			.return_(PojoClassSample.class )
 			.parameter("param0",int.class)
 			.parameter("param1",PojoClassSample.class).begin();
 
@@ -1699,7 +1699,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _remove_int(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("remove")
-			.reTurn(PojoClassSample.class )
+			.return_(PojoClassSample.class )
 			.parameter("param0",int.class).begin();
 
 		code.LINE();
@@ -1774,7 +1774,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _indexOf(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("indexOf")
-			.reTurn(int.class )
+			.return_(int.class )
 			.parameter("param0",Object.class).begin();
 
 		code.LINE();
@@ -1824,7 +1824,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _lastIndexOf(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("lastIndexOf")
-			.reTurn(int.class )
+			.return_(int.class )
 			.parameter("param0",Object.class).begin();
 
 		code.LINE();
@@ -1874,7 +1874,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _listIterator(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("listIterator")
-			.reTurn(Clazz.of(ListIterator.class,Clazz.of(PojoClassSample.class)) ).begin();
+			.return_(Clazz.of(ListIterator.class,Clazz.of(PojoClassSample.class)) ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -1941,7 +1941,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _listIterator_int(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("listIterator")
-			.reTurn(Clazz.of(ListIterator.class,Clazz.of(PojoClassSample.class)) )
+			.return_(Clazz.of(ListIterator.class,Clazz.of(PojoClassSample.class)) )
 			.parameter("param0",Clazz.of(int.class)).begin();
 
 		code.LINE();
@@ -2018,7 +2018,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _subList(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("subList")
-			.reTurn(Clazz.of(List.class,Clazz.of(PojoClassSample.class)) )
+			.return_(Clazz.of(List.class,Clazz.of(PojoClassSample.class)) )
 			.parameter("param0",Clazz.of(int.class))
 			.parameter("param1",Clazz.of(int.class)).begin();
 
@@ -2105,7 +2105,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _getStart(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getStart")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -2145,7 +2145,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _getMax(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getMax")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -2185,7 +2185,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _getTotalSize(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getTotalSize")
-			.reTurn(int.class ).begin();
+			.return_(int.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -2351,7 +2351,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _bridge_remove(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "remove")
-			.reTurn(Object.class )
+			.return_(Object.class )
 			.parameter("var1",int.class).begin();
 
 		code.LINE();
@@ -2385,7 +2385,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _bridge_set(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "set")
-			.reTurn(Object.class )
+			.return_(Object.class )
 			.parameter("var1",int.class)
 			.parameter("var2",Object.class).begin();
 
@@ -2405,7 +2405,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _bridge_get(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "get")
-			.reTurn(Object.class )
+			.return_(Object.class )
 			.parameter("var1",int.class).begin();
 
 		code.LINE();
@@ -2421,7 +2421,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _bridge_add_Object(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "add")
-			.reTurn(boolean.class )
+			.return_(boolean.class )
 			.parameter("var1",Object.class).begin();
 
 		code.LINE();

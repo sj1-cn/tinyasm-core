@@ -29,7 +29,7 @@ public class MethodHeaderTest  {
 
 	@Test
 	public void testMath() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
@@ -78,7 +78,7 @@ public class MethodHeaderTest  {
 
 	@Test
 	public void testMatsssh() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
@@ -129,7 +129,7 @@ public class MethodHeaderTest  {
 
 	@Test
 	public void testMathW() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 

@@ -106,7 +106,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 			Type returnType = Type.getReturnType(descriptor);
 			Type[] params = Type.getArgumentTypes(descriptor);
 
-			mh.reTurn(Clazz.of(returnType));
+			mh.return_(Clazz.of(returnType));
 
 			for (int i = 0; i < params.length; i++) {
 				mh.parameter("param" + i, Clazz.of(params[i]));

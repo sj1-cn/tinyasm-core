@@ -13,7 +13,7 @@ public class MethodASMArraySampleTinyAsmDump {
 
 public static byte[] dump () throws Exception {
 
-ClassBody classWriter = ClassBuilder.make("nebula.tinyasm.MethodASMArraySample").body();
+ClassBody classWriter = ClassBuilder.class_("nebula.tinyasm.MethodASMArraySample").body();
 
 classWriter.field("ba", byte[].class);
 classWriter.field("ca", char[].class);

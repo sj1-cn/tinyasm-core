@@ -28,7 +28,7 @@ public class ClassBodyGenericTest {
 
 	@Test
 	public void testMathClass() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).eXtend(Clazz.of(ArrayList.class, Annotation.class)).implement(TestInerface.class.getName())
+		ClassBody cw = ClassBuilder.class_(clazz).eXtend(Clazz.of(ArrayList.class, Annotation.class)).implement(TestInerface.class.getName())
 				.implement(Clazz.of(List.class, Annotation.class)).body();
 		String[] genericParameterClazz = { String.class.getName() };
 
@@ -43,7 +43,7 @@ public class ClassBodyGenericTest {
 		});
 		String[] genericParameterClazz1 = { String.class.getName() };
 
-		cw.privateMethod("annotationMethod").reTurn(Clazz.of(List.class.getName(), genericParameterClazz1)).code(mv -> {
+		cw.privateMethod("annotationMethod").return_(Clazz.of(List.class.getName(), genericParameterClazz1)).code(mv -> {
 			mv.LINE();
 			mv.LOADConstNULL();
 			mv.RETURNTop();
@@ -83,7 +83,7 @@ public class ClassBodyGenericTest {
 
 	@Test
 	public void testMathString() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).eXtend(Clazz.of(ArrayList.class, Annotation.class)).implement(Clazz.of(TestInerface.class))
+		ClassBody cw = ClassBuilder.class_(clazz).eXtend(Clazz.of(ArrayList.class, Annotation.class)).implement(Clazz.of(TestInerface.class))
 				.implement(Clazz.of(List.class, Annotation.class)).body();
 		String[] genericParameterClazz = { String.class.getName() };
 
@@ -98,7 +98,7 @@ public class ClassBodyGenericTest {
 		});
 		String[] genericParameterClazz1 = { String.class.getName() };
 
-		cw.privateMethod("annotationMethod").reTurn(Clazz.of(List.class.getName(), genericParameterClazz1)).code(mv -> {
+		cw.privateMethod("annotationMethod").return_(Clazz.of(List.class.getName(), genericParameterClazz1)).code(mv -> {
 			mv.LINE();
 			mv.LOADConstNULL();
 			mv.RETURNTop();

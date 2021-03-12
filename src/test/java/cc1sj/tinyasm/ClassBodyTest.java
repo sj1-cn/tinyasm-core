@@ -21,7 +21,7 @@ public class ClassBodyTest {
 	@Test
 	public void testGetName() throws IOException {
 		String clazz = this.getClass().getPackage().getName() + ".sample.ClassBody.GetName";
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.constructerEmpty();
 
 		assertEquals("getName", clazz, cw.getName());
@@ -30,7 +30,7 @@ public class ClassBodyTest {
 	@Test
 	public void testConstructerEmpty() throws IOException {
 		String clazz = ConstructerEmpty.class.getName();
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.constructerEmpty();
 		cw.toStringWithAllFields();
 
@@ -42,7 +42,7 @@ public class ClassBodyTest {
 	@Test
 	public void testConstructerWithAllFields() throws IOException {
 		String clazz = ConstructerWithAllFields.class.getName();
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.field("b", byte.class);
 		cw.field("c", char.class);
 		cw.field("s", short.class);
@@ -63,7 +63,7 @@ public class ClassBodyTest {
 	@Test
 	public void testClazzOfField() throws IOException {
 		String clazz = MakeIntPropertyGetSet.class.getName();
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.constructerEmpty();
 		cw.field("b", byte.class);
 		cw.field("c", char.class);
@@ -88,7 +88,7 @@ public class ClassBodyTest {
 	@Test
 	public void tesMakeIntPropertyGetSet() throws IOException {
 		String clazz = MakeIntPropertyGetSet.class.getName();
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.constructerEmpty();
 		cw.field("name", int.class);
 		cw.field("nameWithAnnotationClazz", int.class);
@@ -133,7 +133,7 @@ public class ClassBodyTest {
 	@Test
 	public void tesMakeStringPropertyGetSet() throws IOException {
 		String clazz = MakeStringPropertyGetSet.class.getName();
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.constructerEmpty();
 		cw.field("name", String.class);
 		cw.field("nameWithAnnotationClazz", String.class);
@@ -178,7 +178,7 @@ public class ClassBodyTest {
 	@Test
 	public void testMakeAllPropertyGetSet() throws IOException {
 		String clazz = MakeAllPropertyGetSet.class.getName();
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.constructerEmpty();
 		cw.field("b", byte.class);
 		cw.field("c", char.class);
@@ -200,7 +200,7 @@ public class ClassBodyTest {
 	@Test
 	public void testMakePojo() throws IOException {
 		String clazz = MakePojo.class.getName();
-		ClassBody cw = ClassBuilder.make(clazz).annotation(TestAnnotation.class).body();
+		ClassBody cw = ClassBuilder.class_(clazz).annotation(TestAnnotation.class).body();
 		cw.field("b", byte.class);
 		cw.field("c", char.class);
 		cw.field("s", short.class);
@@ -220,7 +220,7 @@ public class ClassBodyTest {
 	@Test
 	public void testMakeReadonlyPojo() throws IOException {
 		String clazz = MakeReadOnlyPojo.class.getName();
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 		cw.field("b", byte.class);
 		cw.field("c", char.class);
 		cw.field("s", short.class);

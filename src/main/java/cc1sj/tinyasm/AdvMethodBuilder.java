@@ -3,7 +3,7 @@ package cc1sj.tinyasm;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdvMethodBuilder implements AfterMethodName, AfterParameter, AfterThrows, AfterReturn, AfterCode {
+public class AdvMethodBuilder implements AdvAfterMethodName, AdvAfterParameter, AdvAfterThrows, AdvAfterReturn, AdvAfterCode {
 	private final int memberAccess;
 	private final ClassBody classBody;
 	private final String methodName;
@@ -32,13 +32,13 @@ public class AdvMethodBuilder implements AfterMethodName, AfterParameter, AfterT
 	}
 
 	@Override
-	public AfterParameter parameter_(String name, Class<?> clazz) {
+	public AdvAfterParameter parameter_(String name, Class<?> clazz) {
 		_parameters.add(new Parameter(name, Clazz.of(clazz)));
 		return this;
 	}
 
 	@Override
-	public AfterThrows throws_(Class<?>... exceptiones) {
+	public AdvAfterThrows throws_(Class<?>... exceptiones) {
 		for (Class<?> exception : exceptiones) {
 			_throws.add(Clazz.of(exception));
 		}
@@ -50,7 +50,7 @@ public class AdvMethodBuilder implements AfterMethodName, AfterParameter, AfterT
 
 		MethodHeader mh = classBody.method(memberAccess, methodName);
 		if (returnClazz != null) {
-			mh.reTurn(returnClazz);
+			mh.return_(returnClazz);
 		}
 		for (Parameter parameter : _parameters) {
 			mh.parameter(parameter.name, parameter.clazz);
@@ -68,7 +68,7 @@ public class AdvMethodBuilder implements AfterMethodName, AfterParameter, AfterT
 	private MethodCode _methodCode;
 
 	@Override
-	public AfterCode code(ConsumerWithException<MethodCode> block) {
+	public AdvAfterCode code(ConsumerWithException<MethodCode> block) {
 		try {
 			_methodCode = enterBody();
 			Adv.enterCode(_methodCode).execBlock(block);
@@ -82,13 +82,13 @@ public class AdvMethodBuilder implements AfterMethodName, AfterParameter, AfterT
 	}
 
 	@Override
-	public AfterReturn return_(Clazz clazz) {
+	public AdvAfterReturn return_(Clazz clazz) {
 		this.returnClazz = clazz;
 		return this;
 	}
 
 	@Override
-	public AfterReturn return_(Class<?> clazz) {
+	public AdvAfterReturn return_(Class<?> clazz) {
 		this.returnClazz = Clazz.of(clazz);
 		return this;
 	}

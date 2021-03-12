@@ -23,7 +23,7 @@ public class UsingListTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.make(className)
+		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
@@ -45,7 +45,7 @@ public class UsingListTinyAsmDump {
 
 	protected void _say(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("say")
-			.reTurn(Clazz.of(void.class) )
+			.return_(Clazz.of(void.class) )
 			.parameter("in",Clazz.of(List.class,Clazz.of(PojoClassSample.class))).begin();
 
 		code.LINE();

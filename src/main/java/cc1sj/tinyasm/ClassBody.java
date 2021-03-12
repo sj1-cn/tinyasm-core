@@ -7,8 +7,7 @@ import java.util.List;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 
-public interface ClassBody
-		extends WithDefineStaticField, WithDefineField, WithMakeStaticMethod, WithMakeInstanceMethod {
+public interface ClassBody extends AfterClassBody, WithDefineStaticField, WithDefineField, WithMakeStaticMethod, WithMakeInstanceMethod {
 
 	ClassBuilder end();
 

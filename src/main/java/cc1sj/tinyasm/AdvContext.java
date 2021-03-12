@@ -425,9 +425,9 @@ public class AdvContext {
 		code.LINE();
 	}
 
-	IfBuilder ifbuilder;
+	AdvIfBuilder ifbuilder;
 
-	public void pushIf(IfBuilder builder) {
+	public void pushIf(AdvIfBuilder builder) {
 		this.ifbuilder = builder;
 	}
 }

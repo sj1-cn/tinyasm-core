@@ -48,7 +48,7 @@ public class GenericInterfaceImplSampleTinyAsmDump {
 
 	protected void _getT(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getT")
-			.reTurn(PojoClassSample.class ).begin();
+			.return_(PojoClassSample.class ).begin();
 
 		code.LINE();
 		code.LOADConstNULL();
@@ -59,7 +59,7 @@ public class GenericInterfaceImplSampleTinyAsmDump {
 
 	protected void _getPojoClassChildSample(ClassBody classBody) {
 		MethodCode code = classBody.publicMethod("getPojoClassChildSample")
-			.reTurn(PojoClassChildSample.class ).begin();
+			.return_(PojoClassChildSample.class ).begin();
 
 		code.LINE();
 		code.LOADConstNULL();
@@ -105,7 +105,7 @@ public class GenericInterfaceImplSampleTinyAsmDump {
 
 	protected void _bridge_getT(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "getT")
-			.reTurn(Object.class ).begin();
+			.return_(Object.class ).begin();
 
 		code.LINE();
 		code.LOAD("this");

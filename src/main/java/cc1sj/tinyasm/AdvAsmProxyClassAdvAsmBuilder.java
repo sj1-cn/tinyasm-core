@@ -1242,7 +1242,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		public void exec(ClassBody classBody) {
 			logger.debug("BridgeMethod {}", methodName);
 			MethodHeader methodHeader = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, methodName);
-			if (originReturnType != Type.VOID_TYPE) methodHeader.reTurn(Clazz.of(originReturnType));
+			if (originReturnType != Type.VOID_TYPE) methodHeader.return_(Clazz.of(originReturnType));
 			if (exceptions != null) methodHeader.tHrow(exceptions);
 
 			for (int i = 0; i < originParamTypes.length; i++) {

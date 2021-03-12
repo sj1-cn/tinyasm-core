@@ -24,7 +24,7 @@ public class MakeInstanceMethodTest {
 
 	@Test
 	public void testMath() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
@@ -81,7 +81,7 @@ public class MakeInstanceMethodTest {
 
 	@Test
 	public void testMathdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
@@ -136,29 +136,29 @@ public class MakeInstanceMethodTest {
 
 	@Test
 	public void testMathsssdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
-		cw.method(0, "method").reTurn(String.class).code(mv -> {
+		cw.method(0, "method").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.publicMethod("publicMethod").reTurn(String.class).code(mv -> {
+		cw.publicMethod("publicMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.privateMethod("privateMethod").reTurn(String.class).code(mv -> {
+		cw.privateMethod("privateMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.protectdMethod("protectedMethod").reTurn(String.class).code(mv -> {
+		cw.protectdMethod("protectedMethod").return_(String.class).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -192,29 +192,29 @@ public class MakeInstanceMethodTest {
 
 	@Test
 	public void testMathsssssdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
-		cw.method(0, "method").reTurn(String.class.getName()).code(mv -> {
+		cw.method(0, "method").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.publicMethod("publicMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.publicMethod("publicMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.privateMethod("privateMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.privateMethod("privateMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.protectdMethod("protectedMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.protectdMethod("protectedMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -249,29 +249,29 @@ public class MakeInstanceMethodTest {
 
 	@Test
 	public void testMathssssssssdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
-		cw.method(0, "method").reTurn(String.class.getName()).code(mv -> {
+		cw.method(0, "method").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.publicMethod("publicMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.publicMethod("publicMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.method(Opcodes.ACC_PRIVATE, "privateMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.method(Opcodes.ACC_PRIVATE, "privateMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
 		});
 
-		cw.method(Opcodes.ACC_PROTECTED, "protectedMethod").reTurn(String.class.getName()).code(mv -> {
+		cw.method(Opcodes.ACC_PROTECTED, "protectedMethod").return_(String.class.getName()).code(mv -> {
 			mv.LINE();
 			mv.LOADConst("here");
 			mv.RETURNTop();
@@ -306,7 +306,7 @@ public class MakeInstanceMethodTest {
 
 	@Test
 	public void testMathssssssdfsdfsdfssdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
@@ -363,7 +363,7 @@ public class MakeInstanceMethodTest {
 
 	@Test
 	public void testMathssssssdfsdfsdfsdfsdfsdsdd() throws Exception {
-		ClassBody cw = ClassBuilder.make(clazz).body();
+		ClassBody cw = ClassBuilder.class_(clazz).body();
 
 		cw.constructerEmpty();
 
