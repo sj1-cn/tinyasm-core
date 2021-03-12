@@ -4,20 +4,14 @@ import static org.objectweb.asm.Opcodes.*;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.ParameterizedType;
+
 import org.objectweb.asm.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import java.util.function.Function;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1485,157 +1479,13 @@ public class Adv {
 		return brokerBuilder.buildProxyClass(_contextThreadLocal, magicNumber, t, type);
 	}
 
-	public static <T> byte[] dumpClass(AdvClassBuilder classBuilder, Class<T> builderClass) {
-//		Class<?> clazz = simpleSampleCodeBuilder.getClass();
-//		clazz.getGenericSuperclass();
+	public static <T> byte[] dumpMagicClass(AdvClassBuilder classBuilder, Class<T> builderClass) {
 
-		logger.debug("class {} {}", builderClass.getName(), builderClass.getGenericSuperclass());
-		for (Class<?> type : builderClass.getInterfaces()) {
-			logger.debug("getGenericInterfaces {} {}", builderClass.getName(), type.getName());
-		}
-		for (java.lang.reflect.Type type : builderClass.getGenericInterfaces()) {
-			ParameterizedType parameterizedType = (ParameterizedType) type;
-			logger.debug("getGenericInterfaces {} {} {}", builderClass.getName(), parameterizedType.getRawType(),
-					parameterizedType.getActualTypeArguments());
-		}
-
-		try {
-
-			enterClass(classBuilder);
-			T simpleSampleCodeBuilder = brokerBuilder.buildMagicProxyClass(builderClass, _contextThreadLocal, Adv.MAGIC_LOCALS_NUMBER);
-			Class<?> builderProxyClass = simpleSampleCodeBuilder.getClass();
-			ClassReader cr = new ClassReader(builderClass.getName());
-			cr.accept(new ClassVisitor(ASM9) {
-				@Override
-				public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-					logger.debug("{} {} ", name, signature);
-				}
-
-				@Override
-				public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-					try {
-						if ((access & ACC_PUBLIC) > 0 && !"dump".equals(name)) {
-							Method thisMethod = null;
-							Method thisProxyMethod = null;
-							for (Method method : builderClass.getMethods()) {
-								if (method.getName().equals(name) && !method.isBridge()) {
-									Class<?>[] parameterTypes = method.getParameterTypes();
-									Type[] types = new Type[parameterTypes.length];
-									for (int i = 0; i < parameterTypes.length; i++) {
-										types[i] = Type.getType(parameterTypes[i]);
-									}
-									String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
-									if (reflectMethodDescriptor.equals(descriptor)) {
-										thisMethod = method;
-									}
-								}
-							}
-							for (Method method : builderProxyClass.getMethods()) {
-								if (method.getName().equals("$_" + name) && !method.isBridge()) {
-									Class<?>[] parameterTypes = method.getParameterTypes();
-									Type[] types = new Type[parameterTypes.length];
-									for (int i = 0; i < parameterTypes.length; i++) {
-										types[i] = Type.getType(parameterTypes[i]);
-									}
-									String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
-									if (reflectMethodDescriptor.equals(descriptor)) {
-										thisProxyMethod = method;
-									}
-								}
-							}
-//							Method method = clazz.getMethod(name);
-							logger.debug("{} {} ", name, signature);
-							if (thisMethod != null) {
-								buildWithMethod(classBuilder, simpleSampleCodeBuilder, thisMethod, thisProxyMethod);
-							}
-
-						}
-					} catch (SecurityException e) {
-						throw new UnsupportedOperationException(builderProxyClass.getName(), e);
-					}
-					return null;
-				}
-
-			}, ClassReader.SKIP_CODE);
-
-			exitClass();
-		} catch (Exception e1) {
-			throw new UnsupportedOperationException(builderClass.getName(), e1);
-		}
-
-		return classBuilder.end().toByteArray();
+		return AdvDumpMagic.doDump(classBuilder, builderClass, _contextThreadLocal);
 	}
 
-	@SuppressWarnings("unused")
-	protected static void buildWithMethod(AdvClassBuilder classBuilder, Object simpleSampleCodeBuilder, Method method,
-			Method thisProxyMethod) {
-		if (method.getName().startsWith("_") && method.getParameters()[0].getType() == AdvClassBuilder.class) {
-			try {
-				logger.debug("enter asm method {}" + method.getName());
-				method.invoke(simpleSampleCodeBuilder, classBuilder);
-				logger.debug("exit  asm method {}" + method.getName());
-			} catch (IllegalAccessException e) {
-				throw new UnsupportedOperationException(method.getName(), e);
-			} catch (IllegalArgumentException e) {
-				throw new UnsupportedOperationException(method.getName(), e);
-			} catch (InvocationTargetException e) {
-				throw new UnsupportedOperationException(method.getName(), e);
-			}
-		} else {
-			logger.debug("enter magic method {}" + method.getName());
-			AdvMethodBuilder methodBuilder = (AdvMethodBuilder) classBuilder.method(method.getModifiers(), method.getName());
-			if (method.getReturnType() != Void.class) methodBuilder.return_(Clazz.of(method.getGenericReturnType()));
-			for (Parameter parameter : method.getParameters()) {
-				methodBuilder.parameter_(parameter.getName(), parameter.getType());
-			}
-			Class<?>[] exceptionClasses = method.getExceptionTypes();
-			methodBuilder.throws_(exceptionClasses);
-			methodBuilder.code(code -> {
-				AdvContext context = _contextThreadLocal.get();
-				Parameter[] parameters = method.getParameters();
-				java.lang.reflect.Type[] parameterTypes = method.getGenericParameterTypes();
-				Object[] params = new Object[parameters.length];
-				for (int i = 0; i < parameters.length; i++) {
-					Parameter parameter = parameters[i];
-					Class<?> parameterClass = parameter.getType();
-
-					java.lang.reflect.Type type = parameterTypes[i];
-					if (type instanceof ParameterizedType) {
-						ParameterizedType parameterType = (ParameterizedType) type;
-						logger.debug("{} {} {} {}", method.getName(), parameter.getName(), parameter.getType().getName(),
-								parameterType.getActualTypeArguments());
-
-					} else {
-						logger.debug("{} {} {} {}", method.getName(), parameter.getName(), parameter.getType().getName());
-					}
-					if (parameterClass == boolean.class || parameterClass == Boolean.class) {
-						params[i] = false;
-					} else if (parameterClass == byte.class || parameterClass == Byte.class) {
-						params[i] = (byte) (MAGIC_LOCALS_NUMBER + i + 1);
-					} else if (parameterClass == short.class || parameterClass == Short.class) {
-						params[i] = (short) (MAGIC_LOCALS_NUMBER + i + 1);
-					} else if (parameterClass == int.class || parameterClass == Integer.class) {
-						params[i] = (int) (MAGIC_LOCALS_NUMBER + i + 1);
-					} else if (parameterClass == long.class || parameterClass == Long.class) {
-						params[i] = (long) (MAGIC_LOCALS_NUMBER + i + 1);
-					} else if (parameterClass == float.class || parameterClass == Float.class) {
-						params[i] = (float) (MAGIC_LOCALS_NUMBER + i + 1);
-					} else if (parameterClass == double.class || parameterClass == Double.class) {
-						params[i] = (double) (MAGIC_LOCALS_NUMBER + i + 1);
-					} else if (parameterClass == String.class) {
-						params[i] = MAGIC_LOCALS_String + (i + 1);
-					} else if (canProxy(parameterClass)) {
-						params[i] = buildProxyClass(parameterClass, (byte) (MAGIC_LOCALS_NUMBER + i + 1));
-					} else if (parameterClass == Object.class) {
-						throw new UnsupportedOperationException();
-					} else {
-						throw new UnsupportedOperationException();
-					}
-				}
-				thisProxyMethod.invoke(simpleSampleCodeBuilder, params);
-				logger.debug("exit magic method {}", method.getName());
-			});
-		}
+	public static <T> T buildMagicClass(ThreadLocal<AdvContext> threadLocal, Class<T> builderClass) {
+		return brokerBuilder.buildMagicProxyClass(builderClass, threadLocal, Adv.MAGIC_LOCALS_NUMBER);
 	}
 
 	public static void import_(String string) {
