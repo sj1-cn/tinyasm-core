@@ -204,7 +204,7 @@ class AdvAsmProxyObjenesisBuilder {
 
 				try {
 					clzBroker = Class.forName(standardProxyClassName);
-					return make(clzBroker, _contextThreadLocal, magicNumber);
+					return makeMagicProxy(clzBroker, _contextThreadLocal, magicNumber);
 				} catch (ClassNotFoundException e) {
 				}
 			}
@@ -237,7 +237,79 @@ class AdvAsmProxyObjenesisBuilder {
 
 			}
 
-			return make(clzBroker, _contextThreadLocal, magicNumber);
+			return makeMagicProxy(clzBroker, _contextThreadLocal, magicNumber);
+
+		} catch (ClassFormatError e) {
+			log.error("", e);
+			throw new RuntimeException(target.getName(), e);
+		} catch (Exception e) {
+			log.error("", e);
+			throw new RuntimeException(target.getName(), e);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public <T> T buildMagicProxyClassWithoutInit(Class<T> target, ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber) {
+
+		ObjectInstantiator<?> builder = knownBrokeres.get(target.getName());
+
+		if (builder != null) {
+			return make(builder, _contextThreadLocal, magicNumber);
+		}
+
+		lock.lock();
+		try {
+
+			builder = knownBrokeres.get(target.getName());
+			if (builder != null) {
+				return make(builder, _contextThreadLocal, magicNumber);
+			}
+
+			count++;
+
+			{
+				String standardProxyClassName = target.getName() + "ObjenesisAdvAsmProxy";
+
+				try {
+					Class<?> clzBroker = Class.forName(standardProxyClassName);
+					builder = objenesis.getInstantiatorOf(clzBroker);
+				} catch (ClassNotFoundException e) {
+				}
+			}
+
+			// 构建代理类
+			if (builder == null) {
+//				String proxyClassSuffix = 
+				String proxyClassName = this.getClass().getName() + "_" + target.getName().replace('.', '_') + count;
+				byte[] code = AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(target, proxyClassName);
+
+				if (log.isDebugEnabled()) {
+					try {
+						String filename = "tmp/" + proxyClassName + ".class";
+						String path = filename.substring(0, filename.lastIndexOf('/'));
+						File file = new File(path);
+						if (!file.exists()) {
+							file.mkdir();
+						}
+						FileOutputStream fileOutputStream = new FileOutputStream(filename);
+						fileOutputStream.write(code);
+						fileOutputStream.close();
+					} catch (FileNotFoundException e) {
+						log.error("", e);
+						throw new RuntimeException(e);
+					}
+				}
+
+				Class<?> clzBroker = TinyAsmClassLoader.defineClass(proxyClassName, code);
+
+				TinyAsmClassLoader.doResolveClass(clzBroker);
+				builder = objenesis.getInstantiatorOf(clzBroker);
+			}
+
+			this.knownBrokeres.put(target.getName(), builder);
+
+			return make(builder, _contextThreadLocal, magicNumber);
 
 		} catch (ClassFormatError e) {
 			log.error("", e);
@@ -251,7 +323,7 @@ class AdvAsmProxyObjenesisBuilder {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> T make(Class<?> clzBroker, ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber) {
+	private <T> T makeMagicProxy(Class<?> clzBroker, ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber) {
 		try {
 			T t = (T) clzBroker.getConstructor().newInstance();
 			AdvRuntimeReferNameObject o = (AdvRuntimeReferNameObject) t;
@@ -259,15 +331,6 @@ class AdvAsmProxyObjenesisBuilder {
 			return t;
 		} catch (Exception e) {
 			throw new UnsupportedOperationException(e);
-		}
-	}
-
-	public static boolean isPresent(String name) {
-		try {
-			Thread.currentThread().getContextClassLoader().loadClass(name);
-			return true;
-		} catch (ClassNotFoundException e) {
-			return false;
 		}
 	}
 

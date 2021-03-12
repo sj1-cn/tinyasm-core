@@ -12,14 +12,14 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-public class AdvDumpMagic {
+class AdvMagicBuilderEngine {
 
 	@SuppressWarnings("unchecked")
 	public static <T> byte[] execMagicBuilder(ThreadLocal<AdvContext> threadLocal, AdvClassBuilder classBuilder, T magicBuilderProxy) {
-		Class<T> magicBuilderClass = (Class<T>)magicBuilderProxy.getClass().getSuperclass();
+		Class<T> magicBuilderClass = (Class<T>) magicBuilderProxy.getClass().getSuperclass();
 		try {
 
-			Adv.enterClass(classBuilder);
+//			Adv.enterClass(classBuilder);
 			Class<?> magicBuilderProxyClass = magicBuilderProxy.getClass();
 			ClassReader cr = new ClassReader(magicBuilderClass.getName());
 			cr.accept(new ClassVisitor(ASM9) {
@@ -75,7 +75,7 @@ public class AdvDumpMagic {
 
 			}, ClassReader.SKIP_CODE);
 
-			Adv.exitClass();
+//			Adv.exitClass();
 		} catch (Exception e1) {
 			throw new UnsupportedOperationException(magicBuilderClass.getName(), e1);
 		}
@@ -98,15 +98,16 @@ public class AdvDumpMagic {
 			Adv.logger.debug("enter magic method {}" + method.getName());
 			AdvMethodBuilder methodBuilder = (AdvMethodBuilder) classBuilder.method(method.getModifiers(), method.getName());
 			if (method.getReturnType() != Void.class) methodBuilder.return_(Clazz.of(method.getGenericReturnType()));
-			for (Parameter parameter : method.getParameters()) {
-				methodBuilder.parameter_(parameter.getName(), parameter.getType());
+			Parameter[] parameters = method.getParameters();
+			java.lang.reflect.Type[] parameterTypes = method.getGenericParameterTypes();
+			for (int i = 0; i < parameters.length; i++) {
+				Parameter parameter = parameters[i];
+				methodBuilder.parameter_(parameter.getName(), Clazz.of(parameterTypes[i]));
 			}
 			Class<?>[] exceptionClasses = method.getExceptionTypes();
 			methodBuilder.throws_(exceptionClasses);
 			methodBuilder.code(code -> {
 				AdvContext context = threadLocal.get();
-				Parameter[] parameters = method.getParameters();
-				java.lang.reflect.Type[] parameterTypes = method.getGenericParameterTypes();
 				Object[] params = new Object[parameters.length];
 				for (int i = 0; i < parameters.length; i++) {
 					Parameter parameter = parameters[i];

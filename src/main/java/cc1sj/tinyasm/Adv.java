@@ -67,7 +67,7 @@ public class Adv {
 	 * 
 	 ***********************************************/
 	static private ThreadLocal<Stack<AdvContext>> _contextThreadLocalStack = new ThreadLocal<>();
-	static private ThreadLocal<AdvContext> _contextThreadLocal = new ThreadLocal<>();
+	static ThreadLocal<AdvContext> _contextThreadLocal = new ThreadLocal<>();
 
 	static private ThreadLocal<Stack<AdvClassContext>> _contextClassThreadLocalStack = new ThreadLocal<>();
 	static private ThreadLocal<AdvClassContext> _contextClassThreadLocal = new ThreadLocal<>();
@@ -494,7 +494,7 @@ public class Adv {
 //		resolve(code, value);
 //		code.PUTFIELD_OF_THIS(name);
 //	}
-	static final private AdvAsmProxyObjenesisBuilder brokerBuilder = new AdvAsmProxyObjenesisBuilder();
+	static final AdvAsmProxyObjenesisBuilder brokerBuilder = new AdvAsmProxyObjenesisBuilder();
 //
 //	static public byte cstNull(byte value) {
 //		AdvContext context = _contextThreadLocal.get();
@@ -1477,25 +1477,6 @@ public class Adv {
 
 	public static <T> T buildProxyClass(Class<?> t, Class<?> type, byte magicNumber) {
 		return brokerBuilder.buildProxyClass(_contextThreadLocal, magicNumber, t, type);
-	}
-
-	public static <T> T buildMagicBuilderProxyClass(Class<T> builderClass) {
-		return brokerBuilder.buildMagicProxyClass(builderClass, _contextThreadLocal, Adv.MAGIC_LOCALS_NUMBER);
-	}
-
-	public static <T> byte[] dumpMagicClass(AdvClassBuilder classBuilder, Class<T> builderClass) {
-
-		T magicBuilderProxy = Adv.buildMagicBuilderProxyClass(builderClass);
-
-		return execMagic(classBuilder, magicBuilderProxy);
-	}
-
-	public static <T> byte[] execMagic(AdvClassBuilder classBuilder, T magicBuilderProxy) {
-		return AdvDumpMagic.execMagicBuilder(_contextThreadLocal, classBuilder, magicBuilderProxy);
-	}
-
-	public static <T> byte[] execMagic(String classname, T magicBuilderProxy) {
-		return AdvDumpMagic.execMagicBuilder(_contextThreadLocal, classname, magicBuilderProxy);
 	}
 
 	public static void import_(String string) {

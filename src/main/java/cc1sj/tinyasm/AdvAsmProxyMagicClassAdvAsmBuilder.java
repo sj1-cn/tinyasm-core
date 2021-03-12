@@ -46,7 +46,8 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 		} else {
 			ch.extends_(targetClazz);
 		}
-		ch.implements_(AdvRuntimeReferNameObject.class);
+//		ch.implements_(AdvRuntimeReferNameObject.class);
+		ch.implements_(AdvMagicRuntime.class);
 //		ch.access(access);
 		proxyClassBody = ch.body();
 
@@ -54,17 +55,45 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		proxyClassBody.private_().field("_magicNumber", Clazz.of(byte.class));
 		proxyClassBody.private_().field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
+		proxyClassBody.private_().field("_classBuilder", Clazz.of(AdvClassBuilder.class));
 
 		__init_TargetClass(proxyClassBody, targetClazz);
 		_get__MagicNumber(proxyClassBody);
 		_set__MagicNumber(proxyClassBody);
 		_set__Context(proxyClassBody);
+		_get__ClassBuilder(proxyClassBody);
+		_set__ClassBuilder(proxyClassBody);
 
 		resolveClass(targetClazz, actualTypeArguments);
 
 		resolveMagicClass(targetClazz, actualTypeArguments);
 
 		finish();
+	}
+
+	protected void _get__ClassBuilder(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("get__ClassBuilder").return_(AdvClassBuilder.class).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.GETFIELD_OF_THIS("_classBuilder");
+		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void _set__ClassBuilder(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("set__ClassBuilder").parameter("_classBuilder", AdvClassBuilder.class).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("_classBuilder");
+		code.PUTFIELD_OF_THIS("_classBuilder");
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
 	}
 
 	protected void resolveMagicClass(Clazz target, Clazz[] actualTypeArguments) {

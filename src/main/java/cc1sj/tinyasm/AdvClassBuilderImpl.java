@@ -7,8 +7,8 @@ import static cc1sj.tinyasm.Adv.*;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClassName, AdvAfterClassExtends, AdvAfterClassImplements, AdvClassBuilder,
-		AdvAfterModifier, AdvAfterClassEnd {
+public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClassName, AdvAfterClassExtends, AdvAfterClassImplements,
+		AdvClassBuilder, AdvAfterModifier, AdvAfterClassEnd {
 
 	private ThreadLocal<AdvContext> _contextThreadLocal;
 	private int classAccess = 0;
@@ -44,6 +44,12 @@ public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClass
 	}
 
 	@Override
+	public AdvAfterClassExtends extends_(Clazz _extends) {
+		this._extends = _extends;
+		return this;
+	}
+
+	@Override
 	public AdvAfterClassExtends extends_(Class<?> _extends) {
 		this._extends = Clazz.of(_extends);
 		return this;
@@ -52,6 +58,16 @@ public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClass
 	@Override
 	public AdvAfterClassImplements implements_(Class<?> interfaceClass) {
 		this._implements.add(Clazz.of(interfaceClass));
+		return this;
+	}
+
+	@Override
+	public AdvAfterClassImplements implements_(Clazz... interfaceClass) {
+		if (interfaceClass != null) {
+			for (Clazz clazz : interfaceClass) {
+				this._implements.add(clazz);
+			}
+		}
 		return this;
 	}
 
@@ -79,7 +95,7 @@ public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClass
 		}
 
 		classBody = ch.body();
-
+		Adv.enterClass(this);
 		return this;
 	}
 
@@ -121,6 +137,7 @@ public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClass
 
 	@Override
 	public AdvAfterClassEnd end() {
+		Adv.exitClass();
 		classBuilder = classBody.end();
 		return this;
 	}

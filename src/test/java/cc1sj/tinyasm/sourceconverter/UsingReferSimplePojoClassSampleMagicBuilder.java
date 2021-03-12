@@ -2,14 +2,15 @@ package cc1sj.tinyasm.sourceconverter;
 
 import static cc1sj.tinyasm.Adv.*;
 
-import cc1sj.tinyasm.Adv;
 import cc1sj.tinyasm.AdvClassBuilder;
+import cc1sj.tinyasm.AdvMagic;
 import cc1sj.tinyasm.hero.helperclass.ReferSimplePojoClassSample;
 import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
 
-public class UsingReferSimplePojoClassSampleMagicBuilder {
+public class UsingReferSimplePojoClassSampleMagicBuilder extends SimpleSuperClass implements SimpleSuperInterface {
 
-//	final private String _name = private_().field("name", String.class);
+	@SuppressWarnings("unused")
+	final private String _name = private_().field("name", String.class);
 
 	String saying;
 
@@ -18,7 +19,7 @@ public class UsingReferSimplePojoClassSampleMagicBuilder {
 	}
 
 	public void _dump_fields(AdvClassBuilder classBody) {
-		classBody.private_().field("name", String.class);
+//		classBody.private_().field("name", String.class);
 	}
 
 	public void _dump_init(AdvClassBuilder classBody) {
@@ -72,15 +73,12 @@ public class UsingReferSimplePojoClassSampleMagicBuilder {
 
 	public static byte[] dump() {
 
-		AdvClassBuilder classBuilder = public_class_("cc1sj.tinyasm.sourceconverter.UsingReferSimplePojoClassSample")
-				.extends_(SimpleSuperClass.class).implements_(SimpleSuperInterface.class).enterClassBody();
-
-		UsingReferSimplePojoClassSampleMagicBuilder magicBuilderProxy = Adv
-				.buildMagicBuilderProxyClass(UsingReferSimplePojoClassSampleMagicBuilder.class);
+		UsingReferSimplePojoClassSampleMagicBuilder magicBuilderProxy = AdvMagic
+				.build("cc1sj.tinyasm.sourceconverter.UsingReferSimplePojoClassSample", UsingReferSimplePojoClassSampleMagicBuilder.class);
 
 		magicBuilderProxy.dumpInit("sayNothing");
 
-		return execMagic(classBuilder, magicBuilderProxy);
+		return AdvMagic.dump(magicBuilderProxy);
 
 	}
 }

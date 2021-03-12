@@ -32,6 +32,12 @@ public class AdvMethodBuilder implements AdvAfterMethodName, AdvAfterParameter, 
 	}
 
 	@Override
+	public AdvAfterParameter parameter_(String name, Clazz clazz) {
+		_parameters.add(new Parameter(name, clazz));
+		return this;
+	}
+
+	@Override
 	public AdvAfterParameter parameter_(String name, Class<?> clazz) {
 		_parameters.add(new Parameter(name, Clazz.of(clazz)));
 		return this;

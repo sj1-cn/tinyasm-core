@@ -3,16 +3,17 @@ package cc1sj.tinyasm.sourceconverter;
 import static cc1sj.tinyasm.Adv.*;
 
 import cc1sj.tinyasm.AdvClassBuilder;
+import cc1sj.tinyasm.AdvMagic;
 import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
 
-public class UsingSimplePojoClassSampleMagicBuilder {
+public class UsingSimplePojoClassSampleMagicBuilder extends SimpleSuperClass implements SimpleSuperInterface {
 
 	final String name = null;// = clazz.public_().field("name", String.class);
 
 	public void _dump_fields(AdvClassBuilder classBody) {
 		classBody.private_().field("name", String.class);
 	}
-	
+
 	public void _dump_init(AdvClassBuilder classBody) {
 		classBody.public_().method("<init>").code(code -> {
 			code.LINE();
@@ -26,7 +27,8 @@ public class UsingSimplePojoClassSampleMagicBuilder {
 		int j = __("j", 20); // int j = 20;
 		__(j, add(i, j)); // j = i + j;
 
-		SimplePojoClassSample referedObject = __("referedObject", new_(SimplePojoClassSample.class));// ReferedObject referedObject = new ReferedObject();
+		SimplePojoClassSample referedObject = __("referedObject", new_(SimplePojoClassSample.class));// ReferedObject referedObject = new
+																										// ReferedObject();
 		referedObject.sayHello(); // referedObject.sayHello();
 		String helloString = __("helloString", referedObject.getHelloString());// String helloString = referedObject.getHelloString();
 		referedObject.setHelloString("sayNothing"); // referedObject.setHelloString("sayNothing");
@@ -58,7 +60,13 @@ public class UsingSimplePojoClassSampleMagicBuilder {
 	}
 
 	public static byte[] dump() {
-		return dumpMagicClass(public_class_("cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample").extends_(SimpleSuperClass.class)
-				.implements_(SimpleSuperInterface.class).enterClassBody(), UsingSimplePojoClassSampleMagicBuilder.class);
+
+		UsingSimplePojoClassSampleMagicBuilder magicBuilderProxy = AdvMagic
+				.build("cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample", UsingSimplePojoClassSampleMagicBuilder.class);
+
+//		magicBuilderProxy.dumpInit("sayNothing");
+
+		return AdvMagic.dump(magicBuilderProxy);
+
 	}
 }
