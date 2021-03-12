@@ -8,11 +8,11 @@ import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
 
 public class UsingReferSimplePojoClassSampleMagicBuilder {
 
-	@SuppressWarnings("unused")
-	final private String name =  private_().field("name", String.class);
+//	@SuppressWarnings("unused")
+//	final private String name =  private_().field("name", String.class);
 
 	public void _dump_fields(AdvClassBuilder classBody) {
-//		classBody.private_().field("name", String.class);
+		classBody.private_().field("name", String.class);
 	}
 
 	public void _dump_init(AdvClassBuilder classBody) {
@@ -63,7 +63,7 @@ public class UsingReferSimplePojoClassSampleMagicBuilder {
 	}
 
 	public static byte[] dump() {
-		return dumpClass(publicClass_("cc1sj.tinyasm.sourceconverter.UsingReferSimplePojoClassSample").extends_(SimpleSuperClass.class)
+		return dumpClass(public_class_("cc1sj.tinyasm.sourceconverter.UsingReferSimplePojoClassSample").extends_(SimpleSuperClass.class)
 				.implements_(SimpleSuperInterface.class).enterClassBody(), UsingReferSimplePojoClassSampleMagicBuilder.class);
 	}
 }

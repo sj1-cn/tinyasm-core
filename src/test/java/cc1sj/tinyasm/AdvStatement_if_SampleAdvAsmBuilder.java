@@ -20,7 +20,7 @@ public class AdvStatement_if_SampleAdvAsmBuilder {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		AdvClassBuilder classBody = publicClass_(className).enterClassBody();
+		AdvClassBuilder classBody = public_class_(className).enterClassBody();
 
 		__init_(classBody);
 		_testIfThen(classBody);

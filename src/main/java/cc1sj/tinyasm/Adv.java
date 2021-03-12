@@ -2,6 +2,7 @@ package cc1sj.tinyasm;
 
 import static org.objectweb.asm.Opcodes.*;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -11,6 +12,7 @@ import org.objectweb.asm.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.function.Function;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -56,7 +58,7 @@ public class Adv {
 		return builder.class_(advSample);
 	}
 
-	static public AfterClassName publicClass_(String advSample) {
+	static public AfterClassName public_class_(String advSample) {
 		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
 		builder.access(ACC_PUBLIC);
 		return builder.class_(advSample);
@@ -224,6 +226,13 @@ public class Adv {
 		return (double) (MAGIC_CODES_NUMBER + context.push(double.class, c -> {
 			c.LOADConst(value);
 		}));
+	}
+
+	static public String cst(String value) {
+		AdvContext context = _contextThreadLocal.get();
+		return MAGIC_CODES_String + context.push(String.class, c -> {
+			c.LOADConst(value);
+		});
 	}
 
 //	static public int inc(int l, int r) {
@@ -515,6 +524,10 @@ public class Adv {
 		return t;
 	}
 
+	public static Object[] params(Object... params) {
+		return params;
+	}
+
 	public static <T> T new_(Class<?> clz, Class<?> interfaceClass, Class<?> typeParameter) {
 		AdvContext context = _contextThreadLocal.get();
 
@@ -528,58 +541,69 @@ public class Adv {
 		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
 
 		@SuppressWarnings("unchecked")
-		T t = (T) brokerBuilder.buildProxyClass(interfaceClass, typeParameter, _contextThreadLocal, magicNumber);
+		T t = (T) brokerBuilder.buildProxyClass(_contextThreadLocal, magicNumber, interfaceClass, typeParameter);
 		return t;
 	}
+//
+//	public static <T> T newList_(Class<?> clz, Class<?> interfaceClass, Class<?> typeParameter, Object... params) {
+//		AdvContext context = _contextThreadLocal.get();
+//
+//		Constructor<?> constructor = matchConstruct(clz, params);
+//		if (constructor == null) throw new UnsupportedOperationException();
+//		Class<?>[] paramTypes = constructor.getParameterTypes();
+//
+//		List<ConsumerWithException<MethodCode>> valueEvals = new ArrayList<>();
+//		for (int i = 0; i < params.length; i++) {
+//			valueEvals.add(context.resolve(params[i], paramTypes[i]));
+//		}
+//
+//		int codeIndex = context.push(clz, c -> {
+////			c.LINE();
+//			c.NEW(clz);
+//			c.DUP();
+//			for (ConsumerWithException<MethodCode> valueEval : valueEvals) {
+//				valueEval.accept(c);
+//			}
+//			c.SPECIAL(clz, "<init>").parameter(constructor.getParameterTypes()).INVOKE();
+////			c.CHECKCAST(Type.getType(interfaceClass));
+//		});
+//
+//		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
+//
+//		@SuppressWarnings("unchecked")
+//		T t = (T) brokerBuilder.buildProxyClass(_contextThreadLocal, magicNumber, interfaceClass, typeParameter);
+//		return t;
+//	}
 
-	public static <T> T newList_(Class<?> clz, Class<?> interfaceClass, Class<?> typeParameter, Object... params) {
-		AdvContext context = _contextThreadLocal.get();
-
-		Constructor<?> constructor = matchConstruct(clz, params);
-		if (constructor == null) throw new UnsupportedOperationException();
-		Class<?>[] paramTypes = constructor.getParameterTypes();
-
-		List<ConsumerWithException<MethodCode>> valueEvals = new ArrayList<>();
-		for (int i = 0; i < params.length; i++) {
-			valueEvals.add(context.resolve(params[i], paramTypes[i]));
-		}
-
-		int codeIndex = context.push(clz, c -> {
-//			c.LINE();
-			c.NEW(clz);
-			c.DUP();
-			for (ConsumerWithException<MethodCode> valueEval : valueEvals) {
-				valueEval.accept(c);
-			}
-			c.SPECIAL(clz, "<init>").parameter(constructor.getParameterTypes()).INVOKE();
-			c.CHECKCAST(Type.getType(interfaceClass));
-		});
-
-		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
-
-		@SuppressWarnings("unchecked")
-		T t = (T) brokerBuilder.buildProxyClass(interfaceClass, typeParameter, _contextThreadLocal, magicNumber);
-		return t;
-	}
-
-	public static <T> T new_(Class<?> clz, Class<?> interfaceClass) {
+	public static <T> T new_(Class<T> clz, Class<?> typeArgument) {
 		AdvContext context = _contextThreadLocal.get();
 
 		int codeIndex = context.push(clz, c -> {
 			c.NEW(clz);
 			c.DUP();
 			c.SPECIAL(clz, "<init>").INVOKE();
-			c.CHECKCAST(Type.getType(interfaceClass));
 		});
 
 		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
 
 		@SuppressWarnings("unchecked")
-		T t = (T) brokerBuilder.buildProxyClass(interfaceClass, _contextThreadLocal, magicNumber);
+		T t = (T) brokerBuilder.buildProxyClass(_contextThreadLocal, magicNumber, clz, typeArgument);
 		return t;
 	}
 
-	public static <T> T new_(Class<?> clz, Class<?> interfaceClass, Object... params) {
+	public static <T> T new_(Class<?> clz, Class<?> t0, Object[] params) {
+		return new_(clz, new Class<?>[] { t0 }, params);
+	}
+
+	public static <T> T new_(Class<?> clz, Class<?> t0, Class<?> t1, Object[] params) {
+		return new_(clz, of(t0, t1), params);
+	}
+
+	public static <T> T new_(Class<?> clz, Class<?> t0, Class<?> t1, Class<?> t2, Object[] params) {
+		return new_(clz, of(t0, t1, t2), params);
+	}
+
+	public static <T> T new_(Class<?> clz, Class<?>[] typeArguments, Object[] params) {
 		AdvContext context = _contextThreadLocal.get();
 
 		Constructor<?> constructor = matchConstruct(clz, params);
@@ -599,17 +623,16 @@ public class Adv {
 				valueEval.accept(c);
 			}
 			c.SPECIAL(clz, "<init>").parameter(constructor.getParameterTypes()).INVOKE();
-			c.CHECKCAST(Type.getType(interfaceClass));
 		});
 
 		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
 
 		@SuppressWarnings("unchecked")
-		T t = (T) brokerBuilder.buildProxyClass(interfaceClass, _contextThreadLocal, magicNumber);
+		T t = (T) brokerBuilder.buildProxyClass(_contextThreadLocal, magicNumber, clz, typeArguments);
 		return t;
 	}
 
-	static public <T> T new_(Class<T> clz, Object... params) {
+	static public <T> T new_(Class<T> clz, Object[] params) {
 
 		AdvContext context = _contextThreadLocal.get();
 
@@ -638,7 +661,7 @@ public class Adv {
 		return t;
 	}
 
-	protected static Constructor<?> matchConstruct(Class<?> helloclass, Object... params) {
+	protected static Constructor<?> matchConstruct(Class<?> helloclass, Object[] params) {
 		Constructor<?> c = null;
 		for (Constructor<?> init : helloclass.getConstructors()) {
 			if (init.getParameterCount() == params.length) {
@@ -848,6 +871,123 @@ public class Adv {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T, R> T __(Class<T> targetClass, String varname, R magicNumber) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> expr = context.resolve(magicNumber);
+		context.clear();
+		context.line();
+		context.exec(expr);
+		int locals = context.store(varname, Clazz.of(targetClass));
+
+		Class<?> t = targetClass;
+
+		if (t == boolean.class) {
+			throw new UnsupportedOperationException();
+		} else if (t == Byte.class) {
+			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Character.class) {
+			int codeIndex = ((Character) magicNumber).charValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Short.class) {
+			int codeIndex = ((Short) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Integer.class) {
+			int codeIndex = ((Integer) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Long.class) {
+			int codeIndex = ((Long) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Float.class) {
+			int codeIndex = ((Float) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Double.class) {
+			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == String.class) {
+			String key = String.valueOf(MAGIC_LOCALS_String + locals);
+			return (T) key;
+		} else if (magicNumber instanceof AdvRuntimeReferNameObject) {
+			byte localsIndex = (byte) (MAGIC_LOCALS_NUMBER + locals);
+			return buildProxyClass(targetClass, localsIndex);
+		} else {
+			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+		}
+	}
+
+	public static <T, R> T __(Class<?> targetClass, Class<?> typeArgument, String varname, R magicNumber) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> expr = context.resolve(magicNumber);
+		context.clear();
+		context.line();
+		context.exec(expr);
+		int locals = context.store(varname, Clazz.of(targetClass));
+
+		Class<?> t = targetClass;
+
+		if (t == boolean.class) {
+			throw new UnsupportedOperationException();
+		} else if (t == Byte.class) {
+			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Character.class) {
+			int codeIndex = ((Character) magicNumber).charValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Short.class) {
+			int codeIndex = ((Short) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Integer.class) {
+			int codeIndex = ((Integer) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Long.class) {
+			int codeIndex = ((Long) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Float.class) {
+			int codeIndex = ((Float) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == Double.class) {
+			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+			return (T) key;
+		} else if (t == String.class) {
+			String key = String.valueOf(MAGIC_LOCALS_String + locals);
+			return (T) key;
+		} else if (magicNumber instanceof AdvRuntimeReferNameObject) {
+			byte localsIndex = (byte) (MAGIC_LOCALS_NUMBER + locals);
+			return buildProxyClass(targetClass, typeArgument, localsIndex);
+		} else {
+			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+		}
+	}
+
 	static public <T> void __(T target, T src) {
 		assert target instanceof AdvRuntimeReferNameObject : "target 必须是内部对象";
 		assert src instanceof AdvRuntimeReferNameObject : "src 必须是内部对象";
@@ -939,50 +1079,95 @@ public class Adv {
 	}
 
 	@SuppressWarnings("unchecked")
-	static public <T> T _null(String varname, Class<T> clazz) {
+	static public <T> T null_(Class<T> clazz) {
 		AdvContext context = _contextThreadLocal.get();
 //		ConsumerWithException<MethodCode> expr = context.resolve(magicNumber);
 		context.clear();
 		context.line();
-		context.exec(c -> {
+		int codeIndex = context.push(clazz, c -> {
 			c.LOADConstNULL();
 		});
-		int locals = context.store(varname);
 
 		Class<?> t = clazz;
 		if (t == boolean.class) {
 			throw new UnsupportedOperationException();
 		} else if (t == Byte.class) {
-			Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
+			Byte key = (byte) (MAGIC_CODES_NUMBER + codeIndex);
 			return (T) key;
 		} else if (t == Character.class) {
-			Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
+			Character key = (char) (MAGIC_CODES_NUMBER + codeIndex);
 			return (T) key;
 		} else if (t == Short.class) {
-			Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
+			Short key = (short) (MAGIC_CODES_NUMBER + codeIndex);
 			return (T) key;
 		} else if (t == Integer.class) {
-			Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
+			Integer key = (int) (MAGIC_CODES_NUMBER + codeIndex);
 			return (T) key;
 		} else if (t == Long.class) {
-			Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
+			Long key = (long) (MAGIC_CODES_NUMBER + codeIndex);
 			return (T) key;
 		} else if (t == Float.class) {
-			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+			Double key = (double) (MAGIC_CODES_NUMBER + codeIndex);
 			return (T) key;
 		} else if (t == Double.class) {
-			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+			Double key = (double) (MAGIC_CODES_NUMBER + codeIndex);
 			return (T) key;
 		} else if (t == String.class) {
-			String key = String.valueOf(MAGIC_LOCALS_String + locals);
+			String key = String.valueOf(MAGIC_LOCALS_String + codeIndex);
 			return (T) key;
 		} else if (canProxy(t)) {
-			byte magicNumber = (byte) (MAGIC_LOCALS_NUMBER + locals);
+			byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
 			return buildProxyClass(clazz, magicNumber);
 		} else {
 			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
 		}
 	}
+
+//	@SuppressWarnings("unchecked")
+//	static public <T> T _null(Class<T> clazz, String varname) {
+//		AdvContext context = _contextThreadLocal.get();
+////		ConsumerWithException<MethodCode> expr = context.resolve(magicNumber);
+//		context.clear();
+//		context.line();
+//		context.exec(c -> {
+//			c.LOADConstNULL();
+//		});
+//		int locals = context.store(varname);
+//
+//		Class<?> t = clazz;
+//		if (t == boolean.class) {
+//			throw new UnsupportedOperationException();
+//		} else if (t == Byte.class) {
+//			Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
+//			return (T) key;
+//		} else if (t == Character.class) {
+//			Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
+//			return (T) key;
+//		} else if (t == Short.class) {
+//			Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
+//			return (T) key;
+//		} else if (t == Integer.class) {
+//			Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
+//			return (T) key;
+//		} else if (t == Long.class) {
+//			Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
+//			return (T) key;
+//		} else if (t == Float.class) {
+//			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+//			return (T) key;
+//		} else if (t == Double.class) {
+//			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+//			return (T) key;
+//		} else if (t == String.class) {
+//			String key = String.valueOf(MAGIC_LOCALS_String + locals);
+//			return (T) key;
+//		} else if (canProxy(t)) {
+//			byte magicNumber = (byte) (MAGIC_LOCALS_NUMBER + locals);
+//			return buildProxyClass(clazz, magicNumber);
+//		} else {
+//			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+//		}
+//	}
 
 	static public int add(int left, int right) {
 		AdvContext context = _contextThreadLocal.get();
@@ -1296,29 +1481,29 @@ public class Adv {
 	}
 
 	public static <T> T buildProxyClass(Class<?> t, Class<?> type, byte magicNumber) {
-		return brokerBuilder.buildProxyClass(t, type, _contextThreadLocal, magicNumber);
+		return brokerBuilder.buildProxyClass(_contextThreadLocal, magicNumber, t, type);
 	}
 
-	public static <T> byte[] dumpClass(AdvClassBuilder classBuilder, Class<T> clazz) {
+	public static <T> byte[] dumpClass(AdvClassBuilder classBuilder, Class<T> builderClass) {
 //		Class<?> clazz = simpleSampleCodeBuilder.getClass();
-		clazz.getGenericSuperclass();
-		logger.debug("class {} {}", clazz.getName(), clazz.getGenericSuperclass());
-		for (Class<?> type : clazz.getInterfaces()) {
-			logger.debug("getGenericInterfaces {} {}", clazz.getName(), type.getName());
+//		clazz.getGenericSuperclass();
+
+		logger.debug("class {} {}", builderClass.getName(), builderClass.getGenericSuperclass());
+		for (Class<?> type : builderClass.getInterfaces()) {
+			logger.debug("getGenericInterfaces {} {}", builderClass.getName(), type.getName());
 		}
-		for (java.lang.reflect.Type type : clazz.getGenericInterfaces()) {
+		for (java.lang.reflect.Type type : builderClass.getGenericInterfaces()) {
 			ParameterizedType parameterizedType = (ParameterizedType) type;
-			logger.debug("getGenericInterfaces {} {} {}", clazz.getName(), parameterizedType.getRawType(),
+			logger.debug("getGenericInterfaces {} {} {}", builderClass.getName(), parameterizedType.getRawType(),
 					parameterizedType.getActualTypeArguments());
 		}
 
 		try {
 
 			enterClass(classBuilder);
-
-			T simpleSampleCodeBuilder = clazz.getConstructor().newInstance();
-
-			ClassReader cr = new ClassReader(clazz.getName());
+			T simpleSampleCodeBuilder = brokerBuilder.buildMagicProxyClass(builderClass, _contextThreadLocal, Adv.MAGIC_LOCALS_NUMBER);
+			Class<?> builderProxyClass = simpleSampleCodeBuilder.getClass();
+			ClassReader cr = new ClassReader(builderClass.getName());
 			cr.accept(new ClassVisitor(ASM9) {
 				@Override
 				public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
@@ -1330,8 +1515,8 @@ public class Adv {
 					try {
 						if ((access & ACC_PUBLIC) > 0 && !"dump".equals(name)) {
 							Method thisMethod = null;
-							Method[] methodes = clazz.getDeclaredMethods();
-							for (Method method : methodes) {
+							Method thisProxyMethod = null;
+							for (Method method : builderClass.getMethods()) {
 								if (method.getName().equals(name) && !method.isBridge()) {
 									Class<?>[] parameterTypes = method.getParameterTypes();
 									Type[] types = new Type[parameterTypes.length];
@@ -1341,19 +1526,31 @@ public class Adv {
 									String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
 									if (reflectMethodDescriptor.equals(descriptor)) {
 										thisMethod = method;
-										break;
+									}
+								}
+							}
+							for (Method method : builderProxyClass.getMethods()) {
+								if (method.getName().equals("$_" + name) && !method.isBridge()) {
+									Class<?>[] parameterTypes = method.getParameterTypes();
+									Type[] types = new Type[parameterTypes.length];
+									for (int i = 0; i < parameterTypes.length; i++) {
+										types[i] = Type.getType(parameterTypes[i]);
+									}
+									String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
+									if (reflectMethodDescriptor.equals(descriptor)) {
+										thisProxyMethod = method;
 									}
 								}
 							}
 //							Method method = clazz.getMethod(name);
 							logger.debug("{} {} ", name, signature);
 							if (thisMethod != null) {
-								buildWithMethod(classBuilder, simpleSampleCodeBuilder, thisMethod);
+								buildWithMethod(classBuilder, simpleSampleCodeBuilder, thisMethod, thisProxyMethod);
 							}
 
 						}
 					} catch (SecurityException e) {
-						throw new UnsupportedOperationException(clazz.getName(), e);
+						throw new UnsupportedOperationException(builderProxyClass.getName(), e);
 					}
 					return null;
 				}
@@ -1362,14 +1559,15 @@ public class Adv {
 
 			exitClass();
 		} catch (Exception e1) {
-			throw new UnsupportedOperationException(clazz.getName(), e1);
+			throw new UnsupportedOperationException(builderClass.getName(), e1);
 		}
 
 		return classBuilder.end().toByteArray();
 	}
 
 	@SuppressWarnings("unused")
-	protected static void buildWithMethod(AdvClassBuilder classBuilder, Object simpleSampleCodeBuilder, Method method) {
+	protected static void buildWithMethod(AdvClassBuilder classBuilder, Object simpleSampleCodeBuilder, Method method,
+			Method thisProxyMethod) {
 		if (method.getName().startsWith("_") && method.getParameters()[0].getType() == AdvClassBuilder.class) {
 			try {
 				logger.debug("enter asm method {}" + method.getName());
@@ -1385,65 +1583,56 @@ public class Adv {
 		} else {
 			logger.debug("enter magic method {}" + method.getName());
 			AdvMethodBuilder methodBuilder = (AdvMethodBuilder) classBuilder.method(method.getModifiers(), method.getName());
-			if (method.getReturnType() == Void.class) methodBuilder.return_(method.getReturnType());
+			if (method.getReturnType() != Void.class) methodBuilder.return_(Clazz.of(method.getGenericReturnType()));
 			for (Parameter parameter : method.getParameters()) {
 				methodBuilder.parameter_(parameter.getName(), parameter.getType());
 			}
 			Class<?>[] exceptionClasses = method.getExceptionTypes();
 			methodBuilder.throws_(exceptionClasses);
 			methodBuilder.code(code -> {
-				try {
-					AdvContext context = _contextThreadLocal.get();
-					Parameter[] parameters = method.getParameters();
-					java.lang.reflect.Type[] parameterTypes = method.getGenericParameterTypes();
-					Object[] params = new Object[parameters.length];
-					for (int i = 0; i < parameters.length; i++) {
-						Parameter parameter = parameters[i];
-						Class<?> parameterClass = parameter.getType();
+				AdvContext context = _contextThreadLocal.get();
+				Parameter[] parameters = method.getParameters();
+				java.lang.reflect.Type[] parameterTypes = method.getGenericParameterTypes();
+				Object[] params = new Object[parameters.length];
+				for (int i = 0; i < parameters.length; i++) {
+					Parameter parameter = parameters[i];
+					Class<?> parameterClass = parameter.getType();
 
-						java.lang.reflect.Type type = parameterTypes[i];
-						if (type instanceof ParameterizedType) {
-							ParameterizedType parameterType = (ParameterizedType) type;
-							logger.debug("{} {} {} {}", method.getName(), parameter.getName(), parameter.getType().getName(),
-									parameterType.getActualTypeArguments());
+					java.lang.reflect.Type type = parameterTypes[i];
+					if (type instanceof ParameterizedType) {
+						ParameterizedType parameterType = (ParameterizedType) type;
+						logger.debug("{} {} {} {}", method.getName(), parameter.getName(), parameter.getType().getName(),
+								parameterType.getActualTypeArguments());
 
-						} else {
-							logger.debug("{} {} {} {}", method.getName(), parameter.getName(), parameter.getType().getName());
-
-						}
-						if (parameterClass == boolean.class || parameterClass == Boolean.class) {
-							params[i] = false;
-						} else if (parameterClass == byte.class || parameterClass == Byte.class) {
-							params[i] = (byte) (MAGIC_LOCALS_NUMBER + i + 1);
-						} else if (parameterClass == short.class || parameterClass == Short.class) {
-							params[i] = (short) (MAGIC_LOCALS_NUMBER + i + 1);
-						} else if (parameterClass == int.class || parameterClass == Integer.class) {
-							params[i] = (int) (MAGIC_LOCALS_NUMBER + i + 1);
-						} else if (parameterClass == long.class || parameterClass == Long.class) {
-							params[i] = (long) (MAGIC_LOCALS_NUMBER + i + 1);
-						} else if (parameterClass == float.class || parameterClass == Float.class) {
-							params[i] = (float) (MAGIC_LOCALS_NUMBER + i + 1);
-						} else if (parameterClass == double.class || parameterClass == Double.class) {
-							params[i] = (double) (MAGIC_LOCALS_NUMBER + i + 1);
-						} else if (parameterClass == String.class) {
-							params[i] = MAGIC_LOCALS_String + (i + 1);
-						} else if (canProxy(parameterClass)) {
-							params[i] = buildProxyClass(parameterClass, (byte) (MAGIC_LOCALS_NUMBER + i + 1));
-						} else if (parameterClass == Object.class) {
-							throw new UnsupportedOperationException();
-						} else {
-							throw new UnsupportedOperationException();
-						}
+					} else {
+						logger.debug("{} {} {} {}", method.getName(), parameter.getName(), parameter.getType().getName());
 					}
-					method.invoke(simpleSampleCodeBuilder, params);
-				} catch (IllegalAccessException e) {
-					throw new UnsupportedOperationException(method.getName(), e);
-				} catch (IllegalArgumentException e) {
-					throw new UnsupportedOperationException(method.getName(), e);
-				} catch (InvocationTargetException e) {
-					throw new UnsupportedOperationException(method.getName(), e);
+					if (parameterClass == boolean.class || parameterClass == Boolean.class) {
+						params[i] = false;
+					} else if (parameterClass == byte.class || parameterClass == Byte.class) {
+						params[i] = (byte) (MAGIC_LOCALS_NUMBER + i + 1);
+					} else if (parameterClass == short.class || parameterClass == Short.class) {
+						params[i] = (short) (MAGIC_LOCALS_NUMBER + i + 1);
+					} else if (parameterClass == int.class || parameterClass == Integer.class) {
+						params[i] = (int) (MAGIC_LOCALS_NUMBER + i + 1);
+					} else if (parameterClass == long.class || parameterClass == Long.class) {
+						params[i] = (long) (MAGIC_LOCALS_NUMBER + i + 1);
+					} else if (parameterClass == float.class || parameterClass == Float.class) {
+						params[i] = (float) (MAGIC_LOCALS_NUMBER + i + 1);
+					} else if (parameterClass == double.class || parameterClass == Double.class) {
+						params[i] = (double) (MAGIC_LOCALS_NUMBER + i + 1);
+					} else if (parameterClass == String.class) {
+						params[i] = MAGIC_LOCALS_String + (i + 1);
+					} else if (canProxy(parameterClass)) {
+						params[i] = buildProxyClass(parameterClass, (byte) (MAGIC_LOCALS_NUMBER + i + 1));
+					} else if (parameterClass == Object.class) {
+						throw new UnsupportedOperationException();
+					} else {
+						throw new UnsupportedOperationException();
+					}
 				}
-				logger.debug("exit magic method {}" + method.getName());
+				thisProxyMethod.invoke(simpleSampleCodeBuilder, params);
+				logger.debug("exit magic method {}", method.getName());
 			});
 		}
 	}
@@ -1451,5 +1640,63 @@ public class Adv {
 	public static void import_(String string) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T, R> R[] of(Function<T, R> func, T... tarray) {
+		if (tarray.length == 0) return null;
+		R r = func.apply(tarray[0]);
+		R[] rarray = (R[]) Array.newInstance(r.getClass(), tarray.length);
+		rarray[0] = r;
+
+		for (int i = 1; i < rarray.length; i++) {
+			rarray[i] = func.apply(tarray[i]);
+		}
+		return rarray;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T[] of(T t0) {
+		T[] rarray = (T[]) Array.newInstance(t0.getClass(), 1);
+		rarray[0] = t0;
+		return rarray;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T[] of(T t0, T t1) {
+		T[] rarray = (T[]) Array.newInstance(t0.getClass(), 2);
+		rarray[0] = t0;
+		rarray[1] = t1;
+		return rarray;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T[] of(T t0, T t1, T t2) {
+		T[] rarray = (T[]) Array.newInstance(t0.getClass(), 3);
+		rarray[0] = t0;
+		rarray[1] = t1;
+		rarray[2] = t2;
+		return rarray;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T[] of(T t0, T t1, T t2, T t3) {
+		T[] rarray = (T[]) Array.newInstance(t0.getClass(), 4);
+		rarray[0] = t0;
+		rarray[1] = t1;
+		rarray[2] = t2;
+		rarray[3] = t3;
+		return rarray;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T[] of(T t0, T t1, T t2, T t3, T t4) {
+		T[] rarray = (T[]) Array.newInstance(t0.getClass(), 5);
+		rarray[0] = t0;
+		rarray[1] = t1;
+		rarray[2] = t2;
+		rarray[3] = t3;
+		rarray[4] = t4;
+		return rarray;
 	}
 }

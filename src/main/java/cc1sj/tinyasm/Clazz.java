@@ -2,6 +2,7 @@ package cc1sj.tinyasm;
 
 import static cc1sj.tinyasm.TypeUtils.arrayOf;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.objectweb.asm.Type;
@@ -31,6 +32,22 @@ public abstract class Clazz {
 
 	public String signatureOf(List<ClazzFormalTypeParameter> formalTypeParameters) {
 		return signatureOf();
+	}
+
+	public static Clazz of(java.lang.reflect.Type type) {
+		if (type instanceof ParameterizedType) {
+			Clazz clazz = Clazz.of(((ParameterizedType) type).getRawType().getTypeName());
+			java.lang.reflect.Type[] types = ((ParameterizedType) type).getActualTypeArguments();
+			ClazzTypeArgument[] clazzes = new ClazzTypeArgument[types.length];
+			for (int j = 0; j < types.length; j++) {
+				clazzes[j] = Clazz.typeArgument(Clazz.of(types[j]));
+			}
+			return Clazz.of(clazz, clazzes);
+		} else if (type instanceof Class<?>) {
+			return Clazz.of((Class<?>) type);
+		} else {
+			return null;
+		}
 	}
 
 	public static ClazzSimple of(String classname) {

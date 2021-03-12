@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Function;
 
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
@@ -33,9 +34,29 @@ class AdvAsmProxyObjenesisBuilder {
 
 	static int count = 0;
 
-	public <T> T buildProxyClass(Class<?> target, Class<?> typeParameter, ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber) {
+	public <T> String join(T[] array, Function<T, String> func) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < array.length; i++) {
+			sb.append(func.apply(array[i]));
+		}
+		return sb.toString();
+	}
 
-		String key = target.getName() + "_" + typeParameter.getName();
+	public <T> String join(T[] array, Function<T, String> func, String seperator) {
+		if (array.length == 0) return "";
+		StringBuffer sb = new StringBuffer();
+		sb.append(func.apply(array[0]));
+		for (int i = 1; i < array.length; i++) {
+			sb.append(seperator);
+			sb.append(func.apply(array[i]));
+		}
+		return sb.toString();
+	}
+
+	public <T> T buildProxyClass(ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber, Class<?> target,
+			Class<?>... typeParameters) {
+
+		String key = target.getName() + "_" + join(typeParameters, t -> t.getName());
 
 		ObjectInstantiator<?> builder = knownBrokeres.get(key);
 
@@ -69,10 +90,9 @@ class AdvAsmProxyObjenesisBuilder {
 				String proxyClassName = this.getClass().getName() + "_" + key.replace('.', '_') + count;
 				byte[] code;
 				if (target.isInterface()) {
-					code = AdvAsmProxyClassAdvAsmBuilder.dumpInterface(target, typeParameter, proxyClassName);
+					code = AdvAsmProxyClassAdvAsmBuilder.dumpInterface(target, typeParameters, proxyClassName);
 				} else {
-//					code = AdvAsmProxyClassAdvAsmBuilder.dump2(target, proxyClassName);
-					throw new UnsupportedOperationException();
+					code = AdvAsmProxyClassAdvAsmBuilder.dumpClass(target, typeParameters, proxyClassName);
 				}
 
 				if (log.isDebugEnabled()) {
@@ -187,6 +207,78 @@ class AdvAsmProxyObjenesisBuilder {
 			throw new RuntimeException(target.getName(), e);
 		} finally {
 			lock.unlock();
+		}
+	}
+
+	public <T> T buildMagicProxyClass(Class<T> target, ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber) {
+
+		Class<?> clzBroker;
+
+		lock.lock();
+		try {
+
+			count++;
+
+			{
+				String standardProxyClassName = target.getName() + "ObjenesisAdvAsmProxy";
+
+				try {
+					clzBroker = Class.forName(standardProxyClassName);
+					return make(clzBroker, _contextThreadLocal, magicNumber);
+				} catch (ClassNotFoundException e) {
+				}
+			}
+			{
+//				String proxyClassSuffix = 
+				String proxyClassName = this.getClass().getName() + "_" + target.getName().replace('.', '_') + count;
+				byte[] code;
+				code = AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(target, proxyClassName);
+
+				if (log.isDebugEnabled()) {
+					try {
+						String filename = "tmp/" + proxyClassName + ".class";
+						String path = filename.substring(0, filename.lastIndexOf('/'));
+						File file = new File(path);
+						if (!file.exists()) {
+							file.mkdir();
+						}
+						FileOutputStream fileOutputStream = new FileOutputStream(filename);
+						fileOutputStream.write(code);
+						fileOutputStream.close();
+					} catch (FileNotFoundException e) {
+						log.error("", e);
+						throw new RuntimeException(e);
+					}
+				}
+
+				clzBroker = TinyAsmClassLoader.defineClass(proxyClassName, code);
+
+				TinyAsmClassLoader.doResolveClass(clzBroker);
+
+			}
+
+			return make(clzBroker, _contextThreadLocal, magicNumber);
+
+		} catch (ClassFormatError e) {
+			log.error("", e);
+			throw new RuntimeException(target.getName(), e);
+		} catch (Exception e) {
+			log.error("", e);
+			throw new RuntimeException(target.getName(), e);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T> T make(Class<?> clzBroker, ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber) {
+		try {
+			T t = (T) clzBroker.getConstructor().newInstance();
+			AdvRuntimeReferNameObject o = (AdvRuntimeReferNameObject) t;
+			o.set__Context(_contextThreadLocal, (byte) magicNumber);
+			return t;
+		} catch (Exception e) {
+			throw new UnsupportedOperationException(e);
 		}
 	}
 

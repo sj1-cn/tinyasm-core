@@ -146,7 +146,7 @@ public class MethodCodeBuilder extends MethodCode {
 
 	@Override
 	public void END() {
-		if (!hasReturnVoid && this.mh.returnClazz == null) {
+		if (!hasReturnVoid && (this.mh.returnClazz == null || this.mh.returnClazz.getType().getSort() == Type.VOID)) {
 			if (mh.thisMethod.methodName.startsWith("<")) {
 				super.RETURN();
 			} else {

@@ -6,9 +6,10 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 
 public interface MethodCodeASM {
-	void BOX_Top() ;
+	void BOX_Top();
 
-	void UNBOX_Top() ;
+	void UNBOX_Top();
+
 	void BLOCK(Consumer<MethodCode> mc);
 
 	void LINE();
@@ -25,9 +26,15 @@ public interface MethodCodeASM {
 
 	int STORE(String varname);
 
-	void STORE(String varname, Class<?> clazz);
+	default int STORE(String varname, Class<?> clazz) {
+		return STORE(varname, Clazz.of(clazz));
+	}
 
-	void STORE(String varname, String clazz);
+	default int STORE(String varname, String clazz) {
+		return STORE(varname, Clazz.of(clazz));
+	}
+
+	int STORE(String varname, Clazz clazz);
 
 //	void STORE(int local);
 
@@ -127,7 +134,7 @@ public interface MethodCodeASM {
 	void CONVERTTO(Class<?> typeTo);
 
 	void CONVERTTO(Clazz typeTo);
-	
+
 	void CONVERTTO(String typeTo);
 
 	/*
@@ -180,7 +187,7 @@ public interface MethodCodeASM {
 	 *            classes whose version is 51.0.
 	 */
 	void NEW(Class<?> objectref);
-	
+
 	void NEW(Clazz objectclazz);
 
 	void NEW(String objectref);
@@ -188,7 +195,7 @@ public interface MethodCodeASM {
 	/* Create a new array: newarray, anewarray, multianewarray. */
 
 	void NEWARRAY(Class<?> clazz);
-	
+
 	void NEWARRAY(Clazz objectclazz);
 
 	void NEWARRAY(String clazz);
@@ -197,19 +204,19 @@ public interface MethodCodeASM {
 
 	void ARRAYLENGTH();
 
-
 	void ARRAYLOAD();
+
 	void ARRAYSTORE();
 
 	/* Check properties of class instances or arrays: instanceof, checkcast. */
 	void INSTANCEOF(Class<?> clazz);
-	
+
 	void INSTANCEOF(Clazz clazz);
 
 	void INSTANCEOF(String clazz);
 
 	void CHECKCAST(Class<?> clazz);
-	
+
 	void CHECKCAST(Clazz clazz);
 
 	void CHECKCAST(String clazz);
@@ -337,10 +344,5 @@ public interface MethodCodeASM {
 	void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
 
 	void GETFIELD(String fieldname, Clazz fieldType);
-
-	void STORE(String varname, Clazz clazz);
-
-
-
 
 }

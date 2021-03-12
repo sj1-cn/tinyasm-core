@@ -58,7 +58,7 @@ public class UsingSimplePojoClassSampleMagicBuilder {
 	}
 
 	public static byte[] dump() {
-		return dumpClass(publicClass_("cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample").extends_(SimpleSuperClass.class)
+		return dumpClass(public_class_("cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample").extends_(SimpleSuperClass.class)
 				.implements_(SimpleSuperInterface.class).enterClassBody(), UsingSimplePojoClassSampleMagicBuilder.class);
 	}
 }

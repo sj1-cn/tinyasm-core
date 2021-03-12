@@ -266,15 +266,15 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		return local;
 	}
 
-	@Override
-	public void STORE(String varname, Class<?> clazz) {
-		int local = codeLocalGetLocals(varname);
-		if (local < 0) {
-			define(varname, clazz);
-			local = codeLocalGetLocals(varname);
-		}
-		STORE(local);
-	}
+//	@Override
+//	public void STORE(String varname, Class<?> clazz) {
+//		int local = codeLocalGetLocals(varname);
+//		if (local < 0) {
+//			define(varname, clazz);
+//			local = codeLocalGetLocals(varname);
+//		}
+//		STORE(local);
+//	}
 
 	public void STORE(String varname, Type clazz) {
 		int local = codeLocalGetLocals(varname);
@@ -286,24 +286,26 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 	
 	@Override
-	public void STORE(String varname, Clazz clazz) {
+	public int STORE(String varname, Clazz clazz) {
 		int local = codeLocalGetLocals(varname);
 		if (local < 0) {
 			define(varname, clazz);
 			local = codeLocalGetLocals(varname);
 		}
 		STORE(local);
+		return local;
 	}
 
-	@Override
-	public void STORE(String varname, String clazz) {
-		int local = codeLocalGetLocals(varname);
-		if (local < 0) {
-			define(varname, clazz);
-			local = codeLocalGetLocals(varname);
-		}
-		STORE(local);
-	}
+//	@Override
+//	public int STORE(String varname, String clazz) {
+//		int local = codeLocalGetLocals(varname);
+//		if (local < 0) {
+//			define(varname, clazz);
+//			local = codeLocalGetLocals(varname);
+//		}
+//		STORE(local);
+//		return local;
+//	}
 
 	public void STOREException(int local) {
 		visitVarInsn(ASTORE, local);

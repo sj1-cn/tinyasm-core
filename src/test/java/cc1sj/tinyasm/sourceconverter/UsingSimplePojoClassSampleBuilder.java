@@ -9,7 +9,7 @@ public class UsingSimplePojoClassSampleBuilder {
 
 	@SuppressWarnings("unused")
 	public static byte[] dump() {
-		AdvClassBuilder clazz = publicClass_("cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample").extends_(SimpleSuperClass.class)
+		AdvClassBuilder clazz = public_class_("cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample").extends_(SimpleSuperClass.class)
 				.implements_(SimpleSuperInterface.class).enterClassBody();
 		final String name = clazz.public_().field("name", String.class);
 

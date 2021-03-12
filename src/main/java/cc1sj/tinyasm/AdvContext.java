@@ -109,7 +109,11 @@ public class AdvContext {
 	public int store(String name) {
 		int localsIndex = code.STORE(name);
 		return localsIndex;
+	}
 
+	public int store(String name, Clazz clazz) {
+		int localsIndex = code.STORE(name, clazz);
+		return localsIndex;
 	}
 
 	public void store(int referIndex) {

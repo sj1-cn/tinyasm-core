@@ -31,7 +31,7 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 	}
 
 	@Test
-	public void test_SimpleSampleBuilderMagic_dump() throws Exception {
+	public void test_UsingSimplePojoClassSampleMagicBuilder_dump() throws Exception {
 		Class<?> expectedClazz = UsingSimplePojoClassSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 

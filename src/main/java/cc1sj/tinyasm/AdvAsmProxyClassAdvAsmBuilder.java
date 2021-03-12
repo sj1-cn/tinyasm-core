@@ -1,6 +1,6 @@
 package cc1sj.tinyasm;
 
-import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
+import static cc1sj.tinyasm.Adv.*;
 import static cc1sj.tinyasm.Adv.MAGIC_CODES_String;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
@@ -39,12 +39,12 @@ import org.slf4j.LoggerFactory;
 public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
-	public static byte[] dumpClass(Class<?> target, Class<?> actualTypeArgument, String proxyClassName) throws Exception {
+	public static byte[] dumpClass(Class<?> target, Class<?>[] actualTypeArguments, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
 		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM9, cw);
 
-		bw.dumpClass(Clazz.of(target), new Clazz[] { Clazz.of(actualTypeArgument) }, proxyClassName);
+		bw.dumpClass(Clazz.of(target), of(t -> Clazz.of(t), actualTypeArguments), proxyClassName);
 
 		return cw.toByteArray();
 	}
@@ -59,12 +59,12 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		return cw.toByteArray();
 	}
 
-	public static byte[] dumpInterface(Class<?> target, Class<?> actualTypeArgument, String proxyClassName) throws Exception {
+	public static byte[] dumpInterface(Class<?> target, Class<?>[] actualTypeArguments, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
 		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM9, cw);
 
-		bw.dumpInterface(Clazz.of(target), new Clazz[] { Clazz.of(actualTypeArgument) }, proxyClassName);
+		bw.dumpInterface(Clazz.of(target), of(t -> Clazz.of(t), actualTypeArguments), proxyClassName);
 
 		return cw.toByteArray();
 	}

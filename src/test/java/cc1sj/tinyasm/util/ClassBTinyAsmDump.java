@@ -1,0 +1,103 @@
+package cc1sj.tinyasm.util;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
+import cc1sj.tinyasm.ClassBody;
+import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
+import cc1sj.tinyasm.Clazz;
+import java.io.PrintStream;
+import java.lang.System;
+import cc1sj.tinyasm.util.ClassA;
+import java.lang.String;
+@SuppressWarnings("unused")
+public class ClassBTinyAsmDump {
+
+	public static byte[] dump () throws Exception {
+		return new ClassBTinyAsmDump().dump("cc1sj.tinyasm.util.ClassB");
+	}
+
+	public byte[] dump(String className) throws Exception {
+		ClassBody classBody = ClassBuilder.make(className, ClassA.class)
+			.access(ACC_PUBLIC | ACC_SUPER).body();
+
+		__init_(classBody);
+		_say1(classBody);
+		_say2(classBody);
+		_say1InB(classBody);
+		_say2InB(classBody);
+
+		return classBody.end().toByteArray();
+	}
+
+	protected void __init_(ClassBody classBody) {
+		MethodCode code = classBody.publicMethod("<init>").begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.SPECIAL(ClassA.class, "<init>").INVOKE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _say1(ClassBody classBody) {
+		MethodCode code = classBody.publicMethod("say1").begin();
+
+		code.LINE();
+		code.GETSTATIC(System.class, "out", PrintStream.class);
+		code.LOADConst("say in classB1");
+		code.VIRTUAL(PrintStream.class, "println")
+			.parameter(String.class).INVOKE();
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _say2(ClassBody classBody) {
+		MethodCode code = classBody.publicMethod("say2").begin();
+
+		code.LINE();
+		code.GETSTATIC(System.class, "out", PrintStream.class);
+		code.LOADConst("say in classB2");
+		code.VIRTUAL(PrintStream.class, "println")
+			.parameter(String.class).INVOKE();
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _say1InB(ClassBody classBody) {
+		MethodCode code = classBody.publicMethod("say1InB").begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.SPECIAL(ClassA.class, "say1").INVOKE();
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _say2InB(ClassBody classBody) {
+		MethodCode code = classBody.publicMethod("say2InB").begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.SPECIAL(ClassA.class, "say2").INVOKE();
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+}
