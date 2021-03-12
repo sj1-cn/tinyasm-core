@@ -87,14 +87,17 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 
 	List<LambdaBuilder> proxyLambdas = new ArrayList<>();
 	List<BridgeMethod> proxyBridgeMethods = new ArrayList<>();
+	Map<String, BridgeMethod> proxyDefinedBridgeMethodes = new HashMap<>();
 	Map<String, String> proxyDefinedMethodes = new HashMap<>();
 
 	Current current;
 	Clazz targetClazz;
+	boolean isTargetClazzKnown = true;
 
 	class Current {
 		Clazz[] actualTypeArguments;
 		List<ClazzFormalTypeParameter> classFormalTypeParameters = new ArrayList<>();
+		public Clazz clazz;
 	}
 
 	public AdvAsmProxyClassAdvAsmBuilder(int api) {
@@ -170,6 +173,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	protected void resolveClass(Clazz target, Clazz[] actualTypeArguments) {
 		Current last = this.current;
 		this.current = new Current();
+		this.current.clazz = target;
 //		current.targetClazz = target;
 		current.actualTypeArguments = actualTypeArguments;
 
@@ -240,6 +244,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 					}
 				}
 			}
+
 		} else {
 			if (superName != null && !superName.equals(Type.getType(Object.class).getInternalName())) {
 				resolveClass(Clazz.of(Type.getObjectType(superName)), new Clazz[0]);
@@ -333,21 +338,30 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 				? (ClazzFormalTypeParameter[]) classSignaturewwww.typeParamenterClazzes
 				: new ClazzFormalTypeParameter[0];
 
-		if (needBridge && methodFormalTypeParameters.length == 0) {
-			String actualDescriptor = buildBridgeDescriptor(originParamTypes, originReturnType);
-			String referkey = methodName + actualDescriptor;
-//			logger.debug(referkey);
-			if (!proxyDefinedMethodes.containsKey(referkey)) {
-				proxyBridgeMethods.add(new BridgeMethod(methodName, originReturnType, originParamTypes, methodReturnClazz,
-						methodParamClazzes, exceptions));
-				proxyDefinedMethodes.put(referkey, referkey);
-			}
-		}
 		String actualDescriptor;
 		String actualSignature;
 		{
 			actualDescriptor = buildDescriptor(methodParamClazzes, methodReturnClazz);
 			actualSignature = buildSignature(methodFormalTypeParameters, methodParamClazzes, methodReturnClazz);
+		}
+		String bridgeMethodReferkey = methodName + actualDescriptor;
+		if (needBridge && methodFormalTypeParameters.length == 0) {
+			String actualBridgeDescriptor = buildBridgeDescriptor(originParamTypes, originReturnType);
+			String referkey = methodName + actualBridgeDescriptor;
+//			logger.debug(referkey);
+			if (!proxyDefinedMethodes.containsKey(referkey)) {
+				BridgeMethod bm = new BridgeMethod(methodName, originReturnType, originParamTypes, methodReturnClazz, methodParamClazzes,
+						exceptions);
+				bm.lowestClazz = current.clazz;
+				proxyBridgeMethods.add(bm);
+				proxyDefinedMethodes.put(referkey, referkey);
+				proxyDefinedBridgeMethodes.put(bridgeMethodReferkey, bm);
+			}
+		}
+
+		BridgeMethod bm = proxyDefinedBridgeMethodes.get(bridgeMethodReferkey);
+		if (bm != null) {
+			bm.lowestClazz = current.clazz;
 		}
 
 		String referkey = methodName + actualDescriptor + actualSignature;
@@ -406,12 +420,21 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 
 		// invoke method
 		String lambdaName = pushLambda(lambdaEvalParamNames, methodName, c -> {
-			c.LINE();
-			c.LOAD("c");
-			c.LOADConst(targetClazz);
-			c.LOADConst(methodName);
-			c.VIRTUAL(MethodCode.class, INTERFACE_OR_VIRTUAL).return_(MethodCaller.class).parameter(Class.class).parameter(String.class)
-					.INVOKE();
+			if (isTargetClazzKnown) {
+				c.LINE();
+				c.LOAD("c");
+				c.LOADConst(targetClazz);
+				c.LOADConst(methodName);
+				c.VIRTUAL(MethodCode.class, INTERFACE_OR_VIRTUAL).return_(MethodCaller.class).parameter(Class.class).parameter(String.class)
+						.INVOKE();
+			} else {
+				c.LINE();
+				c.LOAD("c");
+				c.LOADConst(targetClazz.getType().getClassName());
+				c.LOADConst(methodName);
+				c.VIRTUAL(MethodCode.class, INTERFACE_OR_VIRTUAL).return_(MethodCaller.class).parameter(String.class)
+						.parameter(String.class).INVOKE();
+			}
 			for (Type type : originParamTypes) {
 				loadType(c, Clazz.of(type));
 				c.INTERFACE(MethodCaller.class, "parameter").return_(MethodCaller.class).parameter(Class.class).INVOKE();
@@ -1227,6 +1250,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		Clazz targetReturnClazz;
 		Clazz[] targetParamClazzes;
 		String[] exceptions;
+		Clazz lowestClazz;
 
 		public BridgeMethod(String methodName, Type originReturnType, Type[] originParamTypes, Clazz targetReturnClazz,
 				Clazz[] targetParamClazzes, String[] exceptions) {
@@ -1255,8 +1279,11 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 
 			for (int i = 0; i < originParamTypes.length; i++) {
 				code.LOAD("params" + i);
-				if (targetParamClazzes[i].getType().getSort() != Type.INT) {
-					code.CHECKCAST(targetParamClazzes[i]);
+
+				Type originType = originParamTypes[i];
+				Clazz targetClazz = targetParamClazzes[i];
+				if (!originType.equals(targetClazz.getType())) {
+					code.CHECKCAST(targetClazz);
 				}
 			}
 

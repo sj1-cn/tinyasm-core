@@ -190,7 +190,8 @@ class AdvAsmProxyObjenesisBuilder {
 		}
 	}
 
-	public <T> T buildMagicProxyClass(Class<T> target, ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber) {
+	public <T> T buildMagicProxyClass(String targetClassName, Class<T> target, ThreadLocal<AdvContext> _contextThreadLocal,
+			int magicNumber) {
 
 		Class<?> clzBroker;
 
@@ -212,7 +213,7 @@ class AdvAsmProxyObjenesisBuilder {
 //				String proxyClassSuffix = 
 				String proxyClassName = this.getClass().getName() + "_" + target.getName().replace('.', '_') + count;
 				byte[] code;
-				code = AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(target, proxyClassName);
+				code = AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(target, proxyClassName, targetClassName);
 
 				if (log.isDebugEnabled()) {
 					try {
@@ -238,78 +239,6 @@ class AdvAsmProxyObjenesisBuilder {
 			}
 
 			return makeMagicProxy(clzBroker, _contextThreadLocal, magicNumber);
-
-		} catch (ClassFormatError e) {
-			log.error("", e);
-			throw new RuntimeException(target.getName(), e);
-		} catch (Exception e) {
-			log.error("", e);
-			throw new RuntimeException(target.getName(), e);
-		} finally {
-			lock.unlock();
-		}
-	}
-
-	public <T> T buildMagicProxyClassWithoutInit(Class<T> target, ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber) {
-
-		ObjectInstantiator<?> builder = knownBrokeres.get(target.getName());
-
-		if (builder != null) {
-			return make(builder, _contextThreadLocal, magicNumber);
-		}
-
-		lock.lock();
-		try {
-
-			builder = knownBrokeres.get(target.getName());
-			if (builder != null) {
-				return make(builder, _contextThreadLocal, magicNumber);
-			}
-
-			count++;
-
-			{
-				String standardProxyClassName = target.getName() + "ObjenesisAdvAsmProxy";
-
-				try {
-					Class<?> clzBroker = Class.forName(standardProxyClassName);
-					builder = objenesis.getInstantiatorOf(clzBroker);
-				} catch (ClassNotFoundException e) {
-				}
-			}
-
-			// 构建代理类
-			if (builder == null) {
-//				String proxyClassSuffix = 
-				String proxyClassName = this.getClass().getName() + "_" + target.getName().replace('.', '_') + count;
-				byte[] code = AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(target, proxyClassName);
-
-				if (log.isDebugEnabled()) {
-					try {
-						String filename = "tmp/" + proxyClassName + ".class";
-						String path = filename.substring(0, filename.lastIndexOf('/'));
-						File file = new File(path);
-						if (!file.exists()) {
-							file.mkdir();
-						}
-						FileOutputStream fileOutputStream = new FileOutputStream(filename);
-						fileOutputStream.write(code);
-						fileOutputStream.close();
-					} catch (FileNotFoundException e) {
-						log.error("", e);
-						throw new RuntimeException(e);
-					}
-				}
-
-				Class<?> clzBroker = TinyAsmClassLoader.defineClass(proxyClassName, code);
-
-				TinyAsmClassLoader.doResolveClass(clzBroker);
-				builder = objenesis.getInstantiatorOf(clzBroker);
-			}
-
-			this.knownBrokeres.put(target.getName(), builder);
-
-			return make(builder, _contextThreadLocal, magicNumber);
 
 		} catch (ClassFormatError e) {
 			log.error("", e);

@@ -38,7 +38,7 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 
 	@Override
 	public void visitFormalTypeParameter(String name) {
-		logger.debug("{}visitFormalTypeParameter({})", indent(), name);
+		logger.trace("{}visitFormalTypeParameter({})", indent(), name);
 		HolderFormalTypeParameter sb = new HolderFormalTypeParameter(name);
 		typeParameterClassList.add(sb);
 		list = sb.children;
@@ -47,33 +47,33 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 
 	@Override
 	public SignatureVisitor visitClassBound() { // L
-		logger.debug("{}visitClassBound()", indent());
+		logger.trace("{}visitClassBound()", indent());
 		return this;
 	}
 
 	@Override
 	public SignatureVisitor visitInterfaceBound() {
-		logger.debug("{}visitInterfaceBound()", indent());
+		logger.trace("{}visitInterfaceBound()", indent());
 		return this;
 	}
 
 	@Override
 	public SignatureVisitor visitSuperclass() {
-		logger.debug("{}visitSuperclass()", indent());
+		logger.trace("{}visitSuperclass()", indent());
 		list = superClassList;
 		return this;
 	}
 
 	@Override
 	public SignatureVisitor visitInterface() {
-		logger.debug("{}visitInterface()", indent());
+		logger.trace("{}visitInterface()", indent());
 		list = interfacesClassList;
 		return this;
 	}
 
 	@Override
 	public SignatureVisitor visitParameterType() {
-		logger.debug("{}visitParameterType()", indent());
+		logger.trace("{}visitParameterType()", indent());
 		typeArgument = DEFAULT_TypeArgument;
 		list = paramsClassList;
 		return this;
@@ -81,7 +81,7 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 
 	@Override
 	public SignatureVisitor visitReturnType() {
-		logger.debug("{}visitReturnType()", indent());
+		logger.trace("{}visitReturnType()", indent());
 		list = returnClassList;
 
 		array = false;
@@ -92,13 +92,13 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 
 	@Override
 	public SignatureVisitor visitExceptionType() {
-		logger.debug("{}visitExceptionType()", indent());
+		logger.trace("{}visitExceptionType()", indent());
 		return this;
 	}
 
 	@Override
 	public void visitBaseType(char descriptor) {
-		logger.debug("{}visitBaseType({})", indent(), descriptor);
+		logger.trace("{}visitBaseType({})", indent(), descriptor);
 		HolderClazz holderClazz;
 		if (array) {
 			holderClazz = new HolderClazz(Clazz.of(Type.getType(String.valueOf(descriptor)), true));
@@ -111,7 +111,7 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 
 	@Override
 	public void visitTypeVariable(String name) {
-		logger.debug("{}visitTypeVariable({})", indent(), name);
+		logger.trace("{}visitTypeVariable({})", indent(), name);
 		if (typeArgument > DEFAULT_TypeArgument) {
 			if (array) {
 				list.add(new HolderTypeArgument(typeArgument, Clazz.typeVariableOf(name, array)));
@@ -131,7 +131,7 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 	@Override
 	public SignatureVisitor visitArrayType() {
 		array = true;
-		logger.debug("{}visitArrayType()", indent());
+		logger.trace("{}visitArrayType()", indent());
 		return this;
 	}
 
@@ -141,7 +141,7 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 
 	@Override
 	public void visitClassType(String name) {
-		logger.debug("{}visitClassType({})", indent(), name);
+		logger.trace("{}visitClassType({})", indent(), name);
 		level++;
 		HolderClazz holderClazz;
 		if (typeArgument > DEFAULT_TypeArgument) {
@@ -163,7 +163,7 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 
 	@Override
 	public void visitInnerClassType(String name) {
-		logger.debug("{}visitInnerClassType({})", indent(), name);
+		logger.trace("{}visitInnerClassType({})", indent(), name);
 		super.visitInnerClassType(name);
 	}
 
@@ -172,14 +172,14 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 
 	@Override
 	public void visitTypeArgument() {
-		logger.debug("{}visitTypeArgument()", indent());
+		logger.trace("{}visitTypeArgument()", indent());
 		list.add(new HolderClazz(Clazz.typeUnboundedTypeArgument()));
 		array = false;
 	}
 
 	@Override
 	public SignatureVisitor visitTypeArgument(char wildcard) {
-		logger.debug("{}visitTypeArgument({})", indent(), wildcard);
+		logger.trace("{}visitTypeArgument({})", indent(), wildcard);
 		typeArgument = wildcard;
 		return this;
 	}
@@ -189,7 +189,7 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 		list = listStack.pop();
 		array = false;
 		level--;
-		logger.debug("{}visitEnd()", indent());
+		logger.trace("{}visitEnd()", indent());
 		super.visitEnd();
 	}
 

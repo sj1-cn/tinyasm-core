@@ -25,6 +25,7 @@ import cc1sj.tinyasm.hero.helperclass.UsingGenericInterfaceImplSample;
 import cc1sj.tinyasm.hero.helperclass.UsingGenericMethodInterfaceSample;
 import cc1sj.tinyasm.hero.helperclass.UsingIterable;
 import cc1sj.tinyasm.hero.helperclass.UsingList;
+import cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample;
 import cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSampleMagicBuilder;
 import cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSampleMagicBuilderAdvAsmProxy;
 import cc1sj.tinyasm.util.ClassB;
@@ -385,10 +386,10 @@ public class AdvAsmProxyASMifierTest {
 	public void test_ProxyMagic_Build() throws Exception {
 		Class<?> expectedClazz = UsingSimplePojoClassSampleMagicBuilderAdvAsmProxy.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),
-				AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(UsingSimplePojoClassSampleMagicBuilder.class, expectedClazz.getName()));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyMagicClassAdvAsmBuilder
+				.dumpMagic(UsingSimplePojoClassSampleMagicBuilder.class, expectedClazz.getName(), UsingSimplePojoClassSample.class.getName()));
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
-
+	
 }

@@ -1,8 +1,10 @@
 package cc1sj.tinyasm;
 
+import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
+import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -16,12 +18,12 @@ import org.objectweb.asm.Type;
 
 public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBuilder {
 
-	public static byte[] dumpMagic(Class<?> target, String proxyClassName) throws Exception {
+	public static byte[] dumpMagic(Class<?> magicBuilderClass, String proxyClassName, String targetClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
 		AdvAsmProxyMagicClassAdvAsmBuilder bw = new AdvAsmProxyMagicClassAdvAsmBuilder(Opcodes.ASM9, cw);
 
-		bw.dumpMagic(Clazz.of(target), new Clazz[] {}, proxyClassName);
+		bw.dumpMagic(Clazz.of(magicBuilderClass), new Clazz[] {}, proxyClassName, targetClassName);
 
 		return cw.toByteArray();
 	}
@@ -34,17 +36,23 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 		super(api, classVisitor);
 	}
 
-	protected void dumpMagic(ClazzSimple targetClazz, Clazz[] actualTypeArguments, String proxyClassName) throws IOException {
+	ClazzSimple magicBuilderClazz;
+
+	protected void dumpMagic(ClazzSimple magicBuilderClazz, Clazz[] actualTypeArguments, String proxyClassName, String targetClassName)
+			throws IOException {
+		this.isTargetClazzKnown = false;
 		this.proxyClassName = proxyClassName;
-		this.targetClazz = targetClazz;
+		this.magicBuilderClazz = magicBuilderClazz;
+//		this.targetClazz = magicBuilderClazz;
+		this.targetClazz = Clazz.of(targetClassName);
 		INTERFACE_OR_VIRTUAL = VIRTUAL;
 
 		ClassHeader ch = ClassBuilder.class_(cv, proxyClassName);
 //		if(superName)
 		if (actualTypeArguments.length > 0) {
-			ch.extends_(Clazz.of(targetClazz, actualTypeArguments));
+			ch.extends_(Clazz.of(magicBuilderClazz, actualTypeArguments));
 		} else {
-			ch.extends_(targetClazz);
+			ch.extends_(magicBuilderClazz);
 		}
 //		ch.implements_(AdvRuntimeReferNameObject.class);
 		ch.implements_(AdvMagicRuntime.class);
@@ -57,16 +65,26 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 		proxyClassBody.private_().field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
 		proxyClassBody.private_().field("_classBuilder", Clazz.of(AdvClassBuilder.class));
 
-		__init_TargetClass(proxyClassBody, targetClazz);
+		__init_TargetClass(proxyClassBody, magicBuilderClazz);
 		_get__MagicNumber(proxyClassBody);
 		_set__MagicNumber(proxyClassBody);
 		_set__Context(proxyClassBody);
 		_get__ClassBuilder(proxyClassBody);
 		_set__ClassBuilder(proxyClassBody);
 
-		resolveClass(targetClazz, actualTypeArguments);
+		resolveClass(magicBuilderClazz, actualTypeArguments);
 
-		resolveMagicClass(targetClazz, actualTypeArguments);
+		resolveMagicClass(magicBuilderClazz, actualTypeArguments);
+
+		for (int i = proxyBridgeMethods.size() - 1; i >= 0; i--) {
+			BridgeMethod bridgeMethod = proxyBridgeMethods.get(i);
+			String methodName = bridgeMethod.methodName;
+			if (methodName.startsWith("_") || methodName.startsWith("<") || methodName.startsWith("dump")) continue;
+			if (magicBuilderClazz.getType().getClassName().equals(bridgeMethod.lowestClazz.getType().getClassName())) {
+				logger.debug("BridgeMethod -> {}", bridgeMethod.methodName);
+				buildBridgeMethodBuilder(proxyClassBody, bridgeMethod);
+			}
+		}
 
 		finish();
 	}
@@ -157,15 +175,225 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 //				}
 			}
 			if (returnType != Type.VOID_TYPE) {
-				code.SPECIAL(targetClazz, methodName).parameter(clazzes).return_(Clazz.of(returnType)).INVOKE();
+				code.SPECIAL(magicBuilderClazz, methodName).parameter(clazzes).return_(Clazz.of(returnType)).INVOKE();
 				code.RETURNTop();
 			} else {
-				code.SPECIAL(targetClazz, methodName).parameter(clazzes).INVOKE();
+				code.SPECIAL(magicBuilderClazz, methodName).parameter(clazzes).INVOKE();
 				code.LINE();
 				code.RETURN();
 			}
 			code.END();
 		}
+	}
+
+	public void buildBridgeMethodBuilder(ClassBody classBody, BridgeMethod bridgeMethod) {
+		String methodName = bridgeMethod.methodName;
+		Type originReturnType = bridgeMethod.originReturnType;
+		Type[] originParamTypes = bridgeMethod.originParamTypes;
+		Clazz targetReturnClazz = bridgeMethod.targetReturnClazz;
+		Clazz[] targetParamClazzes = bridgeMethod.targetParamClazzes;
+		String[] exceptions = bridgeMethod.exceptions;
+
+		MethodCode code = classBody.public_().method("$_" + methodName).parameter("classBody", ClassBody.class).begin();
+
+		method(code, methodName);
+
+		if (originReturnType != Type.VOID_TYPE) method_return(code, originReturnType);
+//		if (exceptions != null) methodHeader.throws_(exceptions);
+		if (originParamTypes != null) {
+			for (int i = 0; i < originParamTypes.length; i++) {
+				method_parameter(code, "params" + i, originParamTypes[i]);
+			}
+		}
+		if (exceptions != null) {
+			for (int i = 0; i < exceptions.length; i++) {
+				String exceptionClassName = exceptions[i];
+				method_throws(code, exceptionClassName);
+			}
+		}
+		begin(code);
+
+		line(code);
+		load_this(code);
+
+		if (originParamTypes != null) {
+			for (int i = 0; i < originParamTypes.length; i++) {
+				load(code, "params" + i);
+
+				Type originType = originParamTypes[i];
+				Clazz targetClazz = targetParamClazzes[i];
+				if (!originType.equals(targetClazz.getType())) {
+					checkcastParamType(code, targetClazz.getType());
+				}
+			}
+		}
+
+		invoke_virtual(methodName, code);
+		if (targetParamClazzes != null) {
+			for (int i = 0; i < targetParamClazzes.length; i++) {
+				invoke_parameter(code, targetParamClazzes[i].getType());
+			}
+		}
+		if (originReturnType != Type.VOID_TYPE) {
+			invoke_return(code, targetReturnClazz.getType());
+		}
+		invoke_invoke(code);
+
+		if (originReturnType != Type.VOID_TYPE) {
+			returnTop(code);
+		} else {
+			returnVoid(code);
+
+		}
+		end(code);
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+
+	}
+
+	@SuppressWarnings("unchecked")
+	static Type[] types = Adv.of(c -> Type.getType(c), boolean.class, char.class, byte.class, short.class, int.class, float.class,
+			long.class, double.class);
+
+	Type checkType(Type type) {
+		int sort = type.getSort();
+		if (Type.BOOLEAN <= sort && sort <= Type.DOUBLE) {
+			return types[sort - 1];
+		} else {
+			return type;
+		}
+	}
+
+	protected void returnTop(MethodCode code) {
+		code.LINE();
+		code.LOAD("code");
+		code.VIRTUAL(MethodCode.class, "RETURNTop").INVOKE();
+	}
+
+	protected void begin(MethodCode code) {
+		code.INTERFACE(MethodHeader.class, "begin").return_(MethodCode.class).INVOKE();
+		code.STORE("code", MethodCode.class);
+	}
+
+	protected void method(MethodCode code, String methodName) {
+		code.LINE();
+		code.LOAD("classBody");
+		code.LOADConst(4161);
+		code.LOADConst(methodName);
+		code.INTERFACE(ClassBody.class, "method").return_(MethodHeader.class).parameter(int.class).parameter(String.class).INVOKE();
+	}
+
+	protected void invoke_invoke(MethodCode code) {
+		code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
+	}
+
+	protected void invoke_return(MethodCode code, Type type) {
+		_type(code, type);
+		code.INTERFACE(MethodCaller.class, "return_").return_(MethodCaller.class).parameter(Class.class).INVOKE();
+	}
+
+	protected void invoke_virtual(String methodName, MethodCode code) {
+		code.LINE();
+		code.LOAD("code");
+		code.LOADConst(methodName);
+		code.VIRTUAL(MethodCode.class, "VIRTUAL").return_(MethodCaller.class).parameter(String.class).INVOKE();
+	}
+
+	protected void method_return(MethodCode code, Type type) {
+		_type(code, type);
+		code.INTERFACE(MethodHeader.class, "return_").return_(MethodHeader.class).parameter(Class.class).INVOKE();
+	}
+
+	protected void end(MethodCode code) {
+		code.LINE();
+		code.LOAD("code");
+		code.VIRTUAL(MethodCode.class, "END").INVOKE();
+	}
+
+	protected void returnVoid(MethodCode code) {
+		code.LINE();
+		code.LOAD("code");
+		code.VIRTUAL(MethodCode.class, "RETURN").INVOKE();
+	}
+
+	protected void invoke_parameter(MethodCode code, Type type) {
+		_type(code, type);
+		code.INTERFACE(MethodCaller.class, "parameter").return_(MethodCaller.class).parameter(Class.class).INVOKE();
+	}
+
+	protected void checkcastParamType(MethodCode code, Type type) {
+		code.LINE();
+		code.LOAD("code");
+		_type(code, type);
+		code.VIRTUAL(MethodCode.class, "CHECKCAST").parameter(Class.class).INVOKE();
+	}
+
+	protected void load(MethodCode code, String paramname) {
+		code.LINE();
+		code.LOAD("code");
+		code.LOADConst(paramname);
+		code.VIRTUAL(MethodCode.class, "LOAD").parameter(String.class).INVOKE();
+	}
+
+	protected void method_parameter(MethodCode code, String paramname, Type type) {
+		code.LOADConst(paramname);
+		_type(code, type);
+		code.INTERFACE(MethodHeader.class, "parameter").return_(Object.class).parameter(String.class).parameter(Class.class).INVOKE();
+		code.CHECKCAST(MethodHeader.class);
+	}
+
+	protected void _type(MethodCode code, Type type) {
+
+		switch (type.getSort()) {
+		case Type.BOOLEAN:
+			code.GETSTATIC(Boolean.class, "TYPE", Class.class);
+			break;
+		case Type.BYTE:
+			code.GETSTATIC(Byte.class, "TYPE", Class.class);
+			break;
+		case Type.CHAR:
+			code.GETSTATIC(Character.class, "TYPE", Class.class);
+			break;
+		case Type.SHORT:
+			code.GETSTATIC(Short.class, "TYPE", Class.class);
+			break;
+		case Type.INT:
+			code.GETSTATIC(Integer.class, "TYPE", Class.class);
+			break;
+		case Type.FLOAT:
+			code.GETSTATIC(Float.class, "TYPE", Class.class);
+			break;
+		case Type.LONG:
+			code.GETSTATIC(Long.class, "TYPE", Class.class);
+			break;
+		case Type.DOUBLE:
+			code.GETSTATIC(Double.class, "TYPE", Class.class);
+			break;
+		default:
+			code.LOADConst(type);
+		}
+
+	}
+
+	protected void method_throws(MethodCode code, String exceptionClassName) {
+		code.LOADConst(exceptionClassName);
+		code.INTERFACE(MethodHeader.class, "throws_").return_(MethodHeader.class).parameter(String.class).INVOKE();
+	}
+
+	protected void load_this(MethodCode code) {
+		code.LINE();
+		code.LOAD("code");
+		code.LOADConst("this");
+		code.VIRTUAL(MethodCode.class, "LOAD").parameter(String.class).INVOKE();
+	}
+
+	protected void line(MethodCode code) {
+		code.LINE();
+		code.LOAD("code");
+		code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
 	}
 
 }

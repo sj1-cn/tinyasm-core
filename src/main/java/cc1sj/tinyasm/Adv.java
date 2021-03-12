@@ -931,7 +931,7 @@ public class Adv {
 		context.clear();
 		context.line();
 		context.exec(expr);
-		int locals = context.store(varname, Clazz.of(targetClass));
+		int locals = context.store(varname, Clazz.of(targetClass,of(typeArgument)));
 
 		Class<?> t = targetClass;
 

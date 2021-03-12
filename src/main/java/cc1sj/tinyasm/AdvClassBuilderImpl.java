@@ -7,8 +7,8 @@ import static cc1sj.tinyasm.Adv.*;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClassName, AdvAfterClassExtends, AdvAfterClassImplements,
-		AdvClassBuilder, AdvAfterModifier, AdvAfterClassEnd {
+public class AdvClassBuilderImpl implements UsingClassBody, AdvAfterClassModifier, AdvAfterClassName, AdvAfterClassExtends,
+		AdvAfterClassImplements, AdvClassBuilder, AdvAfterModifier, AdvAfterClassEnd {
 
 	private ThreadLocal<AdvContext> _contextThreadLocal;
 	private int classAccess = 0;
@@ -27,6 +27,11 @@ public class AdvClassBuilderImpl implements AdvAfterClassModifier, AdvAfterClass
 	@Override
 	public Clazz getSuperClazz() {
 		return this._extends;
+	}
+
+	@Override
+	public ClassBody getClassBody() {
+		return classBody;
 	}
 
 	public AdvClassBuilderImpl(ThreadLocal<AdvContext> _contextThreadLocal) {

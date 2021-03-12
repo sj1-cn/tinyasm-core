@@ -44,7 +44,7 @@ public class UsingSimplePojoClassSampleMagicBuilderAdvAsmProxy extends UsingSimp
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.execLine(c -> {
 			objEval.accept(c);
-			c.VIRTUAL(UsingSimplePojoClassSampleMagicBuilder.class, "sayHello").INVOKE();
+			c.VIRTUAL("cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample", "sayHello").INVOKE();
 		});
 	}
 
