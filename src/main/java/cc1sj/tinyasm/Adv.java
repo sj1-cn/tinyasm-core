@@ -1699,4 +1699,23 @@ public class Adv {
 		rarray[4] = t4;
 		return rarray;
 	}
+
+	static public <T> String join(T[] array, Function<T, String> func) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < array.length; i++) {
+			sb.append(func.apply(array[i]));
+		}
+		return sb.toString();
+	}
+
+	static public <T> String join(T[] array, Function<T, String> func, String seperator) {
+		if (array.length == 0) return "";
+		StringBuffer sb = new StringBuffer();
+		sb.append(func.apply(array[0]));
+		for (int i = 1; i < array.length; i++) {
+			sb.append(seperator);
+			sb.append(func.apply(array[i]));
+		}
+		return sb.toString();
+	}
 }

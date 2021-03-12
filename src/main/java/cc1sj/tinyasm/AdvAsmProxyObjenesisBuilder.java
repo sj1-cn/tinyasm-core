@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Function;
 
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
@@ -34,29 +33,10 @@ class AdvAsmProxyObjenesisBuilder {
 
 	static int count = 0;
 
-	public <T> String join(T[] array, Function<T, String> func) {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < array.length; i++) {
-			sb.append(func.apply(array[i]));
-		}
-		return sb.toString();
-	}
-
-	public <T> String join(T[] array, Function<T, String> func, String seperator) {
-		if (array.length == 0) return "";
-		StringBuffer sb = new StringBuffer();
-		sb.append(func.apply(array[0]));
-		for (int i = 1; i < array.length; i++) {
-			sb.append(seperator);
-			sb.append(func.apply(array[i]));
-		}
-		return sb.toString();
-	}
-
 	public <T> T buildProxyClass(ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber, Class<?> target,
 			Class<?>... typeParameters) {
 
-		String key = target.getName() + "_" + join(typeParameters, t -> t.getName());
+		String key = target.getName() + "_" + Adv.join(typeParameters, t -> t.getName());
 
 		ObjectInstantiator<?> builder = knownBrokeres.get(key);
 
