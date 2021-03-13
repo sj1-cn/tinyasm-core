@@ -137,7 +137,6 @@ class AdvMagicBuilderEngine {
 		Class<?>[] exceptionClasses = realMethod.getExceptionTypes();
 		methodBuilder.throws_(exceptionClasses);
 		methodBuilder.code(code -> {
-			AdvContext context = threadLocal.get();
 			Object[] params = new Object[parameters.length];
 			for (int i = 0; i < parameters.length; i++) {
 				Parameter parameter = parameters[i];

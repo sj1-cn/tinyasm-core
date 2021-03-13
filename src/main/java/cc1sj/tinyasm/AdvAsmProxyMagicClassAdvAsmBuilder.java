@@ -1,10 +1,8 @@
 package cc1sj.tinyasm;
 
-import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
-import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
