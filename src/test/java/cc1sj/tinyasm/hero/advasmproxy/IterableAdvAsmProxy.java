@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import cc1sj.tinyasm.Adv;
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
+import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.PojoClassSample;
@@ -33,6 +34,11 @@ public class IterableAdvAsmProxy implements Iterable<PojoClassSample>, AdvRuntim
 		this._magicNumber = _magicNumber;
 	}
 
+	@Override
+	public Clazz get__TargetClazz() {
+		return Clazz.of(Iterable.class);
+	}
+	
 	@Override
 	public Iterator<PojoClassSample> iterator() {
 		AdvContext context = _contextThreadLocal.get();

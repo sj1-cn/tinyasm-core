@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 import cc1sj.tinyasm.Adv;
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
+import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.PageList;
@@ -41,6 +42,11 @@ public class PageListAdvAsmProxy implements PageList<PojoClassSample>, AdvRuntim
 	public void set__Context(ThreadLocal<AdvContext> _contextThreadLocal, byte _magicNumber) {
 		this._contextThreadLocal = _contextThreadLocal;
 		this._magicNumber = _magicNumber;
+	}
+
+	@Override
+	public Clazz get__TargetClazz() {
+		return Clazz.of(PageList.class);
 	}
 
 	@Override

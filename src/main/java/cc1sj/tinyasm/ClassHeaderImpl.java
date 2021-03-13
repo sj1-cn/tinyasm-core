@@ -1,9 +1,12 @@
 package cc1sj.tinyasm;
 
+import static org.objectweb.asm.Opcodes.ACC_INTERFACE;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.ACC_SUPER;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import static org.objectweb.asm.Opcodes.*;
 
 import org.objectweb.asm.ClassVisitor;
 

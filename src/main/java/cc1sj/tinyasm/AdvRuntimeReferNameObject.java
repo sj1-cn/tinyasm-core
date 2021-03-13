@@ -8,4 +8,6 @@ public interface AdvRuntimeReferNameObject {
 
 	void set__MagicNumber(byte magicNumber);
 
+	Clazz get__TargetClazz();
+
 }

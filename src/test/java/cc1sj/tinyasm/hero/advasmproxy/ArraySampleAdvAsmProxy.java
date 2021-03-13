@@ -6,6 +6,7 @@ import static cc1sj.tinyasm.Adv.MAGIC_CODES_String;
 import cc1sj.tinyasm.Adv;
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
+import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.ArraySample;
@@ -29,6 +30,11 @@ public class ArraySampleAdvAsmProxy extends ArraySample implements AdvRuntimeRef
 	public void set__Context(ThreadLocal<AdvContext> _contextThreadLocal, byte _magicNumber) {
 		this._contextThreadLocal = _contextThreadLocal;
 		this._magicNumber = _magicNumber;
+	}
+
+	@Override
+	public Clazz get__TargetClazz() {
+		return Clazz.of(ArraySample.class);
 	}
 
 	@Override
@@ -123,7 +129,7 @@ public class ArraySampleAdvAsmProxy extends ArraySample implements AdvRuntimeRef
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
 		SimplePojoClassSample simplePojoClassSample = null;
 		SimplePojoClassSample[] tarray = new SimplePojoClassSample[1];
-		
+
 		if (Adv.canProxy(SimplePojoClassSample.class)) {
 			simplePojoClassSample = Adv.buildProxyClass(SimplePojoClassSample.class, magicNumber);
 			tarray[0] = simplePojoClassSample;

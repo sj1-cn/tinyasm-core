@@ -1,7 +1,8 @@
 package cc1sj.tinyasm;
 
-import static cc1sj.tinyasm.Adv.*;
+import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
 import static cc1sj.tinyasm.Adv.MAGIC_CODES_String;
+import static cc1sj.tinyasm.Adv.of;
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;
@@ -81,9 +82,9 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 
 	ClassBody proxyClassBody;
 	String proxyClassName;
-	String INTERFACE_OR_VIRTUAL = "VIRTUAL";
-	String INTERFACE = "INTERFACE";
-	String VIRTUAL = "VIRTUAL";
+	static final String INTERFACE = "INTERFACE";
+	static final String VIRTUAL = "VIRTUAL";
+	String INTERFACE_OR_VIRTUAL = VIRTUAL;
 
 	List<LambdaBuilder> proxyLambdas = new ArrayList<>();
 	List<BridgeMethod> proxyBridgeMethods = new ArrayList<>();
@@ -133,6 +134,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		_get__MagicNumber(proxyClassBody);
 		_set__MagicNumber(proxyClassBody);
 		_set__Context(proxyClassBody);
+		_get__TargetClazz(proxyClassBody);
 
 		resolveClass(targetClazz, actualTypeArguments);
 
@@ -164,6 +166,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		_get__MagicNumber(proxyClassBody);
 		_set__MagicNumber(proxyClassBody);
 		_set__Context(proxyClassBody);
+		_get__TargetClazz(proxyClassBody);
 
 		resolveClass(targetClazz, actualTypeArguments);
 
@@ -440,19 +443,27 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 				c.INTERFACE(MethodCaller.class, "parameter").return_(MethodCaller.class).parameter(Class.class).INVOKE();
 			}
 
-			if (originReturnType != Type.VOID_TYPE) {
-				loadType(c, returnClazz);
-				c.INTERFACE(MethodCaller.class, "return_").return_(MethodCaller.class).parameter(Class.class).INVOKE();
+			if (INTERFACE_OR_VIRTUAL == INTERFACE) {
+				if (originReturnType != Type.VOID_TYPE) {
+					loadType(c, returnClazz);
+					c.INTERFACE(MethodCaller.class, "return_").return_(MethodCaller.class).parameter(Class.class).INVOKE();
+				}
+			} else {
+				if (originReturnType != Type.VOID_TYPE) {
+					loadType(c, methodReturnClazz);
+					c.INTERFACE(MethodCaller.class, "return_").return_(MethodCaller.class).parameter(Class.class).INVOKE();
+				}
 			}
 
 			c.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
-
-			if (!(methodReturnClazz instanceof ClazzVariable) && originReturnType != Type.VOID_TYPE
-					&& !originReturnType.getInternalName().equals(methodReturnClazz.getType().getInternalName())) {
-				c.LINE();
-				c.LOAD("c");
-				c.LOADConst(methodReturnClazz);
-				c.VIRTUAL(MethodCode.class, "CHECKCAST").parameter(Class.class).INVOKE();
+			if (INTERFACE_OR_VIRTUAL == INTERFACE) {
+				if (!(methodReturnClazz instanceof ClazzVariable) && originReturnType != Type.VOID_TYPE
+						&& !originReturnType.getInternalName().equals(methodReturnClazz.getType().getInternalName())) {
+					c.LINE();
+					c.LOAD("c");
+					c.LOADConst(methodReturnClazz);
+					c.VIRTUAL(MethodCode.class, "CHECKCAST").parameter(Class.class).INVOKE();
+				}
 			}
 		});
 
@@ -1355,4 +1366,28 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 
 		code.END();
 	}
+
+	protected void _get__TargetClazz(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("get__TargetClazz").return_(Clazz.class).begin();
+
+		if (isTargetClazzKnown) {
+			code.LINE();
+			code.LOADConst(targetClazz);
+			code.STATIC(Clazz.class, "of").parameter(Class.class).return_(ClazzSimple.class).INVOKE();
+			code.RETURNTop();
+
+		} else {
+			code.LINE();
+			code.LOADConst(targetClazz.getType().getClassName());
+			code.STATIC(Clazz.class, "of").parameter(String.class).return_(ClazzSimple.class).INVOKE();
+			code.RETURNTop();
+		}
+
+		code.END();
+	}
+
+//	@Override
+//	public Clazz get__TargetClazz() {
+//		return Clazz.of(ReferSimplePojoClassSample.class);
+//	}
 }

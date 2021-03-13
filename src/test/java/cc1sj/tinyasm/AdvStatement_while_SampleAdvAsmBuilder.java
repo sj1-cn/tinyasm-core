@@ -1,16 +1,16 @@
 package cc1sj.tinyasm;
 
-import org.objectweb.asm.Label;
-import cc1sj.tinyasm.AdvClassBuilder;
-import cc1sj.tinyasm.ClassBuilder;
-import cc1sj.tinyasm.MethodCode;
-import org.objectweb.asm.Type;
-
-import static cc1sj.tinyasm.Adv.*;
-import static org.objectweb.asm.Opcodes.*;
-import cc1sj.tinyasm.Annotation;
-import cc1sj.tinyasm.Clazz;
-import java.lang.Object;
+import static cc1sj.tinyasm.Adv.__;
+import static cc1sj.tinyasm.Adv._inc;
+import static cc1sj.tinyasm.Adv._while;
+import static cc1sj.tinyasm.Adv.cst;
+import static cc1sj.tinyasm.Adv.isEqual;
+import static cc1sj.tinyasm.Adv.isGreaterEqual;
+import static cc1sj.tinyasm.Adv.isGreaterThan;
+import static cc1sj.tinyasm.Adv.isLessEqual;
+import static cc1sj.tinyasm.Adv.isLessThan;
+import static cc1sj.tinyasm.Adv.isNotEqual;
+import static cc1sj.tinyasm.Adv.public_class_;
 
 @SuppressWarnings("unused")
 public class AdvStatement_while_SampleAdvAsmBuilder {

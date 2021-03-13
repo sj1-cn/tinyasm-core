@@ -1,5 +1,6 @@
 package cc1sj.tinyasm.util;
 
+import static cc1sj.tinyasm.util.TinyAsmTestUtils.dumpTinyAsm;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -7,7 +8,6 @@ import org.junit.Test;
 import cc1sj.tinyasm.MethodCodeASMLogicSample;
 import cc1sj.tinyasm.MethodCodeASMSimpleSample;
 import cc1sj.tinyasm.sample.ClassBody.MakeReadOnlyPojo;
-import static cc1sj.tinyasm.util.TinyAsmTestUtils.*;
 
 public class TinyASMifierTest  {
 

@@ -77,8 +77,9 @@ public class AdvMethodBuilder implements AdvAfterMethodName, AdvAfterParameter, 
 	public AdvAfterCode code(ConsumerWithException<MethodCode> block) {
 		try {
 			_methodCode = enterBody();
-			Adv.enterCode(_methodCode).execBlock(block);
-//			block.accept(_methodCode);
+			AdvContext context =  Adv.enterCode(_methodCode);
+			context.exec(block);
+			context.clear();
 			Adv.exitCode();
 			_methodCode.END();
 		} catch (Exception e) {

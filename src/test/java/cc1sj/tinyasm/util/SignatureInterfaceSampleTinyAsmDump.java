@@ -1,18 +1,15 @@
 package cc1sj.tinyasm.util;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.Handle;
-import org.objectweb.asm.Opcodes;
+import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
+import static org.objectweb.asm.Opcodes.ACC_INTERFACE;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+
+import java.io.Serializable;
+import java.util.Map;
+
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
-import cc1sj.tinyasm.MethodCode;
-import org.objectweb.asm.Type;
-import static org.objectweb.asm.Opcodes.*;
-import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
-import java.util.Map;
-import java.lang.Object;
-import java.lang.String;
-import java.io.Serializable;
+import cc1sj.tinyasm.MethodCode;
 @SuppressWarnings("unused")
 public class SignatureInterfaceSampleTinyAsmDump {
 

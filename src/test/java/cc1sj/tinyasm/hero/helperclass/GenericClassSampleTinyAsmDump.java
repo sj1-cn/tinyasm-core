@@ -1,18 +1,14 @@
 package cc1sj.tinyasm.hero.helperclass;
 
-import org.objectweb.asm.Label;
-import org.objectweb.asm.Handle;
-import org.objectweb.asm.Opcodes;
+import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.ACC_SUPER;
+import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
+
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
-import cc1sj.tinyasm.MethodCode;
-import org.objectweb.asm.Type;
-import static org.objectweb.asm.Opcodes.*;
-import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
-import cc1sj.tinyasm.hero.helperclass.GenericClass;
-import cc1sj.tinyasm.hero.helperclass.PojoClassSample;
-import java.lang.Object;
+import cc1sj.tinyasm.MethodCode;
 
 @SuppressWarnings("unused")
 public class GenericClassSampleTinyAsmDump {

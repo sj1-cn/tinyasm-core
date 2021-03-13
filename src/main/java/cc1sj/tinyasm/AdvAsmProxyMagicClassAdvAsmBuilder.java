@@ -67,6 +67,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 		_get__MagicNumber(proxyClassBody);
 		_set__MagicNumber(proxyClassBody);
 		_set__Context(proxyClassBody);
+		_get__TargetClazz(proxyClassBody);
 		_get__ClassBuilder(proxyClassBody);
 		_set__ClassBuilder(proxyClassBody);
 

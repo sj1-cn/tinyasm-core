@@ -5,6 +5,7 @@ import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
 import cc1sj.tinyasm.Adv;
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
+import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.ReferSimplePojoClassOnlySample;
@@ -28,6 +29,11 @@ public class ReferSimplePojoClassOnlySampleAdvAsmProxy extends ReferSimplePojoCl
 	public void set__Context(ThreadLocal<AdvContext> _contextThreadLocal, byte _magicNumber) {
 		this._contextThreadLocal = _contextThreadLocal;
 		this._magicNumber = _magicNumber;
+	}
+
+	@Override
+	public Clazz get__TargetClazz() {
+		return Clazz.of(ReferSimplePojoClassOnlySample.class);
 	}
 
 	@Override

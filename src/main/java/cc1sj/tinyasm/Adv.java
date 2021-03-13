@@ -1,17 +1,18 @@
 package cc1sj.tinyasm;
 
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
+import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
-
-import org.objectweb.asm.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import java.util.function.Function;
 
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -99,13 +100,18 @@ public class Adv {
 		}
 	}
 
+	static int level = 0;
+
 	static AdvContext enterCode(MethodCode code) {
+		level++;
+		logger.debug("enter code level {}", level);
 		AdvContext newContext = new AdvContext(code);
 		if (_contextThreadLocal.get() != null) {
 			if (_contextThreadLocalStack.get() == null) {
 				_contextThreadLocalStack.set(new Stack<>());
 			}
 			_contextThreadLocalStack.get().push(_contextThreadLocal.get());
+			logger.debug("_contextThreadLocalStack {}", _contextThreadLocalStack.get().size());
 		}
 		_contextThreadLocal.set(newContext);
 		return newContext;
@@ -114,11 +120,14 @@ public class Adv {
 	static void exitCode() {
 		AdvContext currentContext = _contextThreadLocal.get();
 		currentContext.clear();
-		if (_contextThreadLocalStack.get() != null) {
+		if (_contextThreadLocalStack.get() != null && _contextThreadLocalStack.get().size() > 0) {
+			logger.debug("_contextThreadLocalStack {}", _contextThreadLocalStack.get().size());
 			_contextThreadLocal.set(_contextThreadLocalStack.get().pop());
 		} else {
 			_contextThreadLocal.set(null);
 		}
+		logger.debug("exit  code level {}", level);
+		level--;
 	}
 
 	static public AdvAfterModifier public_() {
@@ -692,12 +701,12 @@ public class Adv {
 		};
 	}
 
+	// 不知道这里干嘛的，想不起来就删掉吧
 	static public void referNothing(Object obj) {
 		AdvContext context = _contextThreadLocal.get();
 
-		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
-		context.popAndExec();
-		context.pop();
+		assert /* (codeIndex == 0) && */ (context.getCodeStackSize() == 1) : "堆栈必须只有一个值";
+		context.clear();
 	}
 
 	/**
@@ -794,7 +803,7 @@ public class Adv {
 	}
 
 	/**
-	 * 把当前堆栈顶端的对象存储到locals中
+	 * 把当前堆栈顶端的对象存储到locals中 TODO 需要重构，把对象类型加进去。
 	 * 
 	 * @param <T>
 	 * @param magicNumber
@@ -807,62 +816,64 @@ public class Adv {
 		context.clear();
 		context.line();
 		context.exec(expr);
-		int locals = context.store(varname);
 
-		Class<?> t = magicNumber.getClass();
-
-		if (t == boolean.class) {
-			throw new UnsupportedOperationException();
-		} else if (t == Byte.class) {
-			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Character.class) {
-			int codeIndex = ((Character) magicNumber).charValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Short.class) {
-			int codeIndex = ((Short) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Integer.class) {
-			int codeIndex = ((Integer) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Long.class) {
-			int codeIndex = ((Long) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Float.class) {
-			int codeIndex = ((Float) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == Double.class) {
-			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
-			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
-			return (T) key;
-		} else if (t == String.class) {
-			String key = String.valueOf(MAGIC_LOCALS_String + locals);
-			return (T) key;
-		} else if (magicNumber instanceof AdvRuntimeReferNameObject) {
+		if (magicNumber instanceof AdvRuntimeReferNameObject) { // Proxy type
 			AdvRuntimeReferNameObject obj = ((AdvRuntimeReferNameObject) magicNumber);
-			byte codeIndex = obj.get__MagicNumber();
 
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			int locals = context.store(varname, obj.get__TargetClazz());
+
+			byte codeIndex = obj.get__MagicNumber();
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 
 			byte localsIndex = (byte) (MAGIC_LOCALS_NUMBER + locals);
 			obj.set__MagicNumber(localsIndex);
 			return (T) obj;
-		} else {
-			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+		} else { // Real Type
+			Class<?> t = magicNumber.getClass();
+			int locals = context.store(varname, Clazz.of(t));
+			if (t == Byte.class) {
+				int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+				assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
+				Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
+				return (T) key;
+			} else if (t == Character.class) {
+				int codeIndex = ((Character) magicNumber).charValue() - MAGIC_CODES_NUMBER;
+				assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
+				Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
+				return (T) key;
+			} else if (t == Short.class) {
+				int codeIndex = ((Short) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+				assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
+				Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
+				return (T) key;
+			} else if (t == Integer.class) {
+				int codeIndex = ((Integer) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+				assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
+				Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
+				return (T) key;
+			} else if (t == Long.class) {
+				int codeIndex = ((Long) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+				assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
+				Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
+				return (T) key;
+			} else if (t == Float.class) {
+				int codeIndex = ((Float) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+				assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
+				Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+				return (T) key;
+			} else if (t == Double.class) {
+				int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
+				assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
+				Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
+				return (T) key;
+			} else if (t == String.class) {
+				String key = String.valueOf(MAGIC_LOCALS_String + locals);
+				return (T) key;
+			} else {
+				throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+			}
 		}
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -880,37 +891,37 @@ public class Adv {
 			throw new UnsupportedOperationException();
 		} else if (t == Byte.class) {
 			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Character.class) {
 			int codeIndex = ((Character) magicNumber).charValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Short.class) {
 			int codeIndex = ((Short) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Integer.class) {
 			int codeIndex = ((Integer) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Long.class) {
 			int codeIndex = ((Long) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Float.class) {
 			int codeIndex = ((Float) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Double.class) {
 			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == String.class) {
@@ -931,7 +942,7 @@ public class Adv {
 		context.clear();
 		context.line();
 		context.exec(expr);
-		int locals = context.store(varname, Clazz.of(targetClass,of(typeArgument)));
+		int locals = context.store(varname, Clazz.of(targetClass, of(typeArgument)));
 
 		Class<?> t = targetClass;
 
@@ -939,37 +950,37 @@ public class Adv {
 			throw new UnsupportedOperationException();
 		} else if (t == Byte.class) {
 			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Byte key = (byte) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Character.class) {
 			int codeIndex = ((Character) magicNumber).charValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Character key = (char) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Short.class) {
 			int codeIndex = ((Short) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Short key = (short) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Integer.class) {
 			int codeIndex = ((Integer) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Integer key = (int) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Long.class) {
 			int codeIndex = ((Long) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Long key = (long) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Float.class) {
 			int codeIndex = ((Float) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == Double.class) {
 			int codeIndex = ((Byte) magicNumber).intValue() - MAGIC_CODES_NUMBER;
-			assert (codeIndex != 0) && (context.stackSize() != 1) : "堆栈必须只有一个值";
+			assert (codeIndex != 0) && (context.getCodeStackSize() != 1) : "堆栈必须只有一个值";
 			Double key = (double) (MAGIC_LOCALS_NUMBER + locals);
 			return (T) key;
 		} else if (t == String.class) {
@@ -1003,7 +1014,7 @@ public class Adv {
 //	 */
 	static public boolean_ _b(String varname, boolean magicIndex) {
 		AdvContext context = _contextThreadLocal.get();
-		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
+		assert /* (codeIndex == 0) && */ (context.getCodeStackSize() == 1) : "堆栈必须只有一个值";
 
 		ConsumerWithException<MethodCode> expr = context.getCodeAndPop();
 		context.clear();
@@ -1016,7 +1027,7 @@ public class Adv {
 
 	static public Boolean__ _b(String varname, Boolean v) {
 		AdvContext context = _contextThreadLocal.get();
-		assert /* (codeIndex == 0) && */ (context.stackSize() == 1) : "堆栈必须只有一个值";
+		assert /* (codeIndex == 0) && */ (context.getCodeStackSize() == 1) : "堆栈必须只有一个值";
 
 		ConsumerWithException<MethodCode> expr = context.getCodeAndPop();
 		context.clear();
@@ -1077,8 +1088,7 @@ public class Adv {
 	static public <T> T null_(Class<T> clazz) {
 		AdvContext context = _contextThreadLocal.get();
 //		ConsumerWithException<MethodCode> expr = context.resolve(magicNumber);
-		context.clear();
-		context.line();
+//		context.clear();
 		int codeIndex = context.push(clazz, c -> {
 			c.LOADConstNULL();
 		});
@@ -1231,8 +1241,74 @@ public class Adv {
 		return builder;
 	}
 
+	public static CompareEval isEqual(Object left, Object right) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
+		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+		return new CompareEval() {
+			@Override
+			public void prepareData(MethodCode code) throws Exception {
+				leftEval.accept(code);
+				rightEval.accept(code);
+			}
+
+			@Override
+			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+				code.IF_ACMPEQ(label);
+			}
+
+			@Override
+			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
+				code.IF_ACMPNE(label);
+			}
+		};
+	}
+
+	public static CompareEval isNotEqual(Object left, Object right) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
+		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+		return new CompareEval() {
+			@Override
+			public void prepareData(MethodCode code) throws Exception {
+				leftEval.accept(code);
+				rightEval.accept(code);
+			}
+
+			@Override
+			public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+				code.IF_ACMPNE(label);
+			}
+
+			@Override
+			public void gotoWhenFail(MethodCode code, Label label) throws Exception {
+				code.IF_ACMPEQ(label);
+			}
+		};
+	}
+
 	static public CompareEval isLessThan(int left, int right) {
 		AdvContext context = _contextThreadLocal.get();
+		if (right == 0) {
+			ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+			return new CompareEval() {
+				@Override
+				public void prepareData(MethodCode code) throws Exception {
+					leftEval.accept(code);
+				}
+
+				@Override
+				public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+					code.IFLT(label);
+				}
+
+				@Override
+				public void gotoWhenFail(MethodCode code, Label label) throws Exception {
+					code.IFGE(label);
+				}
+			};
+		}
+
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -1252,10 +1328,31 @@ public class Adv {
 				code.IF_ICMPGE(label);
 			}
 		};
+
 	}
 
 	static public CompareEval isGreaterThan(int left, int right) {
 		AdvContext context = _contextThreadLocal.get();
+		if (right == 0) {
+			ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+			return new CompareEval() {
+				@Override
+				public void prepareData(MethodCode code) throws Exception {
+					leftEval.accept(code);
+				}
+
+				@Override
+				public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+					code.IFGT(label);
+				}
+
+				@Override
+				public void gotoWhenFail(MethodCode code, Label label) throws Exception {
+					code.IFLE(label);
+				}
+			};
+		}
+
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -1279,6 +1376,26 @@ public class Adv {
 
 	static public CompareEval isEqual(int left, int right) {
 		AdvContext context = _contextThreadLocal.get();
+		if (right == 0) {
+			ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+			return new CompareEval() {
+				@Override
+				public void prepareData(MethodCode code) throws Exception {
+					leftEval.accept(code);
+				}
+
+				@Override
+				public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+					code.IFEQ(label);
+				}
+
+				@Override
+				public void gotoWhenFail(MethodCode code, Label label) throws Exception {
+					code.IFNE(label);
+				}
+			};
+		}
+
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -1302,6 +1419,26 @@ public class Adv {
 
 	static public CompareEval isNotEqual(int left, int right) {
 		AdvContext context = _contextThreadLocal.get();
+		if (right == 0) {
+			ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+			return new CompareEval() {
+				@Override
+				public void prepareData(MethodCode code) throws Exception {
+					leftEval.accept(code);
+				}
+
+				@Override
+				public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+					code.IFNE(label);
+				}
+
+				@Override
+				public void gotoWhenFail(MethodCode code, Label label) throws Exception {
+					code.IFEQ(label);
+				}
+			};
+		}
+
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -1325,6 +1462,26 @@ public class Adv {
 
 	static public CompareEval isGreaterEqual(int left, int right) {
 		AdvContext context = _contextThreadLocal.get();
+		if (right == 0) {
+			ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+			return new CompareEval() {
+				@Override
+				public void prepareData(MethodCode code) throws Exception {
+					leftEval.accept(code);
+				}
+
+				@Override
+				public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+					code.IFGE(label);
+				}
+
+				@Override
+				public void gotoWhenFail(MethodCode code, Label label) throws Exception {
+					code.IFLT(label);
+				}
+			};
+		}
+
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -1348,6 +1505,26 @@ public class Adv {
 
 	static public CompareEval isLessEqual(int left, int right) {
 		AdvContext context = _contextThreadLocal.get();
+		if (right == 0) {
+			ConsumerWithException<MethodCode> leftEval = context.resolve(left);
+			return new CompareEval() {
+				@Override
+				public void prepareData(MethodCode code) throws Exception {
+					leftEval.accept(code);
+				}
+
+				@Override
+				public void gotoWhenSucceed(MethodCode code, Label label) throws Exception {
+					code.IFLE(label);
+				}
+
+				@Override
+				public void gotoWhenFail(MethodCode code, Label label) throws Exception {
+					code.IFGT(label);
+				}
+			};
+		}
+
 		ConsumerWithException<MethodCode> rightEval = context.resolve(right);
 		ConsumerWithException<MethodCode> leftEval = context.resolve(left);
 		return new CompareEval() {
@@ -1560,4 +1737,5 @@ public class Adv {
 		}
 		return sb.toString();
 	}
+
 }

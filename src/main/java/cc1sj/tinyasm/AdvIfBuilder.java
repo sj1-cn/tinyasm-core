@@ -40,6 +40,7 @@ public class AdvIfBuilder implements AdvAfterIf, AdvAfterThen, ConsumerWithExcep
 		if (elseIf != null) {
 
 		} else if (elseBlock != null) {
+//			context.clear();
 //			code.LINE(39);
 			Label labelElse = new Label();
 
@@ -61,6 +62,7 @@ public class AdvIfBuilder implements AdvAfterIf, AdvAfterThen, ConsumerWithExcep
 
 			code.visitLabel(label4OfGOTO);
 		} else if (thenBlock != null) {
+//			context.clear();
 
 //			code.LINE();
 			Label labelThenEnd = new Label();

@@ -1,21 +1,13 @@
 package cc1sj.tinyasm.hero.advasmproxy;
 
-import org.objectweb.asm.Label;
-import cc1sj.tinyasm.ClassBody;
-import cc1sj.tinyasm.ClassBuilder;
-import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.hero.helperclass.ObjectWithTwoParametersSample;
-
-import org.objectweb.asm.Type;
-
-import static cc1sj.tinyasm.Adv.*;
-import static org.objectweb.asm.Opcodes.*;
+import static cc1sj.tinyasm.Adv.__;
+import static cc1sj.tinyasm.Adv.cst;
+import static cc1sj.tinyasm.Adv.new_;
+import static cc1sj.tinyasm.Adv.params;
+import static cc1sj.tinyasm.Adv.public_class_;
 
 import cc1sj.tinyasm.AdvClassBuilder;
-import cc1sj.tinyasm.Annotation;
-import cc1sj.tinyasm.Clazz;
-
-import java.lang.Object;
+import cc1sj.tinyasm.hero.helperclass.ObjectWithTwoParametersSample;
 
 @SuppressWarnings("unused")
 public class UsingObjectWithTwoParametersSampleAdvAsmBuilder {

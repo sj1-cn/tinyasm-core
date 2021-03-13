@@ -2,7 +2,10 @@ package cc1sj.tinyasm;
 
 import static cc1sj.tinyasm.Adv.MAGIC_CODES_MAX;
 import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
-import static cc1sj.tinyasm.Adv.*;
+import static cc1sj.tinyasm.Adv.MAGIC_CODES_String;
+import static cc1sj.tinyasm.Adv.MAGIC_FIELDS_MAX;
+import static cc1sj.tinyasm.Adv.MAGIC_FIELDS_NUMBER;
+import static cc1sj.tinyasm.Adv.MAGIC_FIELD_String;
 import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_MAX;
 import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_NUMBER;
 import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_String;
@@ -12,23 +15,17 @@ import java.util.Stack;
 public class AdvContext {
 
 	private MethodCode code;
-	Stack<ConsumerWithException<MethodCode>> stack = new Stack<>();
+	Stack<ConsumerWithException<MethodCode>> codeStack = new Stack<>();
+	int contextBaseStackSize;
 
 	public AdvContext(MethodCode code) {
 		this.code = code;
+		contextBaseStackSize = code.advStackSize();
 	}
 
 	public byte push(Class<?> clz, ConsumerWithException<MethodCode> c) {
-		stack.push(c);
-		return (byte) (stack.size() - 1);
-	}
-
-	public void exec(ConsumerWithException<MethodCode> c) {
-		try {
-			c.accept(code);
-		} catch (Exception e) {
-			throw new UnsupportedOperationException(e);
-		}
+		codeStack.push(c);
+		return (byte) (codeStack.size() - 1);
 	}
 
 	public MethodCode getCode() {
@@ -40,18 +37,28 @@ public class AdvContext {
 //	}
 
 	public ConsumerWithException<MethodCode> getCodeAndPop(int i) {
-		assert i == this.stack.size() - 1 : "必须在堆栈顶部，不然一定有一个环节错了";
-		return stack.pop();
+		assert i == this.codeStack.size() - 1 : "必须在堆栈顶部，不然一定有一个环节错了";
+		return codeStack.pop();
 	}
 
 	public ConsumerWithException<MethodCode> getCodeAndPop() {
 //		assert i == this.stack.size() - 1 : "必须在堆栈顶部，不然一定有一个环节错了";
-		return stack.pop();
+		return codeStack.pop();
 	}
 
 	public void clear() {
-//		assert stack.size() <= 1 : "应该最多缓存一个执行语句。如果大于一个，一定是哪里出错了";
-		if (stack.size() > 0) popAndExec();
+		assert codeStack.size() <= 1 : "应该最多缓存一个执行语句。如果大于一个，一定是哪里出错了";
+		if (codeStack.size() > 0) {
+			ConsumerWithException<MethodCode> c = codeStack.pop();
+			try {
+				code.LINE();
+				c.accept(code);
+				if (code.advStackSize() > contextBaseStackSize) code.POP();
+			} catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+
 		if (ifbuilder != null) {
 			try {
 				code.LINE();
@@ -63,35 +70,10 @@ public class AdvContext {
 		}
 	}
 
-	protected void execBlock(ConsumerWithException<MethodCode> block) throws Exception {
-		AdvContext contentBlock = Adv.enterCode(code);
-		MethodCode codeBlock = contentBlock.code;
-
-		int lastStackSize = codeBlock.advStackSize();
-		block.accept(contentBlock.code);
-		if (contentBlock.stackSize() > 0) {
-			contentBlock.popAndExec();
-		}
-		while (codeBlock.advStackSize() > lastStackSize) {
-			codeBlock.POP();
-		}
-
-	}
-
-	public void execLine(ConsumerWithException<MethodCode> line) {
-		clear();
-		try {
-			code.LINE();
-			line.accept(code);
-		} catch (Exception e) {
-			throw new UnsupportedOperationException(e);
-		}
-	}
-
 	public void popAndExec() {
-		assert stack.size() > 0 : "堆栈中必须有东西可以执行";
-		if (stack.size() > 0) {
-			ConsumerWithException<MethodCode> c = stack.pop();
+		assert codeStack.size() > 0 : "堆栈中必须有东西可以执行";
+		if (codeStack.size() > 0) {
+			ConsumerWithException<MethodCode> c = codeStack.pop();
 			clear();
 			try {
 				code.LINE();
@@ -102,8 +84,34 @@ public class AdvContext {
 		}
 	}
 
-	public int stackSize() {
-		return this.stack.size();
+	public void exec(ConsumerWithException<MethodCode> c) {
+		try {
+			c.accept(code);
+		} catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	protected void execBlock(ConsumerWithException<MethodCode> block) throws Exception {
+		AdvContext contentBlock = Adv.enterCode(code);
+		block.accept(contentBlock.code);
+		contentBlock.clear();
+		Adv.exitCode();
+	}
+
+	public void execLine(ConsumerWithException<MethodCode> line) {
+		clear();
+		try {
+			code.LINE();
+			line.accept(code);
+			if (code.advStackSize() > contextBaseStackSize) code.POP();
+		} catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	public int getCodeStackSize() {
+		return this.codeStack.size();
 	}
 
 	public int store(String name) {
@@ -121,7 +129,7 @@ public class AdvContext {
 	}
 
 	public void popCodeStack() {
-		this.stack.pop();
+		this.codeStack.pop();
 	}
 
 	public void pop() {

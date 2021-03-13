@@ -22,4 +22,9 @@ public class ObjectAdvAsmProxy implements AdvRuntimeReferNameObject {
 		this._magicNumber = _magicNumber;
 	}
 
+	@Override
+	public Clazz get__TargetClazz() {
+		return Clazz.of(Object.class);
+	}
+
 }

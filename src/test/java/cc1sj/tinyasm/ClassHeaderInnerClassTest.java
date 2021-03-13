@@ -1,6 +1,7 @@
 package cc1sj.tinyasm;
 
 import static org.junit.Assert.assertEquals;
+import static org.objectweb.asm.Opcodes.ACC_SUPER;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,7 +10,6 @@ import org.objectweb.asm.Opcodes;
 
 import cc1sj.tinyasm.sample.ClassHeader.InnerClassSample;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
-import static org.objectweb.asm.Opcodes.*;
 
 public class ClassHeaderInnerClassTest {
 

@@ -1,11 +1,13 @@
 package cc1sj.tinyasm;
 
+import static cc1sj.tinyasm.Adv.MAGIC_FIELDS_NUMBER;
+import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_String;
+import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
+import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static cc1sj.tinyasm.Adv.*;
-
-import static org.objectweb.asm.Opcodes.*;
 
 public class AdvClassBuilderImpl implements UsingClassBody, AdvAfterClassModifier, AdvAfterClassName, AdvAfterClassExtends,
 		AdvAfterClassImplements, AdvClassBuilder, AdvAfterModifier, AdvAfterClassEnd {

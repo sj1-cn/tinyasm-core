@@ -2,6 +2,9 @@ package cc1sj.tinyasm;
 
 import static cc1sj.tinyasm.TypeUtils.toSimpleName;
 import static cc1sj.tinyasm.TypeUtils.typeOf;
+import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
+import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
 import java.util.List;
 
@@ -10,7 +13,6 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import static org.objectweb.asm.Opcodes.*;
 
 class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 

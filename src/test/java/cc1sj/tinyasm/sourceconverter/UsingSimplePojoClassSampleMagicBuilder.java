@@ -1,6 +1,14 @@
 package cc1sj.tinyasm.sourceconverter;
 
-import static cc1sj.tinyasm.Adv.*;
+import static cc1sj.tinyasm.Adv.__;
+import static cc1sj.tinyasm.Adv._do;
+import static cc1sj.tinyasm.Adv._for;
+import static cc1sj.tinyasm.Adv._if;
+import static cc1sj.tinyasm.Adv._inc;
+import static cc1sj.tinyasm.Adv._while;
+import static cc1sj.tinyasm.Adv.add;
+import static cc1sj.tinyasm.Adv.isGreaterThan;
+import static cc1sj.tinyasm.Adv.new_;
 
 import cc1sj.tinyasm.AdvClassBuilder;
 import cc1sj.tinyasm.AdvMagic;

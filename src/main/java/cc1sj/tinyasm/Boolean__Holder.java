@@ -1,6 +1,7 @@
 package cc1sj.tinyasm;
 
-import static cc1sj.tinyasm.Adv.*;
+import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
+import static cc1sj.tinyasm.Adv.MAGIC_LOCALS_NUMBER;
 
 public class Boolean__Holder implements Boolean__ {
 	byte magicNumber;

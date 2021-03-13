@@ -1,6 +1,6 @@
 package cc1sj.tinyasm;
 
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
 import java.util.List;
 

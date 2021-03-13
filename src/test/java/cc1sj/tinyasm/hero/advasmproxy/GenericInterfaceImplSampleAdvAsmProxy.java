@@ -5,6 +5,7 @@ import static cc1sj.tinyasm.Adv.MAGIC_CODES_NUMBER;
 import cc1sj.tinyasm.Adv;
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvRuntimeReferNameObject;
+import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.hero.helperclass.GenericInterfaceImplSample;
@@ -30,6 +31,11 @@ public class GenericInterfaceImplSampleAdvAsmProxy extends GenericInterfaceImplS
 		this._contextThreadLocal = _contextThreadLocal;
 		this._magicNumber = _magicNumber;
 	}
+	
+	@Override
+	public Clazz get__TargetClazz() {
+		return Clazz.of(GenericInterfaceImplSample.class);
+	}
 
 	@Override
 	public PojoClassSample getT() {
@@ -37,8 +43,7 @@ public class GenericInterfaceImplSampleAdvAsmProxy extends GenericInterfaceImplS
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(PojoClassSample.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(GenericInterfaceImplSample.class, "getT").return_(Object.class).INVOKE();
-			c.CHECKCAST(PojoClassSample.class);
+			c.VIRTUAL(GenericInterfaceImplSample.class, "getT").return_(PojoClassSample.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
