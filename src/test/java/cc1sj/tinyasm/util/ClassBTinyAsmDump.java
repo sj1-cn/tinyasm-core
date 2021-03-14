@@ -1,12 +1,18 @@
 package cc1sj.tinyasm.util;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
-import java.io.PrintStream;
-
+import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
 import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
+import cc1sj.tinyasm.Clazz;
+import java.io.PrintStream;
+import java.lang.System;
+import cc1sj.tinyasm.util.ClassA;
+import java.lang.String;
 @SuppressWarnings("unused")
 public class ClassBTinyAsmDump {
 

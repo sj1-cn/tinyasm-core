@@ -1,28 +1,31 @@
 package cc1sj.tinyasm.hero.advasmproxy;
-import static org.objectweb.asm.Opcodes.ACC_FINAL;
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_STATIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
-
-import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-
-import cc1sj.tinyasm.Adv;
-import cc1sj.tinyasm.AdvContext;
-import cc1sj.tinyasm.AdvRuntimeReferNameObject;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
-import cc1sj.tinyasm.Clazz;
-import cc1sj.tinyasm.ClazzSimple;
-import cc1sj.tinyasm.ConsumerWithException;
-import cc1sj.tinyasm.MethodCaller;
 import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
+import cc1sj.tinyasm.Clazz;
+import java.lang.ThreadLocal;
+import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.hero.helperclass.ArraySample;
+import java.lang.Exception;
+import cc1sj.tinyasm.ClazzSimple;
 import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
+import cc1sj.tinyasm.MethodCode;
+import cc1sj.tinyasm.MethodCaller;
+import cc1sj.tinyasm.AdvRuntimeReferNameObject;
+import java.lang.Short;
+import cc1sj.tinyasm.Adv;
+import java.lang.Class;
+import java.lang.Object;
+import java.lang.StringBuilder;
+import cc1sj.tinyasm.ConsumerWithException;
+import java.lang.String;
+import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
 public class ArraySampleAdvAsmProxyTinyAsmDump {
 

@@ -883,6 +883,13 @@ public class Adv {
 		context.clear();
 		context.line();
 		context.exec(expr);
+		if (targetClass.isAssignableFrom(magicNumber.getClass())) {
+
+		} else {
+			context.exec(code -> {
+				code.CHECKCAST(targetClass);
+			});
+		}
 		int locals = context.store(varname, Clazz.of(targetClass));
 
 		Class<?> t = targetClass;
@@ -942,6 +949,13 @@ public class Adv {
 		context.clear();
 		context.line();
 		context.exec(expr);
+		if (targetClass.isAssignableFrom(magicNumber.getClass())) {
+
+		} else {
+			context.exec(code -> {
+				code.CHECKCAST(targetClass);
+			});
+		}
 		int locals = context.store(varname, Clazz.of(targetClass, of(typeArgument)));
 
 		Class<?> t = targetClass;

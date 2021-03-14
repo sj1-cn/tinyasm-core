@@ -1,14 +1,18 @@
 package cc1sj.tinyasm.sourceconverter;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
 import org.objectweb.asm.Label;
-
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.ClassBuilder;
-import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cc1sj.tinyasm.Annotation;
+import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
+import java.lang.String;
+import cc1sj.tinyasm.sourceconverter.SimpleSuperClass;
+import cc1sj.tinyasm.sourceconverter.SimpleSuperInterface;
 @SuppressWarnings("unused")
 public class UsingSimplePojoClassSampleTinyAsmDump {
 
