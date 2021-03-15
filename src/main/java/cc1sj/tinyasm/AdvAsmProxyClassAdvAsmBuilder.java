@@ -405,6 +405,10 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			loadType(code, methodReturnClazz);
 		}
 
+		if (!isTargetClazzKnown) {
+			code.LOAD("this");
+		}
+
 		String[] lambdaEvalParamNames = new String[methodParamClazzes.length + 1];
 		code.LOAD("objEval");
 		lambdaEvalParamNames[0] = "objEval";
@@ -426,9 +430,10 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			} else {
 				c.LINE();
 				c.LOAD("c");
-				c.LOADConst(targetClazz.getType().getClassName());
+				c.LOAD("this");
+				c.GETFIELD_OF_THIS("_targetClazz");
 				c.LOADConst(methodName);
-				c.VIRTUAL(MethodCode.class, INTERFACE_OR_VIRTUAL).return_(MethodCaller.class).parameter(String.class).parameter(String.class).INVOKE();
+				c.VIRTUAL(MethodCode.class, INTERFACE_OR_VIRTUAL).return_(MethodCaller.class).parameter(Clazz.class).parameter(String.class).INVOKE();
 			}
 			for (Type type : originParamTypes) {
 				loadType(c, Clazz.of(type));
@@ -458,7 +463,11 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			}
 		});
 
-		dynamicInvoke(code, methodParamClazzes.length, proxyClassName.replace('.', '/'), lambdaName);
+		if (isTargetClazzKnown) {
+			dynamicInvoke(code, methodParamClazzes.length, proxyClassName.replace('.', '/'), lambdaName);
+		} else {
+			dynamicInvokeWithThis(code, methodParamClazzes.length, proxyClassName.replace('.', '/'), lambdaName);
+		}
 
 		code.stackPush(Type.getType(ConsumerWithException.class));
 
@@ -1103,7 +1112,19 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		code.VIRTUAL(AdvContext.class, "execAndPop").INVOKE();
 	}
 
-	protected Type[] codeTypes(int paramSize, Class<?>... classes) {
+	protected Type[] codeTypes(Type proxyType, int paramSize, Class<?>... classes) {
+		Type[] typesLambda = new Type[1 + paramSize + classes.length];
+		typesLambda[0] = proxyType;
+		for (int i = 0; i < paramSize; i++) {
+			typesLambda[i + 1] = Type.getType(ConsumerWithException.class);
+		}
+		for (int i = 0; i < classes.length; i++) {
+			typesLambda[paramSize + i + 1] = Type.getType(classes[i]);
+		}
+		return typesLambda;
+	}
+
+	protected Type[] codeTypesdontKnow(int paramSize, Class<?>... classes) {
 		Type[] typesLambda = new Type[paramSize + classes.length];
 		for (int i = 0; i < paramSize; i++) {
 			typesLambda[i] = Type.getType(ConsumerWithException.class);
@@ -1115,10 +1136,23 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	}
 
 	protected void dynamicInvoke(MethodCode code, int paramSize, String proxyClassName, String lambdaName) {
-		String lambdaRealMethodDesriptor = Type.getMethodDescriptor(Type.VOID_TYPE, codeTypes(paramSize, ConsumerWithException.class, MethodCode.class));
+		String lambdaRealMethodDesriptor = Type.getMethodDescriptor(Type.VOID_TYPE, codeTypesdontKnow(paramSize, ConsumerWithException.class, MethodCode.class));
 
-		String dontKnowByNowMethodDesriptor = Type.getMethodDescriptor(Type.getType(ConsumerWithException.class), codeTypes(paramSize, ConsumerWithException.class));
-		dynamicInvokeLambda(code, proxyClassName, lambdaName, dontKnowByNowMethodDesriptor, lambdaRealMethodDesriptor);
+		String dontKnowByNowMethodDesriptor = Type.getMethodDescriptor(Type.getType(ConsumerWithException.class), codeTypesdontKnow(paramSize, ConsumerWithException.class));
+		dynamicInvokeLambdaStatic(code, proxyClassName, lambdaName, dontKnowByNowMethodDesriptor, lambdaRealMethodDesriptor);
+
+		code.stackPop();
+		for (int i = 0; i < paramSize; i++) {
+			code.stackPop();
+		}
+	}
+
+	protected void dynamicInvokeWithThis(MethodCode code, int paramSize, String proxyClassName, String lambdaName) {
+		Type proxyType = Clazz.of(this.proxyClassName).getType();
+		String lambdaRealMethodDesriptor = Type.getMethodDescriptor(Type.VOID_TYPE, codeTypesdontKnow(paramSize, ConsumerWithException.class, MethodCode.class));
+
+		String dontKnowByNowMethodDesriptor = Type.getMethodDescriptor(Type.getType(ConsumerWithException.class), codeTypes(proxyType, paramSize, ConsumerWithException.class));
+		dynamicInvokeLambdaWithThis(code, proxyClassName, lambdaName, dontKnowByNowMethodDesriptor, lambdaRealMethodDesriptor);
 
 		code.stackPop();
 		for (int i = 0; i < paramSize; i++) {
@@ -1169,13 +1203,22 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		}
 	}
 
-	protected void dynamicInvokeLambda(MethodCode code, String objClass, String lambdaName, String dontKnowByNowMethodDesriptor, String lambdaRealMethodDesriptor) {
+	protected void dynamicInvokeLambdaStatic(MethodCode code, String objClass, String lambdaName, String dontKnowByNowMethodDesriptor, String lambdaRealMethodDesriptor) {
 
 		Type lambdaDefinedMethodDescriptor = Type.getType(Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(MethodCode.class)));
 		code.visitInvokeDynamicInsn("accept", dontKnowByNowMethodDesriptor,
 				new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory",
 						"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false),
 				new Object[] { Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, objClass, lambdaName, lambdaRealMethodDesriptor, false), lambdaDefinedMethodDescriptor });
+	}
+
+	protected void dynamicInvokeLambdaWithThis(MethodCode code, String objClass, String lambdaName, String dontKnowByNowMethodDesriptor, String lambdaRealMethodDesriptor) {
+
+		Type lambdaDefinedMethodDescriptor = Type.getType(Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(MethodCode.class)));
+		code.visitInvokeDynamicInsn("accept", dontKnowByNowMethodDesriptor,
+				new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory",
+						"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false),
+				new Object[] { Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESPECIAL, objClass, lambdaName, lambdaRealMethodDesriptor, false), lambdaDefinedMethodDescriptor });
 	}
 
 	public String pushLambda(String[] params, String methodName, Consumer<MethodCode> lambdaInvokeSuperMethod) {
@@ -1190,8 +1233,13 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		Consumer<MethodCode> lambdaInvokeSuperMethod;
 
 		public void exec(ClassBody classBody) {
-
-			MethodHeader methodHeader = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, name).throws_(Exception.class);
+			int access;
+			if(isTargetClazzKnown) {
+				access = ACC_PRIVATE | ACC_STATIC |  ACC_SYNTHETIC;
+			}else {
+				access =  ACC_PRIVATE | ACC_SYNTHETIC;
+			}
+			MethodHeader methodHeader = classBody.method(access, name).throws_(Exception.class);
 			for (int i = 0; i < params.length; i++) {
 				methodHeader.parameter(params[i], ConsumerWithException.class);
 			}

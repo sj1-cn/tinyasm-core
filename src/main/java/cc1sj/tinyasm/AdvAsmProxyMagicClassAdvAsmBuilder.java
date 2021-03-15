@@ -61,12 +61,14 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		proxyClassBody.private_().field("_magicNumber", Clazz.of(byte.class));
 		proxyClassBody.private_().field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
+		proxyClassBody.private_().field("_targetClazz", Clazz.of(Clazz.class));
 		proxyClassBody.private_().field("_classBuilder", Clazz.of(AdvClassBuilder.class));
 
 		__init_TargetClass(proxyClassBody, magicBuilderClazz);
 		_get__MagicNumber(proxyClassBody);
 		_set__MagicNumber(proxyClassBody);
 		_set__Context(proxyClassBody);
+		_set__TargetClazz(proxyClassBody);
 		_get__TargetClazz(proxyClassBody);
 		_get__ClassBuilder(proxyClassBody);
 		_set__ClassBuilder(proxyClassBody);
@@ -88,6 +90,29 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 		finish();
 	}
 
+	protected void _set__TargetClazz(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("set__TargetClazz").parameter("_targetClazz", Clazz.class).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("_targetClazz");
+		code.PUTFIELD_OF_THIS("_targetClazz");
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _get__TargetClazz(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("get__TargetClazz").return_(Clazz.class).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.GETFIELD_OF_THIS("_targetClazz");
+		code.RETURNTop();
+		code.END();
+	}
 	protected void _get__ClassBuilder(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("get__ClassBuilder").return_(AdvClassBuilder.class).begin();
 

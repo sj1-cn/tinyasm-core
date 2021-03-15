@@ -37,7 +37,6 @@ public class GenericInterfaceSampleAdvAsmProxy implements GenericInterface<PojoC
 		return Clazz.of(GenericInterface.class);
 	}
 
-
 	@Override
 	public PojoClassSample getT() {
 		AdvContext context = _contextThreadLocal.get();

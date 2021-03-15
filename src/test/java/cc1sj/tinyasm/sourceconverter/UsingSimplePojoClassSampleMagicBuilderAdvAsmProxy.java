@@ -10,6 +10,7 @@ import cc1sj.tinyasm.MethodCode;
 public class UsingSimplePojoClassSampleMagicBuilderAdvAsmProxy extends UsingSimplePojoClassSampleMagicBuilder implements AdvMagicRuntime {
 	private byte _magicNumber;
 	private ThreadLocal<AdvContext> _contextThreadLocal;
+	private Clazz _targetClazz;
 	private AdvClassBuilder _classBuilder;
 
 	@Override
@@ -27,10 +28,15 @@ public class UsingSimplePojoClassSampleMagicBuilderAdvAsmProxy extends UsingSimp
 		this._contextThreadLocal = _contextThreadLocal;
 		this._magicNumber = _magicNumber;
 	}
-	
+
+	@Override
+	public void set__TargetClazz(Clazz _targetClazz) {
+		this._targetClazz = _targetClazz;
+	}
+
 	@Override
 	public Clazz get__TargetClazz() {
-		return Clazz.of("cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample");
+		return _targetClazz;
 	}
 
 	@Override
@@ -49,7 +55,7 @@ public class UsingSimplePojoClassSampleMagicBuilderAdvAsmProxy extends UsingSimp
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		context.execLine(c -> {
 			objEval.accept(c);
-			c.VIRTUAL("cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample", "sayHello").INVOKE();
+			c.VIRTUAL(this._targetClazz, "sayHello").INVOKE();
 		});
 	}
 
