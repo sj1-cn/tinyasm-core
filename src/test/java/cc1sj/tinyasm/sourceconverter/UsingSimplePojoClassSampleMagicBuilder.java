@@ -69,12 +69,11 @@ public class UsingSimplePojoClassSampleMagicBuilder extends SimpleSuperClass imp
 
 	public static byte[] dump() {
 
-		UsingSimplePojoClassSampleMagicBuilder magicBuilderProxy = AdvMagic
-				.build("cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample", UsingSimplePojoClassSampleMagicBuilder.class);
+		UsingSimplePojoClassSampleMagicBuilder magicBuilderProxy = AdvMagic.build(UsingSimplePojoClassSampleMagicBuilder.class);
 
 //		magicBuilderProxy.dumpInit("sayNothing");
 
-		return AdvMagic.dump(magicBuilderProxy);
+		return AdvMagic.dump("cc1sj.tinyasm.sourceconverter.UsingSimplePojoClassSample", magicBuilderProxy);
 
 	}
 }

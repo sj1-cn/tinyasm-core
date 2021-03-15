@@ -386,7 +386,7 @@ public class AdvAsmProxyASMifierTest {
 	public void test_AdvAsmProxyMagicClassAdvAsmBuilder_Build() throws Exception {
 		Class<?> expectedClazz = UsingSimplePojoClassSampleMagicBuilderAdvAsmProxy.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(UsingSimplePojoClassSampleMagicBuilder.class, expectedClazz.getName(), UsingSimplePojoClassSample.class.getName()));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(UsingSimplePojoClassSampleMagicBuilder.class, expectedClazz.getName()));
 
 		assertEquals("Code", codeExpected, codeActual);
 	}

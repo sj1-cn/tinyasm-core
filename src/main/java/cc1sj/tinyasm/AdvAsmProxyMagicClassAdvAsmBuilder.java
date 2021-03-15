@@ -16,12 +16,12 @@ import org.objectweb.asm.Type;
 
 public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBuilder {
 
-	public static byte[] dumpMagic(Class<?> magicBuilderClass, String proxyClassName, String targetClassName) throws Exception {
+	public static byte[] dumpMagic(Class<?> magicBuilderClass, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
 		AdvAsmProxyMagicClassAdvAsmBuilder bw = new AdvAsmProxyMagicClassAdvAsmBuilder(Opcodes.ASM9, cw);
 
-		bw.dumpMagic(Clazz.of(magicBuilderClass), new Clazz[] {}, proxyClassName, targetClassName);
+		bw.dumpMagic(Clazz.of(magicBuilderClass), new Clazz[] {}, proxyClassName);
 
 		return cw.toByteArray();
 	}
@@ -36,13 +36,13 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 	ClazzSimple magicBuilderClazz;
 
-	protected void dumpMagic(ClazzSimple magicBuilderClazz, Clazz[] actualTypeArguments, String proxyClassName, String targetClassName)
+	protected void dumpMagic(ClazzSimple magicBuilderClazz, Clazz[] actualTypeArguments, String proxyClassName)
 			throws IOException {
 		this.isTargetClazzKnown = false;
 		this.proxyClassName = proxyClassName;
 		this.magicBuilderClazz = magicBuilderClazz;
 //		this.targetClazz = magicBuilderClazz;
-		this.targetClazz = Clazz.of(targetClassName);
+//		this.targetClazz = Clazz.of(targetClassName);
 		INTERFACE_OR_VIRTUAL = VIRTUAL;
 
 		ClassHeader ch = ClassBuilder.class_(cv, proxyClassName);

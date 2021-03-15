@@ -190,7 +190,7 @@ class AdvAsmProxyObjenesisBuilder {
 		}
 	}
 
-	public <T> T buildMagicProxyClass(String targetClassName, Class<T> target, ThreadLocal<AdvContext> _contextThreadLocal,
+	public <T> T buildMagicProxyClass(Class<T> target, ThreadLocal<AdvContext> _contextThreadLocal,
 			int magicNumber) {
 
 		Class<?> clzBroker;
@@ -213,7 +213,7 @@ class AdvAsmProxyObjenesisBuilder {
 //				String proxyClassSuffix = 
 				String proxyClassName = this.getClass().getName() + "_" + target.getName().replace('.', '_') + count;
 				byte[] code;
-				code = AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(target, proxyClassName, targetClassName);
+				code = AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(target, proxyClassName);
 
 				if (log.isDebugEnabled()) {
 					try {
