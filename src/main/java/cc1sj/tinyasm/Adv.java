@@ -614,7 +614,7 @@ public class Adv {
 		Class<?>[] paramTypes = constructor.getParameterTypes();
 
 		List<ConsumerWithException<MethodCode>> valueEvals = new ArrayList<>();
-		for (int i = 0; i < params.length; i++) {
+		for (int i = params.length - 1; i >= 0; i--) {
 			valueEvals.add(context.resolve(params[i], paramTypes[i]));
 		}
 
@@ -622,8 +622,8 @@ public class Adv {
 //			c.LINE();
 			c.NEW(clz);
 			c.DUP();
-			for (ConsumerWithException<MethodCode> valueEval : valueEvals) {
-				valueEval.accept(c);
+			for (int i = valueEvals.size() - 1; i >= 0; i--) {
+				valueEvals.get(i).accept(c);
 			}
 			c.SPECIAL(clz, "<init>").parameter(constructor.getParameterTypes()).INVOKE();
 		});
@@ -644,7 +644,7 @@ public class Adv {
 		Class<?>[] paramTypes = constructor.getParameterTypes();
 
 		List<ConsumerWithException<MethodCode>> valueEvals = new ArrayList<>();
-		for (int i = 0; i < params.length; i++) {
+		for (int i = params.length - 1; i >= 0; i--) {
 			valueEvals.add(context.resolve(params[i], paramTypes[i]));
 		}
 
@@ -652,8 +652,8 @@ public class Adv {
 //			c.LINE();
 			c.NEW(clz);
 			c.DUP();
-			for (ConsumerWithException<MethodCode> valueEval : valueEvals) {
-				valueEval.accept(c);
+			for (int i = valueEvals.size() - 1; i >= 0; i--) {
+				valueEvals.get(i).accept(c);
 			}
 			c.SPECIAL(clz, "<init>").parameter(constructor.getParameterTypes()).INVOKE();
 		});
@@ -671,10 +671,11 @@ public class Adv {
 				boolean matched = true;
 				Class<?>[] definedParams = init.getParameterTypes();
 				for (int i = 0; i < params.length; i++) {
-					if (definedParams[i].getClass() == params[i].getClass()) {
-
-					} else if (match(definedParams[i], params[i].getClass())) {
-
+					Object param = params[i];
+					Class<?> defineParamClass = definedParams[i];
+					if (defineParamClass == param.getClass()) {
+					} else if (match(defineParamClass, param.getClass())) {
+					} else if (matchProxy(param, defineParamClass)) {
 					} else {
 						matched = false;
 						break;
@@ -686,11 +687,14 @@ public class Adv {
 		return c;
 	}
 
+	protected static boolean matchProxy(Object param, Class<?> defineParamClass) {
+		return param instanceof AdvRuntimeReferNameObject && ((AdvRuntimeReferNameObject) param).get__TargetClazz().getType().getClassName().equals(defineParamClass.getName());
+	}
+
 	private static boolean match(Class<?> l, Class<?> r) {
 		if (l.isPrimitive()) {
-			return (l == byte.class && r == Byte.class) || (l == char.class && r == Character.class)
-					|| (l == short.class && r == Short.class) || (l == int.class && r == Integer.class)
-					|| (l == long.class && r == Long.class) || (l == float.class && r == Float.class)
+			return (l == byte.class && r == Byte.class) || (l == char.class && r == Character.class) || (l == short.class && r == Short.class)
+					|| (l == int.class && r == Integer.class) || (l == long.class && r == Long.class) || (l == float.class && r == Float.class)
 					|| (l == double.class && r == Double.class);
 		}
 		return false;
@@ -1750,6 +1754,16 @@ public class Adv {
 			sb.append(func.apply(array[i]));
 		}
 		return sb.toString();
+	}
+
+	public static void _line(ConsumerWithException<MethodCode> code) {
+		AdvContext advContext = _contextThreadLocal.get();
+		advContext.execLine(code);
+	}
+
+	public static Object _piece(Class<?> clazz, ConsumerWithException<MethodCode> code) {
+		AdvContext advContext = _contextThreadLocal.get();
+		return advContext.push(clazz, code);
 	}
 
 }

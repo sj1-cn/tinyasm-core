@@ -288,10 +288,8 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 
 	@Override
 	public MethodVisitor visitMethod(int access, String methodName, String descriptor, String signature, String[] exceptions) {
-		logger.debug("visitMethod(int {}, String {}, String {}, String {}, String[] exceptions)", access, methodName, descriptor,
-				signature);
-		if (methodName.equals("<init>") || methodName.equals("<clinit>")
-				|| (access & (ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC | ACC_NATIVE | ACC_BRIDGE)) != 0) {
+		logger.debug("visitMethod(int {}, String {}, String {}, String {}, String[] exceptions)", access, methodName, descriptor, signature);
+		if (methodName.equals("<init>") || methodName.equals("<clinit>") || (access & (ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC | ACC_NATIVE | ACC_BRIDGE)) != 0) {
 			return null;
 		}
 
@@ -337,9 +335,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 
 		final Clazz methodReturnClazz = signature != null ? computedReturnClazz : Clazz.of(originReturnType);
 
-		ClazzFormalTypeParameter[] methodFormalTypeParameters = signature != null
-				? (ClazzFormalTypeParameter[]) classSignaturewwww.typeParamenterClazzes
-				: new ClazzFormalTypeParameter[0];
+		ClazzFormalTypeParameter[] methodFormalTypeParameters = signature != null ? (ClazzFormalTypeParameter[]) classSignaturewwww.typeParamenterClazzes : new ClazzFormalTypeParameter[0];
 
 		String actualDescriptor;
 		String actualSignature;
@@ -353,8 +349,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			String referkey = methodName + actualBridgeDescriptor;
 //			logger.debug(referkey);
 			if (!proxyDefinedMethodes.containsKey(referkey)) {
-				BridgeMethod bm = new BridgeMethod(methodName, originReturnType, originParamTypes, methodReturnClazz, methodParamClazzes,
-						exceptions);
+				BridgeMethod bm = new BridgeMethod(methodName, originReturnType, originParamTypes, methodReturnClazz, methodParamClazzes, exceptions);
 				bm.lowestClazz = current.clazz;
 				proxyBridgeMethods.add(bm);
 				proxyDefinedMethodes.put(referkey, referkey);
@@ -390,8 +385,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		code_getContext(code);
 		// resolve parameters
 		for (int i = methodParamClazzes.length - 1; i >= 0; i--) {
-			if (Type.BOOLEAN_TYPE == methodParamClazzes[i].getType()
-					|| Boolean.class.getName().equals(methodParamClazzes[i].getType().getClassName())) {
+			if (Type.BOOLEAN_TYPE == methodParamClazzes[i].getType() || Boolean.class.getName().equals(methodParamClazzes[i].getType().getClassName())) {
 				code.LINE();
 				code.LOAD("context");
 				code.VIRTUAL(AdvContext.class, "getCodeAndPop").return_(ConsumerWithException.class).INVOKE();
@@ -428,15 +422,13 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 				c.LOAD("c");
 				c.LOADConst(targetClazz);
 				c.LOADConst(methodName);
-				c.VIRTUAL(MethodCode.class, INTERFACE_OR_VIRTUAL).return_(MethodCaller.class).parameter(Class.class).parameter(String.class)
-						.INVOKE();
+				c.VIRTUAL(MethodCode.class, INTERFACE_OR_VIRTUAL).return_(MethodCaller.class).parameter(Class.class).parameter(String.class).INVOKE();
 			} else {
 				c.LINE();
 				c.LOAD("c");
 				c.LOADConst(targetClazz.getType().getClassName());
 				c.LOADConst(methodName);
-				c.VIRTUAL(MethodCode.class, INTERFACE_OR_VIRTUAL).return_(MethodCaller.class).parameter(String.class)
-						.parameter(String.class).INVOKE();
+				c.VIRTUAL(MethodCode.class, INTERFACE_OR_VIRTUAL).return_(MethodCaller.class).parameter(String.class).parameter(String.class).INVOKE();
 			}
 			for (Type type : originParamTypes) {
 				loadType(c, Clazz.of(type));
@@ -457,8 +449,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 
 			c.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 			if (INTERFACE_OR_VIRTUAL == INTERFACE) {
-				if (!(methodReturnClazz instanceof ClazzVariable) && originReturnType != Type.VOID_TYPE
-						&& !originReturnType.getInternalName().equals(methodReturnClazz.getType().getInternalName())) {
+				if (!(methodReturnClazz instanceof ClazzVariable) && originReturnType != Type.VOID_TYPE && !originReturnType.getInternalName().equals(methodReturnClazz.getType().getInternalName())) {
 					c.LINE();
 					c.LOAD("c");
 					c.LOADConst(methodReturnClazz);
@@ -472,8 +463,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		code.stackPush(Type.getType(ConsumerWithException.class));
 
 		if (methodReturnClazz.getType() != Type.VOID_TYPE) {
-			code.VIRTUAL(AdvContext.class, "push").return_(byte.class).parameter(Class.class).parameter(ConsumerWithException.class)
-					.INVOKE();
+			code.VIRTUAL(AdvContext.class, "push").return_(byte.class).parameter(Class.class).parameter(ConsumerWithException.class).INVOKE();
 		} else {
 			code.VIRTUAL(AdvContext.class, "execLine").parameter(ConsumerWithException.class).INVOKE();
 		}
@@ -512,263 +502,258 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 				code.ADD();
 				code.CONVERTTO(methodReturnClazz);
 				code.RETURNTop();
-			} else if (methodReturnClazz.getType().getSort() == Type.OBJECT
-					&& methodReturnClazz.getType().equals(Type.getType(String.class))) {
-						code.STORE("codeIndex", byte.class);
-						code.LINE();
-						code.NEW(StringBuilder.class);
-						code.DUP();
-						code.LOADConst(MAGIC_CODES_String);
-						code.SPECIAL(StringBuilder.class, "<init>").parameter(String.class).INVOKE();
-						code.LOAD("codeIndex");
-						code.VIRTUAL(StringBuilder.class, "append").return_(StringBuilder.class).parameter(int.class).INVOKE();
-						code.VIRTUAL(StringBuilder.class, "toString").return_(String.class).INVOKE();
-						code.RETURNTop();
-					} else
-				if (methodReturnClazz.getType().getSort() == Type.OBJECT) {
+			} else if (methodReturnClazz.getType().getSort() == Type.OBJECT && methodReturnClazz.getType().equals(Type.getType(String.class))) {
+				code.STORE("codeIndex", byte.class);
+				code.LINE();
+				code.NEW(StringBuilder.class);
+				code.DUP();
+				code.LOADConst(MAGIC_CODES_String);
+				code.SPECIAL(StringBuilder.class, "<init>").parameter(String.class).INVOKE();
+				code.LOAD("codeIndex");
+				code.VIRTUAL(StringBuilder.class, "append").return_(StringBuilder.class).parameter(int.class).INVOKE();
+				code.VIRTUAL(StringBuilder.class, "toString").return_(String.class).INVOKE();
+				code.RETURNTop();
+			} else if (methodReturnClazz.getType().getSort() == Type.OBJECT) {
+				code.STORE("codeIndex", byte.class);
+
+				if (methodReturnClazz instanceof ClazzSimple) {
+					code.LINE();
+					code.LOADConst(80);
+					code.LOAD("codeIndex");
+					code.ADD();
+					code.CONVERTTO(byte.class);
+					code.STORE("magicNumber", byte.class);
+
+					code.LINE();
+					code.LOADConst(methodReturnClazz);
+					code.STATIC(Adv.class, "canProxy").return_(boolean.class).parameter(Class.class).INVOKE();
+					Label label5OfIFEQ = new Label();
+					code.IFEQ(label5OfIFEQ);
+
+					code.LINE();
+					code.LOADConst(methodReturnClazz);
+					code.LOAD("magicNumber");
+					code.STATIC(Adv.class, "buildProxyClass").return_(Object.class).parameter(Class.class).parameter(byte.class).INVOKE();
+					code.CHECKCAST(methodReturnClazz);
+					code.RETURNTop();
+
+					code.visitLabel(label5OfIFEQ);
+
+					code.LINE();
+					code.LOADConstNULL();
+					code.RETURNTop();
+				} else if (methodReturnClazz instanceof ClazzWithTypeArguments) {
+
+					code.LINE();
+					code.LOADConst(80);
+					code.LOAD("codeIndex");
+					code.ADD();
+					code.CONVERTTO(byte.class);
+					code.STORE("magicNumber", byte.class);
+
+					ClazzTypeArgument[] genericParameterClazz = ((ClazzWithTypeArguments) methodReturnClazz).getTypeArguments();
+
+					code.LINE();
+					code.LOADConst(methodReturnClazz);
+					code.STATIC(Adv.class, "canProxy").return_(boolean.class).parameter(Class.class).INVOKE();
+					Label label5OfIFEQ = new Label();
+					code.IFEQ(label5OfIFEQ);
+
+					code.LINE();
+					code.LOADConst(methodReturnClazz);
+					Class<?>[] paramsclasses = new Class[genericParameterClazz.length];
+					for (int i = 0; i < genericParameterClazz.length; i++) {
+						ClazzTypeArgument clazz = genericParameterClazz[i];
+						code.LOADConst(((ClazzTypeArgument) clazz).clazz);
+						paramsclasses[i] = Class.class;
+					}
+
+					code.LOAD("magicNumber");
+					code.STATIC(Adv.class, "buildProxyClass").return_(Object.class).parameter(Class.class).parameter(paramsclasses).parameter(byte.class).INVOKE();
+					code.CHECKCAST(methodReturnClazz);
+					code.RETURNTop();
+
+					code.visitLabel(label5OfIFEQ);
+
+					code.LINE();
+					code.LOADConstNULL();
+					code.RETURNTop();
+				} else {
+					logger.debug(methodReturnClazz.signatureOf());
+				}
+
+			} else if (methodReturnClazz.getType().getSort() == Type.ARRAY) {
+
+				Type elementType = methodReturnClazz.getType().getElementType();
+
+				if (Type.BOOLEAN_TYPE == elementType) {
+					code.POP();
+
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(elementType);
+					code.STORE("tarray");
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOADConst(0);
+					code.ARRAYSTORE();
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
+				} else if (Boolean.class.getName().equals(elementType.getClassName())) {
+//					code.STORE("codeIndex", byte.class);
+					code.POP();
+
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(elementType);
+					code.STORE("tarray");
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOADConst(0);
+					code.STATIC(Boolean.class, "valueOf").return_(Boolean.class).parameter(boolean.class).INVOKE();
+					code.ARRAYSTORE();
+
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
+				} else if (BoxUnbox.ClazzObjectToPrimitive.containsKey(elementType)) {
 					code.STORE("codeIndex", byte.class);
 
-					if (methodReturnClazz instanceof ClazzSimple) {
-						code.LINE();
-						code.LOADConst(80);
-						code.LOAD("codeIndex");
-						code.ADD();
-						code.CONVERTTO(byte.class);
-						code.STORE("magicNumber", byte.class);
+					code.LINE();
+					code.LOADConst(MAGIC_CODES_NUMBER);
+					code.LOAD("codeIndex");
+					code.ADD();
+					code.STORE("magicNumber", int.class);
 
-						code.LINE();
-						code.LOADConst(methodReturnClazz);
-						code.STATIC(Adv.class, "canProxy").return_(boolean.class).parameter(Class.class).INVOKE();
-						Label label5OfIFEQ = new Label();
-						code.IFEQ(label5OfIFEQ);
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(elementType);
+					code.STORE("tarray");
 
-						code.LINE();
-						code.LOADConst(methodReturnClazz);
-						code.LOAD("magicNumber");
-						code.STATIC(Adv.class, "buildProxyClass").return_(Object.class).parameter(Class.class).parameter(byte.class)
-								.INVOKE();
-						code.CHECKCAST(methodReturnClazz);
-						code.RETURNTop();
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOAD("magicNumber");
+					Type primitiveType = BoxUnbox.ClazzObjectToPrimitive.get(elementType);
+					code.CONVERTTO(primitiveType);
+					BoxUnbox.PrimaryToBoxFunc.get(primitiveType).accept(code);
+					code.ARRAYSTORE();
 
-						code.visitLabel(label5OfIFEQ);
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
+				} else if (BoxUnbox.PrimativeToClazzObject.containsKey(elementType)) {
+					code.STORE("codeIndex", byte.class);
 
-						code.LINE();
-						code.LOADConstNULL();
-						code.RETURNTop();
-					} else if (methodReturnClazz instanceof ClazzWithTypeArguments) {
+					code.LINE();
+					code.LOADConst(MAGIC_CODES_NUMBER);
+					code.LOAD("codeIndex");
+					code.ADD();
+					code.STORE("magicNumber");
 
-						code.LINE();
-						code.LOADConst(80);
-						code.LOAD("codeIndex");
-						code.ADD();
-						code.CONVERTTO(byte.class);
-						code.STORE("magicNumber", byte.class);
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(elementType);
+					code.STORE("tarray");
 
-						ClazzTypeArgument[] genericParameterClazz = ((ClazzWithTypeArguments) methodReturnClazz).getTypeArguments();
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOAD("magicNumber");
+					code.CONVERTTO(elementType);
+					code.ARRAYSTORE();
 
-						code.LINE();
-						code.LOADConst(methodReturnClazz);
-						code.STATIC(Adv.class, "canProxy").return_(boolean.class).parameter(Class.class).INVOKE();
-						Label label5OfIFEQ = new Label();
-						code.IFEQ(label5OfIFEQ);
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
+				} else if (elementType.getSort() == Type.OBJECT && elementType.equals(Type.getType(String.class))) {
+					code.STORE("codeIndex", byte.class);
 
-						code.LINE();
-						code.LOADConst(methodReturnClazz);
-						Class<?>[] paramsclasses = new Class[genericParameterClazz.length];
-						for (int i = 0; i < genericParameterClazz.length; i++) {
-							ClazzTypeArgument clazz = genericParameterClazz[i];
-							code.LOADConst(((ClazzTypeArgument) clazz).clazz);
-							paramsclasses[i] = Class.class;
-						}
+					code.LINE();
+					code.NEW(StringBuilder.class);
+					code.DUP();
+					code.LOADConst(MAGIC_CODES_String);
+					code.SPECIAL(StringBuilder.class, "<init>").parameter(String.class).INVOKE();
+					code.LOAD("codeIndex");
+					code.VIRTUAL(StringBuilder.class, "append").return_(StringBuilder.class).parameter(int.class).INVOKE();
+					code.VIRTUAL(StringBuilder.class, "toString").return_(String.class).INVOKE();
+					code.STORE("magicNumber", String.class);
 
-						code.LOAD("magicNumber");
-						code.STATIC(Adv.class, "buildProxyClass").return_(Object.class).parameter(Class.class).parameter(paramsclasses)
-								.parameter(byte.class).INVOKE();
-						code.CHECKCAST(methodReturnClazz);
-						code.RETURNTop();
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(String.class);
+					code.STORE("tarray", String[].class);
 
-						code.visitLabel(label5OfIFEQ);
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOAD("magicNumber");
+					code.ARRAYSTORE();
 
-						code.LINE();
-						code.LOADConstNULL();
-						code.RETURNTop();
-					} else {
-						logger.debug(methodReturnClazz.signatureOf());
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
+				} else if (elementType.getSort() == Type.OBJECT) {
+					code.STORE("codeIndex", byte.class);
+
+					code.LINE();
+					code.LOADConst(MAGIC_CODES_NUMBER);
+					code.LOAD("codeIndex");
+					code.ADD();
+					code.CONVERTTO(byte.class);
+					code.STORE("magicNumber", byte.class);
+
+					code.LINE();
+					code.LOADConstNULL();
+					code.STORE("simplePojoClassSample", elementType);
+
+					code.LINE();
+					code.LOADConst(1);
+					code.NEWARRAY(elementType);
+					code.STORE("tarray");
+
+					code.LINE();
+					code.LOADConst(elementType);
+					code.STATIC(Adv.class, "canProxy").return_(boolean.class).parameter(Class.class).INVOKE();
+					Label label7OfIFEQ = new Label();
+					code.IFEQ(label7OfIFEQ);
+
+					code.LINE();
+					code.LOADConst(elementType);
+					code.LOAD("magicNumber");
+					code.STATIC(Adv.class, "buildProxyClass").return_(Object.class).parameter(Class.class).parameter(byte.class).INVOKE();
+
+					if (!elementType.getClassName().equals("java.lang.Object")) {
+						code.CHECKCAST(elementType);
 					}
+					code.STORE("simplePojoClassSample", elementType);
 
-				} else if (methodReturnClazz.getType().getSort() == Type.ARRAY) {
+					code.LINE();
+					code.LOAD("tarray");
+					code.LOADConst(0);
+					code.LOAD("simplePojoClassSample");
+					code.ARRAYSTORE();
 
-					Type elementType = methodReturnClazz.getType().getElementType();
+					code.LINE();
+					code.LOAD("tarray");
+					code.RETURNTop();
 
-					if (Type.BOOLEAN_TYPE == elementType) {
-						code.POP();
+					code.visitLabel(label7OfIFEQ);
 
-						code.LINE();
-						code.LOADConst(1);
-						code.NEWARRAY(elementType);
-						code.STORE("tarray");
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.LOADConst(0);
-						code.LOADConst(0);
-						code.ARRAYSTORE();
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.RETURNTop();
-					} else if (Boolean.class.getName().equals(elementType.getClassName())) {
-//					code.STORE("codeIndex", byte.class);
-						code.POP();
-
-						code.LINE();
-						code.LOADConst(1);
-						code.NEWARRAY(elementType);
-						code.STORE("tarray");
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.LOADConst(0);
-						code.LOADConst(0);
-						code.STATIC(Boolean.class, "valueOf").return_(Boolean.class).parameter(boolean.class).INVOKE();
-						code.ARRAYSTORE();
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.RETURNTop();
-					} else if (BoxUnbox.ClazzObjectToPrimitive.containsKey(elementType)) {
-						code.STORE("codeIndex", byte.class);
-
-						code.LINE();
-						code.LOADConst(MAGIC_CODES_NUMBER);
-						code.LOAD("codeIndex");
-						code.ADD();
-						code.STORE("magicNumber", int.class);
-
-						code.LINE();
-						code.LOADConst(1);
-						code.NEWARRAY(elementType);
-						code.STORE("tarray");
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.LOADConst(0);
-						code.LOAD("magicNumber");
-						Type primitiveType = BoxUnbox.ClazzObjectToPrimitive.get(elementType);
-						code.CONVERTTO(primitiveType);
-						BoxUnbox.PrimaryToBoxFunc.get(primitiveType).accept(code);
-						code.ARRAYSTORE();
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.RETURNTop();
-					} else if (BoxUnbox.PrimativeToClazzObject.containsKey(elementType)) {
-						code.STORE("codeIndex", byte.class);
-
-						code.LINE();
-						code.LOADConst(MAGIC_CODES_NUMBER);
-						code.LOAD("codeIndex");
-						code.ADD();
-						code.STORE("magicNumber");
-
-						code.LINE();
-						code.LOADConst(1);
-						code.NEWARRAY(elementType);
-						code.STORE("tarray");
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.LOADConst(0);
-						code.LOAD("magicNumber");
-						code.CONVERTTO(elementType);
-						code.ARRAYSTORE();
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.RETURNTop();
-					} else if (elementType.getSort() == Type.OBJECT && elementType.equals(Type.getType(String.class))) {
-						code.STORE("codeIndex", byte.class);
-
-						code.LINE();
-						code.NEW(StringBuilder.class);
-						code.DUP();
-						code.LOADConst(MAGIC_CODES_String);
-						code.SPECIAL(StringBuilder.class, "<init>").parameter(String.class).INVOKE();
-						code.LOAD("codeIndex");
-						code.VIRTUAL(StringBuilder.class, "append").return_(StringBuilder.class).parameter(int.class).INVOKE();
-						code.VIRTUAL(StringBuilder.class, "toString").return_(String.class).INVOKE();
-						code.STORE("magicNumber", String.class);
-
-						code.LINE();
-						code.LOADConst(1);
-						code.NEWARRAY(String.class);
-						code.STORE("tarray", String[].class);
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.LOADConst(0);
-						code.LOAD("magicNumber");
-						code.ARRAYSTORE();
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.RETURNTop();
-					} else if (elementType.getSort() == Type.OBJECT) {
-						code.STORE("codeIndex", byte.class);
-
-						code.LINE();
-						code.LOADConst(MAGIC_CODES_NUMBER);
-						code.LOAD("codeIndex");
-						code.ADD();
-						code.CONVERTTO(byte.class);
-						code.STORE("magicNumber", byte.class);
-
-						code.LINE();
-						code.LOADConstNULL();
-						code.STORE("simplePojoClassSample", elementType);
-
-						code.LINE();
-						code.LOADConst(1);
-						code.NEWARRAY(elementType);
-						code.STORE("tarray");
-
-						code.LINE();
-						code.LOADConst(elementType);
-						code.STATIC(Adv.class, "canProxy").return_(boolean.class).parameter(Class.class).INVOKE();
-						Label label7OfIFEQ = new Label();
-						code.IFEQ(label7OfIFEQ);
-
-						code.LINE();
-						code.LOADConst(elementType);
-						code.LOAD("magicNumber");
-						code.STATIC(Adv.class, "buildProxyClass").return_(Object.class).parameter(Class.class).parameter(byte.class)
-								.INVOKE();
-
-						if (!elementType.getClassName().equals("java.lang.Object")) {
-							code.CHECKCAST(elementType);
-						}
-						code.STORE("simplePojoClassSample", elementType);
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.LOADConst(0);
-						code.LOAD("simplePojoClassSample");
-						code.ARRAYSTORE();
-
-						code.LINE();
-						code.LOAD("tarray");
-						code.RETURNTop();
-
-						code.visitLabel(label7OfIFEQ);
-
-						code.LINE();
-						code.LOADConstNULL();
-						code.RETURNTop();
-					}
-
-				} else {
-					throw new UnsupportedOperationException();
+					code.LINE();
+					code.LOADConstNULL();
+					code.RETURNTop();
 				}
+
+			} else {
+				throw new UnsupportedOperationException();
+			}
 		} else if (methodFormalTypeParameters.length > 0 && methodReturnClazz.getType() != Type.VOID_TYPE) {
 			code.STORE("codeIndex", byte.class);
 
@@ -805,8 +790,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 						code.LINE();
 						code.LOAD(targetClassName);
 						code.LOAD("magicNumber");
-						code.STATIC(Adv.class, "buildProxyClass").return_(Object.class).parameter(Class.class).parameter(byte.class)
-								.INVOKE();
+						code.STATIC(Adv.class, "buildProxyClass").return_(Object.class).parameter(Class.class).parameter(byte.class).INVOKE();
 						code.STORE("targetElement");
 
 						code.LINE();
@@ -834,8 +818,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 						code.LINE();
 						code.LOAD(targetClassName);
 						code.LOAD("magicNumber");
-						code.STATIC(Adv.class, "buildProxyClass").return_(Object.class).parameter(Class.class).parameter(byte.class)
-								.INVOKE();
+						code.STATIC(Adv.class, "buildProxyClass").return_(Object.class).parameter(Class.class).parameter(byte.class).INVOKE();
 						code.RETURNTop();
 
 						code.visitLabel(label7OfIFEQ);
@@ -892,8 +875,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		return actualDescriptor;
 	}
 
-	protected String buildSignature(ClazzFormalTypeParameter[] methodFormalTypeParameters, Clazz[] methodParamClazzes,
-			final Clazz methodReturnClazz) {
+	protected String buildSignature(ClazzFormalTypeParameter[] methodFormalTypeParameters, Clazz[] methodParamClazzes, final Clazz methodReturnClazz) {
 		String actualSignature;
 		boolean needSignature = false;
 		{
@@ -1061,24 +1043,15 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	 * 
 	 ********************************************************************************************************************************************/
 
-	static Map<Type, Type> primitive_BoxedClazz_Maps = asMap(
-			new Type[] { Type.BOOLEAN_TYPE/* Boolean.class */, Type.BYTE_TYPE/* Byte.class */, Type.CHAR_TYPE/* Character.class */,
-					Type.SHORT_TYPE/* Short.class */, Type.INT_TYPE/* Integer.class */, Type.LONG_TYPE/* Long.class */,
-					Type.FLOAT_TYPE/* Float.class */, Type.DOUBLE_TYPE/* Double.class */
-			},
-			new Type[] { /* boolean.class */Type.getType(Boolean.class), /* byte.class */Type.getType(Byte.class),
-					/* char.class */Type.getType(Character.class), /* short.class */Type.getType(Short.class),
-					/* int.class */Type.getType(Integer.class), /* long.class */Type.getType(Long.class),
-					/* float.class */Type.getType(Float.class), /* double.class */Type.getType(Double.class) });
+	static Map<Type, Type> primitive_BoxedClazz_Maps = asMap(new Type[] { Type.BOOLEAN_TYPE/* Boolean.class */, Type.BYTE_TYPE/* Byte.class */, Type.CHAR_TYPE/* Character.class */, Type.SHORT_TYPE/* Short.class */,
+			Type.INT_TYPE/* Integer.class */, Type.LONG_TYPE/* Long.class */, Type.FLOAT_TYPE/* Float.class */, Type.DOUBLE_TYPE/* Double.class */
+	}, new Type[] { /* boolean.class */Type.getType(Boolean.class), /* byte.class */Type.getType(Byte.class), /* char.class */Type.getType(Character.class), /* short.class */Type.getType(Short.class),
+			/* int.class */Type.getType(Integer.class), /* long.class */Type.getType(Long.class), /* float.class */Type.getType(Float.class), /* double.class */Type.getType(Double.class) });
 
-	static Map<Type, String> primitive_BoxedClassIntValue_Maps = asMap(
-			new Type[] { Type.BOOLEAN_TYPE/* Boolean.class */, Type.BYTE_TYPE/* Byte.class */, Type.CHAR_TYPE/* Character.class */,
-					Type.SHORT_TYPE/* Short.class */, Type.INT_TYPE/* Integer.class */, Type.LONG_TYPE/* Long.class */,
-					Type.FLOAT_TYPE/* Float.class */, Type.DOUBLE_TYPE/* Double.class */
-			},
-			new String[] { /* boolean.class" */"booleanValue", /* byte.class */ "byteValue", /* char.class */ "charValue",
-					/* short.class */ "shortValue", /* int.class */ "intValue", /* long.class */ "longValue",
-					/* float.class */ "floatValue", /* double.class */ "doubleValue" });
+	static Map<Type, String> primitive_BoxedClassIntValue_Maps = asMap(new Type[] { Type.BOOLEAN_TYPE/* Boolean.class */, Type.BYTE_TYPE/* Byte.class */, Type.CHAR_TYPE/* Character.class */, Type.SHORT_TYPE/* Short.class */,
+			Type.INT_TYPE/* Integer.class */, Type.LONG_TYPE/* Long.class */, Type.FLOAT_TYPE/* Float.class */, Type.DOUBLE_TYPE/* Double.class */
+	}, new String[] { /* boolean.class" */"booleanValue", /* byte.class */ "byteValue", /* char.class */ "charValue", /* short.class */ "shortValue", /* int.class */ "intValue", /* long.class */ "longValue", /* float.class */ "floatValue",
+			/* double.class */ "doubleValue" });
 
 //	static Map<Type, Class<?>> primitive_ToValueClassMaps = asMap(
 //			new Type[] { Type.BOOLEAN_TYPE/* Boolean.class */, Type.BYTE_TYPE/* Byte.class */, Type.CHAR_TYPE/* Character.class */,
@@ -1100,8 +1073,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	static void _cast(MethodCode code, Clazz returnClazz) {
 		final boolean returnValueNeedBoxing = primitive_BoxedClazz_Maps.containsKey(returnClazz.getType());
 		Type returnValueboxedClazz = returnValueNeedBoxing ? primitive_BoxedClazz_Maps.get(returnClazz.getType()) : null;
-		String returnValueUnboxValueMethodName = returnValueNeedBoxing ? primitive_BoxedClassIntValue_Maps.get(returnClazz.getType())
-				: null;
+		String returnValueUnboxValueMethodName = returnValueNeedBoxing ? primitive_BoxedClassIntValue_Maps.get(returnClazz.getType()) : null;
 		if (returnValueNeedBoxing) {
 			code.CHECKCAST(returnValueboxedClazz);
 			code.VIRTUAL(Clazz.of(returnValueboxedClazz), returnValueUnboxValueMethodName).return_(returnClazz).INVOKE();
@@ -1120,10 +1092,10 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	}
 
 	static Map<String, String> mps = asMap(
-			new String[] { Boolean.class.getName(), Character.class.getName(), Byte.class.getName(), Short.class.getName(),
-					Integer.class.getName(), Long.class.getName(), Float.class.getName(), Double.class.getName(), String.class.getName() },
-			new String[] { Boolean.class.getName(), Character.class.getName(), Byte.class.getName(), Short.class.getName(),
-					Integer.class.getName(), Long.class.getName(), Float.class.getName(), Double.class.getName(), String.class.getName() });
+			new String[] { Boolean.class.getName(), Character.class.getName(), Byte.class.getName(), Short.class.getName(), Integer.class.getName(), Long.class.getName(), Float.class.getName(), Double.class.getName(),
+					String.class.getName() },
+			new String[] { Boolean.class.getName(), Character.class.getName(), Byte.class.getName(), Short.class.getName(), Integer.class.getName(), Long.class.getName(), Float.class.getName(), Double.class.getName(),
+					String.class.getName() });
 
 	protected void code_contextThreadLocal_execAndPop(MethodCode code) {
 		code.LINE();
@@ -1143,11 +1115,9 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	}
 
 	protected void dynamicInvoke(MethodCode code, int paramSize, String proxyClassName, String lambdaName) {
-		String lambdaRealMethodDesriptor = Type.getMethodDescriptor(Type.VOID_TYPE,
-				codeTypes(paramSize, ConsumerWithException.class, MethodCode.class));
+		String lambdaRealMethodDesriptor = Type.getMethodDescriptor(Type.VOID_TYPE, codeTypes(paramSize, ConsumerWithException.class, MethodCode.class));
 
-		String dontKnowByNowMethodDesriptor = Type.getMethodDescriptor(Type.getType(ConsumerWithException.class),
-				codeTypes(paramSize, ConsumerWithException.class));
+		String dontKnowByNowMethodDesriptor = Type.getMethodDescriptor(Type.getType(ConsumerWithException.class), codeTypes(paramSize, ConsumerWithException.class));
 		dynamicInvokeLambda(code, proxyClassName, lambdaName, dontKnowByNowMethodDesriptor, lambdaRealMethodDesriptor);
 
 		code.stackPop();
@@ -1180,10 +1150,8 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		if (paramClass.getSort() == Type.ARRAY) {
 			Type type = paramClass.getElementType();
 
-			if (type.getSort() == Type.OBJECT && !BoxUnbox.ClazzObjectToPrimitive.containsKey(type)
-					&& !type.equals(Type.getType(String.class))) {
-				code.VIRTUAL(AdvContext.class, "resolve").return_(ConsumerWithException.class).parameter(Clazz.of(Object.class, true))
-						.INVOKE();
+			if (type.getSort() == Type.OBJECT && !BoxUnbox.ClazzObjectToPrimitive.containsKey(type) && !type.equals(Type.getType(String.class))) {
+				code.VIRTUAL(AdvContext.class, "resolve").return_(ConsumerWithException.class).parameter(Clazz.of(Object.class, true)).INVOKE();
 				code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
 			} else {
 				code.VIRTUAL(AdvContext.class, "resolve").return_(ConsumerWithException.class).parameter(Clazz.of(paramClass)).INVOKE();
@@ -1191,8 +1159,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			}
 		} else {
 			Type type = paramClass;
-			if (type.getSort() == Type.OBJECT && !BoxUnbox.ClazzObjectToPrimitive.containsKey(type)
-					&& !type.equals(Type.getType(String.class))) {
+			if (type.getSort() == Type.OBJECT && !BoxUnbox.ClazzObjectToPrimitive.containsKey(type) && !type.equals(Type.getType(String.class))) {
 				code.VIRTUAL(AdvContext.class, "resolve").return_(ConsumerWithException.class).parameter(Clazz.of(Object.class)).INVOKE();
 				code.STORE(codeBlockName, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
 			} else {
@@ -1202,17 +1169,13 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		}
 	}
 
-	protected void dynamicInvokeLambda(MethodCode code, String objClass, String lambdaName, String dontKnowByNowMethodDesriptor,
-			String lambdaRealMethodDesriptor) {
+	protected void dynamicInvokeLambda(MethodCode code, String objClass, String lambdaName, String dontKnowByNowMethodDesriptor, String lambdaRealMethodDesriptor) {
 
 		Type lambdaDefinedMethodDescriptor = Type.getType(Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(MethodCode.class)));
-		code.visitInvokeDynamicInsn("accept", dontKnowByNowMethodDesriptor, new Handle(Opcodes.H_INVOKESTATIC,
-				"java/lang/invoke/LambdaMetafactory", "metafactory",
-				"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
-				false),
-				new Object[] { Type.getType("(Ljava/lang/Object;)V"),
-						new Handle(Opcodes.H_INVOKESTATIC, objClass, lambdaName, lambdaRealMethodDesriptor, false),
-						lambdaDefinedMethodDescriptor });
+		code.visitInvokeDynamicInsn("accept", dontKnowByNowMethodDesriptor,
+				new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory",
+						"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false),
+				new Object[] { Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, objClass, lambdaName, lambdaRealMethodDesriptor, false), lambdaDefinedMethodDescriptor });
 	}
 
 	public String pushLambda(String[] params, String methodName, Consumer<MethodCode> lambdaInvokeSuperMethod) {
@@ -1263,8 +1226,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		String[] exceptions;
 		Clazz lowestClazz;
 
-		public BridgeMethod(String methodName, Type originReturnType, Type[] originParamTypes, Clazz targetReturnClazz,
-				Clazz[] targetParamClazzes, String[] exceptions) {
+		public BridgeMethod(String methodName, Type originReturnType, Type[] originParamTypes, Clazz targetReturnClazz, Clazz[] targetParamClazzes, String[] exceptions) {
 			super();
 			this.methodName = methodName;
 			this.originReturnType = originReturnType;
@@ -1298,8 +1260,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 				}
 			}
 
-			if (this.targetParamClazzes.length > 0)
-				code.VIRTUAL(methodName).return_(targetReturnClazz).parameter(this.targetParamClazzes).INVOKE();
+			if (this.targetParamClazzes.length > 0) code.VIRTUAL(methodName).return_(targetReturnClazz).parameter(this.targetParamClazzes).INVOKE();
 			else code.VIRTUAL(methodName).return_(targetReturnClazz).INVOKE();
 
 			if (originReturnType != Type.VOID_TYPE) {
@@ -1322,9 +1283,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	}
 
 	protected void _set__Context(ClassBody classBody) {
-		MethodCode code = classBody.public_().method("set__Context")
-				.parameter("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)))
-				.parameter("_magicNumber", byte.class).begin();
+		MethodCode code = classBody.public_().method("set__Context").parameter("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class))).parameter("_magicNumber", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("this");

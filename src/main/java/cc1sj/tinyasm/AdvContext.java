@@ -422,10 +422,12 @@ public class AdvContext {
 			return resolve(((Byte) obj));
 		} else if (vc == Byte.class) {
 			return resolve(((Byte) obj));
+		} else if (vc == String.class) {
+			return resolve(((String) obj));
 		} else if (obj instanceof AdvRuntimeReferNameObject) {
 			return resolve(((AdvRuntimeReferNameObject) obj));
 		} else {
-			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
+			throw new UnsupportedOperationException("Only accept tinyasm proxy object " + vc.getName());
 		}
 	}
 
