@@ -21,11 +21,14 @@ class AdvMagicBuilderEngine {
 		try {
 //			Adv.enterClass(classBuilder);
 			Class<?> magicBuilderProxyClass = magicBuilderProxy.getClass();
-			classBuilder.getClassBody().constructerEmpty();
-			
+
+//			__init_
+
 			// 之所以用这么繁琐的方法，是因为Java Reflect不能保证方法的顺序。
 			ClassReader cr = new ClassReader(magicBuilderClass.getName());
 			cr.accept(new ClassVisitor(ASM9) {
+				boolean inited = false;
+
 				@Override
 				public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
 					Adv.logger.debug("{} {} ", name, signature);
@@ -38,24 +41,16 @@ class AdvMagicBuilderEngine {
 							Method thisMethod = null;
 							Method thisProxyMethod = null;
 							boolean isBridge = (access & ACC_BRIDGE) > 0;
-							if (isBridge) {
-								for (Method method : magicBuilderClass.getMethods()) {
-									if (method.getName().equals(name)
-											&& method.getParameters().length == Type.getArgumentTypes(descriptor).length
-											&& method.isBridge()) {
-										thisMethod = method;
-									}
+							if (!isBridge) {
+								if (inited) {
+								} else if (name.equals("__init_")) {
+									inited = true;
+								} else if (name.startsWith("__init_") || name.equals("<init>")) {
+
+								} else {
+									classBuilder.getClassBody().constructerEmpty();
+									inited = true;
 								}
-								for (Method method : magicBuilderProxyClass.getMethods()) {// TODO 参数如何比较，要考虑一下
-									if (method.getName().equals("$_" + name) && !method.isBridge() && method.getParameters().length == 1
-											&& method.getParameters()[0].getType() == ClassBody.class) {
-										thisProxyMethod = method;
-									}
-								}
-								if (thisMethod != null && thisProxyMethod != null) {
-									execBuilderMethod(classBuilder.getClassBody(), magicBuilderProxy, thisProxyMethod);
-								}
-							} else {
 
 								for (Method method : magicBuilderClass.getMethods()) {
 									if (method.getName().equals(name) /* && !method.isBridge() */) {
@@ -64,8 +59,7 @@ class AdvMagicBuilderEngine {
 										for (int i = 0; i < parameterTypes.length; i++) {
 											types[i] = Type.getType(parameterTypes[i]);
 										}
-										String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()),
-												types);
+										String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
 										if (reflectMethodDescriptor.equals(descriptor)) {
 											thisMethod = method;
 										}
@@ -78,8 +72,7 @@ class AdvMagicBuilderEngine {
 										for (int i = 0; i < parameterTypes.length; i++) {
 											types[i] = Type.getType(parameterTypes[i]);
 										}
-										String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()),
-												types);
+										String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
 										if (reflectMethodDescriptor.equals(descriptor)) {
 											thisProxyMethod = method;
 										}
@@ -92,14 +85,29 @@ class AdvMagicBuilderEngine {
 //								buildWithMethod(classBuilder, magicBuilderProxy, thisMethod, thisProxyMethod, threadLocal);
 								} else if (thisMethod != null) {
 									String methodName = thisMethod.getName();
-									if (methodName.startsWith("_") && thisMethod.getParameters().length == 1
-											&& thisMethod.getParameters()[0].getType() == AdvClassBuilder.class) {
+									if (methodName.startsWith("_") && thisMethod.getParameters().length == 1 && thisMethod.getParameters()[0].getType() == AdvClassBuilder.class) {
 										execBuilderMethod(classBuilder, magicBuilderProxy, thisMethod);
-									} else if (methodName.startsWith("_") && thisMethod.getParameters().length == 1
-											&& thisMethod.getParameters()[0].getType() == ClassBody.class) {
-												execBuilderMethod(classBuilder.getClassBody(), magicBuilderProxy, thisMethod);
-											}
+									} else if (methodName.startsWith("_") && thisMethod.getParameters().length == 1 && thisMethod.getParameters()[0].getType() == ClassBody.class) {
+										execBuilderMethod(classBuilder.getClassBody(), magicBuilderProxy, thisMethod);
+									}
 								}
+
+							} else {
+
+								for (Method method : magicBuilderClass.getMethods()) {
+									if (method.getName().equals(name) && method.getParameters().length == Type.getArgumentTypes(descriptor).length && method.isBridge()) {
+										thisMethod = method;
+									}
+								}
+								for (Method method : magicBuilderProxyClass.getMethods()) {// TODO 参数如何比较，要考虑一下
+									if (method.getName().equals("$_" + name) && !method.isBridge() && method.getParameters().length == 1 && method.getParameters()[0].getType() == ClassBody.class) {
+										thisProxyMethod = method;
+									}
+								}
+								if (thisMethod != null && thisProxyMethod != null) {
+									execBuilderMethod(classBuilder.getClassBody(), magicBuilderProxy, thisProxyMethod);
+								}
+
 							}
 						}
 					} catch (SecurityException e) {
@@ -125,10 +133,9 @@ class AdvMagicBuilderEngine {
 //		} else {
 //			execMagicBuilderMethod(classBuilder, simpleSampleCodeBuilder, method, threadLocal);
 //		}
-//	}
+//	
 
-	protected static void execMagicBuilderMethod(AdvClassBuilder classBuilder, Object simpleSampleCodeBuilder, Method realMethod,
-			Method proxyMethod, ThreadLocal<AdvContext> threadLocal) {
+	protected static void execMagicBuilderMethod(AdvClassBuilder classBuilder, Object simpleSampleCodeBuilder, Method realMethod, Method proxyMethod, ThreadLocal<AdvContext> threadLocal) {
 		Adv.logger.debug("enter magic method {}", realMethod.getName());
 		AdvMethodBuilder methodBuilder = (AdvMethodBuilder) classBuilder.method(realMethod.getModifiers(), realMethod.getName());
 		if (realMethod.getReturnType() != Void.class) methodBuilder.return_(Clazz.of(realMethod.getGenericReturnType()));
@@ -149,8 +156,7 @@ class AdvMagicBuilderEngine {
 				java.lang.reflect.Type type = parameterTypes[i];
 				if (type instanceof ParameterizedType) {
 					ParameterizedType parameterType = (ParameterizedType) type;
-					Adv.logger.debug("{} {} {} {}", realMethod.getName(), parameter.getName(), parameter.getType().getName(),
-							parameterType.getActualTypeArguments());
+					Adv.logger.debug("{} {} {} {}", realMethod.getName(), parameter.getName(), parameter.getType().getName(), parameterType.getActualTypeArguments());
 
 				} else {
 					Adv.logger.debug("{} {} {}", realMethod.getName(), parameter.getName(), parameter.getType().getName());
@@ -202,11 +208,6 @@ class AdvMagicBuilderEngine {
 		} catch (Exception e) {
 			throw new UnsupportedOperationException(method.getName(), e);
 		}
-	}
-
-	public static <T> byte[] execMagicBuilder(ThreadLocal<AdvContext> _contextThreadLocal, String classname, T magicBuilderProxy) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
