@@ -11,13 +11,21 @@ public class AdvMagic {
 		return t;
 	}
 
-	public static <T> byte[] dump(String targetClassName,T magicBuilderProxy) {
+	public static <T> byte[] dump(String targetClassName, Class<T> builderClass) {
+		T magicBuilderProxy = build(builderClass);
+		((AdvMagicRuntime) magicBuilderProxy).set__TargetClazz(Clazz.of(targetClassName));
+
+		AdvClassBuilder classBuilder = Adv.public_class_(targetClassName).extends_(Clazz.of(builderClass.getGenericSuperclass())).implements_(Adv.of(c -> Clazz.of(c), builderClass.getGenericInterfaces())).enterClassBody();
+
+		return AdvMagicBuilderEngine.execMagicBuilder(Adv._contextThreadLocal, classBuilder, magicBuilderProxy);
+	}
+
+	public static <T> byte[] dump(String targetClassName, T magicBuilderProxy) {
 		((AdvMagicRuntime) magicBuilderProxy).set__TargetClazz(Clazz.of(targetClassName));
 
 		Class<?> builderClass = magicBuilderProxy.getClass().getSuperclass();
 
-		AdvClassBuilder classBuilder = Adv.public_class_(targetClassName).extends_(Clazz.of(builderClass.getGenericSuperclass())).implements_(Adv.of(c -> Clazz.of(c), builderClass.getGenericInterfaces()))
-				.enterClassBody();
+		AdvClassBuilder classBuilder = Adv.public_class_(targetClassName).extends_(Clazz.of(builderClass.getGenericSuperclass())).implements_(Adv.of(c -> Clazz.of(c), builderClass.getGenericInterfaces())).enterClassBody();
 
 		return AdvMagicBuilderEngine.execMagicBuilder(Adv._contextThreadLocal, classBuilder, magicBuilderProxy);
 	}

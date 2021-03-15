@@ -21,6 +21,8 @@ class AdvMagicBuilderEngine {
 		try {
 //			Adv.enterClass(classBuilder);
 			Class<?> magicBuilderProxyClass = magicBuilderProxy.getClass();
+			classBuilder.getClassBody().constructerEmpty();
+			
 			// 之所以用这么繁琐的方法，是因为Java Reflect不能保证方法的顺序。
 			ClassReader cr = new ClassReader(magicBuilderClass.getName());
 			cr.accept(new ClassVisitor(ASM9) {

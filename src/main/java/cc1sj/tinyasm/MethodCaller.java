@@ -58,10 +58,6 @@ public interface MethodCaller<T> {
 		return return_(Clazz.of(clazz, genericParameterClazz));
 	}
 
-	default MethodCaller<T> reTurn(String clazz, boolean isarray) {
-		return return_(Clazz.of(clazz, isarray));
-	}
-
 	void INVOKE();
 
 	default MethodCaller<T> LAMBDA(Class<?> objectType, String methodName) {

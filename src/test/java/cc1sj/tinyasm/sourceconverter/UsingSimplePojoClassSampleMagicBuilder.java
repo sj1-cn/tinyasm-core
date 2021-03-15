@@ -16,20 +16,12 @@ import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
 
 public class UsingSimplePojoClassSampleMagicBuilder extends SimpleSuperClass implements SimpleSuperInterface {
 
-	final String name = null;// = clazz.public_().field("name", String.class);
+	String name;// = clazz.public_().field("name", String.class);
 
 	public void _dump_fields(AdvClassBuilder classBody) {
-		classBody.private_().field("name", String.class);
+		name = classBody.private_().field("name", String.class);
 	}
-
-	public void _dump_init(AdvClassBuilder classBody) {
-		classBody.public_().method("<init>").code(code -> {
-			code.LINE();
-			code.LOAD("this");
-			code.SPECIAL(classBody.getSuperClazz(), "<init>").INVOKE();
-		});
-	}
-
+	
 	public void sayHello() { // public void sayHello() {
 		int i = __("i", 10); // int i = 10;
 		int j = __("j", 20); // int j = 20;

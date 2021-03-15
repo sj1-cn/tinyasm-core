@@ -36,8 +36,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 	ClazzSimple magicBuilderClazz;
 
-	protected void dumpMagic(ClazzSimple magicBuilderClazz, Clazz[] actualTypeArguments, String proxyClassName)
-			throws IOException {
+	protected void dumpMagic(ClazzSimple magicBuilderClazz, Clazz[] actualTypeArguments, String proxyClassName) throws IOException {
 		this.isTargetClazzKnown = false;
 		this.proxyClassName = proxyClassName;
 		this.magicBuilderClazz = magicBuilderClazz;
@@ -113,6 +112,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 		code.RETURNTop();
 		code.END();
 	}
+
 	protected void _get__ClassBuilder(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("get__ClassBuilder").return_(AdvClassBuilder.class).begin();
 
@@ -279,8 +279,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 	}
 
 	@SuppressWarnings("unchecked")
-	static Type[] types = Adv.of(c -> Type.getType(c), boolean.class, char.class, byte.class, short.class, int.class, float.class,
-			long.class, double.class);
+	static Type[] types = Adv.of(c -> Type.getType(c), boolean.class, char.class, byte.class, short.class, int.class, float.class, long.class, double.class);
 
 	Type checkType(Type type) {
 		int sort = type.getSort();

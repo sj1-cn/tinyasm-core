@@ -31,14 +31,6 @@ public class UsingReferSimplePojoClassSampleMagicBuilder extends SimpleSuperClas
 		_name = private_().field("name", String.class);
 	}
 
-	public void _dump_init(AdvClassBuilder classBody) {
-		classBody.public_().method("<init>").code(code -> {
-			code.LINE();
-			code.LOAD("this");
-			code.SPECIAL(classBody.getSuperClazz(), "<init>").INVOKE();
-		});
-	}
-
 	public void sayHello() { // public void sayHello() {
 		final int _i = __("i", 10); // int i = 10;
 		final int _j = __("j", 20); // int j = 20;
@@ -82,11 +74,11 @@ public class UsingReferSimplePojoClassSampleMagicBuilder extends SimpleSuperClas
 
 	public static byte[] dump() {
 
-		UsingReferSimplePojoClassSampleMagicBuilder magicBuilderProxy = AdvMagic.build( UsingReferSimplePojoClassSampleMagicBuilder.class);
+		UsingReferSimplePojoClassSampleMagicBuilder magicBuilderProxy = AdvMagic.build(UsingReferSimplePojoClassSampleMagicBuilder.class);
 
 		magicBuilderProxy.dumpInit("sayNothing");
 
-		return AdvMagic.dump("cc1sj.tinyasm.sourceconverter.UsingReferSimplePojoClassSample",magicBuilderProxy);
+		return AdvMagic.dump("cc1sj.tinyasm.sourceconverter.UsingReferSimplePojoClassSample", magicBuilderProxy);
 
 	}
 }
