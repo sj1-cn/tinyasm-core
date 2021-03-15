@@ -5,5 +5,5 @@ public interface AdvMagicRuntime extends AdvRuntimeReferNameObject {
 
 	AdvClassBuilder get__ClassBuilder();
 
-	void set__TargetClazz(Clazz targetClazz);
+	void set__TargetClazz(Clazz _targetClazz);
 }

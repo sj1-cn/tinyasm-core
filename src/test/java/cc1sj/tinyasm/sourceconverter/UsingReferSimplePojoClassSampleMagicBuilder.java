@@ -19,7 +19,7 @@ import cc1sj.tinyasm.hero.helperclass.SimplePojoClassSample;
 public class UsingReferSimplePojoClassSampleMagicBuilder extends SimpleSuperClass implements SimpleSuperInterface {
 
 	@SuppressWarnings("unused")
-	final private String _name = private_().field("name", String.class);
+	private String _name;
 
 	String saying;
 
@@ -28,7 +28,7 @@ public class UsingReferSimplePojoClassSampleMagicBuilder extends SimpleSuperClas
 	}
 
 	public void _dump_fields(AdvClassBuilder classBody) {
-//		classBody.private_().field("name", String.class);
+		_name = private_().field("name", String.class);
 	}
 
 	public void _dump_init(AdvClassBuilder classBody) {
@@ -82,8 +82,7 @@ public class UsingReferSimplePojoClassSampleMagicBuilder extends SimpleSuperClas
 
 	public static byte[] dump() {
 
-		UsingReferSimplePojoClassSampleMagicBuilder magicBuilderProxy = AdvMagic
-				.build("cc1sj.tinyasm.sourceconverter.UsingReferSimplePojoClassSample", UsingReferSimplePojoClassSampleMagicBuilder.class);
+		UsingReferSimplePojoClassSampleMagicBuilder magicBuilderProxy = AdvMagic.build("cc1sj.tinyasm.sourceconverter.UsingReferSimplePojoClassSample", UsingReferSimplePojoClassSampleMagicBuilder.class);
 
 		magicBuilderProxy.dumpInit("sayNothing");
 
