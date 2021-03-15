@@ -1,15 +1,15 @@
-# nebula-asm
-Help to use asm bytecode maker
+# tinyasm
+底层使用asm的动态生成辅助代码库
 
-基本实现简化ASM使用的目的。更倾向于在样例代码上简单修改，而不是完全重新生成。
+简化ASM的使用，更倾向于在样例代码上简单修改，而不是完全重新生成。
 
-通过此工具可以维护local，维护stack，以便简化代码编写。
+通过此工具可以自动维护local，stack，以便简化代码编写。
 
-同时大量地方是用class，而不是class的字符串名字，以减少类型名细微的不同可能带来的问题。
+同时大量地方使用class，而不是class的字符串名字，以减少类型名细微的不同可能带来的问题。以及适应快速演化的代码。
 
 为什么需要这样一个工具，下边是一个非常简单的例子：
-```java
 
+```java
 package nebula.data.jdbc;
 
 import java.sql.ResultSet;
@@ -23,24 +23,11 @@ public class UsingUserExtendJdbcRowMapper {
 		return userExtend.getName();
 	}
 }
-
 ```
+
 生成这样一个简单的class需要的ASM的代码如下：
+
 ```java
-package asm.nebula.data.jdbc;
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Attribute;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.ConstantDynamic;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.Handle;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.RecordComponentVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.TypePath;
 public class UsingUserExtendJdbcRowMapperDump implements Opcodes {
 
 public static byte[] dump () throws Exception {
@@ -108,24 +95,11 @@ classWriter.visitEnd();
 return classWriter.toByteArray();
 }
 }
-
 ```
+
 当前我做的这个工具基础版本的代码是这样的：
 
-
 ```java
-package nebula.data.jdbc;
-
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import cc1sj.tinyasm.ClassBody;
-import cc1sj.tinyasm.ClassBuilder;
-import cc1sj.tinyasm.MethodCode;
-
 public class UsingUserExtendJdbcRowMapperTinyAsmDump {
 
 	public static byte[] dump() throws Exception {
@@ -178,19 +152,10 @@ public class UsingUserExtendJdbcRowMapperTinyAsmDump {
 }
 
 ```
+
 高级版本的代码是这样的
+
 ```java
-package nebula.data.jdbc;
-
-import static cc1sj.tinyasm.Adv.__;
-import static cc1sj.tinyasm.Adv._return;
-import static cc1sj.tinyasm.Adv.new_;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import cc1sj.tinyasm.AdvMagic;
-
 public class UsingUserExtendJdbcRowMapperMagicBuilder {
 
 	public String test(ResultSet resultSet) throws SQLException {
