@@ -383,7 +383,7 @@ public class AdvAsmProxyASMifierTest {
 	}
 
 	@Test
-	public void test_ProxyMagic_Build() throws Exception {
+	public void test_AdvAsmProxyMagicClassAdvAsmBuilder_Build() throws Exception {
 		Class<?> expectedClazz = UsingSimplePojoClassSampleMagicBuilderAdvAsmProxy.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyMagicClassAdvAsmBuilder

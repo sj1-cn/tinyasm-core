@@ -41,7 +41,6 @@ public class UsingSimplePojoClassSampleMagicBuilderAdvAsmProxy extends UsingSimp
 	@Override
 	public void set__ClassBuilder(AdvClassBuilder _classBuilder) {
 		this._classBuilder = _classBuilder;
-//		this._classBuilder.getClazz();
 	}
 
 	@Override
