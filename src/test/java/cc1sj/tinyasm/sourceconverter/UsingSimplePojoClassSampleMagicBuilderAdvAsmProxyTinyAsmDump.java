@@ -11,7 +11,6 @@ import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.AdvMagicRuntime;
 import java.lang.ThreadLocal;
-import cc1sj.tinyasm.AdvClassBuilder;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodCaller;
 import cc1sj.tinyasm.AdvContext;
@@ -37,15 +36,12 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		classBody.private_().field("_magicNumber", Clazz.of(byte.class));
 		classBody.private_().field("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)));
 		classBody.private_().field("_targetClazz", Clazz.of(Clazz.class));
-		classBody.private_().field("_classBuilder", Clazz.of(AdvClassBuilder.class));
 		__init_(classBody);
 		_get__MagicNumber(classBody);
 		_set__MagicNumber(classBody);
 		_set__Context(classBody);
 		_set__TargetClazz(classBody);
 		_get__TargetClazz(classBody);
-		_get__ClassBuilder(classBody);
-		_set__ClassBuilder(classBody);
 		_sayHello(classBody);
 		_$_sayHello(classBody);
 		_lambda$sayHello$0(classBody);
@@ -136,33 +132,6 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOAD("this");
 		code.GETFIELD_OF_THIS("_targetClazz");
 		code.RETURNTop();
-
-		code.END();
-	}
-
-	protected void _get__ClassBuilder(ClassBody classBody) {
-		MethodCode code = classBody.public_().method("get__ClassBuilder")
-			.return_(AdvClassBuilder.class ).begin();
-
-		code.LINE();
-		code.LOAD("this");
-		code.GETFIELD_OF_THIS("_classBuilder");
-		code.RETURNTop();
-
-		code.END();
-	}
-
-	protected void _set__ClassBuilder(ClassBody classBody) {
-		MethodCode code = classBody.public_().method("set__ClassBuilder")
-			.parameter("_classBuilder",AdvClassBuilder.class).begin();
-
-		code.LINE();
-		code.LOAD("this");
-		code.LOAD("_classBuilder");
-		code.PUTFIELD_OF_THIS("_classBuilder");
-
-		code.LINE();
-		code.RETURN();
 
 		code.END();
 	}
