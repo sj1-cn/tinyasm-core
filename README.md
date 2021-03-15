@@ -179,7 +179,7 @@ public class UsingUserExtendJdbcRowMapperTinyAsmDump {
 
 ```
 高级版本的代码是这样的
-```
+```java
 package nebula.data.jdbc;
 
 import static cc1sj.tinyasm.Adv.__;
