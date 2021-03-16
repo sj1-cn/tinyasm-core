@@ -8,8 +8,6 @@ import cc1sj.tinyasm.AdvMagicRuntime;
 import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
-import cc1sj.tinyasm.hero.helperclass.GenericInterfaceImplSample;
-import cc1sj.tinyasm.hero.helperclass.PojoClassChildSample;
 
 public class RepositoryMagicBuilderAdvAsmProxy<T> implements Repository<T>, AdvMagicRuntime {
 	private byte _magicNumber;
@@ -48,7 +46,7 @@ public class RepositoryMagicBuilderAdvAsmProxy<T> implements Repository<T>, AdvM
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(PojoClassChildSample.class, c -> {
+		byte codeIndex = context.push(param0.getClass(), c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
 			c.VIRTUAL(this._targetClazz, "update").parameter(param0.getClass()).return_(param0.getClass()).INVOKE();

@@ -1,15 +1,13 @@
 package cc1sj.tinyasm.advmagicbuilder;
 
 import static cc1sj.tinyasm.util.TinyAsmTestUtils.dumpTinyAsm;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import cc1sj.tinyasm.AdvAsmProxyMagicClassAdvAsmBuilder;
-import cc1sj.tinyasm.advmagicbuilder.sourceconverter.UsingSimplePojoClassSampleMagicBuilder;
-import cc1sj.tinyasm.advmagicbuilder.sourceconverter.UsingSimplePojoClassSampleMagicBuilderAdvAsmProxy;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
 public class RepositoryMagicBuilderTest {

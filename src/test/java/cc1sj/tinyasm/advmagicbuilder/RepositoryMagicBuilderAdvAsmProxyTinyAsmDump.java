@@ -169,7 +169,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 		code.LINE();
 		code.LOAD("context");
-		code.LOADConst(Type.getType("Lcc1sj/tinyasm/hero/helperclass/PojoClassChildSample;"));
+		code.LOAD("param0");
+		code.VIRTUAL(Object.class, "getClass")
+			.return_(Class.class).INVOKE();
 		code.LOAD("this");
 		code.LOAD("objEval");
 		code.LOAD("eval_param0");

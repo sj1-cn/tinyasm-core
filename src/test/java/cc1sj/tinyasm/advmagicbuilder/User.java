@@ -1,7 +1,16 @@
 package cc1sj.tinyasm.advmagicbuilder;
 
-public class User {
+public class User implements WithIdKey {
+	private long id;
 	private String name;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public User(String name) {
 		super();
