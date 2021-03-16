@@ -5,13 +5,18 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import cc1sj.tinyasm.advasmproxy.simple.ReferSimplePojoClassUsingSample;
+import cc1sj.tinyasm.advasmproxy.simple.ReferSimplePojoClassUsingSampleMagicBuilder;
+import cc1sj.tinyasm.advasmproxy.simple.SimplePojoClassUsingSample;
+import cc1sj.tinyasm.advasmproxy.simple.SimplePojoClassUsingSampleBuilder;
+import cc1sj.tinyasm.advasmproxy.simple.SimplePojoClassUsingSampleMagicBuilder;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
 public class AdvJavaSourceCodeConverterASMifierTest {
 
 	@Test
 	public void test_AdvJavaSourceCodeConverterSample_Dump() throws Exception {
-		Class<?> expectedClazz = UsingSimplePojoClassSample.class;
+		Class<?> expectedClazz = SimplePojoClassUsingSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
 		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
@@ -21,10 +26,10 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 
 	@Test
 	public void test_AdvJavaSourceConverterSampleBuilder_dump() throws Exception {
-		Class<?> expectedClazz = UsingSimplePojoClassSample.class;
+		Class<?> expectedClazz = SimplePojoClassUsingSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), UsingSimplePojoClassSampleBuilder.dump());
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimplePojoClassUsingSampleBuilder.dump());
 
 		assertEquals("Code", codeExpected, codeActual);
 
@@ -32,10 +37,10 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 
 	@Test
 	public void test_UsingSimplePojoClassSampleMagicBuilder_dump() throws Exception {
-		Class<?> expectedClazz = UsingSimplePojoClassSample.class;
+		Class<?> expectedClazz = SimplePojoClassUsingSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), UsingSimplePojoClassSampleMagicBuilder.dump());
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimplePojoClassUsingSampleMagicBuilder.dump());
 
 		assertEquals("Code", codeExpected, codeActual);
 
@@ -43,10 +48,10 @@ public class AdvJavaSourceCodeConverterASMifierTest {
 
 	@Test
 	public void test_SimpleSampleRefer2BuilderMagic_dump() throws Exception {
-		Class<?> expectedClazz = UsingReferSimplePojoClassSample.class;
+		Class<?> expectedClazz = ReferSimplePojoClassUsingSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), UsingReferSimplePojoClassSampleMagicBuilder.dump());
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), ReferSimplePojoClassUsingSampleMagicBuilder.dump());
 
 		assertEquals("Code", codeExpected, codeActual);
 

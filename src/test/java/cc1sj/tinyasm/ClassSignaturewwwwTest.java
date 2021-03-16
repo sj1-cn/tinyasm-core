@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.signature.SignatureReader;
 
-import cc1sj.tinyasm.hero.helperclass.PojoClassSample;
+import cc1sj.tinyasm.advasmproxy.simple.PojoClass;
 
 public class ClassSignaturewwwwTest {
 
@@ -183,14 +183,14 @@ public class ClassSignaturewwwwTest {
 
 		List<ClazzFormalTypeParameter> clazzFormalTypeParameters = new ArrayList<>();
 		ClazzFormalTypeParameter f = new ClazzFormalTypeParameter("E", Clazz.of(Object.class));
-		f.setActualTypeArgument(Clazz.of(PojoClassSample.class));
+		f.setActualTypeArgument(Clazz.of(PojoClass.class));
 		clazzFormalTypeParameters.add(f);
 
 //		assertEquals(null, classSignaturewwww.returnClazz);
 		assertEquals("Ljava/util/function/Consumer;", classSignaturewwww.paramsClazzes[0].getDescriptor());
 		assertTrue(classSignaturewwww.paramsClazzes[0] instanceof ClazzWithTypeArguments);
 		assertEquals("Ljava/util/function/Consumer<-TE;>;", classSignaturewwww.paramsClazzes[0].signatureOf());
-		assertEquals("Ljava/util/function/Consumer<-Lcc1sj/tinyasm/hero/helperclass/PojoClassSample;>;",
+		assertEquals("Ljava/util/function/Consumer<-Lcc1sj/tinyasm/advasmproxy/simple/PojoClassSample;>;",
 				classSignaturewwww.paramsClazzes[0].signatureOf(clazzFormalTypeParameters));
 //		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].signatureOf());
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
@@ -213,7 +213,7 @@ public class ClassSignaturewwwwTest {
 
 		List<ClazzFormalTypeParameter> clazzFormalTypeParameters = new ArrayList<>();
 		ClazzFormalTypeParameter f = new ClazzFormalTypeParameter("E", Clazz.of(Object.class));
-		f.setActualTypeArgument(Clazz.of(PojoClassSample.class));
+		f.setActualTypeArgument(Clazz.of(PojoClass.class));
 		clazzFormalTypeParameters.add(f);
 
 //		assertEquals(null, classSignaturewwww.returnClazz);

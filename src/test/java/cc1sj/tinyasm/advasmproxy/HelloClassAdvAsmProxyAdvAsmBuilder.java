@@ -28,7 +28,7 @@ import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCaller;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodHeader;
-import cc1sj.tinyasm.hero.helperclass.PojoClassSample;
+import cc1sj.tinyasm.advasmproxy.simple.PojoClass;
 
 public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	ClassBody classBody;
@@ -40,7 +40,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 	Type targetType;
 
 	public byte[] dump(String proxyClassName) throws Exception {
-		targetType = Clazz.of(PojoClassSample.class).getType();
+		targetType = Clazz.of(PojoClass.class).getType();
 		ClassHeader ch = ClassBuilder.class_(proxyClassName);
 		ch.extends_(Clazz.of(targetType));
 		ch.implements_(AdvRuntimeReferNameObject.class);
@@ -69,7 +69,7 @@ public class HelloClassAdvAsmProxyAdvAsmBuilder {
 
 		code.LINE();
 		code.LOAD("this");
-		code.SPECIAL(PojoClassSample.class, "<init>").INVOKE();
+		code.SPECIAL(PojoClass.class, "<init>").INVOKE();
 		code.RETURN();
 
 		code.END();

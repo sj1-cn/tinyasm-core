@@ -77,17 +77,17 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		resolveClass(this.magicBuilderClazz, actualTypeArguments);
 
-//		resolveMagicClass(this.magicBuilderClazz, actualTypeArguments);
-
-		for (int i = proxyBridgeMethods.size() - 1; i >= 0; i--) {
-			BridgeMethod bridgeMethod = proxyBridgeMethods.get(i);
-			String methodName = bridgeMethod.methodName;
-			if (methodName.startsWith("_") || methodName.startsWith("<") || methodName.startsWith("dump")) continue;
-			if (this.magicBuilderClazz.getType().getClassName().equals(bridgeMethod.lowestClazz.getType().getClassName())) {
-				logger.debug("BridgeMethod -> {}", bridgeMethod.methodName);
-				buildBridgeMethodBuilder(proxyClassBody, bridgeMethod);
-			}
-		}
+		resolveMagicClass(this.magicBuilderClazz, actualTypeArguments);
+//
+//		for (int i = proxyBridgeMethods.size() - 1; i >= 0; i--) {
+//			BridgeMethod bridgeMethod = proxyBridgeMethods.get(i);
+//			String methodName = bridgeMethod.methodName;
+//			if (methodName.startsWith("_") || methodName.startsWith("<") || methodName.startsWith("dump")) continue;
+//			if (this.magicBuilderClazz.getType().getClassName().equals(bridgeMethod.lowestClazz.getType().getClassName())) {
+//				logger.debug("BridgeMethod -> {}", bridgeMethod.methodName);
+//				buildBridgeMethodBuilder(proxyClassBody, bridgeMethod);
+//			}
+//		}
 
 		finish();
 	}
@@ -140,17 +140,17 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		resolveClass(this.magicBuilderClazz, typeArguments);
 
-//		resolveMagicClass(this.magicBuilderClazz, typeArguments);
+		resolveMagicClass(this.magicBuilderClazz, typeArguments);
 
-		for (int i = proxyBridgeMethods.size() - 1; i >= 0; i--) {
-			BridgeMethod bridgeMethod = proxyBridgeMethods.get(i);
-			String methodName = bridgeMethod.methodName;
-			if (methodName.startsWith("_") || methodName.startsWith("<") || methodName.startsWith("dump")) continue;
-			if (this.magicBuilderClazz.getType().getClassName().equals(bridgeMethod.lowestClazz.getType().getClassName())) {
-				logger.debug("BridgeMethod -> {}", bridgeMethod.methodName);
-				buildBridgeMethodBuilder(proxyClassBody, bridgeMethod);
-			}
-		}
+//		for (int i = proxyBridgeMethods.size() - 1; i >= 0; i--) {
+//			BridgeMethod bridgeMethod = proxyBridgeMethods.get(i);
+//			String methodName = bridgeMethod.methodName;
+//			if (methodName.startsWith("_") || methodName.startsWith("<") || methodName.startsWith("dump")) continue;
+//			if (this.magicBuilderClazz.getType().getClassName().equals(bridgeMethod.lowestClazz.getType().getClassName())) {
+//				logger.debug("BridgeMethod -> {}", bridgeMethod.methodName);
+//				buildBridgeMethodBuilder(proxyClassBody, bridgeMethod);
+//			}
+//		}
 
 		finish();
 	}
@@ -206,7 +206,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 				@Override
 				public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
 					if (name.startsWith("_") || name.startsWith("<")) return null;
-//					extracted(access, name, descriptor, exceptions);
+					extracted(access, name, descriptor, exceptions);
 					return null;
 				}
 
