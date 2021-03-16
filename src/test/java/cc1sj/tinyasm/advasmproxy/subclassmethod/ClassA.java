@@ -1,4 +1,4 @@
-package cc1sj.tinyasm.util;
+package cc1sj.tinyasm.advasmproxy.subclassmethod;
 
 public class ClassA {
 	public void say1() {

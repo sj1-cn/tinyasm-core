@@ -10,7 +10,7 @@ import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.sample.ClassBody.MakeStaticMethod;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class MakeStaticMethodTest  {
+public class ClassBodyStaticMethodTest  {
 
 	String clazz = MakeStaticMethod.class.getName();
 

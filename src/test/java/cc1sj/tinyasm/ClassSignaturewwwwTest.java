@@ -190,7 +190,7 @@ public class ClassSignaturewwwwTest {
 		assertEquals("Ljava/util/function/Consumer;", classSignaturewwww.paramsClazzes[0].getDescriptor());
 		assertTrue(classSignaturewwww.paramsClazzes[0] instanceof ClazzWithTypeArguments);
 		assertEquals("Ljava/util/function/Consumer<-TE;>;", classSignaturewwww.paramsClazzes[0].signatureOf());
-		assertEquals("Ljava/util/function/Consumer<-Lcc1sj/tinyasm/advasmproxy/simple/PojoClassSample;>;",
+		assertEquals("Ljava/util/function/Consumer<-Lcc1sj/tinyasm/advasmproxy/simple/PojoClass;>;",
 				classSignaturewwww.paramsClazzes[0].signatureOf(clazzFormalTypeParameters));
 //		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].signatureOf());
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);

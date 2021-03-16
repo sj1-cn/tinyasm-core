@@ -10,7 +10,7 @@ import org.objectweb.asm.Opcodes;
 import cc1sj.tinyasm.sample.ClassBody.MakeInstanceMethodSample;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class MakeInstanceMethodTest {
+public class ClassBodyInstanceMethodTest {
 
 	String clazz = MakeInstanceMethodSample.class.getName();
 

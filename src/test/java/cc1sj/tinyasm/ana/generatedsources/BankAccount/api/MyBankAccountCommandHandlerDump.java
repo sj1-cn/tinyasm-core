@@ -1,4 +1,4 @@
-package cc1sj.tinyasm;
+package cc1sj.tinyasm.ana.generatedsources.BankAccount.api;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;

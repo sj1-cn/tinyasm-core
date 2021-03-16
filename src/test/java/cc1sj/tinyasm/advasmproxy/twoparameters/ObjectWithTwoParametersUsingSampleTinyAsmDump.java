@@ -1,4 +1,4 @@
-package cc1sj.tinyasm.advasmproxy;
+package cc1sj.tinyasm.advasmproxy.twoparameters;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
@@ -9,13 +9,13 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
-import cc1sj.tinyasm.hero.helperclass.ObjectWithTwoParametersSample;
+import cc1sj.tinyasm.advasmproxy.twoparameters.ObjectWithTwoParameters;
 import java.lang.Object;
 @SuppressWarnings("unused")
-public class UsingObjectWithTwoParametersSampleTinyAsmDump {
+public class ObjectWithTwoParametersUsingSampleTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new UsingObjectWithTwoParametersSampleTinyAsmDump().dump("cc1sj.tinyasm.advasmproxy.UsingObjectWithTwoParametersSample");
+		return new ObjectWithTwoParametersUsingSampleTinyAsmDump().dump("cc1sj.tinyasm.advasmproxy.twoparameters.ObjectWithTwoParametersUsingSample");
 	}
 
 	public byte[] dump(String className) throws Exception {
@@ -43,14 +43,14 @@ public class UsingObjectWithTwoParametersSampleTinyAsmDump {
 		MethodCode code = classBody.public_().method("test").begin();
 
 		code.LINE();
-		code.NEW(ObjectWithTwoParametersSample.class);
+		code.NEW(ObjectWithTwoParameters.class);
 		code.DUP();
 		code.LOADConst(3);
 		code.LOADConst(3);
-		code.SPECIAL(ObjectWithTwoParametersSample.class, "<init>")
+		code.SPECIAL(ObjectWithTwoParameters.class, "<init>")
 			.parameter(int.class)
 			.parameter(int.class).INVOKE();
-		code.STORE("p1",ObjectWithTwoParametersSample.class);
+		code.STORE("p1",ObjectWithTwoParameters.class);
 
 		code.LINE();
 		code.LOADConst(10);
@@ -61,14 +61,14 @@ public class UsingObjectWithTwoParametersSampleTinyAsmDump {
 		code.STORE("j",int.class);
 
 		code.LINE();
-		code.NEW(ObjectWithTwoParametersSample.class);
+		code.NEW(ObjectWithTwoParameters.class);
 		code.DUP();
 		code.LOAD("i");
 		code.LOAD("j");
-		code.SPECIAL(ObjectWithTwoParametersSample.class, "<init>")
+		code.SPECIAL(ObjectWithTwoParameters.class, "<init>")
 			.parameter(int.class)
 			.parameter(int.class).INVOKE();
-		code.STORE("p2",ObjectWithTwoParametersSample.class);
+		code.STORE("p2",ObjectWithTwoParameters.class);
 
 		code.LINE();
 		code.RETURN();

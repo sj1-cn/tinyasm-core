@@ -1,4 +1,4 @@
-package cc1sj.tinyasm;
+package cc1sj.tinyasm.ana.generatedsources.BankAccount.api;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -7,7 +7,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-public class MyBankAccountNewDump implements Opcodes {
+public class MyBankAccountDump implements Opcodes {
 
 	public static byte[] dump() throws Exception {
 
@@ -16,7 +16,7 @@ public class MyBankAccountNewDump implements Opcodes {
 		MethodVisitor mv;
 		AnnotationVisitor av0;
 
-		cw.visit(52, ACC_PUBLIC + ACC_SUPER, "com/nebula/cqrs/core/asm/MyBankAccount", null, "java/lang/Object", null);
+		cw.visit(53, ACC_PUBLIC + ACC_SUPER, "com/nebula/cqrs/core/asm/MyBankAccount", null, "java/lang/Object", null);
 
 		cw.visitSource("MyBankAccount.java", null);
 
@@ -217,26 +217,20 @@ public class MyBankAccountNewDump implements Opcodes {
 			mv.visitLabel(l0);
 			mv.visitLineNumber(113, l0);
 			mv.visitVarInsn(ALOAD, 0);
+			mv.visitInsn(DUP);
 			mv.visitFieldInsn(GETFIELD, "com/nebula/cqrs/core/asm/MyBankAccount", "balance", "J");
 			mv.visitVarInsn(LLOAD, 1);
 			mv.visitInsn(LSUB);
-			mv.visitVarInsn(LSTORE, 3);
+			mv.visitFieldInsn(PUTFIELD, "com/nebula/cqrs/core/asm/MyBankAccount", "balance", "J");
 			Label l1 = new Label();
 			mv.visitLabel(l1);
 			mv.visitLineNumber(114, l1);
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitVarInsn(LLOAD, 3);
-			mv.visitFieldInsn(PUTFIELD, "com/nebula/cqrs/core/asm/MyBankAccount", "balance", "J");
+			mv.visitInsn(RETURN);
 			Label l2 = new Label();
 			mv.visitLabel(l2);
-			mv.visitLineNumber(115, l2);
-			mv.visitInsn(RETURN);
-			Label l3 = new Label();
-			mv.visitLabel(l3);
-			mv.visitLocalVariable("this", "Lcom/nebula/cqrs/core/asm/MyBankAccount;", null, l0, l3, 0);
-			mv.visitLocalVariable("amount", "J", null, l0, l3, 1);
-			mv.visitLocalVariable("newbalance", "J", null, l1, l3, 3);
-			mv.visitMaxs(4, 5);
+			mv.visitLocalVariable("this", "Lcom/nebula/cqrs/core/asm/MyBankAccount;", null, l0, l2, 0);
+			mv.visitLocalVariable("amount", "J", null, l0, l2, 1);
+			mv.visitMaxs(5, 3);
 			mv.visitEnd();
 		}
 		cw.visitEnd();

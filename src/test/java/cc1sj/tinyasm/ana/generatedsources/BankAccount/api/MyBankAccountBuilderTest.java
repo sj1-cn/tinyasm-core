@@ -1,4 +1,4 @@
-package cc1sj.tinyasm;
+package cc1sj.tinyasm.ana.generatedsources.BankAccount.api;
 
 import static org.junit.Assert.assertEquals;
 

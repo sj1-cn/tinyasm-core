@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
-public class AdvStatementASMifierTest {
+public class AdvStatementTest {
 
 	@Test
 	public void test_AdvStatement_while_Dump() throws Exception {

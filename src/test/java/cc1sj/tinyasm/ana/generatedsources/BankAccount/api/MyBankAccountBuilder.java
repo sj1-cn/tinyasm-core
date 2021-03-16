@@ -1,8 +1,13 @@
-package cc1sj.tinyasm;
+package cc1sj.tinyasm.ana.generatedsources.BankAccount.api;
 
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 
 import org.objectweb.asm.Label;
+
+import cc1sj.tinyasm.Annotation;
+import cc1sj.tinyasm.ClassBody;
+import cc1sj.tinyasm.ClassBuilder;
+import cc1sj.tinyasm.Clazz;
 
 public class MyBankAccountBuilder {
 
@@ -66,7 +71,7 @@ public class MyBankAccountBuilder {
 				mc.ADD();
 
 				mc.LCMP();
-				Label ifEnd = mc.codeNewLabel();
+				Label ifEnd = new Label();
 				mc.IFGT(ifEnd);
 
 				mc.LINE(51);
@@ -78,7 +83,7 @@ public class MyBankAccountBuilder {
 				mc.RETURNTop();
 
 				mc.LINE();
-				mc.visitLabel(ifEnd, 54);
+				mc.visitLabel(ifEnd);
 				mc.LOADConstByte(0);
 				mc.RETURNTop();
 			});

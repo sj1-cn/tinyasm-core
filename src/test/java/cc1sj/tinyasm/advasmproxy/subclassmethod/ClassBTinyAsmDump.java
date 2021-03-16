@@ -1,4 +1,4 @@
-package cc1sj.tinyasm.util;
+package cc1sj.tinyasm.advasmproxy.subclassmethod;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
@@ -10,14 +10,14 @@ import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 import java.io.PrintStream;
+import cc1sj.tinyasm.advasmproxy.subclassmethod.ClassA;
 import java.lang.System;
-import cc1sj.tinyasm.util.ClassA;
 import java.lang.String;
 @SuppressWarnings("unused")
 public class ClassBTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new ClassBTinyAsmDump().dump("cc1sj.tinyasm.util.ClassB");
+		return new ClassBTinyAsmDump().dump("cc1sj.tinyasm.advasmproxy.subclassmethod.ClassB");
 	}
 
 	public byte[] dump(String className) throws Exception {

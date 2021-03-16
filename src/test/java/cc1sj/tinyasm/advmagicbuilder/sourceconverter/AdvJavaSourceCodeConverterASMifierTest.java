@@ -14,48 +14,6 @@ import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
 public class AdvJavaSourceCodeConverterASMifierTest {
 
-	@Test
-	public void test_AdvJavaSourceCodeConverterSample_Dump() throws Exception {
-		Class<?> expectedClazz = SimplePojoClassUsingSample.class;
-		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
-
-		assertEquals("Code", codeExpected, codeActual);
-	}
-
-	@Test
-	public void test_AdvJavaSourceConverterSampleBuilder_dump() throws Exception {
-		Class<?> expectedClazz = SimplePojoClassUsingSample.class;
-		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimplePojoClassUsingSampleBuilder.dump());
-
-		assertEquals("Code", codeExpected, codeActual);
-
-	}
-
-	@Test
-	public void test_UsingSimplePojoClassSampleMagicBuilder_dump() throws Exception {
-		Class<?> expectedClazz = SimplePojoClassUsingSample.class;
-		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), SimplePojoClassUsingSampleMagicBuilder.dump());
-
-		assertEquals("Code", codeExpected, codeActual);
-
-	}
-
-	@Test
-	public void test_SimpleSampleRefer2BuilderMagic_dump() throws Exception {
-		Class<?> expectedClazz = ReferSimplePojoClassUsingSample.class;
-		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), ReferSimplePojoClassUsingSampleMagicBuilder.dump());
-
-		assertEquals("Code", codeExpected, codeActual);
-
-	}
 //
 //	@Test
 //	public void test_AdvJavaSourceConverterSample_ConvertTest() throws Exception {

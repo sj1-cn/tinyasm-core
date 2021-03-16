@@ -11,7 +11,7 @@ import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.advasmproxy.simple.PojoClassChild;
 import cc1sj.tinyasm.advasmproxy.simple.PojoClass;
 
-public class GenericInterfaceAdvAsmProxy implements GenericInterface<PojoClass>, AdvRuntimeReferNameObject {
+public class GenericClassAdvAsmProxy extends GenericClass<PojoClass> implements AdvRuntimeReferNameObject {
 	private byte _magicNumber;
 	private ThreadLocal<AdvContext> _contextThreadLocal;
 
@@ -33,22 +33,23 @@ public class GenericInterfaceAdvAsmProxy implements GenericInterface<PojoClass>,
 
 	@Override
 	public Clazz get__TargetClazz() {
-		return Clazz.of(GenericInterface.class);
+		return Clazz.of(GenericClass.class);
 	}
 
 //	code.LINE();
 //	code.LOAD("pp");
-//	code.INTERFACE(GenericInterface.class, "getT")
+//	code.VIRTUAL(GenericClass.class, "getT")
 //		.return_(Object.class).INVOKE();
 //	code.CHECKCAST(PojoClass.class);
 //	code.STORE("pojoClassSample2",PojoClass.class);
+//	
 	@Override
 	public PojoClass getT() {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(PojoClass.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(GenericInterface.class, "getT").return_(Object.class).INVOKE();
+			c.VIRTUAL(GenericClass.class, "getT").return_(Object.class).INVOKE();
 			c.CHECKCAST(PojoClass.class);
 		});
 
@@ -67,7 +68,8 @@ public class GenericInterfaceAdvAsmProxy implements GenericInterface<PojoClass>,
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(PojoClassChild.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(GenericInterface.class, "getPojoClassChildSample").return_(PojoClassChild.class).INVOKE();
+			c.VIRTUAL(GenericClass.class, "getPojoClassChildSample").return_(Object.class).INVOKE();
+			c.CHECKCAST(PojoClass.class);
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -82,7 +84,7 @@ public class GenericInterfaceAdvAsmProxy implements GenericInterface<PojoClass>,
 //	code.LINE();
 //	code.LOAD("pp");
 //	code.LOAD("pojoClassSample");
-//	code.INTERFACE(GenericInterface.class, "setT")
+//	code.VIRTUAL(GenericClass.class, "setT")
 //		.parameter(Object.class).INVOKE();
 	@Override
 	public void setT(PojoClass param0) {
@@ -93,7 +95,7 @@ public class GenericInterfaceAdvAsmProxy implements GenericInterface<PojoClass>,
 			objEval.accept(c);
 			eval_param0.accept(c);
 
-			c.INTERFACE(GenericInterface.class, "setT").parameter(Object.class).INVOKE();
+			c.VIRTUAL(GenericClass.class, "setT").parameter(Object.class).INVOKE();
 		});
 	}
 
@@ -105,7 +107,7 @@ public class GenericInterfaceAdvAsmProxy implements GenericInterface<PojoClass>,
 		context.execLine(c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(GenericInterface.class, "setPojoClassChildSample").parameter(PojoClassChild.class).INVOKE();
+			c.VIRTUAL(GenericClass.class, "setPojoClassChildSample").parameter(PojoClassChild.class).INVOKE();
 		});
 
 	}
