@@ -24,12 +24,13 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 	final private Clazz superType;
 
 	final private Clazz thisType;
+	ClassHeaderImpl header;
 //	private String name;
 
 	ClassBodyImpl(ClassVisitor cv, ClassHeaderImpl header) {
 		super(Opcodes.ASM5, cv);
-
-//		this.name = header.name;
+		
+		this.header = header;
 		this.thisType = header.clazz;
 		this.superType = header.superClazz;
 		{
@@ -40,9 +41,9 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 			String signature = null;
 			boolean needSignature = false;
 			String superSignature = "";
-			if (header.formalTypeParameters.size() > 0) {
+			if (header.classFormalTypeParameters.size() > 0) {
 				superSignature += "<";
-				for (Clazz inTerface : header.formalTypeParameters) {
+				for (Clazz inTerface : header.classFormalTypeParameters) {
 					needSignature |= inTerface.needSignature();
 					superSignature += inTerface.signatureAnyway();
 				}

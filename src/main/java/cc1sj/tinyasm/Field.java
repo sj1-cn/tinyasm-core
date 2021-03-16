@@ -1,5 +1,7 @@
 package cc1sj.tinyasm;
 
+import org.objectweb.asm.Type;
+
 public class Field {
 	public Field(String name, Clazz clazz) {
 		this.name = name;
@@ -17,5 +19,6 @@ public class Field {
 
 	public String name;
 	final public Clazz clazz;
+	Type type;
 	public boolean identifier;
 }

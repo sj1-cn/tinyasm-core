@@ -9,10 +9,11 @@ import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
+import cc1sj.tinyasm.advmagicbuilder.WithIdKey;
 import cc1sj.tinyasm.AdvMagicRuntime;
 import java.lang.ThreadLocal;
-import cc1sj.tinyasm.advmagicbuilder.Repository;
 import cc1sj.tinyasm.AdvContext;
+import cc1sj.tinyasm.advmagicbuilder.RepositoryMagicBuilder;
 import java.lang.Exception;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodCaller;
@@ -31,7 +32,7 @@ public class RepositoryMagicBuilderAdvAsmProxyTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(Object.class),Clazz.of(Repository.class,Clazz.typeArgument(Clazz.typeVariableOf("T"))),Clazz.of(AdvMagicRuntime.class)).formalTypeParameter("T",Clazz.of(Object.class))
+		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(RepositoryMagicBuilder.class,Clazz.typeArgument(Clazz.typeVariableOf("T"))),Clazz.of(AdvMagicRuntime.class)).formalTypeParameter("T",Clazz.of(WithIdKey.class))
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
@@ -46,6 +47,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		_set__TargetClazz(classBody);
 		_get__TargetClazz(classBody);
 		_update(classBody);
+		_bridge_update(classBody);
 		_lambda$update$0(classBody);
 
 		return classBody.end().toByteArray();
@@ -56,7 +58,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 		code.LINE();
 		code.LOAD("this");
-		code.SPECIAL(Object.class, "<init>").INVOKE();
+		code.SPECIAL(RepositoryMagicBuilder.class, "<init>").INVOKE();
 		code.RETURN();
 
 		code.END();
@@ -176,7 +178,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOAD("objEval");
 		code.LOAD("eval_param0");
 		code.LOAD("param0");
-		code.visitInvokeDynamicInsn("accept", "(Lcc1sj/tinyasm/advmagicbuilder/RepositoryMagicBuilderAdvAsmProxy;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Ljava/lang/Object;)Lcc1sj/tinyasm/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESPECIAL, "cc1sj/tinyasm/advmagicbuilder/RepositoryMagicBuilderAdvAsmProxy", "lambda$update$0", "(Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Ljava/lang/Object;Lcc1sj/tinyasm/MethodCode;)V", false), Type.getType("(Lcc1sj/tinyasm/MethodCode;)V")});
+		code.visitInvokeDynamicInsn("accept", "(Lcc1sj/tinyasm/advmagicbuilder/RepositoryMagicBuilderAdvAsmProxy;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/advmagicbuilder/WithIdKey;)Lcc1sj/tinyasm/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESPECIAL, "cc1sj/tinyasm/advmagicbuilder/RepositoryMagicBuilderAdvAsmProxy", "lambda$update$0", "(Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/advmagicbuilder/WithIdKey;Lcc1sj/tinyasm/MethodCode;)V", false), Type.getType("(Lcc1sj/tinyasm/MethodCode;)V")});
 		code.VIRTUAL(AdvContext.class, "push")
 			.return_(byte.class)
 			.parameter(Class.class)
@@ -209,6 +211,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 			.return_(Object.class)
 			.parameter(Class.class)
 			.parameter(byte.class).INVOKE();
+		code.CHECKCAST(WithIdKey.class);
 		code.RETURNTop();
 
 		code.visitLabel(label6OfIFEQ);
@@ -220,12 +223,29 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
+	protected void _bridge_update(ClassBody classBody) {
+		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "update")
+			.return_(Object.class )
+			.parameter("var1",Object.class).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("var1");
+		code.CHECKCAST(WithIdKey.class);
+		code.VIRTUAL("update")
+			.return_(WithIdKey.class)
+			.parameter(WithIdKey.class).INVOKE();
+		code.RETURNTop();
+
+		code.END();
+	}
+
 	protected void _lambda$update$0(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PRIVATE | ACC_SYNTHETIC, "lambda$update$0")
 			.throws_(Exception.class )
 			.parameter("objEval",ConsumerWithException.class)
 			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("param0",Object.class)
+			.parameter("param0",WithIdKey.class)
 			.parameter("c",MethodCode.class).begin();
 
 		code.LINE();

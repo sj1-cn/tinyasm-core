@@ -45,7 +45,8 @@ class MethodHeaderBuilder implements MethodHeader {
 	final LocalsStack mhLocals = new LocalsStack();
 	final List<LocalsVariable> params = new ArrayList<>();
 	final List<Annotation> annotations = new ArrayList<>();
-	final List<ClazzFormalTypeParameter> formalTypeParameters = new ArrayList<>();
+	final List<ClazzFormalTypeParameter> methodFormalTypeParameters111 = new ArrayList<>();
+	final List<ClazzFormalTypeParameter> methodAllFormalTypeParameters = new ArrayList<>();
 	final FieldList fields;
 	final FieldList staticFields;
 
@@ -77,7 +78,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	@Override
 	public MethodHeader formalTypeParameter(ClazzFormalTypeParameter clazz) {
-		formalTypeParameters.add(clazz);
+		methodFormalTypeParameters111.add(clazz);
 		return this;
 	}
 
@@ -120,24 +121,33 @@ class MethodHeaderBuilder implements MethodHeader {
 
 			thisMethod.instanceMethod = (access & Opcodes.ACC_STATIC) == 0;
 
-			Type returnType;
-			if (returnClazz != null) returnType = returnClazz.getType();
-			else returnType = Type.VOID_TYPE;
+			methodAllFormalTypeParameters.addAll(this.classVisitor.header.classFormalTypeParameters);
+			methodAllFormalTypeParameters.addAll(this.methodFormalTypeParameters111);
 
-			Type[] types1 = new Type[params.size()];
-			for (int i1 = 0; i1 < params.size(); i1++) {
-				types1[i1] = params.get(i1).clazz.getType();
+			List<ClazzFormalTypeParameter> clazzFormalTypeParameters = this.classVisitor.header.classFormalTypeParameters;
+
+			if (returnClazz == null) {
+				returnClazz = Clazz.of(Type.VOID_TYPE);
 			}
 
-			String desc = Type.getMethodDescriptor(returnType, types1);
+			Clazz[] paramClazzes = new Clazz[params.size()];
+			for (int i1 = 0; i1 < params.size(); i1++) {
+				paramClazzes[i1] = params.get(i1).clazz;
+//				 type = resolveVariable(params.get(i1).clazz, clazzFormalTypeParameters);
+//				params.get(i1).type = type;
+//				types1[i1] = type;
+			}
+
+			String descriptor = buildDescriptor(paramClazzes, returnClazz, methodAllFormalTypeParameters); // Type.getMethodDescriptor(returnType, types1);
+
 			String signature = null;
 			boolean needSignature = false;
 			{
 				StringBuilder sb = new StringBuilder();
-				if (formalTypeParameters != null && formalTypeParameters.size() > 0) {
+				if (methodFormalTypeParameters111 != null && methodFormalTypeParameters111.size() > 0) {
 					sb.append('<');
-					for (int i = 0; i < formalTypeParameters.size(); i++) {
-						ClazzFormalTypeParameter type = formalTypeParameters.get(i);
+					for (int i = 0; i < methodFormalTypeParameters111.size(); i++) {
+						ClazzFormalTypeParameter type = methodFormalTypeParameters111.get(i);
 						sb.append(type.signatureOf());
 					}
 					sb.append('>');
@@ -154,12 +164,8 @@ class MethodHeaderBuilder implements MethodHeader {
 					}
 				}
 				sb.append(")");
-				if (returnClazz != null) {
-					needSignature |= returnClazz.needSignature();
-					sb.append(returnClazz.signatureAnyway());
-				} else {
-					sb.append(returnType.getDescriptor());
-				}
+				needSignature |= returnClazz.needSignature();
+				sb.append(returnClazz.signatureAnyway());
 				String signatureFromParameter = sb.toString();
 
 				if (needSignature) {
@@ -167,8 +173,7 @@ class MethodHeaderBuilder implements MethodHeader {
 				}
 			}
 
-			this.mv = classVisitor.visitMethod(access, name, desc, signature,
-					every(String.class, exceptions, e -> e.getType().getInternalName()));
+			this.mv = classVisitor.visitMethod(access, name, descriptor, signature, every(String.class, exceptions, e -> e.getType().getInternalName()));
 		}
 
 		assert this.mv != null;
@@ -182,6 +187,51 @@ class MethodHeaderBuilder implements MethodHeader {
 			}
 			mv.visitParameter(param.name, param.access);
 		}
+	}
+
+	protected String buildDescriptor(Clazz[] methodParamClazzes, final Clazz methodReturnClazz) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append('(');
+		for (Clazz argumentType : methodParamClazzes) {
+			stringBuilder.append(argumentType.getDescriptor());
+		}
+		stringBuilder.append(')');
+		stringBuilder.append(methodReturnClazz.getDescriptor());
+		return stringBuilder.toString();
+	}
+
+	protected String buildDescriptor(Clazz[] methodParamClazzes, final Clazz methodReturnClazz, List<ClazzFormalTypeParameter> clazzFormalTypeParameters) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append('(');
+		for (Clazz argumentType : methodParamClazzes) {
+			stringBuilder.append(argumentType.getDescriptor(clazzFormalTypeParameters));
+		}
+		stringBuilder.append(')');
+		stringBuilder.append(methodReturnClazz.getDescriptor(clazzFormalTypeParameters));
+		return stringBuilder.toString();
+	}
+
+	protected Type resolveVariable(Clazz returnClazz, List<ClazzFormalTypeParameter> clazzFormalTypeParameters) {
+		if (returnClazz instanceof ClazzSimple || returnClazz instanceof ClazzWithTypeArguments) {
+			return returnClazz.getType();
+		} else if (returnClazz instanceof ClazzVariable) {
+			ClazzVariable clazzVariable = (ClazzVariable) returnClazz;
+			for (ClazzFormalTypeParameter clazzFormalTypeParameter : clazzFormalTypeParameters) {
+				if (clazzFormalTypeParameter.name == clazzVariable.name) {
+					if (clazzFormalTypeParameter.getActualClazz() != null) {
+						return clazzFormalTypeParameter.getActualClazz().getType();
+					} else {
+						return clazzFormalTypeParameter.clazz.getType();
+					}
+				}
+			}
+			if (clazzVariable.isarray) {
+				return Clazz.of(Object.class, true).getType();
+			} else {
+				return Clazz.of(Object.class).getType();
+			}
+		}
+		throw new UnsupportedOperationException(returnClazz.toString());
 	}
 
 	protected void preapareMethodWithClazz() {
@@ -263,8 +313,7 @@ class MethodHeaderBuilder implements MethodHeader {
 			assert var != null;
 			assert var.clazz.getDescriptor() != null;
 			Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
-			mv.visitLocalVariable(var.name, var.clazz.getDescriptor(formalTypeParameters), var.clazz.signatureWhenNeed(), labelfrom,
-					endLabel, var.locals);
+			mv.visitLocalVariable(var.name, var.clazz.getDescriptor(methodAllFormalTypeParameters), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
 		} else {// if (!((this.methodAccess & ACC_SYNTHETIC) > 0)) {
 			Label endLabel = this.labelWithoutLineNumber();
 			for (LocalsStack.Var var : mhLocals) {
@@ -276,8 +325,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 					String varname = var.name != null ? var.name : "var" + var.locals;
 
-					mv.visitLocalVariable(varname, var.clazz.getDescriptor(formalTypeParameters), var.clazz.signatureWhenNeed(), labelfrom,
-							endLabel, var.locals);
+					mv.visitLocalVariable(varname, var.clazz.getDescriptor(methodAllFormalTypeParameters), var.clazz.signatureWhenNeed(), labelfrom, endLabel, var.locals);
 				}
 			}
 		}

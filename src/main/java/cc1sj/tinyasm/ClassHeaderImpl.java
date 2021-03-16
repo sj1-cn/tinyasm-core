@@ -21,7 +21,7 @@ class ClassHeaderImpl implements ClassHeader {
 	final List<Annotation> annotations = new ArrayList<>();
 
 	final List<Clazz> interfaces = new ArrayList<>();
-	final List<Clazz> formalTypeParameters = new ArrayList<>();
+	final List<ClazzFormalTypeParameter> classFormalTypeParameters = new ArrayList<>();
 
 	ClassBodyImpl classBuilderImpl;
 
@@ -79,7 +79,7 @@ class ClassHeaderImpl implements ClassHeader {
 
 	@Override
 	public ClassHeader formalTypeParameter(String name, Clazz clazz) {
-		formalTypeParameters.add(Clazz.formalTypeParameterOf(name, clazz));
+		classFormalTypeParameters.add(Clazz.formalTypeParameterOf(name, clazz));
 		return this;
 	}
 
@@ -110,10 +110,10 @@ class ClassHeaderImpl implements ClassHeader {
 		if (superClazz == null) {
 			this.extends_(Object.class);
 		}
-		if (formalTypeParameters.size() > 0) {
-			Clazz[] typeVariable = new Clazz[formalTypeParameters.size()];
-			for (int i = 0; i < formalTypeParameters.size(); i++) {
-				typeVariable[i] = Clazz.typeVariableOf(((ClazzFormalTypeParameter) formalTypeParameters.get(i)).name);
+		if (classFormalTypeParameters.size() > 0) {
+			Clazz[] typeVariable = new Clazz[classFormalTypeParameters.size()];
+			for (int i = 0; i < classFormalTypeParameters.size(); i++) {
+				typeVariable[i] = Clazz.typeVariableOf(((ClazzFormalTypeParameter) classFormalTypeParameters.get(i)).name);
 			}
 			this.clazz = Clazz.of((ClazzSimple) this.clazz, typeVariable);
 		}

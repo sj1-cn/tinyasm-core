@@ -6,6 +6,7 @@ import static org.objectweb.asm.Opcodes.ACC_STATIC;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.TypeVariable;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -21,7 +22,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		AdvAsmProxyMagicClassAdvAsmBuilder bw = new AdvAsmProxyMagicClassAdvAsmBuilder(Opcodes.ASM9, cw);
 
-		bw.dumpMagic(Clazz.of(magicBuilderClass), new Clazz[] {}, proxyClassName);
+		bw.dumpMagic(magicBuilderClass, new Clazz[] {}, proxyClassName);
 
 		return cw.toByteArray();
 	}
@@ -36,21 +37,41 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 	ClazzSimple magicBuilderClazz;
 
-	protected void dumpMagic(ClazzSimple magicBuilderClazz, Clazz[] actualTypeArguments, String proxyClassName) throws IOException {
+	protected <T> void dumpMagic(Class<T> magicBuilderClazz, Clazz[] xxxxxactualTypeArguments, String proxyClassName) throws IOException {
 		this.isTargetClazzKnown = false;
 		this.proxyClassName = proxyClassName;
-		this.magicBuilderClazz = magicBuilderClazz;
+		this.magicBuilderClazz = Clazz.of(magicBuilderClazz);
 //		this.targetClazz = magicBuilderClazz;
 //		this.targetClazz = Clazz.of(targetClassName);
 		INTERFACE_OR_VIRTUAL = VIRTUAL;
 
 		ClassHeader ch = ClassBuilder.class_(cv, proxyClassName);
 //		if(superName)
-		if (actualTypeArguments.length > 0) {
-			ch.extends_(Clazz.of(magicBuilderClazz, actualTypeArguments));
+//		if (actualTypeArguments.length > 0) {
+//			ch.extends_(Clazz.of(magicBuilderClazz, actualTypeArguments));
+//		} else {
+		ch.extends_(magicBuilderClazz);
+//		}
+		TypeVariable<Class<T>>[] vs = magicBuilderClazz.getTypeParameters();
+		Clazz[] actualTypeArguments = new Clazz[0];
+		if (vs.length > 0) {
+			Clazz[] tva = new Clazz[vs.length];
+			actualTypeArguments = new Clazz[vs.length];
+			for (int i = 0; i < vs.length; i++) {
+				TypeVariable<Class<T>> typeVariable = vs[i];
+
+				java.lang.reflect.Type[] types = typeVariable.getBounds();
+				logger.debug("typeVariable {}", types[0]);
+
+				ch.formalTypeParameter(typeVariable.getName(), Clazz.of(types[0]));
+				tva[i] = Clazz.typeVariableOf(typeVariable.getName());
+				actualTypeArguments[i] = Clazz.formalTypeParameterOf(typeVariable.getName(), Clazz.of(types[0]));
+			}
+			ch.extends_(Clazz.of(Clazz.of(magicBuilderClazz), tva));
 		} else {
 			ch.extends_(magicBuilderClazz);
 		}
+//		ch.formalTypeParameter(proxyClassName, targetClazz)
 //		ch.implements_(AdvRuntimeReferNameObject.class);
 		ch.implements_(AdvMagicRuntime.class);
 //		ch.access(access);
@@ -62,22 +83,22 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 		proxyClassBody.private_().field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
 		proxyClassBody.private_().field("_targetClazz", Clazz.of(Clazz.class));
 
-		__init_TargetClass(proxyClassBody, magicBuilderClazz);
+		__init_TargetClass(proxyClassBody, this.magicBuilderClazz);
 		_get__MagicNumber(proxyClassBody);
 		_set__MagicNumber(proxyClassBody);
 		_set__Context(proxyClassBody);
 		_set__TargetClazz(proxyClassBody);
 		_get__TargetClazz(proxyClassBody);
 
-		resolveClass(magicBuilderClazz, actualTypeArguments);
+		resolveClass(this.magicBuilderClazz, actualTypeArguments);
 
-		resolveMagicClass(magicBuilderClazz, actualTypeArguments);
+		resolveMagicClass(this.magicBuilderClazz, actualTypeArguments);
 
 		for (int i = proxyBridgeMethods.size() - 1; i >= 0; i--) {
 			BridgeMethod bridgeMethod = proxyBridgeMethods.get(i);
 			String methodName = bridgeMethod.methodName;
 			if (methodName.startsWith("_") || methodName.startsWith("<") || methodName.startsWith("dump")) continue;
-			if (magicBuilderClazz.getType().getClassName().equals(bridgeMethod.lowestClazz.getType().getClassName())) {
+			if (this.magicBuilderClazz.getType().getClassName().equals(bridgeMethod.lowestClazz.getType().getClassName())) {
 				logger.debug("BridgeMethod -> {}", bridgeMethod.methodName);
 				buildBridgeMethodBuilder(proxyClassBody, bridgeMethod);
 			}

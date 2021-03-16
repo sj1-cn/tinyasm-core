@@ -219,12 +219,14 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			SignatureReader sr = new SignatureReader(signature);
 			sr.accept(classSignaturewwww);
 			classSignaturewwww.finish();
-			for (int i = 0; i < classSignaturewwww.typeParamenterClazzes.length; i++) {
-				Clazz clazz = classSignaturewwww.typeParamenterClazzes[i];
-				if (clazz instanceof ClazzFormalTypeParameter) {
-					ClazzFormalTypeParameter clazzFormalTypeParameter = (ClazzFormalTypeParameter) clazz;
-					clazzFormalTypeParameter.setActualTypeArgument(current.actualTypeArguments[i]);
-					current.classFormalTypeParameters.add(clazzFormalTypeParameter);
+			if (current.actualTypeArguments.length > 0) {
+				for (int i = 0; i < classSignaturewwww.typeParamenterClazzes.length; i++) {
+					Clazz clazz = classSignaturewwww.typeParamenterClazzes[i];
+					if (clazz instanceof ClazzFormalTypeParameter) {
+						ClazzFormalTypeParameter clazzFormalTypeParameter = (ClazzFormalTypeParameter) clazz;
+						clazzFormalTypeParameter.setActualTypeArgument(current.actualTypeArguments[i]);
+						current.classFormalTypeParameters.add(clazzFormalTypeParameter);
+					}
 				}
 			}
 
@@ -874,14 +876,42 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	}
 
 	protected String buildDescriptor(Clazz[] methodParamClazzes, final Clazz methodReturnClazz) {
-		String actualDescriptor;
-		Type[] types1 = new Type[methodParamClazzes.length];
-		for (int i1 = 0; i1 < methodParamClazzes.length; i1++) {
-			types1[i1] = methodParamClazzes[i1].getType();
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append('(');
+		for (Clazz argumentType : methodParamClazzes) {
+			stringBuilder.append(argumentType.getDescriptor());
 		}
-
-		actualDescriptor = Type.getMethodDescriptor(methodReturnClazz.getType(), types1);
-		return actualDescriptor;
+		stringBuilder.append(')');
+		stringBuilder.append(methodReturnClazz.getDescriptor());
+		return stringBuilder.toString();
+//
+//		String actualDescriptor;
+//		Type[] typeParams = new Type[methodParamClazzes.length];
+//		for (int i1 = 0; i1 < methodParamClazzes.length; i1++) {
+//			if (methodParamClazzes[i1] instanceof ClazzSimple) {
+//				typeParams[i1] = methodParamClazzes[i1].getType();
+//			} else if (methodParamClazzes[i1] instanceof ClazzFormalTypeParameter) {
+//				typeParams[i1] = ((ClazzFormalTypeParameter) methodParamClazzes[i1]).clazz.getType();
+//			} else if (methodParamClazzes[i1] instanceof ClazzWithTypeArguments) {
+//				typeParams[i1] = ((ClazzWithTypeArguments) methodParamClazzes[i1]).getBaseClazz().getType();
+//			} else {
+//				throw new UnsupportedOperationException(methodParamClazzes[i1].getDescriptor());
+//			}
+//		}
+//
+//		Type returnType;
+//		if (methodReturnClazz instanceof ClazzSimple) {
+//			returnType = methodReturnClazz.getType();
+//		} else if (methodReturnClazz instanceof ClazzFormalTypeParameter) {
+//			returnType = ((ClazzFormalTypeParameter) methodReturnClazz).clazz.getType();
+//		} else if (methodReturnClazz instanceof ClazzWithTypeArguments) {
+//			returnType = ((ClazzWithTypeArguments) methodReturnClazz).getBaseClazz().getType();
+//		} else {
+//			throw new UnsupportedOperationException(methodReturnClazz.getDescriptor());
+//		}
+//
+//		actualDescriptor = Type.getMethodDescriptor(returnType, typeParams);
+//		return actualDescriptor;
 	}
 
 	protected String buildSignature(ClazzFormalTypeParameter[] methodFormalTypeParameters, Clazz[] methodParamClazzes, final Clazz methodReturnClazz) {
@@ -969,7 +999,12 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			for (int i = 0; i < formalTypeParameters.size(); i++) {
 				ClazzFormalTypeParameter formalTypeParameter = formalTypeParameters.get(i);
 				if (formalTypeParameter.name.equals(((ClazzVariable) clazz).name)) {
-					return formalTypeParameter.getActualClazz();
+					if (formalTypeParameter.getActualClazz() != null) {
+						return formalTypeParameter.getActualClazz();
+					} else {
+//						return formalTypeParameter;
+					}
+
 				}
 			}
 		} else if (clazz instanceof ClazzWithTypeArguments) {
@@ -1234,10 +1269,10 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 
 		public void exec(ClassBody classBody) {
 			int access;
-			if(isTargetClazzKnown) {
-				access = ACC_PRIVATE | ACC_STATIC |  ACC_SYNTHETIC;
-			}else {
-				access =  ACC_PRIVATE | ACC_SYNTHETIC;
+			if (isTargetClazzKnown) {
+				access = ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC;
+			} else {
+				access = ACC_PRIVATE | ACC_SYNTHETIC;
 			}
 			MethodHeader methodHeader = classBody.method(access, name).throws_(Exception.class);
 			for (int i = 0; i < params.length; i++) {

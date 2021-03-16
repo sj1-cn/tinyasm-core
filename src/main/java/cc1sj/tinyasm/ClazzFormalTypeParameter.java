@@ -47,7 +47,11 @@ public class ClazzFormalTypeParameter extends Clazz {
 
 	@Override
 	public String signatureOf() {
-		return name + ":" + clazz.signatureOf() + "";
+		if(clazz.getType().getClassName().equals(Object.class.getName())) {
+			return name + ":" + clazz.signatureOf() + "";
+		}else {
+			return name + "::" + clazz.signatureOf() + "";
+		}
 	}
 
 	@Override
