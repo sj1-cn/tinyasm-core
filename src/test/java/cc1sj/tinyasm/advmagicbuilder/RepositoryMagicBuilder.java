@@ -1,10 +1,10 @@
 package cc1sj.tinyasm.advmagicbuilder;
 
-public class RepositoryMagicBuilder<T extends WithIdKey> implements Repository<T> {
+public class RepositoryMagicBuilder<E extends WithIdKey, R> implements Repository<E, R> {
 
 	@Override
-	public T update(T t) {
-		return t;
+	public R update(E t) {
+		return null;
 	}
 
 }

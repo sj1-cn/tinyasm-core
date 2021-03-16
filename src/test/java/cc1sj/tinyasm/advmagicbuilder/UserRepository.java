@@ -1,11 +1,10 @@
 package cc1sj.tinyasm.advmagicbuilder;
 
-public class UserRepository implements Repository<User> {
+public class UserRepository implements Repository<User, String> {
 
 	@Override
-	public User update(User t) {
-//		t.setName("hello");
-		return t;
+	public String update(User t) {
+		return t.getName();
 	}
 
 }

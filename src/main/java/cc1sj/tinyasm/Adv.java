@@ -693,9 +693,8 @@ public class Adv {
 
 	private static boolean match(Class<?> l, Class<?> r) {
 		if (l.isPrimitive()) {
-			return (l == byte.class && r == Byte.class) || (l == char.class && r == Character.class) || (l == short.class && r == Short.class)
-					|| (l == int.class && r == Integer.class) || (l == long.class && r == Long.class) || (l == float.class && r == Float.class)
-					|| (l == double.class && r == Double.class);
+			return (l == byte.class && r == Byte.class) || (l == char.class && r == Character.class) || (l == short.class && r == Short.class) || (l == int.class && r == Integer.class) || (l == long.class && r == Long.class)
+					|| (l == float.class && r == Float.class) || (l == double.class && r == Double.class);
 		}
 		return false;
 	}
@@ -1764,6 +1763,15 @@ public class Adv {
 	public static Object _piece(Class<?> clazz, ConsumerWithException<MethodCode> code) {
 		AdvContext advContext = _contextThreadLocal.get();
 		return advContext.push(clazz, code);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <R> R proxyReturn(Class<?> class1, byte magicNumber) {
+		if (Adv.canProxy(class1)) {
+			return (R) Adv.buildProxyClass(class1, magicNumber);
+		} else {
+			return null;
+		}
 	}
 
 }

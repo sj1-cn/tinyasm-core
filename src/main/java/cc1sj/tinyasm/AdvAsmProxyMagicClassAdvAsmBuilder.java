@@ -22,7 +22,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		AdvAsmProxyMagicClassAdvAsmBuilder bw = new AdvAsmProxyMagicClassAdvAsmBuilder(Opcodes.ASM9, cw);
 
-		bw.dumpMagic(magicBuilderClass, new Clazz[] {}, proxyClassName);
+		bw.dumpMagicClass(magicBuilderClass, proxyClassName);
 
 		return cw.toByteArray();
 	}
@@ -37,44 +37,29 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 	ClazzSimple magicBuilderClazz;
 
-	protected <T> void dumpMagic(Class<T> magicBuilderClazz, Clazz[] xxxxxactualTypeArguments, String proxyClassName) throws IOException {
+	protected <T> void dumpMagicClass(Class<T> magicBuilderClazz, String proxyClassName) throws IOException {
+		TypeVariable<Class<T>>[] vs = magicBuilderClazz.getTypeParameters();
+		if (vs.length > 0) {
+			dumpMagicClassWithTypeArguments(magicBuilderClazz, vs, proxyClassName);
+		} else {
+			dumpMagicSimpleClass(magicBuilderClazz, proxyClassName);
+		}
+	}
+
+	protected <T> void dumpMagicSimpleClass(Class<T> magicBuilderClazz, String proxyClassName) throws IOException {
 		this.isTargetClazzKnown = false;
 		this.proxyClassName = proxyClassName;
 		this.magicBuilderClazz = Clazz.of(magicBuilderClazz);
-//		this.targetClazz = magicBuilderClazz;
-//		this.targetClazz = Clazz.of(targetClassName);
 		INTERFACE_OR_VIRTUAL = VIRTUAL;
 
 		ClassHeader ch = ClassBuilder.class_(cv, proxyClassName);
-//		if(superName)
-//		if (actualTypeArguments.length > 0) {
-//			ch.extends_(Clazz.of(magicBuilderClazz, actualTypeArguments));
-//		} else {
 		ch.extends_(magicBuilderClazz);
-//		}
-		TypeVariable<Class<T>>[] vs = magicBuilderClazz.getTypeParameters();
 		Clazz[] actualTypeArguments = new Clazz[0];
-		if (vs.length > 0) {
-			Clazz[] tva = new Clazz[vs.length];
-			actualTypeArguments = new Clazz[vs.length];
-			for (int i = 0; i < vs.length; i++) {
-				TypeVariable<Class<T>> typeVariable = vs[i];
 
-				java.lang.reflect.Type[] types = typeVariable.getBounds();
-				logger.debug("typeVariable {}", types[0]);
+		ch.extends_(magicBuilderClazz);
 
-				ch.formalTypeParameter(typeVariable.getName(), Clazz.of(types[0]));
-				tva[i] = Clazz.typeVariableOf(typeVariable.getName());
-				actualTypeArguments[i] = Clazz.formalTypeParameterOf(typeVariable.getName(), Clazz.of(types[0]));
-			}
-			ch.extends_(Clazz.of(Clazz.of(magicBuilderClazz), tva));
-		} else {
-			ch.extends_(magicBuilderClazz);
-		}
-//		ch.formalTypeParameter(proxyClassName, targetClazz)
-//		ch.implements_(AdvRuntimeReferNameObject.class);
 		ch.implements_(AdvMagicRuntime.class);
-//		ch.access(access);
+
 		proxyClassBody = ch.body();
 
 		proxyClassBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, MethodHandles.class.getName(), "Lookup");
@@ -92,7 +77,70 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		resolveClass(this.magicBuilderClazz, actualTypeArguments);
 
-		resolveMagicClass(this.magicBuilderClazz, actualTypeArguments);
+//		resolveMagicClass(this.magicBuilderClazz, actualTypeArguments);
+
+		for (int i = proxyBridgeMethods.size() - 1; i >= 0; i--) {
+			BridgeMethod bridgeMethod = proxyBridgeMethods.get(i);
+			String methodName = bridgeMethod.methodName;
+			if (methodName.startsWith("_") || methodName.startsWith("<") || methodName.startsWith("dump")) continue;
+			if (this.magicBuilderClazz.getType().getClassName().equals(bridgeMethod.lowestClazz.getType().getClassName())) {
+				logger.debug("BridgeMethod -> {}", bridgeMethod.methodName);
+				buildBridgeMethodBuilder(proxyClassBody, bridgeMethod);
+			}
+		}
+
+		finish();
+	}
+
+	protected <T> void dumpMagicClassWithTypeArguments(Class<T> magicBuilderClazz, TypeVariable<Class<T>>[] vs, String proxyClassName) throws IOException {
+		this.isTargetClazzKnown = false;
+		this.proxyClassName = proxyClassName;
+		this.magicBuilderClazz = Clazz.of(magicBuilderClazz);
+//		this.targetClazz = magicBuilderClazz;
+//		this.targetClazz = Clazz.of(targetClassName);
+		INTERFACE_OR_VIRTUAL = VIRTUAL;
+
+		ClassHeader ch = ClassBuilder.class_(cv, proxyClassName);
+		ch.extends_(magicBuilderClazz);
+		Clazz[] typeArguments = new Clazz[0];
+		Clazz[] tva = new Clazz[vs.length];
+		typeArguments = new Clazz[vs.length];
+		for (int i = 0; i < vs.length; i++) {
+			TypeVariable<Class<T>> typeVariable = vs[i];
+
+			java.lang.reflect.Type[] types = typeVariable.getBounds();
+			logger.debug("typeVariable {}", types[0]);
+
+			ch.formalTypeParameter(typeVariable.getName(), Clazz.of(types[0]));
+			tva[i] = Clazz.typeVariableOf(typeVariable.getName());
+			typeArguments[i] = Clazz.typeVariableOf(typeVariable.getName(), Clazz.of(types[0]));
+		}
+		this.withArguemnts = true;
+		this.typeArguments = typeArguments;
+		ch.extends_(Clazz.of(Clazz.of(magicBuilderClazz), tva));
+
+		ch.implements_(AdvMagicRuntimeWithTypeArgument.class);
+
+		proxyClassBody = ch.body();
+
+		proxyClassBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, MethodHandles.class.getName(), "Lookup");
+
+		proxyClassBody.private_().field("_magicNumber", Clazz.of(byte.class));
+		proxyClassBody.private_().field("_contextThreadLocal", Clazz.of(ThreadLocal.class, Clazz.of(AdvContext.class)));
+		proxyClassBody.private_().field("_targetClazz", Clazz.of(Clazz.class));
+		proxyClassBody.private_().field("_arguments", Clazz.of(Clazz.of(Class.class,true),Clazz.typeArgument('*')));
+
+		__init_TargetClass(proxyClassBody, this.magicBuilderClazz);
+		_get__MagicNumber(proxyClassBody);
+		_set__MagicNumber(proxyClassBody);
+		_set__Context(proxyClassBody);
+		_set__TargetClazz(proxyClassBody);
+		_get__TargetClazz(proxyClassBody);
+		_set__TypeArgument(proxyClassBody);
+
+		resolveClass(this.magicBuilderClazz, typeArguments);
+
+//		resolveMagicClass(this.magicBuilderClazz, typeArguments);
 
 		for (int i = proxyBridgeMethods.size() - 1; i >= 0; i--) {
 			BridgeMethod bridgeMethod = proxyBridgeMethods.get(i);
@@ -120,6 +168,20 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		code.END();
 	}
+	
+	protected void _set__TypeArgument(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("set__TypeArgument").parameter("_arguments", Clazz.of(Clazz.of(Class.class,true),Clazz.typeArgument('*'))).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("_arguments");
+		code.PUTFIELD_OF_THIS("_arguments");
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
 
 	protected void _get__TargetClazz(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("get__TargetClazz").return_(Clazz.class).begin();
@@ -130,31 +192,6 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 		code.RETURNTop();
 		code.END();
 	}
-
-//	protected void _get__ClassBuilder(ClassBody classBody) {
-//		MethodCode code = classBody.public_().method("get__ClassBuilder").return_(AdvClassBuilder.class).begin();
-//
-//		code.LINE();
-//		code.LOAD("this");
-//		code.GETFIELD_OF_THIS("_classBuilder");
-//		code.RETURNTop();
-//
-//		code.END();
-//	}
-//
-//	protected void _set__ClassBuilder(ClassBody classBody) {
-//		MethodCode code = classBody.public_().method("set__ClassBuilder").parameter("_classBuilder", AdvClassBuilder.class).begin();
-//
-//		code.LINE();
-//		code.LOAD("this");
-//		code.LOAD("_classBuilder");
-//		code.PUTFIELD_OF_THIS("_classBuilder");
-//
-//		code.LINE();
-//		code.RETURN();
-//
-//		code.END();
-//	}
 
 	protected void resolveMagicClass(Clazz target, Clazz[] actualTypeArguments) {
 		Current last = this.current;
@@ -169,7 +206,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 				@Override
 				public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
 					if (name.startsWith("_") || name.startsWith("<")) return null;
-					extracted(access, name, descriptor, exceptions);
+//					extracted(access, name, descriptor, exceptions);
 					return null;
 				}
 

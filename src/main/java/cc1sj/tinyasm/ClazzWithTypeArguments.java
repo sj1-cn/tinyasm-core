@@ -94,11 +94,16 @@ public class ClazzWithTypeArguments extends Clazz {
 		String signature = null;
 		if (this.typeArguments != null && typeArguments.length > 0) {
 			StringBuilder sb = new StringBuilder();
-			sb.append("L");
 
-			if (baseClazz.getType().getSort() == Type.ARRAY) sb.append("[");
+			if (baseClazz.getType().getSort() == Type.ARRAY) {
+				sb.append("[");
+				sb.append("L");
+				sb.append(baseClazz.getType().getElementType().getInternalName());
+			}else {
+				sb.append("L");
+				sb.append(baseClazz.getType().getInternalName());
+			}
 
-			sb.append(baseClazz.getType().getInternalName());
 
 			sb.append("<");
 			for (Clazz signatureType : typeArguments) {

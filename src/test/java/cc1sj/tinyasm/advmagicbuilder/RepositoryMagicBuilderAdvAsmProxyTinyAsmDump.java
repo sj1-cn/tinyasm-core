@@ -10,13 +10,13 @@ import static org.objectweb.asm.Opcodes.*;
 import cc1sj.tinyasm.Annotation;
 import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.advmagicbuilder.WithIdKey;
-import cc1sj.tinyasm.AdvMagicRuntime;
 import java.lang.ThreadLocal;
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.advmagicbuilder.RepositoryMagicBuilder;
 import java.lang.Exception;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodCaller;
+import cc1sj.tinyasm.AdvMagicRuntimeWithTypeArgument;
 import cc1sj.tinyasm.advmagicbuilder.RepositoryMagicBuilderAdvAsmProxy;
 import cc1sj.tinyasm.Adv;
 import java.lang.Object;
@@ -32,7 +32,7 @@ public class RepositoryMagicBuilderAdvAsmProxyTinyAsmDump {
 	}
 
 	public byte[] dump(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(RepositoryMagicBuilder.class,Clazz.typeArgument(Clazz.typeVariableOf("T"))),Clazz.of(AdvMagicRuntime.class)).formalTypeParameter("T",Clazz.of(WithIdKey.class))
+		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(RepositoryMagicBuilder.class,Clazz.typeArgument(Clazz.typeVariableOf("E")),Clazz.typeArgument(Clazz.typeVariableOf("R"))),Clazz.of(AdvMagicRuntimeWithTypeArgument.class)).formalTypeParameter("E",Clazz.of(WithIdKey.class)).formalTypeParameter("R",Clazz.of(Object.class))
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
@@ -40,13 +40,16 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		classBody.private_().field("_magicNumber", Clazz.of(byte.class));
 		classBody.private_().field("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)));
 		classBody.private_().field("_targetClazz", Clazz.of(Clazz.class));
+		classBody.private_().field("_arguments",Clazz.of(Class[].class, Clazz.typeUnboundedTypeArgument()));
 		__init_(classBody);
 		_get__MagicNumber(classBody);
 		_set__MagicNumber(classBody);
 		_set__Context(classBody);
 		_set__TargetClazz(classBody);
 		_get__TargetClazz(classBody);
+		_set__TypeArgument(classBody);
 		_update(classBody);
+		_$_update(classBody);
 		_bridge_update(classBody);
 		_lambda$update$0(classBody);
 
@@ -140,10 +143,26 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
+	protected void _set__TypeArgument(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("set__TypeArgument")
+			.return_(Clazz.of(void.class) )
+			.parameter("_arguments",Clazz.of(Class[].class, Clazz.typeUnboundedTypeArgument())).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("_arguments");
+		code.PUTFIELD_OF_THIS("_arguments");
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
 	protected void _update(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("update")
-			.return_(Clazz.typeVariableOf("T") )
-			.parameter("param0",Clazz.typeVariableOf("T")).begin();
+			.return_(Clazz.typeVariableOf("R") )
+			.parameter("param0",Clazz.typeVariableOf("E")).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -171,14 +190,14 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 		code.LINE();
 		code.LOAD("context");
-		code.LOAD("param0");
-		code.VIRTUAL(Object.class, "getClass")
-			.return_(Class.class).INVOKE();
+		code.LOAD("this");
+		code.GETFIELD_OF_THIS("_arguments");
+		code.LOADConst(1);
+		code.ARRAYLOAD();
 		code.LOAD("this");
 		code.LOAD("objEval");
 		code.LOAD("eval_param0");
-		code.LOAD("param0");
-		code.visitInvokeDynamicInsn("accept", "(Lcc1sj/tinyasm/advmagicbuilder/RepositoryMagicBuilderAdvAsmProxy;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/advmagicbuilder/WithIdKey;)Lcc1sj/tinyasm/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESPECIAL, "cc1sj/tinyasm/advmagicbuilder/RepositoryMagicBuilderAdvAsmProxy", "lambda$update$0", "(Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/advmagicbuilder/WithIdKey;Lcc1sj/tinyasm/MethodCode;)V", false), Type.getType("(Lcc1sj/tinyasm/MethodCode;)V")});
+		code.visitInvokeDynamicInsn("accept", "(Lcc1sj/tinyasm/advmagicbuilder/RepositoryMagicBuilderAdvAsmProxy;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;)Lcc1sj/tinyasm/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESPECIAL, "cc1sj/tinyasm/advmagicbuilder/RepositoryMagicBuilderAdvAsmProxy", "lambda$update$0", "(Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/MethodCode;)V", false), Type.getType("(Lcc1sj/tinyasm/MethodCode;)V")});
 		code.VIRTUAL(AdvContext.class, "push")
 			.return_(byte.class)
 			.parameter(Class.class)
@@ -193,31 +212,31 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.STORE("magicNumber",byte.class);
 
 		code.LINE();
-		code.LOAD("param0");
-		code.VIRTUAL(Object.class, "getClass")
-			.return_(Class.class).INVOKE();
-		code.STATIC(Adv.class, "canProxy")
-			.return_(boolean.class)
-			.parameter(Class.class).INVOKE();
-		Label label6OfIFEQ = new Label();
-		code.IFEQ(label6OfIFEQ);
-
-		code.LINE();
-		code.LOAD("param0");
-		code.VIRTUAL(Object.class, "getClass")
-			.return_(Class.class).INVOKE();
+		code.LOAD("this");
+		code.GETFIELD_OF_THIS("_arguments");
+		code.LOADConst(1);
+		code.ARRAYLOAD();
 		code.LOAD("magicNumber");
-		code.STATIC(Adv.class, "buildProxyClass")
+		code.STATIC(Adv.class, "proxyReturn")
 			.return_(Object.class)
 			.parameter(Class.class)
 			.parameter(byte.class).INVOKE();
-		code.CHECKCAST(WithIdKey.class);
 		code.RETURNTop();
 
-		code.visitLabel(label6OfIFEQ);
+		code.END();
+	}
+
+	protected void _$_update(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("$_update")
+			.return_(Clazz.typeVariableOf("R") )
+			.parameter("param0",Clazz.typeVariableOf("E")).begin();
 
 		code.LINE();
-		code.LOADConstNULL();
+		code.LOAD("this");
+		code.LOAD("param0");
+		code.SPECIAL(RepositoryMagicBuilder.class, "update")
+			.return_(Object.class)
+			.parameter(WithIdKey.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
@@ -233,7 +252,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOAD("var1");
 		code.CHECKCAST(WithIdKey.class);
 		code.VIRTUAL("update")
-			.return_(WithIdKey.class)
+			.return_(Object.class)
 			.parameter(WithIdKey.class).INVOKE();
 		code.RETURNTop();
 
@@ -245,7 +264,6 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 			.throws_(Exception.class )
 			.parameter("objEval",ConsumerWithException.class)
 			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("param0",WithIdKey.class)
 			.parameter("c",MethodCode.class).begin();
 
 		code.LINE();
@@ -269,15 +287,17 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 			.return_(MethodCaller.class)
 			.parameter(Clazz.class)
 			.parameter(String.class).INVOKE();
-		code.LOAD("param0");
-		code.VIRTUAL(Object.class, "getClass")
-			.return_(Class.class).INVOKE();
+		code.LOAD("this");
+		code.GETFIELD_OF_THIS("_arguments");
+		code.LOADConst(0);
+		code.ARRAYLOAD();
 		code.INTERFACE(MethodCaller.class, "parameter")
 			.return_(MethodCaller.class)
 			.parameter(Class.class).INVOKE();
-		code.LOAD("param0");
-		code.VIRTUAL(Object.class, "getClass")
-			.return_(Class.class).INVOKE();
+		code.LOAD("this");
+		code.GETFIELD_OF_THIS("_arguments");
+		code.LOADConst(1);
+		code.ARRAYLOAD();
 		code.INTERFACE(MethodCaller.class, "return_")
 			.return_(MethodCaller.class)
 			.parameter(Class.class).INVOKE();

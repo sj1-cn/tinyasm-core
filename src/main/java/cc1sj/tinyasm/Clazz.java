@@ -86,6 +86,14 @@ public abstract class Clazz {
 		return new ClazzVariable(name, isarray);
 	}
 
+	public static ClazzVariableWithClazz typeVariableOf(String name, Clazz clazz) {
+		return new ClazzVariableWithClazz(name, clazz);
+	}
+
+	public static ClazzVariableWithClazz typeVariableOf(String name, Clazz clazz, boolean isarray) {
+		return new ClazzVariableWithClazz(name, clazz, isarray);
+	}
+
 	public static ClazzTypeArgument typeUnboundedTypeArgument() {
 		return new ClazzTypeArgument('*');
 	}
