@@ -24,7 +24,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 		Clazz clazzType;
 		boolean hasEnded = false;
-		boolean instanceMethod = true;
+		boolean isInstanceMethod = true;
 	}
 
 	ThisMethod thisMethod;
@@ -119,12 +119,10 @@ class MethodHeaderBuilder implements MethodHeader {
 			int access = this.methodAccess;
 			String name = thisMethod.methodName;
 
-			thisMethod.instanceMethod = (access & Opcodes.ACC_STATIC) == 0;
+			thisMethod.isInstanceMethod = (access & Opcodes.ACC_STATIC) == 0;
 
 			methodAllFormalTypeParameters.addAll(this.classVisitor.header.classFormalTypeParameters);
 			methodAllFormalTypeParameters.addAll(this.methodFormalTypeParameters111);
-
-			List<ClazzFormalTypeParameter> clazzFormalTypeParameters = this.classVisitor.header.classFormalTypeParameters;
 
 			if (returnClazz == null) {
 				returnClazz = Clazz.of(Type.VOID_TYPE);
@@ -133,9 +131,6 @@ class MethodHeaderBuilder implements MethodHeader {
 			Clazz[] paramClazzes = new Clazz[params.size()];
 			for (int i1 = 0; i1 < params.size(); i1++) {
 				paramClazzes[i1] = params.get(i1).clazz;
-//				 type = resolveVariable(params.get(i1).clazz, clazzFormalTypeParameters);
-//				params.get(i1).type = type;
-//				types1[i1] = type;
 			}
 
 			String descriptor = buildDescriptor(paramClazzes, returnClazz, methodAllFormalTypeParameters); // Type.getMethodDescriptor(returnType, types1);
@@ -156,18 +151,14 @@ class MethodHeaderBuilder implements MethodHeader {
 
 				sb.append("(");
 				for (ClassField param : params) {
-					if (param.clazz.needSignature()) {
-						sb.append(param.clazz.signatureAnyway());
-						needSignature = true;
-					} else {
-						sb.append(param.clazz.getDescriptor());
-					}
+					needSignature |= param.clazz.needSignature();
+					sb.append(param.clazz.signatureOf());
 				}
 				sb.append(")");
 				needSignature |= returnClazz.needSignature();
-				sb.append(returnClazz.signatureAnyway());
+				sb.append(returnClazz.signatureOf());
 				String signatureFromParameter = sb.toString();
-
+ 
 				if (needSignature) {
 					signature = signatureFromParameter;
 				}
@@ -238,7 +229,7 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	protected void preapareMethodLocalVarOfThis() {
-		if (thisMethod.instanceMethod) {
+		if (thisMethod.isInstanceMethod) {
 			mhLocals.pushParameter("this", thisMethod.clazzType, labelCurrent);
 		}
 	}
@@ -320,7 +311,7 @@ class MethodHeaderBuilder implements MethodHeader {
 				if (!((var.access & ACC_SYNTHETIC) > 0)) {
 					assert mv != null;
 					assert var != null;
-					assert var.clazz.getDescriptor() != null;
+					assert var.clazz.getDescriptor() != null : var.clazz.toString();
 					Label labelfrom = var.startFrom != null ? var.startFrom : labelCurrent;
 
 					String varname = var.name != null ? var.name : "var" + var.locals;

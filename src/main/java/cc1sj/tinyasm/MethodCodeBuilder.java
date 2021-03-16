@@ -131,7 +131,7 @@ public class MethodCodeBuilder extends MethodCode {
 
 	@Override
 	public Type codeThisFieldType(String name) {
-		assert mh.thisMethod.instanceMethod;
+		assert mh.thisMethod.isInstanceMethod;
 		assert mh.fields.containsKey(name) : "field + " + name + " not exist!";
 		return mh.fields.get(name).clazz.getType();
 	}

@@ -1,5 +1,7 @@
 package cc1sj.tinyasm;
 
+import java.util.List;
+
 import org.objectweb.asm.Type;
 
 public class ClazzFormalTypeParameter extends Clazz {
@@ -22,7 +24,11 @@ public class ClazzFormalTypeParameter extends Clazz {
 
 	@Override
 	public Type getType() {
-		return null;
+		if (actualClazz == null) {
+			return clazz.getType();
+		} else {
+			return actualClazz.getType();
+		}
 	}
 
 	@Override
@@ -37,19 +43,24 @@ public class ClazzFormalTypeParameter extends Clazz {
 
 	@Override
 	public boolean needSignature() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDescriptor() {
-		return null;
+		return this.getType().getDescriptor();
+	}
+
+	@Override
+	public String signatureOf(List<ClazzFormalTypeParameter> formalTypeParameters) {
+		return "T" + name + ";";
 	}
 
 	@Override
 	public String signatureOf() {
-		if(clazz.getType().getClassName().equals(Object.class.getName())) {
+		if (clazz.getType().getClassName().equals(Object.class.getName())) {
 			return name + ":" + clazz.signatureOf() + "";
-		}else {
+		} else {
 			return name + "::" + clazz.signatureOf() + "";
 		}
 	}
