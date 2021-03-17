@@ -1,17 +1,5 @@
 package cc1sj.tinyasm.advmagicbuilder.sourceconverter;
 
-import static cc1sj.tinyasm.util.TinyAsmTestUtils.dumpTinyAsm;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
-import cc1sj.tinyasm.advasmproxy.simple.ReferSimplePojoClassUsingSample;
-import cc1sj.tinyasm.advasmproxy.simple.ReferSimplePojoClassUsingSampleMagicBuilder;
-import cc1sj.tinyasm.advasmproxy.simple.SimplePojoClassUsingSample;
-import cc1sj.tinyasm.advasmproxy.simple.SimplePojoClassUsingSampleBuilder;
-import cc1sj.tinyasm.advasmproxy.simple.SimplePojoClassUsingSampleMagicBuilder;
-import cc1sj.tinyasm.util.TinyAsmTestUtils;
-
 public class AdvJavaSourceCodeConverterASMifierTest {
 
 //

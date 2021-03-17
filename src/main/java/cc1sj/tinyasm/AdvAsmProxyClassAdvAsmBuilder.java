@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 import java.util.function.Consumer;
 
 import org.objectweb.asm.AnnotationVisitor;
@@ -212,7 +211,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			throw new UnsupportedOperationException(e);
 		}
 		this.proxyAllBridgeMethods.addAll(0, current.bridgeMethods);
-		
+
 		this.current = last;
 
 		if (index + 1 < resolveTargetClassList.size()) {
@@ -392,24 +391,22 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 //		boolean isWithDyncArgument;// 用于MagicBuild的动态给TypeArgument，后边看看不要这个了。
 //		boolean isGenericMethod = methodFormalTypeParameters.length > 0;// Generic 方法
 
-		String derivedDescriptor = buildDescriptor(derivedParamClazzes, derivedReturnClazz);
-		String derivedSignature = buildSignature(methodFormalTypeParameters, derivedParamClazzes, derivedReturnClazz);
+		String derivedDescriptor = getMethodDescriptor(derivedReturnClazz, derivedParamClazzes);
+		String derivedSignature = getMethodSignature(methodFormalTypeParameters, derivedParamClazzes, derivedReturnClazz);
 
-		String bridgeMethodReferkey = methodName + derivedDescriptor;
+		String bridgeMethodTargetReferkey = methodName + derivedDescriptor;
 		if (needBridge && methodFormalTypeParameters.length == 0) {
-			String actualBridgeDescriptor = buildBridgeDescriptor(originalParamTypes, originalReturnType);
-			String referkey = methodName + actualBridgeDescriptor;
-//			logger.debug(referkey);
-			if (!proxyDefinedMethodes.containsKey(referkey)) {
+			String bridgeMethodReferkey = methodName + descriptor;
+			if (!proxyDefinedMethodes.containsKey(bridgeMethodReferkey)) {
 				BridgeMethod bm = new BridgeMethod(methodName, originalReturnType, originalParamTypes, derivedReturnClazz, derivedParamClazzes, exceptions);
 				bm.lowestClazz = current.clazz;
 				current.bridgeMethods.add(bm);
-				proxyDefinedMethodes.put(referkey, referkey);
-				proxyDefinedBridgeMethodes.put(bridgeMethodReferkey, bm);
+				proxyDefinedMethodes.put(bridgeMethodReferkey, bridgeMethodReferkey);
+				proxyDefinedBridgeMethodes.put(bridgeMethodTargetReferkey, bm);
 			}
 		}
 
-		BridgeMethod bm = proxyDefinedBridgeMethodes.get(bridgeMethodReferkey);
+		BridgeMethod bm = proxyDefinedBridgeMethodes.get(bridgeMethodTargetReferkey);
 		if (bm != null) {
 			bm.lowestClazz = current.clazz;
 		}
@@ -954,18 +951,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 
 	}
 
-	private String buildBridgeDescriptor(Type[] originParamTypes, Type originReturnType) {
-		String actualDescriptor;
-		Type[] types1 = new Type[originParamTypes.length];
-		for (int i1 = 0; i1 < originParamTypes.length; i1++) {
-			types1[i1] = originParamTypes[i1];
-		}
-
-		actualDescriptor = Type.getMethodDescriptor(originReturnType, types1);
-		return actualDescriptor;
-	}
-
-	protected String buildDescriptor(Clazz[] methodParamClazzes, final Clazz methodReturnClazz) {
+	static protected String getMethodDescriptor(final Clazz methodReturnClazz, Clazz[] methodParamClazzes) {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append('(');
 		for (Clazz argumentType : methodParamClazzes) {
@@ -974,37 +960,9 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		stringBuilder.append(')');
 		stringBuilder.append(methodReturnClazz.getDescriptor());
 		return stringBuilder.toString();
-//
-//		String actualDescriptor;
-//		Type[] typeParams = new Type[methodParamClazzes.length];
-//		for (int i1 = 0; i1 < methodParamClazzes.length; i1++) {
-//			if (methodParamClazzes[i1] instanceof ClazzSimple) {
-//				typeParams[i1] = methodParamClazzes[i1].getType();
-//			} else if (methodParamClazzes[i1] instanceof ClazzFormalTypeParameter) {
-//				typeParams[i1] = ((ClazzFormalTypeParameter) methodParamClazzes[i1]).clazz.getType();
-//			} else if (methodParamClazzes[i1] instanceof ClazzWithTypeArguments) {
-//				typeParams[i1] = ((ClazzWithTypeArguments) methodParamClazzes[i1]).getBaseClazz().getType();
-//			} else {
-//				throw new UnsupportedOperationException(methodParamClazzes[i1].getDescriptor());
-//			}
-//		}
-//
-//		Type returnType;
-//		if (methodReturnClazz instanceof ClazzSimple) {
-//			returnType = methodReturnClazz.getType();
-//		} else if (methodReturnClazz instanceof ClazzFormalTypeParameter) {
-//			returnType = ((ClazzFormalTypeParameter) methodReturnClazz).clazz.getType();
-//		} else if (methodReturnClazz instanceof ClazzWithTypeArguments) {
-//			returnType = ((ClazzWithTypeArguments) methodReturnClazz).getBaseClazz().getType();
-//		} else {
-//			throw new UnsupportedOperationException(methodReturnClazz.getDescriptor());
-//		}
-//
-//		actualDescriptor = Type.getMethodDescriptor(returnType, typeParams);
-//		return actualDescriptor;
 	}
 
-	protected String buildSignature(ClazzFormalTypeParameter[] methodFormalTypeParameters, Clazz[] methodParamClazzes, final Clazz methodReturnClazz) {
+	static protected String getMethodSignature(ClazzFormalTypeParameter[] methodFormalTypeParameters, Clazz[] methodParamClazzes, final Clazz methodReturnClazz) {
 		String actualSignature;
 		boolean needSignature = false;
 		{
@@ -1216,15 +1174,6 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 				code.CHECKCAST(returnClazz);
 			}
 		}
-	}
-
-	private void loadType(MethodCode code, Type originalReturnType, Clazz signatureReturnClazz) {
-		if (signatureReturnClazz != null) {
-			loadType(code, signatureReturnClazz);
-		} else {
-			loadType(code, originalReturnType);
-		}
-
 	}
 
 	private void loadType(MethodCode code, Type originalReturnType) {

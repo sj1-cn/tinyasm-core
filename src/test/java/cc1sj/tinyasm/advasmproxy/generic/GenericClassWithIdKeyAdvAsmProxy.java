@@ -10,7 +10,6 @@ import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.advasmproxy.simple.PojoClassChild;
 import cc1sj.tinyasm.advmagicbuilder.WithIdKey;
-import cc1sj.tinyasm.advasmproxy.simple.PojoClass;
 
 public class GenericClassWithIdKeyAdvAsmProxy extends GenericClassWithIdKey<PojoClassWithIdKey> implements AdvRuntimeReferNameObject {
 	private byte _magicNumber;

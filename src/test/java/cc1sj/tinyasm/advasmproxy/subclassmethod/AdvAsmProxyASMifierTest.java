@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import cc1sj.tinyasm.advasmproxy.subclassmethod.ClassB;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
 
 public class AdvAsmProxyASMifierTest {

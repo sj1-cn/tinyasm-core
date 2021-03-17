@@ -72,7 +72,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		resolveClass(targetClazz, actualTypeArguments);
 		doresolveClass(0);
-		
+
 		resolveMagicClass(targetClazz, actualTypeArguments);
 
 		finish();
@@ -147,6 +147,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 						}
 					}
 				}
+
 				@Override
 				public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
 					if (name.startsWith("_") || name.startsWith("<") || access != ACC_PUBLIC) return null;
@@ -164,7 +165,6 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 					Clazz[] derivedParamClazzes = new Clazz[originalParamTypes.length];
 
 					ClassSignaturewwww classSignaturewwww = null;
-					boolean needBridge = false;
 					if (signature != null) {
 
 						classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
@@ -179,10 +179,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 							Clazz signatureParamsClazz = signatureParamsClazzes[i];
 							Clazz derivedClazz = resolveClassVariable(signatureParamsClazz, current.classFormalTypeParameters);
 							derivedParamClazzes[i] = derivedClazz;
-							needBridge |= signatureParamsClazz instanceof ClazzVariable;
 						}
-
-						needBridge |= classSignaturewwww.returnClazz instanceof ClazzVariable;
 
 						prepareDerivedReturnClazz = resolveClassVariable(signatureReturnClazz, current.classFormalTypeParameters);
 
