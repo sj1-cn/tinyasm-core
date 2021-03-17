@@ -339,14 +339,9 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		AdvMethodInfo methodInfo = AdvMethodInfo.parseMethodInfo(descriptor, signature, current.classFormalTypeParameters);
 
 		ClazzFormalTypeParameter[] methodFormalTypeParameters = signature != null ? (ClazzFormalTypeParameter[]) methodInfo.typeParamenterClazzes : new ClazzFormalTypeParameter[0];
-//
-//		boolean isInterface = INTERFACE_OR_VIRTUAL == INTERFACE;
-//		boolean isWithTypeArgument = current.actualTypeArguments.length > 0;// 是否带参数。当前的带参数的都需要给出具体类型参数
-//		boolean isWithDyncArgument;// 用于MagicBuild的动态给TypeArgument，后边看看不要这个了。
-//		boolean isGenericMethod = methodFormalTypeParameters.length > 0;// Generic 方法
 
-		String derivedDescriptor = AdvMethodInfo.getMethodDescriptor(methodInfo.derivedReturnClazz, methodInfo.derivedParamClazzes);
-		String derivedSignature = AdvMethodInfo.getMethodSignature(methodFormalTypeParameters, methodInfo.derivedParamClazzes, methodInfo.derivedReturnClazz);
+		String derivedDescriptor = methodInfo.getDerivedMethodDescriptor();
+		String derivedSignature = methodInfo.getDerivedMethodSignature(methodFormalTypeParameters);
 
 		String bridgeMethodTargetReferkey = methodName + derivedDescriptor;
 		if (methodInfo.needBridge && methodFormalTypeParameters.length == 0) {

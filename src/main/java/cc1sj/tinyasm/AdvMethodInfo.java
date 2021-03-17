@@ -109,18 +109,33 @@ public class AdvMethodInfo {
 		return methodInfo;
 	}
 
-	static public String getMethodDescriptor(final Clazz methodReturnClazz, Clazz[] methodParamClazzes) {
+	public String getDerivedMethodDescriptor() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append('(');
-		for (Clazz argumentType : methodParamClazzes) {
+		for (Clazz argumentType : derivedParamClazzes) {
 			stringBuilder.append(argumentType.getDescriptor());
 		}
 		stringBuilder.append(')');
-		stringBuilder.append(methodReturnClazz.getDescriptor());
+		stringBuilder.append(derivedReturnClazz.getDescriptor());
 		return stringBuilder.toString();
 	}
 
-	static public String getMethodSignature(ClazzFormalTypeParameter[] methodFormalTypeParameters, Clazz[] methodParamClazzes, final Clazz methodReturnClazz) {
+	static public String getMethodDescriptor(final Clazz derivedReturnClazz, Clazz[] derivedParamClazzes) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append('(');
+		for (Clazz argumentType : derivedParamClazzes) {
+			stringBuilder.append(argumentType.getDescriptor());
+		}
+		stringBuilder.append(')');
+		stringBuilder.append(derivedReturnClazz.getDescriptor());
+		return stringBuilder.toString();
+	}
+
+	public String getDerivedMethodSignature(ClazzFormalTypeParameter[] methodFormalTypeParameters) {
+		return getMethodSignature(derivedReturnClazz, derivedParamClazzes, methodFormalTypeParameters);
+	}
+
+	static public String getMethodSignature(final Clazz derivedReturnClazz, Clazz[] derivedParamClazzes, ClazzFormalTypeParameter[] methodFormalTypeParameters) {
 		String actualSignature;
 		boolean needSignature = false;
 		{
@@ -136,7 +151,7 @@ public class AdvMethodInfo {
 			}
 
 			sb.append("(");
-			for (Clazz param : methodParamClazzes) {
+			for (Clazz param : derivedParamClazzes) {
 				if (param.needSignature()) {
 					sb.append(param.signatureAnyway());
 					needSignature = true;
@@ -145,8 +160,8 @@ public class AdvMethodInfo {
 				}
 			}
 			sb.append(")");
-			needSignature |= methodReturnClazz.needSignature();
-			sb.append(methodReturnClazz.signatureAnyway());
+			needSignature |= derivedReturnClazz.needSignature();
+			sb.append(derivedReturnClazz.signatureAnyway());
 
 			String signatureFromParameter = sb.toString();
 
