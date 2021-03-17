@@ -3,7 +3,7 @@ package cc1sj.tinyasm.advasmproxy.generic;
 import cc1sj.tinyasm.advasmproxy.simple.PojoClassChild;
 import cc1sj.tinyasm.advmagicbuilder.WithIdKey;
 
-public interface GenericInterfaceWithIdKey<T extends WithIdKey> {
+public interface GenericInterfaceWithIdKey<T extends WithIdKey> extends GenericInterface<T> {
 	public T getT();
 
 	PojoClassChild getPojoClassChildSample();

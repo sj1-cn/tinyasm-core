@@ -25,11 +25,11 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		classBody.field("b", Clazz.of(byte.class));
 		__init_(classBody);
 		_addInt(classBody);
-		_addInt_float_float(classBody);
-		_addInt_double_double(classBody);
+		_addInt_float_float_int(classBody);
+		_addInt_double_double_int(classBody);
+		_addInt_int_int_int(classBody);
 		_addInt_int_int(classBody);
-		_addInt_int(classBody);
-		_addInt_String_String(classBody);
+		_addInt_String_String_int(classBody);
 		_add_instance(classBody);
 		_addByte(classBody);
 
@@ -150,7 +150,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.END();
 	}
 
-	protected void _addInt_float_float(ClassBody classBody) {
+	protected void _addInt_float_float_int(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",float.class)
@@ -248,7 +248,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.END();
 	}
 
-	protected void _addInt_double_double(ClassBody classBody) {
+	protected void _addInt_double_double_int(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",double.class)
@@ -346,7 +346,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.END();
 	}
 
-	protected void _addInt_int_int(ClassBody classBody) {
+	protected void _addInt_int_int_int(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",int.class)
@@ -438,7 +438,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.END();
 	}
 
-	protected void _addInt_int(ClassBody classBody) {
+	protected void _addInt_int_int(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",int.class).begin();
@@ -523,7 +523,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.END();
 	}
 
-	protected void _addInt_String_String(ClassBody classBody) {
+	protected void _addInt_String_String_int(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addInt")
 			.return_(int.class )
 			.parameter("x",String.class)

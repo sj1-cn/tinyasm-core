@@ -36,6 +36,11 @@ public class GenericInterfaceImplAdvAsmProxy extends GenericInterfaceImpl implem
 		return Clazz.of(GenericInterfaceImpl.class);
 	}
 
+//	code.LINE();
+//	code.LOAD("pp");
+//	code.VIRTUAL(GenericInterfaceImpl.class, "getT")
+//		.return_(PojoClass.class).INVOKE();
+//	code.STORE("pojoClassSample2",PojoClass.class);
 	@Override
 	public PojoClass getT() {
 		AdvContext context = _contextThreadLocal.get();
@@ -72,6 +77,11 @@ public class GenericInterfaceImplAdvAsmProxy extends GenericInterfaceImpl implem
 		}
 	}
 
+//	code.LINE();
+//	code.LOAD("pp");
+//	code.LOAD("pojoClassSample");
+//	code.VIRTUAL(GenericInterfaceImpl.class, "setT")
+//		.parameter(PojoClass.class).INVOKE();
 	@Override
 	public void setT(PojoClass param0) {
 		AdvContext context = _contextThreadLocal.get();

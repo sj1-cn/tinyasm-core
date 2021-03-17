@@ -10,7 +10,6 @@ import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.advasmproxy.simple.PojoClassChild;
 import cc1sj.tinyasm.advmagicbuilder.WithIdKey;
-import cc1sj.tinyasm.advasmproxy.simple.PojoClass;
 
 public class GenericInterfaceWithIdKeyAdvAsmProxy implements GenericInterfaceWithIdKey<PojoClassWithIdKey>, AdvRuntimeReferNameObject {
 	private byte _magicNumber;
@@ -34,7 +33,7 @@ public class GenericInterfaceWithIdKeyAdvAsmProxy implements GenericInterfaceWit
 
 	@Override
 	public Clazz get__TargetClazz() {
-		return Clazz.of(GenericInterface.class);
+		return Clazz.of(GenericInterfaceWithIdKey.class);
 	}
 
 
@@ -51,7 +50,7 @@ public class GenericInterfaceWithIdKeyAdvAsmProxy implements GenericInterfaceWit
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(PojoClassWithIdKey.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(GenericInterface.class, "getT").return_(WithIdKey.class).INVOKE();
+			c.INTERFACE(GenericInterfaceWithIdKey.class, "getT").return_(WithIdKey.class).INVOKE();
 			c.CHECKCAST(PojoClassWithIdKey.class);
 		});
 
@@ -70,7 +69,7 @@ public class GenericInterfaceWithIdKeyAdvAsmProxy implements GenericInterfaceWit
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(PojoClassChild.class, c -> {
 			objEval.accept(c);
-			c.INTERFACE(GenericInterface.class, "getPojoClassChildSample").return_(PojoClassChild.class).INVOKE();
+			c.INTERFACE(GenericInterfaceWithIdKey.class, "getPojoClassChildSample").return_(PojoClassChild.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -97,7 +96,7 @@ public class GenericInterfaceWithIdKeyAdvAsmProxy implements GenericInterfaceWit
 			objEval.accept(c);
 			eval_param0.accept(c);
 
-			c.INTERFACE(GenericInterface.class, "setT").parameter(WithIdKey.class).INVOKE();
+			c.INTERFACE(GenericInterfaceWithIdKey.class, "setT").parameter(WithIdKey.class).INVOKE();
 		});
 	}
 
@@ -109,7 +108,7 @@ public class GenericInterfaceWithIdKeyAdvAsmProxy implements GenericInterfaceWit
 		context.execLine(c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.INTERFACE(GenericInterface.class, "setPojoClassChildSample").parameter(PojoClassChild.class).INVOKE();
+			c.INTERFACE(GenericInterfaceWithIdKey.class, "setPojoClassChildSample").parameter(PojoClassChild.class).INVOKE();
 		});
 
 	}

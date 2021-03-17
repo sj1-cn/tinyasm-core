@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import cc1sj.tinyasm.AdvAsmProxyMagicClassAdvAsmBuilder;
 import cc1sj.tinyasm.util.TinyAsmTestUtils;
+import static cc1sj.tinyasm.Adv.*;
 
 public class RepositoryMagicBuilderTest {
 
@@ -35,7 +36,7 @@ public class RepositoryMagicBuilderTest {
 	public void test_RepositoryMagicBuilderAdvAsmProxy_build() throws Exception {
 		Class<?> expectedClazz = RepositoryMagicBuilderAdvAsmProxy.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(RepositoryMagicBuilder.class, expectedClazz.getName()));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(RepositoryMagicBuilder.class, of(User.class,String.class), expectedClazz.getName()));
 
 		assertEquals("Code", codeExpected, codeActual);
 	}

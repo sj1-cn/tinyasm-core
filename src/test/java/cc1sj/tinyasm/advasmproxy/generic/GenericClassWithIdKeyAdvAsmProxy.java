@@ -34,7 +34,7 @@ public class GenericClassWithIdKeyAdvAsmProxy extends GenericClassWithIdKey<Pojo
 
 	@Override
 	public Clazz get__TargetClazz() {
-		return Clazz.of(GenericClass.class);
+		return Clazz.of(GenericClassWithIdKey.class);
 	}
 
 
@@ -50,7 +50,7 @@ public class GenericClassWithIdKeyAdvAsmProxy extends GenericClassWithIdKey<Pojo
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(PojoClassWithIdKey.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(GenericClass.class, "getT").return_(WithIdKey.class).INVOKE();
+			c.VIRTUAL(GenericClassWithIdKey.class, "getT").return_(WithIdKey.class).INVOKE();
 			c.CHECKCAST(PojoClassWithIdKey.class);
 		});
 
@@ -63,14 +63,31 @@ public class GenericClassWithIdKeyAdvAsmProxy extends GenericClassWithIdKey<Pojo
 		}
 	}
 
+	//	code.LINE();
+	//	code.LOAD("pp");
+	//	code.LOAD("pojoClassSample");
+	//	code.VIRTUAL(GenericClassWithIdKey.class, "setT")
+	//		.parameter(WithIdKey.class).INVOKE();
+		@Override
+		public void setT(PojoClassWithIdKey param0) {
+			AdvContext context = _contextThreadLocal.get();
+			ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+			ConsumerWithException<MethodCode> objEval = context.resolve(this);
+			context.execLine(c -> {
+				objEval.accept(c);
+				eval_param0.accept(c);
+	
+				c.VIRTUAL(GenericClassWithIdKey.class, "setT").parameter(WithIdKey.class).INVOKE();
+			});
+		}
+
 	@Override
 	public PojoClassChild getPojoClassChildSample() {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> objEval = context.resolve(this);
 		byte codeIndex = context.push(PojoClassChild.class, c -> {
 			objEval.accept(c);
-			c.VIRTUAL(GenericClass.class, "getPojoClassChildSample").return_(Object.class).INVOKE();
-			c.CHECKCAST(PojoClass.class);
+			c.VIRTUAL(GenericClassWithIdKey.class, "getPojoClassChildSample").return_(PojoClassChild.class).INVOKE();
 		});
 
 		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
@@ -83,25 +100,7 @@ public class GenericClassWithIdKeyAdvAsmProxy extends GenericClassWithIdKey<Pojo
 	}
 
 
-//	code.LINE();
-//	code.LOAD("pp");
-//	code.LOAD("pojoClassSample");
-//	code.VIRTUAL(GenericClassWithIdKey.class, "setT")
-//		.parameter(WithIdKey.class).INVOKE();
-	@Override
-	public void setT(PojoClassWithIdKey param0) {
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.execLine(c -> {
-			objEval.accept(c);
-			eval_param0.accept(c);
-
-			c.VIRTUAL(GenericClass.class, "setT").parameter(WithIdKey.class).INVOKE();
-		});
-	}
-
-	@Override
+@Override
 	public void setPojoClassChildSample(PojoClassChild param0) {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
@@ -109,7 +108,7 @@ public class GenericClassWithIdKeyAdvAsmProxy extends GenericClassWithIdKey<Pojo
 		context.execLine(c -> {
 			objEval.accept(c);
 			eval_param0.accept(c);
-			c.VIRTUAL(GenericClass.class, "setPojoClassChildSample").parameter(PojoClassChild.class).INVOKE();
+			c.VIRTUAL(GenericClassWithIdKey.class, "setPojoClassChildSample").parameter(PojoClassChild.class).INVOKE();
 		});
 
 	}

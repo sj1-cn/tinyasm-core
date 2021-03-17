@@ -62,25 +62,6 @@ public class GenericClassAdvAsmProxy extends GenericClass<PojoClass> implements 
 		}
 	}
 
-	@Override
-	public PojoClassChild getPojoClassChildSample() {
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(PojoClassChild.class, c -> {
-			objEval.accept(c);
-			c.VIRTUAL(GenericClass.class, "getPojoClassChildSample").return_(Object.class).INVOKE();
-			c.CHECKCAST(PojoClass.class);
-		});
-
-		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
-
-		if (Adv.canProxy(PojoClassChild.class)) {
-			return Adv.buildProxyClass(PojoClassChild.class, magicNumber);
-		} else {
-			return null;
-		}
-	}
-
 //	code.LINE();
 //	code.LOAD("pp");
 //	code.LOAD("pojoClassSample");
@@ -98,6 +79,25 @@ public class GenericClassAdvAsmProxy extends GenericClass<PojoClass> implements 
 			c.VIRTUAL(GenericClass.class, "setT").parameter(Object.class).INVOKE();
 		});
 	}
+	
+	@Override
+	public PojoClassChild getPojoClassChildSample() {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(PojoClassChild.class, c -> {
+			objEval.accept(c);
+			c.VIRTUAL(GenericClass.class, "getPojoClassChildSample").return_(PojoClassChild.class).INVOKE();
+		});
+
+		byte magicNumber = (byte) (MAGIC_CODES_NUMBER + codeIndex);
+
+		if (Adv.canProxy(PojoClassChild.class)) {
+			return Adv.buildProxyClass(PojoClassChild.class, magicNumber);
+		} else {
+			return null;
+		}
+	}
+
 
 	@Override
 	public void setPojoClassChildSample(PojoClassChild param0) {

@@ -51,6 +51,56 @@ public class PojoClassChildAdvAsmProxy extends PojoClassChild implements AdvRunt
 //	}
 
 	@Override
+	public int getIntHelloClassChild() {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+	
+		byte codeIndex = context.push(int.class, c -> {
+			objEval.accept(c);
+			c.VIRTUAL(PojoClassChild.class, "getIntHelloClassChild").return_(int.class).INVOKE();
+		});
+		return MAGIC_CODES_NUMBER + codeIndex; // String.class);
+	}
+
+	@Override
+	public void setIntHelloClassChild(int param0) {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+	
+		context.execLine(c -> {
+			objEval.accept(c);
+			eval_param0.accept(c);
+			c.VIRTUAL(PojoClassChild.class, "setIntHelloClassChild").parameter(int.class).INVOKE();
+		});
+	
+	}
+
+	@Override
+	public String getStringHelloClassChild() {
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		byte codeIndex = context.push(String.class, c -> {
+			objEval.accept(c);
+			c.VIRTUAL(PojoClassChild.class, "getStringHelloClassChild").return_(String.class).INVOKE();
+		});
+		return new StringBuilder(MAGIC_CODES_String).append(codeIndex).toString(); // String.class);
+	}
+
+	@Override
+	public void setStringHelloClassChild(String param0) {
+	
+		AdvContext context = _contextThreadLocal.get();
+		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
+		ConsumerWithException<MethodCode> objEval = context.resolve(this);
+		context.execLine(c -> {
+			objEval.accept(c);
+			eval_param0.accept(c);
+			c.VIRTUAL(PojoClassChild.class, "setStringHelloClassChild").parameter(String.class).INVOKE();
+		});
+	}
+
+	@Override
 	public String getName() {
 
 		AdvContext context = _contextThreadLocal.get();
@@ -514,55 +564,5 @@ public class PojoClassChildAdvAsmProxy extends PojoClassChild implements AdvRunt
 			c.VIRTUAL(PojoClassChild.class, "setAgeDouble2").parameter(Double.class).INVOKE();
 		});
 
-	}
-
-	@Override
-	public int getIntHelloClassChild() {
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-
-		byte codeIndex = context.push(int.class, c -> {
-			objEval.accept(c);
-			c.VIRTUAL(PojoClassChild.class, "getIntHelloClassChild").return_(int.class).INVOKE();
-		});
-		return MAGIC_CODES_NUMBER + codeIndex; // String.class);
-	}
-
-	@Override
-	public void setIntHelloClassChild(int param0) {
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-
-		context.execLine(c -> {
-			objEval.accept(c);
-			eval_param0.accept(c);
-			c.VIRTUAL(PojoClassChild.class, "setIntHelloClassChild").parameter(int.class).INVOKE();
-		});
-
-	}
-
-	@Override
-	public String getStringHelloClassChild() {
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		byte codeIndex = context.push(String.class, c -> {
-			objEval.accept(c);
-			c.VIRTUAL(PojoClassChild.class, "getStringHelloClassChild").return_(String.class).INVOKE();
-		});
-		return new StringBuilder(MAGIC_CODES_String).append(codeIndex).toString(); // String.class);
-	}
-
-	@Override
-	public void setStringHelloClassChild(String param0) {
-
-		AdvContext context = _contextThreadLocal.get();
-		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
-		ConsumerWithException<MethodCode> objEval = context.resolve(this);
-		context.execLine(c -> {
-			objEval.accept(c);
-			eval_param0.accept(c);
-			c.VIRTUAL(PojoClassChild.class, "setStringHelloClassChild").parameter(String.class).INVOKE();
-		});
 	}
 }
