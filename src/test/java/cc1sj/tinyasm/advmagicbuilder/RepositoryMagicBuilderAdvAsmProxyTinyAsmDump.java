@@ -12,12 +12,14 @@ import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.advmagicbuilder.WithIdKey;
 import cc1sj.tinyasm.AdvMagicRuntime;
 import java.lang.ThreadLocal;
+import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.advmagicbuilder.RepositoryMagicBuilder;
 import java.lang.Exception;
 import cc1sj.tinyasm.advmagicbuilder.User;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodCaller;
+import cc1sj.tinyasm.MethodHeader;
 import java.lang.Object;
 import java.lang.Class;
 import java.lang.StringBuilder;
@@ -48,6 +50,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		_get__TargetClazz(classBody);
 		_update(classBody);
 		_$_update(classBody);
+		_$_update_cc1sjtinyasmClassBody_void(classBody);
 		_bridge_update(classBody);
 		_lambda$update$0(classBody);
 
@@ -213,6 +216,85 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 			.parameter(WithIdKey.class).INVOKE();
 		code.CHECKCAST(String.class);
 		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void _$_update_cc1sjtinyasmClassBody_void(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("$_update")
+			.parameter("classBody",ClassBody.class).begin();
+
+		code.LINE();
+		code.LOAD("classBody");
+		code.LOADConst(4161);
+		code.LOADConst("update");
+		code.INTERFACE(ClassBody.class, "method")
+			.return_(MethodHeader.class)
+			.parameter(int.class)
+			.parameter(String.class).INVOKE();
+		code.LOADConst(Type.getType("Ljava/lang/Object;"));
+		code.INTERFACE(MethodHeader.class, "return_")
+			.return_(MethodHeader.class)
+			.parameter(Class.class).INVOKE();
+		code.LOADConst("params0");
+		code.LOADConst(Type.getType("Lcc1sj/tinyasm/advmagicbuilder/WithIdKey;"));
+		code.INTERFACE(MethodHeader.class, "parameter")
+			.return_(Object.class)
+			.parameter(String.class)
+			.parameter(Class.class).INVOKE();
+		code.CHECKCAST(MethodHeader.class);
+		code.INTERFACE(MethodHeader.class, "begin")
+			.return_(MethodCode.class).INVOKE();
+		code.STORE("code",MethodCode.class);
+
+		code.LINE();
+		code.LOAD("code");
+		code.VIRTUAL(MethodCode.class, "LINE").INVOKE();
+
+		code.LINE();
+		code.LOAD("code");
+		code.LOADConst("this");
+		code.VIRTUAL(MethodCode.class, "LOAD")
+			.parameter(String.class).INVOKE();
+
+		code.LINE();
+		code.LOAD("code");
+		code.LOADConst("params0");
+		code.VIRTUAL(MethodCode.class, "LOAD")
+			.parameter(String.class).INVOKE();
+
+		code.LINE();
+		code.LOAD("code");
+		code.LOADConst(Type.getType("Lcc1sj/tinyasm/advmagicbuilder/User;"));
+		code.VIRTUAL(MethodCode.class, "CHECKCAST")
+			.parameter(Class.class).INVOKE();
+
+		code.LINE();
+		code.LOAD("code");
+		code.LOADConst("update");
+		code.VIRTUAL(MethodCode.class, "VIRTUAL")
+			.return_(MethodCaller.class)
+			.parameter(String.class).INVOKE();
+		code.LOADConst(Type.getType("Lcc1sj/tinyasm/advmagicbuilder/User;"));
+		code.INTERFACE(MethodCaller.class, "parameter")
+			.return_(MethodCaller.class)
+			.parameter(Class.class).INVOKE();
+		code.LOADConst(Type.getType("Ljava/lang/String;"));
+		code.INTERFACE(MethodCaller.class, "return_")
+			.return_(MethodCaller.class)
+			.parameter(Class.class).INVOKE();
+		code.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
+
+		code.LINE();
+		code.LOAD("code");
+		code.VIRTUAL(MethodCode.class, "RETURNTop").INVOKE();
+
+		code.LINE();
+		code.LOAD("code");
+		code.VIRTUAL(MethodCode.class, "END").INVOKE();
+
+		code.LINE();
+		code.RETURN();
 
 		code.END();
 	}

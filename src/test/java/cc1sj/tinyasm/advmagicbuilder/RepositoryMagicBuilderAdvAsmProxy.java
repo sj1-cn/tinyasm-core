@@ -4,9 +4,11 @@ import static cc1sj.tinyasm.Adv.MAGIC_CODES_String;
 
 import cc1sj.tinyasm.AdvContext;
 import cc1sj.tinyasm.AdvMagicRuntime;
+import cc1sj.tinyasm.ClassBody;
 import cc1sj.tinyasm.Clazz;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
+import cc1sj.tinyasm.MethodHeader;
 
 public class RepositoryMagicBuilderAdvAsmProxy extends RepositoryMagicBuilder<User, String> implements AdvMagicRuntime {
 	private byte _magicNumber;
@@ -56,5 +58,15 @@ public class RepositoryMagicBuilderAdvAsmProxy extends RepositoryMagicBuilder<Us
 
 	public String $_update(User param0) {
 		return super.update(param0);
+	}
+	public void $_update(ClassBody classBody) {
+		MethodCode code = ((MethodHeader) classBody.method(4161, "update").return_(Object.class).parameter("params0", WithIdKey.class)).begin();
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("params0");
+		code.CHECKCAST(User.class);
+		code.VIRTUAL("update").parameter(User.class).return_(String.class).INVOKE();
+		code.RETURNTop();
+		code.END();
 	}
 }

@@ -75,6 +75,17 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		resolveMagicClass(targetClazz, actualTypeArguments);
 
+		// 生成最终文件中的bridge方法。
+		for (int i = proxyAllBridgeMethods.size() - 1; i >= 0; i--) {
+			BridgeMethod bridgeMethod = proxyAllBridgeMethods.get(i);
+			String methodName = bridgeMethod.methodName;
+			logger.debug("BridgeMethod -> {} {}", bridgeMethod.methodName, bridgeMethod.lowestClazz);
+			if (methodName.startsWith("_") || methodName.startsWith("<") || methodName.startsWith("dump")) continue;
+			if (this.targetClazz.getType().getClassName().equals(bridgeMethod.lowestClazz.getType().getClassName())) {
+				logger.debug("BridgeMethod -> {}", bridgeMethod.methodName);
+				buildBridgeMethodBuilder(proxyClassBody, bridgeMethod);
+			}
+		}
 		finish();
 	}
 
@@ -109,7 +120,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 	protected void resolveMagicClass(Clazz target, Clazz[] actualTypeArguments) {
 		Current last = this.current;
 		this.current = new Current();
-//		current.targetClazz = target;
+		current.clazz = targetClazz;
 		current.actualTypeArguments = actualTypeArguments;
 
 		try {
@@ -194,6 +205,18 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 					}
 
 					Clazz derivedReturnClazz = prepareDerivedReturnClazz;
+					{
+
+						String derivedDescriptor = getMethodDescriptor(derivedReturnClazz, derivedParamClazzes);
+
+						String bridgeMethodTargetReferkey = name + derivedDescriptor;
+
+						BridgeMethod bm = proxyDefinedBridgeMethodes.get(bridgeMethodTargetReferkey);
+						if (bm != null) {
+							bm.lowestClazz = current.clazz;
+						}
+
+					}
 
 					MethodHeader mh = proxyClassBody.method(access, "$_" + name);
 
