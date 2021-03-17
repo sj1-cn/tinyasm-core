@@ -324,6 +324,23 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		return interfaceClazzTypeArguments;
 	}
 
+	static class MethodInfo {
+		// Return Type 来源于方法descriptor
+		Type originalReturnType;
+		Type[] originalParamTypes;
+
+		// 来源于方法signature
+		Clazz signatureReturnClazz = null;
+		Clazz[] signatureParamsClazzes = null;
+
+		// 解析ClassVariable
+		Clazz prepareDerivedReturnClazz = null;
+		Clazz[] derivedParamClazzes;
+		public Clazz derivedReturnClazz;
+		public boolean needBridge;
+		public ClazzFormalTypeParameter[] typeParamenterClazzes;
+	}
+
 	@Override
 	public MethodVisitor visitMethod(int access, String methodName, String descriptor, String signature, String[] exceptions) {
 		logger.debug("visitMethod(int {}, String {}, String {}, String {}, String[] exceptions)", access, methodName, descriptor, signature);
@@ -335,70 +352,74 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			ClazzFormalTypeParameter p = current.classFormalTypeParameters.get(i);
 			logger.debug("visitMethod {}.{}-> {} {} {} {} ", current.currentName, methodName, p.name, p.clazz, p.actualClazz, signature);
 		}
+
+		MethodInfo methodInfo = new MethodInfo();
 		// Return Type 来源于方法descriptor
-		Type originalReturnType = Type.getReturnType(descriptor);
-		Type[] originalParamTypes = Type.getArgumentTypes(descriptor);
+		methodInfo.originalReturnType = Type.getReturnType(descriptor);
+		methodInfo.originalParamTypes = Type.getArgumentTypes(descriptor);
 
 		// 来源于方法signature
-		Clazz signatureReturnClazz = null;
-		Clazz[] signatureParamsClazzes = null;
+		methodInfo.signatureReturnClazz = null;
+		methodInfo.signatureParamsClazzes = null;
 
 		// 解析ClassVariable
-		Clazz prepareDerivedReturnClazz = null;
-		Clazz[] derivedParamClazzes = new Clazz[originalParamTypes.length];
+		methodInfo.prepareDerivedReturnClazz = null;
+		methodInfo.derivedParamClazzes = new Clazz[methodInfo.originalParamTypes.length];
 
-		ClassSignaturewwww classSignaturewwww = null;
-		boolean needBridge = false;
+		methodInfo.needBridge = false;
 		if (signature != null) {
 
+			ClassSignaturewwww classSignaturewwww = null;
 			classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
 			SignatureReader sr = new SignatureReader(signature);
 			sr.accept(classSignaturewwww);
 			classSignaturewwww.finish();
 
-			signatureParamsClazzes = classSignaturewwww.paramsClazzes;
-			signatureReturnClazz = classSignaturewwww.returnClazz;
+			methodInfo.signatureParamsClazzes = classSignaturewwww.paramsClazzes;
+			methodInfo.signatureReturnClazz = classSignaturewwww.returnClazz;
 
-			for (int i = 0; i < signatureParamsClazzes.length; i++) {
-				Clazz signatureParamsClazz = signatureParamsClazzes[i];
+			for (int i = 0; i < methodInfo.signatureParamsClazzes.length; i++) {
+				Clazz signatureParamsClazz = methodInfo.signatureParamsClazzes[i];
 				Clazz derivedClazz = resolveClassVariable(signatureParamsClazz, current.classFormalTypeParameters);
-				derivedParamClazzes[i] = derivedClazz;
-				needBridge |= signatureParamsClazz instanceof ClazzVariable;
+				methodInfo.derivedParamClazzes[i] = derivedClazz;
+				methodInfo.needBridge |= signatureParamsClazz instanceof ClazzVariable;
 
 				logger.debug("signature: {}  derived:{}", signatureParamsClazz, derivedClazz);
 			}
 
-			needBridge |= classSignaturewwww.returnClazz instanceof ClazzVariable;
+			methodInfo.needBridge |= classSignaturewwww.returnClazz instanceof ClazzVariable;
 
-			prepareDerivedReturnClazz = resolveClassVariable(signatureReturnClazz, current.classFormalTypeParameters);
+			methodInfo.prepareDerivedReturnClazz = resolveClassVariable(methodInfo.signatureReturnClazz, current.classFormalTypeParameters);
 
-			if (prepareDerivedReturnClazz == null) {
-				prepareDerivedReturnClazz = Clazz.of(Type.VOID_TYPE);
+			if (methodInfo.prepareDerivedReturnClazz == null) {
+				methodInfo.prepareDerivedReturnClazz = Clazz.of(Type.VOID_TYPE);
 			}
+
+			methodInfo.typeParamenterClazzes = classSignaturewwww.typeParamenterClazzes;
 		} else {
-			prepareDerivedReturnClazz = Clazz.of(originalReturnType);
-			for (int i = 0; i < originalParamTypes.length; i++) {
-				derivedParamClazzes[i] = Clazz.of(originalParamTypes[i]);
+			methodInfo.prepareDerivedReturnClazz = Clazz.of(methodInfo.originalReturnType);
+			for (int i = 0; i < methodInfo.originalParamTypes.length; i++) {
+				methodInfo.derivedParamClazzes[i] = Clazz.of(methodInfo.originalParamTypes[i]);
 			}
 		}
 
-		Clazz derivedReturnClazz = prepareDerivedReturnClazz;
+		methodInfo.derivedReturnClazz = methodInfo.prepareDerivedReturnClazz;
 
-		ClazzFormalTypeParameter[] methodFormalTypeParameters = signature != null ? (ClazzFormalTypeParameter[]) classSignaturewwww.typeParamenterClazzes : new ClazzFormalTypeParameter[0];
+		ClazzFormalTypeParameter[] methodFormalTypeParameters = signature != null ? (ClazzFormalTypeParameter[]) methodInfo.typeParamenterClazzes : new ClazzFormalTypeParameter[0];
 //
 //		boolean isInterface = INTERFACE_OR_VIRTUAL == INTERFACE;
 //		boolean isWithTypeArgument = current.actualTypeArguments.length > 0;// 是否带参数。当前的带参数的都需要给出具体类型参数
 //		boolean isWithDyncArgument;// 用于MagicBuild的动态给TypeArgument，后边看看不要这个了。
 //		boolean isGenericMethod = methodFormalTypeParameters.length > 0;// Generic 方法
 
-		String derivedDescriptor = getMethodDescriptor(derivedReturnClazz, derivedParamClazzes);
-		String derivedSignature = getMethodSignature(methodFormalTypeParameters, derivedParamClazzes, derivedReturnClazz);
+		String derivedDescriptor = getMethodDescriptor(methodInfo.derivedReturnClazz, methodInfo.derivedParamClazzes);
+		String derivedSignature = getMethodSignature(methodFormalTypeParameters, methodInfo.derivedParamClazzes, methodInfo.derivedReturnClazz);
 
 		String bridgeMethodTargetReferkey = methodName + derivedDescriptor;
-		if (needBridge && methodFormalTypeParameters.length == 0) {
+		if (methodInfo.needBridge && methodFormalTypeParameters.length == 0) {
 			String bridgeMethodReferkey = methodName + descriptor;
 			if (!proxyDefinedMethodes.containsKey(bridgeMethodReferkey)) {
-				BridgeMethod bm = new BridgeMethod(methodName, originalReturnType, originalParamTypes, derivedReturnClazz, derivedParamClazzes, exceptions);
+				BridgeMethod bm = new BridgeMethod(methodName, methodInfo.originalReturnType, methodInfo.originalParamTypes, methodInfo.derivedReturnClazz, methodInfo.derivedParamClazzes, exceptions);
 				bm.lowestClazz = current.clazz;
 				current.bridgeMethods.add(bm);
 				proxyDefinedMethodes.put(bridgeMethodReferkey, bridgeMethodReferkey);
@@ -417,6 +438,8 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		}
 		proxyDefinedMethodes.put(referkey, referkey);
 
+		Clazz derivedReturnClazz = methodInfo.derivedReturnClazz;
+
 		MethodHeader mh = proxyClassBody.method(ACC_PUBLIC, methodName).return_(derivedReturnClazz);
 
 		if (methodFormalTypeParameters.length > 0) {
@@ -425,8 +448,8 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			}
 		}
 
-		for (int i = 0; i < derivedParamClazzes.length; i++) {
-			mh.parameter("param" + i, derivedParamClazzes[i]);
+		for (int i = 0; i < methodInfo.derivedParamClazzes.length; i++) {
+			mh.parameter("param" + i, methodInfo.derivedParamClazzes[i]);
 		}
 
 		if (exceptions != null) for (String e : exceptions) mh.throws_(Clazz.of(Type.getObjectType(e)));
@@ -436,14 +459,14 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		code_getContext(code);// AdvContext context = _contextThreadLocal.get();
 		// resolve parameters ConsumerWithException<MethodCode> eval_param0 =
 		// context.resolve(param0);
-		for (int i = derivedParamClazzes.length - 1; i >= 0; i--) {
-			if (Type.BOOLEAN_TYPE == derivedParamClazzes[i].getType() || Boolean.class.getName().equals(derivedParamClazzes[i].getType().getClassName())) {
+		for (int i = methodInfo.derivedParamClazzes.length - 1; i >= 0; i--) {
+			if (Type.BOOLEAN_TYPE == methodInfo.derivedParamClazzes[i].getType() || Boolean.class.getName().equals(methodInfo.derivedParamClazzes[i].getType().getClassName())) {
 				code.LINE();
 				code.LOAD("context");
 				code.VIRTUAL(AdvContext.class, "getCodeAndPop").return_(ConsumerWithException.class).INVOKE();
 				code.STORE("eval_param" + i, Clazz.of(ConsumerWithException.class, Clazz.of(MethodCode.class)));
 			} else {
-				code_resolve("eval_param" + i, code, "param" + i, derivedParamClazzes[i].getType());
+				code_resolve("eval_param" + i, code, "param" + i, methodInfo.derivedParamClazzes[i].getType());
 			}
 		}
 		// resolve this
@@ -469,10 +492,10 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			code.LOAD("this");
 		}
 
-		String[] lambdaEvalParamNames = new String[derivedParamClazzes.length + 1];
+		String[] lambdaEvalParamNames = new String[methodInfo.derivedParamClazzes.length + 1];
 		code.LOAD("objEval");
 		lambdaEvalParamNames[0] = "objEval";
-		for (int i = 0; i < derivedParamClazzes.length; i++) {
+		for (int i = 0; i < methodInfo.derivedParamClazzes.length; i++) {
 			code.LOAD("eval_param" + i);
 			lambdaEvalParamNames[i + 1] = "eval_param" + i;
 		}
@@ -496,28 +519,28 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 				c.VIRTUAL(MethodCode.class, INTERFACE_OR_VIRTUAL).return_(MethodCaller.class).parameter(Clazz.class).parameter(String.class).INVOKE();
 			}
 			if (this.proxyActualTypeArguments.length > 0) {
-				for (int i = 0; i < originalParamTypes.length; i++) {
-					Type originalParamType = originalParamTypes[i];
+				for (int i = 0; i < methodInfo.originalParamTypes.length; i++) {
+					Type originalParamType = methodInfo.originalParamTypes[i];
 //					Clazz signatureParamType = signatureParamsClazzes[i];
-					Clazz derivedParamType = derivedParamClazzes[i];
+					Clazz derivedParamType = methodInfo.derivedParamClazzes[i];
 					logger.debug("original: {} derived: {} ", originalParamType, derivedParamType);
 					loadType(c, originalParamType);
 					c.INTERFACE(MethodCaller.class, "parameter").return_(MethodCaller.class).parameter(Class.class).INVOKE();
 				}
 			} else {
-				for (Clazz type : derivedParamClazzes) {
+				for (Clazz type : methodInfo.derivedParamClazzes) {
 					loadType(c, type);
 					c.INTERFACE(MethodCaller.class, "parameter").return_(MethodCaller.class).parameter(Class.class).INVOKE();
 				}
 			}
 
 			if (this.proxyActualTypeArguments.length > 0) {
-				if (originalReturnType != Type.VOID_TYPE) {
-					loadType(c, originalReturnType);
+				if (methodInfo.originalReturnType != Type.VOID_TYPE) {
+					loadType(c, methodInfo.originalReturnType);
 					c.INTERFACE(MethodCaller.class, "return_").return_(MethodCaller.class).parameter(Class.class).INVOKE();
 				}
 			} else {
-				if (originalReturnType != Type.VOID_TYPE) {
+				if (methodInfo.originalReturnType != Type.VOID_TYPE) {
 					loadType(c, derivedReturnClazz);
 					c.INTERFACE(MethodCaller.class, "return_").return_(MethodCaller.class).parameter(Class.class).INVOKE();
 				}
@@ -526,7 +549,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			c.INTERFACE(MethodCaller.class, "INVOKE").INVOKE();
 //			if (INTERFACE_OR_VIRTUAL == INTERFACE) {
 			if (this.proxyActualTypeArguments.length > 0) {
-				if (!(derivedReturnClazz instanceof ClazzVariable) && originalReturnType != Type.VOID_TYPE && !originalReturnType.getInternalName().equals(derivedReturnClazz.getType().getInternalName())) {
+				if (!(derivedReturnClazz instanceof ClazzVariable) && methodInfo.originalReturnType != Type.VOID_TYPE && !methodInfo.originalReturnType.getInternalName().equals(derivedReturnClazz.getType().getInternalName())) {
 					c.LINE();
 					c.LOAD("c");
 					c.LOADConst(derivedReturnClazz);
@@ -537,9 +560,9 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		});
 
 		if (isTargetClazzKnown) {
-			dynamicInvoke(code, derivedParamClazzes.length, proxyClassName.replace('.', '/'), lambdaName);
+			dynamicInvoke(code, methodInfo.derivedParamClazzes.length, proxyClassName.replace('.', '/'), lambdaName);
 		} else {
-			dynamicInvokeWithThis(code, derivedParamClazzes.length, proxyClassName.replace('.', '/'), lambdaName);
+			dynamicInvokeWithThis(code, methodInfo.derivedParamClazzes.length, proxyClassName.replace('.', '/'), lambdaName);
 		}
 
 		code.stackPush(Type.getType(ConsumerWithException.class));
@@ -862,7 +885,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			code.CONVERTTO(byte.class);
 			code.STORE("magicNumber", byte.class);
 
-			boolean classResolved = resolveParamArgument(code, classSignaturewwww.typeParamenterClazzes, classSignaturewwww.paramsClazzes);
+			boolean classResolved = resolveParamArgument(code, methodInfo.typeParamenterClazzes, methodInfo.signatureParamsClazzes);
 			if (classResolved) {
 
 				if (derivedReturnClazz instanceof ClazzVariable) {
