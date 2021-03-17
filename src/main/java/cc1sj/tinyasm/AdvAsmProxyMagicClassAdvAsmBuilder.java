@@ -188,11 +188,11 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 						for (int i = 0; i < signatureParamsClazzes.length; i++) {
 							Clazz signatureParamsClazz = signatureParamsClazzes[i];
-							Clazz derivedClazz = resolveClassVariable(signatureParamsClazz, current.classFormalTypeParameters);
+							Clazz derivedClazz = AdvMethodInfo.resolveClassVariable(signatureParamsClazz, current.classFormalTypeParameters);
 							derivedParamClazzes[i] = derivedClazz;
 						}
 
-						prepareDerivedReturnClazz = resolveClassVariable(signatureReturnClazz, current.classFormalTypeParameters);
+						prepareDerivedReturnClazz = AdvMethodInfo.resolveClassVariable(signatureReturnClazz, current.classFormalTypeParameters);
 
 						if (prepareDerivedReturnClazz == null) {
 							prepareDerivedReturnClazz = Clazz.of(Type.VOID_TYPE);
@@ -207,7 +207,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 					Clazz derivedReturnClazz = prepareDerivedReturnClazz;
 					{
 
-						String derivedDescriptor = getMethodDescriptor(derivedReturnClazz, derivedParamClazzes);
+						String derivedDescriptor = AdvMethodInfo.getMethodDescriptor(derivedReturnClazz, derivedParamClazzes);
 
 						String bridgeMethodTargetReferkey = name + derivedDescriptor;
 
