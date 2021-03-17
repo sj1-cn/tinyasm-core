@@ -10,7 +10,7 @@ import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.MethodCode;
 import cc1sj.tinyasm.MethodHeader;
 
-public class RepositoryMagicBuilderAdvAsmProxy extends RepositoryMagicBuilder<User, String> implements AdvMagicRuntime {
+public class UserRepositoryMagicBuilderAdvAsmProxy extends RepositoryMagicBuilder<User, String> implements AdvMagicRuntime {
 	private byte _magicNumber;
 	private ThreadLocal<AdvContext> _contextThreadLocal;
 	private Clazz _targetClazz;

@@ -27,10 +27,10 @@ import java.lang.String;
 import cc1sj.tinyasm.ConsumerWithException;
 import cc1sj.tinyasm.Clazz;
 @SuppressWarnings("unused")
-public class RepositoryMagicBuilderAdvAsmProxyTinyAsmDump {
+public class UserRepositoryMagicBuilderAdvAsmProxyTinyAsmDump {
 
 	public static byte[] dump () throws Exception {
-		return new RepositoryMagicBuilderAdvAsmProxyTinyAsmDump().dump("cc1sj.tinyasm.advmagicbuilder.RepositoryMagicBuilderAdvAsmProxy");
+		return new UserRepositoryMagicBuilderAdvAsmProxyTinyAsmDump().dump("cc1sj.tinyasm.advmagicbuilder.UserRepositoryMagicBuilderAdvAsmProxy");
 	}
 
 	public byte[] dump(String className) throws Exception {
@@ -179,7 +179,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOAD("this");
 		code.LOAD("objEval");
 		code.LOAD("eval_param0");
-		code.visitInvokeDynamicInsn("accept", "(Lcc1sj/tinyasm/advmagicbuilder/RepositoryMagicBuilderAdvAsmProxy;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;)Lcc1sj/tinyasm/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESPECIAL, "cc1sj/tinyasm/advmagicbuilder/RepositoryMagicBuilderAdvAsmProxy", "lambda$update$0", "(Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/MethodCode;)V", false), Type.getType("(Lcc1sj/tinyasm/MethodCode;)V")});
+		code.visitInvokeDynamicInsn("accept", "(Lcc1sj/tinyasm/advmagicbuilder/UserRepositoryMagicBuilderAdvAsmProxy;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;)Lcc1sj/tinyasm/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESPECIAL, "cc1sj/tinyasm/advmagicbuilder/UserRepositoryMagicBuilderAdvAsmProxy", "lambda$update$0", "(Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/ConsumerWithException;Lcc1sj/tinyasm/MethodCode;)V", false), Type.getType("(Lcc1sj/tinyasm/MethodCode;)V")});
 		code.VIRTUAL(AdvContext.class, "push")
 			.return_(byte.class)
 			.parameter(Class.class)

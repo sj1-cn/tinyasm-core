@@ -431,7 +431,7 @@ public class Adv {
 			return (T) key;
 		} else {
 			byte magicNumber = (byte) (MAGIC_LOCALS_NUMBER + localsIndex);
-			T obj = brokerBuilder.buildProxyClass(t, _contextThreadLocal, magicNumber);
+			T obj = brokerBuilder.buildProxyClass(_contextThreadLocal, t, magicNumber);
 			return (T) obj;
 //		} else {
 //			throw new UnsupportedOperationException("Only accept tinyasm proxy object");
@@ -523,7 +523,7 @@ public class Adv {
 
 		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
 
-		T t = brokerBuilder.buildProxyClass(clz, _contextThreadLocal, magicNumber);
+		T t = brokerBuilder.buildProxyClass(_contextThreadLocal, clz, magicNumber);
 		return t;
 	}
 
@@ -660,7 +660,7 @@ public class Adv {
 
 		int magicNumber = MAGIC_CODES_NUMBER + codeIndex;
 
-		T t = brokerBuilder.buildProxyClass(clz, _contextThreadLocal, magicNumber);
+		T t = brokerBuilder.buildProxyClass(_contextThreadLocal, clz, magicNumber);
 		return t;
 	}
 
@@ -1666,7 +1666,7 @@ public class Adv {
 	}
 
 	public static <T> T buildProxyClass(Class<T> t, byte magicNumber) {
-		return brokerBuilder.buildProxyClass(t, _contextThreadLocal, magicNumber);
+		return brokerBuilder.buildProxyClass(_contextThreadLocal, t, magicNumber);
 	}
 
 	public static <T> T buildProxyClass(Class<?> t, Class<?> type, byte magicNumber) {

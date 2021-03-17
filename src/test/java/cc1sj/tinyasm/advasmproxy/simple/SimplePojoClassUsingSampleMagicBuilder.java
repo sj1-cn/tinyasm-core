@@ -60,11 +60,11 @@ public class SimplePojoClassUsingSampleMagicBuilder extends SimpleSuperClass imp
 
 	public static byte[] dump() {
 
-		SimplePojoClassUsingSampleMagicBuilder magicBuilderProxy = AdvMagic.build(SimplePojoClassUsingSampleMagicBuilder.class);
+		SimplePojoClassUsingSampleMagicBuilder magicBuilderProxy = AdvMagic.buildMagicProxyInstance(SimplePojoClassUsingSampleMagicBuilder.class);
 
 //		magicBuilderProxy.dumpInit("sayNothing");
 
-		return AdvMagic.dump(SimplePojoClassUsingSample.class.getName(), magicBuilderProxy);
+		return AdvMagic.dumpTargetFromMagicBuilderInstance(SimplePojoClassUsingSample.class.getName(), magicBuilderProxy);
 
 	}
 }

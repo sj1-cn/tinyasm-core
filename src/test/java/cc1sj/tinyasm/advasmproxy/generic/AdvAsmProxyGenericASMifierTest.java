@@ -49,7 +49,7 @@ public class AdvAsmProxyGenericASMifierTest {
 		Class<?> expectedClazz = GenericClassUsingSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvMagic.dump(expectedClazz.getName(), AdvMagic.build(GenericClassUsingSampleMagicBuilder.class)));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvMagic.dumpTargetFromMagicBuilderInstance(expectedClazz.getName(), AdvMagic.buildMagicProxyInstance(GenericClassUsingSampleMagicBuilder.class)));
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -90,7 +90,7 @@ public class AdvAsmProxyGenericASMifierTest {
 		Class<?> expectedClazz = GenericInterfaceUsingSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvMagic.dump(expectedClazz.getName(), AdvMagic.build(GenericInterfaceUsingSampleMagicBuilder.class)));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvMagic.dumpTargetFromMagicBuilderInstance(expectedClazz.getName(), AdvMagic.buildMagicProxyInstance(GenericInterfaceUsingSampleMagicBuilder.class)));
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -131,7 +131,7 @@ public class AdvAsmProxyGenericASMifierTest {
 		Class<?> expectedClazz = GenericClassWithIdKeyUsingSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvMagic.dump(expectedClazz.getName(), AdvMagic.build(GenericClassWithIdKeyUsingSampleMagicBuilder.class)));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvMagic.dumpTargetFromMagicBuilderInstance(expectedClazz.getName(), AdvMagic.buildMagicProxyInstance(GenericClassWithIdKeyUsingSampleMagicBuilder.class)));
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -181,7 +181,7 @@ public class AdvAsmProxyGenericASMifierTest {
 		Class<?> expectedClazz = GenericInterfaceWithIdKeyUsingSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvMagic.dump(expectedClazz.getName(), AdvMagic.build(GenericInterfaceWithIdKeyUsingSampleMagicBuilder.class)));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvMagic.dumpTargetFromMagicBuilderInstance(expectedClazz.getName(), AdvMagic.buildMagicProxyInstance(GenericInterfaceWithIdKeyUsingSampleMagicBuilder.class)));
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -223,7 +223,7 @@ public class AdvAsmProxyGenericASMifierTest {
 		Class<?> expectedClazz = GenericInterfaceImplUsingSample.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvMagic.dump(expectedClazz.getName(), AdvMagic.build(GenericInterfaceImplUsingSampleMagicBuilder.class)));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvMagic.dumpTargetFromMagicBuilderInstance(expectedClazz.getName(), AdvMagic.buildMagicProxyInstance(GenericInterfaceImplUsingSampleMagicBuilder.class)));
 
 		assertEquals("Code", codeExpected, codeActual);
 	}

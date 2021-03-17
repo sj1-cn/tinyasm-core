@@ -72,11 +72,11 @@ public class ReferSimplePojoClassUsingSampleMagicBuilder extends SimpleSuperClas
 
 	public static byte[] dump() {
 
-		ReferSimplePojoClassUsingSampleMagicBuilder magicBuilderProxy = AdvMagic.build(ReferSimplePojoClassUsingSampleMagicBuilder.class);
+		ReferSimplePojoClassUsingSampleMagicBuilder magicBuilderProxy = AdvMagic.buildMagicProxyInstance(ReferSimplePojoClassUsingSampleMagicBuilder.class);
 
 		magicBuilderProxy.dumpInit("sayNothing");
 
-		return AdvMagic.dump(ReferSimplePojoClassUsingSample.class.getName(), magicBuilderProxy);
+		return AdvMagic.dumpTargetFromMagicBuilderInstance(ReferSimplePojoClassUsingSample.class.getName(), magicBuilderProxy);
 
 	}
 }

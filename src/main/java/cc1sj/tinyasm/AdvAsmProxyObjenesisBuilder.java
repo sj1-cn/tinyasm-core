@@ -33,8 +33,7 @@ class AdvAsmProxyObjenesisBuilder {
 
 	static int count = 0;
 
-	public <T> T buildProxyClass(ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber, Class<?> target,
-			Class<?>... typeParameters) {
+	public <T> T buildProxyClass(ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber, Class<?> target, Class<?>... typeParameters) {
 
 		String key = target.getName() + "_" + Adv.join(typeParameters, t -> t.getName());
 
@@ -113,9 +112,11 @@ class AdvAsmProxyObjenesisBuilder {
 		}
 	}
 
-	public <T> T buildProxyClass(Class<T> target, ThreadLocal<AdvContext> _contextThreadLocal, int magicNumber) {
+	public <T> T buildProxyClass(ThreadLocal<AdvContext> _contextThreadLocal, Class<T> target, int magicNumber) {
 
-		ObjectInstantiator<?> builder = knownBrokeres.get(target.getName());
+		String key = target.getName();
+
+		ObjectInstantiator<?> builder = knownBrokeres.get(key);
 
 		if (builder != null) {
 			return make(builder, _contextThreadLocal, magicNumber);
@@ -124,7 +125,7 @@ class AdvAsmProxyObjenesisBuilder {
 		lock.lock();
 		try {
 
-			builder = knownBrokeres.get(target.getName());
+			builder = knownBrokeres.get(key);
 			if (builder != null) {
 				return make(builder, _contextThreadLocal, magicNumber);
 			}
@@ -175,7 +176,7 @@ class AdvAsmProxyObjenesisBuilder {
 				builder = objenesis.getInstantiatorOf(clzBroker);
 			}
 
-			this.knownBrokeres.put(target.getName(), builder);
+			this.knownBrokeres.put(key, builder);
 
 			return make(builder, _contextThreadLocal, magicNumber);
 
@@ -190,8 +191,68 @@ class AdvAsmProxyObjenesisBuilder {
 		}
 	}
 
-	public <T> T buildMagicProxyClass(Class<T> target, ThreadLocal<AdvContext> _contextThreadLocal,
-			int magicNumber) {
+	public <T> T buildMagicProxyClass(ThreadLocal<AdvContext> _contextThreadLocal, Class<T> target, int magicNumber, Class<?>... typeParameters) {
+
+//		String key = target.getName() + "_" + Adv.join(typeParameters, t -> t.getName());
+		Class<?> clzBroker;
+
+		lock.lock();
+		try {
+
+			count++;
+
+			{
+				String standardProxyClassName = target.getName() + "ObjenesisAdvAsmProxy";
+
+				try {
+					clzBroker = Class.forName(standardProxyClassName);
+					return makeMagicProxy(clzBroker, _contextThreadLocal, magicNumber);
+				} catch (ClassNotFoundException e) {
+				}
+			}
+			{
+//				String proxyClassSuffix = 
+				String proxyClassName = this.getClass().getName() + "_" + target.getName().replace('.', '_') + count;
+				byte[] code;
+				code = AdvAsmProxyMagicClassAdvAsmBuilder.dumpMagic(target, typeParameters, proxyClassName);
+
+				if (log.isDebugEnabled()) {
+					try {
+						String filename = "tmp/" + proxyClassName + ".class";
+						String path = filename.substring(0, filename.lastIndexOf('/'));
+						File file = new File(path);
+						if (!file.exists()) {
+							file.mkdir();
+						}
+						FileOutputStream fileOutputStream = new FileOutputStream(filename);
+						fileOutputStream.write(code);
+						fileOutputStream.close();
+					} catch (FileNotFoundException e) {
+						log.error("", e);
+						throw new RuntimeException(e);
+					}
+				}
+
+				clzBroker = TinyAsmClassLoader.defineClass(proxyClassName, code);
+
+				TinyAsmClassLoader.doResolveClass(clzBroker);
+
+			}
+
+			return makeMagicProxy(clzBroker, _contextThreadLocal, magicNumber);
+
+		} catch (ClassFormatError e) {
+			log.error("", e);
+			throw new RuntimeException(target.getName(), e);
+		} catch (Exception e) {
+			log.error("", e);
+			throw new RuntimeException(target.getName(), e);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public <T> T buildMagicProxyClass(ThreadLocal<AdvContext> _contextThreadLocal, Class<T> target, int magicNumber) {
 
 		Class<?> clzBroker;
 

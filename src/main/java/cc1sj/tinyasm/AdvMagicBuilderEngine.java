@@ -7,6 +7,9 @@ import static org.objectweb.asm.Opcodes.ASM9;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.TypeVariable;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -14,6 +17,120 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 class AdvMagicBuilderEngine {
+	@SuppressWarnings("unchecked")
+	public static <T> byte[] execMagicBuilder(ThreadLocal<AdvContext> threadLocal, AdvClassBuilder classBuilder, T magicBuilderProxy, Class<?>... typeArguments) {
+		Class<T> magicBuilderClass = (Class<T>) magicBuilderProxy.getClass().getSuperclass();
+		try {
+//			Adv.enterClass(classBuilder);
+			Class<?> magicBuilderProxyClass = magicBuilderProxy.getClass();
+			Class<T> builderClass = (Class<T>)magicBuilderProxyClass.getClass();
+			Map<String, Class<?>> para = new HashMap<>();
+			TypeVariable<Class<T>>[] ta = builderClass.getTypeParameters();
+			for (int i = 0; i < ta.length; i++) {
+				TypeVariable<Class<T>> typeVariable = ta[i];
+				para.put(typeVariable.getName(), typeArguments[i]);
+			}
+			
+			// 之所以用这么繁琐的方法，是因为Java Reflect不能保证方法的顺序。
+			ClassReader cr = new ClassReader(magicBuilderClass.getName());
+			cr.accept(new ClassVisitor(ASM9) {
+				boolean inited = false;
+
+				@Override
+				public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+					Adv.logger.debug("{} {} ", name, signature);
+				}
+
+				@Override
+				public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+					try {
+						if ((access & ACC_PUBLIC) > 0 && !name.startsWith("dump")) {
+							Method thisMethod = null;
+							Method thisProxyMethod = null;
+							boolean isBridge = (access & ACC_BRIDGE) > 0;
+							if (!isBridge) {
+								if (inited) {
+								} else if (name.equals("__init_")) {
+									inited = true;
+								} else if (name.startsWith("__init_") || name.equals("<init>")) {
+
+								} else {
+									classBuilder.getClassBody().constructerEmpty();
+									inited = true;
+								}
+
+								for (Method method : magicBuilderClass.getMethods()) {
+									if (method.getName().equals(name) /* && !method.isBridge() */) {
+										Class<?>[] parameterTypes = method.getParameterTypes();
+										Type[] types = new Type[parameterTypes.length];
+										for (int i = 0; i < parameterTypes.length; i++) {
+											types[i] = Type.getType(parameterTypes[i]);
+										}
+										String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
+										if (reflectMethodDescriptor.equals(descriptor)) {
+											thisMethod = method;
+										}
+									}
+								}
+								for (Method method : magicBuilderProxyClass.getMethods()) {
+									if (method.getName().equals("$_" + name) && !method.isBridge()) {
+										Class<?>[] parameterTypes = method.getParameterTypes();
+										Type[] types = new Type[parameterTypes.length];
+										for (int i = 0; i < parameterTypes.length; i++) {
+											types[i] = Type.getType(parameterTypes[i]);
+										}
+										String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
+										if (reflectMethodDescriptor.equals(descriptor)) {
+											thisProxyMethod = method;
+										}
+									}
+								}
+								// Method method = clazz.getMethod(name);
+								Adv.logger.debug("{} {} ", name, signature);
+								if (thisMethod != null && thisProxyMethod != null) {
+									execMagicBuilderMethod(classBuilder, magicBuilderProxy, thisMethod, thisProxyMethod, threadLocal);
+//								buildWithMethod(classBuilder, magicBuilderProxy, thisMethod, thisProxyMethod, threadLocal);
+								} else if (thisMethod != null) {
+									String methodName = thisMethod.getName();
+									if (methodName.startsWith("_") && thisMethod.getParameters().length == 1 && thisMethod.getParameters()[0].getType() == AdvClassBuilder.class) {
+										execBuilderMethod(classBuilder, magicBuilderProxy, thisMethod);
+									} else if (methodName.startsWith("_") && thisMethod.getParameters().length == 1 && thisMethod.getParameters()[0].getType() == ClassBody.class) {
+										execBuilderMethod(classBuilder.getClassBody(), magicBuilderProxy, thisMethod);
+									}
+								}
+
+							} else {
+
+								for (Method method : magicBuilderClass.getMethods()) {
+									if (method.getName().equals(name) && method.getParameters().length == Type.getArgumentTypes(descriptor).length && method.isBridge()) {
+										thisMethod = method;
+									}
+								}
+								for (Method method : magicBuilderProxyClass.getMethods()) {// TODO 参数如何比较，要考虑一下
+									if (method.getName().equals("$_" + name) && !method.isBridge() && method.getParameters().length == 1 && method.getParameters()[0].getType() == ClassBody.class) {
+										thisProxyMethod = method;
+									}
+								}
+								if (thisMethod != null && thisProxyMethod != null) {
+									execBuilderMethod(classBuilder.getClassBody(), magicBuilderProxy, thisProxyMethod);
+								}
+
+							}
+						}
+					} catch (SecurityException e) {
+						throw new UnsupportedOperationException(magicBuilderProxyClass.getName(), e);
+					}
+					return null;
+				}
+
+			}, ClassReader.SKIP_CODE);
+
+//			Adv.exitClass();
+		} catch (Exception e1) {
+			throw new UnsupportedOperationException(magicBuilderClass.getName(), e1);
+		}
+		return classBuilder.end().toByteArray();
+	}
 
 	@SuppressWarnings("unchecked")
 	public static <T> byte[] execMagicBuilder(ThreadLocal<AdvContext> threadLocal, AdvClassBuilder classBuilder, T magicBuilderProxy) {
