@@ -155,7 +155,8 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 					AdvMethodInfo methodInfo = AdvMethodInfo.parseMethodInfo(descriptor, signature, current.classFormalTypeParameters);
 					Clazz derivedReturnClazz = methodInfo.derivedReturnClazz;
 
-					String derivedDescriptor =methodInfo.getDerivedMethodDescriptor();// AdvMethodInfo.getMethodDescriptor(derivedReturnClazz, methodInfo.derivedParamClazzes);
+					String derivedDescriptor = methodInfo.getDerivedMethodDescriptor();// AdvMethodInfo.getMethodDescriptor(derivedReturnClazz,
+																						// methodInfo.derivedParamClazzes);
 
 					String bridgeMethodTargetReferkey = name + derivedDescriptor;
 
@@ -179,7 +180,11 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 					MethodCode code = mh.begin();
 					code.LINE();
 					code.LOAD("this");
-					Clazz[] originalParamClazzes = Adv.of(t -> Clazz.of(t), methodInfo.originalParamTypes);
+					Clazz[] originalParamClazzes = new Clazz[methodInfo.originalParamTypes.length];
+					for (int i = 0; i < methodInfo.originalParamTypes.length; i++) {
+						originalParamClazzes[i] = Clazz.of(methodInfo.originalParamTypes[i]);
+					}
+
 					for (int i = 0; i < methodInfo.derivedParamClazzes.length; i++) {
 						code.LOAD("param" + i);
 						// if(params[i].getSort() == Type.LONG) {
