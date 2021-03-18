@@ -1,14 +1,18 @@
 package cn.sj1.tinyasm.util;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
-import java.io.PrintStream;
-
 import org.objectweb.asm.Label;
-
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cn.sj1.tinyasm.ClassBody;
 import cn.sj1.tinyasm.ClassBuilder;
 import cn.sj1.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cn.sj1.tinyasm.Annotation;
+import cn.sj1.tinyasm.Clazz;
+import java.io.PrintStream;
+import java.lang.System;
+import java.lang.Object;
+import java.lang.String;
 @SuppressWarnings("unused")
 public class LabelSampleTinyAsmDump {
 

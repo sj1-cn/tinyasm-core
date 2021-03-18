@@ -1,41 +1,43 @@
 package cn.sj1.tinyasm.advasmproxy.arraylist;
-import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
-import static org.objectweb.asm.Opcodes.ACC_FINAL;
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_STATIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
-
-import java.lang.reflect.Array;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-import java.util.function.IntFunction;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
-
-import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-
-import cn.sj1.tinyasm.Adv;
-import cn.sj1.tinyasm.AdvContext;
-import cn.sj1.tinyasm.AdvRuntimeReferNameObject;
 import cn.sj1.tinyasm.ClassBody;
 import cn.sj1.tinyasm.ClassBuilder;
-import cn.sj1.tinyasm.Clazz;
-import cn.sj1.tinyasm.ClazzSimple;
-import cn.sj1.tinyasm.ConsumerWithException;
-import cn.sj1.tinyasm.MethodCaller;
 import cn.sj1.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cn.sj1.tinyasm.Annotation;
+import cn.sj1.tinyasm.Clazz;
+import cn.sj1.tinyasm.ConsumerWithException;
+import cn.sj1.tinyasm.Adv;
+import java.lang.reflect.Array;
+import java.util.ListIterator;
+import cn.sj1.tinyasm.MethodCode;
+import java.util.function.UnaryOperator;
+import cn.sj1.tinyasm.Clazz;
+import java.lang.Integer;
+import cn.sj1.tinyasm.AdvRuntimeReferNameObject;
+import cn.sj1.tinyasm.ClazzSimple;
+import java.lang.Boolean;
+import java.lang.String;
+import java.util.function.IntFunction;
+import java.lang.ThreadLocal;
+import cn.sj1.tinyasm.advasmproxy.arraylist.PageList;
+import java.util.Iterator;
+import java.util.function.Predicate;
+import java.util.Collection;
 import cn.sj1.tinyasm.advasmproxy.simple.PojoClass;
+import cn.sj1.tinyasm.AdvContext;
+import java.lang.Exception;
+import java.util.function.Consumer;
+import java.util.List;
+import java.util.stream.Stream;
+import java.lang.Object;
+import java.lang.Class;
+import java.util.Comparator;
+import java.util.Spliterator;
+import cn.sj1.tinyasm.MethodCaller;
 @SuppressWarnings("unused")
 public class PageListAdvAsmProxyTinyAsmDump {
 

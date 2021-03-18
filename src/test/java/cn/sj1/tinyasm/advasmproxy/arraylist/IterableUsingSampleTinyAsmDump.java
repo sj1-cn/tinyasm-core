@@ -1,15 +1,19 @@
 package cn.sj1.tinyasm.advasmproxy.arraylist;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
-import java.util.Iterator;
-import java.util.Spliterator;
-
+import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cn.sj1.tinyasm.ClassBody;
 import cn.sj1.tinyasm.ClassBuilder;
-import cn.sj1.tinyasm.Clazz;
 import cn.sj1.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cn.sj1.tinyasm.Annotation;
+import cn.sj1.tinyasm.Clazz;
+import java.util.Iterator;
+import java.lang.Object;
 import cn.sj1.tinyasm.advasmproxy.simple.PojoClass;
+import java.util.Spliterator;
+import java.lang.Iterable;
 @SuppressWarnings("unused")
 public class IterableUsingSampleTinyAsmDump {
 

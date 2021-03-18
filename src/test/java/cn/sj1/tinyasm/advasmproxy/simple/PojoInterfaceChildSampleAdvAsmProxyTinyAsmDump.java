@@ -1,10 +1,23 @@
 package cn.sj1.tinyasm.advasmproxy.simple;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-
+import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import cn.sj1.tinyasm.ClassBody;
 import cn.sj1.tinyasm.ClassBuilder;
 import cn.sj1.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cn.sj1.tinyasm.Annotation;
+import cn.sj1.tinyasm.Clazz;
+import cn.sj1.tinyasm.advasmproxy.simple.PojoInterfaceChildSample;
+import java.lang.Float;
+import java.lang.Character;
+import java.lang.Long;
+import java.lang.Double;
+import java.lang.Short;
+import java.lang.String;
+import java.lang.Byte;
+import java.lang.Integer;
 @SuppressWarnings("unused")
 public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 

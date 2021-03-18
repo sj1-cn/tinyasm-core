@@ -1,29 +1,31 @@
 package cn.sj1.tinyasm.advasmproxy.generic;
-import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
-import static org.objectweb.asm.Opcodes.ACC_FINAL;
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_STATIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
-
-import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-
-import cn.sj1.tinyasm.Adv;
-import cn.sj1.tinyasm.AdvContext;
-import cn.sj1.tinyasm.AdvRuntimeReferNameObject;
 import cn.sj1.tinyasm.ClassBody;
 import cn.sj1.tinyasm.ClassBuilder;
-import cn.sj1.tinyasm.Clazz;
-import cn.sj1.tinyasm.ClazzSimple;
-import cn.sj1.tinyasm.ConsumerWithException;
-import cn.sj1.tinyasm.MethodCaller;
 import cn.sj1.tinyasm.MethodCode;
-import cn.sj1.tinyasm.advasmproxy.simple.PojoClassChild;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cn.sj1.tinyasm.Annotation;
+import cn.sj1.tinyasm.Clazz;
+import cn.sj1.tinyasm.ConsumerWithException;
+import cn.sj1.tinyasm.Adv;
+import cn.sj1.tinyasm.advasmproxy.generic.PojoClassWithIdKey;
+import cn.sj1.tinyasm.advasmproxy.generic.GenericClassWithIdKey;
+import java.lang.ThreadLocal;
 import cn.sj1.tinyasm.advmagicbuilder.WithIdKey;
+import cn.sj1.tinyasm.MethodCode;
+import cn.sj1.tinyasm.Clazz;
+import cn.sj1.tinyasm.AdvContext;
+import java.lang.Exception;
+import cn.sj1.tinyasm.AdvRuntimeReferNameObject;
+import cn.sj1.tinyasm.ClazzSimple;
+import java.lang.Class;
+import java.lang.Object;
+import java.lang.String;
+import cn.sj1.tinyasm.advasmproxy.simple.PojoClassChild;
+import cn.sj1.tinyasm.MethodCaller;
 @SuppressWarnings("unused")
 public class GenericClassWithIdKeyAdvAsmProxyTinyAsmDump {
 

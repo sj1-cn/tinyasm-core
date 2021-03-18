@@ -1,23 +1,25 @@
 package cn.sj1.tinyasm.advasmproxy.simple;
-import static org.objectweb.asm.Opcodes.ACC_FINAL;
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_STATIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
-
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-
-import cn.sj1.tinyasm.AdvContext;
-import cn.sj1.tinyasm.AdvMagicRuntime;
 import cn.sj1.tinyasm.ClassBody;
 import cn.sj1.tinyasm.ClassBuilder;
-import cn.sj1.tinyasm.Clazz;
-import cn.sj1.tinyasm.ConsumerWithException;
-import cn.sj1.tinyasm.MethodCaller;
 import cn.sj1.tinyasm.MethodCode;
+import org.objectweb.asm.Type;
+import static org.objectweb.asm.Opcodes.*;
+import cn.sj1.tinyasm.Annotation;
+import cn.sj1.tinyasm.Clazz;
+import cn.sj1.tinyasm.AdvMagicRuntime;
+import cn.sj1.tinyasm.ConsumerWithException;
+import java.lang.ThreadLocal;
+import cn.sj1.tinyasm.advasmproxy.simple.SimplePojoClassUsingSampleMagicBuilder;
+import cn.sj1.tinyasm.MethodCode;
+import java.lang.Object;
+import cn.sj1.tinyasm.Clazz;
+import java.lang.String;
+import cn.sj1.tinyasm.AdvContext;
+import java.lang.Exception;
+import cn.sj1.tinyasm.MethodCaller;
 @SuppressWarnings("unused")
 public class SimplePojoClassSampleUsingSampleMagicBuilderAdvAsmProxyTinyAsmDump {
 
