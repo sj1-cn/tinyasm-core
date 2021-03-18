@@ -4,7 +4,8 @@ public class UserRepository implements Repository<User, String> {
 
 	@Override
 	public String update(User t) {
-		return t.getName();
+		User tt = t;
+		return tt.getName();
 	}
 
 }

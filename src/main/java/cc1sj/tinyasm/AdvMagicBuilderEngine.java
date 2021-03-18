@@ -8,13 +8,17 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.signature.SignatureReader;
 
 class AdvMagicBuilderEngine {
 	@SuppressWarnings("unchecked")
@@ -23,14 +27,16 @@ class AdvMagicBuilderEngine {
 		try {
 //			Adv.enterClass(classBuilder);
 			Class<?> magicBuilderProxyClass = magicBuilderProxy.getClass();
-			Class<T> builderClass = (Class<T>)magicBuilderProxyClass.getClass();
+			Class<T> builderClass = (Class<T>) magicBuilderProxyClass.getClass();
 			Map<String, Class<?>> para = new HashMap<>();
 			TypeVariable<Class<T>>[] ta = builderClass.getTypeParameters();
 			for (int i = 0; i < ta.length; i++) {
 				TypeVariable<Class<T>> typeVariable = ta[i];
 				para.put(typeVariable.getName(), typeArguments[i]);
 			}
-			
+
+			Clazz[] actualTypeArguments = Adv.of(t -> Clazz.of(t), typeArguments);
+			List<ClazzFormalTypeParameter> classFormalTypeParameters = new ArrayList<>();
 			// 之所以用这么繁琐的方法，是因为Java Reflect不能保证方法的顺序。
 			ClassReader cr = new ClassReader(magicBuilderClass.getName());
 			cr.accept(new ClassVisitor(ASM9) {
@@ -38,7 +44,23 @@ class AdvMagicBuilderEngine {
 
 				@Override
 				public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-					Adv.logger.debug("{} {} ", name, signature);
+					Adv.logger.debug("visit( {},  {},  {},  {}, [] exceptions)", access, name, signature, superName);
+					if (signature != null) {
+						ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
+						SignatureReader sr = new SignatureReader(signature);
+						sr.accept(classSignaturewwww);
+						classSignaturewwww.finish();
+						if (actualTypeArguments.length > 0) {
+							for (int i = 0; i < classSignaturewwww.typeParamenterClazzes.length; i++) {
+								Clazz clazz = classSignaturewwww.typeParamenterClazzes[i];
+								if (clazz instanceof ClazzFormalTypeParameter) {
+									ClazzFormalTypeParameter clazzFormalTypeParameter = (ClazzFormalTypeParameter) clazz;
+									clazzFormalTypeParameter.setActualTypeArgument(actualTypeArguments[i]);
+									classFormalTypeParameters.add(clazzFormalTypeParameter);
+								}
+							}
+						}
+					}
 				}
 
 				@Override
@@ -48,17 +70,22 @@ class AdvMagicBuilderEngine {
 							Method thisMethod = null;
 							Method thisProxyMethod = null;
 							boolean isBridge = (access & ACC_BRIDGE) > 0;
+							
+							
 							if (!isBridge) {
 								if (inited) {
 								} else if (name.equals("__init_")) {
 									inited = true;
+//									return null;
 								} else if (name.startsWith("__init_") || name.equals("<init>")) {
-
+//									return null;
 								} else {
 									classBuilder.getClassBody().constructerEmpty();
 									inited = true;
 								}
 
+								AdvMethodInfo methodInfo = AdvMethodInfo.parseMethodInfo(descriptor, signature, classFormalTypeParameters);
+								String actualDerivedMethodDescriptor = methodInfo.getDerivedMethodDescriptor();
 								for (Method method : magicBuilderClass.getMethods()) {
 									if (method.getName().equals(name) /* && !method.isBridge() */) {
 										Class<?>[] parameterTypes = method.getParameterTypes();
@@ -69,6 +96,7 @@ class AdvMagicBuilderEngine {
 										String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
 										if (reflectMethodDescriptor.equals(descriptor)) {
 											thisMethod = method;
+											break;
 										}
 									}
 								}
@@ -80,8 +108,9 @@ class AdvMagicBuilderEngine {
 											types[i] = Type.getType(parameterTypes[i]);
 										}
 										String reflectMethodDescriptor = Type.getMethodDescriptor(Type.getType(method.getReturnType()), types);
-										if (reflectMethodDescriptor.equals(descriptor)) {
+										if (reflectMethodDescriptor.equals(actualDerivedMethodDescriptor)) {
 											thisProxyMethod = method;
+											break;
 										}
 									}
 								}
@@ -104,11 +133,13 @@ class AdvMagicBuilderEngine {
 								for (Method method : magicBuilderClass.getMethods()) {
 									if (method.getName().equals(name) && method.getParameters().length == Type.getArgumentTypes(descriptor).length && method.isBridge()) {
 										thisMethod = method;
+										break;
 									}
 								}
 								for (Method method : magicBuilderProxyClass.getMethods()) {// TODO 参数如何比较，要考虑一下
 									if (method.getName().equals("$_" + name) && !method.isBridge() && method.getParameters().length == 1 && method.getParameters()[0].getType() == ClassBody.class) {
 										thisProxyMethod = method;
+										break;
 									}
 								}
 								if (thisMethod != null && thisProxyMethod != null) {
@@ -255,9 +286,9 @@ class AdvMagicBuilderEngine {
 	protected static void execMagicBuilderMethod(AdvClassBuilder classBuilder, Object simpleSampleCodeBuilder, Method realMethod, Method proxyMethod, ThreadLocal<AdvContext> threadLocal) {
 		Adv.logger.debug("enter magic method {}", realMethod.getName());
 		AdvMethodBuilder methodBuilder = (AdvMethodBuilder) classBuilder.method(realMethod.getModifiers(), realMethod.getName());
-		if (realMethod.getReturnType() != Void.class) methodBuilder.return_(Clazz.of(realMethod.getGenericReturnType()));
-		Parameter[] parameters = realMethod.getParameters();
-		java.lang.reflect.Type[] parameterTypes = realMethod.getGenericParameterTypes();
+		if (realMethod.getReturnType() != Void.class) methodBuilder.return_(Clazz.of(proxyMethod.getGenericReturnType()));
+		Parameter[] parameters = proxyMethod.getParameters();
+		java.lang.reflect.Type[] parameterTypes = proxyMethod.getGenericParameterTypes();
 		for (int i = 0; i < parameters.length; i++) {
 			Parameter parameter = parameters[i];
 			methodBuilder.parameter_(parameter.getName(), Clazz.of(parameterTypes[i]));

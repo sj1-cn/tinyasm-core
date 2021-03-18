@@ -44,14 +44,14 @@ public class RepositoryMagicBuilderTest {
 	
 	@Test
 	public void test_UserRepository_build() throws Exception {
-//		Class<?> expectedClazz = UserRepository.class;
-//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-//
-//		byte[] result = AdvMagic.dump(expectedClazz.getName(), RepositoryMagicBuilder.class, of(User.class, String.class));
-//
-//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),result);
-//
-//		assertEquals("Code", codeExpected, codeActual);
+		Class<?> expectedClazz = UserRepository.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		byte[] result = AdvMagic.dump(expectedClazz.getName(), RepositoryMagicBuilder.class, of(User.class, String.class));
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(),result);
+
+		assertEquals("Code", codeExpected, codeActual);
 	}
 
 }

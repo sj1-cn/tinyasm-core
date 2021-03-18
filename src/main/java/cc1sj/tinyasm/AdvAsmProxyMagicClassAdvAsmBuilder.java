@@ -145,17 +145,6 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 								}
 							}
 						}
-
-					} else {
-						if (superName != null && !superName.equals(Type.getType(Object.class).getInternalName())) {
-							resolveClass(Clazz.of(Type.getObjectType(superName)), new Clazz[0]);
-						}
-
-						if (interfaces != null && interfaces.length > 0) {
-							for (String interfaceInternameName : interfaces) {
-								resolveClass(Clazz.of(Type.getObjectType(interfaceInternameName)), new Clazz[0]);
-							}
-						}
 					}
 				}
 
