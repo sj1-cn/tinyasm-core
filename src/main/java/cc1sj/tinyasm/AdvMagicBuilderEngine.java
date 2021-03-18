@@ -290,10 +290,10 @@ class AdvMagicBuilderEngine {
 		AdvMethodBuilder methodBuilder = (AdvMethodBuilder) classBuilder.method(realMethod.getModifiers(), realMethod.getName());
 		if (realMethod.getReturnType() != Void.class) methodBuilder.return_(Clazz.of(proxyMethod.getGenericReturnType()));
 		Parameter[] parameters = proxyMethod.getParameters();
+		Parameter[] parametersWithName = realMethod.getParameters();
 		java.lang.reflect.Type[] parameterTypes = proxyMethod.getGenericParameterTypes();
-		for (int i = 0; i < parameters.length; i++) {
-			Parameter parameter = parameters[i];
-			methodBuilder.parameter_(parameter.getName(), Clazz.of(parameterTypes[i]));
+		for (int i = 0; i < parameterTypes.length; i++) {
+			methodBuilder.parameter_(parametersWithName[i].getName(), Clazz.of(parameterTypes[i]));
 		}
 		Class<?>[] exceptionClasses = realMethod.getExceptionTypes();
 		methodBuilder.throws_(exceptionClasses);

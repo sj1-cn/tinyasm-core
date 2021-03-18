@@ -99,6 +99,18 @@ public class AdvContext {
 		Adv.exitCode();
 	}
 
+	protected void execCodeBlock(ConsumerWithException<MethodCode> block) {
+		clear();
+		try {
+			AdvContext contentBlock = Adv.enterCode(code);
+			block.accept(contentBlock.code);
+			contentBlock.clear();
+			Adv.exitCode();
+		} catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
 	public void execLine(ConsumerWithException<MethodCode> line) {
 		clear();
 		try {

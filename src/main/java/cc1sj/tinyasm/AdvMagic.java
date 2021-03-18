@@ -108,8 +108,4 @@ public class AdvMagic {
 //		return new byte[0];
 	}
 
-	static public <T> Clazz clazzOf(T t) {
-		return ((AdvRuntimeReferNameObject)t).get__TargetClazz();
-	}
-
 }

@@ -1758,6 +1758,10 @@ public class Adv {
 	public static void _line(ConsumerWithException<MethodCode> code) {
 		AdvContext advContext = _contextThreadLocal.get();
 		advContext.execLine(code);
+	}	
+	public static void _block(ConsumerWithException<MethodCode> code) {
+		AdvContext advContext = _contextThreadLocal.get();
+		advContext.execCodeBlock(code);
 	}
 
 	public static Object _piece(Class<?> clazz, ConsumerWithException<MethodCode> code) {
@@ -1771,6 +1775,14 @@ public class Adv {
 			return (R) Adv.buildProxyClass(class1, magicNumber);
 		} else {
 			return null;
+		}
+	}
+
+	static public <T> Clazz clazzOf(T t) {
+		if (t instanceof AdvRuntimeReferNameObject) {
+			return ((AdvRuntimeReferNameObject) t).get__TargetClazz();
+		} else {
+			return Clazz.of(t.getClass());
 		}
 	}
 
