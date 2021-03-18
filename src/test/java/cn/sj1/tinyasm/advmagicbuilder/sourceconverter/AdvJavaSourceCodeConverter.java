@@ -34,6 +34,7 @@ public class AdvJavaSourceCodeConverter {
 	static final String SPACE = "                                                                                                                               ";
 
 //	public String?
+	@SuppressWarnings("unused")
 	public String doconvertCode(String strsource, Class<?>... KnownClasses) {
 //		List<String> target = new ArrayList<>();
 		String[] source = strsource.split("\\n");
