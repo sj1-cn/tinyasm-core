@@ -38,16 +38,16 @@ public class AdvJavaSourceCodeConverter {
 //		List<String> target = new ArrayList<>();
 		String[] source = strsource.split("\\n");
 		final StringBuffer buf = new StringBuffer();
-		for (String line : source) {
-			int len = buf.length();
-			buf.append('\t');
-			buf.append('\t');
-			buf.append(doconvertByLine(line, KnownClasses));
-			if (line.strip().length() > 0) {
-				etet(buf, line, len);
-			}
-			buf.append('\n');
-		}
+//		for (String line : source) {
+//			int len = buf.length();
+//			buf.append('\t');
+//			buf.append('\t');
+//			buf.append(doconvertByLine(line, KnownClasses));
+//			if (line.strip().length() > 0) {
+//				etet(buf, line, len);
+//			}
+//			buf.append('\n');
+//		}
 		return buf.toString();
 	}
 
