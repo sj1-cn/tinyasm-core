@@ -145,15 +145,15 @@ public class AdvAsmProxyGenericASMifierTest {
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
-	@Test
-	public void test_GenericInterfaceWithIdKey_Proxy_Dump222() throws Exception {
-		Class<?> expectedClazz = GenericInterfaceWithIdKeyAdvAsmProxy.class;
-		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), GenericInterfaceWithIdKeyAdvAsmProxyTinyAsmDump.dump());
-
-		assertEquals("Code", codeExpected, codeActual);
-	}
+//	@Test
+//	public void test_GenericInterfaceWithIdKey_Proxy_Dump222() throws Exception {
+//		Class<?> expectedClazz = GenericInterfaceWithIdKeyAdvAsmProxy.class;
+//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+//
+//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), GenericInterfaceWithIdKeyAdvAsmProxyTinyAsmDump.dump());
+//
+//		assertEquals("Code", codeExpected, codeActual);
+//	}
 //	
 	@Test
 	public void test_GenericInterfaceWithIdKey_Proxy_Build() throws Exception {
