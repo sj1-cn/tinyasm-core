@@ -14,7 +14,7 @@
 		<!-- Startup class -->
 		<jacoco.version>0.8.6</jacoco.version>
 		<junit.version>4.13.1</junit.version>
-		<tinyasm.version>0.3.0</tinyasm.version>
+		<tinyasm.version>0.3.1</tinyasm.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<mockito.version>1.10.19</mockito.version>
 		<guava.version>30.1-jre</guava.version>
