@@ -352,11 +352,11 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _bridge_setT(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "setT")
-			.parameter("var1",WithIdKey.class).begin();
+			.parameter(ACC_SYNTHETIC,"param0",WithIdKey.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOAD("var1");
+		code.LOAD("param0");
 		code.CHECKCAST(PojoClassWithIdKey.class);
 		code.VIRTUAL("setT")
 			.parameter(PojoClassWithIdKey.class).INVOKE();
@@ -380,11 +380,11 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _bridge_setT_Object_void(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "setT")
-			.parameter("var1",Object.class).begin();
+			.parameter(ACC_SYNTHETIC,"param0",Object.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOAD("var1");
+		code.LOAD("param0");
 		code.CHECKCAST(PojoClassWithIdKey.class);
 		code.VIRTUAL("setT")
 			.parameter(PojoClassWithIdKey.class).INVOKE();

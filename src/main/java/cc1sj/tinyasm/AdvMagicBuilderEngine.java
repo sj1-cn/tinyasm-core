@@ -70,8 +70,7 @@ class AdvMagicBuilderEngine {
 							Method thisMethod = null;
 							Method thisProxyMethod = null;
 							boolean isBridge = (access & ACC_BRIDGE) > 0;
-							
-							
+
 							if (!isBridge) {
 								if (inited) {
 								} else if (name.equals("__init_")) {
@@ -118,6 +117,9 @@ class AdvMagicBuilderEngine {
 								Adv.logger.debug("{} {} ", name, signature);
 								if (thisMethod != null && thisProxyMethod != null) {
 									execMagicBuilderMethod(classBuilder, magicBuilderProxy, thisMethod, thisProxyMethod, threadLocal);
+									if (!descriptor.equals(actualDerivedMethodDescriptor)) {
+										AdvAsmProxyBridgeMethod.makeBridgeMethod(classBuilder.getClassBody(), name, descriptor, actualDerivedMethodDescriptor, exceptions);
+									}
 //								buildWithMethod(classBuilder, magicBuilderProxy, thisMethod, thisProxyMethod, threadLocal);
 								} else if (thisMethod != null) {
 									String methodName = thisMethod.getName();

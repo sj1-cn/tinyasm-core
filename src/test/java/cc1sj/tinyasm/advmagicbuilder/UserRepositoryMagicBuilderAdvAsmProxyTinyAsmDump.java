@@ -50,7 +50,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		_get__TargetClazz(classBody);
 		_update(classBody);
 		_$_update(classBody);
-		_$_update_cc1sjtinyasmClassBody_void(classBody);
+		__update(classBody);
 		_bridge_update(classBody);
 		_lambda$update$0(classBody);
 
@@ -220,8 +220,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _$_update_cc1sjtinyasmClassBody_void(ClassBody classBody) {
-		MethodCode code = classBody.public_().method("$_update")
+	protected void __update(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("_update")
 			.parameter("classBody",ClassBody.class).begin();
 
 		code.LINE();
@@ -302,11 +302,11 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _bridge_update(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "update")
 			.return_(Object.class )
-			.parameter("var1",WithIdKey.class).begin();
+			.parameter(ACC_SYNTHETIC,"param0",WithIdKey.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOAD("var1");
+		code.LOAD("param0");
 		code.CHECKCAST(User.class);
 		code.VIRTUAL("update")
 			.return_(String.class)

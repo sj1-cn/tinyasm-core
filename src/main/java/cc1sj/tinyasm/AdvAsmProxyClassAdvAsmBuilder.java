@@ -89,8 +89,8 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	Clazz[] typeDyncArguments;
 
 	List<LambdaBuilder> proxyLambdas = new ArrayList<>();
-	List<BridgeMethod> proxyAllBridgeMethods = new ArrayList<>();
-	Map<String, BridgeMethod> proxyDefinedBridgeMethodes = new HashMap<>();
+	List<AdvAsmProxyBridgeMethod> proxyAllBridgeMethods = new ArrayList<>();
+	Map<String, AdvAsmProxyBridgeMethod> proxyDefinedBridgeMethodes = new HashMap<>();
 	Map<String, String> proxyDefinedMethodes = new HashMap<>();
 
 	Current current;
@@ -102,7 +102,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	class Current {
 		Clazz[] actualTypeArguments;
 		List<ClazzFormalTypeParameter> classFormalTypeParameters = new ArrayList<>();
-		List<BridgeMethod> bridgeMethods = new ArrayList<>();
+		List<AdvAsmProxyBridgeMethod> bridgeMethods = new ArrayList<>();
 		public Clazz clazz;
 		public String currentName;
 	}
@@ -347,7 +347,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		if (methodInfo.needBridge && methodFormalTypeParameters.length == 0) {
 			String bridgeMethodReferkey = methodName + descriptor;
 			if (!proxyDefinedMethodes.containsKey(bridgeMethodReferkey)) {
-				BridgeMethod bm = new BridgeMethod(methodName, methodInfo.originalReturnType, methodInfo.originalParamTypes, methodInfo.derivedReturnClazz, methodInfo.derivedParamClazzes, exceptions);
+				AdvAsmProxyBridgeMethod bm = new AdvAsmProxyBridgeMethod(methodName, methodInfo.originalReturnType, methodInfo.originalParamTypes, methodInfo.derivedReturnClazz, methodInfo.derivedParamClazzes, exceptions);
 				bm.lowestClazz = current.clazz;
 				current.bridgeMethods.add(bm);
 				proxyDefinedMethodes.put(bridgeMethodReferkey, bridgeMethodReferkey);
@@ -355,7 +355,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			}
 		}
 
-		BridgeMethod bm = proxyDefinedBridgeMethodes.get(bridgeMethodTargetReferkey);
+		AdvAsmProxyBridgeMethod bm = proxyDefinedBridgeMethodes.get(bridgeMethodTargetReferkey);
 		if (bm != null) {
 			bm.lowestClazz = current.clazz;
 		}
@@ -1253,64 +1253,6 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 			this.params = params;
 			this.lambdaInvokeSuperMethod = lambdaInvokeSuperMethod;
 		}
-	}
-
-	class BridgeMethod {
-		String methodName;
-		Type originReturnType;
-		Type[] originParamTypes;
-		Clazz targetReturnClazz;
-		Clazz[] targetParamClazzes;
-		String[] exceptions;
-		Clazz lowestClazz;
-
-		public BridgeMethod(String methodName, Type originReturnType, Type[] originParamTypes, Clazz targetReturnClazz, Clazz[] targetParamClazzes, String[] exceptions) {
-			super();
-			this.methodName = methodName;
-			this.originReturnType = originReturnType;
-			this.originParamTypes = originParamTypes;
-			this.targetReturnClazz = targetReturnClazz;
-			this.targetParamClazzes = targetParamClazzes;
-			this.exceptions = exceptions;
-		}
-
-		public void exec(ClassBody classBody) {
-			logger.debug("BridgeMethod {}", methodName);
-			MethodHeader methodHeader = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, methodName);
-			if (originReturnType != Type.VOID_TYPE) methodHeader.return_(Clazz.of(originReturnType));
-			if (exceptions != null) methodHeader.throws_(exceptions);
-
-			for (int i = 0; i < originParamTypes.length; i++) {
-				methodHeader.parameter("params" + i, Clazz.of(originParamTypes[i]));
-			}
-			MethodCode code = methodHeader.begin();
-
-			code.LINE();
-			code.LOAD("this");
-
-			for (int i = 0; i < originParamTypes.length; i++) {
-				code.LOAD("params" + i);
-
-				Type originType = originParamTypes[i];
-				Clazz targetClazz = targetParamClazzes[i];
-				if (!originType.equals(targetClazz.getType())) {
-					code.CHECKCAST(targetClazz);
-				}
-			}
-
-			if (this.targetParamClazzes.length > 0) code.VIRTUAL(methodName).return_(targetReturnClazz).parameter(this.targetParamClazzes).INVOKE();
-			else code.VIRTUAL(methodName).return_(targetReturnClazz).INVOKE();
-
-			if (originReturnType != Type.VOID_TYPE) {
-				code.RETURNTop();
-			} else {
-				code.RETURN();
-
-			}
-
-			code.END();
-		}
-
 	}
 
 	protected void code_param_eval_accept(String var1, String c, MethodCode code) {

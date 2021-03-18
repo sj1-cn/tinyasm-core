@@ -2369,11 +2369,11 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _bridge_remove(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "remove")
 			.return_(Object.class )
-			.parameter("var1",int.class).begin();
+			.parameter(ACC_SYNTHETIC,"param0",int.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOAD("var1");
+		code.LOAD("param0");
 		code.VIRTUAL("remove")
 			.return_(PojoClass.class)
 			.parameter(int.class).INVOKE();
@@ -2384,13 +2384,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 
 	protected void _bridge_add(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "add")
-			.parameter("var1",int.class)
-			.parameter("var2",Object.class).begin();
+			.parameter(ACC_SYNTHETIC,"param0",int.class)
+			.parameter(ACC_SYNTHETIC,"param1",Object.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOAD("var1");
-		code.LOAD("var2");
+		code.LOAD("param0");
+		code.LOAD("param1");
 		code.CHECKCAST(PojoClass.class);
 		code.VIRTUAL("add")
 			.parameter(int.class)
@@ -2403,13 +2403,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _bridge_set(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "set")
 			.return_(Object.class )
-			.parameter("var1",int.class)
-			.parameter("var2",Object.class).begin();
+			.parameter(ACC_SYNTHETIC,"param0",int.class)
+			.parameter(ACC_SYNTHETIC,"param1",Object.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOAD("var1");
-		code.LOAD("var2");
+		code.LOAD("param0");
+		code.LOAD("param1");
 		code.CHECKCAST(PojoClass.class);
 		code.VIRTUAL("set")
 			.return_(PojoClass.class)
@@ -2423,11 +2423,11 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _bridge_get(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "get")
 			.return_(Object.class )
-			.parameter("var1",int.class).begin();
+			.parameter(ACC_SYNTHETIC,"param0",int.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOAD("var1");
+		code.LOAD("param0");
 		code.VIRTUAL("get")
 			.return_(PojoClass.class)
 			.parameter(int.class).INVOKE();
@@ -2439,11 +2439,11 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _bridge_add_Object_boolean(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_BRIDGE | ACC_SYNTHETIC, "add")
 			.return_(boolean.class )
-			.parameter("var1",Object.class).begin();
+			.parameter(ACC_SYNTHETIC,"param0",Object.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
-		code.LOAD("var1");
+		code.LOAD("param0");
 		code.CHECKCAST(PojoClass.class);
 		code.VIRTUAL("add")
 			.return_(boolean.class)

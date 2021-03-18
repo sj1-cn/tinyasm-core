@@ -77,7 +77,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		// 生成最终文件中的bridge方法。
 		for (int i = proxyAllBridgeMethods.size() - 1; i >= 0; i--) {
-			BridgeMethod bridgeMethod = proxyAllBridgeMethods.get(i);
+			AdvAsmProxyBridgeMethod bridgeMethod = proxyAllBridgeMethods.get(i);
 			String methodName = bridgeMethod.methodName;
 			logger.debug("BridgeMethod -> {} {}", bridgeMethod.methodName, bridgeMethod.lowestClazz);
 			if (methodName.startsWith("_") || methodName.startsWith("<") || methodName.startsWith("dump")) continue;
@@ -159,7 +159,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 					String bridgeMethodTargetReferkey = name + derivedDescriptor;
 
-					BridgeMethod bm = proxyDefinedBridgeMethodes.get(bridgeMethodTargetReferkey);
+					AdvAsmProxyBridgeMethod bm = proxyDefinedBridgeMethodes.get(bridgeMethodTargetReferkey);
 					if (bm != null) {
 						bm.lowestClazz = current.clazz;
 					}
@@ -216,7 +216,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 		return super.visitMethod(access, methodName, descriptor, signature, exceptions);
 	}
 
-	public void buildBridgeMethodBuilder(ClassBody classBody, BridgeMethod bridgeMethod) {
+	public void buildBridgeMethodBuilder(ClassBody classBody, AdvAsmProxyBridgeMethod bridgeMethod) {
 		String methodName = bridgeMethod.methodName;
 		Type originReturnType = bridgeMethod.originReturnType;
 		Type[] originParamTypes = bridgeMethod.originParamTypes;
@@ -224,7 +224,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 		Clazz[] targetParamClazzes = bridgeMethod.targetParamClazzes;
 		String[] exceptions = bridgeMethod.exceptions;
 
-		MethodCode code = classBody.public_().method("$_" + methodName).parameter("classBody", ClassBody.class).begin();
+		MethodCode code = classBody.public_().method("_" + methodName).parameter("classBody", ClassBody.class).begin();
 
 		code_method(code, methodName);
 

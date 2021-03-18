@@ -59,7 +59,7 @@ public class UserRepositoryMagicBuilderAdvAsmProxy extends RepositoryMagicBuilde
 	public String $_update(User param0) {
 		return super.update(param0);
 	}
-	public void $_update(ClassBody classBody) {
+	public void _update(ClassBody classBody) {
 		MethodCode code = ((MethodHeader) classBody.method(4161, "update").return_(Object.class).parameter("params0", WithIdKey.class)).begin();
 		code.LINE();
 		code.LOAD("this");
