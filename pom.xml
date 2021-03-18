@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.github.1sj-cc</groupId>
+	<groupId>com.github.sj1-cn</groupId>
 	<artifactId>tinyasm-core</artifactId>
 	<version>${tinyasm.version}</version>
 	<name>tinyasm-core</name>
@@ -87,7 +87,7 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.1sj-cc</groupId>
+			<groupId>com.github.sj1-cn</groupId>
 			<artifactId>tinyasm-tool</artifactId>
 			<version>${tinyasm.version}</version>
 			<scope>test</scope>
