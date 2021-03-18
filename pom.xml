@@ -25,6 +25,12 @@
 		<compiler.compilerArgument>-parameters</compiler.compilerArgument>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<!-- ASM -->
 		<!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
