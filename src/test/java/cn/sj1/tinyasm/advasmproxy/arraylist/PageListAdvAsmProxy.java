@@ -679,7 +679,6 @@ public class PageListAdvAsmProxy implements PageList<PojoClass>, AdvRuntimeRefer
 
 	// TODO
 	@SuppressWarnings("unused")
-	@Override
 	public <T> T[] toArray(IntFunction<T[]> param0) {
 		AdvContext context = _contextThreadLocal.get();
 		ConsumerWithException<MethodCode> eval_param0 = context.resolve(param0);
