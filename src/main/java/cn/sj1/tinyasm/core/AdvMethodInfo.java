@@ -74,7 +74,7 @@ public class AdvMethodInfo {
 		if (signature != null) {
 
 			ClassSignaturewwww classSignaturewwww = null;
-			classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
+			classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
 			SignatureReader sr = new SignatureReader(signature);
 			sr.accept(classSignaturewwww);
 			classSignaturewwww.finish();

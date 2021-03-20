@@ -327,9 +327,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$forEachRemaining$3(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$forEachRemaining$3")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -366,8 +366,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$remove$2(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$remove$2")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -394,8 +394,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$next$1(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$next$1")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -432,8 +432,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$hasNext$0(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$hasNext$0")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");

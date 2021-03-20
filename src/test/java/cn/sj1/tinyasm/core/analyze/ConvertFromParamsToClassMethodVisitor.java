@@ -13,7 +13,7 @@ public class ConvertFromParamsToClassMethodVisitor extends MethodVisitor {
 //
 	public ConvertFromParamsToClassMethodVisitor(ClassVisitor cv, int access, String name, String desc,
 			String signature, String[] exceptions, Type eventType, Field[] params) {
-		super(Opcodes.ASM5, cv.visitMethod(access, name, Type.getMethodDescriptor(Type.VOID_TYPE, eventType), signature,
+		super(Opcodes.ASM8, cv.visitMethod(access, name, Type.getMethodDescriptor(Type.VOID_TYPE, eventType), signature,
 				exceptions));
 //		this.eventType = eventType;
 //		this.params = params;

@@ -1,7 +1,7 @@
 package cn.sj1.tinyasm.core.analyze;
 
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
-import static org.objectweb.asm.Opcodes.ASM5;
+import static org.objectweb.asm.Opcodes.ASM8;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +17,11 @@ class AnalyzeMethodParamsClassVisitor extends ClassVisitor {
 	}
 
 	public AnalyzeMethodParamsClassVisitor() {
-		super(Opcodes.ASM5);
+		super(Opcodes.ASM8);
 	}
 
 	public AnalyzeMethodParamsClassVisitor(ClassVisitor cv) {
-		super(Opcodes.ASM5, cv);
+		super(Opcodes.ASM8, cv);
 	}
 
 	Map<String, MethodInfo> methods = new HashMap<>();
@@ -40,7 +40,7 @@ class AnalyzeMethodParamsClassVisitor extends ClassVisitor {
 		boolean staticMethod = false;
 
 		public FillParamsMethodVisitor(int access, MethodVisitor mv, String name, String desc) {
-			super(ASM5, mv);
+			super(ASM8, mv);
 			this.method = new MethodInfo(name);
 			AnalyzeMethodParamsClassVisitor.this.methods.put(name, method);
 

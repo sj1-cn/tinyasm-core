@@ -3,16 +3,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.github.sj1-cn</groupId>
+	<groupId>cn.sj1</groupId>
 	<artifactId>tinyasm-core</artifactId>
-	<version>0.3.4</version>
+	<version>0.3.4.1</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.scm.id>bitbucket</project.scm.id>
 		<release.repo.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</release.repo.url>
 		<snapshot.repo.url>https://oss.sonatype.org/content/repositories/snapshots/</snapshot.repo.url>
-		<maven.compiler.source>9</maven.compiler.source>
-		<maven.compiler.target>9</maven.compiler.target>
+		<maven.compiler.source>8</maven.compiler.source>
+		<maven.compiler.target>8</maven.compiler.target>
 		<maven.compiler.compilerArgument>-parameters</maven.compiler.compilerArgument>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 		<maven-bundle-plugin.version>3.5.0</maven-bundle-plugin.version>
@@ -22,7 +22,7 @@
 		<maven-site-plugin.version>3.7.1</maven-site-plugin.version>
 		<maven-surefire-plugin.version>3.0.0-M1</maven-surefire-plugin.version>
 		<jdk9-illegal-access-level>deny</jdk9-illegal-access-level>
-		<asm.version>9.1</asm.version>
+		<asm.version>8.0.1</asm.version>
 		<mockito.version>1.10.19</mockito.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<log4j.version>2.14.0</log4j.version>
@@ -120,7 +120,7 @@
 		<dependency>
 			<groupId>com.github.sj1-cn</groupId>
 			<artifactId>tinyasm-tool</artifactId>
-			<version>${tinyasm.version}</version>
+			<version>0.3.4</version>
 			<scope>test</scope>
 		</dependency>
 

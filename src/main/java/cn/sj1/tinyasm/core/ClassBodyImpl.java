@@ -28,13 +28,13 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 //	private String name;
 
 	ClassBodyImpl(ClassVisitor cv, ClassHeaderImpl header) {
-		super(Opcodes.ASM5, cv);
+		super(Opcodes.ASM8, cv);
 		
 		this.header = header;
 		this.thisType = header.clazz;
 		this.superType = header.superClazz;
 		{
-			int version = 53;
+			int version = 52;
 			int access = header.access;
 
 			String name = this.thisType.getType().getInternalName();

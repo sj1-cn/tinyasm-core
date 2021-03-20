@@ -806,6 +806,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 			.parameter(Class.class)
 			.parameter(int.class).INVOKE();
 		code.CHECKCAST(Object[].class);
+		code.CHECKCAST(Object[].class);
 		code.STORE("targetArray",Clazz.typeVariableOf("T",true));
 
 		code.LINE();
@@ -2456,9 +2457,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$forEach$38(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$forEach$38")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2495,8 +2496,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$parallelStream$37(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$parallelStream$37")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2527,8 +2528,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$stream$36(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$stream$36")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2559,9 +2560,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$removeIf$35(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$removeIf$35")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2602,9 +2603,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$toArray$34(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$toArray$34")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2645,8 +2646,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$spliterator$33(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$spliterator$33")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2677,10 +2678,10 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$subList$32(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$subList$32")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("eval_param1",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param1",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2731,9 +2732,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$listIterator$31(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$listIterator$31")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2774,8 +2775,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$listIterator$30(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$listIterator$30")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2806,9 +2807,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$lastIndexOf$29(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$lastIndexOf$29")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2849,9 +2850,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$indexOf$28(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$indexOf$28")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2892,9 +2893,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$remove$27(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$remove$27")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2941,10 +2942,10 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$add$26(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$add$26")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("eval_param1",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param1",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -2991,10 +2992,10 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$set$25(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$set$25")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("eval_param1",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param1",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3051,9 +3052,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$get$24(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$get$24")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3100,8 +3101,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$hashCode$23(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$hashCode$23")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3132,9 +3133,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$equals$22(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$equals$22")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3175,8 +3176,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$clear$21(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$clear$21")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3203,9 +3204,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$sort$20(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$sort$20")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3242,9 +3243,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$replaceAll$19(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$replaceAll$19")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3281,9 +3282,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$retainAll$18(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$retainAll$18")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3324,9 +3325,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$removeAll$17(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$removeAll$17")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3367,10 +3368,10 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$addAll$16(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$addAll$16")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("eval_param1",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param1",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3421,9 +3422,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$addAll$15(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$addAll$15")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3464,9 +3465,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$containsAll$14(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$containsAll$14")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3507,9 +3508,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$remove$13(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$remove$13")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3550,9 +3551,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$add$12(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$add$12")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3593,9 +3594,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$toArray$11(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$toArray$11")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3636,8 +3637,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$toArray$10(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$toArray$10")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3668,8 +3669,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$iterator$9(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$iterator$9")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3700,9 +3701,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$contains$8(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$contains$8")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3743,8 +3744,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$isEmpty$7(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$isEmpty$7")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3775,8 +3776,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$size$6(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$size$6")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3807,9 +3808,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$totalSize$5(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$totalSize$5")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3846,9 +3847,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$max$4(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$max$4")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3885,9 +3886,9 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$start$3(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$start$3")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("eval_param0",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"eval_param0",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3924,8 +3925,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$getTotalSize$2(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$getTotalSize$2")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3956,8 +3957,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$getMax$1(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$getMax$1")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");
@@ -3988,8 +3989,8 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 	protected void _lambda$getStart$0(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$getStart$0")
 			.throws_(Exception.class )
-			.parameter("objEval",ConsumerWithException.class)
-			.parameter("c",MethodCode.class).begin();
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"objEval",ConsumerWithException.class)
+			.parameter(ACC_SYNTHETIC,"c",MethodCode.class).begin();
 
 		code.LINE();
 		code.LOAD("objEval");

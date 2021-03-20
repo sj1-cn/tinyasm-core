@@ -2,7 +2,7 @@ package cn.sj1.tinyasm.core;
 
 import static org.objectweb.asm.Opcodes.ACC_BRIDGE;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ASM9;
+import static org.objectweb.asm.Opcodes.ASM8;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -39,14 +39,14 @@ class AdvMagicBuilderEngine {
 			List<ClazzFormalTypeParameter> classFormalTypeParameters = new ArrayList<>();
 			// 之所以用这么繁琐的方法，是因为Java Reflect不能保证方法的顺序。
 			ClassReader cr = new ClassReader(magicBuilderClass.getName());
-			cr.accept(new ClassVisitor(ASM9) {
+			cr.accept(new ClassVisitor(ASM8) {
 				boolean inited = false;
 
 				@Override
 				public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
 					Adv.logger.debug("visit( {},  {},  {},  {}, [] exceptions)", access, name, signature, superName);
 					if (signature != null) {
-						ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
+						ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
 						SignatureReader sr = new SignatureReader(signature);
 						sr.accept(classSignaturewwww);
 						classSignaturewwww.finish();
@@ -176,7 +176,7 @@ class AdvMagicBuilderEngine {
 
 			// 之所以用这么繁琐的方法，是因为Java Reflect不能保证方法的顺序。
 			ClassReader cr = new ClassReader(magicBuilderClass.getName());
-			cr.accept(new ClassVisitor(ASM9) {
+			cr.accept(new ClassVisitor(ASM8) {
 				boolean inited = false;
 
 				@Override

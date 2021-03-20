@@ -50,7 +50,7 @@ public class RenameClassVisitor extends ClassVisitor {
 	 * com/blah/MyClass$InnerClass).
 	 */
 	public RenameClassVisitor(ClassVisitor cv, String oldName, String newName) {
-		super(Opcodes.ASM5, cv);
+		super(Opcodes.ASM8, cv);
 		mOldBase = mOldName = oldName;
 		mNewBase = mNewName = newName;
 
@@ -276,7 +276,7 @@ public class RenameClassVisitor extends ClassVisitor {
 		 * com/blah/MyClass$InnerClass).
 		 */
 		public RenameMethodAdapter(MethodVisitor mv) {
-			super(Opcodes.ASM5, mv);
+			super(Opcodes.ASM8, mv);
 		}
 
 		@Override
@@ -358,7 +358,7 @@ public class RenameClassVisitor extends ClassVisitor {
 		private final SignatureVisitor mSv;
 
 		public RenameSignatureAdapter(SignatureVisitor sv) {
-			super(Opcodes.ASM5);
+			super(Opcodes.ASM8);
 			mSv = sv;
 		}
 

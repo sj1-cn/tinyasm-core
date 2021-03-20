@@ -43,7 +43,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	public static byte[] dumpClass(Class<?> target, Class<?>[] actualTypeArguments, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM9, cw);
+		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM8, cw);
 
 		bw.dumpClass(Clazz.of(target), of(t -> Clazz.of(t), actualTypeArguments), proxyClassName);
 
@@ -53,7 +53,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	public static byte[] dumpClass(Class<?> target, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM9, cw);
+		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM8, cw);
 
 		bw.dumpClass(Clazz.of(target), new Clazz[] {}, proxyClassName);
 
@@ -63,7 +63,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	public static byte[] dumpInterface(Class<?> target, Class<?>[] actualTypeArguments, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM9, cw);
+		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM8, cw);
 
 		bw.dumpInterface(Clazz.of(target), of(t -> Clazz.of(t), actualTypeArguments), proxyClassName);
 
@@ -73,7 +73,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 	public static byte[] dumpInterface(Class<?> target, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM9, cw);
+		AdvAsmProxyClassAdvAsmBuilder bw = new AdvAsmProxyClassAdvAsmBuilder(Opcodes.ASM8, cw);
 
 		bw.dumpInterface(Clazz.of(target), new Clazz[] {}, proxyClassName);
 
@@ -246,7 +246,7 @@ public class AdvAsmProxyClassAdvAsmBuilder extends ClassVisitor {
 		logger.debug("visit( {},  {},  {},  {}, [] exceptions)", access, name, signature, superName);
 		current.currentName = name;
 		if (signature != null) {
-			ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
+			ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
 			SignatureReader sr = new SignatureReader(signature);
 			sr.accept(classSignaturewwww);
 			classSignaturewwww.finish();

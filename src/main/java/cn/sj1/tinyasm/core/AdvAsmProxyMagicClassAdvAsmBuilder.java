@@ -20,7 +20,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 	public static byte[] dumpMagic(Class<?> target, Class<?>[] actualTypeArguments, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		AdvAsmProxyMagicClassAdvAsmBuilder bw = new AdvAsmProxyMagicClassAdvAsmBuilder(Opcodes.ASM9, cw);
+		AdvAsmProxyMagicClassAdvAsmBuilder bw = new AdvAsmProxyMagicClassAdvAsmBuilder(Opcodes.ASM8, cw);
 
 		bw.dumpMagicClass(Clazz.of(target), of(t -> Clazz.of(t), actualTypeArguments), proxyClassName);
 
@@ -30,7 +30,7 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 	public static byte[] dumpMagic(Class<?> target, String proxyClassName) throws Exception {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 
-		AdvAsmProxyMagicClassAdvAsmBuilder bw = new AdvAsmProxyMagicClassAdvAsmBuilder(Opcodes.ASM9, cw);
+		AdvAsmProxyMagicClassAdvAsmBuilder bw = new AdvAsmProxyMagicClassAdvAsmBuilder(Opcodes.ASM8, cw);
 
 		bw.dumpMagicClass(Clazz.of(target), new Clazz[] {}, proxyClassName);
 
@@ -125,13 +125,13 @@ public class AdvAsmProxyMagicClassAdvAsmBuilder extends AdvAsmProxyClassAdvAsmBu
 
 		try {
 			ClassReader cr = new ClassReader(target.getType().getClassName());
-			cr.accept(new ClassVisitor(Opcodes.ASM9) {
+			cr.accept(new ClassVisitor(Opcodes.ASM8) {
 
 				@Override
 				public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
 					logger.debug("visit( {},  {},  {},  {}, [] exceptions)", access, name, signature, superName);
 					if (signature != null) {
-						ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM9);
+						ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
 						SignatureReader sr = new SignatureReader(signature);
 						sr.accept(classSignaturewwww);
 						classSignaturewwww.finish();
