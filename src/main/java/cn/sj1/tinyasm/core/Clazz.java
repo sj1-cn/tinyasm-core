@@ -34,6 +34,15 @@ public abstract class Clazz {
 		return signatureOf();
 	}
 
+	public static Clazz[] of(Class<?>[] classses) {
+		Clazz[] clazzes = new Clazz[classses.length];
+		for (int i = 0; i < classses.length; i++) {
+			Class<?> class1 = classses[i];
+			clazzes[i] = of(class1);
+		}
+		return clazzes;
+	}
+
 	public static Clazz of(java.lang.reflect.Type type) {
 		if (type instanceof ParameterizedType) {
 			Clazz clazz = Clazz.of(((ParameterizedType) type).getRawType().getTypeName());

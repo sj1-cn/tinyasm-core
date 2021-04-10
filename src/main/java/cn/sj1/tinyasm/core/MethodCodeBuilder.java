@@ -71,6 +71,11 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
+	public MethodVisitor getMethodVisitor() {
+		return this.mv;
+	}
+
+	@Override
 	int stackSize() {
 		return stack.size();
 	}

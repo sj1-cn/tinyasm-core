@@ -90,6 +90,7 @@ import static org.objectweb.asm.Opcodes.SIPUSH;
 
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
@@ -141,11 +142,9 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	abstract void visitIincInsn(final int var, final int increment);
 
-	public abstract void visitInvokeDynamicInsn(final String name, final String descriptor, final Handle bootstrapMethodHandle,
-			final Object... bootstrapMethodArguments);
+	public abstract void visitInvokeDynamicInsn(final String name, final String descriptor, final Handle bootstrapMethodHandle, final Object... bootstrapMethodArguments);
 
-	public void InvokeDynamicInsn(final String name, final String descriptor, final Handle bootstrapMethodHandle,
-			final Object... bootstrapMethodArguments) {
+	public void InvokeDynamicInsn(final String name, final String descriptor, final Handle bootstrapMethodHandle, final Object... bootstrapMethodArguments) {
 		stackPop();
 		stackPop();
 	}
@@ -169,6 +168,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public abstract Type stackPop();
 
 	abstract int stackSize();
+
+	public abstract MethodVisitor getMethodVisitor();
 
 	// TODO need to delete
 	public int advStackSize() {
@@ -284,7 +285,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		}
 		STORE(local);
 	}
-	
+
 	@Override
 	public int STORE(String varname, Clazz clazz) {
 		int local = codeLocalGetLocals(varname);
@@ -496,8 +497,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 			}
 		} else if (cst instanceof Type) {
 			int sort = ((Type) cst).getSort();
-			if (sort == Type.BOOLEAN || sort == Type.CHAR || sort == Type.BYTE || sort == Type.SHORT || sort == Type.INT
-					|| sort == Type.LONG || sort == Type.FLOAT || sort == Type.DOUBLE) {
+			if (sort == Type.BOOLEAN || sort == Type.CHAR || sort == Type.BYTE || sort == Type.SHORT || sort == Type.INT || sort == Type.LONG || sort == Type.FLOAT || sort == Type.DOUBLE) {
 				visitLdcInsn(cst);
 				stackPush(Type.getType(String.class));
 			} else if (sort == Type.OBJECT) {
@@ -719,10 +719,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void CMPL() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
-		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
-				: "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
-		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
-				: "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
 
 		stackPush(Type.INT_TYPE);
 
@@ -737,10 +735,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void CMPG() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
-		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
-				: "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
-		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE)
-				: "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
 
 		stackPush(Type.INT_TYPE);
 
