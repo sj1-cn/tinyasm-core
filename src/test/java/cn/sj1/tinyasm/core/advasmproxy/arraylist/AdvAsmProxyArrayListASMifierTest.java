@@ -103,14 +103,14 @@ public class AdvAsmProxyArrayListASMifierTest {
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
-	@Test
-	public void test_PageList_Proxy_Build() throws Exception {
-		Class<?> expectedClazz = PageListAdvAsmProxy.class;
-		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-	
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyClassAdvAsmBuilder.dumpInterface(PageList.class, of(PojoClass.class), PageListAdvAsmProxy.class.getName()));
-	
-		assertEquals("Code", codeExpected, codeActual);
-	}
+//	@Test
+//	public void test_PageList_Proxy_Build() throws Exception {
+//		Class<?> expectedClazz = PageListAdvAsmProxy.class;
+//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+//	
+//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyClassAdvAsmBuilder.dumpInterface(PageList.class, of(PojoClass.class), PageListAdvAsmProxy.class.getName()));
+//	
+//		assertEquals("Code", codeExpected, codeActual);
+//	}
 
 }

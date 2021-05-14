@@ -72,21 +72,21 @@ public class MixinTest {
 		assertEquals("wangshilian--", s.getName("wangshilian"));
 	}
 
-	@Test
-	public void testBuild2() {
-		ObjectInstantiator<SimpleGenericClass<String>> objectInstantiator = Mixin.build(SimpleGenericClass.class, String.class, new Object[] { "--" });
-		SimpleGenericClass<String> s = objectInstantiator.newInstance();
-		assertEquals("wangshiliangenericclass", s.getName("wangshiliangenericclass"));
-	}
-
-	@Test
-	public void test_SimpleGenericClass_Build() throws Exception {
-		Class<?> expectedClazz = SimpleClassMixin.class;
-		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), MixinAdvAsmBuilder.dumpMagic(SimpleGenericClass.class, SimpleClassMixin.class.getName(), new Class[] { String.class }, new Object[] { "--" }));
-
-		assertEquals("Code", codeExpected, codeActual);
-
-	}
+//	@Test
+//	public void testBuild2() {
+//		ObjectInstantiator<SimpleGenericClass<String>> objectInstantiator = Mixin.build(SimpleGenericClass.class, String.class, new Object[] { "--" });
+//		SimpleGenericClass<String> s = objectInstantiator.newInstance();
+//		assertEquals("wangshiliangenericclass", s.getName("wangshiliangenericclass"));
+//	}
+//
+//	@Test
+//	public void test_SimpleGenericClass_Build() throws Exception {
+//		Class<?> expectedClazz = SimpleClassMixin.class;
+//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+//
+//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), MixinAdvAsmBuilder.dumpMagic(SimpleGenericClass.class, SimpleClassMixin.class.getName(), new Class[] { String.class }, new Object[] { "--" }));
+//
+//		assertEquals("Code", codeExpected, codeActual);
+//
+//	}
 }

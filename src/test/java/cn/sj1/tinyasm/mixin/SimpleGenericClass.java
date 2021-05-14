@@ -2,7 +2,7 @@ package cn.sj1.tinyasm.mixin;
 
 import cn.sj1.tinyasm.core.Mixin;
 
-public class SimpleGenericClass<T> {
+public class SimpleGenericClass<T>  extends SimpleClass {
 	public String getName(T t) {
 		Mixin.__(code -> {
 			String newname = Mixin.getParam(String.class);

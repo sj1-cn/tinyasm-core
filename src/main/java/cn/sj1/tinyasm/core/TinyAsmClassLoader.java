@@ -29,4 +29,8 @@ public class TinyAsmClassLoader extends ClassLoader {
 		if (instance == null) instance = new TinyAsmClassLoader();
 		instance.resolveClass(clzBroker);
 	}
+
+	public final Class<?> doDefineClass(String name, byte[] b) {
+		return super.defineClass(name, b, 0, b.length);
+	}
 }

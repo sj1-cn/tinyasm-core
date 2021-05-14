@@ -3,7 +3,7 @@ package cn.sj1.tinyasm.mixin;
 import cn.sj1.tinyasm.core.MethodCode;
 
 public class SimpleClassLambda {
-	public static void lambda_0(MethodCode code) throws Exception {
+	public static void lambda_getName_0(MethodCode code) throws Exception {
 		code.NEW(StringBuffer.class);
 		code.DUP();
 		code.LOAD("name");
