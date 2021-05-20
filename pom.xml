@@ -37,7 +37,7 @@
 		<connection>scm:git:https://github.com/sj1-cn/tinyasm-core.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com:sj1-cn/tinyasm-core.git</developerConnection>
 		<url>https://github.com/sj1-cn/tinyasm-core/tree/master/src</url>
-		<tag>0.3.4</tag>
+		<tag>${tinyasm.version}</tag>
 	</scm>
 	<licenses>
 		<license>
