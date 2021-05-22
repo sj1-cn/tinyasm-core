@@ -61,7 +61,7 @@ public class ClazzFormalTypeParameter extends Clazz {
 		if (clazz.getType().getClassName().equals(Object.class.getName())) {
 			return name + ":" + clazz.signatureOf() + "";
 		} else {
-			return name + "::" + clazz.signatureOf() + "";
+			return name + ":" + clazz.signatureOf() + "";
 		}
 	}
 

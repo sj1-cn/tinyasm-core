@@ -131,6 +131,24 @@ public class ClassSignaturewwwwTest {
 	}
 
 	@Test
+	public void test_generic_user_method() {
+		String signature = "<S:Lcn/sj1/nebula/data/support/User;>(Ljava/lang/Iterable<TS;>;)Ljava/lang/Iterable<TS;>;";
+		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		SignatureReader sr = new SignatureReader(signature);
+		sr.accept(classSignaturewwww);
+		classSignaturewwww.finish();
+		assertEquals("Ljava/lang/Iterable<TS;>;", classSignaturewwww.returnClazz.toString());
+
+//		assertEquals(null, classSignaturewwww.returnClazz);
+		assertEquals("Ljava/lang/Iterable<TS;>;", classSignaturewwww.paramsClazzes[0].toString());
+		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
+		assertEquals(null, classSignaturewwww.superClazz);
+		assertEquals("S:Lcn/sj1/nebula/data/support/User;", classSignaturewwww.typeParamenterClazzes[0].toString());
+	}
+	
+	
+	
+	@Test
 	public void test_basetype() {
 		String signature = "(Ljava/util/Collection<*>;)Z";
 		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
