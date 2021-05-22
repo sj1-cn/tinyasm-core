@@ -187,12 +187,7 @@ public class MixinAdvAsmBuilder extends ClassVisitor {
 		final AdvMethodInfo methodInfo;
 		final List<String> locals;
 
-		/**
-		 * 
-		 * @param mh
-		 * @param methodInfo
-		 * @param locals
-		 */
+
 		public MixinMethodAdapter(MethodHeader mh, AdvMethodInfo methodInfo, List<String> locals) {
 			super(Opcodes.ASM8);
 			this.mh = mh;

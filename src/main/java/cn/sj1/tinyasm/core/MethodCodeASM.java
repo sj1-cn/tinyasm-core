@@ -283,7 +283,7 @@ public interface MethodCodeASM {
 
 	String _THIS = "this";
 
-	/** ARRAY **/
+	// ARRAY
 
 	void GETFIELD_OF_THIS(String fieldname);
 
@@ -311,7 +311,7 @@ public interface MethodCodeASM {
 
 	void ATHROW();
 
-	/** INVOKE **/
+	// INVOKE
 	void INVOKESTATIC(Class<?> objectType, String methodName, Class<?>... paramTypes);
 
 	void INVOKESTATIC(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);

@@ -138,6 +138,8 @@ public class MixinLambdaAdvAsmBuilder extends ClassVisitor {
 		 * a given new name. The method visitor will also rename all inner classes. The
 		 * names must be full qualified internal ASM names (e.g.
 		 * com/blah/MyClass$InnerClass).
+		 * 
+		 * @param mv mv
 		 */
 		public RenameMethodAdapter(MethodVisitor mv) {
 			super(Opcodes.ASM8, mv);

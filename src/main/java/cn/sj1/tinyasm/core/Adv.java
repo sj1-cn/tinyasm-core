@@ -20,14 +20,14 @@ public class Adv {
 
 	static Logger logger = LoggerFactory.getLogger(Adv.class);
 
-	/**********************************************
-	 * Class
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 ***********************************************/
+	//********************************************
+	// * Class
+	// * 
+	// * 
+	// * 
+	// * 
+	// * 
+	// ***********************************************/
 //
 //	static public AfterClassName public_class_(String advSample) {
 //		AdvClassBuilderImpl builder = new AdvClassBuilderImpl(_contextThreadLocal);
@@ -716,8 +716,8 @@ public class Adv {
 	/**
 	 * Refer 把当前堆栈顶的值保存在指定的local位置中并返回记录local位置的值。
 	 * 
-	 * @param booleanMagicLocalsIndex
-	 * @param v
+	 * @param booleanMagicLocalsIndex index
+	 * @param v no 
 	 */
 	static public void __(boolean_ booleanMagicLocalsIndex, boolean v) {
 		byte targetMagicIndex = booleanMagicLocalsIndex.getMagicNumber();
@@ -803,9 +803,10 @@ public class Adv {
 	/**
 	 * 把当前堆栈顶端的对象存储到locals中 TODO 需要重构，把对象类型加进去。
 	 * 
-	 * @param <T>
-	 * @param magicNumber
-	 * @return
+	 * @param <T> value
+	 * @param varname varname
+	 * @param magicNumber magicNumber
+	 * @return value
 	 */
 	@SuppressWarnings("unchecked")
 	static public <T> T __(String varname, T magicNumber) {

@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import cn.sj1.tinyasm.core.AdvAsmProxyClassAdvAsmBuilder;
 import cn.sj1.tinyasm.core.AdvContext;
+import cn.sj1.tinyasm.core.Clazz;
 import cn.sj1.tinyasm.core.advasmproxy.simple.PojoClass;
 import cn.sj1.tinyasm.tools.TinyAsmTestUtils;
 
@@ -37,7 +38,6 @@ public class AdvAsmProxyArrayListASMifierTest {
 		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), AdvAsmProxyClassAdvAsmBuilder.dumpClass(ArraySample.class, ArraySampleAdvAsmProxy.class.getName()));
 
 		assertEquals("Code", codeExpected, codeActual);
-
 	}
 
 	@Test
