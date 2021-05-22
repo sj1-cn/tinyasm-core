@@ -83,34 +83,34 @@ public class MixinAdvAsmBuilder extends ClassVisitor {
 
 	Map<String, List<String>> methodLocals;
 
-	private void dumpMagicClass(Clazz[] actualTypeArguments) throws Exception {
-
-		String lambdaClassName = this.target.getName() + "$Lambda";
-		MixinLambdaAdvAsmBuilder mixinLambdaAdvAsmBuilder = MixinLambdaAdvAsmBuilder.dumpMagic(this.target, lambdaClassName);
-		byte[] lambdaCode = mixinLambdaAdvAsmBuilder.toByteArray();
-		this.methodLocals = mixinLambdaAdvAsmBuilder.methodLocals;
-
-		classLambda = TinyAsmClassLoader.defineClass(lambdaClassName, lambdaCode);
-		TinyAsmClassLoader.doResolveClass(classLambda);
-
-		this.proxyActualTypeArguments = actualTypeArguments;
-
-		ClassHeader ch = ClassBuilder.class_(cv, proxyClassName);
-//		if(superName)
-		if (actualTypeArguments.length > 0) {
-			ch.extends_(Clazz.of(targetClazz, proxyActualTypeArguments));
-		} else {
-			ch.extends_(targetClazz);
-		}
-
-		proxyClassBody = ch.body();
+//	private void dumpMagicClass(Clazz[] actualTypeArguments) throws Exception {
 //
-		__init_TargetClass(proxyClassBody, targetClazz);
-
-		resolveClass(targetClazz, actualTypeArguments);
-		doresolveClass(0);
-		finish();
-	}
+//		String lambdaClassName = this.target.getName() + "$Lambda";
+//		MixinLambdaAdvAsmBuilder mixinLambdaAdvAsmBuilder = MixinLambdaAdvAsmBuilder.dumpMagic(this.target, lambdaClassName);
+//		byte[] lambdaCode = mixinLambdaAdvAsmBuilder.toByteArray();
+//		this.methodLocals = mixinLambdaAdvAsmBuilder.methodLocals;
+//
+//		classLambda = TinyAsmClassLoader.defineClass(lambdaClassName, lambdaCode);
+//		TinyAsmClassLoader.doResolveClass(classLambda);
+//
+//		this.proxyActualTypeArguments = actualTypeArguments;
+//
+//		ClassHeader ch = ClassBuilder.class_(cv, proxyClassName);
+////		if(superName)
+//		if (actualTypeArguments.length > 0) {
+//			ch.extends_(Clazz.of(targetClazz, proxyActualTypeArguments));
+//		} else {
+//			ch.extends_(targetClazz);
+//		}
+//
+//		proxyClassBody = ch.body();
+////
+//		__init_TargetClass(proxyClassBody, targetClazz);
+//
+//		resolveClass(targetClazz, actualTypeArguments);
+//		doresolveClass(0);
+//		finish();
+//	}
 
 	Object[] params;
 

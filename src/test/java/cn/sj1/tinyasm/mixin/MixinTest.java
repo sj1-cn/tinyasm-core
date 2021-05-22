@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.objenesis.instantiator.ObjectInstantiator;
 
 import cn.sj1.tinyasm.core.Mixin;
-import cn.sj1.tinyasm.core.MixinAdvAsmBuilder;
 import cn.sj1.tinyasm.core.MixinLambdaAdvAsmBuilder;
 import cn.sj1.tinyasm.tools.TinyAsmTestUtils;
 
