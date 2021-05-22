@@ -21,11 +21,11 @@ import cn.sj1.tinyasm.core.advasmproxy.simple.PojoInterfaceChildSample;
 @SuppressWarnings("unused")
 public class PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.simple.PojoInterfaceChildSampleAdvAsmProxy");
+	public static byte[] dump() throws Exception {
+		return new PojoInterfaceChildSampleAdvAsmProxyTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.simple.PojoInterfaceChildSampleAdvAsmProxy");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, PojoInterfaceChildSample.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

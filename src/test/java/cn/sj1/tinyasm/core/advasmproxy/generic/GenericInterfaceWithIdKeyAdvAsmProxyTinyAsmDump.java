@@ -29,15 +29,15 @@ import cn.sj1.tinyasm.core.advasmproxy.generic.GenericInterfaceWithIdKey;
 @SuppressWarnings("unused")
 public class GenericInterfaceWithIdKeyAdvAsmProxyTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new GenericInterfaceWithIdKeyAdvAsmProxyTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.generic.GenericInterfaceWithIdKeyAdvAsmProxy");
+	public static byte[] dump() throws Exception {
+		return new GenericInterfaceWithIdKeyAdvAsmProxyTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.generic.GenericInterfaceWithIdKeyAdvAsmProxy");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(Object.class),Clazz.of(GenericInterfaceWithIdKey.class,Clazz.of(PojoClassWithIdKey.class)),Clazz.of(AdvRuntimeReferNameObject.class))
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
+		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
 
 		classBody.private_().field("_magicNumber", Clazz.of(byte.class));
 		classBody.private_().field("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)));

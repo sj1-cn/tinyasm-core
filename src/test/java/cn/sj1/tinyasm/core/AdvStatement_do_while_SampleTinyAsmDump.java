@@ -13,11 +13,11 @@ import java.lang.Object;
 @SuppressWarnings("unused")
 public class AdvStatement_do_while_SampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new AdvStatement_do_while_SampleTinyAsmDump().dump("cn.sj1.tinyasm.core.AdvStatement_do_while_Sample");
+	public static byte[] dump() throws Exception {
+		return new AdvStatement_do_while_SampleTinyAsmDump().build("cn.sj1.tinyasm.core.AdvStatement_do_while_Sample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

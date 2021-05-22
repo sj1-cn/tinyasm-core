@@ -16,11 +16,11 @@ import java.lang.String;
 @SuppressWarnings("unused")
 public class ClassBTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new ClassBTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.subclassmethod.ClassB");
+	public static byte[] dump() throws Exception {
+		return new ClassBTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.subclassmethod.ClassB");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, ClassA.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

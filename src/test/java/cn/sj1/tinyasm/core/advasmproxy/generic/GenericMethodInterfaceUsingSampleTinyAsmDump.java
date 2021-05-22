@@ -16,11 +16,11 @@ import java.lang.Integer;
 @SuppressWarnings("unused")
 public class GenericMethodInterfaceUsingSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new GenericMethodInterfaceUsingSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.generic.GenericMethodInterfaceUsingSample");
+	public static byte[] dump() throws Exception {
+		return new GenericMethodInterfaceUsingSampleTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.generic.GenericMethodInterfaceUsingSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

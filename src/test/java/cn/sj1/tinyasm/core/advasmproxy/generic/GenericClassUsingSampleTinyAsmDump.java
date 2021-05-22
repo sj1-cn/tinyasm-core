@@ -15,11 +15,11 @@ import cn.sj1.tinyasm.core.advasmproxy.simple.PojoClass;
 @SuppressWarnings("unused")
 public class GenericClassUsingSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new GenericClassUsingSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.generic.GenericClassUsingSample");
+	public static byte[] dump() throws Exception {
+		return new GenericClassUsingSampleTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.generic.GenericClassUsingSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

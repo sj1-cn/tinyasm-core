@@ -14,11 +14,11 @@ import java.lang.String;
 @SuppressWarnings("unused")
 public class MethodCodeASMSimpleSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new MethodCodeASMSimpleSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.MethodCodeASMSimpleSample");
+	public static byte[] dump() throws Exception {
+		return new MethodCodeASMSimpleSampleTinyAsmDump().build("cn.sj1.tinyasm.core.MethodCodeASMSimpleSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

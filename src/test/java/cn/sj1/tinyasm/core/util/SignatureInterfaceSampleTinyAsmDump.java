@@ -16,11 +16,11 @@ import java.io.Serializable;
 @SuppressWarnings("unused")
 public class SignatureInterfaceSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new SignatureInterfaceSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.util.SignatureInterfaceSample");
+	public static byte[] dump() throws Exception {
+		return new SignatureInterfaceSampleTinyAsmDump().build("cn.sj1.tinyasm.core.util.SignatureInterfaceSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(Object.class),Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String[].class))),Clazz.of(Serializable.class))
 			.access(ACC_PUBLIC | ACC_ABSTRACT | ACC_INTERFACE).body();
 

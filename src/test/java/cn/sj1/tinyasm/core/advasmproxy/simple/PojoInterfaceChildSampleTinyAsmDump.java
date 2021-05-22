@@ -23,11 +23,11 @@ import java.lang.Integer;
 @SuppressWarnings("unused")
 public class PojoInterfaceChildSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new PojoInterfaceChildSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.simple.PojoInterfaceChildSample");
+	public static byte[] dump() throws Exception {
+		return new PojoInterfaceChildSampleTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.simple.PojoInterfaceChildSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, Object.class, PojoInterfaceSample.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

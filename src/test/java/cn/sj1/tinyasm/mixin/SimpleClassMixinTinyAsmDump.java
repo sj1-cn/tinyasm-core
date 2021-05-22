@@ -15,11 +15,11 @@ import java.lang.String;
 @SuppressWarnings("unused")
 public class SimpleClassMixinTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new SimpleClassMixinTinyAsmDump().dump("cn.sj1.tinyasm.mixin.SimpleClassMixin");
+	public static byte[] dump() throws Exception {
+		return new SimpleClassMixinTinyAsmDump().build("cn.sj1.tinyasm.mixin.SimpleClassMixin");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, SimpleClass.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
