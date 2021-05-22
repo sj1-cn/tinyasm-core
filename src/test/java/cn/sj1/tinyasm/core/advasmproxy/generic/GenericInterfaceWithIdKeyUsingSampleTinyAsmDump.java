@@ -17,11 +17,11 @@ import cn.sj1.tinyasm.core.advasmproxy.generic.GenericInterfaceWithIdKey;
 @SuppressWarnings("unused")
 public class GenericInterfaceWithIdKeyUsingSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new GenericInterfaceWithIdKeyUsingSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.generic.GenericInterfaceWithIdKeyUsingSample");
+	public static byte[] dump() throws Exception {
+		return new GenericInterfaceWithIdKeyUsingSampleTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.generic.GenericInterfaceWithIdKeyUsingSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

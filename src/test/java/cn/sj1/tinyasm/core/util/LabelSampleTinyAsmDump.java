@@ -16,11 +16,11 @@ import java.lang.String;
 @SuppressWarnings("unused")
 public class LabelSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new LabelSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.util.LabelSample");
+	public static byte[] dump() throws Exception {
+		return new LabelSampleTinyAsmDump().build("cn.sj1.tinyasm.core.util.LabelSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

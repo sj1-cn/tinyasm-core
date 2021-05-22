@@ -29,15 +29,15 @@ import cn.sj1.tinyasm.core.MethodCaller;
 @SuppressWarnings("unused")
 public class ArraySampleAdvAsmProxyTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new ArraySampleAdvAsmProxyTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.arraylist.ArraySampleAdvAsmProxy");
+	public static byte[] dump() throws Exception {
+		return new ArraySampleAdvAsmProxyTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.arraylist.ArraySampleAdvAsmProxy",cn.sj1.tinyasm.core.AdvContext.class);
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className,Class<?> classAdvContext) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, ArraySample.class, AdvRuntimeReferNameObject.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
+		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
 
 		classBody.private_().field("_magicNumber", Clazz.of(byte.class));
 		classBody.private_().field("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)));
@@ -46,18 +46,18 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		_set__MagicNumber(classBody);
 		_set__Context(classBody);
 		_get__TargetClazz(classBody);
-		_getByteArray(classBody);
-		_getShortArray(classBody);
-		_getIntArray(classBody);
-		_getShort2Array(classBody);
-		_getStringArray(classBody);
-		_getSimplePojoClassSampleArray(classBody);
-		_setByteArray(classBody);
-		_setShortArray(classBody);
-		_setIntArray(classBody);
-		_setShort2Array(classBody);
-		_setStringArray(classBody);
-		_setSimplePojoClassSampleArray(classBody);
+		_getByteArray(classBody,classAdvContext);
+		_getShortArray(classBody,classAdvContext);
+		_getIntArray(classBody,classAdvContext);
+		_getShort2Array(classBody,classAdvContext);
+		_getStringArray(classBody,classAdvContext);
+		_getSimplePojoClassSampleArray(classBody,classAdvContext);
+		_setByteArray(classBody,classAdvContext);
+		_setShortArray(classBody,classAdvContext);
+		_setIntArray(classBody,classAdvContext);
+		_setShort2Array(classBody,classAdvContext);
+		_setStringArray(classBody,classAdvContext);
+		_setSimplePojoClassSampleArray(classBody,classAdvContext);
 		_lambda$setSimplePojoClassSampleArray$11(classBody);
 		_lambda$setStringArray$10(classBody);
 		_lambda$setShort2Array$9(classBody);
@@ -148,7 +148,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _getByteArray(ClassBody classBody) {
+	protected void _getByteArray(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("getByteArray")
 			.return_(byte[].class ).begin();
 
@@ -157,13 +157,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -173,7 +173,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOADConst(Type.getType("[B"));
 		code.LOAD("objEval");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$getByteArray$0", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "push")
+		code.VIRTUAL(classAdvContext, "push")
 			.return_(byte.class)
 			.parameter(Class.class)
 			.parameter(ConsumerWithException.class).INVOKE();
@@ -204,7 +204,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _getShortArray(ClassBody classBody) {
+	protected void _getShortArray(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("getShortArray")
 			.return_(short[].class ).begin();
 
@@ -213,13 +213,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -229,7 +229,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOADConst(Type.getType("[S"));
 		code.LOAD("objEval");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$getShortArray$1", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "push")
+		code.VIRTUAL(classAdvContext, "push")
 			.return_(byte.class)
 			.parameter(Class.class)
 			.parameter(ConsumerWithException.class).INVOKE();
@@ -260,7 +260,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _getIntArray(ClassBody classBody) {
+	protected void _getIntArray(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("getIntArray")
 			.return_(int[].class ).begin();
 
@@ -269,13 +269,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -285,7 +285,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOADConst(Type.getType("[I"));
 		code.LOAD("objEval");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$getIntArray$2", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "push")
+		code.VIRTUAL(classAdvContext, "push")
 			.return_(byte.class)
 			.parameter(Class.class)
 			.parameter(ConsumerWithException.class).INVOKE();
@@ -315,7 +315,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _getShort2Array(ClassBody classBody) {
+	protected void _getShort2Array(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("getShort2Array")
 			.return_(Short[].class ).begin();
 
@@ -324,13 +324,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -340,7 +340,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOADConst(Type.getType("[Ljava/lang/Short;"));
 		code.LOAD("objEval");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$getShort2Array$3", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "push")
+		code.VIRTUAL(classAdvContext, "push")
 			.return_(byte.class)
 			.parameter(Class.class)
 			.parameter(ConsumerWithException.class).INVOKE();
@@ -374,7 +374,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _getStringArray(ClassBody classBody) {
+	protected void _getStringArray(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("getStringArray")
 			.return_(String[].class ).begin();
 
@@ -383,13 +383,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -399,7 +399,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOADConst(Type.getType("[Ljava/lang/String;"));
 		code.LOAD("objEval");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$getStringArray$4", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "push")
+		code.VIRTUAL(classAdvContext, "push")
 			.return_(byte.class)
 			.parameter(Class.class)
 			.parameter(ConsumerWithException.class).INVOKE();
@@ -437,7 +437,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _getSimplePojoClassSampleArray(ClassBody classBody) {
+	protected void _getSimplePojoClassSampleArray(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("getSimplePojoClassSampleArray")
 			.return_(SimplePojoClass[].class ).begin();
 
@@ -446,13 +446,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -462,7 +462,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOADConst(Type.getType("[Lcn/sj1/tinyasm/core/advasmproxy/simple/SimplePojoClass;"));
 		code.LOAD("objEval");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$getSimplePojoClassSampleArray$5", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "push")
+		code.VIRTUAL(classAdvContext, "push")
 			.return_(byte.class)
 			.parameter(Class.class)
 			.parameter(ConsumerWithException.class).INVOKE();
@@ -521,7 +521,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _setByteArray(ClassBody classBody) {
+	protected void _setByteArray(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("setByteArray")
 			.parameter("param0",byte[].class).begin();
 
@@ -530,13 +530,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("param0");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(byte[].class).INVOKE();
 		code.STORE("eval_param0",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -544,7 +544,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -554,7 +554,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOAD("objEval");
 		code.LOAD("eval_param0");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$setByteArray$6", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "execLine")
+		code.VIRTUAL(classAdvContext, "execLine")
 			.parameter(ConsumerWithException.class).INVOKE();
 
 		code.LINE();
@@ -563,7 +563,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _setShortArray(ClassBody classBody) {
+	protected void _setShortArray(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("setShortArray")
 			.parameter("param0",short[].class).begin();
 
@@ -572,13 +572,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("param0");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(short[].class).INVOKE();
 		code.STORE("eval_param0",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -586,7 +586,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -596,7 +596,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOAD("objEval");
 		code.LOAD("eval_param0");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$setShortArray$7", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "execLine")
+		code.VIRTUAL(classAdvContext, "execLine")
 			.parameter(ConsumerWithException.class).INVOKE();
 
 		code.LINE();
@@ -605,7 +605,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _setIntArray(ClassBody classBody) {
+	protected void _setIntArray(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("setIntArray")
 			.parameter("param0",int[].class).begin();
 
@@ -614,13 +614,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("param0");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(int[].class).INVOKE();
 		code.STORE("eval_param0",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -628,7 +628,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -638,7 +638,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOAD("objEval");
 		code.LOAD("eval_param0");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$setIntArray$8", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "execLine")
+		code.VIRTUAL(classAdvContext, "execLine")
 			.parameter(ConsumerWithException.class).INVOKE();
 
 		code.LINE();
@@ -647,7 +647,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _setShort2Array(ClassBody classBody) {
+	protected void _setShort2Array(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("setShort2Array")
 			.parameter("param0",Short[].class).begin();
 
@@ -656,13 +656,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("param0");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Short[].class).INVOKE();
 		code.STORE("eval_param0",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -670,7 +670,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -680,7 +680,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOAD("objEval");
 		code.LOAD("eval_param0");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$setShort2Array$9", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "execLine")
+		code.VIRTUAL(classAdvContext, "execLine")
 			.parameter(ConsumerWithException.class).INVOKE();
 
 		code.LINE();
@@ -689,7 +689,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _setStringArray(ClassBody classBody) {
+	protected void _setStringArray(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("setStringArray")
 			.parameter("param0",String[].class).begin();
 
@@ -698,13 +698,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("param0");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(String[].class).INVOKE();
 		code.STORE("eval_param0",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -712,7 +712,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -722,7 +722,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOAD("objEval");
 		code.LOAD("eval_param0");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$setStringArray$10", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "execLine")
+		code.VIRTUAL(classAdvContext, "execLine")
 			.parameter(ConsumerWithException.class).INVOKE();
 
 		code.LINE();
@@ -731,7 +731,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.END();
 	}
 
-	protected void _setSimplePojoClassSampleArray(ClassBody classBody) {
+	protected void _setSimplePojoClassSampleArray(ClassBody classBody,Class<?> classAdvContext) {
 		MethodCode code = classBody.public_().method("setSimplePojoClassSampleArray")
 			.parameter("param0",SimplePojoClass[].class).begin();
 
@@ -740,13 +740,13 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.GETFIELD_OF_THIS("_contextThreadLocal");
 		code.VIRTUAL(ThreadLocal.class, "get")
 			.return_(Object.class).INVOKE();
-		code.CHECKCAST(AdvContext.class);
-		code.STORE("context",AdvContext.class);
+		code.CHECKCAST(classAdvContext);
+		code.STORE("context",classAdvContext);
 
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("param0");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object[].class).INVOKE();
 		code.STORE("eval_param0",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -754,7 +754,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LINE();
 		code.LOAD("context");
 		code.LOAD("this");
-		code.VIRTUAL(AdvContext.class, "resolve")
+		code.VIRTUAL(classAdvContext, "resolve")
 			.return_(ConsumerWithException.class)
 			.parameter(Object.class).INVOKE();
 		code.STORE("objEval",Clazz.of(ConsumerWithException.class,Clazz.of(MethodCode.class)));
@@ -764,7 +764,7 @@ classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke
 		code.LOAD("objEval");
 		code.LOAD("eval_param0");
 		code.visitInvokeDynamicInsn("accept", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;)Lcn/sj1/tinyasm/core/ConsumerWithException;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/advasmproxy/arraylist/ArraySampleAdvAsmProxy", "lambda$setSimplePojoClassSampleArray$11", "(Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/ConsumerWithException;Lcn/sj1/tinyasm/core/MethodCode;)V", false), Type.getType("(Lcn/sj1/tinyasm/core/MethodCode;)V")});
-		code.VIRTUAL(AdvContext.class, "execLine")
+		code.VIRTUAL(classAdvContext, "execLine")
 			.parameter(ConsumerWithException.class).INVOKE();
 
 		code.LINE();

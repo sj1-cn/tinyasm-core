@@ -27,15 +27,15 @@ import cn.sj1.tinyasm.core.MethodCaller;
 @SuppressWarnings("unused")
 public class ReferSimplePojoClassOnlySampleAdvAsmProxyTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new ReferSimplePojoClassOnlySampleAdvAsmProxyTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.simple.ReferSimplePojoClassOnlySampleAdvAsmProxy");
+	public static byte[] dump() throws Exception {
+		return new ReferSimplePojoClassOnlySampleAdvAsmProxyTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.simple.ReferSimplePojoClassOnlySampleAdvAsmProxy");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, ReferSimplePojoClassOnlySample.class, AdvRuntimeReferNameObject.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
+		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
 
 		classBody.private_().field("_magicNumber", Clazz.of(byte.class));
 		classBody.private_().field("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)));

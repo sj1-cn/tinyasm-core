@@ -16,11 +16,11 @@ import java.lang.String;
 @SuppressWarnings("unused")
 public class SimplePojoClassUsingSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new SimplePojoClassUsingSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.simple.SimplePojoClassUsingSample");
+	public static byte[] dump() throws Exception {
+		return new SimplePojoClassUsingSampleTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.simple.SimplePojoClassUsingSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, SimpleSuperClass.class, SimpleSuperInterface.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

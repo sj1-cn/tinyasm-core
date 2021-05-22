@@ -28,15 +28,15 @@ import cn.sj1.tinyasm.core.MethodCaller;
 @SuppressWarnings("unused")
 public class GenericInterfaceImplAdvAsmProxyTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new GenericInterfaceImplAdvAsmProxyTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.generic.GenericInterfaceImplAdvAsmProxy");
+	public static byte[] dump() throws Exception {
+		return new GenericInterfaceImplAdvAsmProxyTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.generic.GenericInterfaceImplAdvAsmProxy");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, GenericInterfaceImpl.class, AdvRuntimeReferNameObject.class)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
+		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
 
 		classBody.private_().field("_magicNumber", Clazz.of(byte.class));
 		classBody.private_().field("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)));

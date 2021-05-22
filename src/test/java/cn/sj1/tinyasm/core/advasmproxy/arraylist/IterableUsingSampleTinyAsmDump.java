@@ -17,11 +17,11 @@ import java.lang.Iterable;
 @SuppressWarnings("unused")
 public class IterableUsingSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new IterableUsingSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.arraylist.IterableUsingSample");
+	public static byte[] dump() throws Exception {
+		return new IterableUsingSampleTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.arraylist.IterableUsingSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

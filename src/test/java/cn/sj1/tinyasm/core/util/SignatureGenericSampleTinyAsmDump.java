@@ -18,11 +18,11 @@ import cn.sj1.tinyasm.core.util.SignatureGenericSample;
 @SuppressWarnings("unused")
 public class SignatureGenericSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new SignatureGenericSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.util.SignatureGenericSample");
+	public static byte[] dump() throws Exception {
+		return new SignatureGenericSampleTinyAsmDump().build("cn.sj1.tinyasm.core.util.SignatureGenericSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(HashMap.class,Clazz.typeArgument(Clazz.typeVariableOf("S")),Clazz.typeArgument(Clazz.typeVariableOf("D"))),Clazz.of(Serializable.class)).formalTypeParameter("S",Clazz.of(Object.class)).formalTypeParameter("D",Clazz.of(Object.class))
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

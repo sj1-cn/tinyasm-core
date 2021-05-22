@@ -14,11 +14,11 @@ import cn.sj1.tinyasm.core.advasmproxy.twoparameters.ObjectWithTwoParameters;
 @SuppressWarnings("unused")
 public class ObjectWithTwoParametersUsingSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new ObjectWithTwoParametersUsingSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.twoparameters.ObjectWithTwoParametersUsingSample");
+	public static byte[] dump() throws Exception {
+		return new ObjectWithTwoParametersUsingSampleTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.twoparameters.ObjectWithTwoParametersUsingSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

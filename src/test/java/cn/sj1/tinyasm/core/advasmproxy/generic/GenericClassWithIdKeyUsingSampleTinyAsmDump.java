@@ -16,11 +16,11 @@ import java.lang.Object;
 @SuppressWarnings("unused")
 public class GenericClassWithIdKeyUsingSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new GenericClassWithIdKeyUsingSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.advasmproxy.generic.GenericClassWithIdKeyUsingSample");
+	public static byte[] dump() throws Exception {
+		return new GenericClassWithIdKeyUsingSampleTinyAsmDump().build("cn.sj1.tinyasm.core.advasmproxy.generic.GenericClassWithIdKeyUsingSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 

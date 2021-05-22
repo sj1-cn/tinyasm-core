@@ -29,15 +29,15 @@ import cn.sj1.tinyasm.core.MethodCaller;
 @SuppressWarnings("unused")
 public class UserRepositoryMagicBuilderAdvAsmProxyTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new UserRepositoryMagicBuilderAdvAsmProxyTinyAsmDump().dump("cn.sj1.tinyasm.core.advmagicbuilder.UserRepositoryMagicBuilderAdvAsmProxy");
+	public static byte[] dump() throws Exception {
+		return new UserRepositoryMagicBuilderAdvAsmProxyTinyAsmDump().build("cn.sj1.tinyasm.core.advmagicbuilder.UserRepositoryMagicBuilderAdvAsmProxy");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(RepositoryMagicBuilder.class,Clazz.of(User.class),Clazz.of(String.class)),Clazz.of(AdvMagicRuntime.class))
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
+		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
 
 		classBody.private_().field("_magicNumber", Clazz.of(byte.class));
 		classBody.private_().field("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)));

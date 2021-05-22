@@ -15,11 +15,11 @@ import java.lang.String;
 @SuppressWarnings("unused")
 public class PojoSampleTinyAsmDump {
 
-	public static byte[] dump () throws Exception {
-		return new PojoSampleTinyAsmDump().dump("cn.sj1.tinyasm.core.util.PojoSample");
+	public static byte[] dump() throws Exception {
+		return new PojoSampleTinyAsmDump().build("cn.sj1.tinyasm.core.util.PojoSample");
 	}
 
-	public byte[] dump(String className) throws Exception {
+	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
