@@ -191,6 +191,10 @@ public abstract class Clazz {
 	public static ClazzTypeArgument typeArgument(char wildcard, Class<?> clazz) {
 		return new ClazzTypeArgument(wildcard, Clazz.of(clazz));
 	}
+	
+	public static ClazzTypeArgument typeArgument(char wildcard, String clazz) {
+		return new ClazzTypeArgument(wildcard, Clazz.of(clazz));
+	}
 
 	public static ClazzTypeArgument typeArgument(char wildcard, Clazz clazz) {
 		return new ClazzTypeArgument(wildcard, clazz);

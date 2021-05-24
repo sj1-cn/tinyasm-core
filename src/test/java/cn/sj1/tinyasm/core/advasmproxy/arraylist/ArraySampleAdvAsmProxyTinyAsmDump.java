@@ -11,7 +11,6 @@ import cn.sj1.tinyasm.core.Annotation;
 import cn.sj1.tinyasm.core.Clazz;
 import cn.sj1.tinyasm.core.ConsumerWithException;
 import java.lang.ThreadLocal;
-import cn.sj1.tinyasm.core.AdvContext;
 import java.lang.Exception;
 import cn.sj1.tinyasm.core.advasmproxy.arraylist.ArraySample;
 import cn.sj1.tinyasm.core.Clazz;
@@ -40,11 +39,11 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
 
 		classBody.private_().field("_magicNumber", Clazz.of(byte.class));
-		classBody.private_().field("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)));
+		classBody.private_().field("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(classAdvContext)));
 		__init_(classBody);
 		_get__MagicNumber(classBody);
 		_set__MagicNumber(classBody);
-		_set__Context(classBody);
+		_set__Context(classBody,classAdvContext);
 		_get__TargetClazz(classBody);
 		_getByteArray(classBody,classAdvContext);
 		_getShortArray(classBody,classAdvContext);
@@ -112,10 +111,10 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _set__Context(ClassBody classBody) {
+	protected void _set__Context(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("set__Context")
 			.return_(Clazz.of(void.class) )
-			.parameter("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(AdvContext.class)))
+			.parameter("_contextThreadLocal",Clazz.of(ThreadLocal.class,Clazz.of(classAdvContext)))
 			.parameter("_magicNumber",Clazz.of(byte.class)).begin();
 
 		code.LINE();
@@ -148,7 +147,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _getByteArray(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _getByteArray(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("getByteArray")
 			.return_(byte[].class ).begin();
 
@@ -204,7 +203,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _getShortArray(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _getShortArray(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("getShortArray")
 			.return_(short[].class ).begin();
 
@@ -260,7 +259,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _getIntArray(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _getIntArray(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("getIntArray")
 			.return_(int[].class ).begin();
 
@@ -315,7 +314,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _getShort2Array(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _getShort2Array(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("getShort2Array")
 			.return_(Short[].class ).begin();
 
@@ -374,7 +373,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _getStringArray(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _getStringArray(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("getStringArray")
 			.return_(String[].class ).begin();
 
@@ -437,7 +436,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _getSimplePojoClassSampleArray(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _getSimplePojoClassSampleArray(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("getSimplePojoClassSampleArray")
 			.return_(SimplePojoClass[].class ).begin();
 
@@ -521,7 +520,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _setByteArray(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _setByteArray(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("setByteArray")
 			.parameter("param0",byte[].class).begin();
 
@@ -563,7 +562,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _setShortArray(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _setShortArray(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("setShortArray")
 			.parameter("param0",short[].class).begin();
 
@@ -605,7 +604,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _setIntArray(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _setIntArray(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("setIntArray")
 			.parameter("param0",int[].class).begin();
 
@@ -647,7 +646,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _setShort2Array(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _setShort2Array(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("setShort2Array")
 			.parameter("param0",Short[].class).begin();
 
@@ -689,7 +688,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _setStringArray(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _setStringArray(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("setStringArray")
 			.parameter("param0",String[].class).begin();
 
@@ -731,7 +730,7 @@ public class ArraySampleAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _setSimplePojoClassSampleArray(ClassBody classBody,Class<?> classAdvContext) {
+	protected void _setSimplePojoClassSampleArray(ClassBody classBody, Class<?>  classAdvContext) {
 		MethodCode code = classBody.public_().method("setSimplePojoClassSampleArray")
 			.parameter("param0",SimplePojoClass[].class).begin();
 

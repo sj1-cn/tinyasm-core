@@ -21,10 +21,8 @@ public class AdvAsmProxyArrayListASMifierTest {
 	public void test_ArraySample_Proxy_Dump() throws Exception {
 		Class<?> expectedClazz = ArraySampleAdvAsmProxy.class;
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-		Map<String, String> params = new HashMap<>();
-		params.put(AdvContext.class.getName(), "classAdvContext");
 
-		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz,params));
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz,"classAdvContext",AdvContext.class));
 
 		assertEquals("Code", codeExpected, codeActual);
 	}
