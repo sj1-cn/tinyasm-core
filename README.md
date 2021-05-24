@@ -174,3 +174,5 @@ public class UsingUserExtendJdbcRowMapperMagicBuilder {
 
 另外基础版本和高级版本的代码都是可以直接从UsingUserExtendJdbcRowMapper代码生成出来的。
 
+mvn clean deploy -P release
+
