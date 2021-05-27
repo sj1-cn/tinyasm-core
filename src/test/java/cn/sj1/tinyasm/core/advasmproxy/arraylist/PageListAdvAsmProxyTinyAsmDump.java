@@ -81,8 +81,8 @@ public class PageListAdvAsmProxyTinyAsmDump {
 		_hashCode(classBody);
 		_get(classBody);
 		_set(classBody);
-		_add_int_cnsj1tinyasmcoreadvasmproxysimplePojoClass_void(classBody);
-		_remove_int_cnsj1tinyasmcoreadvasmproxysimplePojoClass(classBody);
+		_add_int_simplePojoClass_void(classBody);
+		_remove_int_simplePojoClass(classBody);
 		_indexOf(classBody);
 		_lastIndexOf(classBody);
 		_listIterator(classBody);
@@ -1558,7 +1558,7 @@ public class PageListAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _add_int_cnsj1tinyasmcoreadvasmproxysimplePojoClass_void(ClassBody classBody) {
+	protected void _add_int_simplePojoClass_void(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("add")
 			.parameter("param0",int.class)
 			.parameter("param1",PojoClass.class).begin();
@@ -1610,7 +1610,7 @@ public class PageListAdvAsmProxyTinyAsmDump {
 		code.END();
 	}
 
-	protected void _remove_int_cnsj1tinyasmcoreadvasmproxysimplePojoClass(ClassBody classBody) {
+	protected void _remove_int_simplePojoClass(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("remove")
 			.return_(PojoClass.class )
 			.parameter("param0",int.class).begin();
