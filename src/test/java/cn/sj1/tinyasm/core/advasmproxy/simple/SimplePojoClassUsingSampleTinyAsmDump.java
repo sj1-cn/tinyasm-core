@@ -1,18 +1,20 @@
 package cn.sj1.tinyasm.core.advasmproxy.simple;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
-import cn.sj1.tinyasm.core.ClassBody;
-import cn.sj1.tinyasm.core.ClassBuilder;
-import cn.sj1.tinyasm.core.MethodCode;
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
+
 import cn.sj1.tinyasm.core.Annotation;
+import cn.sj1.tinyasm.core.ClassBody;
+import cn.sj1.tinyasm.core.ClassBuilder;
 import cn.sj1.tinyasm.core.Clazz;
-import cn.sj1.tinyasm.core.advasmproxy.simple.SimpleSuperInterface;
+import cn.sj1.tinyasm.core.MethodCode;
+
 import cn.sj1.tinyasm.core.advasmproxy.simple.SimplePojoClass;
 import cn.sj1.tinyasm.core.advasmproxy.simple.SimpleSuperClass;
-import java.lang.String;
+import cn.sj1.tinyasm.core.advasmproxy.simple.SimpleSuperInterface;
+
 @SuppressWarnings("unused")
 public class SimplePojoClassUsingSampleTinyAsmDump {
 

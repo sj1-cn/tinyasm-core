@@ -1,17 +1,18 @@
 package cn.sj1.tinyasm.mixin;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
-import cn.sj1.tinyasm.core.ClassBody;
-import cn.sj1.tinyasm.core.ClassBuilder;
-import cn.sj1.tinyasm.core.MethodCode;
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
+
 import cn.sj1.tinyasm.core.Annotation;
+import cn.sj1.tinyasm.core.ClassBody;
+import cn.sj1.tinyasm.core.ClassBuilder;
 import cn.sj1.tinyasm.core.Clazz;
-import java.lang.StringBuffer;
+import cn.sj1.tinyasm.core.MethodCode;
+
 import cn.sj1.tinyasm.mixin.SimpleClass;
-import java.lang.String;
+
 @SuppressWarnings("unused")
 public class SimpleClassMixinTinyAsmDump {
 

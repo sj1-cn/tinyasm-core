@@ -1,20 +1,22 @@
 package cn.sj1.tinyasm.core.advasmproxy.arraylist;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
-import cn.sj1.tinyasm.core.ClassBody;
-import cn.sj1.tinyasm.core.ClassBuilder;
-import cn.sj1.tinyasm.core.MethodCode;
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
+
 import cn.sj1.tinyasm.core.Annotation;
+import cn.sj1.tinyasm.core.ClassBody;
+import cn.sj1.tinyasm.core.ClassBuilder;
 import cn.sj1.tinyasm.core.Clazz;
-import java.util.List;
+import cn.sj1.tinyasm.core.MethodCode;
+
 import java.util.Iterator;
-import java.lang.Object;
-import cn.sj1.tinyasm.core.advasmproxy.simple.PojoClass;
+import java.util.List;
 import java.util.Spliterator;
-import java.lang.Iterable;
+
+import cn.sj1.tinyasm.core.advasmproxy.simple.PojoClass;
+
 @SuppressWarnings("unused")
 public class ListUsingSampleTinyAsmDump {
 

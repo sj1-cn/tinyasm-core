@@ -1,29 +1,27 @@
 package cn.sj1.tinyasm.core.advasmproxy.simple;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
-import cn.sj1.tinyasm.core.ClassBody;
-import cn.sj1.tinyasm.core.ClassBuilder;
-import cn.sj1.tinyasm.core.MethodCode;
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
+
 import cn.sj1.tinyasm.core.Annotation;
+import cn.sj1.tinyasm.core.ClassBody;
+import cn.sj1.tinyasm.core.ClassBuilder;
 import cn.sj1.tinyasm.core.Clazz;
-import cn.sj1.tinyasm.core.ConsumerWithException;
-import java.lang.ThreadLocal;
-import cn.sj1.tinyasm.core.advasmproxy.simple.ReferSimplePojoClassOnlySample;
-import cn.sj1.tinyasm.core.AdvContext;
-import java.lang.Exception;
-import cn.sj1.tinyasm.core.Clazz;
-import cn.sj1.tinyasm.core.AdvRuntimeReferNameObject;
-import cn.sj1.tinyasm.core.ClazzSimple;
 import cn.sj1.tinyasm.core.MethodCode;
-import cn.sj1.tinyasm.core.advasmproxy.simple.SimplePojoClass;
+
 import cn.sj1.tinyasm.core.Adv;
-import java.lang.Class;
-import java.lang.Object;
-import java.lang.String;
+import cn.sj1.tinyasm.core.AdvContext;
+import cn.sj1.tinyasm.core.AdvRuntimeReferNameObject;
+import cn.sj1.tinyasm.core.Clazz;
+import cn.sj1.tinyasm.core.ClazzSimple;
+import cn.sj1.tinyasm.core.ConsumerWithException;
 import cn.sj1.tinyasm.core.MethodCaller;
+import cn.sj1.tinyasm.core.MethodCode;
+import cn.sj1.tinyasm.core.advasmproxy.simple.ReferSimplePojoClassOnlySample;
+import cn.sj1.tinyasm.core.advasmproxy.simple.SimplePojoClass;
+
 @SuppressWarnings("unused")
 public class ReferSimplePojoClassOnlySampleAdvAsmProxyTinyAsmDump {
 

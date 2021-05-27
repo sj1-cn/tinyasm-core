@@ -1,16 +1,18 @@
 package cn.sj1.tinyasm.core.advasmproxy.twoparameters;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
-import cn.sj1.tinyasm.core.ClassBody;
-import cn.sj1.tinyasm.core.ClassBuilder;
-import cn.sj1.tinyasm.core.MethodCode;
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
+
 import cn.sj1.tinyasm.core.Annotation;
+import cn.sj1.tinyasm.core.ClassBody;
+import cn.sj1.tinyasm.core.ClassBuilder;
 import cn.sj1.tinyasm.core.Clazz;
-import java.lang.Object;
+import cn.sj1.tinyasm.core.MethodCode;
+
 import cn.sj1.tinyasm.core.advasmproxy.twoparameters.ObjectWithTwoParameters;
+
 @SuppressWarnings("unused")
 public class ObjectWithTwoParametersUsingSampleTinyAsmDump {
 

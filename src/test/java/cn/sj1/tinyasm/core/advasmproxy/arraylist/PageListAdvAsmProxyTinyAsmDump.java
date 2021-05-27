@@ -1,43 +1,40 @@
 package cn.sj1.tinyasm.core.advasmproxy.arraylist;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
-import cn.sj1.tinyasm.core.ClassBody;
-import cn.sj1.tinyasm.core.ClassBuilder;
-import cn.sj1.tinyasm.core.MethodCode;
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
+
 import cn.sj1.tinyasm.core.Annotation;
+import cn.sj1.tinyasm.core.ClassBody;
+import cn.sj1.tinyasm.core.ClassBuilder;
 import cn.sj1.tinyasm.core.Clazz;
-import cn.sj1.tinyasm.core.ConsumerWithException;
-import java.lang.reflect.Array;
-import java.util.ListIterator;
-import java.util.function.UnaryOperator;
-import cn.sj1.tinyasm.core.AdvContext;
-import java.lang.Integer;
-import cn.sj1.tinyasm.core.Clazz;
-import cn.sj1.tinyasm.core.AdvRuntimeReferNameObject;
-import cn.sj1.tinyasm.core.ClazzSimple;
 import cn.sj1.tinyasm.core.MethodCode;
-import java.lang.Boolean;
-import java.lang.String;
-import java.util.function.IntFunction;
-import java.lang.ThreadLocal;
-import java.util.Iterator;
-import java.util.function.Predicate;
+
+import java.lang.reflect.Array;
 import java.util.Collection;
-import cn.sj1.tinyasm.core.advasmproxy.simple.PojoClass;
-import java.lang.Exception;
-import java.util.function.Consumer;
-import java.util.List;
-import java.util.stream.Stream;
-import cn.sj1.tinyasm.core.advasmproxy.arraylist.PageList;
-import cn.sj1.tinyasm.core.Adv;
-import java.lang.Object;
-import java.lang.Class;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
+
+import cn.sj1.tinyasm.core.Adv;
+import cn.sj1.tinyasm.core.AdvContext;
+import cn.sj1.tinyasm.core.AdvRuntimeReferNameObject;
+import cn.sj1.tinyasm.core.Clazz;
+import cn.sj1.tinyasm.core.ClazzSimple;
+import cn.sj1.tinyasm.core.ConsumerWithException;
 import cn.sj1.tinyasm.core.MethodCaller;
+import cn.sj1.tinyasm.core.MethodCode;
+import cn.sj1.tinyasm.core.advasmproxy.arraylist.PageList;
+import cn.sj1.tinyasm.core.advasmproxy.simple.PojoClass;
+
 @SuppressWarnings("unused")
 public class PageListAdvAsmProxyTinyAsmDump {
 

@@ -1,31 +1,28 @@
 package cn.sj1.tinyasm.core.advmagicbuilder;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
-import cn.sj1.tinyasm.core.ClassBody;
-import cn.sj1.tinyasm.core.ClassBuilder;
-import cn.sj1.tinyasm.core.MethodCode;
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
+
 import cn.sj1.tinyasm.core.Annotation;
+import cn.sj1.tinyasm.core.ClassBody;
+import cn.sj1.tinyasm.core.ClassBuilder;
+import cn.sj1.tinyasm.core.Clazz;
+import cn.sj1.tinyasm.core.MethodCode;
+
+import cn.sj1.tinyasm.core.AdvContext;
+import cn.sj1.tinyasm.core.AdvMagicRuntime;
+import cn.sj1.tinyasm.core.ClassBody;
 import cn.sj1.tinyasm.core.Clazz;
 import cn.sj1.tinyasm.core.ConsumerWithException;
-import java.lang.ThreadLocal;
-import cn.sj1.tinyasm.core.advmagicbuilder.WithIdKey;
-import cn.sj1.tinyasm.core.ClassBody;
-import cn.sj1.tinyasm.core.AdvContext;
-import java.lang.Exception;
-import cn.sj1.tinyasm.core.Clazz;
-import cn.sj1.tinyasm.core.advmagicbuilder.RepositoryMagicBuilder;
+import cn.sj1.tinyasm.core.MethodCaller;
 import cn.sj1.tinyasm.core.MethodCode;
 import cn.sj1.tinyasm.core.MethodHeader;
-import java.lang.Object;
-import java.lang.Class;
-import java.lang.StringBuilder;
-import java.lang.String;
-import cn.sj1.tinyasm.core.AdvMagicRuntime;
+import cn.sj1.tinyasm.core.advmagicbuilder.RepositoryMagicBuilder;
 import cn.sj1.tinyasm.core.advmagicbuilder.User;
-import cn.sj1.tinyasm.core.MethodCaller;
+import cn.sj1.tinyasm.core.advmagicbuilder.WithIdKey;
+
 @SuppressWarnings("unused")
 public class UserRepositoryMagicBuilderAdvAsmProxyTinyAsmDump {
 

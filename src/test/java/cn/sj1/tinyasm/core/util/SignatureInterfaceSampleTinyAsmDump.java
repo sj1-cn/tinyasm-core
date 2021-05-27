@@ -1,18 +1,19 @@
 package cn.sj1.tinyasm.core.util;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
-import cn.sj1.tinyasm.core.ClassBody;
-import cn.sj1.tinyasm.core.ClassBuilder;
-import cn.sj1.tinyasm.core.MethodCode;
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
+
 import cn.sj1.tinyasm.core.Annotation;
+import cn.sj1.tinyasm.core.ClassBody;
+import cn.sj1.tinyasm.core.ClassBuilder;
 import cn.sj1.tinyasm.core.Clazz;
-import java.util.Map;
-import java.lang.Object;
-import java.lang.String;
+import cn.sj1.tinyasm.core.MethodCode;
+
 import java.io.Serializable;
+import java.util.Map;
+
 @SuppressWarnings("unused")
 public class SignatureInterfaceSampleTinyAsmDump {
 

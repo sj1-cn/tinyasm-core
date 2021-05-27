@@ -1,36 +1,25 @@
 package cn.sj1.tinyasm.core.advasmproxy.simple;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
-import cn.sj1.tinyasm.core.ClassBody;
-import cn.sj1.tinyasm.core.ClassBuilder;
-import cn.sj1.tinyasm.core.MethodCode;
 import org.objectweb.asm.Type;
 import static org.objectweb.asm.Opcodes.*;
+
 import cn.sj1.tinyasm.core.Annotation;
+import cn.sj1.tinyasm.core.ClassBody;
+import cn.sj1.tinyasm.core.ClassBuilder;
 import cn.sj1.tinyasm.core.Clazz;
-import cn.sj1.tinyasm.core.ConsumerWithException;
-import java.lang.Float;
-import java.lang.ThreadLocal;
-import java.lang.Double;
-import cn.sj1.tinyasm.core.AdvContext;
-import cn.sj1.tinyasm.core.advasmproxy.simple.PojoClass;
-import java.lang.Integer;
-import java.lang.Exception;
-import cn.sj1.tinyasm.core.Clazz;
-import cn.sj1.tinyasm.core.AdvRuntimeReferNameObject;
-import cn.sj1.tinyasm.core.ClazzSimple;
 import cn.sj1.tinyasm.core.MethodCode;
-import java.lang.Character;
-import java.lang.Long;
-import java.lang.Short;
-import java.lang.Boolean;
-import java.lang.Class;
-import java.lang.Object;
-import java.lang.StringBuilder;
-import java.lang.String;
-import java.lang.Byte;
+
+import cn.sj1.tinyasm.core.AdvContext;
+import cn.sj1.tinyasm.core.AdvRuntimeReferNameObject;
+import cn.sj1.tinyasm.core.Clazz;
+import cn.sj1.tinyasm.core.ClazzSimple;
+import cn.sj1.tinyasm.core.ConsumerWithException;
 import cn.sj1.tinyasm.core.MethodCaller;
+import cn.sj1.tinyasm.core.MethodCode;
+import cn.sj1.tinyasm.core.advasmproxy.simple.PojoClass;
+
 @SuppressWarnings("unused")
 public class PojoClassAdvAsmProxyTinyAsmDump {
 
