@@ -2,6 +2,27 @@
 
 ASM是非常好用高效的JAVA字节码维护库。本项目并不是为了替代ASM，而是在ASM基础上，为了进一步提高开发效率，降低学习成本，扩展ASM提供更便利的方法。使用我们推荐的编写模式，几分钟就能实现一个基本的生成类了。而不是需要几个小时，几天。
 
+## 使用方法
+运行时
+```xml
+		<dependency>
+			<groupId>cn.sj1</groupId>
+			<artifactId>tinyasm-core</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+```
+
+样例代码生成
+
+```
+		<dependency>
+			<groupId>cn.sj1</groupId>
+			<artifactId>tinyasm-tool</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+```
+## 框架说明
 ### 当前使用ASM几个不便的地方：
 
 * 代码中用到的class是以字符串的方式引用的，在Class名，package名变更时，需要手工维护。
