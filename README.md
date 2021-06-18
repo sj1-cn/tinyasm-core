@@ -1,11 +1,50 @@
 # tinyasm
-底层使用asm的动态生成辅助代码库
 
-简化ASM的使用，更倾向于在样例代码上简单修改，而不是完全重新生成。
+ASM是非常好用高效的JAVA字节码维护库。本项目并不是为了替代ASM，而是在ASM基础上，为了进一步提高开发效率，降低学习成本，扩展ASM提供更便利的方法。
 
-通过此工具可以自动维护local，stack，以便简化代码编写。
+### 当前使用ASM几个不便的地方：
 
-同时大量地方使用class，而不是class的字符串名字，以减少类型名细微的不同可能带来的问题。以及适应快速演化的代码。
+* 代码中用到的class是以字符串的方式引用的，在Class名，package名变更时，需要手工维护。
+* 工具生成的代码太繁琐，更多是基于快速运行，比较难以理解，基本上无法直接使用。
+* 堆栈的维护基于locals，导致在编写代码的时候需要花费大量的时间维护locals的正确，也需要知道每个类型的长度细节等。
+
+### 针对上述几个问题，我们进行了一下改进：
+
+#### 堆栈，TinyASM可以直接使用变量名称，locals完全由TinyASM开维护。再也不用计算locals了。
+
+```java
+// ASM方法：
+methodVisitor.visitVarInsn(ALOAD, 2);
+methodVisitor.visitVarInsn(ALOAD, 1);
+
+// TinyASM 写法
+code.LOAD("mapper");
+code.LOAD("resultSet");
+```
+
+#### 引用class基本使用Class，而不是字符串名称。可以任意改名，任意变更package
+
+```java
+// ASM方法：
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "nebula/data/jdbc/UserExtendJdbcRowMapper", "<init>", "()V", false);
+
+// TinyASM 写法
+code.SPECIAL(UserExtendJdbcRowMapper.class, "<init>").INVOKE();
+```
+
+#### 对指令进行大幅度的简化，直接使用字节码的名称
+
+```java
+// ASM方法：
+methodVisitor.visitVarInsn(ALOAD, 2);
+methodVisitor.visitVarInsn(ALOAD, 1);
+
+// TinyASM 写法
+code.LOAD("mapper");
+code.LOAD("resultSet");
+```
+
+#### 生成代码大幅度简化
 
 为什么需要这样一个工具，下边是一个非常简单的例子：
 
@@ -153,26 +192,6 @@ public class UsingUserExtendJdbcRowMapperTinyAsmDump {
 
 ```
 
-高级版本的代码是这样的
+基于生成代码直接可用，所以不需要“写”代码，只需要“改”代码。可以把希望实现的代码直接写在模版类中，然后生成模版代码，再在模版代码基础上修改成期待的样子即可。
 
-```java
-public class UsingUserExtendJdbcRowMapperMagicBuilder {
-
-	public String test(ResultSet resultSet) throws SQLException {
-		UserExtendJdbcRowMapper mapper = __("mapper", new_(UserExtendJdbcRowMapper.class));
-		UserExtend userExtend = __("userExtend", mapper.map(resultSet));
-		return _return(userExtend.getName());
-	}
-
-	public static byte[] dump() {
-		return AdvMagic.dump("nebula.data.jdbc.UsingUserExtendJdbcRowMapper", UsingUserExtendJdbcRowMapperMagicBuilder.class);
-	}
-}
-```
-
-你喜欢哪一种？
-
-另外基础版本和高级版本的代码都是可以直接从UsingUserExtendJdbcRowMapper代码生成出来的。
-
-mvn clean deploy -P release
-
+详细的列子请参照[tinyasm-sample](https://github.com/sj1-cn/tinyasm-sample)
