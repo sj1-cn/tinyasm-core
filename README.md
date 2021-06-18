@@ -14,7 +14,7 @@ ASM是非常好用高效的JAVA字节码维护库。本项目并不是为了替�
 
 样例代码生成
 
-```
+```xml
 		<dependency>
 			<groupId>cn.sj1</groupId>
 			<artifactId>tinyasm-tool</artifactId>
