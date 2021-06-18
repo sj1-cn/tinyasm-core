@@ -171,11 +171,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	public abstract MethodVisitor getMethodVisitor();
 
-	// TODO need to delete
-	public int advStackSize() {
-		return stackSize();
-	}
-
 	public abstract void stackPush(Type type);
 
 	/*

@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.sj1</groupId>
 	<artifactId>tinyasm-core</artifactId>
-	<version>0.3.7</version>
+	<version>1.0.0</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.scm.id>bitbucket</project.scm.id>

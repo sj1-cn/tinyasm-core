@@ -9,8 +9,8 @@ import org.objectweb.asm.signature.SignatureVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class ClassSignaturewwww extends SignatureVisitor {
-	static Logger logger = LoggerFactory.getLogger(ClassSignaturewwww.class);
+public final class ClassSignatureDefaultVisitor extends SignatureVisitor {
+	static Logger logger = LoggerFactory.getLogger(ClassSignatureDefaultVisitor.class);
 
 	private int level = 0;
 	private boolean array = false;
@@ -29,7 +29,7 @@ public final class ClassSignaturewwww extends SignatureVisitor {
 	private List<Holder<Clazz>> interfacesClassList = new ArrayList<>();
 	private List<Holder<Clazz>> typeParameterClassList = new ArrayList<>();;
 
-	ClassSignaturewwww(int api) {
+	ClassSignatureDefaultVisitor(int api) {
 		super(api);
 //		this.referedTypes = referedTypes;
 	}

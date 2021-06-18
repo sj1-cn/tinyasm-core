@@ -29,7 +29,7 @@ public class ClassSignaturewwwwTest {
 	@Test
 	public void test_typeParamenterClazzes() {
 		String signature = "<T:Ljava/lang/Object;>Ljava/lang/Object;";
-		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		ClassSignatureDefaultVisitor classSignaturewwww = new ClassSignatureDefaultVisitor(Opcodes.ASM8);
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
@@ -47,7 +47,7 @@ public class ClassSignaturewwwwTest {
 	@Test
 	public void test_typesssParameterClass() {
 		String signature = "Ljava/lang/Object;Lcn/sj1/tinyasm/core/hero/helperclass/GenericInterface<Lcn/sj1/tinyasm/core/hero/helperclass/PojoClassSample;Lcn/sj1/tinyasm/core/hero/helperclass/PojoClassSample;>;";
-		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		ClassSignatureDefaultVisitor classSignaturewwww = new ClassSignatureDefaultVisitor(Opcodes.ASM8);
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
@@ -66,7 +66,7 @@ public class ClassSignaturewwwwTest {
 	@Test
 	public void test_paramsClazzes() {
 		String signature = "(TT;)V";
-		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		ClassSignatureDefaultVisitor classSignaturewwww = new ClassSignatureDefaultVisitor(Opcodes.ASM8);
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
@@ -82,7 +82,7 @@ public class ClassSignaturewwwwTest {
 	@Test
 	public void test_paramsClazzes2() {
 		String signature = "(TT;Ljava/lang/String;)[Ljava/lang/String;";
-		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		ClassSignatureDefaultVisitor classSignaturewwww = new ClassSignatureDefaultVisitor(Opcodes.ASM8);
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
@@ -100,7 +100,7 @@ public class ClassSignaturewwwwTest {
 	@Test
 	public void test_return() {
 		String signature = "()TT;";
-		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		ClassSignatureDefaultVisitor classSignaturewwww = new ClassSignatureDefaultVisitor(Opcodes.ASM8);
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
@@ -117,7 +117,7 @@ public class ClassSignaturewwwwTest {
 	@Test
 	public void test_generic_method() {
 		String signature = "<T:Ljava/lang/Object;>([TT;)[TT;";
-		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		ClassSignatureDefaultVisitor classSignaturewwww = new ClassSignatureDefaultVisitor(Opcodes.ASM8);
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
@@ -133,7 +133,7 @@ public class ClassSignaturewwwwTest {
 	@Test
 	public void test_generic_user_method() {
 		String signature = "<S:Lcn/sj1/nebula/data/support/User;>(Ljava/lang/Iterable<TS;>;)Ljava/lang/Iterable<TS;>;";
-		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		ClassSignatureDefaultVisitor classSignaturewwww = new ClassSignatureDefaultVisitor(Opcodes.ASM8);
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
@@ -151,7 +151,7 @@ public class ClassSignaturewwwwTest {
 	@Test
 	public void test_basetype() {
 		String signature = "(Ljava/util/Collection<*>;)Z";
-		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		ClassSignatureDefaultVisitor classSignaturewwww = new ClassSignatureDefaultVisitor(Opcodes.ASM8);
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
@@ -170,7 +170,7 @@ public class ClassSignaturewwwwTest {
 	@Test
 	public void test_basetypessssss() {
 		String signature = "(ILjava/util/Collection<+Lcn/sj1/tinyasm/core/hero/helperclass/PojoClassSample;>;)Z";
-		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		ClassSignatureDefaultVisitor classSignaturewwww = new ClassSignatureDefaultVisitor(Opcodes.ASM8);
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
@@ -193,7 +193,7 @@ public class ClassSignaturewwwwTest {
 	@Test
 	public void test_basetypessssss_() {
 		String signature = "(Ljava/util/function/Consumer<-TE;>;)V";
-		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		ClassSignatureDefaultVisitor classSignaturewwww = new ClassSignatureDefaultVisitor(Opcodes.ASM8);
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
@@ -219,7 +219,7 @@ public class ClassSignaturewwwwTest {
 	@Test
 	public void test_basetypessddddssss_() {
 		String signature = "()Ljava/util/Spliterator<TT;>;";
-		ClassSignaturewwww classSignaturewwww = new ClassSignaturewwww(Opcodes.ASM8);
+		ClassSignatureDefaultVisitor classSignaturewwww = new ClassSignatureDefaultVisitor(Opcodes.ASM8);
 		SignatureReader sr = new SignatureReader(signature);
 		sr.accept(classSignaturewwww);
 		classSignaturewwww.finish();
