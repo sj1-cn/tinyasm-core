@@ -13,7 +13,7 @@ ASM是非常好用高效的JAVA字节码维护库。本项目并不是为了替�
 #### 堆栈，TinyASM可以直接使用变量名称，locals完全由TinyASM开维护。再也不用计算locals了。
 
 ```java
-// ASM方法：
+// ASM 写法
 methodVisitor.visitVarInsn(ALOAD, 2);
 methodVisitor.visitVarInsn(ALOAD, 1);
 
@@ -25,7 +25,7 @@ code.LOAD("resultSet");
 #### 引用class基本使用Class，而不是字符串名称。可以任意改名，任意变更package
 
 ```java
-// ASM方法：
+// ASM 写法
 methodVisitor.visitMethodInsn(INVOKESPECIAL, "nebula/data/jdbc/UserExtendJdbcRowMapper", "<init>", "()V", false);
 
 // TinyASM 写法
@@ -35,7 +35,7 @@ code.SPECIAL(UserExtendJdbcRowMapper.class, "<init>").INVOKE();
 #### 对指令进行大幅度的简化，直接使用字节码的名称
 
 ```java
-// ASM方法：
+// ASM 写法
 methodVisitor.visitVarInsn(ALOAD, 2);
 methodVisitor.visitVarInsn(ALOAD, 1);
 
