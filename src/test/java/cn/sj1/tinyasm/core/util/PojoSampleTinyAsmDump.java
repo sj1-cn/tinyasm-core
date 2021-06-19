@@ -58,27 +58,27 @@ public class PojoSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i1");
-		code.PUTFIELD_OF_THIS("i1");
+		code.PUTFIELD("i1", int.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i2");
-		code.PUTFIELD_OF_THIS("i2");
+		code.PUTFIELD("i2", int.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i3");
-		code.PUTFIELD_OF_THIS("i3");
+		code.PUTFIELD("i3", int.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i4");
-		code.PUTFIELD_OF_THIS("i4");
+		code.PUTFIELD("i4", int.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("str");
-		code.PUTFIELD_OF_THIS("str");
+		code.PUTFIELD("str", String.class);
 
 		code.LINE();
 		code.RETURN();
@@ -92,7 +92,7 @@ public class PojoSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i1");
+		code.GETFIELD("i1", int.class);
 		code.RETURNTop();
 
 		code.END();
@@ -105,7 +105,7 @@ public class PojoSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i1");
-		code.PUTFIELD_OF_THIS("i1");
+		code.PUTFIELD("i1", int.class);
 
 		code.LINE();
 		code.RETURN();
@@ -119,7 +119,7 @@ public class PojoSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i2");
+		code.GETFIELD("i2", int.class);
 		code.RETURNTop();
 
 		code.END();
@@ -132,7 +132,7 @@ public class PojoSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i2");
-		code.PUTFIELD_OF_THIS("i2");
+		code.PUTFIELD("i2", int.class);
 
 		code.LINE();
 		code.RETURN();
@@ -146,7 +146,7 @@ public class PojoSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i3");
+		code.GETFIELD("i3", int.class);
 		code.RETURNTop();
 
 		code.END();
@@ -159,7 +159,7 @@ public class PojoSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i3");
-		code.PUTFIELD_OF_THIS("i3");
+		code.PUTFIELD("i3", int.class);
 
 		code.LINE();
 		code.RETURN();
@@ -173,7 +173,7 @@ public class PojoSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i4");
+		code.GETFIELD("i4", int.class);
 		code.RETURNTop();
 
 		code.END();
@@ -186,7 +186,7 @@ public class PojoSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i4");
-		code.PUTFIELD_OF_THIS("i4");
+		code.PUTFIELD("i4", int.class);
 
 		code.LINE();
 		code.RETURN();
@@ -200,7 +200,7 @@ public class PojoSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("str");
+		code.GETFIELD("str", String.class);
 		code.RETURNTop();
 
 		code.END();
@@ -213,7 +213,7 @@ public class PojoSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("str");
-		code.PUTFIELD_OF_THIS("str");
+		code.PUTFIELD("str", String.class);
 
 		code.LINE();
 		code.RETURN();
@@ -238,7 +238,7 @@ public class PojoSampleTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i1");
+		code.GETFIELD("i1", int.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
@@ -249,7 +249,7 @@ public class PojoSampleTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i2");
+		code.GETFIELD("i2", int.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
@@ -260,7 +260,7 @@ public class PojoSampleTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i3");
+		code.GETFIELD("i3", int.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
@@ -271,7 +271,7 @@ public class PojoSampleTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i4");
+		code.GETFIELD("i4", int.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
@@ -282,7 +282,7 @@ public class PojoSampleTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("str");
+		code.GETFIELD("str", String.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();

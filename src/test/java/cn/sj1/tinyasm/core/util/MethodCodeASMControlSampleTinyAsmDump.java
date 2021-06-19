@@ -46,7 +46,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 		code.RETURN();
 
 		code.END();
@@ -68,7 +68,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label1OfIFLE);
 
@@ -82,7 +82,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label3OfIFGE);
 
@@ -96,7 +96,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label5OfIFLT);
 
@@ -110,7 +110,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label7OfIFGT);
 
@@ -124,7 +124,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label9OfIFEQ);
 
@@ -138,13 +138,13 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label11OfIFNE);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.RETURNTop();
 
 		code.END();
@@ -166,7 +166,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label1OfIFLE);
 
@@ -180,7 +180,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label3OfIFGE);
 
@@ -194,7 +194,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label5OfIFLT);
 
@@ -208,7 +208,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label7OfIFGT);
 
@@ -222,7 +222,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label9OfIFEQ);
 
@@ -236,13 +236,13 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label11OfIFNE);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.RETURNTop();
 
 		code.END();
@@ -264,7 +264,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label1OfIFLE);
 
@@ -278,7 +278,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label3OfIFGE);
 
@@ -292,7 +292,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label5OfIFLT);
 
@@ -306,7 +306,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label7OfIFGT);
 
@@ -320,7 +320,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label9OfIFEQ);
 
@@ -334,13 +334,13 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label11OfIFNE);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.RETURNTop();
 
 		code.END();
@@ -361,7 +361,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label1OfIF_ICMPLE);
 
@@ -374,7 +374,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label3OfIF_ICMPGE);
 
@@ -387,7 +387,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label5OfIF_ICMPLT);
 
@@ -400,7 +400,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label7OfIF_ICMPGT);
 
@@ -413,7 +413,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label9OfIF_ICMPEQ);
 
@@ -426,13 +426,13 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label11OfIF_ICMPNE);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.RETURNTop();
 
 		code.END();
@@ -451,7 +451,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label1OfIFLE);
 
@@ -463,7 +463,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label3OfIFGE);
 
@@ -475,7 +475,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label5OfIFLT);
 
@@ -487,7 +487,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label7OfIFGT);
 
@@ -499,7 +499,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label9OfIFEQ);
 
@@ -511,13 +511,13 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label11OfIFNE);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.RETURNTop();
 
 		code.END();
@@ -538,7 +538,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label1OfIF_ACMPEQ);
 
@@ -551,13 +551,13 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label3OfIF_ACMPNE);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.RETURNTop();
 
 		code.END();
@@ -578,13 +578,13 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label1OfIFEQ);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.RETURNTop();
 
 		code.END();
@@ -603,7 +603,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(10);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label1OfIFNONNULL);
 
@@ -615,7 +615,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(100);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label3OfIFNULL);
 
@@ -631,7 +631,7 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(2);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label6OfIFEQ);
 
@@ -643,15 +643,15 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(8);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label8OfIFNE);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.LOADConst(1);
 		code.ADD();
 		Label label10OfIF_ICMPGE = new Label();
@@ -660,13 +660,13 @@ public class MethodCodeASMControlSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(10);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.visitLabel(label10OfIF_ICMPGE);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.RETURNTop();
 
 		code.END();

@@ -40,7 +40,7 @@ public class SimpleSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(0);
-		code.PUTFIELD_OF_THIS("i");
+		code.PUTFIELD("i", int.class);
 
 		code.LINE();
 		code.RETURN();
@@ -60,7 +60,7 @@ public class SimpleSampleTinyAsmDump {
 		code.LOAD("j");
 		code.LOADConst(1);
 		code.ADD();
-		code.PUTFIELD_OF_THIS("i");
+		code.PUTFIELD("i", int.class);
 
 		code.LINE();
 		code.RETURN();
@@ -75,7 +75,7 @@ public class SimpleSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i");
-		code.PUTFIELD_OF_THIS("i");
+		code.PUTFIELD("i", int.class);
 
 		code.LINE();
 		code.RETURN();

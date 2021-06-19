@@ -1442,6 +1442,20 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		PUTFIELD(fieldname, typeOf(fieldType));
 	}
 
+	public void PUTFIELD(Class<?> objectType, String fieldName, Class<?> fieldType) {
+		 PUTFIELD(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+	
+	public void PUTFIELD(Type objectType, String fieldName, Type fieldType) {
+		Type value = stackPop();
+		Type objectref = stackPop();
+
+		visitFieldInsn(PUTFIELD, objectType, fieldName, fieldType);
+		// GETSTATIC (→ value) : get a static field value of a class, where the field is
+		// identified by field reference in the constant pool index (index1 << 8 +
+		// index2)
+	}
+	
 	@SuppressWarnings("unused")
 	public void PUTFIELD(String fieldname, Type fieldType) {
 		Type value = stackPop();

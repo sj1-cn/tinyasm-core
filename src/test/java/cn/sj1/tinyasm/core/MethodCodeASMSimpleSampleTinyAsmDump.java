@@ -57,9 +57,9 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.ADD();
 		code.STORE("x",int.class);
 
@@ -76,27 +76,27 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.ADD();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.ADD();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.ADD();
 		code.CONVERTTO(long.class);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("l");
+		code.GETFIELD("l", long.class);
 		code.ADD();
 		code.CONVERTTO(float.class);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.ADD();
 		code.CONVERTTO(double.class);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.ADD();
 		code.CONVERTTO(int.class);
 		code.STORE("x",int.class);
@@ -115,66 +115,66 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(100);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1000);
-		code.PUTFIELD_OF_THIS("c");
+		code.PUTFIELD("c", char.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(10000);
-		code.PUTFIELD_OF_THIS("s");
+		code.PUTFIELD("s", short.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Integer.valueOf(100000));
-		code.PUTFIELD_OF_THIS("i");
+		code.PUTFIELD("i", int.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Long.valueOf(1000000L));
-		code.PUTFIELD_OF_THIS("l");
+		code.PUTFIELD("l", long.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Float.valueOf("1.0E7"));
-		code.PUTFIELD_OF_THIS("f");
+		code.PUTFIELD("f", float.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Double.valueOf("1.0E8"));
-		code.PUTFIELD_OF_THIS("d");
+		code.PUTFIELD("d", double.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst("1000000000s");
-		code.PUTFIELD_OF_THIS("str");
+		code.PUTFIELD("str", String.class);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.ADD();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.ADD();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.ADD();
 		code.CONVERTTO(long.class);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("l");
+		code.GETFIELD("l", long.class);
 		code.ADD();
 		code.CONVERTTO(float.class);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.ADD();
 		code.CONVERTTO(double.class);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.ADD();
 		code.CONVERTTO(int.class);
 		code.RETURNTop();
@@ -189,71 +189,71 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(0);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(2);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(3);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(4);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(5);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(6);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(7);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(8);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(-4);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(-3);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(-2);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(-1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.RETURNTop();
 
 		code.END();
@@ -277,16 +277,16 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(10);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.STORE("x");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.LOAD("x");
 		code.ADD();
 		code.CONVERTTO(byte.class);

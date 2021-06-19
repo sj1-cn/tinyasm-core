@@ -73,147 +73,147 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("c");
+		code.PUTFIELD("c", char.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("s");
+		code.PUTFIELD("s", short.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1);
-		code.PUTFIELD_OF_THIS("i");
+		code.PUTFIELD("i", int.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1L);
-		code.PUTFIELD_OF_THIS("l");
+		code.PUTFIELD("l", long.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1F);
-		code.PUTFIELD_OF_THIS("f");
+		code.PUTFIELD("f", float.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(1D);
-		code.PUTFIELD_OF_THIS("d");
+		code.PUTFIELD("d", double.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(3);
-		code.PUTFIELD_OF_THIS("b3");
+		code.PUTFIELD("b3", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(3);
-		code.PUTFIELD_OF_THIS("c3");
+		code.PUTFIELD("c3", char.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(3);
-		code.PUTFIELD_OF_THIS("s3");
+		code.PUTFIELD("s3", short.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(3);
-		code.PUTFIELD_OF_THIS("i3");
+		code.PUTFIELD("i3", int.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Long.valueOf(3L));
-		code.PUTFIELD_OF_THIS("l3");
+		code.PUTFIELD("l3", long.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Float.valueOf("3.0"));
-		code.PUTFIELD_OF_THIS("f3");
+		code.PUTFIELD("f3", float.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Double.valueOf("3.0"));
-		code.PUTFIELD_OF_THIS("d3");
+		code.PUTFIELD("d3", double.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Float.valueOf("3.1"));
-		code.PUTFIELD_OF_THIS("f31");
+		code.PUTFIELD("f31", float.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Double.valueOf("3.1"));
-		code.PUTFIELD_OF_THIS("d31");
+		code.PUTFIELD("d31", double.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(0);
-		code.PUTFIELD_OF_THIS("b0");
+		code.PUTFIELD("b0", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(0);
-		code.PUTFIELD_OF_THIS("c0");
+		code.PUTFIELD("c0", char.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(0);
-		code.PUTFIELD_OF_THIS("s0");
+		code.PUTFIELD("s0", short.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(0);
-		code.PUTFIELD_OF_THIS("i0");
+		code.PUTFIELD("i0", int.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(0L);
-		code.PUTFIELD_OF_THIS("l1");
+		code.PUTFIELD("l1", long.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(0F);
-		code.PUTFIELD_OF_THIS("f1");
+		code.PUTFIELD("f1", float.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(0D);
-		code.PUTFIELD_OF_THIS("d1");
+		code.PUTFIELD("d1", double.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(-1);
-		code.PUTFIELD_OF_THIS("bn1");
+		code.PUTFIELD("bn1", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(-1);
-		code.PUTFIELD_OF_THIS("sn1");
+		code.PUTFIELD("sn1", short.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(-1);
-		code.PUTFIELD_OF_THIS("in1");
+		code.PUTFIELD("in1", int.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Long.valueOf(-1L));
-		code.PUTFIELD_OF_THIS("ln1");
+		code.PUTFIELD("ln1", long.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Float.valueOf("-1.0"));
-		code.PUTFIELD_OF_THIS("fn1");
+		code.PUTFIELD("fn1", float.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(Double.valueOf("-1.0"));
-		code.PUTFIELD_OF_THIS("dn1");
+		code.PUTFIELD("dn1", double.class);
 		code.RETURN();
 
 		code.END();
@@ -287,70 +287,70 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.CONVERTTO(int.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.CONVERTTO(int.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.NEG();
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.NEG();
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.NEG();
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.NEG();
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.NEG();
 		code.CONVERTTO(int.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.NEG();
 		code.CONVERTTO(int.class);
 		code.STORE("z");
@@ -426,37 +426,37 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.CONVERTTO(byte.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.CONVERTTO(byte.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.CONVERTTO(byte.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.CONVERTTO(int.class);
 		code.CONVERTTO(byte.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.CONVERTTO(int.class);
 		code.CONVERTTO(byte.class);
 		code.STORE("z");
@@ -532,37 +532,37 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.CONVERTTO(short.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.CONVERTTO(short.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.CONVERTTO(short.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.CONVERTTO(int.class);
 		code.CONVERTTO(short.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.CONVERTTO(int.class);
 		code.CONVERTTO(short.class);
 		code.STORE("z");
@@ -630,37 +630,37 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.CONVERTTO(long.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.CONVERTTO(long.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.CONVERTTO(long.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.CONVERTTO(long.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.CONVERTTO(long.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.CONVERTTO(long.class);
 		code.STORE("z");
 
@@ -735,37 +735,37 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.CONVERTTO(char.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.CONVERTTO(char.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.CONVERTTO(char.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.CONVERTTO(int.class);
 		code.CONVERTTO(char.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.CONVERTTO(int.class);
 		code.CONVERTTO(char.class);
 		code.STORE("z");
@@ -815,36 +815,36 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.CONVERTTO(float.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.CONVERTTO(float.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.CONVERTTO(float.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.CONVERTTO(float.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.CONVERTTO(float.class);
 		code.STORE("z");
 
@@ -893,37 +893,37 @@ public class MethodCodeASMMathSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.CONVERTTO(double.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.CONVERTTO(double.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.CONVERTTO(double.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.CONVERTTO(double.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.CONVERTTO(double.class);
 		code.STORE("z");
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.STORE("z");
 
 		code.LINE();

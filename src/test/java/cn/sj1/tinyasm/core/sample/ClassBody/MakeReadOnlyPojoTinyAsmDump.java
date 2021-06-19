@@ -62,42 +62,42 @@ public class MakeReadOnlyPojoTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("b");
-		code.PUTFIELD_OF_THIS("b");
+		code.PUTFIELD("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("c");
-		code.PUTFIELD_OF_THIS("c");
+		code.PUTFIELD("c", char.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("s");
-		code.PUTFIELD_OF_THIS("s");
+		code.PUTFIELD("s", short.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("i");
-		code.PUTFIELD_OF_THIS("i");
+		code.PUTFIELD("i", int.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("l");
-		code.PUTFIELD_OF_THIS("l");
+		code.PUTFIELD("l", long.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("f");
-		code.PUTFIELD_OF_THIS("f");
+		code.PUTFIELD("f", float.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("d");
-		code.PUTFIELD_OF_THIS("d");
+		code.PUTFIELD("d", double.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("str");
-		code.PUTFIELD_OF_THIS("str");
+		code.PUTFIELD("str", String.class);
 
 		code.LINE();
 		code.RETURN();
@@ -111,7 +111,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.RETURNTop();
 
 		code.END();
@@ -123,7 +123,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.RETURNTop();
 
 		code.END();
@@ -135,7 +135,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.RETURNTop();
 
 		code.END();
@@ -147,7 +147,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.RETURNTop();
 
 		code.END();
@@ -159,7 +159,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("l");
+		code.GETFIELD("l", long.class);
 		code.RETURNTop();
 
 		code.END();
@@ -171,7 +171,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.RETURNTop();
 
 		code.END();
@@ -183,7 +183,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.RETURNTop();
 
 		code.END();
@@ -195,7 +195,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("str");
+		code.GETFIELD("str", String.class);
 		code.RETURNTop();
 
 		code.END();
@@ -218,7 +218,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("b");
+		code.GETFIELD("b", byte.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
@@ -229,7 +229,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("c");
+		code.GETFIELD("c", char.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(char.class).INVOKE();
@@ -240,7 +240,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("s");
+		code.GETFIELD("s", short.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
@@ -251,7 +251,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("i");
+		code.GETFIELD("i", int.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
@@ -262,7 +262,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("l");
+		code.GETFIELD("l", long.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(long.class).INVOKE();
@@ -273,7 +273,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("f");
+		code.GETFIELD("f", float.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(float.class).INVOKE();
@@ -284,7 +284,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("d");
+		code.GETFIELD("d", double.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(double.class).INVOKE();
@@ -295,7 +295,7 @@ public class MakeReadOnlyPojoTinyAsmDump {
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("str");
+		code.GETFIELD("str", String.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();

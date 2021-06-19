@@ -56,49 +56,49 @@ public class MethodASMArraySampleTinyAsmDump {
 		code.LOAD("this");
 		code.LOADConst(10);
 		code.NEWARRAY(byte.class);
-		code.PUTFIELD_OF_THIS("ba");
+		code.PUTFIELD("ba", byte[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(10);
 		code.NEWARRAY(char.class);
-		code.PUTFIELD_OF_THIS("ca");
+		code.PUTFIELD("ca", char[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(10);
 		code.NEWARRAY(short.class);
-		code.PUTFIELD_OF_THIS("sa");
+		code.PUTFIELD("sa", short[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(10);
 		code.NEWARRAY(int.class);
-		code.PUTFIELD_OF_THIS("ia");
+		code.PUTFIELD("ia", int[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(10);
 		code.NEWARRAY(long.class);
-		code.PUTFIELD_OF_THIS("la");
+		code.PUTFIELD("la", long[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(10);
 		code.NEWARRAY(float.class);
-		code.PUTFIELD_OF_THIS("fa");
+		code.PUTFIELD("fa", float[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(10);
 		code.NEWARRAY(double.class);
-		code.PUTFIELD_OF_THIS("da");
+		code.PUTFIELD("da", double[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.LOADConst(10);
 		code.NEWARRAY(String.class);
-		code.PUTFIELD_OF_THIS("stra");
+		code.PUTFIELD("stra", String[].class);
 
 		code.LINE();
 		code.RETURN();
@@ -111,56 +111,56 @@ public class MethodASMArraySampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("ba");
+		code.GETFIELD("ba", byte[].class);
 		code.LOADConst(0);
 		code.LOADConst(100);
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("ca");
+		code.GETFIELD("ca", char[].class);
 		code.LOADConst(0);
 		code.LOADConst(1000);
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("sa");
+		code.GETFIELD("sa", short[].class);
 		code.LOADConst(0);
 		code.LOADConst(10000);
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("ia");
+		code.GETFIELD("ia", int[].class);
 		code.LOADConst(0);
 		code.LOADConst(Integer.valueOf(100000));
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("la");
+		code.GETFIELD("la", long[].class);
 		code.LOADConst(0);
 		code.LOADConst(Long.valueOf(1000000L));
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("fa");
+		code.GETFIELD("fa", float[].class);
 		code.LOADConst(0);
 		code.LOADConst(Float.valueOf("1.0E7"));
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("da");
+		code.GETFIELD("da", double[].class);
 		code.LOADConst(0);
 		code.LOADConst(Double.valueOf("1.0E8"));
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("stra");
+		code.GETFIELD("stra", String[].class);
 		code.LOADConst(0);
 		code.LOADConst("1000000000s");
 		code.ARRAYSTORE();
@@ -176,80 +176,80 @@ public class MethodASMArraySampleTinyAsmDump {
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("ba");
+		code.GETFIELD("ba", byte[].class);
 		code.LOADConst(1);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("ba");
+		code.GETFIELD("ba", byte[].class);
 		code.LOADConst(0);
 		code.ARRAYLOAD();
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("ca");
+		code.GETFIELD("ca", char[].class);
 		code.LOADConst(1);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("ca");
+		code.GETFIELD("ca", char[].class);
 		code.LOADConst(0);
 		code.ARRAYLOAD();
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("sa");
+		code.GETFIELD("sa", short[].class);
 		code.LOADConst(1);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("sa");
+		code.GETFIELD("sa", short[].class);
 		code.LOADConst(0);
 		code.ARRAYLOAD();
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("ia");
+		code.GETFIELD("ia", int[].class);
 		code.LOADConst(1);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("ia");
+		code.GETFIELD("ia", int[].class);
 		code.LOADConst(0);
 		code.ARRAYLOAD();
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("la");
+		code.GETFIELD("la", long[].class);
 		code.LOADConst(1);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("la");
+		code.GETFIELD("la", long[].class);
 		code.LOADConst(0);
 		code.ARRAYLOAD();
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("fa");
+		code.GETFIELD("fa", float[].class);
 		code.LOADConst(1);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("fa");
+		code.GETFIELD("fa", float[].class);
 		code.LOADConst(0);
 		code.ARRAYLOAD();
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("da");
+		code.GETFIELD("da", double[].class);
 		code.LOADConst(1);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("da");
+		code.GETFIELD("da", double[].class);
 		code.LOADConst(0);
 		code.ARRAYLOAD();
 		code.ARRAYSTORE();
 
 		code.LINE();
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("stra");
+		code.GETFIELD("stra", String[].class);
 		code.LOADConst(1);
 		code.LOAD("this");
-		code.GETFIELD_OF_THIS("stra");
+		code.GETFIELD("stra", String[].class);
 		code.LOADConst(0);
 		code.ARRAYLOAD();
 		code.ARRAYSTORE();
