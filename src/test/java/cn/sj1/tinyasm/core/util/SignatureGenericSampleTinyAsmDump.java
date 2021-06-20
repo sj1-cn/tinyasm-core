@@ -23,8 +23,7 @@ public class SignatureGenericSampleTinyAsmDump {
 	}
 
 	public byte[] build(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(HashMap.class,Clazz.typeArgument(Clazz.typeVariableOf("S")),Clazz.typeArgument(Clazz.typeVariableOf("D"))),Clazz.of(Serializable.class)).formalTypeParameter("S",Clazz.of(Object.class)).formalTypeParameter("D",Clazz.of(Object.class))
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(HashMap.class,Clazz.typeArgument(Clazz.typeVariableOf("S")),Clazz.typeArgument(Clazz.typeVariableOf("D"))),Clazz.of(Serializable.class)).formalTypeParameter("S",Clazz.of(Object.class)).formalTypeParameter("D",Clazz.of(Object.class)).body();
 
 		classBody.field("mapStrngStringArray",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String[].class)));
 		classBody.field("mapStrngString",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)));
