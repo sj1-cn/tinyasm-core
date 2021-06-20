@@ -1441,21 +1441,12 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void PUTFIELD(String fieldname, String fieldType) {
 		PUTFIELD(fieldname, typeOf(fieldType));
 	}
-
-	public void PUTFIELD(Class<?> objectType, String fieldName, Class<?> fieldType) {
-		 PUTFIELD(typeOf(objectType), fieldName, typeOf(fieldType));
-	}
 	
-	public void PUTFIELD(Type objectType, String fieldName, Type fieldType) {
-		Type value = stackPop();
-		Type objectref = stackPop();
-
-		visitFieldInsn(PUTFIELD, objectType, fieldName, fieldType);
-		// GETSTATIC (→ value) : get a static field value of a class, where the field is
-		// identified by field reference in the constant pool index (index1 << 8 +
-		// index2)
+	@Override
+	public void PUTFIELD(String fieldname, Clazz fieldType) {
+		PUTFIELD(fieldname, typeOf(fieldType));
 	}
-	
+
 	@SuppressWarnings("unused")
 	public void PUTFIELD(String fieldname, Type fieldType) {
 		Type value = stackPop();
@@ -1466,6 +1457,21 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		// PUTFIELD (objectref, value →) : set field to value in an object objectref,
 		// where the field is identified by a field reference index in constant pool
 		// (indexbyte1 << 8 + indexbyte2)
+	}
+
+	public void PUTFIELD(Class<?> objectType, String fieldName, Class<?> fieldType) {
+		PUTFIELD(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+
+	@SuppressWarnings("unused")
+	public void PUTFIELD(Type objectType, String fieldName, Type fieldType) {
+		Type value = stackPop();
+		Type objectref = stackPop();
+
+		visitFieldInsn(PUTFIELD, objectType, fieldName, fieldType);
+		// GETSTATIC (→ value) : get a static field value of a class, where the field is
+		// identified by field reference in the constant pool index (index1 << 8 +
+		// index2)
 	}
 
 	@Override
@@ -1479,6 +1485,21 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		Type valueType = codeThisClassFieldType(fieldName);
 		visitFieldInsn(GETSTATIC, objectRef, fieldName, valueType);
 		stackPush(valueType);
+	}
+
+	@Override
+	public void GETSTATIC(String fieldName, Class<?> fieldType) {
+		GETSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
+	}
+
+	@Override
+	public void GETSTATIC(String fieldName, String fieldType) {
+		GETSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
+	}
+
+	@Override
+	public void GETSTATIC(String fieldName, Clazz fieldType) {
+		GETSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
 	}
 
 	@Override
@@ -1506,6 +1527,21 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		Type value = stackPop();
 		Type valueType = codeThisClassFieldType(fieldName);
 		visitFieldInsn(PUTSTATIC, objectRef, fieldName, valueType);
+	}
+
+	@Override
+	public void PUTSTATIC(String fieldName, Class<?> fieldType) {
+		PUTSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
+	}
+
+	@Override
+	public void PUTSTATIC(String fieldName, String fieldType) {
+		PUTSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
+	}
+	
+	@Override
+	public void PUTSTATIC(String fieldName, Clazz fieldType) {
+		PUTSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
 	}
 
 	@Override

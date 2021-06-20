@@ -15,8 +15,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.sj1.tinyasm.core.util.SignatureGenericSample;
-
 @SuppressWarnings("unused")
 public class SignatureGenericSampleTinyAsmDump {
 

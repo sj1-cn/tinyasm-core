@@ -290,19 +290,35 @@ public interface MethodCodeASM {
 	void GETFIELD(String fieldname, Class<?> fieldType);
 
 	void GETFIELD(String fieldname, String fieldType);
+	
+	void GETFIELD(String fieldname, Clazz fieldType);
 
 	void PUTFIELD(String fieldname, Class<?> fieldType);
 
+	void PUTFIELD(String fieldname, String fieldType);
+	
+	void PUTFIELD(String fieldname, Clazz fieldType);
+	
 	void PUTFIELD_OF_THIS(String fieldname);
 
-	void PUTFIELD(String fieldname, String fieldType);
+	void GETSTATIC(String fieldName, Class<?> fieldType);
+	
+	void GETSTATIC(String fieldName, String fieldType);
 
+	void GETSTATIC(String fieldName, Clazz fieldType);
+	
 	void GETSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
 
 	void GET_THIS_STATIC(String fieldName);
 
 	void GETSTATIC(String objectType, String fieldName, String fieldType);
 
+	void PUTSTATIC(String fieldName, Class<?> fieldType);
+	
+	void PUTSTATIC(String fieldName, String fieldType);
+
+	void PUTSTATIC(String fieldName, Clazz fieldType);
+	
 	void PUTSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
 
 	void PUTSTATIC(String objectType, String fieldName, String fieldType);
@@ -334,6 +350,5 @@ public interface MethodCodeASM {
 
 	void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
 
-	void GETFIELD(String fieldname, Clazz fieldType);
 
 }
