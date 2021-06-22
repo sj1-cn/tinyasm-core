@@ -350,5 +350,7 @@ public interface MethodCodeASM {
 
 	void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
 
+	void IF(int opcode, Label falseLabel);
+
 
 }

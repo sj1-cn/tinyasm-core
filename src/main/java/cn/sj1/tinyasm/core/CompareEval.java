@@ -4,9 +4,9 @@ import org.objectweb.asm.Label;
 
 public interface CompareEval {
 
-	void prepareData(MethodCode code) throws Exception;
+	void prepareData(MethodCodeASM code) throws Exception;
 
-	void gotoWhenSucceed(MethodCode code, Label label) throws Exception;
+	void gotoWhenSucceed(MethodCodeASM code, Label label) throws Exception;
 
-	void gotoWhenFail(MethodCode code, Label label) throws Exception;
+	void gotoWhenFail(MethodCodeASM code, Label label) throws Exception;
 }

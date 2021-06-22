@@ -545,14 +545,14 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		// LADD (left, right → result) : add two longs
 	}
 
-	public void MATH(int op) {
+	public void ARITHMETIC(int opcode) {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
 
 		Type type = checkMathTypes(typeRightValue, typeLeftValue);
 		stackPush(type);
 
-		visitInsn(type.getOpcode(op));
+		visitInsn(type.getOpcode(opcode));
 	}
 
 	/* Subtract: isub, lsub, fsub, dsub. */
@@ -1162,6 +1162,14 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	 * if_icmpeq, if_icmpne, if_icmplt, if_icmple, if_icmpgt if_icmpge, if_acmpeq,
 	 * if_acmpne.
 	 */
+	
+	@Override
+	public void IF(int opcode, Label falseLabel) {
+		Type value = stackPop();
+		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
+		visitJumpInsn(opcode, falseLabel);
+	}
+
 	@Override
 	public void IFEQ(Label falseLabel) {
 		Type value = stackPop();
@@ -1441,7 +1449,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void PUTFIELD(String fieldname, String fieldType) {
 		PUTFIELD(fieldname, typeOf(fieldType));
 	}
-	
+
 	@Override
 	public void PUTFIELD(String fieldname, Clazz fieldType) {
 		PUTFIELD(fieldname, typeOf(fieldType));
@@ -1538,7 +1546,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void PUTSTATIC(String fieldName, String fieldType) {
 		PUTSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
 	}
-	
+
 	@Override
 	public void PUTSTATIC(String fieldName, Clazz fieldType) {
 		PUTSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
