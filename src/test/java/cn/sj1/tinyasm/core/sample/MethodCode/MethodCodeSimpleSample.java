@@ -1,6 +1,6 @@
-package cn.sj1.tinyasm.core;
+package cn.sj1.tinyasm.core.sample.MethodCode;
 
-public class MethodCodeASMSimpleSample {
+public class MethodCodeSimpleSample {
 	private byte b;
 	private char c;
 	private short s;

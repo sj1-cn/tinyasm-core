@@ -1,6 +1,6 @@
-package cn.sj1.tinyasm.core.util;
+package cn.sj1.tinyasm.core.sample.MethodCode;
 
-public class MethodCodeASMControlSample {
+public class MethodCodeControlSample {
 	byte b = 1;
 
 	public int addInt(long x, long y) {

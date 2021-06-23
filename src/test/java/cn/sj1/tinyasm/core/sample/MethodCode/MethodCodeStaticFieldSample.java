@@ -61,7 +61,7 @@ public class MethodCodeStaticFieldSample {
 		MethodCodeStaticFieldSample.da = da;
 		MethodCodeStaticFieldSample.stra = stra;
 
-		MethodCodeStaticFieldSample.z = z;
+		MethodCodeStaticFieldSample.z = !z;
 		MethodCodeStaticFieldSample.b = (byte) (b + 1);
 		MethodCodeStaticFieldSample.c = (char) (c + 1);
 		MethodCodeStaticFieldSample.s = (short) (s + 1);

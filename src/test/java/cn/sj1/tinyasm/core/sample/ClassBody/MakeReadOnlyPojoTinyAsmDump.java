@@ -222,9 +222,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
+		code.LOADConst(", c=");
 
 		code.LINE();
-		code.LOADConst(", c=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
@@ -233,9 +233,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(char.class).INVOKE();
+		code.LOADConst(", s=");
 
 		code.LINE();
-		code.LOADConst(", s=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
@@ -244,9 +244,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
+		code.LOADConst(", i=");
 
 		code.LINE();
-		code.LOADConst(", i=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
@@ -255,9 +255,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(int.class).INVOKE();
+		code.LOADConst(", l=");
 
 		code.LINE();
-		code.LOADConst(", l=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
@@ -266,9 +266,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(long.class).INVOKE();
+		code.LOADConst(", f=");
 
 		code.LINE();
-		code.LOADConst(", f=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
@@ -277,9 +277,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(float.class).INVOKE();
+		code.LOADConst(", d=");
 
 		code.LINE();
-		code.LOADConst(", d=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
@@ -288,9 +288,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(double.class).INVOKE();
+		code.LOADConst(", str=");
 
 		code.LINE();
-		code.LOADConst(", str=");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
@@ -299,9 +299,9 @@ public class MakeReadOnlyPojoTinyAsmDump {
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
+		code.LOADConst("]");
 
 		code.LINE();
-		code.LOADConst("]");
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();

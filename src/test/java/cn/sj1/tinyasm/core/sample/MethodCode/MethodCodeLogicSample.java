@@ -1,6 +1,6 @@
-package cn.sj1.tinyasm.core;
+package cn.sj1.tinyasm.core.sample.MethodCode;
 
-public class MethodCodeASMLogicSample {
+public class MethodCodeLogicSample {
 
 	public boolean eq(byte x, byte y) {
 		return x == y;

@@ -1,4 +1,4 @@
-package cn.sj1.tinyasm.core.sample.ClassBody;
+package cn.sj1.tinyasm.core.sample.MethodCode;
 
 import java.util.ArrayList;
 import java.util.List;

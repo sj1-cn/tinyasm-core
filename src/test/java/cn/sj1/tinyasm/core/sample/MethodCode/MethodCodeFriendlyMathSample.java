@@ -1,4 +1,4 @@
-package cn.sj1.tinyasm.core;
+package cn.sj1.tinyasm.core.sample.MethodCode;
 
 public class MethodCodeFriendlyMathSample {
 	public int add(int x, int y) {

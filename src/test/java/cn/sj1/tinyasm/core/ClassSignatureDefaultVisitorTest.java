@@ -14,7 +14,7 @@ import org.objectweb.asm.signature.SignatureReader;
 
 import cn.sj1.tinyasm.core.util.PojoSample;
 
-public class ClassSignaturewwwwTest {
+public class ClassSignatureDefaultVisitorTest {
 
 	@Before
 	public void setUp() throws Exception {

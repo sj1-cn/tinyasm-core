@@ -1,4 +1,4 @@
-package cn.sj1.tinyasm.core;
+package cn.sj1.tinyasm.core.sample.MethodCode;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -12,10 +12,10 @@ import cn.sj1.tinyasm.core.Clazz;
 import cn.sj1.tinyasm.core.MethodCode;
 
 @SuppressWarnings("unused")
-public class MethodCodeASMSimpleSampleTinyAsmDump {
+public class MethodCodeSimpleSampleTinyAsmDump {
 
 	public static byte[] dump() throws Exception {
-		return new MethodCodeASMSimpleSampleTinyAsmDump().build("cn.sj1.tinyasm.core.MethodCodeASMSimpleSample");
+		return new MethodCodeSimpleSampleTinyAsmDump().build("cn.sj1.tinyasm.core.sample.MethodCode.MethodCodeSimpleSample");
 	}
 
 	public byte[] build(String className) throws Exception {

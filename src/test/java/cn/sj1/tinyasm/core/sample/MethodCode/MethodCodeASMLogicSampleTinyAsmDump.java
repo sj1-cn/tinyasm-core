@@ -1,4 +1,4 @@
-package cn.sj1.tinyasm.core;
+package cn.sj1.tinyasm.core.sample.MethodCode;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
