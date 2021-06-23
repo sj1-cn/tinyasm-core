@@ -55,19 +55,21 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 		//		code.LOAD("this");
 		//		code.visitInvokeDynamicInsn("apply", "()Ljava/util/function/Function;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)Ljava/lang/Object;"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/sample/MethodCode/MethodCodeMethodCallerLAMBDASample", "lambda$0", "(Ljava/lang/String;)Ljava/lang/String;", false), Type.getType("(Ljava/lang/String;)Ljava/lang/String;")});
 
-		((LamdaMethodCaller) code.VIRTUAL("lambda$0").parameter(String.class).return_(String.class)
-				.LAMBDA(MethodCodeMethodCallerLAMBDASample.class, "apply").parameter(Object.class).return_(Object.class))
-//						.lamdaType(Function.class)
-						.INVOKE();
+		//		((LamdaMethodCaller) 
+		code.VIRTUAL("lambda$0").parameter(String.class).return_(String.class)
+				.LAMBDA(MethodCodeMethodCallerLAMBDASample.class, "apply").return_(Function.class)
+				//						.lamdaType(Function.class)
+				.INVOKE();
 
 		code.STORE("func", Clazz.of(Function.class, Clazz.of(String.class), Clazz.of(String.class)));
-		//
-		//		code.LINE();
-		//		code.LOAD("this");
-		//		code.LOAD("func");
-		//		code.VIRTUAL("method")
-		//				.parameter(Function.class).INVOKE();
 
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("func");
+		code.VIRTUAL("method")
+				.parameter(Function.class).INVOKE();
+
+		//		code.POP();
 		code.LINE();
 		code.RETURN();
 
