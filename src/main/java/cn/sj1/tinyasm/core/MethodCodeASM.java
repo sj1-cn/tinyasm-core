@@ -1,8 +1,30 @@
 package cn.sj1.tinyasm.core;
 
+import static cn.sj1.tinyasm.core.TypeUtils.typeOf;
+import static org.objectweb.asm.Opcodes.IADD;
+import static org.objectweb.asm.Opcodes.IDIV;
+import static org.objectweb.asm.Opcodes.IFEQ;
+import static org.objectweb.asm.Opcodes.IFGE;
+import static org.objectweb.asm.Opcodes.IFGT;
+import static org.objectweb.asm.Opcodes.IFLE;
+import static org.objectweb.asm.Opcodes.IFLT;
+import static org.objectweb.asm.Opcodes.IFNE;
+import static org.objectweb.asm.Opcodes.IF_ACMPEQ;
+import static org.objectweb.asm.Opcodes.IF_ACMPNE;
+import static org.objectweb.asm.Opcodes.IF_ICMPEQ;
+import static org.objectweb.asm.Opcodes.IF_ICMPGE;
+import static org.objectweb.asm.Opcodes.IF_ICMPGT;
+import static org.objectweb.asm.Opcodes.IF_ICMPLE;
+import static org.objectweb.asm.Opcodes.IF_ICMPLT;
+import static org.objectweb.asm.Opcodes.IF_ICMPNE;
+import static org.objectweb.asm.Opcodes.IMUL;
+import static org.objectweb.asm.Opcodes.IREM;
+import static org.objectweb.asm.Opcodes.ISUB;
+
 import java.util.function.Consumer;
 
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Type;
 
 public interface MethodCodeASM {
 	void BOX_Top();
@@ -21,7 +43,7 @@ public interface MethodCodeASM {
 
 	void LOAD(int local);
 
-//	void LOAD(String name, String... names);
+	//	void LOAD(String name, String... names);
 
 	int STORE(String varname);
 
@@ -35,7 +57,7 @@ public interface MethodCodeASM {
 
 	int STORE(String varname, Clazz clazz);
 
-//	void STORE(int local);
+	//	void STORE(int local);
 
 	void LOADConstByte(int value);
 
@@ -43,22 +65,22 @@ public interface MethodCodeASM {
 
 	void LOADConstNULL();
 
-//	/**
-//	 * Visits an instruction with a single int operand.
-//	 * 
-//	 * @param opcode  the opcode of the instruction to be visited. This opcode is
-//	 *                either BIPUSH, SIPUSH or NEWARRAY.
-//	 * @param operand the operand of the instruction to be visited.<br>
-//	 *                When opcode is BIPUSH, operand value should be between
-//	 *                Byte.MIN_VALUE and Byte.MAX_VALUE.<br>
-//	 *                When opcode is SIPUSH, operand value should be between
-//	 *                Short.MIN_VALUE and Short.MAX_VALUE.<br>
-//	 *                When opcode is NEWARRAY, operand value should be one of
-//	 *                {@link Opcodes#T_BOOLEAN}, {@link Opcodes#T_CHAR},
-//	 *                {@link Opcodes#T_FLOAT}, {@link Opcodes#T_DOUBLE},
-//	 *                {@link Opcodes#T_BYTE}, {@link Opcodes#T_SHORT},
-//	 *                {@link Opcodes#T_INT} or {@link Opcodes#T_LONG}.
-//	 */
+	//	/**
+	//	 * Visits an instruction with a single int operand.
+	//	 * 
+	//	 * @param opcode  the opcode of the instruction to be visited. This opcode is
+	//	 *                either BIPUSH, SIPUSH or NEWARRAY.
+	//	 * @param operand the operand of the instruction to be visited.<br>
+	//	 *                When opcode is BIPUSH, operand value should be between
+	//	 *                Byte.MIN_VALUE and Byte.MAX_VALUE.<br>
+	//	 *                When opcode is SIPUSH, operand value should be between
+	//	 *                Short.MIN_VALUE and Short.MAX_VALUE.<br>
+	//	 *                When opcode is NEWARRAY, operand value should be one of
+	//	 *                {@link Opcodes#T_BOOLEAN}, {@link Opcodes#T_CHAR},
+	//	 *                {@link Opcodes#T_FLOAT}, {@link Opcodes#T_DOUBLE},
+	//	 *                {@link Opcodes#T_BYTE}, {@link Opcodes#T_SHORT},
+	//	 *                {@link Opcodes#T_INT} or {@link Opcodes#T_LONG}.
+	//	 */
 
 	void LOADConst(Object cst);
 
@@ -79,21 +101,35 @@ public interface MethodCodeASM {
 	 * 
 	 */
 	/** MATH **/
-	void ADD();
+	void ARITHMETIC(int opcode);
 
-	void SUB();
+	default void ADD() {
+		ARITHMETIC(IADD);
+	}
+
+	/* Subtract: isub, lsub, fsub, dsub. */
+
+	default void SUB() {
+		ARITHMETIC(ISUB);
+	}
 
 	/* Multiply: imul, lmul, fmul, dmul. */
 
-	void MUL();
+	default void MUL() {
+		ARITHMETIC(IMUL);
+	}
 
 	/* Divide: idiv, ldiv, fdiv, ddiv. */
 
-	void DIV();
+	default void DIV() {
+		ARITHMETIC(IDIV);
+	}
 
 	/* Remainder: irem, lrem, frem, drem. */
 
-	void REM();
+	default void REM() {
+		ARITHMETIC(IREM);
+	}
 
 	/* Negate: ineg, lneg, fneg, dneg. */
 
@@ -130,66 +166,94 @@ public interface MethodCodeASM {
 	 * int to byte, short, or char long to int float to int or long double to int,
 	 * long, or float
 	 */
-	void CONVERTTO(Class<?> typeTo);
+	void CONVERTTO(Type typeTo);
 
-	void CONVERTTO(Clazz typeTo);
+	default void CONVERTTO(Class<?> typeTo) {
+		CONVERTTO(typeOf(typeTo));
+	}
 
-	void CONVERTTO(String typeTo);
+	default void CONVERTTO(Clazz typeTo) {
+		CONVERTTO(typeOf(typeTo));
+	}
 
-//	/*
-//	 * 2.11.5. Object Creation and Manipulation Although both class instances and
-//	 * arrays are objects, the Java Virtual Machine creates and manipulates class
-//	 * instances and arrays using distinct sets of instructions:
-//	 */
-//	/* Create a new class instance: new. */
-//	/**
-//	 * Visits a LDC instruction. Note that new constant types may be added in future
-//	 * versions of the Java Virtual Machine. To easily detect new constant types,
-//	 * implementations of this method should check for unexpected constant types,
-//	 * like this:
-//	 * 
-//	 * <pre>
-//	 * if (cst instanceof Integer) {
-//	 * 	// ...
-//	 * } else if (cst instanceof Float) {
-//	 * 	// ...
-//	 * } else if (cst instanceof Long) {
-//	 * 	// ...
-//	 * } else if (cst instanceof Double) {
-//	 * 	// ...
-//	 * } else if (cst instanceof String) {
-//	 * 	// ...
-//	 * } else if (cst instanceof Class<?>) {
-//	 * 	int sort = ((Class<?>) cst).getSort();
-//	 * 	if (sort == Class<?>.OBJECT) {
-//	 * 		// ...
-//	 * 	} else if (sort == Class<?>.ARRAY) {
-//	 * 		// ...
-//	 * 	} else if (sort == Class<?>.METHOD) {
-//	 * 		// ...
-//	 * 	} else {
-//	 * 		// throw an exception
-//	 * 	}
-//	 * } else if (cst instanceof Handle) {
-//	 * 	// ...
-//	 * } else {
-//	 * 	// throw an exception
-//	 * }
-//	 * </pre>
-//	 */
-	void NEW(Class<?> objectref);
+	default void CONVERTTO(String typeTo) {
+		CONVERTTO(typeOf(typeTo));
+	}
 
-	void NEW(Clazz objectclazz);
+	//	/*
+	//	 * 2.11.5. Object Creation and Manipulation Although both class instances and
+	//	 * arrays are objects, the Java Virtual Machine creates and manipulates class
+	//	 * instances and arrays using distinct sets of instructions:
+	//	 */
+	//	/* Create a new class instance: new. */
+	//	/**
+	//	 * Visits a LDC instruction. Note that new constant types may be added in future
+	//	 * versions of the Java Virtual Machine. To easily detect new constant types,
+	//	 * implementations of this method should check for unexpected constant types,
+	//	 * like this:
+	//	 * 
+	//	 * <pre>
+	//	 * if (cst instanceof Integer) {
+	//	 * 	// ...
+	//	 * } else if (cst instanceof Float) {
+	//	 * 	// ...
+	//	 * } else if (cst instanceof Long) {
+	//	 * 	// ...
+	//	 * } else if (cst instanceof Double) {
+	//	 * 	// ...
+	//	 * } else if (cst instanceof String) {
+	//	 * 	// ...
+	//	 * } else if (cst instanceof Class<?>) {
+	//	 * 	int sort = ((Class<?>) cst).getSort();
+	//	 * 	if (sort == Class<?>.OBJECT) {
+	//	 * 		// ...
+	//	 * 	} else if (sort == Class<?>.ARRAY) {
+	//	 * 		// ...
+	//	 * 	} else if (sort == Class<?>.METHOD) {
+	//	 * 		// ...
+	//	 * 	} else {
+	//	 * 		// throw an exception
+	//	 * 	}
+	//	 * } else if (cst instanceof Handle) {
+	//	 * 	// ...
+	//	 * } else {
+	//	 * 	// throw an exception
+	//	 * }
+	//	 * </pre>
+	//	 */
 
-	void NEW(String objectref);
+	void NEW(Type objectclazz);
+
+	default void NEW(Class<?> objectclazz) {
+		NEW(typeOf(objectclazz));
+	}
+
+	default void NEW(Clazz objectclazz) {
+		NEW(objectclazz.getType());
+	}
+
+	default void NEW(String objectclazz) {
+		NEW(typeOf(objectclazz));
+	}
 
 	/* Create a new array: newarray, anewarray, multianewarray. */
 
-	void NEWARRAY(Class<?> clazz);
+	void NEWARRAY(Type clazz);
 
-	void NEWARRAY(Clazz objectclazz);
+	
+	default void NEWARRAY(Class<?> type) {
+		NEWARRAY(typeOf(type));
+	}
 
-	void NEWARRAY(String clazz);
+	
+	default void NEWARRAY(Clazz type) {
+		NEWARRAY(typeOf(type));
+	}
+
+	
+	default void NEWARRAY(String type) {
+		NEWARRAY(typeOf(type));
+	}
 
 	void ARRAYLENGTH(String array);
 
@@ -200,17 +264,39 @@ public interface MethodCodeASM {
 	void ARRAYSTORE();
 
 	/* Check properties of class instances or arrays: instanceof, checkcast. */
-	void INSTANCEOF(Class<?> clazz);
+	void INSTANCEOF(Type clazz);
 
-	void INSTANCEOF(Clazz clazz);
+	
+	default void INSTANCEOF(Class<?> type) {
+		INSTANCEOF(typeOf(type));
+	}
 
-	void INSTANCEOF(String clazz);
+	
+	default void INSTANCEOF(Clazz type) {
+		INSTANCEOF(typeOf(type));
+	}
 
-	void CHECKCAST(Class<?> clazz);
+	
+	default void INSTANCEOF(String type) {
+		INSTANCEOF(typeOf(type));
+	}
 
-	void CHECKCAST(Clazz clazz);
+	void CHECKCAST(Type clazz);
 
-	void CHECKCAST(String clazz);
+	
+	default void CHECKCAST(Class<?> type) {
+		CHECKCAST(typeOf(type));
+	}
+
+	
+	default void CHECKCAST(Clazz type) {
+		CHECKCAST(typeOf(type));
+	}
+
+	
+	default void CHECKCAST(String type) {
+		CHECKCAST(typeOf(type));
+	}
 
 	/*
 	 * 2.11.6. Operand Stack Management Instructions A number of instructions are
@@ -234,44 +320,92 @@ public interface MethodCodeASM {
 	 * if_icmpeq, if_icmpne, if_icmplt, if_icmple, if_icmpgt if_icmpge, if_acmpeq,
 	 * if_acmpne.
 	 */
-	void IFEQ(Label falseLabel);
+	void IF(int opcode, Label falseLabel);
 
-	void IFNE(Label falseLabel);
+	
+	default void IFEQ(Label falseLabel) {
+		IF(IFEQ, falseLabel);
+	}
 
-	void IFLT(Label falseLabel);
+	
+	default void IFNE(Label falseLabel) {
+		IF(IFNE, falseLabel);
+	}
 
-	void IFLE(Label falseLabel);
+	
+	default void IFLT(Label falseLabel) {
+		IF(IFLT, falseLabel);
+	}
 
-	void IFGT(Label falseLabel);
+	
+	default void IFLE(Label falseLabel) {
+		IF(IFLE, falseLabel);
+	}
 
-	void IFGE(Label falseLabel);
+	
+	default void IFGT(Label falseLabel) {
+		IF(IFGT, falseLabel);
+	}
+
+	
+	default void IFGE(Label falseLabel) {
+		IF(IFGE, falseLabel);
+	}
 
 	void IFNULL(Label falseLabel);
 
 	void IFNONNULL(Label falseLabel);
 
-	void IF_ACMPEQ(Label falseLabel);
+	void IF_ACMP(int opcode, Label falseLabel);
 
-	void IF_ACMPNE(Label falseLabel);
+	
+	default void IF_ACMPEQ(Label falseLabel) {
+		IF_ACMP(IF_ACMPEQ, falseLabel);
+	}
 
-	void IF_ICMPEQ(Label falseLabel);
+	
+	default void IF_ACMPNE(Label falseLabel) {
+		IF_ACMP(IF_ACMPNE, falseLabel);
+	}
 
-	void IF_ICMPNE(Label falseLabel);
+	void IF_ICMP(int opcode, Label falseLabel);
 
-	void IF_ICMPLT(Label falseLabel);
+	
+	default void IF_ICMPEQ(Label falseLabel) {
+		IF_ICMP(IF_ICMPEQ, falseLabel);
+	}
 
-	void IF_ICMPLE(Label falseLabel);
+	
+	default void IF_ICMPNE(Label falseLabel) {
+		IF_ICMP(IF_ICMPNE, falseLabel);
+	}
 
-	void IF_ICMPGT(Label falseLabel);
+	
+	default void IF_ICMPLT(Label falseLabel) {
+		IF_ICMP(IF_ICMPLT, falseLabel);
+	}
 
-	void IF_ICMPGE(Label falseLabel);
+	
+	default void IF_ICMPLE(Label falseLabel) {
+		IF_ICMP(IF_ICMPLE, falseLabel);
+	}
+
+	
+	default void IF_ICMPGT(Label falseLabel) {
+		IF_ICMP(IF_ICMPGT, falseLabel);
+	}
+
+	
+	default void IF_ICMPGE(Label falseLabel) {
+		IF_ICMP(IF_ICMPGE, falseLabel);
+	}
 
 	/* Unconditional branch: goto, goto_w, jsr, jsr_w, ret. */
 	void GOTO(Label gotoLabel);
 
 	void RETURN();
 
-//	void RETURN(int i);
+	//	void RETURN(int i);
 
 	void RETURN(String varname);
 
@@ -283,38 +417,93 @@ public interface MethodCodeASM {
 
 	void GETFIELD_OF_THIS(String fieldname);
 
-	void GETFIELD(String fieldname, Class<?> fieldType);
+	void GETFIELD(String fieldname, Type fieldType);
 
-	void GETFIELD(String fieldname, String fieldType);
 	
-	void GETFIELD(String fieldname, Clazz fieldType);
+	default void GETFIELD(String fieldname, Class<?> fieldType) {
+		GETFIELD(fieldname, typeOf(fieldType));
+	}
 
-	void PUTFIELD(String fieldname, Class<?> fieldType);
+	
+	default void GETFIELD(String fieldname, String fieldType) {
+		GETFIELD(fieldname, typeOf(fieldType));
+	}
 
-	void PUTFIELD(String fieldname, String fieldType);
 	
-	void PUTFIELD(String fieldname, Clazz fieldType);
+	default void GETFIELD(String fieldname, Clazz fieldType) {
+		GETFIELD(fieldname, typeOf(fieldType));
+	}
+
+	void PUTFIELD(String fieldname, Type fieldType);
+
 	
+	default void PUTFIELD(String fieldname, Class<?> fieldType) {
+		PUTFIELD(fieldname, typeOf(fieldType));
+	}
+
+	
+	default void PUTFIELD(String fieldname, String fieldType) {
+		PUTFIELD(fieldname, typeOf(fieldType));
+	}
+
+	
+	default void PUTFIELD(String fieldname, Clazz fieldType) {
+		PUTFIELD(fieldname, typeOf(fieldType));
+	}
+
 	void PUTFIELD_OF_THIS(String fieldname);
 
-	void GETSTATIC(String fieldName, Class<?> fieldType);
-	
-	void GETSTATIC(String fieldName, String fieldType);
 
-	void GETSTATIC(String fieldName, Clazz fieldType);
 	
-	void GETSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
+	default void GETSTATIC(String fieldName, Class<?> fieldType) {
+		GETSTATIC(fieldName, typeOf(fieldType));
+	}
+
+	
+	default void GETSTATIC(String fieldName, String fieldType) {
+		GETSTATIC(fieldName, typeOf(fieldType));
+	}
+
+	
+	default void GETSTATIC(String fieldName, Clazz fieldType) {
+		GETSTATIC(fieldName, typeOf(fieldType));
+	}
+
+	void GETSTATIC(String fieldName, Type fieldType);
+	
+	
+	default void GETSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType) {
+		GETSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
+	}	
+	
+
+	void GETSTATIC(Type objectType, String fieldName, Type fieldType);
+
+
 
 	void GET_THIS_STATIC(String fieldName);
 
 	void GETSTATIC(String objectType, String fieldName, String fieldType);
 
-	void PUTSTATIC(String fieldName, Class<?> fieldType);
-	
-	void PUTSTATIC(String fieldName, String fieldType);
 
-	void PUTSTATIC(String fieldName, Clazz fieldType);
+	void PUTSTATIC(String fieldName, Type fieldType);
 	
+	
+	default void PUTSTATIC(String fieldName, Class<?> fieldType) {
+		PUTSTATIC(fieldName, typeOf(fieldType));
+	}
+
+	
+	default void PUTSTATIC(String fieldName, String fieldType) {
+		PUTSTATIC(fieldName, typeOf(fieldType));
+	}
+
+	
+	default void PUTSTATIC(String fieldName, Clazz fieldType) {
+		PUTSTATIC(fieldName, typeOf(fieldType));
+	}
+
+
 	void PUTSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
 
 	void PUTSTATIC(String objectType, String fieldName, String fieldType);
@@ -346,10 +535,6 @@ public interface MethodCodeASM {
 
 	void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
 
-	void IF(int opcode, Label falseLabel);
-	void IF_ACMP(int opcode, Label falseLabel);
-
-	void IF_ICMP(int opcode, Label falseLabel);
 
 
 }

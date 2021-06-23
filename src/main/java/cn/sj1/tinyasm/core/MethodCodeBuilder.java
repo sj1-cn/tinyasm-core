@@ -70,10 +70,10 @@ public class MethodCodeBuilder extends MethodCode {
 		printStack(stack);
 	}
 
-	@Override
-	public MethodVisitor getMethodVisitor() {
-		return this.mv;
-	}
+//	@Override
+//	public MethodVisitor getMethodVisitor() {
+//		return this.mv;
+//	}
 
 	@Override
 	int stackSize() {
@@ -185,29 +185,10 @@ public class MethodCodeBuilder extends MethodCode {
 //		mv.visitLineNumber(line, label);
 	}
 
-	public void LINEONLY() {
-		Label label;
-		label = new Label();
-		mv.visitLabel(label);
-		logger.debug("mv.visitLabel({});in LINE()", label);
-		lastLineNumber = lastLineNumber + 1;
-		logger.debug("mv.visitLineNumber({}, {}); in LINE()", lastLineNumber, label);
-		mv.visitLineNumber(lastLineNumber, label);
-		labelCurrent = null;
-	}
 
 	public void LINE() {
 		lastLineNumber = lastLineNumber + 1;
 		LINE(lastLineNumber);
-	}
-
-	public void visitLineNumber(final int line, final Label start) {
-		mv.visitLineNumber(line, start);
-	}
-
-	public void visitLineNumber(final Label start) {
-		lastLineNumber = lastLineNumber + 1;
-		mv.visitLineNumber(lastLineNumber, start);
 	}
 
 	public void LINE(int line) {

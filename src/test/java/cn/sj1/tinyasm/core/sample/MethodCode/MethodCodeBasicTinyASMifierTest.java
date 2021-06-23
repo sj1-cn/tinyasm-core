@@ -22,7 +22,7 @@ public class MethodCodeBasicTinyASMifierTest {
 
 	@Test
 	public void testMethodCodeControlSample_dumpTinyAsm() throws Exception {
-		Class<?> expectedClazz = MethodCodeControlSample.class;
+		Class<?> expectedClazz = MethodCodeControlFlowSample.class;
 
 		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
 		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);

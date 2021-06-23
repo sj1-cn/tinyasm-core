@@ -12,10 +12,10 @@ import cn.sj1.tinyasm.core.Clazz;
 import cn.sj1.tinyasm.core.MethodCode;
 
 @SuppressWarnings("unused")
-public class MethodCodeControlSampleTinyAsmDump {
+public class MethodCodeControlFlowSampleTinyAsmDump {
 
 	public static byte[] dump() throws Exception {
-		return new MethodCodeControlSampleTinyAsmDump().build("cn.sj1.tinyasm.core.sample.MethodCode.MethodCodeControlSample");
+		return new MethodCodeControlFlowSampleTinyAsmDump().build("cn.sj1.tinyasm.core.sample.MethodCode.MethodCodeControlFlowSample");
 	}
 
 	public byte[] build(String className) throws Exception {
@@ -47,8 +47,6 @@ public class MethodCodeControlSampleTinyAsmDump {
 		code.LOAD("this");
 		code.LOADConst(1);
 		code.PUTFIELD("b", byte.class);
-
-		code.LINE();
 		code.RETURN();
 
 		code.END();

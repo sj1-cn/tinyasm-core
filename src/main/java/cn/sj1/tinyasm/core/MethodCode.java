@@ -93,7 +93,6 @@ import java.util.Map;
 
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.slf4j.Logger;
@@ -150,9 +149,9 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	abstract void visitJumpInsn(int opcode, Label label);
 
-	abstract void visitLineNumber(final int line, final Label start);
-
-	abstract void visitLineNumber(final Label start);
+	//	abstract void visitLineNumber(final int line, final Label start);
+	//
+	//	abstract void visitLineNumber(final Label start);
 
 	abstract void visitIincInsn(final int var, final int increment);
 
@@ -183,7 +182,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	abstract int stackSize();
 
-	public abstract MethodVisitor getMethodVisitor();
+	//	public abstract MethodVisitor getMethodVisitor();
 
 	public abstract void stackPush(Type type);
 
@@ -544,6 +543,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	 * 
 	 */
 	/** MATH **/
+	@Override
 	public void ARITHMETIC(int opcode) {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
@@ -552,36 +552,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		stackPush(type);
 
 		visitInsn(type.getOpcode(opcode));
-	}
-
-	@Override
-	public void ADD() {
-		ARITHMETIC(IADD);
-	}
-
-	/* Subtract: isub, lsub, fsub, dsub. */
-	@Override
-	public void SUB() {
-		ARITHMETIC(ISUB);
-	}
-
-	/* Multiply: imul, lmul, fmul, dmul. */
-	@Override
-	public void MUL() {
-		ARITHMETIC(IMUL);
-	}
-
-	/* Divide: idiv, ldiv, fdiv, ddiv. */
-
-	@Override
-	public void DIV() {
-		ARITHMETIC(IDIV);
-	}
-
-	/* Remainder: irem, lrem, frem, drem. */
-	@Override
-	public void REM() {
-		ARITHMETIC(IREM);
 	}
 
 	/* Negate: ineg, lneg, fneg, dneg. */
@@ -707,27 +677,13 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		}
 	}
 
-	@Override
-	public void CONVERTTO(Class<?> typeTo) {
-		CONVERTTO(typeOf(typeTo));
-	}
-
-	@Override
-	public void CONVERTTO(Clazz typeTo) {
-		CONVERTTO(typeOf(typeTo));
-	}
-
-	@Override
-	public void CONVERTTO(String typeTo) {
-		CONVERTTO(typeOf(typeTo));
-	}
-
 	/*
 	 * 2.11.4. Type Conversion Instructions
 	 * 
 	 * int to byte, short, or char long to int float to int or long double to int,
 	 * long, or float
 	 */
+	@Override
 	public void CONVERTTO(Type typeTo) {
 		Type typeFrom = stackPop();
 		stackPush(typeTo);
@@ -862,20 +818,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	 * 
 	 */
 	@Override
-	public void NEW(Class<?> objectclazz) {
-		NEW(typeOf(objectclazz));
-	}
-
-	@Override
-	public void NEW(Clazz objectclazz) {
-		NEW(objectclazz.getType());
-	}
-
-	@Override
-	public void NEW(String objectclazz) {
-		NEW(typeOf(objectclazz));
-	}
-
 	public void NEW(Type objectclazz) {
 		stackPush(objectclazz);
 		visitTypeInsn(NEW, objectclazz);
@@ -884,20 +826,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	/* Create a new array: newarray, anewarray, multianewarray. */
-	@Override
-	public void NEWARRAY(Class<?> type) {
-		NEWARRAY(typeOf(type));
-	}
-
-	@Override
-	public void NEWARRAY(Clazz type) {
-		NEWARRAY(typeOf(type));
-	}
-
-	@Override
-	public void NEWARRAY(String type) {
-		NEWARRAY(typeOf(type));
-	}
 
 	public void NEWARRAY(Type type) {
 		Type count = stackPop();
@@ -1020,21 +948,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		//		}
 	}
 
-	@Override
-	public void INSTANCEOF(Class<?> type) {
-		INSTANCEOF(typeOf(type));
-	}
-
-	@Override
-	public void INSTANCEOF(Clazz type) {
-		INSTANCEOF(typeOf(type));
-	}
-
-	@Override
-	public void INSTANCEOF(String type) {
-		INSTANCEOF(typeOf(type));
-	}
-
 	/* Check properties of class instances or arrays: instanceof, checkcast. */
 	@SuppressWarnings("unused")
 	public void INSTANCEOF(Type type) {
@@ -1045,21 +958,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		// INSTANCEOF (objectref → result) : determines if an object objectref is of a
 		// given type, identified by class reference index in constant pool (indexbyte1
 		// << 8 + indexbyte2)
-	}
-
-	@Override
-	public void CHECKCAST(Class<?> type) {
-		CHECKCAST(typeOf(type));
-	}
-
-	@Override
-	public void CHECKCAST(Clazz type) {
-		CHECKCAST(typeOf(type));
-	}
-
-	@Override
-	public void CHECKCAST(String type) {
-		CHECKCAST(typeOf(type));
 	}
 
 	public void CHECKCAST(Type type) {
@@ -1129,46 +1027,10 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		visitJumpInsn(opcode, falseLabel);
 	}
 
-	@Override
-	public void IFEQ(Label falseLabel) {
-		IF(IFEQ, falseLabel);
-	}
-
 	public void JUMP(int opcode, Label falseLabel) {
 		Type value = stackPop();
 		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + " expected:" + Type.INT_TYPE;
 		visitJumpInsn(opcode, falseLabel);
-	}
-
-	@Override
-	public void IFNE(Label falseLabel) {
-		IF(IFNE, falseLabel);
-	}
-
-	public Label IFNE() {
-		Label falseLabel = new Label();
-		IF(IFNE, falseLabel);
-		return falseLabel;
-	}
-
-	@Override
-	public void IFLT(Label falseLabel) {
-		IF(IFLT, falseLabel);
-	}
-
-	@Override
-	public void IFLE(Label falseLabel) {
-		IF(IFLE, falseLabel);
-	}
-
-	@Override
-	public void IFGT(Label falseLabel) {
-		IF(IFGT, falseLabel);
-	}
-
-	@Override
-	public void IFGE(Label falseLabel) {
-		IF(IFGE, falseLabel);
 	}
 
 	@Override
@@ -1195,51 +1057,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
-	public void IF_ACMPEQ(Label falseLabel) {
-		IF_ACMP(IF_ACMPEQ, falseLabel);
-	}
-
-	@Override
-	public void IF_ACMPNE(Label falseLabel) {
-		IF_ACMP(IF_ACMPNE, falseLabel);
-	}
-
-	@Override
 	public void IF_ICMP(int opcode, Label falseLabel) {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
 		checkMathTypes(typeRightValue, typeLeftValue);
 		visitJumpInsn(opcode, falseLabel);
-	}
-
-	@Override
-	public void IF_ICMPEQ(Label falseLabel) {
-		IF_ICMP(IF_ICMPEQ, falseLabel);
-	}
-
-	@Override
-	public void IF_ICMPNE(Label falseLabel) {
-		IF_ICMP(IF_ICMPNE, falseLabel);
-	}
-
-	@Override
-	public void IF_ICMPLT(Label falseLabel) {
-		IF_ICMP(IF_ICMPLT, falseLabel);
-	}
-
-	@Override
-	public void IF_ICMPLE(Label falseLabel) {
-		IF_ICMP(IF_ICMPLE, falseLabel);
-	}
-
-	@Override
-	public void IF_ICMPGT(Label falseLabel) {
-		IF_ICMP(IF_ICMPGT, falseLabel);
-	}
-
-	@Override
-	public void IF_ICMPGE(Label falseLabel) {
-		IF_ICMP(IF_ICMPGE, falseLabel);
 	}
 
 	/* Compound conditional branch: tableswitch, lookupswitch. */
@@ -1333,20 +1155,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
-	public void GETFIELD(String fieldname, Class<?> fieldType) {
-		GETFIELD(fieldname, typeOf(fieldType));
-	}
-
-	@Override
-	public void GETFIELD(String fieldname, String fieldType) {
-		GETFIELD(fieldname, typeOf(fieldType));
-	}
-
-	@Override
-	public void GETFIELD(String fieldname, Clazz fieldType) {
-		GETFIELD(fieldname, typeOf(fieldType));
-	}
-
 	public void GETFIELD(String fieldname, Type fieldType) {
 		Type objectref = stackPop();
 		stackPush(fieldType);
@@ -1371,20 +1179,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	protected abstract String codeFieldNameOf(int fieldIndex);
 
 	@Override
-	public void PUTFIELD(String fieldname, Class<?> fieldType) {
-		PUTFIELD(fieldname, typeOf(fieldType));
-	}
-
-	@Override
-	public void PUTFIELD(String fieldname, String fieldType) {
-		PUTFIELD(fieldname, typeOf(fieldType));
-	}
-
-	@Override
-	public void PUTFIELD(String fieldname, Clazz fieldType) {
-		PUTFIELD(fieldname, typeOf(fieldType));
-	}
-
 	@SuppressWarnings("unused")
 	public void PUTFIELD(String fieldname, Type fieldType) {
 		Type value = stackPop();
@@ -1413,11 +1207,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
-	public void GETSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType) {
-		GETSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
-	}
-
-	@Override
 	public void GET_THIS_STATIC(String fieldName) {
 		Type objectRef = typeOfThis();
 		Type valueType = codeThisClassFieldType(fieldName);
@@ -1426,18 +1215,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
-	public void GETSTATIC(String fieldName, Class<?> fieldType) {
-		GETSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
-	}
-
-	@Override
-	public void GETSTATIC(String fieldName, String fieldType) {
-		GETSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
-	}
-
-	@Override
-	public void GETSTATIC(String fieldName, Clazz fieldType) {
-		GETSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
+	public void GETSTATIC(String fieldName, Type fieldType) {
+		GETSTATIC(typeOfThis(), fieldName, fieldType);
 	}
 
 	@Override
@@ -1445,6 +1224,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		GETSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
 	}
 
+	@Override
 	public void GETSTATIC(Type objectType, String fieldName, Type fieldType) {
 		stackPush(fieldType);
 		visitFieldInsn(GETSTATIC, objectType, fieldName, fieldType);
@@ -1468,18 +1248,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
-	public void PUTSTATIC(String fieldName, Class<?> fieldType) {
-		PUTSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
-	}
-
-	@Override
-	public void PUTSTATIC(String fieldName, String fieldType) {
-		PUTSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
-	}
-
-	@Override
-	public void PUTSTATIC(String fieldName, Clazz fieldType) {
-		PUTSTATIC(typeOfThis(), fieldName, typeOf(fieldType));
+	public void PUTSTATIC(String fieldName, Type fieldType) {
+		PUTSTATIC(typeOfThis(), fieldName, fieldType);
 	}
 
 	@Override
