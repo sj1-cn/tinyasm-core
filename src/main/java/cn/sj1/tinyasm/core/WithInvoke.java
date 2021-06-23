@@ -44,4 +44,6 @@ public interface WithInvoke {
 
 	MethodCaller VIRTUAL(String methodName);
 
+	MethodCaller SPECIAL(String methodName);
+
 }

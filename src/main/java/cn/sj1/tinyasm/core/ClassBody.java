@@ -36,18 +36,6 @@ public interface ClassBody
 
 	String getSimpleName();
 
-//	default void init() {
-//		MethodCode code = this.public_().method("<init>").begin();
-//
-//		code.LINE();
-//		code.LOAD("this");
-//		code.SPECIAL(Object.class, "<init>").INVOKE();
-//		code.RETURN();
-//
-//		code.END();
-//	}
-
-	// TODO constructerEmpty
 	default ClassBody constructerEmpty() {
 		public_().method("<init>").code(code -> {
 			Label label0 = new Label();

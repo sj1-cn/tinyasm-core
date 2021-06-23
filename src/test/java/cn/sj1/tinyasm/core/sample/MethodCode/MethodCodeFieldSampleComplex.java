@@ -4,6 +4,8 @@ public class MethodCodeFieldSampleComplex {
 
 	MethodCodeFieldSample methodCodeFieldSample = new MethodCodeFieldSample();
 
+	static MethodCodeFieldSampleComplex methodCodeFieldSampleStatic = new MethodCodeFieldSampleComplex();
+
 	public void getAll() {
 		boolean z = methodCodeFieldSample.z;
 		byte b = methodCodeFieldSample.b;
@@ -44,7 +46,7 @@ public class MethodCodeFieldSampleComplex {
 		float[] fa = methodCodeFieldSample.fa;
 		double[] da = methodCodeFieldSample.da;
 		String[] stra = methodCodeFieldSample.stra;
-		
+
 		methodCodeFieldSample.za = za;
 		methodCodeFieldSample.ba = ba;
 		methodCodeFieldSample.ca = ca;
