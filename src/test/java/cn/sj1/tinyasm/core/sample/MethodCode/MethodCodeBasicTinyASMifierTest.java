@@ -40,6 +40,17 @@ public class MethodCodeBasicTinyASMifierTest {
 //		assertEquals("Code", codeExpected, codeActual);
 //
 //	}
+	
+	@Test
+	public void testMethodCodeLoadConstSample_dumpTinyAsm() throws Exception {
+		Class<?> expectedClazz = MethodCodeLoadConstSample.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
+
+		assertEquals("Code", codeExpected, codeActual);
+
+	}
 
 	@Test
 	public void testMethedCodeInvokeSpecial_dumpTinyAsm() throws Exception {
@@ -51,7 +62,6 @@ public class MethodCodeBasicTinyASMifierTest {
 		assertEquals("Code", codeExpected, codeActual);
 
 	}
-
 	@Test
 	public void testMethodCodeArraySample_dumpTinyAsm() throws Exception {
 		Class<?> expectedClazz = MethodCodeArraySample.class;

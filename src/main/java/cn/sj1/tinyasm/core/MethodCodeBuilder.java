@@ -2,8 +2,6 @@ package cn.sj1.tinyasm.core;
 
 import static cn.sj1.tinyasm.core.TypeUtils.typeOf;
 import static cn.sj1.tinyasm.core.TypeUtils.typesOf;
-import static org.objectweb.asm.Opcodes.BIPUSH;
-import static org.objectweb.asm.Opcodes.ICONST_0;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 
 import java.util.ArrayList;
@@ -76,7 +74,7 @@ public class MethodCodeBuilder extends MethodCode {
 	//	}
 
 	@Override
-	int stackSize() {
+	protected int stackSize() {
 		return stack.size();
 	}
 
@@ -213,63 +211,63 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
-	public void visitFieldInsn(int opcode, Type ownerType, String fieldName, Type fieldType) {
+	protected void visitFieldInsn(int opcode, Type ownerType, String fieldName, Type fieldType) {
 		mv.visitFieldInsn(opcode, ownerType.getInternalName(), fieldName, fieldType.getDescriptor());
 	}
 
 	@Override
-	public void visitInsn(int opcode) {
+	protected void visitInsn(int opcode) {
 		mv.visitInsn(opcode);
 	}
 
 	@Override
-	public void visitVarInsn(int opcode, int var) {
+	protected void visitVarInsn(int opcode, int var) {
 		mv.visitVarInsn(opcode, var);
 	}
 
 	@Override
-	public void visitInsn(int opcode, int operand) {
-		if (opcode == BIPUSH && -1 <= operand && operand <= 5) {
-			mv.visitInsn(ICONST_0 + operand);
-		} else {
-			mv.visitIntInsn(opcode, operand);
-		}
+	protected void visitIntInsn(int opcode, int operand) {
+		//		if (opcode == BIPUSH && -1 <= operand && operand <= 5) {
+		//			mv.visitInsn(ICONST_0 + operand);
+		//		} else {
+		mv.visitIntInsn(opcode, operand);
+		//		}
 	}
 
 	@Override
-	void visitIincInsn(int var, int increment) {
+	protected void visitIincInsn(int var, int increment) {
 		mv.visitIincInsn(var, increment);
 	}
 
 	@Override
-	public void visitMethodInsn(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
+	protected void visitMethodInsn(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		mv.visitMethodInsn(opcode, objectType.getInternalName(), methodName, Type.getMethodDescriptor(returnType, paramTypes),
 				opcode == INVOKEINTERFACE);
 	}
 
 	@Override
-	public void visitTryCatchBlock(Label start, Label end, Label handler, Type exctpionClazz) {
+	protected void visitTryCatchBlock(Label start, Label end, Label handler, Type exctpionClazz) {
 		// TODO Auto-generated method stub
 		mv.visitTryCatchBlock(start, end, handler, exctpionClazz.getInternalName());
 	}
 
 	@Override
-	public void visitJumpInsn(int opcode, Label label) {
+	protected void visitJumpInsn(int opcode, Label label) {
 		mv.visitJumpInsn(opcode, label);
 	}
 
 	@Override
-	public void visitInvokeDynamicInsn(String name, String descriptor, Handle bootstrapMethodHandle, Object... bootstrapMethodArguments) {
+	protected void visitInvokeDynamicInsn(String name, String descriptor, Handle bootstrapMethodHandle, Object... bootstrapMethodArguments) {
 		mv.visitInvokeDynamicInsn(name, descriptor, bootstrapMethodHandle, bootstrapMethodArguments);
 	}
 
 	@Override
-	public void visitLdcInsn(Object cst) {
+	protected void visitLdcInsn(Object cst) {
 		mv.visitLdcInsn(cst);
 	}
 
 	@Override
-	public void visitTypeInsn(int opcode, Type type) {
+	protected void visitTypeInsn(int opcode, Type type) {
 		mv.visitTypeInsn(opcode, type.getInternalName());
 	}
 
@@ -339,7 +337,6 @@ public class MethodCodeBuilder extends MethodCode {
 			returnClazz = clazz;
 			return this;
 		}
-
 
 		@Override
 		public void INVOKE() {

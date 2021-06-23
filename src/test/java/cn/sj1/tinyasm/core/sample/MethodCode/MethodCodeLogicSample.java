@@ -169,4 +169,9 @@ public class MethodCodeLogicSample {
 	public boolean lt(double x, double y) {
 		return x < y;
 	}
+
+	public boolean geAnd(byte x, byte y) {
+		return x >= y && y > 0;
+	}
+
 }

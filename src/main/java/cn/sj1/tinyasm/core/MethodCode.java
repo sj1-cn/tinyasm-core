@@ -100,35 +100,29 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke, WithDefin
 		}
 	}
 
-	abstract void visitLabel(Label label, int line);
+	protected abstract void visitLabel(Label label, int line);
 
-	public abstract void visitInsn(int opcode);
+	protected abstract void visitInsn(int opcode);
 
-	abstract void visitVarInsn(int opcode, int index);
+	protected abstract void visitVarInsn(int opcode, int index);
 
-	abstract void visitInsn(int opcode, int operand);
+	protected abstract void visitIntInsn(int opcode, int operand);
 
-	abstract void visitFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
+	protected abstract void visitFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
 
-	//	code.visitFieldInsn(GETSTATIC, "out", "Ljava/io/PrintStream;");
+	protected abstract void visitMethodInsn(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
 
-	abstract void visitMethodInsn(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
+	protected abstract void visitTryCatchBlock(Label start, Label end, Label handler, Type exctpionClazz);
 
-	abstract void visitTryCatchBlock(Label start, Label end, Label handler, Type exctpionClazz);
+	protected abstract void visitLdcInsn(Object cst);
 
-	abstract void visitLdcInsn(Object cst);
+	protected abstract void visitTypeInsn(int opcode, Type type);
 
-	abstract void visitTypeInsn(int opcode, Type type);
+	protected abstract void visitJumpInsn(int opcode, Label label);
 
-	abstract void visitJumpInsn(int opcode, Label label);
+	protected abstract void visitIincInsn(final int var, final int increment);
 
-	//	abstract void visitLineNumber(final int line, final Label start);
-	//
-	//	abstract void visitLineNumber(final Label start);
-
-	abstract void visitIincInsn(final int var, final int increment);
-
-	abstract void visitInvokeDynamicInsn(final String name, final String descriptor, final Handle bootstrapMethodHandle, final Object... bootstrapMethodArguments);
+	protected abstract void visitInvokeDynamicInsn(final String name, final String descriptor, final Handle bootstrapMethodHandle, final Object... bootstrapMethodArguments);
 
 	void InvokeDynamicInsn(final String name, final String descriptor, final Handle bootstrapMethodHandle, final Object... bootstrapMethodArguments) {
 		stackPop();
@@ -137,7 +131,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke, WithDefin
 
 	protected abstract int codeLocalGetLocals(String name);
 
-	public abstract int codeLocalsNextLocal();
+	protected abstract int codeLocalsNextLocal();
 
 	protected abstract Type localsLoadAccess(int index);
 
@@ -145,13 +139,13 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke, WithDefin
 
 	protected abstract Type stackTypeOf(int i);
 
-	public abstract Type stackPop();
+	protected abstract Type stackPop();
 
-	abstract int stackSize();
+	protected abstract int stackSize();
 
 	//	public abstract MethodVisitor getMethodVisitor();
 
-	public abstract void stackPush(Type type);
+	protected abstract void stackPush(Type type);
 
 	/*
 	 * 2.11.2. Load and Store Instructions The load and store instructions transfer
@@ -342,14 +336,16 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke, WithDefin
 	//
 	////	@Override
 	public void LOADConst(int cst) {
-		if (0L == cst || 1L == cst) {
+		//		if (opcode == BIPUSH && -1 <= operand && operand <= 5) {
+		//			mv.visitInsn(ICONST_0 + operand);
+		if (-1 <= cst && cst <= 5) {
 			visitInsn(ICONST_0 + cst);
 			stackPush(Type.getType(int.class));
 		} else if (Byte.MIN_VALUE <= cst && cst <= Byte.MAX_VALUE) {
-			visitInsn(BIPUSH, cst);
+			visitIntInsn(BIPUSH, cst);
 			stackPush(Type.getType(int.class));
 		} else if (Short.MIN_VALUE <= cst && cst <= Short.MAX_VALUE) {
-			visitInsn(SIPUSH, cst);
+			visitIntInsn(SIPUSH, cst);
 			stackPush(Type.getType(int.class));
 		} else {
 			visitLdcInsn(cst);
@@ -716,7 +712,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke, WithDefin
 
 		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) {
 			int typecode = TypeUtils.arrayTypeMaps[type.getSort()];
-			visitInsn(NEWARRAY, typecode);
+			visitIntInsn(NEWARRAY, typecode);
 		} else if (type.getSort() == Type.ARRAY) visitTypeInsn(ANEWARRAY, type);
 		else if (type.getSort() == Type.OBJECT) visitTypeInsn(ANEWARRAY, type);
 		else throw new UnsupportedOperationException();
@@ -881,7 +877,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke, WithDefin
 
 		labelStackSize.put(falseLabel, stackSize());
 
-		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + " expected:" + Type.INT_TYPE;
+		assert in(value, Type.BOOLEAN_TYPE, Type.BYTE_TYPE, Type.CHAR_TYPE, Type.SHORT_TYPE, Type.INT_TYPE) : "actual: " + value + " expected:" + Type.INT_TYPE;
 		visitJumpInsn(opcode, falseLabel);
 	}
 
@@ -922,6 +918,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke, WithDefin
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
 		checkMathTypes(typeRightValue, typeLeftValue);
+		labelStackSize.put(falseLabel, stackSize());
 		visitJumpInsn(opcode, falseLabel);
 	}
 

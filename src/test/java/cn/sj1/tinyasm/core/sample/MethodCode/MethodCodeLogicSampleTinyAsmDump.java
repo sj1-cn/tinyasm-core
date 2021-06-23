@@ -65,6 +65,7 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		_le_double_double_boolean(classBody);
 		_gt_double_double_boolean(classBody);
 		_lt_double_double_boolean(classBody);
+		_geAnd(classBody);
 
 		return classBody.end().toByteArray();
 	}
@@ -1098,6 +1099,32 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		code.GOTO(label2OfGOTO);
 
 		code.visitLabel(label1OfIFGE);
+		code.LOADConst(0);
+
+		code.visitLabel(label2OfGOTO);
+		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void _geAnd(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("geAnd")
+			.return_(boolean.class )
+			.parameter("x",byte.class)
+			.parameter("y",byte.class).begin();
+
+		code.LINE();
+		code.LOAD("x");
+		code.LOAD("y");
+		Label label1OfIF_ICMPLT = new Label();
+		code.IF_ICMPLT(label1OfIF_ICMPLT);
+		code.LOAD("y");
+		code.IFLE(label1OfIF_ICMPLT);
+		code.LOADConst(1);
+		Label label2OfGOTO = new Label();
+		code.GOTO(label2OfGOTO);
+
+		code.visitLabel(label1OfIF_ICMPLT);
 		code.LOADConst(0);
 
 		code.visitLabel(label2OfGOTO);
