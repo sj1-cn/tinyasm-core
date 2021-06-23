@@ -1074,7 +1074,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke, WithDefin
 		// indexbyte2)
 	}
 
-	/** INVOKE **/
 	@SuppressWarnings("unused")
 	public void INVOKE(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {

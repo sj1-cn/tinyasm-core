@@ -105,7 +105,6 @@ public interface MethodCodeASM {
 	 * Add: iadd, ladd, fadd, dadd.
 	 * 
 	 */
-	/** MATH **/
 	void ARITHMETIC(int opcode);
 
 	default void ADD() {
