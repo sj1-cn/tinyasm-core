@@ -60,7 +60,7 @@ public abstract class Clazz {
 	}
 
 	public static ClazzSimple of(String classname) {
-		return new ClazzSimple(classname);
+		return new ClazzSimple(typeOf(classname));
 	}
 
 	public static ClazzSimple of(String classname, boolean isarray) {
@@ -112,7 +112,7 @@ public abstract class Clazz {
 	}
 
 	public static Clazz of(String originclazzName, String... genericParameterClazz) {
-		ClazzSimple baseType = new ClazzSimple(originclazzName);
+		ClazzSimple baseType = new ClazzSimple(typeOf(originclazzName));
 		ClazzTypeArgument[] gClazz = new ClazzTypeArgument[genericParameterClazz.length];
 		for (int i = 0; i < genericParameterClazz.length; i++) {
 			gClazz[i] = Clazz.typeArgument(Clazz.of(genericParameterClazz[i]));
@@ -171,7 +171,7 @@ public abstract class Clazz {
 	public static Type typeOf(String name) {
 		Type type;
 		if (name == null) type = Type.VOID_TYPE;
-		if (TypeUtils.primaryTypeMaps.containsKey(name)) type = TypeUtils.primaryTypeMaps.get(name);
+//		if (TypeUtils.primaryTypeMaps.containsKey(name)) type = TypeUtils.primaryTypeMaps.get(name);
 		type = Type.getObjectType(name.replace('.', '/'));
 		return type;
 	}

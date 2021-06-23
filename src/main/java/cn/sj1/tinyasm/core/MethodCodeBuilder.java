@@ -170,6 +170,7 @@ public class MethodCodeBuilder extends MethodCode {
 
 	@Override
 	public void visitLabel(Label label) {
+		super.visitLabel(label);
 		labelCurrent = label;
 		mv.visitLabel(label);
 		logger.trace("mv.visitLabel({}; in visitLabel(Label label)", label);
@@ -293,16 +294,16 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	private void printStack(Stack<Type> stack) {
-//		if(logger.isTraceEnabled()){
-//			StringBuffer sb = new StringBuffer();
-//			sb.append(thisMethod.name).append(" : ");
-//			for (Type type : stack) {
-//				sb.append(type);
-//				sb.append(" > ");
-//			}
-//			sb.setCharAt(sb.length() - 2, '\n');
-//			logger.trace("{}",sb.toString());
-//		}
+		if(logger.isTraceEnabled()){
+			StringBuffer sb = new StringBuffer();
+			sb.append(mh.thisMethod.methodName).append(" : ");
+			for (Type type : stack) {
+				sb.append(type);
+				sb.append(" > ");
+			}
+			sb.setCharAt(sb.length() - 2, ' ');
+			logger.trace("{}",sb.toString());
+		}
 	}
 
 	@Override

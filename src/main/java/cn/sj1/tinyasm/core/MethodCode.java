@@ -17,9 +17,10 @@ import static org.objectweb.asm.Opcodes.D2F;
 import static org.objectweb.asm.Opcodes.D2I;
 import static org.objectweb.asm.Opcodes.D2L;
 import static org.objectweb.asm.Opcodes.DCMPG;
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.DCMPL;
 import static org.objectweb.asm.Opcodes.DCONST_0;
 import static org.objectweb.asm.Opcodes.DUP;
+import static org.objectweb.asm.Opcodes.DUP2;
 import static org.objectweb.asm.Opcodes.F2D;
 import static org.objectweb.asm.Opcodes.F2I;
 import static org.objectweb.asm.Opcodes.F2L;
@@ -81,18 +82,26 @@ import static org.objectweb.asm.Opcodes.LCONST_0;
 import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.NEWARRAY;
 import static org.objectweb.asm.Opcodes.POP;
+import static org.objectweb.asm.Opcodes.POP2;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.PUTSTATIC;
 import static org.objectweb.asm.Opcodes.RETURN;
 import static org.objectweb.asm.Opcodes.SIPUSH;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode>, WithDefineVar {
+	Logger logger = LoggerFactory.getLogger(MethodCode.class);
+
 	public void INIT_OBJECT() {
 		LOAD(_THIS);
 		SPECIAL(Object.class, "<init>").INVOKE();
@@ -110,7 +119,14 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		BoxUnbox.unbox(topType).accept(this);
 	}
 
-	public abstract void visitLabel(Label label);
+	public void visitLabel(Label label) {
+		if (labelStackSize.containsKey(label)) {
+			int size = labelStackSize.get(label);
+			while (stackSize() > size) {
+				stackPop();
+			}
+		}
+	}
 
 	abstract void visitLabel(Label label, int line);
 
@@ -122,7 +138,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	abstract void visitFieldInsn(int opcode, Type ownerType, String name, Type fieldType);
 
-//	code.visitFieldInsn(GETSTATIC, "out", "Ljava/io/PrintStream;");
+	//	code.visitFieldInsn(GETSTATIC, "out", "Ljava/io/PrintStream;");
 
 	abstract void visitMethodInsn(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes);
 
@@ -203,13 +219,13 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	 * This notation for instruction families is used throughout this specification.
 	 */
 
-//	@Override
-//	public void LOAD(String firstname, String... names) {
-//		LOAD(firstname);
-//		for (String name : names) {
-//			LOAD(name);
-//		}
-//	}
+	//	@Override
+	//	public void LOAD(String firstname, String... names) {
+	//		LOAD(firstname);
+	//		for (String name : names) {
+	//			LOAD(name);
+	//		}
+	//	}
 
 	@Override
 	public void LOAD(int index) {
@@ -260,15 +276,15 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		return local;
 	}
 
-//	@Override
-//	public void STORE(String varname, Class<?> clazz) {
-//		int local = codeLocalGetLocals(varname);
-//		if (local < 0) {
-//			define(varname, clazz);
-//			local = codeLocalGetLocals(varname);
-//		}
-//		STORE(local);
-//	}
+	//	@Override
+	//	public void STORE(String varname, Class<?> clazz) {
+	//		int local = codeLocalGetLocals(varname);
+	//		if (local < 0) {
+	//			define(varname, clazz);
+	//			local = codeLocalGetLocals(varname);
+	//		}
+	//		STORE(local);
+	//	}
 
 	public void STORE(String varname, Type clazz) {
 		int local = codeLocalGetLocals(varname);
@@ -290,16 +306,16 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		return local;
 	}
 
-//	@Override
-//	public int STORE(String varname, String clazz) {
-//		int local = codeLocalGetLocals(varname);
-//		if (local < 0) {
-//			define(varname, clazz);
-//			local = codeLocalGetLocals(varname);
-//		}
-//		STORE(local);
-//		return local;
-//	}
+	//	@Override
+	//	public int STORE(String varname, String clazz) {
+	//		int local = codeLocalGetLocals(varname);
+	//		if (local < 0) {
+	//			define(varname, clazz);
+	//			local = codeLocalGetLocals(varname);
+	//		}
+	//		STORE(local);
+	//		return local;
+	//	}
 
 	public void STOREException(int local) {
 		visitVarInsn(ASTORE, local);
@@ -316,7 +332,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 		switch (valueType.getSort()) {
 		case Type.ARRAY:
-//			assert valueType.getSort() == localType.getSort() : "type don't match! local: " + localType + "  stack:" + valueType;
+			//			//assert valueType.getSort() == localType.getSort() : "type don't match! local: " + localType + "  stack:" + valueType;
 			stackPop();
 			visitVarInsn(ASTORE, index);
 			// ASTORE (objectref →) : store a reference into a local variable #index
@@ -326,7 +342,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 			// ASTORE_3 (objectref →) : store a reference into local variable 3
 			break;
 		case Type.OBJECT:
-			assert valueType.getSort() == localType.getSort() : "type don't match! local: " + localType + "  stack:" + valueType;
+			assert valueType.getSort() == localType.getSort() : "type don't match! local:" + localType + " stack:" + valueType;
 			stackPop();
 			visitVarInsn(ASTORE, index);
 			// ASTORE (objectref →) : store a reference into a local variable #index
@@ -385,24 +401,24 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		stackPush(Type.getType(Object.class));
 	}
 
-//	/**
-//	 * Visits an instruction with a single int operand.
-//	 * 
-//	 * @param opcode  the opcode of the instruction to be visited. This opcode is
-//	 *                either BIPUSH, SIPUSH or NEWARRAY.
-//	 * @param operand the operand of the instruction to be visited.<br>
-//	 *                When opcode is BIPUSH, operand value should be between
-//	 *                Byte.MIN_VALUE and Byte.MAX_VALUE.<br>
-//	 *                When opcode is SIPUSH, operand value should be between
-//	 *                Short.MIN_VALUE and Short.MAX_VALUE.<br>
-//	 *                When opcode is NEWARRAY, operand value should be one of
-//	 *                {@link Opcodes#T_BOOLEAN}, {@link Opcodes#T_CHAR},
-//	 *                {@link Opcodes#T_FLOAT}, {@link Opcodes#T_DOUBLE},
-//	 *                {@link Opcodes#T_BYTE}, {@link Opcodes#T_SHORT},
-//	 *                {@link Opcodes#T_INT} or {@link Opcodes#T_LONG}.
-//	 */
-//
-////	@Override
+	//	/**
+	//	 * Visits an instruction with a single int operand.
+	//	 * 
+	//	 * @param opcode  the opcode of the instruction to be visited. This opcode is
+	//	 *                either BIPUSH, SIPUSH or NEWARRAY.
+	//	 * @param operand the operand of the instruction to be visited.<br>
+	//	 *                When opcode is BIPUSH, operand value should be between
+	//	 *                Byte.MIN_VALUE and Byte.MAX_VALUE.<br>
+	//	 *                When opcode is SIPUSH, operand value should be between
+	//	 *                Short.MIN_VALUE and Short.MAX_VALUE.<br>
+	//	 *                When opcode is NEWARRAY, operand value should be one of
+	//	 *                {@link Opcodes#T_BOOLEAN}, {@link Opcodes#T_CHAR},
+	//	 *                {@link Opcodes#T_FLOAT}, {@link Opcodes#T_DOUBLE},
+	//	 *                {@link Opcodes#T_BYTE}, {@link Opcodes#T_SHORT},
+	//	 *                {@link Opcodes#T_INT} or {@link Opcodes#T_LONG}.
+	//	 */
+	//
+	////	@Override
 	public void LOADConst(int cst) {
 		if (0L == cst || 1L == cst) {
 			visitInsn(ICONST_0 + cst);
@@ -634,16 +650,16 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	@Override
 	public void IINC(String varname, int increment) {
 		int local = codeLocalGetLocals(varname);
-//		Type typeRightValue = stackPop();
-//		Type typeLeftValue = stackPop();
-//		assert typeRightValue.getSort() == Type.LONG : "actual: " + typeRightValue + "  expected:" + Type.LONG;
-//		assert typeRightValue.getSort() == Type.LONG : "actual: " + typeLeftValue + "  expected:" + Type.LONG;
-//		stackPush(Type.INT_TYPE);
+		//		Type typeRightValue = stackPop();
+		//		Type typeLeftValue = stackPop();
+		//		//assert typeRightValue.getSort() == Type.LONG : "actual: " + typeRightValue + "  expected:" + Type.LONG;
+		//		//assert typeRightValue.getSort() == Type.LONG : "actual: " + typeLeftValue + "  expected:" + Type.LONG;
+		//		stackPush(Type.INT_TYPE);
 		visitIincInsn(local, increment);
 	}
 
 	public void IINC(int local, int increment) {
-//		int local = codeLocalGetLocals(varname);
+		//		int local = codeLocalGetLocals(varname);
 		Type type = localsLoadAccess(local);
 		localsStoreAccess(local, type);
 		visitIincInsn(local, increment);
@@ -653,8 +669,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void LCMP() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
-		assert typeRightValue.getSort() == Type.LONG : "actual: " + typeRightValue + "  expected:" + Type.LONG;
-		assert typeRightValue.getSort() == Type.LONG : "actual: " + typeLeftValue + "  expected:" + Type.LONG;
+		assert typeRightValue.getSort() == Type.LONG : "actual: " + typeRightValue + " expected:" + Type.LONG;
+		assert typeRightValue.getSort() == Type.LONG : "actual: " + typeLeftValue + " expected:" + Type.LONG;
 		stackPush(Type.INT_TYPE);
 		visitInsn(LCMP);
 	}
@@ -663,8 +679,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void CMPL() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
-		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
-		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + " expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + " expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
 
 		stackPush(Type.INT_TYPE);
 
@@ -679,8 +695,8 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void CMPG() {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
-		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
-		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + "  expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeRightValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeRightValue + " expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
+		assert in(typeLeftValue, Type.FLOAT_TYPE, Type.DOUBLE_TYPE) : "actual: " + typeLeftValue + " expected:" + Type.FLOAT_TYPE + "," + Type.DOUBLE_TYPE;
 
 		stackPush(Type.INT_TYPE);
 
@@ -761,7 +777,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 				break;
 
 			default:
-//				throw new UnsupportedOperationException();
+				//				throw new UnsupportedOperationException();
 			}
 			break;
 		case Type.FLOAT:
@@ -778,7 +794,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 				break;
 
 			default:
-//				throw new UnsupportedOperationException();
+				//				throw new UnsupportedOperationException();
 			}
 			break;
 		case Type.DOUBLE:
@@ -794,11 +810,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 				break;
 
 			default:
-//				throw new UnsupportedOperationException();
+				//				throw new UnsupportedOperationException();
 			}
 			break;
 		default:
-//			throw new UnsupportedOperationException("Cannot " + typeFrom.getClassName() + " - " + typeTo.getClassName());
+			//			throw new UnsupportedOperationException("Cannot " + typeFrom.getClassName() + " - " + typeTo.getClassName());
 
 		}
 	}
@@ -886,13 +902,13 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void NEWARRAY(Type type) {
 		Type count = stackPop();
 		assert in(count, Type.INT_TYPE, Type.BYTE_TYPE, Type.SHORT_TYPE) : "array count type " + type;
-//		 TODO NEWARRAY Type arrayref = Type.getType(Object.class);
+		//		 TODO NEWARRAY Type arrayref = Type.getType(Object.class);
 
 		Type arrayType = arrayOf(type, true);
 		stackPush(arrayType);
 
 		if (Type.BOOLEAN <= type.getSort() && type.getSort() <= Type.DOUBLE) {
-			int typecode = TypeUtils.arrayTypeMaps.get(type);
+			int typecode = TypeUtils.arrayTypeMaps[type.getSort()];
 			visitInsn(NEWARRAY, typecode);
 		} else if (type.getSort() == Type.ARRAY) visitTypeInsn(ANEWARRAY, type);
 		else if (type.getSort() == Type.OBJECT) visitTypeInsn(ANEWARRAY, type);
@@ -926,25 +942,25 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		// ARRAYLENGTH (arrayref → length) : get the length of an array
 	}
 
-//	@Override
-//	@SuppressWarnings("unused")
-//	public void ARRAYLOAD(Class<?> elementClazz) {
-//		Type elementType= typeOf(elementClazz);
-//		Type index = stackPop();
-//		Type arrayref = stackPop();
-//		visitInsn(elementType.getOpcode(IALOAD));
-//		stackPush(elementType);
-//	}
-//
-//	@Override
-//	@SuppressWarnings("unused")
-//	public void ARRAYLOAD(String elementClazz) {
-//		Type elementType= typeOf(elementClazz);
-//		Type index = stackPop();
-//		Type arrayref = stackPop();
-//		visitInsn(elementType.getOpcode(IALOAD));
-//		stackPush(elementType);
-//	}
+	//	@Override
+	//	@SuppressWarnings("unused")
+	//	public void ARRAYLOAD(Class<?> elementClazz) {
+	//		Type elementType= typeOf(elementClazz);
+	//		Type index = stackPop();
+	//		Type arrayref = stackPop();
+	//		visitInsn(elementType.getOpcode(IALOAD));
+	//		stackPush(elementType);
+	//	}
+	//
+	//	@Override
+	//	@SuppressWarnings("unused")
+	//	public void ARRAYLOAD(String elementClazz) {
+	//		Type elementType= typeOf(elementClazz);
+	//		Type index = stackPop();
+	//		Type arrayref = stackPop();
+	//		visitInsn(elementType.getOpcode(IALOAD));
+	//		stackPush(elementType);
+	//	}
 	@Override
 	@SuppressWarnings("unused")
 	public void ARRAYLOAD() {
@@ -965,43 +981,43 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 		visitInsn(elementType.getOpcode(IASTORE));
 
-//		switch (itemType.getSort()) {
-//		// BASTORE (arrayref, index, value →) : store a byte or Boolean value into an
-//		// array
-//		case Type.BYTE:
-//			visitInsn(itemType.getOpcode(IASTORE));
-//			break;
-//		// CASTORE (arrayref, index, value →) : store a char into an array
-//		case Type.CHAR:
-//			visitInsn(itemType.getOpcode(IASTORE));
-//			break;
-//		// DASTORE (arrayref, index, value →) : store a double into an array
-//		case Type.DOUBLE:
-//			visitInsn(itemType.getOpcode(IASTORE));
-//			break;
-//		// FASTORE (arrayref, index, value →) : store a float in an array
-//		case Type.FLOAT:
-//			visitInsn(itemType.getOpcode(IASTORE));
-//			break;
-//		// IASTORE (arrayref, index, value →) : store an int into an array
-//		case Type.INT:
-//			visitInsn(itemType.getOpcode(IASTORE));
-//			break;
-//		// LASTORE (arrayref, index, value →) : store a long to an array
-//		case Type.LONG:
-//			visitInsn(itemType.getOpcode(IASTORE));
-//			break;
-//		// SASTORE (arrayref, index, value →) : store short to array
-//		case Type.SHORT:
-//			visitInsn(itemType.getOpcode(IASTORE));
-//			break;
-//		// AASTORE (arrayref, index, value →) : store into a reference in an array
-//		case Type.OBJECT:
-//			visitInsn(AASTORE);
-//			break;
-//		default:
-//			throw new UnsupportedOperationException();
-//		}
+		//		switch (itemType.getSort()) {
+		//		// BASTORE (arrayref, index, value →) : store a byte or Boolean value into an
+		//		// array
+		//		case Type.BYTE:
+		//			visitInsn(itemType.getOpcode(IASTORE));
+		//			break;
+		//		// CASTORE (arrayref, index, value →) : store a char into an array
+		//		case Type.CHAR:
+		//			visitInsn(itemType.getOpcode(IASTORE));
+		//			break;
+		//		// DASTORE (arrayref, index, value →) : store a double into an array
+		//		case Type.DOUBLE:
+		//			visitInsn(itemType.getOpcode(IASTORE));
+		//			break;
+		//		// FASTORE (arrayref, index, value →) : store a float in an array
+		//		case Type.FLOAT:
+		//			visitInsn(itemType.getOpcode(IASTORE));
+		//			break;
+		//		// IASTORE (arrayref, index, value →) : store an int into an array
+		//		case Type.INT:
+		//			visitInsn(itemType.getOpcode(IASTORE));
+		//			break;
+		//		// LASTORE (arrayref, index, value →) : store a long to an array
+		//		case Type.LONG:
+		//			visitInsn(itemType.getOpcode(IASTORE));
+		//			break;
+		//		// SASTORE (arrayref, index, value →) : store short to array
+		//		case Type.SHORT:
+		//			visitInsn(itemType.getOpcode(IASTORE));
+		//			break;
+		//		// AASTORE (arrayref, index, value →) : store into a reference in an array
+		//		case Type.OBJECT:
+		//			visitInsn(AASTORE);
+		//			break;
+		//		default:
+		//			throw new UnsupportedOperationException();
+		//		}
 	}
 
 	@Override
@@ -1100,10 +1116,16 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	 * if_acmpne.
 	 */
 
+	Map<Label, Integer> labelStackSize = new HashMap<>();
+
 	@Override
 	public void IF(int opcode, Label falseLabel) {
 		Type value = stackPop();
-		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
+
+		logger.trace("stack: {}", stackSize());
+		labelStackSize.put(falseLabel, stackSize());
+
+		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + " expected:" + Type.INT_TYPE;
 		visitJumpInsn(opcode, falseLabel);
 	}
 
@@ -1114,7 +1136,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	public void JUMP(int opcode, Label falseLabel) {
 		Type value = stackPop();
-		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
+		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + " expected:" + Type.INT_TYPE;
 		visitJumpInsn(opcode, falseLabel);
 	}
 
@@ -1152,14 +1174,14 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	@Override
 	public void IFNULL(Label falseLabel) {
 		Type value = stackPop();
-		assert value.getSort() == Type.OBJECT : "actual: " + value + "  expected:" + Type.OBJECT;
+		assert value.getSort() == Type.OBJECT : "actual: " + value + " expected:" + Type.OBJECT;
 		visitJumpInsn(IFNULL, falseLabel);
 	}
 
 	@Override
 	public void IFNONNULL(Label falseLabel) {
 		Type value = stackPop();
-		assert value.getSort() == Type.OBJECT : "actual: " + value + "  expected:" + Type.OBJECT;
+		assert value.getSort() == Type.OBJECT : "actual: " + value + " expected:" + Type.OBJECT;
 		visitJumpInsn(IFNONNULL, falseLabel);
 	}
 
@@ -1176,11 +1198,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	public void IF_ACMPEQ(Label falseLabel) {
 		IF_ACMP(IF_ACMPEQ, falseLabel);
 	}
+
 	@Override
 	public void IF_ACMPNE(Label falseLabel) {
 		IF_ACMP(IF_ACMPNE, falseLabel);
 	}
-
 
 	@Override
 	public void IF_ICMP(int opcode, Label falseLabel) {
@@ -1234,11 +1256,11 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		visitInsn(RETURN);
 	}
 
-//	@Override
-//	public void RETURN(int i) {
-//		LOADConstByte(i);
-//		RETURNTop();
-//	}
+	//	@Override
+	//	public void RETURN(int i) {
+	//		LOADConstByte(i);
+	//		RETURNTop();
+	//	}
 
 	@Override
 	public void RETURN(String varname) {
@@ -1340,7 +1362,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		PUTFIELD(fieldname, codeThisFieldType(fieldname));
 	}
 
-//	@Override
+	//	@Override
 	public void PUTFIELD_OF_THIS(int fieldIndex) {
 		String fieldname = codeFieldNameOf(fieldIndex);
 		PUTFIELD(fieldname, codeThisFieldType(fieldname));
