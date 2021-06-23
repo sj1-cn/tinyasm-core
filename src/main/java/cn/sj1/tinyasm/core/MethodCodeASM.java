@@ -52,15 +52,15 @@ public interface MethodCodeASM {
 
 	int STORE(String varname);
 
-	default int STORE(String varname, Class<?> clazz) {
-		return STORE(varname, Clazz.of(clazz));
+	default void STORE(String varname, Class<?> clazz) {
+		STORE(varname, Clazz.of(clazz));
 	}
 
-	default int STORE(String varname, String clazz) {
-		return STORE(varname, Clazz.of(clazz));
+	default void STORE(String varname, String clazz) {
+		STORE(varname, Clazz.of(clazz));
 	}
 
-	int STORE(String varname, Clazz clazz);
+	void STORE(String varname, Clazz clazz);
 
 	//	void STORE(int local);
 

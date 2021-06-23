@@ -267,14 +267,13 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
-	public int STORE(String varname, Clazz clazz) {
+	public void STORE(String varname, Clazz clazz) {
 		int local = codeLocalGetLocals(varname);
 		if (local < 0) {
 			define(varname, clazz);
 			local = codeLocalGetLocals(varname);
 		}
 		STORE(local);
-		return local;
 	}
 
 	//	@Override
