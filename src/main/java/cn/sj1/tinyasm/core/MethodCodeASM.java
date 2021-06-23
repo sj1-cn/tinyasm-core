@@ -2,6 +2,7 @@ package cn.sj1.tinyasm.core;
 
 import static cn.sj1.tinyasm.core.TypeUtils.typeOf;
 import static org.objectweb.asm.Opcodes.IADD;
+import static org.objectweb.asm.Opcodes.IAND;
 import static org.objectweb.asm.Opcodes.IDIV;
 import static org.objectweb.asm.Opcodes.IFEQ;
 import static org.objectweb.asm.Opcodes.IFGE;
@@ -18,8 +19,12 @@ import static org.objectweb.asm.Opcodes.IF_ICMPLE;
 import static org.objectweb.asm.Opcodes.IF_ICMPLT;
 import static org.objectweb.asm.Opcodes.IF_ICMPNE;
 import static org.objectweb.asm.Opcodes.IMUL;
+import static org.objectweb.asm.Opcodes.IOR;
 import static org.objectweb.asm.Opcodes.IREM;
+import static org.objectweb.asm.Opcodes.ISHL;
+import static org.objectweb.asm.Opcodes.ISHR;
 import static org.objectweb.asm.Opcodes.ISUB;
+import static org.objectweb.asm.Opcodes.IXOR;
 
 import java.util.function.Consumer;
 
@@ -136,21 +141,31 @@ public interface MethodCodeASM {
 	void NEG();
 
 	/* Shift: ishl, ishr, iushr, lshl, lshr, lushr. */
-	void SHL();
+	void SH(int opcode);
 
-	void SHR();
+	default void SHL() {
+		SH(ISHL);
+	}
+
+	default void SHR() {
+		SH(ISHR);
+	}
 
 	/* Bitwise OR: ior, lor. */
-
-	void OR();
-
+	/* Bitwise OR: ior, lor. */
+	default void OR() {
+		ARITHMETIC(IOR);
+	}
 	/* Bitwise AND: iand, land. */
 
-	void AND();
+	default void AND() {
+		ARITHMETIC(IAND);
+	}
 
 	/* Bitwise exclusive OR: ixor, lxor. */
-
-	void XOR();
+	default void XOR() {
+		ARITHMETIC(IXOR);
+	}
 
 	void IINC(String varname, int increment);
 
@@ -240,17 +255,14 @@ public interface MethodCodeASM {
 
 	void NEWARRAY(Type clazz);
 
-	
 	default void NEWARRAY(Class<?> type) {
 		NEWARRAY(typeOf(type));
 	}
 
-	
 	default void NEWARRAY(Clazz type) {
 		NEWARRAY(typeOf(type));
 	}
 
-	
 	default void NEWARRAY(String type) {
 		NEWARRAY(typeOf(type));
 	}
@@ -266,34 +278,28 @@ public interface MethodCodeASM {
 	/* Check properties of class instances or arrays: instanceof, checkcast. */
 	void INSTANCEOF(Type clazz);
 
-	
 	default void INSTANCEOF(Class<?> type) {
 		INSTANCEOF(typeOf(type));
 	}
 
-	
 	default void INSTANCEOF(Clazz type) {
 		INSTANCEOF(typeOf(type));
 	}
 
-	
 	default void INSTANCEOF(String type) {
 		INSTANCEOF(typeOf(type));
 	}
 
 	void CHECKCAST(Type clazz);
 
-	
 	default void CHECKCAST(Class<?> type) {
 		CHECKCAST(typeOf(type));
 	}
 
-	
 	default void CHECKCAST(Clazz type) {
 		CHECKCAST(typeOf(type));
 	}
 
-	
 	default void CHECKCAST(String type) {
 		CHECKCAST(typeOf(type));
 	}
@@ -322,32 +328,26 @@ public interface MethodCodeASM {
 	 */
 	void IF(int opcode, Label falseLabel);
 
-	
 	default void IFEQ(Label falseLabel) {
 		IF(IFEQ, falseLabel);
 	}
 
-	
 	default void IFNE(Label falseLabel) {
 		IF(IFNE, falseLabel);
 	}
 
-	
 	default void IFLT(Label falseLabel) {
 		IF(IFLT, falseLabel);
 	}
 
-	
 	default void IFLE(Label falseLabel) {
 		IF(IFLE, falseLabel);
 	}
 
-	
 	default void IFGT(Label falseLabel) {
 		IF(IFGT, falseLabel);
 	}
 
-	
 	default void IFGE(Label falseLabel) {
 		IF(IFGE, falseLabel);
 	}
@@ -358,44 +358,36 @@ public interface MethodCodeASM {
 
 	void IF_ACMP(int opcode, Label falseLabel);
 
-	
 	default void IF_ACMPEQ(Label falseLabel) {
 		IF_ACMP(IF_ACMPEQ, falseLabel);
 	}
 
-	
 	default void IF_ACMPNE(Label falseLabel) {
 		IF_ACMP(IF_ACMPNE, falseLabel);
 	}
 
 	void IF_ICMP(int opcode, Label falseLabel);
 
-	
 	default void IF_ICMPEQ(Label falseLabel) {
 		IF_ICMP(IF_ICMPEQ, falseLabel);
 	}
 
-	
 	default void IF_ICMPNE(Label falseLabel) {
 		IF_ICMP(IF_ICMPNE, falseLabel);
 	}
 
-	
 	default void IF_ICMPLT(Label falseLabel) {
 		IF_ICMP(IF_ICMPLT, falseLabel);
 	}
 
-	
 	default void IF_ICMPLE(Label falseLabel) {
 		IF_ICMP(IF_ICMPLE, falseLabel);
 	}
 
-	
 	default void IF_ICMPGT(Label falseLabel) {
 		IF_ICMP(IF_ICMPGT, falseLabel);
 	}
 
-	
 	default void IF_ICMPGE(Label falseLabel) {
 		IF_ICMP(IF_ICMPGE, falseLabel);
 	}
@@ -415,126 +407,172 @@ public interface MethodCodeASM {
 
 	// ARRAY
 
-	void GETFIELD_OF_THIS(String fieldname);
+	default void GETFIELD_OF_THIS(String fieldname) {
+		GETFIELD(fieldname, codeThisFieldType(fieldname));
+	}
 
 	void GETFIELD(String fieldname, Type fieldType);
 
-	
 	default void GETFIELD(String fieldname, Class<?> fieldType) {
 		GETFIELD(fieldname, typeOf(fieldType));
 	}
 
-	
 	default void GETFIELD(String fieldname, String fieldType) {
 		GETFIELD(fieldname, typeOf(fieldType));
 	}
 
-	
 	default void GETFIELD(String fieldname, Clazz fieldType) {
 		GETFIELD(fieldname, typeOf(fieldType));
 	}
 
-	void PUTFIELD(String fieldname, Type fieldType);
+	default void PUTFIELD_OF_THIS(String fieldname) {
+		PUTFIELD(fieldname, codeThisFieldType(fieldname));
+	}
 
-	
 	default void PUTFIELD(String fieldname, Class<?> fieldType) {
 		PUTFIELD(fieldname, typeOf(fieldType));
 	}
 
-	
 	default void PUTFIELD(String fieldname, String fieldType) {
 		PUTFIELD(fieldname, typeOf(fieldType));
 	}
 
-	
 	default void PUTFIELD(String fieldname, Clazz fieldType) {
 		PUTFIELD(fieldname, typeOf(fieldType));
 	}
 
-	void PUTFIELD_OF_THIS(String fieldname);
+	void PUTFIELD(String fieldname, Type fieldType);
 
+	default void PUTFIELD(Class<?> objectType, String fieldName, Class<?> fieldType) {
+		PUTFIELD(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
 
-	
+	void PUTFIELD(Type objectType, String fieldName, Type fieldType);
+
 	default void GETSTATIC(String fieldName, Class<?> fieldType) {
 		GETSTATIC(fieldName, typeOf(fieldType));
 	}
 
-	
 	default void GETSTATIC(String fieldName, String fieldType) {
 		GETSTATIC(fieldName, typeOf(fieldType));
 	}
 
-	
 	default void GETSTATIC(String fieldName, Clazz fieldType) {
 		GETSTATIC(fieldName, typeOf(fieldType));
 	}
 
-	void GETSTATIC(String fieldName, Type fieldType);
-	
-	
 	default void GETSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType) {
 		GETSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
-	}	
-	
+	}
+
+	default void GETSTATIC(String objectType, String fieldName, String fieldType) {
+		GETSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
 
 	void GETSTATIC(Type objectType, String fieldName, Type fieldType);
 
+	default void PUT_THIS_STATIC(String fieldName) {
+		PUTSTATIC(typeOfThis(), fieldName, codeThisClassFieldType(fieldName));
+	}
 
-
-	void GET_THIS_STATIC(String fieldName);
-
-	void GETSTATIC(String objectType, String fieldName, String fieldType);
-
-
-	void PUTSTATIC(String fieldName, Type fieldType);
-	
-	
 	default void PUTSTATIC(String fieldName, Class<?> fieldType) {
 		PUTSTATIC(fieldName, typeOf(fieldType));
 	}
 
-	
 	default void PUTSTATIC(String fieldName, String fieldType) {
 		PUTSTATIC(fieldName, typeOf(fieldType));
 	}
 
-	
 	default void PUTSTATIC(String fieldName, Clazz fieldType) {
 		PUTSTATIC(fieldName, typeOf(fieldType));
 	}
 
+	default void PUTSTATIC(String fieldName, Type fieldType) {
+		PUTSTATIC(typeOfThis(), fieldName, fieldType);
+	}
 
-	void PUTSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType);
+	default void PUTSTATIC(String objectType, String fieldName, Class<?> fieldType) {
+		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
 
-	void PUTSTATIC(String objectType, String fieldName, String fieldType);
+	default void PUTSTATIC(String objectType, String fieldName, String fieldType) {
+		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
 
-	void PUT_THIS_STATIC(String fieldName);
+	default void PUTSTATIC(String objectType, String fieldName, Clazz fieldType) {
+		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+
+	void PUTSTATIC(Type objectType, String fieldName, Type fieldType);
+
+	default void GET_THIS_STATIC(String fieldName) {
+		GETSTATIC(typeOfThis(), fieldName, codeThisClassFieldType(fieldName));
+	}
+
+	default void GETSTATIC(String fieldName, Type fieldType) {
+		GETSTATIC(typeOfThis(), fieldName, fieldType);
+	}
 
 	void ATHROW();
 
 	// INVOKE
-	void INVOKESTATIC(Class<?> objectType, String methodName, Class<?>... paramTypes);
+	//
+	//	default void INVOKESTATIC(Class<?> objectType, String methodName, Class<?>... paramTypes) {
+	//		INVOKESTATIC(typeOf(objectType), Type.VOID_TYPE, methodName, typeOf(paramTypes));
+	//	}
+	//
+	//	default void INVOKESTATIC(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
+	//		INVOKESTATIC(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	//	}
+	//
+	//	default void INVOKESTATIC(String objectType, String returnType, String methodName, String... paramTypes) {
+	//		INVOKESTATIC(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	//	}
+	//
+	//	void INVOKESTATIC(Type objectType, Type returnType, String methodName, Type... paramTypes);
+	//
+	//	default void INVOKEINTERFACE(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
+	//		INVOKEINTERFACE(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	//	}
+	//
+	//	default void INVOKEINTERFACE(String objectType, String returnType, String methodName, String... paramTypes) {
+	//		INVOKEINTERFACE(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	//	}
+	//
+	//	void INVOKEINTERFACE(Type objectType, Type returnType, String methodName, Type... paramTypes);
+	//
+	//	default void INVOKESPECIAL(Class<?> objectType, String methodName, Class<?>... paramTypes) {
+	//		INVOKESPECIAL(typeOf(objectType), null, methodName, typeOf(paramTypes));
+	//	}
+	//
+	//	default void INVOKESPECIAL(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
+	//		INVOKESPECIAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	//	}
+	//
+	//	default void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
+	//		INVOKESPECIAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	//	}
+	//
+	//	default void INVOKESPECIAL(String objectType, String returnType, String methodName, String... paramTypes) {
+	//		INVOKESPECIAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	//	}
+	//
+	//	void INVOKESPECIAL(Type objectType, Type returnType, String methodName, Type... paramTypes);
+	//
+	//	default void INVOKEVIRTUAL(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
+	//		INVOKEVIRTUAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	//	}
+	//
+	//	default void INVOKEVIRTUAL(String objectType, String returnType, String methodName, String... paramTypes) {
+	//		INVOKEVIRTUAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
+	//	}
+	//
+	//	void INVOKEVIRTUAL(Type objectType, Type returnType, String methodName, Type... paramTypes);
 
-	void INVOKESTATIC(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
+	Type typeOfThis();
 
-	void INVOKESTATIC(String objectType, String returnType, String methodName, String... paramTypes);
+	Type codeThisClassFieldType(String name);
 
-	void INVOKEINTERFACE(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
-
-	void INVOKEINTERFACE(String objectType, String returnType, String methodName, String... paramTypes);
-
-	void INVOKESPECIAL(Class<?> objectType, String methodName, Class<?>... paramTypes);
-
-	void INVOKESPECIAL(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
-
-	void INVOKESPECIAL(String objectType, String returnType, String methodName, String... paramTypes);
-
-	void INVOKEVIRTUAL(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
-
-	void INVOKEVIRTUAL(String objectType, String returnType, String methodName, String... paramTypes);
-
-	void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
-
-
+	Type codeThisFieldType(String name);
 
 }

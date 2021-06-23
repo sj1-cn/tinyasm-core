@@ -55,16 +55,8 @@ public class MethodCodeArraySampleTinyAsmDump {
 		code.LOADConst(1);
 		code.ARRAYSTORE();
 		code.DUP();
-		code.LOADConst(1);
-		code.LOADConst(0);
-		code.ARRAYSTORE();
-		code.DUP();
 		code.LOADConst(2);
 		code.LOADConst(1);
-		code.ARRAYSTORE();
-		code.DUP();
-		code.LOADConst(3);
-		code.LOADConst(0);
 		code.ARRAYSTORE();
 		code.PUTFIELD("za", boolean[].class);
 
@@ -275,6 +267,8 @@ public class MethodCodeArraySampleTinyAsmDump {
 		code.LOADConst("str5");
 		code.ARRAYSTORE();
 		code.PUTFIELD("stra", String[].class);
+
+		code.LINE();
 		code.RETURN();
 
 		code.END();

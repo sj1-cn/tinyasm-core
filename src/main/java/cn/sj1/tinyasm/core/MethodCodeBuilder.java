@@ -70,10 +70,10 @@ public class MethodCodeBuilder extends MethodCode {
 		printStack(stack);
 	}
 
-//	@Override
-//	public MethodVisitor getMethodVisitor() {
-//		return this.mv;
-//	}
+	//	@Override
+	//	public MethodVisitor getMethodVisitor() {
+	//		return this.mv;
+	//	}
 
 	@Override
 	int stackSize() {
@@ -96,9 +96,9 @@ public class MethodCodeBuilder extends MethodCode {
 	public int codeLocalGetLocals(String name) {
 		LocalsStack.Var var = locals.get(name);
 		if (var != null) {
-//			if(var.startFrom==null) {
-//				var.startFrom = labelCurrent;
-//			}
+			//			if(var.startFrom==null) {
+			//				var.startFrom = labelCurrent;
+			//			}
 			return var.locals;
 		} else {
 			return -1;
@@ -181,10 +181,9 @@ public class MethodCodeBuilder extends MethodCode {
 		labelCurrent = label;
 		mv.visitLabel(label);
 		logger.trace("mv.visitLabel({},{}); in visitLabel(Label label, int line)", label, line);
-//		labelHasDefineBegin = true;
-//		mv.visitLineNumber(line, label);
+		//		labelHasDefineBegin = true;
+		//		mv.visitLineNumber(line, label);
 	}
-
 
 	public void LINE() {
 		lastLineNumber = lastLineNumber + 1;
@@ -206,7 +205,7 @@ public class MethodCodeBuilder extends MethodCode {
 		}
 		logger.trace("mv.visitLineNumber({}, {}); in LINE()", lastLineNumber, label);
 		mv.visitLineNumber(lastLineNumber, label);
-		if(lastDefinedVar!=null && lastDefinedVar.startFrom ==null) {
+		if (lastDefinedVar != null && lastDefinedVar.startFrom == null) {
 			lastDefinedVar.startFrom = label;
 			lastDefinedVar = null;
 		}
@@ -275,7 +274,7 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	private void printStack(Stack<Type> stack) {
-		if(logger.isTraceEnabled()){
+		if (logger.isTraceEnabled()) {
 			StringBuffer sb = new StringBuffer();
 			sb.append(mh.thisMethod.methodName).append(" : ");
 			for (Type type : stack) {
@@ -283,7 +282,7 @@ public class MethodCodeBuilder extends MethodCode {
 				sb.append(" > ");
 			}
 			sb.setCharAt(sb.length() - 2, ' ');
-			logger.trace("{}",sb.toString());
+			logger.trace("{}", sb.toString());
 		}
 	}
 
@@ -307,10 +306,10 @@ public class MethodCodeBuilder extends MethodCode {
 		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, objectType, methodName);
 	}
 
-//	@Override
-//	public MethodCaller<MethodCode> VIRTUAL(String methodName) {
-//		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, Clazz.of(this.mh.thisMethod.clazzType), methodName);
-//	}
+	//	@Override
+	//	public MethodCaller<MethodCode> VIRTUAL(String methodName) {
+	//		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, Clazz.of(this.mh.thisMethod.clazzType), methodName);
+	//	}
 
 	class LAMBDAImpl extends MethodCallerImpl implements MethodCaller<MethodCode> {
 		List<Clazz> params = new ArrayList<>();
@@ -343,8 +342,8 @@ public class MethodCodeBuilder extends MethodCode {
 
 		@Override
 		public void INVOKE() {
-//			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz), typeOf(returnClazz), methodName,
-//					typesOf(params));
+			//			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz), typeOf(returnClazz), methodName,
+			//					typesOf(params));
 
 			Type clazzType = mh.thisMethod.clazzType.getType();
 
@@ -361,7 +360,7 @@ public class MethodCodeBuilder extends MethodCode {
 
 			String resultDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(resultMethodParams));
 
-//			String resultMethodDescriptor ;
+			//			String resultMethodDescriptor ;
 
 			mv.visitInvokeDynamicInsn(methodName, lambdaDescriptor, new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory",
 					"metafactory",
@@ -426,7 +425,7 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
-	protected Type typeOfThis() {
+	public Type typeOfThis() {
 		return this.mh.thisMethod.clazzType.getType();
 	}
 

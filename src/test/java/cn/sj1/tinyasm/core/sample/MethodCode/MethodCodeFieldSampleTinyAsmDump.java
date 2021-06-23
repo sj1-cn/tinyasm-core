@@ -107,16 +107,8 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LOADConst(1);
 		code.ARRAYSTORE();
 		code.DUP();
-		code.LOADConst(1);
-		code.LOADConst(0);
-		code.ARRAYSTORE();
-		code.DUP();
 		code.LOADConst(2);
 		code.LOADConst(1);
-		code.ARRAYSTORE();
-		code.DUP();
-		code.LOADConst(3);
-		code.LOADConst(0);
 		code.ARRAYSTORE();
 		code.PUTFIELD("za", boolean[].class);
 
@@ -327,6 +319,8 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LOADConst("str5");
 		code.ARRAYSTORE();
 		code.PUTFIELD("stra", String[].class);
+
+		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -428,14 +422,14 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("z");
-		Label label19OfIFNE = new Label();
-		code.IFNE(label19OfIFNE);
-		code.LOADConst(1);
+		Label label19OfIFEQ = new Label();
+		code.IFEQ(label19OfIFEQ);
+		code.LOADConst(0);
 		Label label20OfGOTO = new Label();
 		code.GOTO(label20OfGOTO);
 
-		code.visitLabel(label19OfIFNE);
-		code.LOADConst(0);
+		code.visitLabel(label19OfIFEQ);
+		code.LOADConst(1);
 
 		code.visitLabel(label20OfGOTO);
 		code.PUTFIELD("z", boolean.class);
@@ -496,10 +490,11 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LOAD("this");
 		code.NEW(StringBuilder.class);
 		code.DUP();
-		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
 		code.LOAD("str");
-		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
+		code.STATIC(String.class, "valueOf")
+			.return_(String.class)
+			.parameter(Object.class).INVOKE();
+		code.SPECIAL(StringBuilder.class, "<init>")
 			.parameter(String.class).INVOKE();
 		code.LOADConst(1);
 		code.VIRTUAL(StringBuilder.class, "append")
@@ -606,14 +601,14 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LOAD("za");
 		code.LOADConst(0);
 		code.ARRAYLOAD();
-		Label label48OfIFNE = new Label();
-		code.IFNE(label48OfIFNE);
-		code.LOADConst(1);
+		Label label48OfIFEQ = new Label();
+		code.IFEQ(label48OfIFEQ);
+		code.LOADConst(0);
 		Label label49OfGOTO = new Label();
 		code.GOTO(label49OfGOTO);
 
-		code.visitLabel(label48OfIFNE);
-		code.LOADConst(0);
+		code.visitLabel(label48OfIFEQ);
+		code.LOADConst(1);
 
 		code.visitLabel(label49OfGOTO);
 		code.ARRAYSTORE();
@@ -704,12 +699,13 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LOADConst(0);
 		code.NEW(StringBuilder.class);
 		code.DUP();
-		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
 		code.LOAD("stra");
 		code.LOADConst(0);
 		code.ARRAYLOAD();
-		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
+		code.STATIC(String.class, "valueOf")
+			.return_(String.class)
+			.parameter(Object.class).INVOKE();
+		code.SPECIAL(StringBuilder.class, "<init>")
 			.parameter(String.class).INVOKE();
 		code.LOADConst(1);
 		code.VIRTUAL(StringBuilder.class, "append")

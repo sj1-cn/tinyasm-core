@@ -40,7 +40,7 @@ public class MyBankAccountBuilder {
 			mc.LOAD_THIS();
 			mc.LOAD("axonBankAccountId");
 			mc.LOAD("overdraftLimit");
-			mc.INVOKESPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", null, "onCreated", String.class, long.class);
+			mc.SPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", "onCreated").parameter(String.class, long.class).INVOKE();
 			mc.LINE(40);
 			mc.RETURN();
 		});
@@ -51,7 +51,7 @@ public class MyBankAccountBuilder {
 			mc.LINE(44);
 			mc.LOAD_THIS();
 			mc.LOAD("amount");
-			mc.INVOKESPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", null, "onMoneyAdded", long.class);
+			mc.SPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", "onMoneyAdded").parameter(long.class).INVOKE();
 			mc.LINE(45);
 			mc.LOADConstByte(1);
 			mc.RETURNTop();
@@ -77,7 +77,7 @@ public class MyBankAccountBuilder {
 				mc.LINE(51);
 				mc.LOAD_THIS();
 				mc.LOAD("amount");
-				mc.INVOKESPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", null, "onMoneySubtracted", long.class);
+				mc.SPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", "onMoneySubtracted").parameter(long.class).INVOKE();
 				mc.LINE(52);
 				mc.LOADConstByte(1);
 				mc.RETURNTop();

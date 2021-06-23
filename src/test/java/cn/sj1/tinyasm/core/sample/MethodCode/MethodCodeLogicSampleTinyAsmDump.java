@@ -92,13 +92,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPNE = new Label();
 		code.IF_ICMPNE(label1OfIF_ICMPNE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPNE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -116,13 +113,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPEQ = new Label();
 		code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPEQ);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -140,13 +134,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLT = new Label();
 		code.IF_ICMPLT(label1OfIF_ICMPLT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPLT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -164,13 +155,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGT = new Label();
 		code.IF_ICMPGT(label1OfIF_ICMPGT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPGT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -188,13 +176,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLE = new Label();
 		code.IF_ICMPLE(label1OfIF_ICMPLE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPLE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -212,13 +197,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGE = new Label();
 		code.IF_ICMPGE(label1OfIF_ICMPGE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPGE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -236,13 +218,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPNE = new Label();
 		code.IF_ICMPNE(label1OfIF_ICMPNE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPNE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -260,13 +239,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPEQ = new Label();
 		code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPEQ);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -284,13 +260,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLT = new Label();
 		code.IF_ICMPLT(label1OfIF_ICMPLT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPLT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -308,13 +281,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGT = new Label();
 		code.IF_ICMPGT(label1OfIF_ICMPGT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPGT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -332,13 +302,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLE = new Label();
 		code.IF_ICMPLE(label1OfIF_ICMPLE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPLE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -356,13 +323,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGE = new Label();
 		code.IF_ICMPGE(label1OfIF_ICMPGE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPGE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -380,13 +344,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPNE = new Label();
 		code.IF_ICMPNE(label1OfIF_ICMPNE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPNE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -404,13 +365,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPEQ = new Label();
 		code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPEQ);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -428,13 +386,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLT = new Label();
 		code.IF_ICMPLT(label1OfIF_ICMPLT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPLT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -452,13 +407,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGT = new Label();
 		code.IF_ICMPGT(label1OfIF_ICMPGT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPGT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -476,13 +428,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLE = new Label();
 		code.IF_ICMPLE(label1OfIF_ICMPLE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPLE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -500,13 +449,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGE = new Label();
 		code.IF_ICMPGE(label1OfIF_ICMPGE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPGE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -524,13 +470,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPNE = new Label();
 		code.IF_ICMPNE(label1OfIF_ICMPNE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPNE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -548,13 +491,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPEQ = new Label();
 		code.IF_ICMPEQ(label1OfIF_ICMPEQ);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPEQ);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -572,13 +512,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLT = new Label();
 		code.IF_ICMPLT(label1OfIF_ICMPLT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPLT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -596,13 +533,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGT = new Label();
 		code.IF_ICMPGT(label1OfIF_ICMPGT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPGT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -620,13 +554,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPLE = new Label();
 		code.IF_ICMPLE(label1OfIF_ICMPLE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPLE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -644,13 +575,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIF_ICMPGE = new Label();
 		code.IF_ICMPGE(label1OfIF_ICMPGE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIF_ICMPGE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -669,13 +597,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFNE = new Label();
 		code.IFNE(label1OfIFNE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFNE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -694,13 +619,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFEQ = new Label();
 		code.IFEQ(label1OfIFEQ);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFEQ);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -719,13 +641,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFLT = new Label();
 		code.IFLT(label1OfIFLT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFLT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -744,13 +663,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFGT = new Label();
 		code.IFGT(label1OfIFGT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFGT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -769,13 +685,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFLE = new Label();
 		code.IFLE(label1OfIFLE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFLE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -794,13 +707,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFGE = new Label();
 		code.IFGE(label1OfIFGE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFGE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -819,13 +729,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFNE = new Label();
 		code.IFNE(label1OfIFNE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFNE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -844,13 +751,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFEQ = new Label();
 		code.IFEQ(label1OfIFEQ);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFEQ);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -869,13 +773,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFLT = new Label();
 		code.IFLT(label1OfIFLT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFLT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -894,13 +795,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFGT = new Label();
 		code.IFGT(label1OfIFGT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFGT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -919,13 +817,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFLE = new Label();
 		code.IFLE(label1OfIFLE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFLE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -944,13 +839,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFGE = new Label();
 		code.IFGE(label1OfIFGE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFGE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -969,13 +861,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFNE = new Label();
 		code.IFNE(label1OfIFNE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFNE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -994,13 +883,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFEQ = new Label();
 		code.IFEQ(label1OfIFEQ);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFEQ);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -1019,13 +905,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFLT = new Label();
 		code.IFLT(label1OfIFLT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFLT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -1044,13 +927,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFGT = new Label();
 		code.IFGT(label1OfIFGT);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFGT);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -1069,13 +949,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFLE = new Label();
 		code.IFLE(label1OfIFLE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFLE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();
@@ -1094,13 +971,10 @@ public class MethodCodeLogicSampleTinyAsmDump {
 		Label label1OfIFGE = new Label();
 		code.IFGE(label1OfIFGE);
 		code.LOADConst(1);
-		Label label2OfGOTO = new Label();
-		code.GOTO(label2OfGOTO);
+		code.RETURNTop();
 
 		code.visitLabel(label1OfIFGE);
 		code.LOADConst(0);
-
-		code.visitLabel(label2OfGOTO);
 		code.RETURNTop();
 
 		code.END();

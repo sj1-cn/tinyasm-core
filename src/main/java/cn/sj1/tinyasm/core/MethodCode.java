@@ -36,43 +36,21 @@ import static org.objectweb.asm.Opcodes.I2D;
 import static org.objectweb.asm.Opcodes.I2F;
 import static org.objectweb.asm.Opcodes.I2L;
 import static org.objectweb.asm.Opcodes.I2S;
-import static org.objectweb.asm.Opcodes.IADD;
 import static org.objectweb.asm.Opcodes.IALOAD;
 import static org.objectweb.asm.Opcodes.IAND;
 import static org.objectweb.asm.Opcodes.IASTORE;
 import static org.objectweb.asm.Opcodes.ICONST_0;
-import static org.objectweb.asm.Opcodes.IDIV;
-import static org.objectweb.asm.Opcodes.IFEQ;
-import static org.objectweb.asm.Opcodes.IFGE;
-import static org.objectweb.asm.Opcodes.IFGT;
-import static org.objectweb.asm.Opcodes.IFLE;
-import static org.objectweb.asm.Opcodes.IFLT;
-import static org.objectweb.asm.Opcodes.IFNE;
 import static org.objectweb.asm.Opcodes.IFNONNULL;
 import static org.objectweb.asm.Opcodes.IFNULL;
-import static org.objectweb.asm.Opcodes.IF_ACMPEQ;
-import static org.objectweb.asm.Opcodes.IF_ACMPNE;
-import static org.objectweb.asm.Opcodes.IF_ICMPEQ;
-import static org.objectweb.asm.Opcodes.IF_ICMPGE;
-import static org.objectweb.asm.Opcodes.IF_ICMPGT;
-import static org.objectweb.asm.Opcodes.IF_ICMPLE;
-import static org.objectweb.asm.Opcodes.IF_ICMPLT;
-import static org.objectweb.asm.Opcodes.IF_ICMPNE;
 import static org.objectweb.asm.Opcodes.ILOAD;
-import static org.objectweb.asm.Opcodes.IMUL;
 import static org.objectweb.asm.Opcodes.INEG;
 import static org.objectweb.asm.Opcodes.INSTANCEOF;
-import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
-import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
-import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 import static org.objectweb.asm.Opcodes.IOR;
-import static org.objectweb.asm.Opcodes.IREM;
 import static org.objectweb.asm.Opcodes.IRETURN;
 import static org.objectweb.asm.Opcodes.ISHL;
 import static org.objectweb.asm.Opcodes.ISHR;
 import static org.objectweb.asm.Opcodes.ISTORE;
-import static org.objectweb.asm.Opcodes.ISUB;
 import static org.objectweb.asm.Opcodes.IXOR;
 import static org.objectweb.asm.Opcodes.L2D;
 import static org.objectweb.asm.Opcodes.L2F;
@@ -161,12 +139,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		stackPop();
 		stackPop();
 	}
-
-	protected abstract Type typeOfThis();
-
-	protected abstract Type codeThisFieldType(String name);
-
-	protected abstract Type codeThisClassFieldType(String name);
 
 	protected abstract int codeLocalGetLocals(String name);
 
@@ -564,55 +536,18 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	/* Shift: ishl, ishr, iushr, lshl, lshr, lushr. */
-	@SuppressWarnings("unused")
+
 	@Override
-	public void SHL() {
+	public void SH(int opcode) {
 		Type right = stackPop();
+		assert right.getSort() == Type.INT;
 		Type left = stackPop();
 		Type result = left;
 		stackPush(result);
-		visitInsn(left.getOpcode(ISHL));
+		visitInsn(left.getOpcode(opcode));
 		// ISHL (left, right → result) : int shift left
 		// LSHL (left, right → result) : bitwise shift left of a
 		// long left by right positions
-	}
-
-	@SuppressWarnings("unused")
-	@Override
-	public void SHR() {
-		Type right = stackPop();
-		Type left = stackPop();
-		Type result = left;
-		stackPush(result);
-		visitInsn(left.getOpcode(ISHR));
-		// ISHR (left, right → result) : int arithmetic shift right
-		// LSHR (left, right → result) : bitwise shift right of a
-		// long left by right positions
-	}
-
-	/* Bitwise OR: ior, lor. */
-
-	@Override
-	public void OR() {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-
-		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		stackPush(type);
-		visitInsn(type.getOpcode(IOR));
-	}
-
-	/* Bitwise AND: iand, land. */
-
-	@Override
-	public void AND() {
-		ARITHMETIC(IAND);
-	}
-
-	/* Bitwise exclusive OR: ixor, lxor. */
-	@Override
-	public void XOR() {
-		ARITHMETIC(IXOR);
 	}
 
 	/* Local variable increment: iinc. */
@@ -628,12 +563,12 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		visitIincInsn(local, increment);
 	}
 
-	public void IINC(int local, int increment) {
-		//		int local = codeLocalGetLocals(varname);
-		Type type = localsLoadAccess(local);
-		localsStoreAccess(local, type);
-		visitIincInsn(local, increment);
-	}
+	//	public void IINC(int local, int increment) {
+	//		//		int local = codeLocalGetLocals(varname);
+	//		Type type = localsLoadAccess(local);
+	//		localsStoreAccess(local, type);
+	//		visitIincInsn(local, increment);
+	//	}
 
 	@Override
 	public void LCMP() {
@@ -1144,11 +1079,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	int _THIS = 0;
 
-	@Override
-	public void GETFIELD_OF_THIS(String fieldname) {
-		GETFIELD(fieldname, codeThisFieldType(fieldname));
-	}
-
 	public void GETFIELD_OF_THIS(int fieldIndex) {
 		String fieldname = codeFieldNameOf(fieldIndex);
 		GETFIELD(fieldname, codeThisFieldType(fieldname));
@@ -1163,11 +1093,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		// GETFIELD (objectref → value) : get a field value of an object objectref,
 		// where the field is identified by field reference in the constant
 		// pool index (index1 << 8 + index2)
-	}
-
-	@Override
-	public void PUTFIELD_OF_THIS(String fieldname) {
-		PUTFIELD(fieldname, codeThisFieldType(fieldname));
 	}
 
 	//	@Override
@@ -1191,10 +1116,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		// (indexbyte1 << 8 + indexbyte2)
 	}
 
-	public void PUTFIELD(Class<?> objectType, String fieldName, Class<?> fieldType) {
-		PUTFIELD(typeOf(objectType), fieldName, typeOf(fieldType));
-	}
-
 	@SuppressWarnings("unused")
 	public void PUTFIELD(Type objectType, String fieldName, Type fieldType) {
 		Type value = stackPop();
@@ -1207,56 +1128,12 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
-	public void GET_THIS_STATIC(String fieldName) {
-		Type objectRef = typeOfThis();
-		Type valueType = codeThisClassFieldType(fieldName);
-		visitFieldInsn(GETSTATIC, objectRef, fieldName, valueType);
-		stackPush(valueType);
-	}
-
-	@Override
-	public void GETSTATIC(String fieldName, Type fieldType) {
-		GETSTATIC(typeOfThis(), fieldName, fieldType);
-	}
-
-	@Override
-	public void GETSTATIC(String objectType, String fieldName, String fieldType) {
-		GETSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
-	}
-
-	@Override
 	public void GETSTATIC(Type objectType, String fieldName, Type fieldType) {
 		stackPush(fieldType);
 		visitFieldInsn(GETSTATIC, objectType, fieldName, fieldType);
-		// GETSTATIC (→ value) : get a static field value of a class, where the field is
-		// identified by field reference in the constant pool index (index1 << 8 +
-		// index2)
 	}
 
 	@Override
-	public void PUTSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType) {
-		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
-	}
-
-	@Override
-	@SuppressWarnings("unused")
-	public void PUT_THIS_STATIC(String fieldName) {
-		Type objectRef = typeOfThis();
-		Type value = stackPop();
-		Type valueType = codeThisClassFieldType(fieldName);
-		visitFieldInsn(PUTSTATIC, objectRef, fieldName, valueType);
-	}
-
-	@Override
-	public void PUTSTATIC(String fieldName, Type fieldType) {
-		PUTSTATIC(typeOfThis(), fieldName, fieldType);
-	}
-
-	@Override
-	public void PUTSTATIC(String objectType, String fieldName, String fieldType) {
-		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
-	}
-
 	@SuppressWarnings("unused")
 	public void PUTSTATIC(Type objectType, String fieldName, Type fieldType) {
 		Type value = stackPop();
@@ -1268,20 +1145,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	/** INVOKE **/
-	@Override
-	public void INVOKESTATIC(Class<?> objectType, String methodName, Class<?>... paramTypes) {
-		INVOKESTATIC(typeOf(objectType), Type.VOID_TYPE, methodName, typeOf(paramTypes));
-	}
-
-	@Override
-	public void INVOKESTATIC(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
-		INVOKESTATIC(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
-	}
-
-	@Override
-	public void INVOKESTATIC(String objectType, String returnType, String methodName, String... paramTypes) {
-		INVOKESTATIC(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
-	}
 
 	@SuppressWarnings("unused")
 	public void INVOKESTATIC(Type objectType, Type returnType, String methodName, Type... paramTypes) {
@@ -1295,86 +1158,49 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		// indexbyte2)
 
 	}
+	//
+	//	@Override
+	//	@SuppressWarnings("unused")
+	//	public void INVOKEINTERFACE(Type objectType, Type returnType, String methodName, Type... paramTypes) {
+	//		for (Type type : paramTypes) {
+	//			stackPop();
+	//		}
+	//		stackPop(); // objectType
+	//		visitMethodInsn(INVOKEINTERFACE, objectType, returnType, methodName, paramTypes);
+	//		if (returnType != Type.VOID_TYPE) stackPush(returnType);
+	//		// INVOKEINTERFACE (objectref, [arg1, arg2, ...] →) : invokes an interface
+	//		// method on object objectref, where the interface method is identified by
+	//		// method reference index in constant pool (indexbyte1 << 8 + indexbyte2)
+	//
+	//	}
+	//
+	//	@Override
+	//	@SuppressWarnings("unused")
+	//	public void INVOKESPECIAL(Type objectType, Type returnType, String methodName, Type... paramTypes) {
+	//		if (returnType == null) returnType = Type.VOID_TYPE;
+	//		for (Type type : paramTypes) {
+	//			stackPop();
+	//		}
+	//		stackPop(); // objectType
+	//		visitMethodInsn(INVOKESPECIAL, objectType, returnType, methodName, paramTypes);
+	//		if (returnType != Type.VOID_TYPE) stackPush(returnType);
+	//		// INVOKESPECIAL (objectref, [arg1, arg2, ...] →) : invoke instance method on
+	//		// object objectref, where the method is identified by method reference indexin
+	//		// constant pool (indexbyte1 << 8 + indexbyte2)
+	//	}
 
-	@Override
-	public void INVOKEINTERFACE(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
-		INVOKEINTERFACE(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
-	}
-
-	@Override
-	public void INVOKEINTERFACE(String objectType, String returnType, String methodName, String... paramTypes) {
-		INVOKEINTERFACE(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
-	}
-
-	@SuppressWarnings("unused")
-	public void INVOKEINTERFACE(Type objectType, Type returnType, String methodName, Type... paramTypes) {
-		for (Type type : paramTypes) {
-			stackPop();
-		}
-		stackPop(); // objectType
-		visitMethodInsn(INVOKEINTERFACE, objectType, returnType, methodName, paramTypes);
-		if (returnType != Type.VOID_TYPE) stackPush(returnType);
-		// INVOKEINTERFACE (objectref, [arg1, arg2, ...] →) : invokes an interface
-		// method on object objectref, where the interface method is identified by
-		// method reference index in constant pool (indexbyte1 << 8 + indexbyte2)
-
-	}
-
-	@Override
-	public void INVOKESPECIAL(Class<?> objectType, String methodName, Class<?>... paramTypes) {
-		INVOKESPECIAL(typeOf(objectType), null, methodName, typeOf(paramTypes));
-	}
-
-	@Override
-	public void INVOKESPECIAL(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
-		INVOKESPECIAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
-	}
-
-	@Override
-	public void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
-		INVOKESPECIAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
-	}
-
-	@Override
-	public void INVOKESPECIAL(String objectType, String returnType, String methodName, String... paramTypes) {
-		INVOKESPECIAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
-	}
-
-	@SuppressWarnings("unused")
-	public void INVOKESPECIAL(Type objectType, Type returnType, String methodName, Type... paramTypes) {
-		if (returnType == null) returnType = Type.VOID_TYPE;
-		for (Type type : paramTypes) {
-			stackPop();
-		}
-		stackPop(); // objectType
-		visitMethodInsn(INVOKESPECIAL, objectType, returnType, methodName, paramTypes);
-		if (returnType != Type.VOID_TYPE) stackPush(returnType);
-		// INVOKESPECIAL (objectref, [arg1, arg2, ...] →) : invoke instance method on
-		// object objectref, where the method is identified by method reference indexin
-		// constant pool (indexbyte1 << 8 + indexbyte2)
-	}
-
-	@Override
-	public void INVOKEVIRTUAL(Class<?> objectType, Class<?> returnType, String methodName, Class<?>... paramTypes) {
-		INVOKEVIRTUAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
-	}
-
-	@Override
-	public void INVOKEVIRTUAL(String objectType, String returnType, String methodName, String... paramTypes) {
-		INVOKEVIRTUAL(typeOf(objectType), typeOf(returnType), methodName, typeOf(paramTypes));
-	}
-
-	@SuppressWarnings("unused")
-	public void INVOKEVIRTUAL(Type objectType, Type returnType, String methodName, Type... paramTypes) {
-		for (Type type : paramTypes) {
-			stackPop();
-		}
-		stackPop(); // objectType
-		visitMethodInsn(INVOKEVIRTUAL, objectType, returnType, methodName, paramTypes);
-		if (returnType != Type.VOID_TYPE) stackPush(returnType);
-
-	}
-
+	//	@Override
+	//	@SuppressWarnings("unused")
+	//	public void INVOKEVIRTUAL(Type objectType, Type returnType, String methodName, Type... paramTypes) {
+	//		for (Type type : paramTypes) {
+	//			stackPop();
+	//		}
+	//		stackPop(); // objectType
+	//		visitMethodInsn(INVOKEVIRTUAL, objectType, returnType, methodName, paramTypes);
+	//		if (returnType != Type.VOID_TYPE) stackPush(returnType);
+	//
+	//	}
+	//
 	@SuppressWarnings("unused")
 	public void INVOKE(int opcode, Type objectType, Type returnType, String methodName, Type... paramTypes) {
 		for (Type type : paramTypes) {

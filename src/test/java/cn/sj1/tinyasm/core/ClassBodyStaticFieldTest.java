@@ -26,6 +26,17 @@ public class ClassBodyStaticFieldTest {
 	public void tearDown() throws Exception {
 	}
 
+//	@Test
+//	public void testParameterStaticSample_dumpTinyAsm() throws Exception {
+//		Class<?> expectedClazz = ParameterStaticSample.class;
+//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+//
+//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
+//
+//		assertEquals("Code", codeExpected, codeActual);
+//
+//	}
+
 	@Test
 	public void testMath() throws Exception {
 		ClassBody cw = ClassBuilder.class_(clazz)

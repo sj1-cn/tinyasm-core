@@ -214,6 +214,8 @@ public class MethodCodeMathSampleTinyAsmDump {
 		code.LOAD("this");
 		code.LOADConst(Double.valueOf("-1.0"));
 		code.PUTFIELD("dn1", double.class);
+
+		code.LINE();
 		code.RETURN();
 
 		code.END();
