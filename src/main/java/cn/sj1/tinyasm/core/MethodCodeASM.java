@@ -219,11 +219,7 @@ public interface MethodCodeASM {
 	 */
 	void POP();
 
-	void POP2();
-
 	void DUP();
-
-	void DUP2();
 
 	void NOP();
 
@@ -351,6 +347,9 @@ public interface MethodCodeASM {
 	void INVOKESPECIAL(String objectType, Class<?> returnType, String methodName, Class<?>... paramTypes);
 
 	void IF(int opcode, Label falseLabel);
+	void IF_ACMP(int opcode, Label falseLabel);
+
+	void IF_ICMP(int opcode, Label falseLabel);
 
 
 }

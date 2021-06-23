@@ -17,10 +17,9 @@ import static org.objectweb.asm.Opcodes.D2F;
 import static org.objectweb.asm.Opcodes.D2I;
 import static org.objectweb.asm.Opcodes.D2L;
 import static org.objectweb.asm.Opcodes.DCMPG;
-import static org.objectweb.asm.Opcodes.DCMPL;
+import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Opcodes.DCONST_0;
 import static org.objectweb.asm.Opcodes.DUP;
-import static org.objectweb.asm.Opcodes.DUP2;
 import static org.objectweb.asm.Opcodes.F2D;
 import static org.objectweb.asm.Opcodes.F2I;
 import static org.objectweb.asm.Opcodes.F2L;
@@ -82,7 +81,6 @@ import static org.objectweb.asm.Opcodes.LCONST_0;
 import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.NEWARRAY;
 import static org.objectweb.asm.Opcodes.POP;
-import static org.objectweb.asm.Opcodes.POP2;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.PUTSTATIC;
 import static org.objectweb.asm.Opcodes.RETURN;
@@ -530,21 +528,6 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	 * 
 	 */
 	/** MATH **/
-	@Override
-	public void ADD() {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-
-		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		stackPush(type);
-
-		visitInsn(type.getOpcode(IADD));
-		// DADD (left, right → result) : add two doubles
-		// FADD (left, right → result) : add two floats
-		// IADD (left, right → result) : add two ints
-		// LADD (left, right → result) : add two longs
-	}
-
 	public void ARITHMETIC(int opcode) {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
@@ -555,53 +538,34 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 		visitInsn(type.getOpcode(opcode));
 	}
 
+	@Override
+	public void ADD() {
+		ARITHMETIC(IADD);
+	}
+
 	/* Subtract: isub, lsub, fsub, dsub. */
 	@Override
 	public void SUB() {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-
-		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		stackPush(type);
-		visitInsn(type.getOpcode(ISUB));
+		ARITHMETIC(ISUB);
 	}
 
 	/* Multiply: imul, lmul, fmul, dmul. */
 	@Override
 	public void MUL() {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-
-		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		stackPush(type);
-		visitInsn(type.getOpcode(IMUL));
+		ARITHMETIC(IMUL);
 	}
 
 	/* Divide: idiv, ldiv, fdiv, ddiv. */
 
 	@Override
 	public void DIV() {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-
-		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		stackPush(type);
-		visitInsn(type.getOpcode(IDIV));
-		// DDIV (left, right → result) : divide two doubles
-		// FDIV (left, right → result) : divide two floats
-		// IDIV (left, right → result) : divide two integers
-		// LDIV (left, right → result) : divide two longs
+		ARITHMETIC(IDIV);
 	}
 
 	/* Remainder: irem, lrem, frem, drem. */
 	@Override
 	public void REM() {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-
-		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		stackPush(type);
-		visitInsn(type.getOpcode(IREM));
+		ARITHMETIC(IREM);
 	}
 
 	/* Negate: ineg, lneg, fneg, dneg. */
@@ -656,28 +620,13 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	@Override
 	public void AND() {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-
-		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		stackPush(type);
-		visitInsn(type.getOpcode(IAND));
-		// IAND (left, right → result) : perform a bitwise and on two integers
-		// LAND (left, right → result) : bitwise and of two longs
+		ARITHMETIC(IAND);
 	}
 
 	/* Bitwise exclusive OR: ixor, lxor. */
 	@Override
 	public void XOR() {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-
-		Type type = checkMathTypes(typeRightValue, typeLeftValue);
-		stackPush(type);
-		visitInsn(type.getOpcode(IXOR));
-
-		// IXOR (left, right → result) : int xor
-		// LXOR (left, right → result) : bitwise exclusive or of two longs
+		ARITHMETIC(IXOR);
 	}
 
 	/* Local variable increment: iinc. */
@@ -1111,38 +1060,26 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	 * provided for the direct manipulation of the operand stack: pop, pop2, dup,
 	 * dup2, dup_x1, dup2_x1, dup_x2, dup2_x2, swap.
 	 */
-	@SuppressWarnings("unused")
 	@Override
 	public void POP() {
 		Type left = stackPop();
-		visitInsn(POP);
-	}
-
-	@SuppressWarnings("unused")
-	@Override
-	public void POP2() {
-		Type right = stackPop();
-		Type left = stackPop();
-		visitInsn(POP2);
+		if (left.getSize() == 1) {
+			visitInsn(POP);
+		} else {
+			visitInsn(POP2);
+		}
 	}
 
 	@Override
 	public void DUP() {
 		Type left = stackTypeOf(0);
 		stackPush(left);
-		visitInsn(DUP);
+		if (left.getSize() == 1) {
+			visitInsn(DUP);
+		} else {
+			visitInsn(DUP2);
+		}
 		// DUP (value → value, value) : duplicate the value on top of the stack
-	}
-
-	@Override
-	public void DUP2() {
-		Type right = stackTypeOf(-1);
-		Type left = stackTypeOf(0);
-		stackPush(right);
-		stackPush(left);
-		stackPush(right);
-		stackPush(left);
-		visitInsn(DUP2);
 	}
 
 	@Override
@@ -1162,7 +1099,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	 * if_icmpeq, if_icmpne, if_icmplt, if_icmple, if_icmpgt if_icmpge, if_acmpeq,
 	 * if_acmpne.
 	 */
-	
+
 	@Override
 	public void IF(int opcode, Label falseLabel) {
 		Type value = stackPop();
@@ -1172,9 +1109,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	@Override
 	public void IFEQ(Label falseLabel) {
-		Type value = stackPop();
-		assert in(value, Type.BOOLEAN_TYPE, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		visitJumpInsn(IFEQ, falseLabel);
+		IF(IFEQ, falseLabel);
 	}
 
 	public void JUMP(int opcode, Label falseLabel) {
@@ -1185,45 +1120,33 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 
 	@Override
 	public void IFNE(Label falseLabel) {
-		Type value = stackPop();
-		assert in(value, Type.INT_TYPE, Type.BOOLEAN_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE + " | " + Type.BOOLEAN_TYPE;
-		visitJumpInsn(IFNE, falseLabel);
+		IF(IFNE, falseLabel);
 	}
 
 	public Label IFNE() {
 		Label falseLabel = new Label();
-		Type value = stackPop();
-		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		visitJumpInsn(IFNE, falseLabel);
+		IF(IFNE, falseLabel);
 		return falseLabel;
 	}
 
 	@Override
 	public void IFLT(Label falseLabel) {
-		Type value = stackPop();
-		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		visitJumpInsn(IFLT, falseLabel);
+		IF(IFLT, falseLabel);
 	}
 
 	@Override
 	public void IFLE(Label falseLabel) {
-		Type value = stackPop();
-		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		visitJumpInsn(IFLE, falseLabel);
+		IF(IFLE, falseLabel);
 	}
 
 	@Override
 	public void IFGT(Label falseLabel) {
-		Type value = stackPop();
-		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		visitJumpInsn(IFGT, falseLabel);
+		IF(IFGT, falseLabel);
 	}
 
 	@Override
 	public void IFGE(Label falseLabel) {
-		Type value = stackPop();
-		assert in(value, Type.INT_TYPE) : "actual: " + value + "  expected:" + Type.INT_TYPE;
-		visitJumpInsn(IFGE, falseLabel);
+		IF(IFGE, falseLabel);
 	}
 
 	@Override
@@ -1241,75 +1164,60 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke<MethodCode
 	}
 
 	@Override
-	public void IF_ACMPEQ(Label falseLabel) {
+	public void IF_ACMP(int opcode, Label falseLabel) {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
 		assert typeRightValue.getSort() == Type.OBJECT;
 		assert typeLeftValue.getSort() == Type.OBJECT;
-		visitJumpInsn(IF_ACMPEQ, falseLabel);
+		visitJumpInsn(opcode, falseLabel);
 	}
 
 	@Override
+	public void IF_ACMPEQ(Label falseLabel) {
+		IF_ACMP(IF_ACMPEQ, falseLabel);
+	}
+	@Override
 	public void IF_ACMPNE(Label falseLabel) {
+		IF_ACMP(IF_ACMPNE, falseLabel);
+	}
+
+
+	@Override
+	public void IF_ICMP(int opcode, Label falseLabel) {
 		Type typeRightValue = stackPop();
 		Type typeLeftValue = stackPop();
-		assert typeRightValue.getSort() == Type.OBJECT;
-		assert typeLeftValue.getSort() == Type.OBJECT;
-		visitJumpInsn(IF_ACMPNE, falseLabel);
+		checkMathTypes(typeRightValue, typeLeftValue);
+		visitJumpInsn(opcode, falseLabel);
 	}
 
 	@Override
 	public void IF_ICMPEQ(Label falseLabel) {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-		checkMathTypes(typeRightValue, typeLeftValue);
-
-		visitJumpInsn(IF_ICMPEQ, falseLabel);
+		IF_ICMP(IF_ICMPEQ, falseLabel);
 	}
 
 	@Override
 	public void IF_ICMPNE(Label falseLabel) {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-		checkMathTypes(typeRightValue, typeLeftValue);
-
-		visitJumpInsn(IF_ICMPNE, falseLabel);
+		IF_ICMP(IF_ICMPNE, falseLabel);
 	}
 
 	@Override
 	public void IF_ICMPLT(Label falseLabel) {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-		checkMathTypes(typeRightValue, typeLeftValue);
-
-		visitJumpInsn(IF_ICMPLT, falseLabel);
+		IF_ICMP(IF_ICMPLT, falseLabel);
 	}
 
 	@Override
 	public void IF_ICMPLE(Label falseLabel) {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-		checkMathTypes(typeRightValue, typeLeftValue);
-
-		visitJumpInsn(IF_ICMPLE, falseLabel);
+		IF_ICMP(IF_ICMPLE, falseLabel);
 	}
 
 	@Override
 	public void IF_ICMPGT(Label falseLabel) {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-		checkMathTypes(typeRightValue, typeLeftValue);
-
-		visitJumpInsn(IF_ICMPGT, falseLabel);
+		IF_ICMP(IF_ICMPGT, falseLabel);
 	}
 
 	@Override
 	public void IF_ICMPGE(Label falseLabel) {
-		Type typeRightValue = stackPop();
-		Type typeLeftValue = stackPop();
-		checkMathTypes(typeRightValue, typeLeftValue);
-
-		visitJumpInsn(IF_ICMPGE, falseLabel);
+		IF_ICMP(IF_ICMPGE, falseLabel);
 	}
 
 	/* Compound conditional branch: tableswitch, lookupswitch. */
