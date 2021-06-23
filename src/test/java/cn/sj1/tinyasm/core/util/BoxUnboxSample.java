@@ -1,22 +1,56 @@
 package cn.sj1.tinyasm.core.util;
 
 public class BoxUnboxSample {
-	public void funcLong(Long l) {
-		Long ll = l;
-		l = ll + 1;
+	boolean z = true;
+	byte b = 1;
+	char c = 1;
+	short s = 1;
+	int i = 1;
+	long l = 1l;
+	float f = 1f;
+	double d = 1d;
+
+	public void exec() {
+		zFunc(this.z);
+		bFunc(this.b);
+		cFunc(this.c);
+		sFunc(this.s);
+		iFunc(this.i);
+		lFunc(this.l);
+		fFunc(this.f);
+		dFunc(this.d);
 	}
 
-	public void funclong(long l) {
-		Long ll = l;
-		l = ll + 1;
-	}
+	boolean zFunc(Boolean oz) {
+		return oz;
+	}//true;
 
-	public void init() {
-		long l=10;
-		Long ll = 100L;
-		funclong(l);
-		funcLong(ll);
-		funclong(1);
-		funcLong(2L);
-	}
+	byte bFunc(Byte ob) {
+		return ob;
+	}//1;
+
+	char cFunc(Character oc) {
+		return oc;
+	}//1;
+
+	short sFunc(Short os) {
+		return os;
+	}//1;
+
+	int iFunc(Integer oi) {
+		return oi;
+	}//1;
+
+	long lFunc(Long ol) {
+		return ol;
+	}//1l;
+
+	float fFunc(Float of) {
+		return of;
+	}//1f;
+
+	double dFunc(Double od) {
+		return od;
+	}//1d;
+
 }

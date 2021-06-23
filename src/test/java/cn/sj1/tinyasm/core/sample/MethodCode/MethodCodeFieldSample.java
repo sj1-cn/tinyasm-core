@@ -1,25 +1,25 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
 
 public class MethodCodeFieldSample {
-	private boolean z = true;
-	private byte b = 1;
-	private char c = 1;
-	private short s = 1;
-	private int i = 1;
-	private long l = 1l;
-	private float f = 1f;
-	private double d = 1d;
-	private String str = "str";
+	 boolean z = true;
+	 byte b = 1;
+	 char c = 1;
+	 short s = 1;
+	 int i = 1;
+	 long l = 1l;
+	 float f = 1f;
+	 double d = 1d;
+	 String str = "str";
 
-	private boolean[] za = new boolean[] { true, false, true, false };
-	private byte[] ba = new byte[] { 1, 2, 3, 4, 5 };
-	private char[] ca = new char[] { 1, 2, 3, 4, 5 };
-	private short[] sa = new short[] { 1, 2, 3, 4, 5 };
-	private int[] ia = new int[] { 1, 2, 3, 4, 5 };
-	private long[] la = new long[] { 1, 2, 3, 4, 5 };
-	private float[] fa = new float[] { 1.1F, 2.1F, 3.1F, 4.1F, 5.1F };
-	private double[] da = new double[] { 1.1D, 2.1D, 3.1D, 4.1D, 5.1D };
-	private String[] stra = new String[] { "str1", "str2", "str3", "str4", "str5" };
+	 boolean[] za = new boolean[] { true, false, true, false };
+	 byte[] ba = new byte[] { 1, 2, 3, 4, 5 };
+	 char[] ca = new char[] { 1, 2, 3, 4, 5 };
+	 short[] sa = new short[] { 1, 2, 3, 4, 5 };
+	 int[] ia = new int[] { 1, 2, 3, 4, 5 };
+	 long[] la = new long[] { 1, 2, 3, 4, 5 };
+	 float[] fa = new float[] { 1.1F, 2.1F, 3.1F, 4.1F, 5.1F };
+	 double[] da = new double[] { 1.1D, 2.1D, 3.1D, 4.1D, 5.1D };
+	 String[] stra = new String[] { "str1", "str2", "str3", "str4", "str5" };
 
 	public void getAll() {
 		boolean z = this.z;

@@ -28,18 +28,18 @@ public class EnumBuilder implements Opcodes {
 					mc.NEW(enumClazz);
 					mc.DUP();
 					mc.LOADConst(names[i]);
-					mc.LOADConstByte(i);
+					mc.LOADConst(i);
 					mc.SPECIAL(className, "<init>").parameter(String.class, int.class).INVOKE();
 					mc.PUTSTATIC(typeOf(className), names[i], typeOf(className));
 				}
 
 				mc.LINE(3);
-				mc.LOADConstByte(names.length);
+				mc.LOADConst(names.length);
 				mc.NEWARRAY(typeOf(className));
 
 				for (int i = 0; i < names.length; i++) {
 					mc.DUP();
-					mc.LOADConstByte(i);
+					mc.LOADConst(i);
 					mc.GETSTATIC(typeOf(className), names[i], typeOf(className));
 					mc.ARRAYSTORE();
 				}
@@ -65,7 +65,7 @@ public class EnumBuilder implements Opcodes {
 			mc.DUP();
 			mc.STORE("vs");
 
-			mc.LOADConstByte(0);
+			mc.LOADConst(0);
 			mc.LOAD("vs");
 			mc.ARRAYLENGTH();
 			mc.DUP();
@@ -74,7 +74,7 @@ public class EnumBuilder implements Opcodes {
 			mc.DUP();
 			mc.STORE("newvs");
 
-			mc.LOADConstByte(0);
+			mc.LOADConst(0);
 			mc.LOAD("length");
 			mc.STATIC(System.class, "arraycopy").parameter(Object.class, int.class, Object.class, int.class, int.class).INVOKE();
 			mc.RETURN("newvs");

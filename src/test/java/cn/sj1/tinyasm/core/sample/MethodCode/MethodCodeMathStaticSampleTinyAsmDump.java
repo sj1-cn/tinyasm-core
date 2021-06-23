@@ -51,7 +51,6 @@ public class MethodCodeMathStaticSampleTinyAsmDump {
 		classBody.staticField(ACC_STATIC, "ln1", Clazz.of(long.class));
 		classBody.staticField(ACC_STATIC, "fn1", Clazz.of(float.class));
 		classBody.staticField(ACC_STATIC, "dn1", Clazz.of(double.class));
-		__clinit_(classBody);
 		__init_(classBody);
 		_addInt(classBody);
 		_addByte(classBody);
@@ -60,131 +59,9 @@ public class MethodCodeMathStaticSampleTinyAsmDump {
 		_mathChar(classBody);
 		_mathFloat(classBody);
 		_mathDouble(classBody);
+		__clinit_(classBody);
 
 		return classBody.end().toByteArray();
-	}
-
-	protected void __clinit_(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod("<clinit>").begin();
-
-		code.LINE();
-		code.LOADConst(1);
-		code.PUTSTATIC("b", byte.class);
-
-		code.LINE();
-		code.LOADConst(1);
-		code.PUTSTATIC("c", char.class);
-
-		code.LINE();
-		code.LOADConst(1);
-		code.PUTSTATIC("s", short.class);
-
-		code.LINE();
-		code.LOADConst(1);
-		code.PUTSTATIC("i", int.class);
-
-		code.LINE();
-		code.LOADConst(1L);
-		code.PUTSTATIC("l", long.class);
-
-		code.LINE();
-		code.LOADConst(1F);
-		code.PUTSTATIC("f", float.class);
-
-		code.LINE();
-		code.LOADConst(1D);
-		code.PUTSTATIC("d", double.class);
-
-		code.LINE();
-		code.LOADConst(3);
-		code.PUTSTATIC("b3", byte.class);
-
-		code.LINE();
-		code.LOADConst(3);
-		code.PUTSTATIC("c3", char.class);
-
-		code.LINE();
-		code.LOADConst(3);
-		code.PUTSTATIC("s3", short.class);
-
-		code.LINE();
-		code.LOADConst(3);
-		code.PUTSTATIC("i3", int.class);
-
-		code.LINE();
-		code.LOADConst(Long.valueOf(3L));
-		code.PUTSTATIC("l3", long.class);
-
-		code.LINE();
-		code.LOADConst(Float.valueOf("3.0"));
-		code.PUTSTATIC("f3", float.class);
-
-		code.LINE();
-		code.LOADConst(Double.valueOf("3.0"));
-		code.PUTSTATIC("d3", double.class);
-
-		code.LINE();
-		code.LOADConst(Float.valueOf("3.1"));
-		code.PUTSTATIC("f31", float.class);
-
-		code.LINE();
-		code.LOADConst(Double.valueOf("3.1"));
-		code.PUTSTATIC("d31", double.class);
-
-		code.LINE();
-		code.LOADConst(0);
-		code.PUTSTATIC("b0", byte.class);
-
-		code.LINE();
-		code.LOADConst(0);
-		code.PUTSTATIC("c0", char.class);
-
-		code.LINE();
-		code.LOADConst(0);
-		code.PUTSTATIC("s0", short.class);
-
-		code.LINE();
-		code.LOADConst(0);
-		code.PUTSTATIC("i0", int.class);
-
-		code.LINE();
-		code.LOADConst(0L);
-		code.PUTSTATIC("l1", long.class);
-
-		code.LINE();
-		code.LOADConst(0F);
-		code.PUTSTATIC("f1", float.class);
-
-		code.LINE();
-		code.LOADConst(0D);
-		code.PUTSTATIC("d1", double.class);
-
-		code.LINE();
-		code.LOADConst(-1);
-		code.PUTSTATIC("bn1", byte.class);
-
-		code.LINE();
-		code.LOADConst(-1);
-		code.PUTSTATIC("sn1", short.class);
-
-		code.LINE();
-		code.LOADConst(-1);
-		code.PUTSTATIC("in1", int.class);
-
-		code.LINE();
-		code.LOADConst(Long.valueOf(-1L));
-		code.PUTSTATIC("ln1", long.class);
-
-		code.LINE();
-		code.LOADConst(Float.valueOf("-1.0"));
-		code.PUTSTATIC("fn1", float.class);
-
-		code.LINE();
-		code.LOADConst(Double.valueOf("-1.0"));
-		code.PUTSTATIC("dn1", double.class);
-		code.RETURN();
-
-		code.END();
 	}
 
 	protected void __init_(ClassBody classBody) {
@@ -860,6 +737,129 @@ public class MethodCodeMathStaticSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("z");
 		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void __clinit_(ClassBody classBody) {
+		MethodCode code = classBody.staticMethod("<clinit>").begin();
+
+		code.LINE();
+		code.LOADConst(1);
+		code.PUTSTATIC("b", byte.class);
+
+		code.LINE();
+		code.LOADConst(1);
+		code.PUTSTATIC("c", char.class);
+
+		code.LINE();
+		code.LOADConst(1);
+		code.PUTSTATIC("s", short.class);
+
+		code.LINE();
+		code.LOADConst(1);
+		code.PUTSTATIC("i", int.class);
+
+		code.LINE();
+		code.LOADConst(1L);
+		code.PUTSTATIC("l", long.class);
+
+		code.LINE();
+		code.LOADConst(1F);
+		code.PUTSTATIC("f", float.class);
+
+		code.LINE();
+		code.LOADConst(1D);
+		code.PUTSTATIC("d", double.class);
+
+		code.LINE();
+		code.LOADConst(3);
+		code.PUTSTATIC("b3", byte.class);
+
+		code.LINE();
+		code.LOADConst(3);
+		code.PUTSTATIC("c3", char.class);
+
+		code.LINE();
+		code.LOADConst(3);
+		code.PUTSTATIC("s3", short.class);
+
+		code.LINE();
+		code.LOADConst(3);
+		code.PUTSTATIC("i3", int.class);
+
+		code.LINE();
+		code.LOADConst(Long.valueOf(3L));
+		code.PUTSTATIC("l3", long.class);
+
+		code.LINE();
+		code.LOADConst(Float.valueOf("3.0"));
+		code.PUTSTATIC("f3", float.class);
+
+		code.LINE();
+		code.LOADConst(Double.valueOf("3.0"));
+		code.PUTSTATIC("d3", double.class);
+
+		code.LINE();
+		code.LOADConst(Float.valueOf("3.1"));
+		code.PUTSTATIC("f31", float.class);
+
+		code.LINE();
+		code.LOADConst(Double.valueOf("3.1"));
+		code.PUTSTATIC("d31", double.class);
+
+		code.LINE();
+		code.LOADConst(0);
+		code.PUTSTATIC("b0", byte.class);
+
+		code.LINE();
+		code.LOADConst(0);
+		code.PUTSTATIC("c0", char.class);
+
+		code.LINE();
+		code.LOADConst(0);
+		code.PUTSTATIC("s0", short.class);
+
+		code.LINE();
+		code.LOADConst(0);
+		code.PUTSTATIC("i0", int.class);
+
+		code.LINE();
+		code.LOADConst(0L);
+		code.PUTSTATIC("l1", long.class);
+
+		code.LINE();
+		code.LOADConst(0F);
+		code.PUTSTATIC("f1", float.class);
+
+		code.LINE();
+		code.LOADConst(0D);
+		code.PUTSTATIC("d1", double.class);
+
+		code.LINE();
+		code.LOADConst(-1);
+		code.PUTSTATIC("bn1", byte.class);
+
+		code.LINE();
+		code.LOADConst(-1);
+		code.PUTSTATIC("sn1", short.class);
+
+		code.LINE();
+		code.LOADConst(-1);
+		code.PUTSTATIC("in1", int.class);
+
+		code.LINE();
+		code.LOADConst(Long.valueOf(-1L));
+		code.PUTSTATIC("ln1", long.class);
+
+		code.LINE();
+		code.LOADConst(Float.valueOf("-1.0"));
+		code.PUTSTATIC("fn1", float.class);
+
+		code.LINE();
+		code.LOADConst(Double.valueOf("-1.0"));
+		code.PUTSTATIC("dn1", double.class);
+		code.RETURN();
 
 		code.END();
 	}

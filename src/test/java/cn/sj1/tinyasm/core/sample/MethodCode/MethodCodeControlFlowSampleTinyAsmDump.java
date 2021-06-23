@@ -47,8 +47,6 @@ public class MethodCodeControlFlowSampleTinyAsmDump {
 		code.LOAD("this");
 		code.LOADConst(1);
 		code.PUTFIELD("b", byte.class);
-
-		code.LINE();
 		code.RETURN();
 
 		code.END();

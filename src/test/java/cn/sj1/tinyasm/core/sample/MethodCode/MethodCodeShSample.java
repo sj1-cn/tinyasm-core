@@ -12,7 +12,11 @@ public class MethodCodeShSample {
 
 		i = i << 4;
 		l = l << 4;
-		
+
+		i = i | 10;
+		i = i & 10;
+		l = l | 10;
+		l = l & 10;
 
 	}
 }

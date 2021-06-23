@@ -20,6 +20,7 @@ public class MethodCodeArraySample {
 		fa = new float[10];
 		da = new double[10];
 		stra = new String[10];
+
 	}
 
 	public void setArrayValue() {
@@ -42,5 +43,12 @@ public class MethodCodeArraySample {
 		fa[1] = fa[0];
 		da[1] = da[0];
 		stra[1] = stra[0];
+	}
+
+	public void len() {
+
+		int[] lia = new int[] { 10, 10, 10 };
+		lia[0] = lia.length;
+		lia[2] = this.ia.length;
 	}
 }

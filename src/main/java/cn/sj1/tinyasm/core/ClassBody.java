@@ -36,6 +36,17 @@ public interface ClassBody
 
 	String getSimpleName();
 
+//	default void init() {
+//		MethodCode code = this.public_().method("<init>").begin();
+//
+//		code.LINE();
+//		code.LOAD("this");
+//		code.SPECIAL(Object.class, "<init>").INVOKE();
+//		code.RETURN();
+//
+//		code.END();
+//	}
+
 	// TODO constructerEmpty
 	default ClassBody constructerEmpty() {
 		public_().method("<init>").code(code -> {
@@ -74,6 +85,6 @@ public interface ClassBody
 
 	public void visitInnerClass(String string, String string2, String string3, int i);
 
-//	Class<?> stringInnerUserType(Clazz clazz);
+	//	Class<?> stringInnerUserType(Clazz clazz);
 
 }

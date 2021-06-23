@@ -35,6 +35,7 @@ public class MethodCodeArraySampleTinyAsmDump {
 		_init(classBody);
 		_setArrayValue(classBody);
 		_getArrayValue(classBody);
+		_len(classBody);
 
 		return classBody.end().toByteArray();
 	}
@@ -55,8 +56,16 @@ public class MethodCodeArraySampleTinyAsmDump {
 		code.LOADConst(1);
 		code.ARRAYSTORE();
 		code.DUP();
+		code.LOADConst(1);
+		code.LOADConst(0);
+		code.ARRAYSTORE();
+		code.DUP();
 		code.LOADConst(2);
 		code.LOADConst(1);
+		code.ARRAYSTORE();
+		code.DUP();
+		code.LOADConst(3);
+		code.LOADConst(0);
 		code.ARRAYSTORE();
 		code.PUTFIELD("za", boolean[].class);
 
@@ -267,8 +276,6 @@ public class MethodCodeArraySampleTinyAsmDump {
 		code.LOADConst("str5");
 		code.ARRAYSTORE();
 		code.PUTFIELD("stra", String[].class);
-
-		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -477,6 +484,47 @@ public class MethodCodeArraySampleTinyAsmDump {
 		code.GETFIELD("stra", String[].class);
 		code.LOADConst(0);
 		code.ARRAYLOAD();
+		code.ARRAYSTORE();
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _len(ClassBody classBody) {
+		MethodCode code = classBody.public_().method("len").begin();
+
+		code.LINE();
+		code.LOADConst(3);
+		code.NEWARRAY(int.class);
+		code.DUP();
+		code.LOADConst(0);
+		code.LOADConst(10);
+		code.ARRAYSTORE();
+		code.DUP();
+		code.LOADConst(1);
+		code.LOADConst(10);
+		code.ARRAYSTORE();
+		code.DUP();
+		code.LOADConst(2);
+		code.LOADConst(10);
+		code.ARRAYSTORE();
+		code.STORE("lia",int[].class);
+
+		code.LINE();
+		code.LOAD("lia");
+		code.LOADConst(0);
+		code.LOAD("lia");
+		code.ARRAYLENGTH();
+		code.ARRAYSTORE();
+
+		code.LINE();
+		code.LOAD("lia");
+		code.LOADConst(2);
+		code.LOAD("this");
+		code.GETFIELD("ia", int[].class);
+		code.ARRAYLENGTH();
 		code.ARRAYSTORE();
 
 		code.LINE();

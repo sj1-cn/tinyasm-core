@@ -63,10 +63,10 @@ public interface MethodCodeASM {
 	void STORE(String varname, Clazz clazz);
 
 	//	void STORE(int local);
-
-	void LOADConstByte(int value);
-
-	void LOADConstShort(int value);
+	//
+	//	void LOADConstByte(int value);
+	//
+	//	void LOADConstShort(int value);
 
 	void LOADConstNULL();
 
@@ -267,7 +267,7 @@ public interface MethodCodeASM {
 		NEWARRAY(typeOf(type));
 	}
 
-	void ARRAYLENGTH(String array);
+//	void ARRAYLENGTH(String array);
 
 	void ARRAYLENGTH();
 
@@ -408,7 +408,7 @@ public interface MethodCodeASM {
 	// ARRAY
 
 	default void GETFIELD_OF_THIS(String fieldname) {
-		GETFIELD(fieldname, codeThisFieldType(fieldname));
+		GETFIELD(fieldname, fieldTypeOfThis(fieldname));
 	}
 
 	void GETFIELD(String fieldname, Type fieldType);
@@ -425,8 +425,22 @@ public interface MethodCodeASM {
 		GETFIELD(fieldname, typeOf(fieldType));
 	}
 
+	default void GETFIELD(Class<?> objectType, String fieldName, Class<?> fieldType) {
+		GETFIELD(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+
+	default void GETFIELD(Clazz objectType, String fieldName, Clazz fieldType) {
+		GETFIELD(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+
+	default void GETFIELD(String objectType, String fieldName, String fieldType) {
+		GETFIELD(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+
+	void GETFIELD(Type objectType, String fieldName, Type fieldType);
+
 	default void PUTFIELD_OF_THIS(String fieldname) {
-		PUTFIELD(fieldname, codeThisFieldType(fieldname));
+		PUTFIELD(fieldname, fieldTypeOfThis(fieldname));
 	}
 
 	default void PUTFIELD(String fieldname, Class<?> fieldType) {
@@ -472,7 +486,7 @@ public interface MethodCodeASM {
 	void GETSTATIC(Type objectType, String fieldName, Type fieldType);
 
 	default void PUT_THIS_STATIC(String fieldName) {
-		PUTSTATIC(typeOfThis(), fieldName, codeThisClassFieldType(fieldName));
+		PUTSTATIC(typeOfThis(), fieldName, staticFieldTypeOfThis(fieldName));
 	}
 
 	default void PUTSTATIC(String fieldName, Class<?> fieldType) {
@@ -491,11 +505,19 @@ public interface MethodCodeASM {
 		PUTSTATIC(typeOfThis(), fieldName, fieldType);
 	}
 
-	default void PUTSTATIC(String objectType, String fieldName, Class<?> fieldType) {
+	default void PUTSTATIC(Class<?> objectType, String fieldName, Class<?> fieldType) {
 		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
 	}
 
 	default void PUTSTATIC(String objectType, String fieldName, String fieldType) {
+		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+
+	default void PUTSTATIC(Clazz objectType, String fieldName, Clazz fieldType) {
+		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
+	}
+
+	default void PUTSTATIC(String objectType, String fieldName, Class<?> fieldType) {
 		PUTSTATIC(typeOf(objectType), fieldName, typeOf(fieldType));
 	}
 
@@ -506,7 +528,7 @@ public interface MethodCodeASM {
 	void PUTSTATIC(Type objectType, String fieldName, Type fieldType);
 
 	default void GET_THIS_STATIC(String fieldName) {
-		GETSTATIC(typeOfThis(), fieldName, codeThisClassFieldType(fieldName));
+		GETSTATIC(typeOfThis(), fieldName, staticFieldTypeOfThis(fieldName));
 	}
 
 	default void GETSTATIC(String fieldName, Type fieldType) {
@@ -571,8 +593,8 @@ public interface MethodCodeASM {
 
 	Type typeOfThis();
 
-	Type codeThisClassFieldType(String name);
+	Type staticFieldTypeOfThis(String name);
 
-	Type codeThisFieldType(String name);
+	Type fieldTypeOfThis(String name);
 
 }

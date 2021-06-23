@@ -1,49 +1,47 @@
 package cn.sj1.tinyasm.core;
 
-public interface WithInvoke<T> {
+public interface WithInvoke {
 
-	default MethodCaller<T> STATIC(Class<?> objectType, String methodName) {
+	default MethodCaller STATIC(Class<?> objectType, String methodName) {
 		return STATIC(objectType.getName(), methodName);
 	}
 
-	default MethodCaller<T> STATIC(String objectType, String methodName) {
+	default MethodCaller STATIC(String objectType, String methodName) {
 		return STATIC(Clazz.of(objectType), methodName);
 	}
 
-	MethodCaller<T> STATIC(Clazz objectType, String methodName);
+	MethodCaller STATIC(Clazz objectType, String methodName);
 
-	default MethodCaller<T> INTERFACE(Class<?> objectType, String methodName) {
+	default MethodCaller INTERFACE(Class<?> objectType, String methodName) {
 		return INTERFACE(Clazz.of(objectType), methodName);
 	}
 
-	default MethodCaller<T> INTERFACE(String objectType, String methodName) {
+	default MethodCaller INTERFACE(String objectType, String methodName) {
 		return INTERFACE(Clazz.of(objectType), methodName);
 	}
 
-	MethodCaller<T> INTERFACE(Clazz objectType, String methodName);
+	MethodCaller INTERFACE(Clazz objectType, String methodName);
 
-	default MethodCaller<T> SPECIAL(Class<?> objectType, String methodName) {
+	default MethodCaller SPECIAL(Class<?> objectType, String methodName) {
 		return SPECIAL(Clazz.of(objectType), methodName);
 	}
 
-	default MethodCaller<T> SPECIAL(String objectType, String methodName) {
+	default MethodCaller SPECIAL(String objectType, String methodName) {
 		return SPECIAL(Clazz.of(objectType), methodName);
 	}
 
-	MethodCaller<T> SPECIAL(Clazz objectType, String methodName);
+	MethodCaller SPECIAL(Clazz objectType, String methodName);
 
-	MethodCaller<T> SPECIAL(String methodName);
-
-	default MethodCaller<T> VIRTUAL(Class<?> objectType, String methodName) {
+	default MethodCaller VIRTUAL(Class<?> objectType, String methodName) {
 		return VIRTUAL(Clazz.of(objectType), methodName);
 	}
 
-	default MethodCaller<T> VIRTUAL(String objectType, String methodName) {
+	default MethodCaller VIRTUAL(String objectType, String methodName) {
 		return VIRTUAL(Clazz.of(objectType), methodName);
 	}
 
-	MethodCaller<T> VIRTUAL(Clazz objectType, String methodName);
+	MethodCaller VIRTUAL(Clazz objectType, String methodName);
 
-	MethodCaller<T> VIRTUAL(String methodName);
+	MethodCaller VIRTUAL(String methodName);
 
 }

@@ -290,14 +290,14 @@ class TypeUtils {
 //		}
 //		return newfields;
 //	}
-
-	static String[] classnamesOf(Class<?>... clazz) {
-		String[] names = new String[clazz.length];
-		for (int i = 0; i < names.length; i++) {
-			names[i] = clazz[i].getName();
-		}
-		return names;
-	}
+//
+//	static String[] classnamesOf(Class<?>... clazz) {
+//		String[] names = new String[clazz.length];
+//		for (int i = 0; i < names.length; i++) {
+//			names[i] = clazz[i].getName();
+//		}
+//		return names;
+//	}
 
 //	static String concat(String... strs) {
 //		StringBuilder sb = new StringBuilder();
@@ -331,47 +331,47 @@ class TypeUtils {
 		return type;
 	}
 
-	static String signatureOf(Type type, Class<?>... signatureClasses) {
-		String signature = null;
-		if (signatureClasses != null && signatureClasses.length > 0) {
-			StringBuilder sb = new StringBuilder();
-			sb.append("L");
-			sb.append(type.getInternalName());
-			sb.append("<");
-			for (Class<?> signatureClass : signatureClasses) {
-				sb.append(Type.getDescriptor(signatureClass));
-			}
-			sb.append(">;");
-			signature = sb.toString();
-		}
-		return signature;
-	};
+//	static String signatureOf(Type type, Class<?>... signatureClasses) {
+//		String signature = null;
+//		if (signatureClasses != null && signatureClasses.length > 0) {
+//			StringBuilder sb = new StringBuilder();
+//			sb.append("L");
+//			sb.append(type.getInternalName());
+//			sb.append("<");
+//			for (Class<?> signatureClass : signatureClasses) {
+//				sb.append(Type.getDescriptor(signatureClass));
+//			}
+//			sb.append(">;");
+//			signature = sb.toString();
+//		}
+//		return signature;
+//	};
 
-	static Type stringInnerUserType(Type type) {
-		switch (type.getSort()) {
-		case Type.BOOLEAN:
-		case Type.BYTE:
-//		case Type.CHAR:
-		case Type.SHORT:
-			return Type.INT_TYPE;
-		default:
-			break;
-		}
-		return type;
-	}
-
-	static Clazz stringInnerUserType(Clazz clazz) {
-		switch (clazz.getType().getSort()) {
-		case Type.BOOLEAN:
-		case Type.BYTE:
-//		case Type.CHAR:
-		case Type.SHORT:
-			return Clazz.of(Type.INT_TYPE);
-		default:
-			break;
-		}
-		return clazz;
-	}
+//	static Type stringInnerUserType(Type type) {
+//		switch (type.getSort()) {
+//		case Type.BOOLEAN:
+//		case Type.BYTE:
+////		case Type.CHAR:
+//		case Type.SHORT:
+//			return Type.INT_TYPE;
+//		default:
+//			break;
+//		}
+//		return type;
+//	}
+//
+//	static Clazz stringInnerUserType(Clazz clazz) {
+//		switch (clazz.getType().getSort()) {
+//		case Type.BOOLEAN:
+//		case Type.BYTE:
+////		case Type.CHAR:
+//		case Type.SHORT:
+//			return Clazz.of(Type.INT_TYPE);
+//		default:
+//			break;
+//		}
+//		return clazz;
+//	}
 
 	static String toSimpleName(String name) {
 		int index = name.lastIndexOf('.');
@@ -385,13 +385,13 @@ class TypeUtils {
 		return Type.getType(clz);
 	}
 
-	static Type[] typeOf(Class<?>... classes) {
-		return every(Type.class, classes, c -> typeOf(c));
-	}
-
-	static Type[] typeOf(Clazz... classes) {
-		return every(Type.class, classes, c -> typeOf(c));
-	}
+//	static Type[] typeOf(Class<?>... classes) {
+//		return every(Type.class, classes, c -> typeOf(c));
+//	}
+//
+//	static Type[] typeOf(Clazz... classes) {
+//		return every(Type.class, classes, c -> typeOf(c));
+//	}
 
 //	static Type typeOf(Class<?> clz, boolean isarray) {
 //		return arrayOf(Type.getType(clz), isarray);
@@ -431,10 +431,10 @@ class TypeUtils {
 		if (name == null) return Type.VOID_TYPE;
 		return Type.getObjectType(name.replace('.', '/'));
 	}
-
-	static Type[] typeOf(String... classes) {
-		return every(Type.class, classes, c -> typeOf(c));
-	}
+//
+//	static Type[] typeOf(String... classes) {
+//		return every(Type.class, classes, c -> typeOf(c));
+//	}
 
 //	static Type typeOf(String name, boolean isarray) {
 //		return arrayOf(typeOf(name), isarray);
@@ -453,12 +453,12 @@ class TypeUtils {
 		return results;
 	}
 
-	public static <T, R> R[] every(Class<R> clazz, T[] list, Function<T, R> func) {
-		@SuppressWarnings("unchecked")
-		R[] results = (R[]) Array.newInstance(clazz, list.length);
-		for (int i = 0; i < list.length; i++) {
-			results[i] = func.apply(list[i]);
-		}
-		return results;
-	}
+//	public static <T, R> R[] every(Class<R> clazz, T[] list, Function<T, R> func) {
+//		@SuppressWarnings("unchecked")
+//		R[] results = (R[]) Array.newInstance(clazz, list.length);
+//		for (int i = 0; i < list.length; i++) {
+//			results[i] = func.apply(list[i]);
+//		}
+//		return results;
+//	}
 }

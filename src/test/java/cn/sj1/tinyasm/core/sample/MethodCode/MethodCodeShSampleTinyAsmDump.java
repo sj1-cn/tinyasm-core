@@ -75,6 +75,30 @@ public class MethodCodeShSampleTinyAsmDump {
 		code.STORE("l");
 
 		code.LINE();
+		code.LOAD("i");
+		code.LOADConst(10);
+		code.OR();
+		code.STORE("i");
+
+		code.LINE();
+		code.LOAD("i");
+		code.LOADConst(10);
+		code.AND();
+		code.STORE("i");
+
+		code.LINE();
+		code.LOAD("l");
+		code.LOADConst(Long.valueOf(10L));
+		code.OR();
+		code.STORE("l");
+
+		code.LINE();
+		code.LOAD("l");
+		code.LOADConst(Long.valueOf(10L));
+		code.AND();
+		code.STORE("l");
+
+		code.LINE();
 		code.RETURN();
 
 		code.END();

@@ -53,7 +53,7 @@ public class MyBankAccountBuilder {
 			mc.LOAD("amount");
 			mc.SPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", "onMoneyAdded").parameter(long.class).INVOKE();
 			mc.LINE(45);
-			mc.LOADConstByte(1);
+			mc.LOADConst(1);
 			mc.RETURNTop();
 		});
 	}
@@ -79,12 +79,12 @@ public class MyBankAccountBuilder {
 				mc.LOAD("amount");
 				mc.SPECIAL("com.nebula.cqrs.core.asm.MyBankAccount", "onMoneySubtracted").parameter(long.class).INVOKE();
 				mc.LINE(52);
-				mc.LOADConstByte(1);
+				mc.LOADConst(1);
 				mc.RETURNTop();
 
 				mc.LINE();
 				mc.visitLabel(ifEnd);
-				mc.LOADConstByte(0);
+				mc.LOADConst(0);
 				mc.RETURNTop();
 			});
 		}

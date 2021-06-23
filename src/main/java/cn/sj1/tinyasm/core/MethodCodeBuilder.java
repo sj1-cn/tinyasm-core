@@ -129,13 +129,13 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
-	public Type codeThisClassFieldType(String name) {
+	public Type staticFieldTypeOfThis(String name) {
 		assert mh.staticFields.containsKey(name) : "field + " + name + " not exist!";
 		return mh.staticFields.get(name).clazz.getType();
 	}
 
 	@Override
-	public Type codeThisFieldType(String name) {
+	public Type fieldTypeOfThis(String name) {
 		assert mh.thisMethod.isInstanceMethod;
 		assert mh.fields.containsKey(name) : "field + " + name + " not exist!";
 		return mh.fields.get(name).clazz.getType();
@@ -287,31 +287,31 @@ public class MethodCodeBuilder extends MethodCode {
 	}
 
 	@Override
-	public MethodCaller<MethodCode> STATIC(Clazz objectType, String methodName) {
+	public MethodCaller STATIC(Clazz objectType, String methodName) {
 		return new MethodCallerImpl(Opcodes.INVOKESTATIC, objectType, methodName);
 	}
 
 	@Override
-	public MethodCaller<MethodCode> INTERFACE(Clazz objectType, String methodName) {
+	public MethodCaller INTERFACE(Clazz objectType, String methodName) {
 		return new MethodCallerImpl(Opcodes.INVOKEINTERFACE, objectType, methodName);
 	}
 
 	@Override
-	public MethodCaller<MethodCode> SPECIAL(Clazz objectType, String methodName) {
+	public MethodCaller SPECIAL(Clazz objectType, String methodName) {
 		return new MethodCallerImpl(Opcodes.INVOKESPECIAL, Clazz.of(objectType), methodName);
 	}
 
 	@Override
-	public MethodCaller<MethodCode> VIRTUAL(Clazz objectType, String methodName) {
+	public MethodCaller VIRTUAL(Clazz objectType, String methodName) {
 		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, objectType, methodName);
 	}
 
 	//	@Override
-	//	public MethodCaller<MethodCode> VIRTUAL(String methodName) {
+	//	public MethodCaller VIRTUAL(String methodName) {
 	//		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, Clazz.of(this.mh.thisMethod.clazzType), methodName);
 	//	}
 
-	class LAMBDAImpl extends MethodCallerImpl implements MethodCaller<MethodCode> {
+	class LAMBDAImpl extends MethodCallerImpl implements LamdaMethodCaller {
 		List<Clazz> params = new ArrayList<>();
 		Clazz returnClazz;
 
@@ -329,16 +329,17 @@ public class MethodCodeBuilder extends MethodCode {
 		}
 
 		@Override
-		public MethodCaller<MethodCode> parameter(Clazz clazz) {
+		public MethodCaller parameter(Clazz clazz) {
 			params.add(clazz);
 			return this;
 		}
 
 		@Override
-		public MethodCaller<MethodCode> return_(Clazz clazz) {
+		public MethodCaller return_(Clazz clazz) {
 			returnClazz = clazz;
 			return this;
 		}
+
 
 		@Override
 		public void INVOKE() {
@@ -384,7 +385,7 @@ public class MethodCodeBuilder extends MethodCode {
 
 	}
 
-	class MethodCallerImpl implements MethodCaller<MethodCode> {
+	class MethodCallerImpl implements MethodCaller {
 		List<Clazz> params = new ArrayList<>();
 		Clazz returnClazz;
 
@@ -400,13 +401,13 @@ public class MethodCodeBuilder extends MethodCode {
 		}
 
 		@Override
-		public MethodCaller<MethodCode> parameter(Clazz clazz) {
+		public MethodCaller parameter(Clazz clazz) {
 			params.add(clazz);
 			return this;
 		}
 
 		@Override
-		public MethodCaller<MethodCode> return_(Clazz clazz) {
+		public MethodCaller return_(Clazz clazz) {
 			returnClazz = clazz;
 			return this;
 		}
@@ -417,7 +418,7 @@ public class MethodCodeBuilder extends MethodCode {
 		}
 
 		@Override
-		public MethodCaller<MethodCode> LAMBDA(String targetClazz, String targetMethodName) {
+		public LamdaMethodCaller LAMBDA(String targetClazz, String targetMethodName) {
 			String[] genericParameterClazz = {};
 			return new LAMBDAImpl(this.opcode, this, Clazz.of(targetClazz, genericParameterClazz), targetMethodName);
 		}

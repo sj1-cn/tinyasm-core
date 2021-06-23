@@ -22,24 +22,24 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		ClassBody classBody = ClassBuilder.class_(className)
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
-		classBody.private_().field("z", Clazz.of(boolean.class));
-		classBody.private_().field("b", Clazz.of(byte.class));
-		classBody.private_().field("c", Clazz.of(char.class));
-		classBody.private_().field("s", Clazz.of(short.class));
-		classBody.private_().field("i", Clazz.of(int.class));
-		classBody.private_().field("l", Clazz.of(long.class));
-		classBody.private_().field("f", Clazz.of(float.class));
-		classBody.private_().field("d", Clazz.of(double.class));
-		classBody.private_().field("str", Clazz.of(String.class));
-		classBody.private_().field("za", Clazz.of(boolean[].class));
-		classBody.private_().field("ba", Clazz.of(byte[].class));
-		classBody.private_().field("ca", Clazz.of(char[].class));
-		classBody.private_().field("sa", Clazz.of(short[].class));
-		classBody.private_().field("ia", Clazz.of(int[].class));
-		classBody.private_().field("la", Clazz.of(long[].class));
-		classBody.private_().field("fa", Clazz.of(float[].class));
-		classBody.private_().field("da", Clazz.of(double[].class));
-		classBody.private_().field("stra", Clazz.of(String[].class));
+		classBody.field("z", Clazz.of(boolean.class));
+		classBody.field("b", Clazz.of(byte.class));
+		classBody.field("c", Clazz.of(char.class));
+		classBody.field("s", Clazz.of(short.class));
+		classBody.field("i", Clazz.of(int.class));
+		classBody.field("l", Clazz.of(long.class));
+		classBody.field("f", Clazz.of(float.class));
+		classBody.field("d", Clazz.of(double.class));
+		classBody.field("str", Clazz.of(String.class));
+		classBody.field("za", Clazz.of(boolean[].class));
+		classBody.field("ba", Clazz.of(byte[].class));
+		classBody.field("ca", Clazz.of(char[].class));
+		classBody.field("sa", Clazz.of(short[].class));
+		classBody.field("ia", Clazz.of(int[].class));
+		classBody.field("la", Clazz.of(long[].class));
+		classBody.field("fa", Clazz.of(float[].class));
+		classBody.field("da", Clazz.of(double[].class));
+		classBody.field("stra", Clazz.of(String[].class));
 		__init_(classBody);
 		_getAll(classBody);
 
@@ -107,8 +107,16 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LOADConst(1);
 		code.ARRAYSTORE();
 		code.DUP();
+		code.LOADConst(1);
+		code.LOADConst(0);
+		code.ARRAYSTORE();
+		code.DUP();
 		code.LOADConst(2);
 		code.LOADConst(1);
+		code.ARRAYSTORE();
+		code.DUP();
+		code.LOADConst(3);
+		code.LOADConst(0);
 		code.ARRAYSTORE();
 		code.PUTFIELD("za", boolean[].class);
 
@@ -319,8 +327,6 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LOADConst("str5");
 		code.ARRAYSTORE();
 		code.PUTFIELD("stra", String[].class);
-
-		code.LINE();
 		code.RETURN();
 
 		code.END();
@@ -422,14 +428,14 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.LOAD("z");
-		Label label19OfIFEQ = new Label();
-		code.IFEQ(label19OfIFEQ);
-		code.LOADConst(0);
+		Label label19OfIFNE = new Label();
+		code.IFNE(label19OfIFNE);
+		code.LOADConst(1);
 		Label label20OfGOTO = new Label();
 		code.GOTO(label20OfGOTO);
 
-		code.visitLabel(label19OfIFEQ);
-		code.LOADConst(1);
+		code.visitLabel(label19OfIFNE);
+		code.LOADConst(0);
 
 		code.visitLabel(label20OfGOTO);
 		code.PUTFIELD("z", boolean.class);
@@ -490,11 +496,10 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LOAD("this");
 		code.NEW(StringBuilder.class);
 		code.DUP();
+		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
 		code.LOAD("str");
-		code.STATIC(String.class, "valueOf")
-			.return_(String.class)
-			.parameter(Object.class).INVOKE();
-		code.SPECIAL(StringBuilder.class, "<init>")
+		code.VIRTUAL(StringBuilder.class, "append")
+			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOADConst(1);
 		code.VIRTUAL(StringBuilder.class, "append")
@@ -601,14 +606,14 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LOAD("za");
 		code.LOADConst(0);
 		code.ARRAYLOAD();
-		Label label48OfIFEQ = new Label();
-		code.IFEQ(label48OfIFEQ);
-		code.LOADConst(0);
+		Label label48OfIFNE = new Label();
+		code.IFNE(label48OfIFNE);
+		code.LOADConst(1);
 		Label label49OfGOTO = new Label();
 		code.GOTO(label49OfGOTO);
 
-		code.visitLabel(label48OfIFEQ);
-		code.LOADConst(1);
+		code.visitLabel(label48OfIFNE);
+		code.LOADConst(0);
 
 		code.visitLabel(label49OfGOTO);
 		code.ARRAYSTORE();
@@ -699,13 +704,12 @@ public class MethodCodeFieldSampleTinyAsmDump {
 		code.LOADConst(0);
 		code.NEW(StringBuilder.class);
 		code.DUP();
+		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
 		code.LOAD("stra");
 		code.LOADConst(0);
 		code.ARRAYLOAD();
-		code.STATIC(String.class, "valueOf")
-			.return_(String.class)
-			.parameter(Object.class).INVOKE();
-		code.SPECIAL(StringBuilder.class, "<init>")
+		code.VIRTUAL(StringBuilder.class, "append")
+			.return_(StringBuilder.class)
 			.parameter(String.class).INVOKE();
 		code.LOADConst(1);
 		code.VIRTUAL(StringBuilder.class, "append")

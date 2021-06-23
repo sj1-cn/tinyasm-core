@@ -34,36 +34,36 @@ public class BoxUnbox {
 		return ClassObjectToUnboxFunc.get(primaryClazz);
 	}
 
-	static Consumer<MethodCode> checkcastAndUnbox(final Type objectClazz) {
-		final Type primaryClazz = ClazzObjectToPrimitive.get(objectClazz);
-		if (primaryClazz != null) {
-			return m -> {
-				m.CHECKCAST(objectClazz);
-				ClassObjectToUnboxFunc.get(objectClazz).accept(m);
-			};
-		} else {
-			return m -> {
-				if (objectClazz.getSort() == Type.OBJECT) m.CHECKCAST(objectClazz);
-			};
-		}
-	}
-
-	public static Consumer<MethodCode> unboxToWhenNeed(final Class<?> primaryClazz) {
-		return unboxToWhenNeed(typeOf(primaryClazz));
-	}
-	public static Consumer<MethodCode> unboxToWhenNeed(final Type primaryClazz) {
-		final Type objectClazz = PrimativeToClazzObject.get(primaryClazz);
-		if (objectClazz != null) {
-			return m -> {
-				m.CHECKCAST(objectClazz);
-				ClassObjectToUnboxFunc.get(objectClazz).accept(m);
-			};
-		} else {
-			return m -> {
-				m.CHECKCAST(primaryClazz);
-			};
-		}
-	}
+//	static Consumer<MethodCode> checkcastAndUnbox(final Type objectClazz) {
+//		final Type primaryClazz = ClazzObjectToPrimitive.get(objectClazz);
+//		if (primaryClazz != null) {
+//			return m -> {
+//				m.CHECKCAST(objectClazz);
+//				ClassObjectToUnboxFunc.get(objectClazz).accept(m);
+//			};
+//		} else {
+//			return m -> {
+//				if (objectClazz.getSort() == Type.OBJECT) m.CHECKCAST(objectClazz);
+//			};
+//		}
+//	}
+//
+//	public static Consumer<MethodCode> unboxToWhenNeed(final Class<?> primaryClazz) {
+//		return unboxToWhenNeed(typeOf(primaryClazz));
+//	}
+//	public static Consumer<MethodCode> unboxToWhenNeed(final Type primaryClazz) {
+//		final Type objectClazz = PrimativeToClazzObject.get(primaryClazz);
+//		if (objectClazz != null) {
+//			return m -> {
+//				m.CHECKCAST(objectClazz);
+//				ClassObjectToUnboxFunc.get(objectClazz).accept(m);
+//			};
+//		} else {
+//			return m -> {
+//				m.CHECKCAST(primaryClazz);
+//			};
+//		}
+//	}
 
 	static {
 		register(Character.class, char.class, mv -> {
