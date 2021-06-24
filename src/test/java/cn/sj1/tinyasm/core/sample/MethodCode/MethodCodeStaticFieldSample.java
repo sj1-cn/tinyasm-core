@@ -1,15 +1,15 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
 
 public class MethodCodeStaticFieldSample {
-	static boolean z = true;
-	static byte b = 1;
-	static char c = 1;
-	static short s = 1;
-	static int i = 1;
-	static long l = 1l;
-	static float f = 1f;
-	static double d = 1d;
-	static String str = "str";
+	public static boolean z = true;
+	public static byte b = 1;
+	public static char c = 1;
+	public static short s = 1;
+	public static int i = 1;
+	public static long l = 1l;
+	public static float f = 1f;
+	public static double d = 1d;
+	public static String str = "str";
 
 	static boolean[] za = new boolean[] { true, false, true, false };
 	static byte[] ba = new byte[] { 1, 2, 3, 4, 5 };

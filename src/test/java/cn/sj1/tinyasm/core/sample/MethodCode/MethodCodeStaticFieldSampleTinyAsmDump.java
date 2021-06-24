@@ -23,15 +23,15 @@ public class MethodCodeStaticFieldSampleTinyAsmDump {
 		ClassBody classBody = ClassBuilder.class_(className)
 				.access(ACC_PUBLIC | ACC_SUPER).body();
 
-		classBody.staticField(ACC_STATIC, "z", Clazz.of(boolean.class));
-		classBody.staticField(ACC_STATIC, "b", Clazz.of(byte.class));
-		classBody.staticField(ACC_STATIC, "c", Clazz.of(char.class));
-		classBody.staticField(ACC_STATIC, "s", Clazz.of(short.class));
-		classBody.staticField(ACC_STATIC, "i", Clazz.of(int.class));
-		classBody.staticField(ACC_STATIC, "l", Clazz.of(long.class));
-		classBody.staticField(ACC_STATIC, "f", Clazz.of(float.class));
-		classBody.staticField(ACC_STATIC, "d", Clazz.of(double.class));
-		classBody.staticField(ACC_STATIC, "str", Clazz.of(String.class));
+		classBody.staticField("z", Clazz.of(boolean.class));
+		classBody.staticField("b", Clazz.of(byte.class));
+		classBody.staticField("c", Clazz.of(char.class));
+		classBody.staticField("s", Clazz.of(short.class));
+		classBody.staticField("i", Clazz.of(int.class));
+		classBody.staticField("l", Clazz.of(long.class));
+		classBody.staticField("f", Clazz.of(float.class));
+		classBody.staticField("d", Clazz.of(double.class));
+		classBody.staticField("str", Clazz.of(String.class));
 		classBody.staticField(ACC_STATIC, "za", Clazz.of(boolean[].class));
 		classBody.staticField(ACC_STATIC, "ba", Clazz.of(byte[].class));
 		classBody.staticField(ACC_STATIC, "ca", Clazz.of(char[].class));
