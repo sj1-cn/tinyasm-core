@@ -1,5 +1,7 @@
 package cn.sj1.tinyasm.core;
 
+import org.objectweb.asm.Type;
+
 public interface WithInvoke {
 
 	default MethodCaller STATIC(Class<?> objectType, String methodName) {
@@ -45,5 +47,19 @@ public interface WithInvoke {
 	MethodCaller VIRTUAL(String methodName);
 
 	MethodCaller SPECIAL(String methodName);
+
+	default MethodCallerAfterDynamic DYNAMIC(String objectType, String methodName) {
+		return DYNAMIC(Clazz.of(objectType), methodName);
+	}
+
+	default MethodCallerAfterDynamic DYNAMIC(Class<?> objectType, String methodName) {
+		return DYNAMIC(Clazz.of(objectType), methodName);
+	}
+
+	default MethodCallerAfterDynamic DYNAMIC(Type objectType, String methodName) {
+		return DYNAMIC(Clazz.of(objectType), methodName);
+	}
+
+	MethodCallerAfterDynamic DYNAMIC(Clazz objectType, String methodName);
 
 }

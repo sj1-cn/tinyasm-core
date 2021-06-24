@@ -59,10 +59,4 @@ public interface MethodCaller {
 	}
 
 	void INVOKE();
-
-	default LamdaMethodCaller LAMBDA(Class<?> objectType, String methodName) {
-		return LAMBDA(objectType.getName(), methodName);
-	}
-
-	LamdaMethodCaller LAMBDA(String objectType, String methodName);
 }

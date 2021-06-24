@@ -1092,8 +1092,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke, WithDefin
 		return VIRTUAL(Clazz.of(typeOfThis()), methodName);
 	}
 
-	@Override
-	public MethodCaller DYNAMIC(String methodName) {
+	public MethodCallerAfterDynamic DYNAMIC(String methodName) {
 		return DYNAMIC(Clazz.of(typeOfThis()), methodName);
 	}
 

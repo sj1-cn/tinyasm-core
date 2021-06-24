@@ -30,9 +30,9 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
 
 		__init_(classBody);
-		_exec(classBody);
+		_exec2(classBody, className);
 		_method(classBody);
-		_lambda$0(classBody);
+		_lambda$exec2$0(classBody);
 
 		return classBody.end().toByteArray();
 	}
@@ -48,20 +48,13 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 		code.END();
 	}
 
-	protected void _exec(ClassBody classBody) {
-		MethodCode code = classBody.public_().method("exec").begin();
+	protected void _exec2(ClassBody classBody, String className) {
+		MethodCode code = classBody.public_().method("exec2")
+				.parameter("profix", String.class).begin();
 
 		code.LINE();
-		//		code.LOAD("this");
-		//		code.visitInvokeDynamicInsn("apply", "()Ljava/util/function/Function;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)Ljava/lang/Object;"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/sample/MethodCode/MethodCodeMethodCallerLAMBDASample", "lambda$0", "(Ljava/lang/String;)Ljava/lang/String;", false), Type.getType("(Ljava/lang/String;)Ljava/lang/String;")});
-
-		//		((LamdaMethodCaller) 
-		code.DYNAMIC("lambda$exec$0").parameter(String.class).return_(String.class)
-				.LAMBDA(Function.class, "apply")
-				.parameter(Object.class).return_(Object.class)
-				//						.lamdaType(Function.class)
-				.INVOKE();
-
+		code.LOAD("profix");
+		code.DYNAMIC(className, "lambda$exec2$0").parameter(String.class).parameter(String.class).return_(String.class).LAMBDA(Function.class, "apply").parameter(Object.class).return_(Object.class).INVOKE();
 		code.STORE("func", Clazz.of(Function.class, Clazz.of(String.class), Clazz.of(String.class)));
 
 		code.LINE();
@@ -70,7 +63,6 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 		code.VIRTUAL("method")
 				.parameter(Function.class).INVOKE();
 
-		//		code.POP();
 		code.LINE();
 		code.RETURN();
 
@@ -103,12 +95,20 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 		code.END();
 	}
 
-	protected void _lambda$0(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$exec$0")
+	protected void _lambda$exec2$0(ClassBody classBody) {
+		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$exec2$0")
 				.return_(String.class)
-				.parameter("s", String.class).begin();
+				.parameter(ACC_FINAL | ACC_SYNTHETIC, "profix", String.class)
+				.parameter(ACC_SYNTHETIC, "s", String.class).begin();
 
 		code.LINE();
+		code.NEW(StringBuilder.class);
+		code.DUP();
+		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
+		code.LOAD("profix");
+		code.VIRTUAL(StringBuilder.class, "append")
+				.return_(StringBuilder.class)
+				.parameter(String.class).INVOKE();
 		code.LOAD("s");
 		code.LOADConst(0);
 		code.LOADConst(2);
@@ -116,6 +116,11 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 				.return_(String.class)
 				.parameter(int.class)
 				.parameter(int.class).INVOKE();
+		code.VIRTUAL(StringBuilder.class, "append")
+				.return_(StringBuilder.class)
+				.parameter(String.class).INVOKE();
+		code.VIRTUAL(StringBuilder.class, "toString")
+				.return_(String.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();

@@ -309,57 +309,102 @@ public class MethodCodeBuilder extends MethodCode {
 		return new MethodCallerAfterDynamicImpl(objectType, methodName);
 	}
 
-	class MethodCallerAfterDynamicImpl extends MethodCallerImpl implements MethodCallerAfterDynamic {
-		public MethodCallerAfterDynamicImpl(Clazz resideClazz, String methodName) {
-			super(0, resideClazz, methodName);
-		}
-	}
-
-	class LAMBDAImpl extends MethodCallerImpl implements LamdaMethodCaller {
+	class MethodCallerAfterDynamicImpl implements MethodCallerAfterDynamic {
 		List<Clazz> params = new ArrayList<>();
 		Clazz returnClazz;
 
-		final int opcode;
 		final Clazz resideClazz;
 		final String methodName;
-		final MethodCallerImpl lamdaMethod;
 
-		public LAMBDAImpl(int opcode, MethodCallerImpl targetMethod, Clazz resideClazz, String methodName) {
-			super(opcode, resideClazz, methodName);
-			this.opcode = opcode;
+		public MethodCallerAfterDynamicImpl(Clazz resideClazz, String methodName) {
+			super();
 			this.resideClazz = resideClazz;
 			this.methodName = methodName;
-			this.lamdaMethod = targetMethod;
 		}
 
 		@Override
-		public MethodCaller parameter(Clazz clazz) {
+		public MethodCallerAfterDynamic parameter(Clazz clazz) {
 			params.add(clazz);
 			return this;
 		}
 
 		@Override
-		public MethodCaller return_(Clazz clazz) {
+		public MethodCallerAfterDynamic return_(Clazz clazz) {
+			returnClazz = clazz;
+			return this;
+		}
+
+		@Override
+		public LamdaMethodCaller LAMBDA(String targetClazz, String targetMethodName) {
+			String[] genericParameterClazz = {};
+			return new LAMBDAImpl(this, Clazz.of(targetClazz, genericParameterClazz), targetMethodName);
+		}
+	}
+
+	class LAMBDAImpl implements LamdaMethodCaller {
+		List<Clazz> params = new ArrayList<>();
+		Clazz returnClazz;
+
+		final Clazz dynamicClazz;
+		final String methodName;
+		final MethodCallerAfterDynamicImpl lamdaMethod;
+
+		public LAMBDAImpl(MethodCallerAfterDynamicImpl targetMethod, Clazz resideClazz, String methodName) {
+			//			super(0, resideClazz, methodName);
+			this.dynamicClazz = resideClazz;
+			this.methodName = methodName;
+			this.lamdaMethod = targetMethod;
+		}
+
+		@Override
+		public LamdaMethodCaller parameter(Clazz clazz) {
+			params.add(clazz);
+			return this;
+		}
+
+		@Override
+		public LamdaMethodCaller return_(Clazz clazz) {
 			returnClazz = clazz;
 			return this;
 		}
 
 		@Override
 		public void INVOKE() {
-			String dyncDescriptor = Type.getMethodDescriptor(typeOf(resideClazz));// "()Ljava/util/function/Function;";
-			String dyncName = this.methodName;
-			String dyncMethodDescriptor = Type.getMethodDescriptor(typeOf(returnClazz), typesOf(this.params));
 
+			//			methodVisitor.visitInvokeDynamicInsn("apply", "(Ljava/lang/String;)Ljava/util/function/Function;", 
+			//new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), 
+			//new Object[]{Type.getType("(Ljava/lang/Object;)Ljava/lang/Object;"), 
+			//new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/sample/MethodCode/MethodCodeMethodCallerLAMBDASample", "lambda$exec2$0", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", false), 
+			//Type.getType("(Ljava/lang/String;)Ljava/lang/String;")});
 			String lamdaOwner = lamdaMethod.resideClazz.getType().getInternalName();// "cn/sj1/tinyasm/core/sample/MethodCode/MethodCodeMethodCallerLAMBDASample";
-			String lamdaMethodName = lamdaMethod.methodName;// "lambda$exec$0";
-			String lamdaMethodDescriptor = Type.getMethodDescriptor(typeOf(lamdaMethod.returnClazz), typesOf(lamdaMethod.params));//"(Ljava/lang/String;)Ljava/lang/String;";
+			String lamdaMethodName = lamdaMethod.methodName;// "lambda$exec2$0"
+			String lamdaMethodDescriptor = Type.getMethodDescriptor(typeOf(lamdaMethod.returnClazz), typesOf(lamdaMethod.params));// "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 
-			mv.visitInvokeDynamicInsn(dyncName, dyncDescriptor,
+			List<Clazz> dynamicImplParams = lamdaMethod.params.subList(0, lamdaMethod.params.size() - this.params.size());
+			List<Clazz> dynamicActualMethodMethodParams = lamdaMethod.params.subList(lamdaMethod.params.size() - this.params.size(), lamdaMethod.params.size());
+
+			String dynamicImplDescriptor = Type.getMethodDescriptor(typeOf(dynamicClazz), typesOf(dynamicImplParams));// (Ljava/lang/String;)Ljava/util/function/Function;;
+			String dynamicName = this.methodName; //"apply"
+			Type dynamicOriginalMethodDescriptor = Type.getMethodType(typeOf(returnClazz), typesOf(this.params));//Type.getType("(Ljava/lang/Object;)Ljava/lang/Object;"
+			Type dynamicActualMethodMethodDescripter = Type.getMethodType(typeOf(lamdaMethod.returnClazz), typesOf(dynamicActualMethodMethodParams));//Type.getType("(Ljava/lang/String;)Ljava/lang/String;")
+
+			//			mv.visitInvokeDynamicInsn(dyncName, dyncDescriptor,
+			//					new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory",
+			//							"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
+			//							false),
+			//					new Object[] { Type.getType(dyncMethodDescriptor), new Handle(Opcodes.H_INVOKESTATIC, lamdaOwner, lamdaMethodName, lamdaMethodDescriptor, false),
+			//							Type.getType(lamdaMethodDescriptor) });
+
+			mv.visitInvokeDynamicInsn(dynamicName,
+					dynamicImplDescriptor,
 					new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory",
 							"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
 							false),
-					new Object[] { Type.getType(dyncMethodDescriptor), new Handle(Opcodes.H_INVOKESTATIC, lamdaOwner, lamdaMethodName, lamdaMethodDescriptor, false),
-							Type.getType(lamdaMethodDescriptor) });
+					new Object[] {
+							dynamicOriginalMethodDescriptor,
+							new Handle(Opcodes.H_INVOKESTATIC, lamdaOwner, lamdaMethodName, lamdaMethodDescriptor, false),
+							dynamicActualMethodMethodDescripter });
+
 			//			mv.visitInvokeDynamicInsn(methodName, lambdaDescriptor, new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory",
 			//					"metafactory",
 			//					"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
@@ -377,7 +422,7 @@ public class MethodCodeBuilder extends MethodCode {
 			 * Type.getType("(Lorg/jdbi/v3/core/Handle;)Ljava/util/List;")});
 			 */
 
-			stackPush(typeOf(this.resideClazz));
+			stackPush(typeOf(this.dynamicClazz));
 		}
 
 	}
@@ -412,12 +457,6 @@ public class MethodCodeBuilder extends MethodCode {
 		@Override
 		public void INVOKE() {
 			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz), typeOf(returnClazz), methodName, typesOf(params));
-		}
-
-		@Override
-		public LamdaMethodCaller LAMBDA(String targetClazz, String targetMethodName) {
-			String[] genericParameterClazz = {};
-			return new LAMBDAImpl(this.opcode, this, Clazz.of(targetClazz, genericParameterClazz), targetMethodName);
 		}
 
 	}
