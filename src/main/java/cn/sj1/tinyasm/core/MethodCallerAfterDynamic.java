@@ -57,7 +57,7 @@ public interface MethodCallerAfterDynamic {
 		String[] genericParameterClazz = {};
 		return return_(Clazz.of(clazz, genericParameterClazz));
 	}
-	
+
 	MethodCallerAfterDynamic withThis();
 
 	//	void INVOKE();

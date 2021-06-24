@@ -12,12 +12,12 @@ public class ClazzSimple extends Clazz {
 	public ClazzSimple(Class<?> type) {
 		this.type = Type.getType(type);
 	}
-//
-//	public ClazzSimple(String name) {
-//		if (name == null) type = Type.VOID_TYPE;
-////		if (TypeUtils.primaryTypeMaps.containsKey(name)) type = TypeUtils.primaryTypeMaps.get(name);
-//		type = Type.getObjectType(name.replace('.', '/'));
-//	}
+	//
+	//	public ClazzSimple(String name) {
+	//		if (name == null) type = Type.VOID_TYPE;
+	////		if (TypeUtils.primaryTypeMaps.containsKey(name)) type = TypeUtils.primaryTypeMaps.get(name);
+	//		type = Type.getObjectType(name.replace('.', '/'));
+	//	}
 
 	@Override
 	public Type getType() {
@@ -43,7 +43,7 @@ public class ClazzSimple extends Clazz {
 	public String getDescriptor() {
 		return this.type.getDescriptor();
 	}
-	
+
 	@Override
 	public String signatureOf() {
 		return type.getDescriptor();

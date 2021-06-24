@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -20,7 +21,7 @@ public class MethodCodeArraySampleTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("za", Clazz.of(boolean[].class));
 		classBody.field("ba", Clazz.of(byte[].class));
@@ -510,7 +511,7 @@ public class MethodCodeArraySampleTinyAsmDump {
 		code.LOADConst(2);
 		code.LOADConst(10);
 		code.ARRAYSTORE();
-		code.STORE("lia",int[].class);
+		code.STORE("lia", int[].class);
 
 		code.LINE();
 		code.LOAD("lia");

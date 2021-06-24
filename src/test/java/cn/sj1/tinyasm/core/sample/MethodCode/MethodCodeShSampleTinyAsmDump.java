@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -20,7 +21,7 @@ public class MethodCodeShSampleTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
 		_getAll(classBody);
@@ -44,11 +45,11 @@ public class MethodCodeShSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOADConst(1);
-		code.STORE("i",int.class);
+		code.STORE("i", int.class);
 
 		code.LINE();
 		code.LOADConst(1L);
-		code.STORE("l",long.class);
+		code.STORE("l", long.class);
 
 		code.LINE();
 		code.LOAD("i");

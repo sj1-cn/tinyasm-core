@@ -31,7 +31,7 @@ public final class ClassSignatureDefaultVisitor extends SignatureVisitor {
 
 	ClassSignatureDefaultVisitor(int api) {
 		super(api);
-//		this.referedTypes = referedTypes;
+		//		this.referedTypes = referedTypes;
 	}
 
 	String header = "root";
@@ -156,7 +156,7 @@ public final class ClassSignatureDefaultVisitor extends SignatureVisitor {
 		list.add(holderClazz);
 		listStack.push(list);
 		list = holderClazz.getChildren();
-//		sb.set(null); = holderClazz;
+		//		sb.set(null); = holderClazz;
 
 		typeArgument = DEFAULT_TypeArgument;
 	}

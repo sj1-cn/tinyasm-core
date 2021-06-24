@@ -8,7 +8,7 @@ public class MethodCodeMathSample {
 	long l = 1l;
 	float f = 1f;
 	double d = 1d;
-	
+
 	byte b3 = 3;
 	char c3 = 3;
 	short s3 = 3;
@@ -16,10 +16,10 @@ public class MethodCodeMathSample {
 	long l3 = 3l;
 	float f3 = 3f;
 	double d3 = 3d;
-	
+
 	float f31 = 3.1f;
 	double d31 = 3.1d;
-	
+
 	byte b0 = 0;
 	char c0 = 0;
 	short s0 = 0;
@@ -27,9 +27,9 @@ public class MethodCodeMathSample {
 	long l1 = 0l;
 	float f1 = 0f;
 	double d1 = 0d;
-	
+
 	byte bn1 = -1;
-//	char cn1 = -1;
+	//	char cn1 = -1;
 	short sn1 = -1;
 	int in1 = -1;
 	long ln1 = -1l;
@@ -55,7 +55,7 @@ public class MethodCodeMathSample {
 		z = (int) i;
 		z = (int) f;
 		z = (int) d;
-		
+
 		z = (int) -b;
 		z = (int) -c;
 		z = (int) -s;
@@ -82,7 +82,7 @@ public class MethodCodeMathSample {
 		z = (byte) i;
 		z = (byte) f;
 		z = (byte) d;
-		
+
 		return z;
 	}
 
@@ -145,7 +145,7 @@ public class MethodCodeMathSample {
 		z = (char) d;
 		return z;
 	}
-	
+
 	public float mathFloat(float x, float y) {
 		float z;
 		z = (float) (x + y);
@@ -153,9 +153,9 @@ public class MethodCodeMathSample {
 		z = (float) (x - y);
 		z = (float) ((float) x / y);
 		z = (float) ((float) x % y);
-//		z = (float) (x & i);
-//		z = (float) (x | i);
-//		z = (float) (x ^ i);
+		//		z = (float) (x & i);
+		//		z = (float) (x | i);
+		//		z = (float) (x ^ i);
 
 		z = (float) b;
 		z = (float) c;
@@ -173,9 +173,9 @@ public class MethodCodeMathSample {
 		z = (double) (x - y);
 		z = (double) ((double) x / y);
 		z = (double) ((double) x % y);
-//		z = (double) (x & i);
-//		z = (double) (x | i);
-//		z = (double) (x ^ i);
+		//		z = (double) (x & i);
+		//		z = (double) (x | i);
+		//		z = (double) (x ^ i);
 
 		z = (double) b;
 		z = (double) c;

@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.util;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -20,7 +21,7 @@ public class SimpleSampleTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("i", Clazz.of(int.class));
 		__init_(classBody);
@@ -53,7 +54,7 @@ public class SimpleSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOADConst(1);
-		code.STORE("j",int.class);
+		code.STORE("j", int.class);
 
 		code.LINE();
 		code.LOAD("this");
@@ -70,7 +71,7 @@ public class SimpleSampleTinyAsmDump {
 
 	protected void _methodWith1Param(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("methodWith1Param")
-			.parameter("i",int.class).begin();
+				.parameter("i", int.class).begin();
 
 		code.LINE();
 		code.LOAD("this");

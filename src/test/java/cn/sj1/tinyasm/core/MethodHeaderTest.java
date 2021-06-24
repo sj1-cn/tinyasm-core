@@ -15,7 +15,7 @@ import cn.sj1.tinyasm.core.sample.ClassBody.MethodHeaderSample;
 import cn.sj1.tinyasm.tools.RefineCode;
 import cn.sj1.tinyasm.tools.TinyAsmTestUtils;
 
-public class MethodHeaderTest  {
+public class MethodHeaderTest {
 
 	String clazz = MethodHeaderSample.class.getName();
 
@@ -71,7 +71,7 @@ public class MethodHeaderTest  {
 			mv.RETURN();
 		});
 
-		String codeActual = RefineCode.excludeLocalVariable(TinyAsmTestUtils.toString(clazz,cw.end().toByteArray()));
+		String codeActual = RefineCode.excludeLocalVariable(TinyAsmTestUtils.toString(clazz, cw.end().toByteArray()));
 		String codeExpected = RefineCode.excludeLocalVariable(TinyAsmTestUtils.toString(clazz));
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -122,7 +122,7 @@ public class MethodHeaderTest  {
 		mv.RETURN();
 		mv.END();
 
-		String codeActual = RefineCode.excludeLocalVariable(TinyAsmTestUtils.toString(clazz,cw.end().toByteArray()));
+		String codeActual = RefineCode.excludeLocalVariable(TinyAsmTestUtils.toString(clazz, cw.end().toByteArray()));
 		String codeExpected = RefineCode.excludeLocalVariable(TinyAsmTestUtils.toString(clazz));
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -171,7 +171,7 @@ public class MethodHeaderTest  {
 			mv.RETURN();
 		});
 
-		String codeActual = RefineCode.excludeLocalVariable(TinyAsmTestUtils.toString(clazz,cw.end().toByteArray()));
+		String codeActual = RefineCode.excludeLocalVariable(TinyAsmTestUtils.toString(clazz, cw.end().toByteArray()));
 		String codeExpected = RefineCode.excludeLocalVariable(TinyAsmTestUtils.toString(clazz));
 		assertEquals("Code", codeExpected, codeActual);
 	}

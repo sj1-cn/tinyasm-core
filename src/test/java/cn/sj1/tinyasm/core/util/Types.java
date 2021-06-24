@@ -7,11 +7,11 @@ public interface Types {
 		return Type.getType(clazz);
 	}
 
-	public static  Type typeOf(String clazz) {
+	public static Type typeOf(String clazz) {
 		return Type.getType(clazz);
 	}
 
-	public static  Type typeOf(String clazz, boolean isArray) {
+	public static Type typeOf(String clazz, boolean isArray) {
 		Type type = Type.getType(clazz);
 		if (isArray) {
 			return Type.getType("[" + type.getDescriptor());
@@ -19,8 +19,8 @@ public interface Types {
 			return type;
 		}
 	}
-	
-	public static  Type typeOf(Class<?> clazz, boolean isArray) {
+
+	public static Type typeOf(Class<?> clazz, boolean isArray) {
 		Type type = Type.getType(clazz);
 		if (isArray) {
 			return Type.getType("[" + type.getDescriptor());

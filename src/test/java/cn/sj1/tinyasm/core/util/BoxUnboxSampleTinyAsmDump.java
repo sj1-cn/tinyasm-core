@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.util;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -20,7 +21,7 @@ public class BoxUnboxSampleTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("z", Clazz.of(boolean.class));
 		classBody.field("b", Clazz.of(byte.class));
@@ -103,11 +104,11 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("z", boolean.class);
 		code.STATIC(Boolean.class, "valueOf")
-			.return_(Boolean.class)
-			.parameter(boolean.class).INVOKE();
+				.return_(Boolean.class)
+				.parameter(boolean.class).INVOKE();
 		code.VIRTUAL("zFunc")
-			.return_(boolean.class)
-			.parameter(Boolean.class).INVOKE();
+				.return_(boolean.class)
+				.parameter(Boolean.class).INVOKE();
 		code.POP();
 
 		code.LINE();
@@ -115,11 +116,11 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("b", byte.class);
 		code.STATIC(Byte.class, "valueOf")
-			.return_(Byte.class)
-			.parameter(byte.class).INVOKE();
+				.return_(Byte.class)
+				.parameter(byte.class).INVOKE();
 		code.VIRTUAL("bFunc")
-			.return_(byte.class)
-			.parameter(Byte.class).INVOKE();
+				.return_(byte.class)
+				.parameter(Byte.class).INVOKE();
 		code.POP();
 
 		code.LINE();
@@ -127,11 +128,11 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("c", char.class);
 		code.STATIC(Character.class, "valueOf")
-			.return_(Character.class)
-			.parameter(char.class).INVOKE();
+				.return_(Character.class)
+				.parameter(char.class).INVOKE();
 		code.VIRTUAL("cFunc")
-			.return_(char.class)
-			.parameter(Character.class).INVOKE();
+				.return_(char.class)
+				.parameter(Character.class).INVOKE();
 		code.POP();
 
 		code.LINE();
@@ -139,11 +140,11 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("s", short.class);
 		code.STATIC(Short.class, "valueOf")
-			.return_(Short.class)
-			.parameter(short.class).INVOKE();
+				.return_(Short.class)
+				.parameter(short.class).INVOKE();
 		code.VIRTUAL("sFunc")
-			.return_(short.class)
-			.parameter(Short.class).INVOKE();
+				.return_(short.class)
+				.parameter(Short.class).INVOKE();
 		code.POP();
 
 		code.LINE();
@@ -151,11 +152,11 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("i", int.class);
 		code.STATIC(Integer.class, "valueOf")
-			.return_(Integer.class)
-			.parameter(int.class).INVOKE();
+				.return_(Integer.class)
+				.parameter(int.class).INVOKE();
 		code.VIRTUAL("iFunc")
-			.return_(int.class)
-			.parameter(Integer.class).INVOKE();
+				.return_(int.class)
+				.parameter(Integer.class).INVOKE();
 		code.POP();
 
 		code.LINE();
@@ -163,11 +164,11 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("l", long.class);
 		code.STATIC(Long.class, "valueOf")
-			.return_(Long.class)
-			.parameter(long.class).INVOKE();
+				.return_(Long.class)
+				.parameter(long.class).INVOKE();
 		code.VIRTUAL("lFunc")
-			.return_(long.class)
-			.parameter(Long.class).INVOKE();
+				.return_(long.class)
+				.parameter(Long.class).INVOKE();
 		code.POP();
 
 		code.LINE();
@@ -175,11 +176,11 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("f", float.class);
 		code.STATIC(Float.class, "valueOf")
-			.return_(Float.class)
-			.parameter(float.class).INVOKE();
+				.return_(Float.class)
+				.parameter(float.class).INVOKE();
 		code.VIRTUAL("fFunc")
-			.return_(float.class)
-			.parameter(Float.class).INVOKE();
+				.return_(float.class)
+				.parameter(Float.class).INVOKE();
 		code.POP();
 
 		code.LINE();
@@ -187,11 +188,11 @@ public class BoxUnboxSampleTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("d", double.class);
 		code.STATIC(Double.class, "valueOf")
-			.return_(Double.class)
-			.parameter(double.class).INVOKE();
+				.return_(Double.class)
+				.parameter(double.class).INVOKE();
 		code.VIRTUAL("dFunc")
-			.return_(double.class)
-			.parameter(Double.class).INVOKE();
+				.return_(double.class)
+				.parameter(Double.class).INVOKE();
 		code.POP();
 
 		code.LINE();
@@ -202,13 +203,13 @@ public class BoxUnboxSampleTinyAsmDump {
 
 	protected void _zFunc(ClassBody classBody) {
 		MethodCode code = classBody.method("zFunc")
-			.return_(boolean.class )
-			.parameter("oz",Boolean.class).begin();
+				.return_(boolean.class)
+				.parameter("oz", Boolean.class).begin();
 
 		code.LINE();
 		code.LOAD("oz");
 		code.VIRTUAL(Boolean.class, "booleanValue")
-			.return_(boolean.class).INVOKE();
+				.return_(boolean.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
@@ -216,13 +217,13 @@ public class BoxUnboxSampleTinyAsmDump {
 
 	protected void _bFunc(ClassBody classBody) {
 		MethodCode code = classBody.method("bFunc")
-			.return_(byte.class )
-			.parameter("ob",Byte.class).begin();
+				.return_(byte.class)
+				.parameter("ob", Byte.class).begin();
 
 		code.LINE();
 		code.LOAD("ob");
 		code.VIRTUAL(Byte.class, "byteValue")
-			.return_(byte.class).INVOKE();
+				.return_(byte.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
@@ -230,13 +231,13 @@ public class BoxUnboxSampleTinyAsmDump {
 
 	protected void _cFunc(ClassBody classBody) {
 		MethodCode code = classBody.method("cFunc")
-			.return_(char.class )
-			.parameter("oc",Character.class).begin();
+				.return_(char.class)
+				.parameter("oc", Character.class).begin();
 
 		code.LINE();
 		code.LOAD("oc");
 		code.VIRTUAL(Character.class, "charValue")
-			.return_(char.class).INVOKE();
+				.return_(char.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
@@ -244,13 +245,13 @@ public class BoxUnboxSampleTinyAsmDump {
 
 	protected void _sFunc(ClassBody classBody) {
 		MethodCode code = classBody.method("sFunc")
-			.return_(short.class )
-			.parameter("os",Short.class).begin();
+				.return_(short.class)
+				.parameter("os", Short.class).begin();
 
 		code.LINE();
 		code.LOAD("os");
 		code.VIRTUAL(Short.class, "shortValue")
-			.return_(short.class).INVOKE();
+				.return_(short.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
@@ -258,13 +259,13 @@ public class BoxUnboxSampleTinyAsmDump {
 
 	protected void _iFunc(ClassBody classBody) {
 		MethodCode code = classBody.method("iFunc")
-			.return_(int.class )
-			.parameter("oi",Integer.class).begin();
+				.return_(int.class)
+				.parameter("oi", Integer.class).begin();
 
 		code.LINE();
 		code.LOAD("oi");
 		code.VIRTUAL(Integer.class, "intValue")
-			.return_(int.class).INVOKE();
+				.return_(int.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
@@ -272,13 +273,13 @@ public class BoxUnboxSampleTinyAsmDump {
 
 	protected void _lFunc(ClassBody classBody) {
 		MethodCode code = classBody.method("lFunc")
-			.return_(long.class )
-			.parameter("ol",Long.class).begin();
+				.return_(long.class)
+				.parameter("ol", Long.class).begin();
 
 		code.LINE();
 		code.LOAD("ol");
 		code.VIRTUAL(Long.class, "longValue")
-			.return_(long.class).INVOKE();
+				.return_(long.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
@@ -286,13 +287,13 @@ public class BoxUnboxSampleTinyAsmDump {
 
 	protected void _fFunc(ClassBody classBody) {
 		MethodCode code = classBody.method("fFunc")
-			.return_(float.class )
-			.parameter("of",Float.class).begin();
+				.return_(float.class)
+				.parameter("of", Float.class).begin();
 
 		code.LINE();
 		code.LOAD("of");
 		code.VIRTUAL(Float.class, "floatValue")
-			.return_(float.class).INVOKE();
+				.return_(float.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();
@@ -300,13 +301,13 @@ public class BoxUnboxSampleTinyAsmDump {
 
 	protected void _dFunc(ClassBody classBody) {
 		MethodCode code = classBody.method("dFunc")
-			.return_(double.class )
-			.parameter("od",Double.class).begin();
+				.return_(double.class)
+				.parameter("od", Double.class).begin();
 
 		code.LINE();
 		code.LOAD("od");
 		code.VIRTUAL(Double.class, "doubleValue")
-			.return_(double.class).INVOKE();
+				.return_(double.class).INVOKE();
 		code.RETURNTop();
 
 		code.END();

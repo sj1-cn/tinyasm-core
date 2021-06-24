@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -20,7 +21,7 @@ public class MethodCodeControlSampleTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("b", Clazz.of(byte.class));
 		__init_(classBody);
@@ -56,9 +57,9 @@ public class MethodCodeControlSampleTinyAsmDump {
 
 	protected void _addInt(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addInt")
-			.return_(int.class )
-			.parameter("x",long.class)
-			.parameter("y",long.class).begin();
+				.return_(int.class)
+				.parameter("x", long.class)
+				.parameter("y", long.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -154,9 +155,9 @@ public class MethodCodeControlSampleTinyAsmDump {
 
 	protected void _addInt_float_float_int(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addInt")
-			.return_(int.class )
-			.parameter("x",float.class)
-			.parameter("y",float.class).begin();
+				.return_(int.class)
+				.parameter("x", float.class)
+				.parameter("y", float.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -252,9 +253,9 @@ public class MethodCodeControlSampleTinyAsmDump {
 
 	protected void _addInt_double_double_int(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addInt")
-			.return_(int.class )
-			.parameter("x",double.class)
-			.parameter("y",double.class).begin();
+				.return_(int.class)
+				.parameter("x", double.class)
+				.parameter("y", double.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -350,9 +351,9 @@ public class MethodCodeControlSampleTinyAsmDump {
 
 	protected void _addInt_int_int_int(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addInt")
-			.return_(int.class )
-			.parameter("x",int.class)
-			.parameter("y",int.class).begin();
+				.return_(int.class)
+				.parameter("x", int.class)
+				.parameter("y", int.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -442,8 +443,8 @@ public class MethodCodeControlSampleTinyAsmDump {
 
 	protected void _addInt_int_int(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addInt")
-			.return_(int.class )
-			.parameter("x",int.class).begin();
+				.return_(int.class)
+				.parameter("x", int.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -527,9 +528,9 @@ public class MethodCodeControlSampleTinyAsmDump {
 
 	protected void _addInt_String_String_int(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addInt")
-			.return_(int.class )
-			.parameter("x",String.class)
-			.parameter("y",String.class).begin();
+				.return_(int.class)
+				.parameter("x", String.class)
+				.parameter("y", String.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -567,9 +568,9 @@ public class MethodCodeControlSampleTinyAsmDump {
 
 	protected void _add_instance(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("add_instance")
-			.return_(int.class )
-			.parameter("x",String.class)
-			.parameter("y",String.class).begin();
+				.return_(int.class)
+				.parameter("x", String.class)
+				.parameter("y", String.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -594,8 +595,8 @@ public class MethodCodeControlSampleTinyAsmDump {
 
 	protected void _addByte(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("addByte")
-			.return_(byte.class )
-			.parameter("o",Object.class).begin();
+				.return_(byte.class)
+				.parameter("o", Object.class).begin();
 
 		code.LINE();
 		code.LOAD("o");
@@ -623,7 +624,7 @@ public class MethodCodeControlSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOADConst(1);
-		code.STORE("z",boolean.class);
+		code.STORE("z", boolean.class);
 
 		code.LINE();
 		code.LOAD("z");

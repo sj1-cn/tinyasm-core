@@ -26,16 +26,16 @@ public class ClassBodyStaticFieldTest {
 	public void tearDown() throws Exception {
 	}
 
-//	@Test
-//	public void testParameterStaticSample_dumpTinyAsm() throws Exception {
-//		Class<?> expectedClazz = ParameterStaticSample.class;
-//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-//
-//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
-//
-//		assertEquals("Code", codeExpected, codeActual);
-//
-//	}
+	//	@Test
+	//	public void testParameterStaticSample_dumpTinyAsm() throws Exception {
+	//		Class<?> expectedClazz = ParameterStaticSample.class;
+	//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+	//
+	//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
+	//
+	//		assertEquals("Code", codeExpected, codeActual);
+	//
+	//	}
 
 	@Test
 	public void testMath() throws Exception {
@@ -60,7 +60,7 @@ public class ClassBodyStaticFieldTest {
 
 		cw.constructerEmpty();
 
-//		Opcodes.NULL
+		//		Opcodes.NULL
 		cw.privateStaticMethod(String.class, "annotationMethod").static_().annotation(TestAnnotation.class).code(mv -> {
 			mv.LINE();
 
@@ -129,6 +129,5 @@ public class ClassBodyStaticFieldTest {
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
-
 
 }

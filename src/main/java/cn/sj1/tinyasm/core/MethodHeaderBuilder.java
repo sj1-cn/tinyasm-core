@@ -158,7 +158,7 @@ class MethodHeaderBuilder implements MethodHeader {
 				needSignature |= returnClazz.needSignature();
 				sb.append(returnClazz.signatureOf());
 				String signatureFromParameter = sb.toString();
- 
+
 				if (needSignature) {
 					signature = signatureFromParameter;
 				}
@@ -250,7 +250,7 @@ class MethodHeaderBuilder implements MethodHeader {
 		if (!enteredMethodCode) {
 			enteredMethodCode = true;
 			methodCode = new MethodCodeBuilder(mv, this, mhLocals);
-//			TinyAsmBuilder.enterCode(methodCode);
+			//			TinyAsmBuilder.enterCode(methodCode);
 			return methodCode;
 		}
 		return null;
@@ -282,7 +282,7 @@ class MethodHeaderBuilder implements MethodHeader {
 
 	void end() {
 		exitMethod();
-//		if (!exited) TinyAsmBuilder.exitCode();
+		//		if (!exited) TinyAsmBuilder.exitCode();
 		exited = true;
 	}
 
@@ -328,34 +328,34 @@ class MethodHeaderBuilder implements MethodHeader {
 	}
 
 	//
-//	
-//	@Override
-//	public void makeBridgeMathod() {
-//
-//		MethodHeader mh = this.classVisitor.method(this.access | ACC_BRIDGE + ACC_SYNTHETIC, this.returnClazz.classname,
-//				this.thisMethod.name);
-//		for (GenericClazz exClazz : exceptions) {
-//			mh.tHrow(exClazz);
-//		}
-//		for (ClassField field : this.params) {
-//			mh.parameter(field.name, field.clazz.classname);
-//		}
-//		mh.code(mv -> {
-//			mv.LINE();
-//			mv.LOAD(0);
-//
-//			for (ClassField field : this.params) {
-//				mv.LOAD(field.name);
-//			}
-//			mv.VIRTUAL(this.classVisitor.getName(), this.thisMethod.name)
-//				.param(ClassField.genericOf(this.params.list()))
-//				.reTurn(this.returnClazz)
-//				.INVOKE();
-//			if (this.returnClazz != null) {
-//				mv.RETURNTop();
-//			} else {
-//				mv.RETURN();
-//			}
-//		});
-//	}
+	//	
+	//	@Override
+	//	public void makeBridgeMathod() {
+	//
+	//		MethodHeader mh = this.classVisitor.method(this.access | ACC_BRIDGE + ACC_SYNTHETIC, this.returnClazz.classname,
+	//				this.thisMethod.name);
+	//		for (GenericClazz exClazz : exceptions) {
+	//			mh.tHrow(exClazz);
+	//		}
+	//		for (ClassField field : this.params) {
+	//			mh.parameter(field.name, field.clazz.classname);
+	//		}
+	//		mh.code(mv -> {
+	//			mv.LINE();
+	//			mv.LOAD(0);
+	//
+	//			for (ClassField field : this.params) {
+	//				mv.LOAD(field.name);
+	//			}
+	//			mv.VIRTUAL(this.classVisitor.getName(), this.thisMethod.name)
+	//				.param(ClassField.genericOf(this.params.list()))
+	//				.reTurn(this.returnClazz)
+	//				.INVOKE();
+	//			if (this.returnClazz != null) {
+	//				mv.RETURNTop();
+	//			} else {
+	//				mv.RETURN();
+	//			}
+	//		});
+	//	}
 }

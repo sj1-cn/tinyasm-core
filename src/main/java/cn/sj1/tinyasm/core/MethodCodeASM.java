@@ -266,7 +266,7 @@ public interface MethodCodeASM {
 		NEWARRAY(typeOf(type));
 	}
 
-//	void ARRAYLENGTH(String array);
+	//	void ARRAYLENGTH(String array);
 
 	void ARRAYLENGTH();
 
@@ -595,6 +595,5 @@ public interface MethodCodeASM {
 	Type staticFieldTypeOfThis(String name);
 
 	Type fieldTypeOfThis(String name);
-
 
 }

@@ -32,7 +32,7 @@ public class ClassBodyGenericTest {
 				.implements_(Clazz.of(List.class, Annotation.class)).body();
 		String[] genericParameterClazz = { String.class.getName() };
 
-//		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
+		//		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
 		cw.private_().field("annotation", Clazz.of(List.class.getName(), genericParameterClazz));
 
 		cw.public_().method("<init>").code(mv -> {
@@ -76,7 +76,7 @@ public class ClassBodyGenericTest {
 			mv.RETURN();
 		});
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}
@@ -87,7 +87,7 @@ public class ClassBodyGenericTest {
 				.implements_(Clazz.of(List.class, Annotation.class)).body();
 		String[] genericParameterClazz = { String.class.getName() };
 
-//		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
+		//		cw.field(ACC_PRIVATE + ACC_FINAL + ACC_STATIC,"serialVersionUID",long.class.getName());
 		cw.private_().field("annotation", Clazz.of(List.class.getName(), genericParameterClazz));
 
 		cw.public_().method("<init>").code(mv -> {
@@ -131,7 +131,7 @@ public class ClassBodyGenericTest {
 			mv.RETURN();
 		});
 
-		String codeActual = TinyAsmTestUtils.toString(clazz,cw.end().toByteArray());
+		String codeActual = TinyAsmTestUtils.toString(clazz, cw.end().toByteArray());
 		String codeExpected = TinyAsmTestUtils.toString(clazz);
 		assertEquals("Code", codeExpected, codeActual);
 	}

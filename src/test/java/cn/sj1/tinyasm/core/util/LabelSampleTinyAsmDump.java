@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.util;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -22,7 +23,7 @@ public class LabelSampleTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
 		_t(classBody);
@@ -46,7 +47,7 @@ public class LabelSampleTinyAsmDump {
 
 		code.LINE();
 		code.LOADConst(10);
-		code.STORE("i",int.class);
+		code.STORE("i", int.class);
 
 		code.LINE();
 		code.LOAD("i");
@@ -63,7 +64,7 @@ public class LabelSampleTinyAsmDump {
 		code.GETSTATIC(System.class, "out", PrintStream.class);
 		code.LOADConst("ddd");
 		code.VIRTUAL(PrintStream.class, "println")
-			.parameter(String.class).INVOKE();
+				.parameter(String.class).INVOKE();
 
 		code.LINE();
 		code.RETURN();

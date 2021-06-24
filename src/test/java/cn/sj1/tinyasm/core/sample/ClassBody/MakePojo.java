@@ -79,16 +79,15 @@ public class MakePojo {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("MakePojo [b=").append(b)
-			.append(", c=").append(c)
-			.append(", s=").append(s)
-			.append(", i=").append(i)
-			.append(", l=").append(l)
-			.append(", f=").append(f)
-			.append(", d=").append(d)
-			.append(", str=").append(str)
-			.append("]");
+				.append(", c=").append(c)
+				.append(", s=").append(s)
+				.append(", i=").append(i)
+				.append(", l=").append(l)
+				.append(", f=").append(f)
+				.append(", d=").append(d)
+				.append(", str=").append(str)
+				.append("]");
 		return builder.toString();
 	}
-
 
 }

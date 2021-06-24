@@ -40,8 +40,8 @@ public class ClassSignatureDefaultVisitorTest {
 		assertEquals(null, classSignaturewwww.returnClazz);
 		assertEquals(0, classSignaturewwww.paramsClazzes.length);
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
-//		assertEquals(null, classSignaturewwww.superClazz);
-//		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
+		//		assertEquals(null, classSignaturewwww.superClazz);
+		//		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
 	}
 
 	@Test
@@ -58,8 +58,8 @@ public class ClassSignatureDefaultVisitorTest {
 
 		assertEquals(null, classSignaturewwww.returnClazz);
 		assertEquals(0, classSignaturewwww.paramsClazzes.length);
-//		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
-//		assertEquals(null, classSignaturewwww.superClazz);
+		//		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
+		//		assertEquals(null, classSignaturewwww.superClazz);
 		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
 	}
 
@@ -73,7 +73,7 @@ public class ClassSignatureDefaultVisitorTest {
 		assertEquals("TT;", classSignaturewwww.paramsClazzes[0].toString());
 
 		assertEquals("V", classSignaturewwww.returnClazz.toString());
-//		assertEquals(0, classSignaturewwww.paramsClazzes.length);
+		//		assertEquals(0, classSignaturewwww.paramsClazzes.length);
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
 		assertEquals(null, classSignaturewwww.superClazz);
 		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
@@ -90,8 +90,8 @@ public class ClassSignatureDefaultVisitorTest {
 		assertEquals("TT;", classSignaturewwww.paramsClazzes[0].toString());
 		assertEquals("Ljava/lang/String;", classSignaturewwww.paramsClazzes[1].toString());
 
-//		assertEquals(null, classSignaturewwww.returnClazz);
-//		assertEquals(0, classSignaturewwww.paramsClazzes.length);
+		//		assertEquals(null, classSignaturewwww.returnClazz);
+		//		assertEquals(0, classSignaturewwww.paramsClazzes.length);
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
 		assertEquals(null, classSignaturewwww.superClazz);
 		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
@@ -106,7 +106,7 @@ public class ClassSignatureDefaultVisitorTest {
 		classSignaturewwww.finish();
 		assertEquals("TT;", classSignaturewwww.returnClazz.toString());
 
-//		assertEquals(null, classSignaturewwww.returnClazz);
+		//		assertEquals(null, classSignaturewwww.returnClazz);
 		assertEquals(0, classSignaturewwww.paramsClazzes.length);
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
 		assertEquals(null, classSignaturewwww.superClazz);
@@ -123,7 +123,7 @@ public class ClassSignatureDefaultVisitorTest {
 		classSignaturewwww.finish();
 		assertEquals("[TT;", classSignaturewwww.returnClazz.toString());
 
-//		assertEquals(null, classSignaturewwww.returnClazz);
+		//		assertEquals(null, classSignaturewwww.returnClazz);
 		assertEquals("[TT;", classSignaturewwww.paramsClazzes[0].toString());
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
 		assertEquals(null, classSignaturewwww.superClazz);
@@ -139,15 +139,13 @@ public class ClassSignatureDefaultVisitorTest {
 		classSignaturewwww.finish();
 		assertEquals("Ljava/lang/Iterable<TS;>;", classSignaturewwww.returnClazz.toString());
 
-//		assertEquals(null, classSignaturewwww.returnClazz);
+		//		assertEquals(null, classSignaturewwww.returnClazz);
 		assertEquals("Ljava/lang/Iterable<TS;>;", classSignaturewwww.paramsClazzes[0].toString());
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
 		assertEquals(null, classSignaturewwww.superClazz);
 		assertEquals("S:Lcn/sj1/nebula/data/support/User;", classSignaturewwww.typeParamenterClazzes[0].toString());
 	}
-	
-	
-	
+
 	@Test
 	public void test_basetype() {
 		String signature = "(Ljava/util/Collection<*>;)Z";
@@ -157,7 +155,7 @@ public class ClassSignatureDefaultVisitorTest {
 		classSignaturewwww.finish();
 		assertEquals("Z", classSignaturewwww.returnClazz.toString());
 
-//		assertEquals(null, classSignaturewwww.returnClazz);
+		//		assertEquals(null, classSignaturewwww.returnClazz);
 		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].toString());
 		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].signatureOf());
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
@@ -165,7 +163,7 @@ public class ClassSignatureDefaultVisitorTest {
 		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
 	}
 	// <T:Ljava/lang/Object;>([TT;)[TT;
-//	
+	//	
 
 	@Test
 	public void test_basetypessssss() {
@@ -176,7 +174,7 @@ public class ClassSignatureDefaultVisitorTest {
 		classSignaturewwww.finish();
 		assertEquals("Z", classSignaturewwww.returnClazz.toString());
 
-//		assertEquals(null, classSignaturewwww.returnClazz);
+		//		assertEquals(null, classSignaturewwww.returnClazz);
 		assertEquals("I", classSignaturewwww.paramsClazzes[0].toString());
 		assertEquals("Ljava/util/Collection<+Lcn/sj1/tinyasm/core/hero/helperclass/PojoClassSample;>;",
 				classSignaturewwww.paramsClazzes[1].toString());
@@ -184,7 +182,7 @@ public class ClassSignatureDefaultVisitorTest {
 		assertTrue(((ClazzWithTypeArguments) classSignaturewwww.paramsClazzes[1]).getTypeArguments()[0] instanceof ClazzTypeArgument);
 		assertTrue(((ClazzTypeArgument) ((ClazzWithTypeArguments) classSignaturewwww.paramsClazzes[1])
 				.getTypeArguments()[0]).clazz instanceof ClazzSimple);
-//		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].signatureOf());
+		//		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].signatureOf());
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
 		assertEquals(null, classSignaturewwww.superClazz);
 		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
@@ -204,13 +202,13 @@ public class ClassSignatureDefaultVisitorTest {
 		f.setActualTypeArgument(Clazz.of(PojoSample.class));
 		clazzFormalTypeParameters.add(f);
 
-//		assertEquals(null, classSignaturewwww.returnClazz);
+		//		assertEquals(null, classSignaturewwww.returnClazz);
 		assertEquals("Ljava/util/function/Consumer;", classSignaturewwww.paramsClazzes[0].getDescriptor());
 		assertTrue(classSignaturewwww.paramsClazzes[0] instanceof ClazzWithTypeArguments);
 		assertEquals("Ljava/util/function/Consumer<-TE;>;", classSignaturewwww.paramsClazzes[0].signatureOf());
 		assertEquals("Ljava/util/function/Consumer<-Lcn/sj1/tinyasm/core/util/PojoSample;>;",
 				classSignaturewwww.paramsClazzes[0].signatureOf(clazzFormalTypeParameters));
-//		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].signatureOf());
+		//		assertEquals("Ljava/util/Collection<*>;", classSignaturewwww.paramsClazzes[0].signatureOf());
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
 		assertEquals(null, classSignaturewwww.superClazz);
 		assertEquals(0, classSignaturewwww.typeParamenterClazzes.length);
@@ -234,7 +232,7 @@ public class ClassSignatureDefaultVisitorTest {
 		f.setActualTypeArgument(Clazz.of(PojoSample.class));
 		clazzFormalTypeParameters.add(f);
 
-//		assertEquals(null, classSignaturewwww.returnClazz);
+		//		assertEquals(null, classSignaturewwww.returnClazz);
 		assertEquals(0, classSignaturewwww.paramsClazzes.length);
 		assertEquals(0, classSignaturewwww.interfaceClazzes.length);
 		assertEquals(null, classSignaturewwww.superClazz);

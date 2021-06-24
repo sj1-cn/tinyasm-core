@@ -31,8 +31,8 @@ public class MethodCodePopSample {
 		if (true) {
 			returnString();
 		}
-		if(true) {
-			
+		if (true) {
+
 		}
 	}
 

@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -26,7 +27,7 @@ public class MethedCodeInvokeSpecialTinyAsmDump {
 		classBody.staticField(ACC_STATIC, "methedCodeInvokeSpecial", Clazz.of(className));
 		__init_(classBody);
 		_getAll(classBody);
-		__clinit_(classBody,className);
+		__clinit_(classBody, className);
 
 		return classBody.end().toByteArray();
 	}
@@ -48,55 +49,55 @@ public class MethedCodeInvokeSpecialTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(MethodCodePopSample.class, "returnBoolean")
-			.return_(boolean.class).INVOKE();
+				.return_(boolean.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(MethodCodePopSample.class, "returnByte")
-			.return_(byte.class).INVOKE();
+				.return_(byte.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(MethodCodePopSample.class, "returnChar")
-			.return_(char.class).INVOKE();
+				.return_(char.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(MethodCodePopSample.class, "returnShort")
-			.return_(short.class).INVOKE();
+				.return_(short.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(MethodCodePopSample.class, "returnInt")
-			.return_(int.class).INVOKE();
+				.return_(int.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(MethodCodePopSample.class, "returnLong")
-			.return_(long.class).INVOKE();
+				.return_(long.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(MethodCodePopSample.class, "returnFloat")
-			.return_(float.class).INVOKE();
+				.return_(float.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(MethodCodePopSample.class, "returnDouble")
-			.return_(double.class).INVOKE();
+				.return_(double.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(MethodCodePopSample.class, "returnString")
-			.return_(String.class).INVOKE();
+				.return_(String.class).INVOKE();
 		code.POP();
 
 		code.LINE();
@@ -105,7 +106,7 @@ public class MethedCodeInvokeSpecialTinyAsmDump {
 		code.END();
 	}
 
-	protected void __clinit_(ClassBody classBody, String  className) {
+	protected void __clinit_(ClassBody classBody, String className) {
 		MethodCode code = classBody.staticMethod("<clinit>").begin();
 
 		code.LINE();

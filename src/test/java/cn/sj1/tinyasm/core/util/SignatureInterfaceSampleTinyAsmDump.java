@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.util;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -22,8 +23,8 @@ public class SignatureInterfaceSampleTinyAsmDump {
 	}
 
 	public byte[] build(String className) throws Exception {
-		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(Object.class),Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String[].class))),Clazz.of(Serializable.class))
-			.access(ACC_PUBLIC | ACC_ABSTRACT | ACC_INTERFACE).body();
+		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(Object.class),Clazz.of(Map.class, Clazz.of(String.class), Clazz.of(Map.class, Clazz.of(String.class), Clazz.of(String[].class))),Clazz.of(Serializable.class))
+				.access(ACC_PUBLIC | ACC_ABSTRACT | ACC_INTERFACE).body();
 
 		_mapStrngString(classBody);
 
@@ -32,9 +33,9 @@ public class SignatureInterfaceSampleTinyAsmDump {
 
 	protected void _mapStrngString(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PUBLIC | ACC_ABSTRACT, "mapStrngString")
-			.return_(Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)) )
-			.parameter("mapStrngString",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class)))
-			.parameter("mapStrngString2",Clazz.of(Map.class,Clazz.of(String.class),Clazz.of(String.class))).begin();
+				.return_(Clazz.of(Map.class, Clazz.of(String.class), Clazz.of(String.class)))
+				.parameter("mapStrngString", Clazz.of(Map.class, Clazz.of(String.class), Clazz.of(String.class)))
+				.parameter("mapStrngString2", Clazz.of(Map.class, Clazz.of(String.class), Clazz.of(String.class))).begin();
 
 		code.END();
 	}

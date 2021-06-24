@@ -49,23 +49,23 @@ public class ClazzWithTypeArguments extends Clazz {
 	@Override
 	public String getDescriptor(List<ClazzFormalTypeParameter> formalTypeParameters) {
 		return baseClazz.getDescriptor(formalTypeParameters);
-//		String signature = null;
-//		if (this.genericParameterClazz != null && genericParameterClazz.length > 0) {
-//			StringBuilder sb = new StringBuilder();
-//			sb.append("L");
-//
-//			if (baseClazz.getType().getSort() == Type.ARRAY) sb.append("[");
-//
-//			sb.append(baseClazz.getDescriptor(formalTypeParameters));
-//
-//			sb.append("<");
-//			for (Clazz signatureType : genericParameterClazz) {
-//				sb.append(signatureType.getDescriptor(formalTypeParameters));
-//			}
-//			sb.append(">;");
-//			signature = sb.toString();
-//		}
-//		return signature;
+		//		String signature = null;
+		//		if (this.genericParameterClazz != null && genericParameterClazz.length > 0) {
+		//			StringBuilder sb = new StringBuilder();
+		//			sb.append("L");
+		//
+		//			if (baseClazz.getType().getSort() == Type.ARRAY) sb.append("[");
+		//
+		//			sb.append(baseClazz.getDescriptor(formalTypeParameters));
+		//
+		//			sb.append("<");
+		//			for (Clazz signatureType : genericParameterClazz) {
+		//				sb.append(signatureType.getDescriptor(formalTypeParameters));
+		//			}
+		//			sb.append(">;");
+		//			signature = sb.toString();
+		//		}
+		//		return signature;
 	}
 
 	@Override
@@ -99,11 +99,10 @@ public class ClazzWithTypeArguments extends Clazz {
 				sb.append("[");
 				sb.append("L");
 				sb.append(baseClazz.getType().getElementType().getInternalName());
-			}else {
+			} else {
 				sb.append("L");
 				sb.append(baseClazz.getType().getInternalName());
 			}
-
 
 			sb.append("<");
 			for (Clazz signatureType : typeArguments) {

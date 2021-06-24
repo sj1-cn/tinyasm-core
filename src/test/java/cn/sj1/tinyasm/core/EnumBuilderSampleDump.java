@@ -16,7 +16,7 @@ public class EnumBuilderSampleDump implements Opcodes {
 		MethodVisitor mv;
 
 		cw.visit(52, ACC_PUBLIC + ACC_FINAL + ACC_SUPER + ACC_ENUM, "com/nebula/dropwizard/core/Status", "Ljava/lang/Enum<Lcom/nebula/dropwizard/core/Status;>;",
-		        "java/lang/Enum", null);
+				"java/lang/Enum", null);
 
 		cw.visitSource("Status.java", null);
 

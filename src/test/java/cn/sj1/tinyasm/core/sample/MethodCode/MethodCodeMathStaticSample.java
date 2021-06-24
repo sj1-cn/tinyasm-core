@@ -29,7 +29,7 @@ public class MethodCodeMathStaticSample {
 	static double d1 = 0d;
 
 	static byte bn1 = -1;
-//static char cn1 = -1;
+	//static char cn1 = -1;
 	static short sn1 = -1;
 	static int in1 = -1;
 	static long ln1 = -1l;
@@ -153,9 +153,9 @@ public class MethodCodeMathStaticSample {
 		z = (float) (x - y);
 		z = (float) ((float) x / y);
 		z = (float) ((float) x % y);
-//		z = (float) (x & i);
-//		z = (float) (x | i);
-//		z = (float) (x ^ i);
+		//		z = (float) (x & i);
+		//		z = (float) (x | i);
+		//		z = (float) (x ^ i);
 
 		z = (float) b;
 		z = (float) c;
@@ -173,9 +173,9 @@ public class MethodCodeMathStaticSample {
 		z = (double) (x - y);
 		z = (double) ((double) x / y);
 		z = (double) ((double) x % y);
-//		z = (double) (x & i);
-//		z = (double) (x | i);
-//		z = (double) (x ^ i);
+		//		z = (double) (x & i);
+		//		z = (double) (x | i);
+		//		z = (double) (x ^ i);
 
 		z = (double) b;
 		z = (double) c;

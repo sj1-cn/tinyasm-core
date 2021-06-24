@@ -71,7 +71,6 @@ public class Annotation {
 		return typeOf(clazz).getDescriptor();
 	}
 
-
 	public static void visitParameterAnnotation(MethodVisitor mv, int parameter, Annotation annotation) {
 		AnnotationVisitor av0 = mv.visitParameterAnnotation(parameter, annotation.getDescriptor(), true);
 		if (annotation.defaultValue != null) {
@@ -84,6 +83,7 @@ public class Annotation {
 		}
 		av0.visitEnd();
 	}
+
 	public static void visitAnnotation(FieldVisitor fv, Annotation annotation) {
 		AnnotationVisitor av0 = fv.visitAnnotation(annotation.getDescriptor(), true);
 		if (annotation.defaultValue != null) {
@@ -96,6 +96,7 @@ public class Annotation {
 		}
 		av0.visitEnd();
 	}
+
 	public static void visitAnnotation(ClassVisitor cv, Annotation annotation) {
 		AnnotationVisitor av0 = cv.visitAnnotation(annotation.getDescriptor(), true);
 		if (annotation.defaultValue != null) {
@@ -108,6 +109,7 @@ public class Annotation {
 		}
 		av0.visitEnd();
 	}
+
 	public static void visitAnnotation(MethodVisitor mv, Annotation annotation) {
 		AnnotationVisitor av0 = mv.visitAnnotation(annotation.getDescriptor(), true);
 		if (annotation.defaultValue != null) {

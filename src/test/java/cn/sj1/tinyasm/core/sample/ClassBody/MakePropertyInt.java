@@ -11,5 +11,4 @@ public class MakePropertyInt {
 		this.intvalue = intvalue;
 	}
 
-	
 }

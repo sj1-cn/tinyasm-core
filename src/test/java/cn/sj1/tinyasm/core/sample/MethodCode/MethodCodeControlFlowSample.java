@@ -129,7 +129,7 @@ public class MethodCodeControlFlowSample {
 		}
 		return b;
 	}
-	
+
 	public byte addByte(Object o) {
 		if (o == null) {
 			b = 10;

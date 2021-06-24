@@ -9,13 +9,13 @@ public class MakeIntPropertyGetSet {
 	private int nameWithAnnotationClazzNameValue;
 	private int nameWithAnnotationStringNameValue;
 
-//	public int getIntvalue() {
-//		return intvalue;
-//	}
-//
-//	public void setIntvalue(int intvalue) {
-//		this.intvalue = intvalue;
-//	}
+	//	public int getIntvalue() {
+	//		return intvalue;
+	//	}
+	//
+	//	public void setIntvalue(int intvalue) {
+	//		this.intvalue = intvalue;
+	//	}
 
 	public int getName() {
 		return name;
@@ -65,25 +65,24 @@ public class MakeIntPropertyGetSet {
 		this.nameWithAnnotationStringValue = nameWithAnnotationStringValue;
 	}
 
-	@TestAnnotation(name="@TestAnnotation>nameWithAnnotationClazzNameValue")
+	@TestAnnotation(name = "@TestAnnotation>nameWithAnnotationClazzNameValue")
 	public int getNameWithAnnotationClazzNameValue() {
 		return nameWithAnnotationClazzNameValue;
 	}
 
-	@TestAnnotation(name="@TestAnnotation>nameWithAnnotationClazzNameValue")
+	@TestAnnotation(name = "@TestAnnotation>nameWithAnnotationClazzNameValue")
 	public void setNameWithAnnotationClazzNameValue(int nameWithAnnotationClazzNameValue) {
 		this.nameWithAnnotationClazzNameValue = nameWithAnnotationClazzNameValue;
 	}
 
-	@TestAnnotation(name="@TestAnnotation>nameWithAnnotationStringNameValue")
+	@TestAnnotation(name = "@TestAnnotation>nameWithAnnotationStringNameValue")
 	public int getNameWithAnnotationStringNameValue() {
 		return nameWithAnnotationStringNameValue;
 	}
 
-	@TestAnnotation(name="@TestAnnotation>nameWithAnnotationStringNameValue")
+	@TestAnnotation(name = "@TestAnnotation>nameWithAnnotationStringNameValue")
 	public void setNameWithAnnotationStringNameValue(int nameWithAnnotationStringNameValue) {
 		this.nameWithAnnotationStringNameValue = nameWithAnnotationStringNameValue;
 	}
-
 
 }

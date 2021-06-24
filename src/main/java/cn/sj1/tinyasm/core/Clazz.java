@@ -171,7 +171,7 @@ public abstract class Clazz {
 	public static Type typeOf(String name) {
 		Type type;
 		if (name == null) type = Type.VOID_TYPE;
-//		if (TypeUtils.primaryTypeMaps.containsKey(name)) type = TypeUtils.primaryTypeMaps.get(name);
+		//		if (TypeUtils.primaryTypeMaps.containsKey(name)) type = TypeUtils.primaryTypeMaps.get(name);
 		type = Type.getObjectType(name.replace('.', '/'));
 		return type;
 	}
@@ -191,7 +191,7 @@ public abstract class Clazz {
 	public static ClazzTypeArgument typeArgument(char wildcard, Class<?> clazz) {
 		return new ClazzTypeArgument(wildcard, Clazz.of(clazz));
 	}
-	
+
 	public static ClazzTypeArgument typeArgument(char wildcard, String clazz) {
 		return new ClazzTypeArgument(wildcard, Clazz.of(clazz));
 	}

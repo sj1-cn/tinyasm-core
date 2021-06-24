@@ -1,7 +1,7 @@
 package cn.sj1.tinyasm.core.sample.ClassBody;
 
 public class MakeStringPropertyGetSet {
-//	private int intvalue;
+	//	private int intvalue;
 	private String name;
 	private String nameWithAnnotationClazz;
 	private String nameWithAnnotationString;
@@ -10,13 +10,13 @@ public class MakeStringPropertyGetSet {
 	private String nameWithAnnotationClazzNameValue;
 	private String nameWithAnnotationStringNameValue;
 
-//	public int getIntvalue() {
-//		return intvalue;
-//	}
-//
-//	public void setIntvalue(int intvalue) {
-//		this.intvalue = intvalue;
-//	}
+	//	public int getIntvalue() {
+	//		return intvalue;
+	//	}
+	//
+	//	public void setIntvalue(int intvalue) {
+	//		this.intvalue = intvalue;
+	//	}
 
 	public String getName() {
 		return name;
@@ -66,25 +66,24 @@ public class MakeStringPropertyGetSet {
 		this.nameWithAnnotationStringValue = nameWithAnnotationStringValue;
 	}
 
-	@TestAnnotation(name="@TestAnnotation>nameWithAnnotationClazzNameValue")
+	@TestAnnotation(name = "@TestAnnotation>nameWithAnnotationClazzNameValue")
 	public String getNameWithAnnotationClazzNameValue() {
 		return nameWithAnnotationClazzNameValue;
 	}
 
-	@TestAnnotation(name="@TestAnnotation>nameWithAnnotationClazzNameValue")
+	@TestAnnotation(name = "@TestAnnotation>nameWithAnnotationClazzNameValue")
 	public void setNameWithAnnotationClazzNameValue(String nameWithAnnotationClazzNameValue) {
 		this.nameWithAnnotationClazzNameValue = nameWithAnnotationClazzNameValue;
 	}
 
-	@TestAnnotation(name="@TestAnnotation>nameWithAnnotationStringNameValue")
+	@TestAnnotation(name = "@TestAnnotation>nameWithAnnotationStringNameValue")
 	public String getNameWithAnnotationStringNameValue() {
 		return nameWithAnnotationStringNameValue;
 	}
 
-	@TestAnnotation(name="@TestAnnotation>nameWithAnnotationStringNameValue")
+	@TestAnnotation(name = "@TestAnnotation>nameWithAnnotationStringNameValue")
 	public void setNameWithAnnotationStringNameValue(String nameWithAnnotationStringNameValue) {
 		this.nameWithAnnotationStringNameValue = nameWithAnnotationStringNameValue;
 	}
-
 
 }

@@ -11,11 +11,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({TYPE,FIELD,METHOD,PARAMETER,LOCAL_VARIABLE})
+@Target({ TYPE, FIELD, METHOD, PARAMETER, LOCAL_VARIABLE })
 public @interface TestAnnotation {
 	String value() default "valueDefault";
 
 	String name() default "nameDefault";
-	
+
 	String secondName() default "secondNameDefault";
 }

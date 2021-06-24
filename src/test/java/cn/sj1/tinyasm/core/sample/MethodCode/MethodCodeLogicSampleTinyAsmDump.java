@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -20,7 +21,7 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
 		_eq(classBody);
@@ -83,9 +84,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _eq(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("eq")
-			.return_(boolean.class )
-			.parameter("x",byte.class)
-			.parameter("y",byte.class).begin();
+				.return_(boolean.class)
+				.parameter("x", byte.class)
+				.parameter("y", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -107,9 +108,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ne(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ne")
-			.return_(boolean.class )
-			.parameter("x",byte.class)
-			.parameter("y",byte.class).begin();
+				.return_(boolean.class)
+				.parameter("x", byte.class)
+				.parameter("y", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -131,9 +132,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ge(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ge")
-			.return_(boolean.class )
-			.parameter("x",byte.class)
-			.parameter("y",byte.class).begin();
+				.return_(boolean.class)
+				.parameter("x", byte.class)
+				.parameter("y", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -155,9 +156,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _le(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("le")
-			.return_(boolean.class )
-			.parameter("x",byte.class)
-			.parameter("y",byte.class).begin();
+				.return_(boolean.class)
+				.parameter("x", byte.class)
+				.parameter("y", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -179,9 +180,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _gt(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("gt")
-			.return_(boolean.class )
-			.parameter("x",byte.class)
-			.parameter("y",byte.class).begin();
+				.return_(boolean.class)
+				.parameter("x", byte.class)
+				.parameter("y", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -203,9 +204,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _lt(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("lt")
-			.return_(boolean.class )
-			.parameter("x",byte.class)
-			.parameter("y",byte.class).begin();
+				.return_(boolean.class)
+				.parameter("x", byte.class)
+				.parameter("y", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -227,9 +228,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _eq_char_char_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("eq")
-			.return_(boolean.class )
-			.parameter("x",char.class)
-			.parameter("y",char.class).begin();
+				.return_(boolean.class)
+				.parameter("x", char.class)
+				.parameter("y", char.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -251,9 +252,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ne_char_char_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ne")
-			.return_(boolean.class )
-			.parameter("x",char.class)
-			.parameter("y",char.class).begin();
+				.return_(boolean.class)
+				.parameter("x", char.class)
+				.parameter("y", char.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -275,9 +276,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ge_char_char_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ge")
-			.return_(boolean.class )
-			.parameter("x",char.class)
-			.parameter("y",char.class).begin();
+				.return_(boolean.class)
+				.parameter("x", char.class)
+				.parameter("y", char.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -299,9 +300,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _le_char_char_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("le")
-			.return_(boolean.class )
-			.parameter("x",char.class)
-			.parameter("y",char.class).begin();
+				.return_(boolean.class)
+				.parameter("x", char.class)
+				.parameter("y", char.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -323,9 +324,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _gt_char_char_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("gt")
-			.return_(boolean.class )
-			.parameter("x",char.class)
-			.parameter("y",char.class).begin();
+				.return_(boolean.class)
+				.parameter("x", char.class)
+				.parameter("y", char.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -347,9 +348,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _lt_char_char_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("lt")
-			.return_(boolean.class )
-			.parameter("x",char.class)
-			.parameter("y",char.class).begin();
+				.return_(boolean.class)
+				.parameter("x", char.class)
+				.parameter("y", char.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -371,9 +372,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _eq_short_short_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("eq")
-			.return_(boolean.class )
-			.parameter("x",short.class)
-			.parameter("y",short.class).begin();
+				.return_(boolean.class)
+				.parameter("x", short.class)
+				.parameter("y", short.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -395,9 +396,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ne_short_short_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ne")
-			.return_(boolean.class )
-			.parameter("x",short.class)
-			.parameter("y",short.class).begin();
+				.return_(boolean.class)
+				.parameter("x", short.class)
+				.parameter("y", short.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -419,9 +420,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ge_short_short_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ge")
-			.return_(boolean.class )
-			.parameter("x",short.class)
-			.parameter("y",short.class).begin();
+				.return_(boolean.class)
+				.parameter("x", short.class)
+				.parameter("y", short.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -443,9 +444,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _le_short_short_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("le")
-			.return_(boolean.class )
-			.parameter("x",short.class)
-			.parameter("y",short.class).begin();
+				.return_(boolean.class)
+				.parameter("x", short.class)
+				.parameter("y", short.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -467,9 +468,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _gt_short_short_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("gt")
-			.return_(boolean.class )
-			.parameter("x",short.class)
-			.parameter("y",short.class).begin();
+				.return_(boolean.class)
+				.parameter("x", short.class)
+				.parameter("y", short.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -491,9 +492,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _lt_short_short_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("lt")
-			.return_(boolean.class )
-			.parameter("x",short.class)
-			.parameter("y",short.class).begin();
+				.return_(boolean.class)
+				.parameter("x", short.class)
+				.parameter("y", short.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -515,9 +516,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _eq_int_int_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("eq")
-			.return_(boolean.class )
-			.parameter("x",int.class)
-			.parameter("y",int.class).begin();
+				.return_(boolean.class)
+				.parameter("x", int.class)
+				.parameter("y", int.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -539,9 +540,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ne_int_int_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ne")
-			.return_(boolean.class )
-			.parameter("x",int.class)
-			.parameter("y",int.class).begin();
+				.return_(boolean.class)
+				.parameter("x", int.class)
+				.parameter("y", int.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -563,9 +564,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ge_int_int_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ge")
-			.return_(boolean.class )
-			.parameter("x",int.class)
-			.parameter("y",int.class).begin();
+				.return_(boolean.class)
+				.parameter("x", int.class)
+				.parameter("y", int.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -587,9 +588,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _le_int_int_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("le")
-			.return_(boolean.class )
-			.parameter("x",int.class)
-			.parameter("y",int.class).begin();
+				.return_(boolean.class)
+				.parameter("x", int.class)
+				.parameter("y", int.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -611,9 +612,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _gt_int_int_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("gt")
-			.return_(boolean.class )
-			.parameter("x",int.class)
-			.parameter("y",int.class).begin();
+				.return_(boolean.class)
+				.parameter("x", int.class)
+				.parameter("y", int.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -635,9 +636,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _lt_int_int_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("lt")
-			.return_(boolean.class )
-			.parameter("x",int.class)
-			.parameter("y",int.class).begin();
+				.return_(boolean.class)
+				.parameter("x", int.class)
+				.parameter("y", int.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -659,9 +660,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _eq_long_long_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("eq")
-			.return_(boolean.class )
-			.parameter("x",long.class)
-			.parameter("y",long.class).begin();
+				.return_(boolean.class)
+				.parameter("x", long.class)
+				.parameter("y", long.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -684,9 +685,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ne_long_long_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ne")
-			.return_(boolean.class )
-			.parameter("x",long.class)
-			.parameter("y",long.class).begin();
+				.return_(boolean.class)
+				.parameter("x", long.class)
+				.parameter("y", long.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -709,9 +710,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ge_long_long_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ge")
-			.return_(boolean.class )
-			.parameter("x",long.class)
-			.parameter("y",long.class).begin();
+				.return_(boolean.class)
+				.parameter("x", long.class)
+				.parameter("y", long.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -734,9 +735,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _le_long_long_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("le")
-			.return_(boolean.class )
-			.parameter("x",long.class)
-			.parameter("y",long.class).begin();
+				.return_(boolean.class)
+				.parameter("x", long.class)
+				.parameter("y", long.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -759,9 +760,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _gt_long_long_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("gt")
-			.return_(boolean.class )
-			.parameter("x",long.class)
-			.parameter("y",long.class).begin();
+				.return_(boolean.class)
+				.parameter("x", long.class)
+				.parameter("y", long.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -784,9 +785,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _lt_long_long_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("lt")
-			.return_(boolean.class )
-			.parameter("x",long.class)
-			.parameter("y",long.class).begin();
+				.return_(boolean.class)
+				.parameter("x", long.class)
+				.parameter("y", long.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -809,9 +810,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _eq_float_float_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("eq")
-			.return_(boolean.class )
-			.parameter("x",float.class)
-			.parameter("y",float.class).begin();
+				.return_(boolean.class)
+				.parameter("x", float.class)
+				.parameter("y", float.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -834,9 +835,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ne_float_float_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ne")
-			.return_(boolean.class )
-			.parameter("x",float.class)
-			.parameter("y",float.class).begin();
+				.return_(boolean.class)
+				.parameter("x", float.class)
+				.parameter("y", float.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -859,9 +860,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ge_float_float_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ge")
-			.return_(boolean.class )
-			.parameter("x",float.class)
-			.parameter("y",float.class).begin();
+				.return_(boolean.class)
+				.parameter("x", float.class)
+				.parameter("y", float.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -884,9 +885,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _le_float_float_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("le")
-			.return_(boolean.class )
-			.parameter("x",float.class)
-			.parameter("y",float.class).begin();
+				.return_(boolean.class)
+				.parameter("x", float.class)
+				.parameter("y", float.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -909,9 +910,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _gt_float_float_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("gt")
-			.return_(boolean.class )
-			.parameter("x",float.class)
-			.parameter("y",float.class).begin();
+				.return_(boolean.class)
+				.parameter("x", float.class)
+				.parameter("y", float.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -934,9 +935,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _lt_float_float_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("lt")
-			.return_(boolean.class )
-			.parameter("x",float.class)
-			.parameter("y",float.class).begin();
+				.return_(boolean.class)
+				.parameter("x", float.class)
+				.parameter("y", float.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -959,9 +960,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _eq_double_double_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("eq")
-			.return_(boolean.class )
-			.parameter("x",double.class)
-			.parameter("y",double.class).begin();
+				.return_(boolean.class)
+				.parameter("x", double.class)
+				.parameter("y", double.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -984,9 +985,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ne_double_double_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ne")
-			.return_(boolean.class )
-			.parameter("x",double.class)
-			.parameter("y",double.class).begin();
+				.return_(boolean.class)
+				.parameter("x", double.class)
+				.parameter("y", double.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -1009,9 +1010,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _ge_double_double_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("ge")
-			.return_(boolean.class )
-			.parameter("x",double.class)
-			.parameter("y",double.class).begin();
+				.return_(boolean.class)
+				.parameter("x", double.class)
+				.parameter("y", double.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -1034,9 +1035,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _le_double_double_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("le")
-			.return_(boolean.class )
-			.parameter("x",double.class)
-			.parameter("y",double.class).begin();
+				.return_(boolean.class)
+				.parameter("x", double.class)
+				.parameter("y", double.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -1059,9 +1060,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _gt_double_double_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("gt")
-			.return_(boolean.class )
-			.parameter("x",double.class)
-			.parameter("y",double.class).begin();
+				.return_(boolean.class)
+				.parameter("x", double.class)
+				.parameter("y", double.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -1084,9 +1085,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _lt_double_double_boolean(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("lt")
-			.return_(boolean.class )
-			.parameter("x",double.class)
-			.parameter("y",double.class).begin();
+				.return_(boolean.class)
+				.parameter("x", double.class)
+				.parameter("y", double.class).begin();
 
 		code.LINE();
 		code.LOAD("x");
@@ -1109,9 +1110,9 @@ public class MethodCodeLogicSampleTinyAsmDump {
 
 	protected void _geAnd(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("geAnd")
-			.return_(boolean.class )
-			.parameter("x",byte.class)
-			.parameter("y",byte.class).begin();
+				.return_(boolean.class)
+				.parameter("x", byte.class)
+				.parameter("y", byte.class).begin();
 
 		code.LINE();
 		code.LOAD("x");

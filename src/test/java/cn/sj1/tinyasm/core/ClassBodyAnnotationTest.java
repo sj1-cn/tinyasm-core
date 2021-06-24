@@ -39,7 +39,7 @@ public class ClassBodyAnnotationTest {
 
 		cw.constructerEmpty();
 
-//		Opcodes.NULL
+		//		Opcodes.NULL
 		cw.private_().method("annotationMethod").return_(String.class).annotation(TestAnnotation.class).code(mv -> {
 			mv.LINE();
 

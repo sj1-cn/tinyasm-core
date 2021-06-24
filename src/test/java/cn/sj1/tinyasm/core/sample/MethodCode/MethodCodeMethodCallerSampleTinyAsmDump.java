@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -23,7 +24,7 @@ public class MethodCodeMethodCallerSampleTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.private_().field("i", Clazz.of(int.class));
 		__init_(classBody);
@@ -57,25 +58,25 @@ public class MethodCodeMethodCallerSampleTinyAsmDump {
 
 	protected void _method(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PUBLIC | ACC_STATIC, "method")
-			.parameter("data",String.class).begin();
+				.parameter("data", String.class).begin();
 
 		code.LINE();
 		code.LOADConst(10);
-		code.STORE("i",int.class);
+		code.STORE("i", int.class);
 
 		code.LINE();
 		code.LOADConst(Long.valueOf(10L));
 		code.STATIC(Long.class, "valueOf")
-			.return_(Long.class)
-			.parameter(long.class).INVOKE();
-		code.STORE("l",Long.class);
+				.return_(Long.class)
+				.parameter(long.class).INVOKE();
+		code.STORE("l", Long.class);
 
 		code.LINE();
 		code.LOAD("i");
 		code.STATIC(String.class, "valueOf")
-			.return_(String.class)
-			.parameter(int.class).INVOKE();
-		code.STORE("s",String.class);
+				.return_(String.class)
+				.parameter(int.class).INVOKE();
+		code.STORE("s", String.class);
 
 		code.LINE();
 		code.NEW(StringBuilder.class);
@@ -83,40 +84,40 @@ public class MethodCodeMethodCallerSampleTinyAsmDump {
 		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
 		code.LOAD("s");
 		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
-			.parameter(String.class).INVOKE();
+				.return_(StringBuilder.class)
+				.parameter(String.class).INVOKE();
 		code.LOAD("i");
 		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
-			.parameter(int.class).INVOKE();
+				.return_(StringBuilder.class)
+				.parameter(int.class).INVOKE();
 		code.LOAD("l");
 		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
-			.parameter(Object.class).INVOKE();
+				.return_(StringBuilder.class)
+				.parameter(Object.class).INVOKE();
 		code.VIRTUAL(StringBuilder.class, "toString")
-			.return_(String.class).INVOKE();
+				.return_(String.class).INVOKE();
 		code.STORE("s");
 
 		code.LINE();
 		code.NEW(ArrayList.class);
 		code.DUP();
 		code.SPECIAL(ArrayList.class, "<init>").INVOKE();
-		code.STORE("ls",Clazz.of(List.class,Clazz.of(String.class)));
+		code.STORE("ls", Clazz.of(List.class, Clazz.of(String.class)));
 
 		code.LINE();
 		code.LOAD("ls");
 		code.LOADConst("first");
 		code.INTERFACE(List.class, "add")
-			.return_(boolean.class)
-			.parameter(Object.class).INVOKE();
+				.return_(boolean.class)
+				.parameter(Object.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("ls");
 		code.LOADConst("second");
 		code.INTERFACE(List.class, "add")
-			.return_(boolean.class)
-			.parameter(Object.class).INVOKE();
+				.return_(boolean.class)
+				.parameter(Object.class).INVOKE();
 		code.POP();
 
 		code.LINE();

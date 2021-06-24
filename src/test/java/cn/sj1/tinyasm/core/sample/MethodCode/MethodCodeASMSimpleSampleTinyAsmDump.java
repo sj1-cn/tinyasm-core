@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -20,7 +21,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.private_().field("b", Clazz.of(byte.class));
 		classBody.private_().field("c", Clazz.of(char.class));
@@ -53,7 +54,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	protected void _getField(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("getField")
-			.return_(int.class ).begin();
+				.return_(int.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -61,7 +62,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("i", int.class);
 		code.ADD();
-		code.STORE("x",int.class);
+		code.STORE("x", int.class);
 
 		code.LINE();
 		code.LOAD("x");
@@ -72,7 +73,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	protected void _getFieldAll(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("getFieldAll")
-			.return_(int.class ).begin();
+				.return_(int.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -99,7 +100,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 		code.GETFIELD("d", double.class);
 		code.ADD();
 		code.CONVERTTO(int.class);
-		code.STORE("x",int.class);
+		code.STORE("x", int.class);
 
 		code.LINE();
 		code.LOAD("x");
@@ -110,7 +111,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	protected void _getFieldConst(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("getFieldConst")
-			.return_(int.class ).begin();
+				.return_(int.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -184,7 +185,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	protected void _getFieldIConst(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("getFieldIConst")
-			.return_(int.class ).begin();
+				.return_(int.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
@@ -261,11 +262,11 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 
 	protected void _retByte(ClassBody classBody) {
 		MethodCode code = classBody.public_().method("retByte")
-			.return_(byte.class ).begin();
+				.return_(byte.class).begin();
 
 		code.LINE();
 		code.LOADConst(1);
-		code.STORE("x",byte.class);
+		code.STORE("x", byte.class);
 
 		code.LINE();
 		code.LOAD("x");
@@ -290,7 +291,7 @@ public class MethodCodeASMSimpleSampleTinyAsmDump {
 		code.LOAD("x");
 		code.ADD();
 		code.CONVERTTO(byte.class);
-		code.STORE("y",byte.class);
+		code.STORE("y", byte.class);
 
 		code.LINE();
 		code.LOAD("y");

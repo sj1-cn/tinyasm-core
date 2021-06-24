@@ -169,5 +169,4 @@ public class ClassHeaderTest {
 		assertEquals("Code", codeExpected, codeActual);
 	}
 
-
 }

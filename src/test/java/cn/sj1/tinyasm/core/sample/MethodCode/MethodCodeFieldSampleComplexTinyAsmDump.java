@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -22,7 +23,7 @@ public class MethodCodeFieldSampleComplexTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("methodCodeFieldSample", Clazz.of(MethodCodeFieldSample.class));
 		__init_(classBody);
@@ -56,55 +57,55 @@ public class MethodCodeFieldSampleComplexTinyAsmDump {
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "z", boolean.class);
-		code.STORE("z",boolean.class);
+		code.STORE("z", boolean.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "b", byte.class);
-		code.STORE("b",byte.class);
+		code.STORE("b", byte.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "c", char.class);
-		code.STORE("c",char.class);
+		code.STORE("c", char.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "s", short.class);
-		code.STORE("s",short.class);
+		code.STORE("s", short.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "i", int.class);
-		code.STORE("i",int.class);
+		code.STORE("i", int.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "l", long.class);
-		code.STORE("l",long.class);
+		code.STORE("l", long.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "f", float.class);
-		code.STORE("f",float.class);
+		code.STORE("f", float.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "d", double.class);
-		code.STORE("d",double.class);
+		code.STORE("d", double.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "str", String.class);
-		code.STORE("str",String.class);
+		code.STORE("str", String.class);
 
 		code.LINE();
 		code.LOAD("this");
@@ -243,69 +244,69 @@ public class MethodCodeFieldSampleComplexTinyAsmDump {
 		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
 		code.LOAD("str");
 		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
-			.parameter(String.class).INVOKE();
+				.return_(StringBuilder.class)
+				.parameter(String.class).INVOKE();
 		code.LOADConst(1);
 		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
-			.parameter(int.class).INVOKE();
+				.return_(StringBuilder.class)
+				.parameter(int.class).INVOKE();
 		code.VIRTUAL(StringBuilder.class, "toString")
-			.return_(String.class).INVOKE();
+				.return_(String.class).INVOKE();
 		code.PUTFIELD(MethodCodeFieldSample.class, "str", String.class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "za", boolean[].class);
-		code.STORE("za",boolean[].class);
+		code.STORE("za", boolean[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "ba", byte[].class);
-		code.STORE("ba",byte[].class);
+		code.STORE("ba", byte[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "ca", char[].class);
-		code.STORE("ca",char[].class);
+		code.STORE("ca", char[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "sa", short[].class);
-		code.STORE("sa",short[].class);
+		code.STORE("sa", short[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "ia", int[].class);
-		code.STORE("ia",int[].class);
+		code.STORE("ia", int[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "la", long[].class);
-		code.STORE("la",long[].class);
+		code.STORE("la", long[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "fa", float[].class);
-		code.STORE("fa",float[].class);
+		code.STORE("fa", float[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "da", double[].class);
-		code.STORE("da",double[].class);
+		code.STORE("da", double[].class);
 
 		code.LINE();
 		code.LOAD("this");
 		code.GETFIELD("methodCodeFieldSample", MethodCodeFieldSample.class);
 		code.GETFIELD(MethodCodeFieldSample.class, "stra", String[].class);
-		code.STORE("stra",String[].class);
+		code.STORE("stra", String[].class);
 
 		code.LINE();
 		code.LOAD("this");
@@ -480,14 +481,14 @@ public class MethodCodeFieldSampleComplexTinyAsmDump {
 		code.LOADConst(0);
 		code.ARRAYLOAD();
 		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
-			.parameter(String.class).INVOKE();
+				.return_(StringBuilder.class)
+				.parameter(String.class).INVOKE();
 		code.LOADConst(1);
 		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
-			.parameter(int.class).INVOKE();
+				.return_(StringBuilder.class)
+				.parameter(int.class).INVOKE();
 		code.VIRTUAL(StringBuilder.class, "toString")
-			.return_(String.class).INVOKE();
+				.return_(String.class).INVOKE();
 		code.ARRAYSTORE();
 
 		code.LINE();

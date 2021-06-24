@@ -14,7 +14,7 @@ public class ParameterStaticSample {
 	static String annotationWithDefaultValueAndNamedValue2;
 	@TestAnnotation
 	static private List<String> genericWithAnnotation;
-	
+
 	@SuppressWarnings("unused")
 	static private List<String> genericWithoutAnnotation;
 

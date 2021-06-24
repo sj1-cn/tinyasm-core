@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -22,7 +23,7 @@ public class MethodCodeStaticFieldSampleComplexTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
 		_getAll(classBody);
@@ -46,75 +47,75 @@ public class MethodCodeStaticFieldSampleComplexTinyAsmDump {
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "z", boolean.class);
-		code.STORE("z",boolean.class);
+		code.STORE("z", boolean.class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "b", byte.class);
-		code.STORE("b",byte.class);
+		code.STORE("b", byte.class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "c", char.class);
-		code.STORE("c",char.class);
+		code.STORE("c", char.class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "s", short.class);
-		code.STORE("s",short.class);
+		code.STORE("s", short.class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "i", int.class);
-		code.STORE("i",int.class);
+		code.STORE("i", int.class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "l", long.class);
-		code.STORE("l",long.class);
+		code.STORE("l", long.class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "f", float.class);
-		code.STORE("f",float.class);
+		code.STORE("f", float.class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "d", double.class);
-		code.STORE("d",double.class);
+		code.STORE("d", double.class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "str", String.class);
-		code.STORE("str",String.class);
+		code.STORE("str", String.class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "za", boolean[].class);
-		code.STORE("za",boolean[].class);
+		code.STORE("za", boolean[].class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "ba", byte[].class);
-		code.STORE("ba",byte[].class);
+		code.STORE("ba", byte[].class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "ca", char[].class);
-		code.STORE("ca",char[].class);
+		code.STORE("ca", char[].class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "sa", short[].class);
-		code.STORE("sa",short[].class);
+		code.STORE("sa", short[].class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "ia", int[].class);
-		code.STORE("ia",int[].class);
+		code.STORE("ia", int[].class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "la", long[].class);
-		code.STORE("la",long[].class);
+		code.STORE("la", long[].class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "fa", float[].class);
-		code.STORE("fa",float[].class);
+		code.STORE("fa", float[].class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "da", double[].class);
-		code.STORE("da",double[].class);
+		code.STORE("da", double[].class);
 
 		code.LINE();
 		code.GETSTATIC(MethodCodeStaticFieldSample.class, "stra", String[].class);
-		code.STORE("stra",String[].class);
+		code.STORE("stra", String[].class);
 
 		code.LINE();
 		code.LOAD("z");
@@ -253,14 +254,14 @@ public class MethodCodeStaticFieldSampleComplexTinyAsmDump {
 		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
 		code.LOAD("str");
 		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
-			.parameter(String.class).INVOKE();
+				.return_(StringBuilder.class)
+				.parameter(String.class).INVOKE();
 		code.LOADConst(1);
 		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
-			.parameter(int.class).INVOKE();
+				.return_(StringBuilder.class)
+				.parameter(int.class).INVOKE();
 		code.VIRTUAL(StringBuilder.class, "toString")
-			.return_(String.class).INVOKE();
+				.return_(String.class).INVOKE();
 		code.PUTSTATIC(MethodCodeStaticFieldSample.class, "str", String.class);
 
 		code.LINE();
@@ -364,14 +365,14 @@ public class MethodCodeStaticFieldSampleComplexTinyAsmDump {
 		code.LOADConst(0);
 		code.ARRAYLOAD();
 		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
-			.parameter(String.class).INVOKE();
+				.return_(StringBuilder.class)
+				.parameter(String.class).INVOKE();
 		code.LOADConst(1);
 		code.VIRTUAL(StringBuilder.class, "append")
-			.return_(StringBuilder.class)
-			.parameter(int.class).INVOKE();
+				.return_(StringBuilder.class)
+				.parameter(int.class).INVOKE();
 		code.VIRTUAL(StringBuilder.class, "toString")
-			.return_(String.class).INVOKE();
+				.return_(String.class).INVOKE();
 		code.ARRAYSTORE();
 
 		code.LINE();

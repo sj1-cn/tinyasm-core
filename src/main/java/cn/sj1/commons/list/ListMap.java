@@ -1,6 +1,5 @@
 package cn.sj1.commons.list;
 
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,9 +11,9 @@ public class ListMap<K, T> implements Iterable<T> {
 
 	Stack<T> stack = new Stack<>();
 	Map<K, T> maps = new HashMap<>();
-	protected Function<T,K> keyFunction;
+	protected Function<T, K> keyFunction;
 
-	public ListMap(Function<T,K> keyFunction) {
+	public ListMap(Function<T, K> keyFunction) {
 		this.keyFunction = keyFunction;
 	}
 
@@ -32,7 +31,6 @@ public class ListMap<K, T> implements Iterable<T> {
 		}
 		maps.put(keyFunction.apply(value), value);
 	}
-
 
 	public T get(int index) {
 		return stack.get(index);
@@ -57,7 +55,6 @@ public class ListMap<K, T> implements Iterable<T> {
 	public List<T> list() {
 		return stack;
 	}
-
 
 	@Override
 	public String toString() {

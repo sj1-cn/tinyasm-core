@@ -139,7 +139,6 @@ public class MethodCodeLoadConstSample {
 		int i48 = Short.MAX_VALUE + 19;
 		int i49 = Short.MAX_VALUE + 20;
 	}
-	
 
 	@SuppressWarnings("unused")
 	public void getByteMIN_VALUE() {

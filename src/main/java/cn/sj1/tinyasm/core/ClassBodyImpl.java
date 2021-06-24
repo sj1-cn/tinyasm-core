@@ -25,11 +25,11 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 
 	final private Clazz thisType;
 	ClassHeaderImpl header;
-//	private String name;
+	//	private String name;
 
 	ClassBodyImpl(ClassVisitor cv, ClassHeaderImpl header) {
 		super(Opcodes.ASM8, cv);
-		
+
 		this.header = header;
 		this.thisType = header.clazz;
 		this.superType = header.superClazz;
@@ -200,18 +200,18 @@ class ClassBodyImpl extends ClassVisitor implements ClassBuilder, ClassBody {
 		return mh;
 	}
 
-//
-//	@Override
-//	public MethodHeader method(int access, Clazz returnType, String name) {
-//		return new MethodHeaderBuilder(this, thisType, access, returnType, name);
-//	}
+	//
+	//	@Override
+	//	public MethodHeader method(int access, Clazz returnType, String name) {
+	//		return new MethodHeaderBuilder(this, thisType, access, returnType, name);
+	//	}
 
 	@Override
 	public String referInnerClass(int access, String objectclazz, String innerName) {
 		String outerName = typeOf(objectclazz).getInternalName();
 		String fullName = outerName + "$" + innerName;
 		cv.visitInnerClass(fullName, outerName, innerName, access);
-//		classWriter.visitInnerClass("java/lang/invoke/MethodHandles$Lookup", "java/lang/invoke/MethodHandles", "Lookup", ACC_PUBLIC | ACC_FINAL | ACC_STATIC);
+		//		classWriter.visitInnerClass("java/lang/invoke/MethodHandles$Lookup", "java/lang/invoke/MethodHandles", "Lookup", ACC_PUBLIC | ACC_FINAL | ACC_STATIC);
 
 		return Type.getType("L" + fullName + ";").getClassName();
 	}

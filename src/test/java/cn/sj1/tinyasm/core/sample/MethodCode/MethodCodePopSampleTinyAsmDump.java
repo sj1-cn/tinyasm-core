@@ -1,4 +1,5 @@
 package cn.sj1.tinyasm.core.sample.MethodCode;
+
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -20,7 +21,7 @@ public class MethodCodePopSampleTinyAsmDump {
 
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className)
-			.access(ACC_PUBLIC | ACC_SUPER).body();
+				.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		__init_(classBody);
 		_getAll(classBody);
@@ -54,55 +55,55 @@ public class MethodCodePopSampleTinyAsmDump {
 		code.LINE();
 		code.LOAD("this");
 		code.VIRTUAL("returnBoolean")
-			.return_(boolean.class).INVOKE();
+				.return_(boolean.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.VIRTUAL("returnByte")
-			.return_(byte.class).INVOKE();
+				.return_(byte.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.VIRTUAL("returnChar")
-			.return_(char.class).INVOKE();
+				.return_(char.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.VIRTUAL("returnShort")
-			.return_(short.class).INVOKE();
+				.return_(short.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.VIRTUAL("returnInt")
-			.return_(int.class).INVOKE();
+				.return_(int.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.VIRTUAL("returnLong")
-			.return_(long.class).INVOKE();
+				.return_(long.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.VIRTUAL("returnFloat")
-			.return_(float.class).INVOKE();
+				.return_(float.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.VIRTUAL("returnDouble")
-			.return_(double.class).INVOKE();
+				.return_(double.class).INVOKE();
 		code.POP();
 
 		code.LINE();
 		code.LOAD("this");
 		code.VIRTUAL("returnString")
-			.return_(String.class).INVOKE();
+				.return_(String.class).INVOKE();
 		code.POP();
 
 		code.LINE();
@@ -113,7 +114,7 @@ public class MethodCodePopSampleTinyAsmDump {
 
 	protected void _returnBoolean(ClassBody classBody) {
 		MethodCode code = classBody.method("returnBoolean")
-			.return_(boolean.class ).begin();
+				.return_(boolean.class).begin();
 
 		code.LINE();
 		code.LOADConst(1);
@@ -124,7 +125,7 @@ public class MethodCodePopSampleTinyAsmDump {
 
 	protected void _returnByte(ClassBody classBody) {
 		MethodCode code = classBody.method("returnByte")
-			.return_(byte.class ).begin();
+				.return_(byte.class).begin();
 
 		code.LINE();
 		code.LOADConst(10);
@@ -135,7 +136,7 @@ public class MethodCodePopSampleTinyAsmDump {
 
 	protected void _returnChar(ClassBody classBody) {
 		MethodCode code = classBody.method("returnChar")
-			.return_(char.class ).begin();
+				.return_(char.class).begin();
 
 		code.LINE();
 		code.LOADConst(10);
@@ -146,7 +147,7 @@ public class MethodCodePopSampleTinyAsmDump {
 
 	protected void _returnShort(ClassBody classBody) {
 		MethodCode code = classBody.method("returnShort")
-			.return_(short.class ).begin();
+				.return_(short.class).begin();
 
 		code.LINE();
 		code.LOADConst(10);
@@ -157,7 +158,7 @@ public class MethodCodePopSampleTinyAsmDump {
 
 	protected void _returnInt(ClassBody classBody) {
 		MethodCode code = classBody.method("returnInt")
-			.return_(int.class ).begin();
+				.return_(int.class).begin();
 
 		code.LINE();
 		code.LOADConst(10);
@@ -168,7 +169,7 @@ public class MethodCodePopSampleTinyAsmDump {
 
 	protected void _returnLong(ClassBody classBody) {
 		MethodCode code = classBody.method("returnLong")
-			.return_(long.class ).begin();
+				.return_(long.class).begin();
 
 		code.LINE();
 		code.LOADConst(Long.valueOf(10L));
@@ -179,7 +180,7 @@ public class MethodCodePopSampleTinyAsmDump {
 
 	protected void _returnFloat(ClassBody classBody) {
 		MethodCode code = classBody.method("returnFloat")
-			.return_(float.class ).begin();
+				.return_(float.class).begin();
 
 		code.LINE();
 		code.LOADConst(Float.valueOf("10.0"));
@@ -190,7 +191,7 @@ public class MethodCodePopSampleTinyAsmDump {
 
 	protected void _returnDouble(ClassBody classBody) {
 		MethodCode code = classBody.method("returnDouble")
-			.return_(double.class ).begin();
+				.return_(double.class).begin();
 
 		code.LINE();
 		code.LOADConst(Double.valueOf("10.0"));
@@ -201,7 +202,7 @@ public class MethodCodePopSampleTinyAsmDump {
 
 	protected void _returnString(ClassBody classBody) {
 		MethodCode code = classBody.method("returnString")
-			.return_(String.class ).begin();
+				.return_(String.class).begin();
 
 		code.LINE();
 		code.LOADConst("10");

@@ -9,5 +9,4 @@ public class ConstructerEmpty {
 		return builder.toString();
 	}
 
-
 }

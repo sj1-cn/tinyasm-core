@@ -7,6 +7,7 @@ public class Field {
 		this.name = name;
 		this.clazz = clazz;
 	}
+
 	public Field(String name, Class<?> clazz) {
 		this.name = name;
 		this.clazz = Clazz.of(clazz);

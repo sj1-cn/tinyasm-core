@@ -17,12 +17,12 @@ public class MethodCodeMethodCallerLAMBDASample {
 	}
 
 	public void execfieldString(String paramString) {
-		Function<String, String> func = s ->paramString+ fieldString + s.substring(0, 2);
+		Function<String, String> func = s -> paramString + fieldString + s.substring(0, 2);
 		method(func);
 	}
 
 	public void execstaticFieldString(String paramString) {
-		Function<String, String> func = s ->paramString+ staticFieldString + s.substring(0, 2);
+		Function<String, String> func = s -> paramString + staticFieldString + s.substring(0, 2);
 		method(func);
 	}
 

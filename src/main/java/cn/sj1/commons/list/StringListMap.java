@@ -1,6 +1,5 @@
 package cn.sj1.commons.list;
 
-
 import java.util.function.Function;
 
 public class StringListMap<V> extends ListMap<String, V> implements Iterable<V> {

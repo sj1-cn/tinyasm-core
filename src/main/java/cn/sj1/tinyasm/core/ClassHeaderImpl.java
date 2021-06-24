@@ -65,11 +65,11 @@ class ClassHeaderImpl implements ClassHeader {
 		return classBuilderImpl;
 	}
 
-//	@Override
-//	public ClassHeader subclass(String clazz) {
-//		this.superClazz = new ClazzType(clazz);
-//		return this;
-//	}
+	//	@Override
+	//	public ClassHeader subclass(String clazz) {
+	//		this.superClazz = new ClazzType(clazz);
+	//		return this;
+	//	}
 
 	@Override
 	public ClassHeader extends_(Clazz clazz) {
@@ -89,11 +89,11 @@ class ClassHeaderImpl implements ClassHeader {
 		return this;
 	}
 
-//	@Override
-//	public ClassHeader implement(String clazz, String... genericClazz) {
-//		interfaces.add(new ClazzComplex(clazz, genericClazz));
-//		return this;
-//	}
+	//	@Override
+	//	public ClassHeader implement(String clazz, String... genericClazz) {
+	//		interfaces.add(new ClazzComplex(clazz, genericClazz));
+	//		return this;
+	//	}
 
 	ClassBuilder makeClassBuilder() {
 
