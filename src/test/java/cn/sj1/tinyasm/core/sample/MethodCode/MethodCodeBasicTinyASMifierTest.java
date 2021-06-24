@@ -8,38 +8,38 @@ import org.junit.Test;
 import cn.sj1.tinyasm.tools.TinyAsmTestUtils;
 
 public class MethodCodeBasicTinyASMifierTest {
-//	@Test
-//	public void testMethodCodeMethodCallerLAMBDASample_dumpTinyAsm() throws Exception {
-//		Class<?> expectedClazz = MethodCodeMethodCallerLAMBDASample.class;
-//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-//
-//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
-//
-//		assertEquals("Code", codeExpected, codeActual);
-//
-//	}
-//
-//	@Test
-//	public void testMethodCodeMethodCallerLAMBDASample_compare() throws Exception {
-//		Class<?> expectedClazz = MethodCodeMethodCallerLAMBDASample.class;
-//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-//
-//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder.dump());
-//
-//		assertEquals("Code", codeExpected, codeActual);
-//
-//	}
-//
-//	@Test
-//	public void testMethodCodeMethodCallerLAMBDASample2_compare() throws Exception {
-//		Class<?> expectedClazz = MethodCodeMethodCallerLAMBDASample.class;
-//		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
-//
-//		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder2.dump());
-//
-//		assertEquals("Code", codeExpected, codeActual);
-//
-//	}
+	@Test
+	public void testMethodCodeMethodCallerLAMBDASample_dumpTinyAsm() throws Exception {
+		Class<?> expectedClazz = MethodCodeMethodCallerLAMBDASample.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), dumpTinyAsm(expectedClazz));
+
+		assertEquals("Code", codeExpected, codeActual);
+
+	}
+
+	@Test
+	public void testMethodCodeMethodCallerLAMBDASample_compare() throws Exception {
+		Class<?> expectedClazz = MethodCodeMethodCallerLAMBDASample.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder.dump());
+
+		assertEquals("Code", codeExpected, codeActual);
+
+	}
+
+	@Test
+	public void testMethodCodeMethodCallerLAMBDASample2_compare() throws Exception {
+		Class<?> expectedClazz = MethodCodeMethodCallerLAMBDASample.class;
+		String codeExpected = TinyAsmTestUtils.toString(expectedClazz);
+
+		String codeActual = TinyAsmTestUtils.toString(expectedClazz.getName(), MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder2.dump());
+
+		assertEquals("Code", codeExpected, codeActual);
+
+	}
 	
 	@Test
 	public void testMethodCodeLoadConstSample_dumpTinyAsm() throws Exception {

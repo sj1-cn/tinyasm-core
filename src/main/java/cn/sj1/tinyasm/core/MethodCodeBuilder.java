@@ -348,9 +348,9 @@ public class MethodCodeBuilder extends MethodCode {
 			String originDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(originMethod.params));
 			String originSignature = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(originMethod.params));
 
-			String lambdaDescriptor = Type.getMethodDescriptor(typeOf(returnClazz), typesOf(this.params));
+			String lambdaDescriptor = Type.getMethodDescriptor(typeOf(resideClazz), typesOf(this.params));
 			@SuppressWarnings("unused")
-			String lambdaSignature = Type.getMethodDescriptor(typeOf(this.returnClazz.signatureAnyway()), typesOf(this.params));
+			String lambdaSignature = Type.getMethodDescriptor(typeOf(this.resideClazz.signatureAnyway()), typesOf(this.params));
 
 			List<Clazz> resultMethodParams = new ArrayList<>();
 			resultMethodParams.addAll(this.params);
@@ -377,7 +377,7 @@ public class MethodCodeBuilder extends MethodCode {
 			 * Type.getType("(Lorg/jdbi/v3/core/Handle;)Ljava/util/List;")});
 			 */
 
-			stackPush(typeOf(this.returnClazz));
+			stackPush(typeOf(this.resideClazz));
 		}
 
 	}

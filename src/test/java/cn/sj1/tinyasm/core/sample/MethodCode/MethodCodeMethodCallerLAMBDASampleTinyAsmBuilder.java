@@ -57,7 +57,8 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 
 		//		((LamdaMethodCaller) 
 		code.VIRTUAL("lambda$0").parameter(String.class).return_(String.class)
-				.LAMBDA(MethodCodeMethodCallerLAMBDASample.class, "apply").return_(Function.class)
+				.LAMBDA(Function.class, "apply")
+//				.parameter(Object.class).return_(Object.class)
 				//						.lamdaType(Function.class)
 				.INVOKE();
 
