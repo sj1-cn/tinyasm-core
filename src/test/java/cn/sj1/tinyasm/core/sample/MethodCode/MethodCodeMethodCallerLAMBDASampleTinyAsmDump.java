@@ -64,7 +64,9 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmDump {
 		MethodCode code = classBody.public_().method("exec").begin();
 
 		code.LINE();
-code.DYNAMIC(className,"lambda$exec$0").parameter(String.class).return_(String.class).LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class).INVOKE();
+		code.DYNAMIC(className,"lambda$exec$0").parameter(String.class).return_(String.class)
+			.LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class)
+			.INVOKE();
 		code.STORE("func",Clazz.of(Function.class,Clazz.of(String.class),Clazz.of(String.class)));
 
 		code.LINE();
@@ -85,7 +87,9 @@ code.DYNAMIC(className,"lambda$exec$0").parameter(String.class).return_(String.c
 
 		code.LINE();
 		code.LOAD("paramString");
-code.DYNAMIC(className,"lambda$execparamString$1").parameter(String.class).parameter(String.class).return_(String.class).LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class).INVOKE();
+		code.DYNAMIC(className,"lambda$execparamString$1").parameter(String.class).parameter(String.class).return_(String.class)
+			.LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class)
+			.INVOKE();
 		code.STORE("func",Clazz.of(Function.class,Clazz.of(String.class),Clazz.of(String.class)));
 
 		code.LINE();
@@ -101,11 +105,16 @@ code.DYNAMIC(className,"lambda$execparamString$1").parameter(String.class).param
 	}
 
 	protected void _execfieldString(ClassBody classBody, String  className) {
-		MethodCode code = classBody.public_().method("execfieldString").begin();
+		MethodCode code = classBody.public_().method("execfieldString")
+			.parameter("paramString",String.class).begin();
 
 		code.LINE();
 		code.LOAD("this");
-code.DYNAMIC(className,"lambda$execfieldString$2").parameter(String.class).return_(String.class).LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class).INVOKE();
+		code.LOAD("paramString");
+		code.DYNAMIC(className,"lambda$execfieldString$2").withThis()
+			.parameter(String.class).parameter(String.class).return_(String.class)
+			.LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class)
+			.INVOKE();
 		code.STORE("func",Clazz.of(Function.class,Clazz.of(String.class),Clazz.of(String.class)));
 
 		code.LINE();
@@ -121,10 +130,14 @@ code.DYNAMIC(className,"lambda$execfieldString$2").parameter(String.class).retur
 	}
 
 	protected void _execstaticFieldString(ClassBody classBody, String  className) {
-		MethodCode code = classBody.public_().method("execstaticFieldString").begin();
+		MethodCode code = classBody.public_().method("execstaticFieldString")
+			.parameter("paramString",String.class).begin();
 
 		code.LINE();
-code.DYNAMIC(className,"lambda$execstaticFieldString$3").parameter(String.class).return_(String.class).LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class).INVOKE();
+		code.LOAD("paramString");
+		code.DYNAMIC(className,"lambda$execstaticFieldString$3").parameter(String.class).parameter(String.class).return_(String.class)
+			.LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class)
+			.INVOKE();
 		code.STORE("func",Clazz.of(Function.class,Clazz.of(String.class),Clazz.of(String.class)));
 
 		code.LINE();
@@ -168,12 +181,17 @@ code.DYNAMIC(className,"lambda$execstaticFieldString$3").parameter(String.class)
 	protected void _lambda$execstaticFieldString$3(ClassBody classBody) {
 		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$execstaticFieldString$3")
 			.return_(String.class )
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"paramString",String.class)
 			.parameter(ACC_SYNTHETIC,"s",String.class).begin();
 
 		code.LINE();
 		code.NEW(StringBuilder.class);
 		code.DUP();
 		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
+		code.LOAD("paramString");
+		code.VIRTUAL(StringBuilder.class, "append")
+			.return_(StringBuilder.class)
+			.parameter(String.class).INVOKE();
 		code.GETSTATIC("staticFieldString", String.class);
 		code.VIRTUAL(StringBuilder.class, "append")
 			.return_(StringBuilder.class)
@@ -198,12 +216,17 @@ code.DYNAMIC(className,"lambda$execstaticFieldString$3").parameter(String.class)
 	protected void _lambda$execfieldString$2(ClassBody classBody) {
 		MethodCode code = classBody.method(ACC_PRIVATE | ACC_SYNTHETIC, "lambda$execfieldString$2")
 			.return_(String.class )
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"paramString",String.class)
 			.parameter(ACC_SYNTHETIC,"s",String.class).begin();
 
 		code.LINE();
 		code.NEW(StringBuilder.class);
 		code.DUP();
 		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
+		code.LOAD("paramString");
+		code.VIRTUAL(StringBuilder.class, "append")
+			.return_(StringBuilder.class)
+			.parameter(String.class).INVOKE();
 		code.LOAD("this");
 		code.GETFIELD("fieldString", String.class);
 		code.VIRTUAL(StringBuilder.class, "append")

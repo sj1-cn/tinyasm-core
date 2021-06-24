@@ -29,10 +29,19 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 
 		classBody.referInnerClass(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "java.lang.invoke.MethodHandles", "Lookup");
 
+		classBody.staticField(ACC_STATIC, "staticFieldString", Clazz.of(String.class));
+		classBody.field("fieldString", Clazz.of(String.class));
 		__init_(classBody);
-		_exec2(classBody, className);
+		_exec(classBody,className);
+		_execparamString(classBody,className);
+		_execfieldString(classBody,className);
+		_execstaticFieldString(classBody,className);
 		_method(classBody);
-		_lambda$exec2$0(classBody);
+		_lambda$execstaticFieldString$3(classBody);
+		_lambda$execfieldString$2(classBody);
+		_lambda$execparamString$1(classBody);
+		_lambda$exec$0(classBody);
+		__clinit_(classBody);
 
 		return classBody.end().toByteArray();
 	}
@@ -43,18 +52,85 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 		code.LINE();
 		code.LOAD("this");
 		code.SPECIAL(Object.class, "<init>").INVOKE();
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOADConst("fieldString");
+		code.PUTFIELD("fieldString", String.class);
 		code.RETURN();
 
 		code.END();
 	}
 
-	protected void _exec2(ClassBody classBody, String className) {
-		MethodCode code = classBody.public_().method("exec2")
-				.parameter("profix", String.class).begin();
+	protected void _exec(ClassBody classBody, String  className) {
+		MethodCode code = classBody.public_().method("exec").begin();
 
 		code.LINE();
-		code.LOAD("profix");
-		code.DYNAMIC(className, "lambda$exec2$0").parameter(String.class).parameter(String.class).return_(String.class).LAMBDA(Function.class, "apply").parameter(Object.class).return_(Object.class).INVOKE();
+code.DYNAMIC(className,"lambda$exec$0").parameter(String.class).return_(String.class).LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class).INVOKE();
+		code.STORE("func",Clazz.of(Function.class,Clazz.of(String.class),Clazz.of(String.class)));
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("func");
+		code.VIRTUAL("method")
+			.parameter(Function.class).INVOKE();
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _execparamString(ClassBody classBody, String  className) {
+		MethodCode code = classBody.public_().method("execparamString")
+			.parameter("paramString",String.class).begin();
+
+		code.LINE();
+		code.LOAD("paramString");
+code.DYNAMIC(className,"lambda$execparamString$1").parameter(String.class).parameter(String.class).return_(String.class).LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class).INVOKE();
+		code.STORE("func",Clazz.of(Function.class,Clazz.of(String.class),Clazz.of(String.class)));
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("func");
+		code.VIRTUAL("method")
+			.parameter(Function.class).INVOKE();
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _execfieldString(ClassBody classBody, String  className) {
+		MethodCode code = classBody.public_().method("execfieldString")
+			.parameter("paramString",String.class).begin();
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("paramString");
+code.DYNAMIC(className,"lambda$execfieldString$2").withThis().parameter(String.class).parameter(String.class).return_(String.class).LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class).INVOKE();
+		code.STORE("func",Clazz.of(Function.class,Clazz.of(String.class),Clazz.of(String.class)));
+
+		code.LINE();
+		code.LOAD("this");
+		code.LOAD("func");
+		code.VIRTUAL("method")
+			.parameter(Function.class).INVOKE();
+
+		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void _execstaticFieldString(ClassBody classBody, String  className) {
+		MethodCode code = classBody.public_().method("execstaticFieldString")
+			.parameter("paramString",String.class).begin();
+
+		code.LINE();
+		code.LOAD("paramString");
+code.DYNAMIC(className,"lambda$execstaticFieldString$3").parameter(String.class).parameter(String.class).return_(String.class).LAMBDA(Function.class,"apply").parameter(Object.class).return_(Object.class).INVOKE();
 		code.STORE("func", Clazz.of(Function.class, Clazz.of(String.class), Clazz.of(String.class)));
 
 		code.LINE();
@@ -95,17 +171,88 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 		code.END();
 	}
 
-	protected void _lambda$exec2$0(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$exec2$0")
+	protected void _lambda$execstaticFieldString$3(ClassBody classBody) {
+		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$execstaticFieldString$3")
+			.return_(String.class )
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"paramString",String.class)
+			.parameter(ACC_SYNTHETIC,"s",String.class).begin();
+
+		code.LINE();
+		code.NEW(StringBuilder.class);
+		code.DUP();
+		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
+		code.LOAD("paramString");
+		code.VIRTUAL(StringBuilder.class, "append")
+			.return_(StringBuilder.class)
+			.parameter(String.class).INVOKE();
+		code.GETSTATIC("staticFieldString", String.class);
+		code.VIRTUAL(StringBuilder.class, "append")
+			.return_(StringBuilder.class)
+			.parameter(String.class).INVOKE();
+		code.LOAD("s");
+		code.LOADConst(0);
+		code.LOADConst(2);
+		code.VIRTUAL(String.class, "substring")
+			.return_(String.class)
+			.parameter(int.class)
+			.parameter(int.class).INVOKE();
+		code.VIRTUAL(StringBuilder.class, "append")
+			.return_(StringBuilder.class)
+			.parameter(String.class).INVOKE();
+		code.VIRTUAL(StringBuilder.class, "toString")
+			.return_(String.class).INVOKE();
+		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void _lambda$execfieldString$2(ClassBody classBody) {
+		MethodCode code = classBody.method(ACC_PRIVATE | ACC_SYNTHETIC, "lambda$execfieldString$2")
+			.return_(String.class )
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"paramString",String.class)
+			.parameter(ACC_SYNTHETIC,"s",String.class).begin();
+
+		code.LINE();
+		code.NEW(StringBuilder.class);
+		code.DUP();
+		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
+		code.LOAD("paramString");
+		code.VIRTUAL(StringBuilder.class, "append")
+			.return_(StringBuilder.class)
+			.parameter(String.class).INVOKE();
+		code.LOAD("this");
+		code.GETFIELD("fieldString", String.class);
+		code.VIRTUAL(StringBuilder.class, "append")
+			.return_(StringBuilder.class)
+			.parameter(String.class).INVOKE();
+		code.LOAD("s");
+		code.LOADConst(0);
+		code.LOADConst(2);
+		code.VIRTUAL(String.class, "substring")
+			.return_(String.class)
+			.parameter(int.class)
+			.parameter(int.class).INVOKE();
+		code.VIRTUAL(StringBuilder.class, "append")
+			.return_(StringBuilder.class)
+			.parameter(String.class).INVOKE();
+		code.VIRTUAL(StringBuilder.class, "toString")
+			.return_(String.class).INVOKE();
+		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void _lambda$execparamString$1(ClassBody classBody) {
+		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$execparamString$1")
 				.return_(String.class)
-				.parameter(ACC_FINAL | ACC_SYNTHETIC, "profix", String.class)
+			.parameter(ACC_FINAL | ACC_SYNTHETIC,"paramString",String.class)
 				.parameter(ACC_SYNTHETIC, "s", String.class).begin();
 
 		code.LINE();
 		code.NEW(StringBuilder.class);
 		code.DUP();
 		code.SPECIAL(StringBuilder.class, "<init>").INVOKE();
-		code.LOAD("profix");
+		code.LOAD("paramString");
 		code.VIRTUAL(StringBuilder.class, "append")
 				.return_(StringBuilder.class)
 				.parameter(String.class).INVOKE();
@@ -122,6 +269,35 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 		code.VIRTUAL(StringBuilder.class, "toString")
 				.return_(String.class).INVOKE();
 		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void _lambda$exec$0(ClassBody classBody) {
+		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$exec$0")
+			.return_(String.class )
+			.parameter(ACC_SYNTHETIC,"s",String.class).begin();
+
+		code.LINE();
+		code.LOAD("s");
+		code.LOADConst(0);
+		code.LOADConst(2);
+		code.VIRTUAL(String.class, "substring")
+			.return_(String.class)
+			.parameter(int.class)
+			.parameter(int.class).INVOKE();
+		code.RETURNTop();
+
+		code.END();
+	}
+
+	protected void __clinit_(ClassBody classBody) {
+		MethodCode code = classBody.staticMethod("<clinit>").begin();
+
+		code.LINE();
+		code.LOADConst("staticFieldString");
+		code.PUTSTATIC("staticFieldString", String.class);
+		code.RETURN();
 
 		code.END();
 	}
