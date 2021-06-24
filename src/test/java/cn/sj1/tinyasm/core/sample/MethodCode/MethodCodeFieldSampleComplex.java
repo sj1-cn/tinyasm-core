@@ -4,8 +4,6 @@ public class MethodCodeFieldSampleComplex {
 
 	MethodCodeFieldSample methodCodeFieldSample = new MethodCodeFieldSample();
 
-	static MethodCodeFieldSampleComplex methodCodeFieldSampleStatic = new MethodCodeFieldSampleComplex();
-
 	public void getAll() {
 		boolean z = methodCodeFieldSample.z;
 		byte b = methodCodeFieldSample.b;

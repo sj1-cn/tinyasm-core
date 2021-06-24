@@ -25,10 +25,8 @@ public class MethodCodeFieldSampleComplexTinyAsmDump {
 			.access(ACC_PUBLIC | ACC_SUPER).body();
 
 		classBody.field("methodCodeFieldSample", Clazz.of(MethodCodeFieldSample.class));
-		classBody.staticField(ACC_STATIC, "methodCodeFieldSampleStatic", Clazz.of(className));
 		__init_(classBody);
 		_getAll(classBody);
-		__clinit_(classBody,className);
 
 		return classBody.end().toByteArray();
 	}
@@ -493,19 +491,6 @@ public class MethodCodeFieldSampleComplexTinyAsmDump {
 		code.ARRAYSTORE();
 
 		code.LINE();
-		code.RETURN();
-
-		code.END();
-	}
-
-	protected void __clinit_(ClassBody classBody, String  className) {
-		MethodCode code = classBody.staticMethod("<clinit>").begin();
-
-		code.LINE();
-		code.NEW(className);
-		code.DUP();
-		code.SPECIAL("<init>").INVOKE();
-		code.PUTSTATIC("methodCodeFieldSampleStatic", className);
 		code.RETURN();
 
 		code.END();

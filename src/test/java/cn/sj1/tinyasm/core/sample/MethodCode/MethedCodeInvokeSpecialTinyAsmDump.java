@@ -23,8 +23,10 @@ public class MethedCodeInvokeSpecialTinyAsmDump {
 	public byte[] build(String className) throws Exception {
 		ClassBody classBody = ClassBuilder.class_(className, MethodCodePopSample.class).body();
 
+		classBody.staticField(ACC_STATIC, "methedCodeInvokeSpecial", Clazz.of(className));
 		__init_(classBody);
 		_getAll(classBody);
+		__clinit_(classBody,className);
 
 		return classBody.end().toByteArray();
 	}
@@ -98,6 +100,19 @@ public class MethedCodeInvokeSpecialTinyAsmDump {
 		code.POP();
 
 		code.LINE();
+		code.RETURN();
+
+		code.END();
+	}
+
+	protected void __clinit_(ClassBody classBody, String  className) {
+		MethodCode code = classBody.staticMethod("<clinit>").begin();
+
+		code.LINE();
+		code.NEW(className);
+		code.DUP();
+		code.SPECIAL("<init>").INVOKE();
+		code.PUTSTATIC("methedCodeInvokeSpecial", className);
 		code.RETURN();
 
 		code.END();

@@ -75,7 +75,7 @@ public abstract class MethodCode implements MethodCodeASM, WithInvoke, WithDefin
 	Logger logger = LoggerFactory.getLogger(MethodCode.class);
 
 	public void INIT_OBJECT() {
-		LOAD(_THIS);
+		LOAD(0);
 		SPECIAL(Object.class, "<init>").INVOKE();
 	}
 

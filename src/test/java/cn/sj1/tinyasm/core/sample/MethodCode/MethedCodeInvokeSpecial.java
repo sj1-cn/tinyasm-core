@@ -2,6 +2,8 @@ package cn.sj1.tinyasm.core.sample.MethodCode;
 
 public class MethedCodeInvokeSpecial extends MethodCodePopSample {
 
+	static MethedCodeInvokeSpecial methedCodeInvokeSpecial = new MethedCodeInvokeSpecial();
+	
 	public void getAll() {
 		if (true) {
 			super.returnBoolean();
