@@ -304,10 +304,16 @@ public class MethodCodeBuilder extends MethodCode {
 		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, objectType, methodName);
 	}
 
-	//	@Override
-	//	public MethodCaller VIRTUAL(String methodName) {
-	//		return new MethodCallerImpl(Opcodes.INVOKEVIRTUAL, Clazz.of(this.mh.thisMethod.clazzType), methodName);
-	//	}
+	@Override
+	public MethodCallerAfterDynamic DYNAMIC(Clazz objectType, String methodName) {
+		return new MethodCallerAfterDynamicImpl(objectType, methodName);
+	}
+
+	class MethodCallerAfterDynamicImpl extends MethodCallerImpl implements MethodCallerAfterDynamic {
+		public MethodCallerAfterDynamicImpl(Clazz resideClazz, String methodName) {
+			super(0, resideClazz, methodName);
+		}
+	}
 
 	class LAMBDAImpl extends MethodCallerImpl implements LamdaMethodCaller {
 		List<Clazz> params = new ArrayList<>();
@@ -316,14 +322,14 @@ public class MethodCodeBuilder extends MethodCode {
 		final int opcode;
 		final Clazz resideClazz;
 		final String methodName;
-		final MethodCallerImpl originMethod;
+		final MethodCallerImpl lamdaMethod;
 
 		public LAMBDAImpl(int opcode, MethodCallerImpl targetMethod, Clazz resideClazz, String methodName) {
 			super(opcode, resideClazz, methodName);
 			this.opcode = opcode;
 			this.resideClazz = resideClazz;
 			this.methodName = methodName;
-			this.originMethod = targetMethod;
+			this.lamdaMethod = targetMethod;
 		}
 
 		@Override
@@ -340,32 +346,26 @@ public class MethodCodeBuilder extends MethodCode {
 
 		@Override
 		public void INVOKE() {
-			//			MethodCodeBuilder.this.INVOKE(opcode, typeOf(resideClazz), typeOf(returnClazz), methodName,
-			//					typesOf(params));
+			String dyncDescriptor = Type.getMethodDescriptor(typeOf(resideClazz));// "()Ljava/util/function/Function;";
+			String dyncName = this.methodName;
+			String dyncMethodDescriptor = Type.getMethodDescriptor(typeOf(returnClazz), typesOf(this.params));
 
-			Type clazzType = mh.thisMethod.clazzType.getType();
+			String lamdaOwner = lamdaMethod.resideClazz.getType().getInternalName();// "cn/sj1/tinyasm/core/sample/MethodCode/MethodCodeMethodCallerLAMBDASample";
+			String lamdaMethodName = lamdaMethod.methodName;// "lambda$exec$0";
+			String lamdaMethodDescriptor = Type.getMethodDescriptor(typeOf(lamdaMethod.returnClazz), typesOf(lamdaMethod.params));//"(Ljava/lang/String;)Ljava/lang/String;";
 
-			String originDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(originMethod.params));
-			String originSignature = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(originMethod.params));
-
-			String lambdaDescriptor = Type.getMethodDescriptor(typeOf(resideClazz), typesOf(this.params));
-			@SuppressWarnings("unused")
-			String lambdaSignature = Type.getMethodDescriptor(typeOf(this.resideClazz.signatureAnyway()), typesOf(this.params));
-
-			List<Clazz> resultMethodParams = new ArrayList<>();
-			resultMethodParams.addAll(this.params);
-			resultMethodParams.addAll(originMethod.params);
-
-			String resultDescriptor = Type.getMethodDescriptor(typeOf(originMethod.returnClazz), typesOf(resultMethodParams));
-
-			//			String resultMethodDescriptor ;
-
-			mv.visitInvokeDynamicInsn(methodName, lambdaDescriptor, new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory",
-					"metafactory",
-					"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
-					false),
-					new Object[] { Type.getType(originDescriptor), new Handle(Opcodes.H_INVOKESTATIC, clazzType.getInternalName(),
-							originMethod.methodName, resultDescriptor, false), Type.getType(originSignature) });
+			mv.visitInvokeDynamicInsn(dyncName, dyncDescriptor,
+					new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory",
+							"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
+							false),
+					new Object[] { Type.getType(dyncMethodDescriptor), new Handle(Opcodes.H_INVOKESTATIC, lamdaOwner, lamdaMethodName, lamdaMethodDescriptor, false),
+							Type.getType(lamdaMethodDescriptor) });
+			//			mv.visitInvokeDynamicInsn(methodName, lambdaDescriptor, new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory",
+			//					"metafactory",
+			//					"(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
+			//					false),
+			//					new Object[] { Type.getType(originDescriptor), new Handle(Opcodes.H_INVOKESTATIC, clazzType.getInternalName(),
+			//							originMethod.methodName, resultDescriptor, false), Type.getType(originSignature) });
 			/*
 			 * mv.visitInvokeDynamicInsn("withHandle",
 			 * "()Lorg/jdbi/v3/core/HandleCallback;", new Handle(Opcodes.H_INVOKESTATIC,

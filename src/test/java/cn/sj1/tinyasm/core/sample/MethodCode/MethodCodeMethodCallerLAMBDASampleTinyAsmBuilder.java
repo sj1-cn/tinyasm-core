@@ -56,9 +56,9 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 		//		code.visitInvokeDynamicInsn("apply", "()Ljava/util/function/Function;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)Ljava/lang/Object;"), new Handle(Opcodes.H_INVOKESTATIC, "cn/sj1/tinyasm/core/sample/MethodCode/MethodCodeMethodCallerLAMBDASample", "lambda$0", "(Ljava/lang/String;)Ljava/lang/String;", false), Type.getType("(Ljava/lang/String;)Ljava/lang/String;")});
 
 		//		((LamdaMethodCaller) 
-		code.VIRTUAL("lambda$0").parameter(String.class).return_(String.class)
+		code.DYNAMIC("lambda$exec$0").parameter(String.class).return_(String.class)
 				.LAMBDA(Function.class, "apply")
-//				.parameter(Object.class).return_(Object.class)
+				.parameter(Object.class).return_(Object.class)
 				//						.lamdaType(Function.class)
 				.INVOKE();
 
@@ -104,7 +104,7 @@ public class MethodCodeMethodCallerLAMBDASampleTinyAsmBuilder {
 	}
 
 	protected void _lambda$0(ClassBody classBody) {
-		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$0")
+		MethodCode code = classBody.staticMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$exec$0")
 				.return_(String.class)
 				.parameter("s", String.class).begin();
 

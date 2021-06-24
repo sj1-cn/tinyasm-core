@@ -596,4 +596,8 @@ public interface MethodCodeASM {
 
 	Type fieldTypeOfThis(String name);
 
+	MethodCallerAfterDynamic DYNAMIC(Clazz objectType, String methodName);
+
+	MethodCaller DYNAMIC(String methodName);
+
 }
