@@ -17,11 +17,11 @@ import cn.sj1.tinyasm.core.sample.MethodCode.MethodCodePopSample;
 @SuppressWarnings("unused")
 public class MethedCodeInvokeSpecialTinyAsmDump {
 
-	public static byte[] dump() throws Exception {
+	public static byte[] dump() {
 		return new MethedCodeInvokeSpecialTinyAsmDump().build("cn.sj1.tinyasm.core.sample.MethodCode.MethedCodeInvokeSpecial");
 	}
 
-	public byte[] build(String className) throws Exception {
+	public byte[] build(String className)  {
 		ClassBody classBody = ClassBuilder.class_(className, MethodCodePopSample.class).body();
 
 		classBody.staticField(ACC_STATIC, "methedCodeInvokeSpecial", Clazz.of(className));

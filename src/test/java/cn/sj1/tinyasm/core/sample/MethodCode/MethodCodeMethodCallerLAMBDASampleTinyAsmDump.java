@@ -18,11 +18,11 @@ import java.util.function.Function;
 @SuppressWarnings("unused")
 public class MethodCodeMethodCallerLAMBDASampleTinyAsmDump {
 
-	public static byte[] dump() throws Exception {
+	public static byte[] dump() {
 		return new MethodCodeMethodCallerLAMBDASampleTinyAsmDump().build("cn.sj1.tinyasm.core.sample.MethodCode.MethodCodeMethodCallerLAMBDASample");
 	}
 
-	public byte[] build(String className) throws Exception {
+	public byte[] build(String className)  {
 		ClassBody classBody = ClassBuilder.class_(className)
 				.access(ACC_PUBLIC | ACC_SUPER).body();
 

@@ -15,11 +15,11 @@ import cn.sj1.tinyasm.core.MethodCode;
 @SuppressWarnings("unused")
 public class SimpleSampleTinyAsmDump {
 
-	public static byte[] dump() throws Exception {
+	public static byte[] dump() {
 		return new SimpleSampleTinyAsmDump().build("cn.sj1.tinyasm.core.util.SimpleSample");
 	}
 
-	public byte[] build(String className) throws Exception {
+	public byte[] build(String className)  {
 		ClassBody classBody = ClassBuilder.class_(className)
 				.access(ACC_PUBLIC | ACC_SUPER).body();
 

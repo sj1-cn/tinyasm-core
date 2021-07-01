@@ -19,11 +19,11 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class SignatureSampleTinyAsmDump {
 
-	public static byte[] dump() throws Exception {
+	public static byte[] dump() {
 		return new SignatureSampleTinyAsmDump().build("cn.sj1.tinyasm.core.util.SignatureSample");
 	}
 
-	public byte[] build(String className) throws Exception {
+	public byte[] build(String className)  {
 		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(HashMap.class, Clazz.of(String.class), Clazz.of(Map.class, Clazz.of(String.class), Clazz.of(String[].class))),Clazz.of(Map.class, Clazz.of(String.class), Clazz.of(Map.class, Clazz.of(String.class), Clazz.of(String[].class))),Clazz.of(Serializable.class)).body();
 
 		classBody.field("mapStrngStringArray", Clazz.of(Map.class, Clazz.of(String.class), Clazz.of(String[].class)));

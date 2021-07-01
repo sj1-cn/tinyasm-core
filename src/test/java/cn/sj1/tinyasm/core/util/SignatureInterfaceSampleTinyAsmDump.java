@@ -18,11 +18,11 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class SignatureInterfaceSampleTinyAsmDump {
 
-	public static byte[] dump() throws Exception {
+	public static byte[] dump() {
 		return new SignatureInterfaceSampleTinyAsmDump().build("cn.sj1.tinyasm.core.util.SignatureInterfaceSample");
 	}
 
-	public byte[] build(String className) throws Exception {
+	public byte[] build(String className)  {
 		ClassBody classBody = ClassBuilder.class_(className, Clazz.of(Object.class),Clazz.of(Map.class, Clazz.of(String.class), Clazz.of(Map.class, Clazz.of(String.class), Clazz.of(String[].class))),Clazz.of(Serializable.class))
 				.access(ACC_PUBLIC | ACC_ABSTRACT | ACC_INTERFACE).body();
 

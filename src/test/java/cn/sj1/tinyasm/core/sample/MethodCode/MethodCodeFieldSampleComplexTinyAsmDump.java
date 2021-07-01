@@ -17,11 +17,11 @@ import cn.sj1.tinyasm.core.sample.MethodCode.MethodCodeFieldSample;
 @SuppressWarnings("unused")
 public class MethodCodeFieldSampleComplexTinyAsmDump {
 
-	public static byte[] dump() throws Exception {
+	public static byte[] dump() {
 		return new MethodCodeFieldSampleComplexTinyAsmDump().build("cn.sj1.tinyasm.core.sample.MethodCode.MethodCodeFieldSampleComplex");
 	}
 
-	public byte[] build(String className) throws Exception {
+	public byte[] build(String className)  {
 		ClassBody classBody = ClassBuilder.class_(className)
 				.access(ACC_PUBLIC | ACC_SUPER).body();
 

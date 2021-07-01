@@ -17,11 +17,11 @@ import java.io.PrintStream;
 @SuppressWarnings("unused")
 public class LabelSampleTinyAsmDump {
 
-	public static byte[] dump() throws Exception {
+	public static byte[] dump() {
 		return new LabelSampleTinyAsmDump().build("cn.sj1.tinyasm.core.util.LabelSample");
 	}
 
-	public byte[] build(String className) throws Exception {
+	public byte[] build(String className)  {
 		ClassBody classBody = ClassBuilder.class_(className)
 				.access(ACC_PUBLIC | ACC_SUPER).body();
 
