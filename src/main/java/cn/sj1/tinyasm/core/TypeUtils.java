@@ -270,7 +270,7 @@ class TypeUtils {
 				: "left type " + left.getClassName() + " is not basic type";
 		right = mathInnerUserType(right);
 		left = mathInnerUserType(left);
-		assert left == right : "left type should equal right type";
+		assert left.equals(right): "left type " + left.getClassName() +  " should equal right type " + right.getClassName() +  " ";
 		Type innerType = mathInnerUserType(left);
 		return innerType;
 	}

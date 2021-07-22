@@ -40,9 +40,10 @@ public interface ClassBody
 		public_().method("<init>").code(code -> {
 			Label label0 = new Label();
 			code.visitLabel(label0);
-			code.LINE(3);
+			code.LINE();
 			code.LOAD("this");
 			code.SPECIAL(getSuperClass(), "<init>").INVOKE();
+			code.LINE();
 			code.RETURN();
 		});
 		return this;
@@ -60,9 +61,9 @@ public interface ClassBody
 				code.LINE();
 				code.LOAD("this");
 				code.LOAD(param.name);
-				code.PUTFIELD(param.name, param.clazz.getType().getClassName());
+				code.PUTFIELD(param.name, param.clazz.getType());
 			}
-			code.LINE(10);
+			code.LINE();
 			code.RETURN();
 
 		});
