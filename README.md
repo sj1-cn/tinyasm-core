@@ -8,7 +8,7 @@ ASM是非常好用高效的JAVA字节码维护库。本项目并不是为了替�
 		<dependency>
 			<groupId>cn.sj1</groupId>
 			<artifactId>tinyasm-core</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.4</version>
 		</dependency>
 ```
 
@@ -18,7 +18,7 @@ ASM是非常好用高效的JAVA字节码维护库。本项目并不是为了替�
 		<dependency>
 			<groupId>cn.sj1</groupId>
 			<artifactId>tinyasm-tool</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.4</version>
 			<scope>test</scope>
 		</dependency>
 ```
